@@ -1,0 +1,19 @@
+{
+ "Write a Yotsuba Shader in C# and inspect its diagnostics, shaders, intermediate representation and SPIR-V in the browser.": "Escribe un Yotsuba Shader en C# e inspecciona en el navegador sus diagnósticos, shaders, representación intermedia y SPIR-V.",
+ "Example": "Ejemplo",
+ "Basic color shader": "Shader de color básico",
+ "Triangle (HLSL-like)": "Triángulo (tipo HLSL)",
+ "Triangle (GLSL-like)": "Triángulo (tipo GLSL)",
+ "Triangle (Metal-like)": "Triángulo (tipo Metal)",
+ "Triangle (Vulkan-like)": "Triángulo (tipo Vulkan)",
+ "Triangle (WGSL-like)": "Triángulo (tipo WGSL)",
+ "Copy a link to this code": "Copiar un enlace a este código",
+ "Share": "Compartir",
+ "Compile (Ctrl/⌘ Enter)": "Compilar (Ctrl/⌘ Enter)",
+ "Compile": "Compilar",
+ "Source code": "Código fuente",
+ "New file": "Archivo nuevo",
+ "Diagnostics <i class=\"pg-count\" id=\"pg-count-diagnostics\"></i>": "Diagnósticos <i class=\"pg-count\" id=\"pg-count-diagnostics\"></i>",
+ "Shaders <i class=\"pg-count\" id=\"pg-count-shaders\"></i>": "Shaders <i class=\"pg-count\" id=\"pg-count-shaders\"></i>",
+ "The playground needs JavaScript.": "El playground necesita JavaScript."
+}

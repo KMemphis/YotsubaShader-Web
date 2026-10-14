@@ -1,0 +1,10 @@
+node_modules/
+.DS_Store
+.playground-out/
+src/static/playground-app/
+playground/bin/
+playground/obj/
+dist/
+promo-video/*.mp4
+promo-video/recordings/
+promo-video/remotion/public/intro/

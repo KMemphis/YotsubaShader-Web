@@ -1,0 +1,94 @@
+{
+ "date": "2026-10-14T14:18:49.880Z",
+ "results": [
+  {
+   "example": "Basic color shader",
+   "errors": 0,
+   "shaders": [
+    {
+     "name": "BasicColorShader",
+     "entryPoints": [
+      "VertexVertexOutput Vertex(VertexInput input)",
+      "FragmentVector4 Fragment(VertexOutput input)"
+     ]
+    }
+   ],
+   "spirvPanel": "SPIR-V will appear here once the pipeline produces it."
+  },
+  {
+   "example": "Triangle (HLSL-like)",
+   "errors": 0,
+   "shaders": [
+    {
+     "name": "Triangle",
+     "entryPoints": [
+      "VertexVertexOutput Vertex(uint id Attributes.HlslStyle.SV_VertexID)",
+      "FragmentVector4 Fragment(VertexOutput input)",
+      "Computevoid Compute(uint i Attributes.HlslStyle.SV_DispatchThreadID)"
+     ]
+    }
+   ],
+   "spirvPanel": "SPIR-V will appear here once the pipeline produces it."
+  },
+  {
+   "example": "Triangle (GLSL-like)",
+   "errors": 0,
+   "shaders": [
+    {
+     "name": "Triangle",
+     "entryPoints": [
+      "VertexVertexOutput Vertex(uint id Attributes.GlslStyle.gl_VertexIndex)",
+      "FragmentVector4 Fragment(VertexOutput input)",
+      "Computevoid Compute(uint i Attributes.GlslStyle.gl_GlobalInvocationID)"
+     ]
+    }
+   ],
+   "spirvPanel": "SPIR-V will appear here once the pipeline produces it."
+  },
+  {
+   "example": "Triangle (Metal-like)",
+   "errors": 0,
+   "shaders": [
+    {
+     "name": "Triangle",
+     "entryPoints": [
+      "VertexVertexOutput Vertex(uint id Attributes.MetalStyle.vertex_id)",
+      "FragmentVector4 Fragment(VertexOutput input)",
+      "Computevoid Compute(uint i Attributes.MetalStyle.thread_position_in_grid)"
+     ]
+    }
+   ],
+   "spirvPanel": "SPIR-V will appear here once the pipeline produces it."
+  },
+  {
+   "example": "Triangle (Vulkan-like)",
+   "errors": 0,
+   "shaders": [
+    {
+     "name": "Triangle",
+     "entryPoints": [
+      "VertexVertexOutput Vertex(uint id Attributes.VulkanStyle.BuiltIn_VertexIndex)",
+      "FragmentVector4 Fragment(VertexOutput input)",
+      "Computevoid Compute(uint i Attributes.VulkanStyle.BuiltIn_GlobalInvocationId)"
+     ]
+    }
+   ],
+   "spirvPanel": "SPIR-V will appear here once the pipeline produces it."
+  },
+  {
+   "example": "Triangle (WGSL-like)",
+   "errors": 0,
+   "shaders": [
+    {
+     "name": "Triangle",
+     "entryPoints": [
+      "VertexVertexOutput Vertex(uint id Attributes.WgslStyle.builtin_vertex_index)",
+      "FragmentVector4 Fragment(VertexOutput input)",
+      "Computevoid Compute(uint i Attributes.WgslStyle.builtin_global_invocation_id)"
+     ]
+    }
+   ],
+   "spirvPanel": "SPIR-V will appear here once the pipeline produces it."
+  }
+ ]
+}

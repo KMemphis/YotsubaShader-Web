@@ -1,0 +1,66 @@
+[
+ {
+  "id": "s1",
+  "start": 0,
+  "end": 10,
+  "text": "Hi, I'm Memphis. In a C# engine, shaders usually live in another language, with another toolchain and another copy of your types. I wanted that gone.",
+  "duration": 9.4,
+  "rate": 165
+ },
+ {
+  "id": "s2",
+  "start": 10.2,
+  "end": 18,
+  "text": "Yotsuba Shader is a shader framework and compiler for C#. Plain C# classes, with your own types and libraries.",
+  "duration": 6.98,
+  "rate": 165
+ },
+ {
+  "id": "s3a",
+  "start": 18.3,
+  "end": 20.6,
+  "text": "Compile them three ways.",
+  "duration": 1.58,
+  "rate": 165
+ },
+ {
+  "id": "s3b",
+  "start": 20.6,
+  "end": 24.8,
+  "text": "A source generator puts every binary inside your assembly at build time.",
+  "duration": 3.97,
+  "rate": 190
+ },
+ {
+  "id": "s3c",
+  "start": 25,
+  "end": 31,
+  "text": "A command line takes your project file, for CI and content pipelines.",
+  "duration": 4.68,
+  "rate": 165
+ },
+ {
+  "id": "s3d",
+  "start": 31.6,
+  "end": 37.9,
+  "text": "And a library takes a C# string and returns SPIR-V, for editors and hot reload.",
+  "duration": 4.74,
+  "rate": 165
+ },
+ {
+  "id": "s4",
+  "start": 38.4,
+  "end": 47.8,
+  "text": "Whichever you pick, every shader exposes the same compiled code and reflection, so your engine loads any of them the same way.",
+  "duration": 7.93,
+  "rate": 134
+ },
+ {
+  "id": "s5",
+  "start": 48.3,
+  "end": 57.6,
+  "text": "Open source under AGPL, with a commercial license for sponsoring engines. Try the playground, and tell me what your engine needs.",
+  "duration": 8.19,
+  "rate": 165
+ }
+]

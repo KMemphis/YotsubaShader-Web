@@ -1,0 +1,23 @@
+{
+  "name": "yotsuba-shader-promo",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "narration": "node automation/narration.mjs",
+    "record": "node automation/record.mjs",
+    "verify": "node automation/verify.mjs",
+    "studio": "remotion studio remotion/index.ts --public-dir=remotion/public",
+    "render": "remotion render remotion/index.ts PromoB-es YotsubaShader_Promo.mp4 --public-dir=remotion/public --codec=h264 --crf=15 --pixel-format=yuv420p --scale=2"
+  },
+  "dependencies": {
+    "@remotion/cli": "^4.0.535",
+    "@remotion/google-fonts": "^4.0.535",
+    "@remotion/media": "^4.0.535",
+    "@types/react": "^18.3.31",
+    "playwright": "^1.64.1",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "remotion": "^4.0.535",
+    "typescript": "^7.0.2"
+  }
+}

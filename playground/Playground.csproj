@@ -1,0 +1,37 @@
+<Project Sdk="Microsoft.NET.Sdk.BlazorWebAssembly">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <RootNamespace>YotsubaShader.Playground</RootNamespace>
+    <AssemblyName>Playground</AssemblyName>
+    <BlazorEnableCompression>false</BlazorEnableCompression>
+    <InvariantGlobalization>true</InvariantGlobalization>
+      </PropertyGroup>
+
+  <!-- The playground only references the compiler projects; it never modifies them. -->
+  <ItemGroup>
+    <ProjectReference Include="..\..\YotsubaShader.Language\YotsubaShader.Language.csproj" />
+    <ProjectReference Include="..\..\YotsubaShader.IR\YotsubaShader.IR.csproj" />
+    <ProjectReference Include="..\..\YotsubaShader.Compiler\YotsubaShader.Compiler.csproj" />
+    <ProjectReference Include="..\..\YotsubaShader.Frontend\YotsubaShader.Frontend.csproj" />
+  </ItemGroup>
+
+  <!-- Roslyn needs the raw metadata of YotsubaShader.Language to resolve its attributes. The runtime cannot hand it
+       out (Webcil + Mono), so the built DLL travels inside the app as an embedded resource. -->
+  <ItemGroup>
+    <EmbeddedResource Include="..\..\YotsubaShader.Language\bin\$(Configuration)\net8.0\YotsubaShader.Language.dll"
+                      LogicalName="YotsubaShader.Language.dll" Visible="false" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="8.0.*" />
+    <!-- Same Roslyn version as YotsubaShader.Frontend. Workspaces + Features give completion, hover and quick info. -->
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Features" Version="4.11.0" />
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Workspaces" Version="4.11.0" />
+    <!-- Reference assemblies for the BCL, since the browser has no SDK on disk. -->
+    <PackageReference Include="Basic.Reference.Assemblies.Net80" Version="1.*" />
+  </ItemGroup>
+
+</Project>
