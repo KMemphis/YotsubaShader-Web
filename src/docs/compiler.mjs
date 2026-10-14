@@ -1,10 +1,15 @@
 // Documentation articles: compiler, reference and project.
-import { icon, code, table, note } from '../components.mjs';
+import { icon, code, table, note, styleTabs } from '../components.mjs';
+import { builtinValuesCode, attributeGroupCode, textureBindingCode, STYLE_IDS } from '../examples.mjs';
+import { resourcesCode } from '../pages/styles.mjs';
 import { builtinMapTable, resourceMapTable, STYLE_META } from '../reference.mjs';
 import { SITE } from '../site.mjs';
 import { GEN_CSPROJ, GEN_INPUT, GEN_OUTPUT, GEN_TYPES, GEN_USE, CLI_SNIPPET, LIB_SNIPPET, TRANSPILE_USE, TRANSPILE_WINDOWS } from '../snippets.mjs';
 
 const D = '/documentation/yotsuba-shader/';
+const BUILTIN_VALUES = Object.fromEntries(STYLE_IDS.map((id) => [id, builtinValuesCode(id)]));
+const RESOURCES_BY_STYLE = Object.fromEntries(STYLE_IDS.map((id) => [id, resourcesCode(id)]));
+const TEXTURES_BY_STYLE = Object.fromEntries(STYLE_IDS.map((id) => [id, textureBindingCode(id)]));
 
 const styleArticle = (ctx, id) => {
   const meta = STYLE_META[id];
@@ -30,11 +35,7 @@ const styleArticle = (ctx, id) => {
     .map((g) => {
       const list = items.filter((i) => i.kind === g);
       if (!list.length) return '';
-      const rows = list.map((i) => [
-        `<code>${i.attribute ? '[' : ''}${i.display}${i.attribute ? ']' : ''}</code>`,
-        i.params ? `<code>(${i.params.replace(/</g, '&lt;').replace(/>/g, '&gt;')})</code>` : '<span class="muted">—</span>',
-      ]);
-      return `<h2>${titles[g]}</h2><p>${blurb[g]}</p>${table([g === 'Type' ? 'Type' : 'Attribute', 'Parameters'], rows)}`;
+      return `<h2>${titles[g]}</h2><p>${blurb[g]}</p>${code('csharp', attributeGroupCode(id, items, g), `${g.replace(/\W+/g, '')}.cs`)}`;
     })
     .join('');
   const exampleAttr = { hlsl: 'SV_Position', glsl: 'gl_Position', metal: 'position', vulkan: 'BuiltIn_Position', wgsl: '@builtin_position' }[id];
@@ -240,7 +241,7 @@ ${code('csharp', TRANSPILE_WINDOWS, 'Windows.cs')}
   <li><strong>At run time</strong>, for editors, importers and shaders created while the program runs: this is what the API is for.</li>
   <li><strong>On consoles</strong>, prefer build time. Naga was not verified against any console toolchain, and its wrapper must be built for each platform.</li>
 </ul>
-<p>Next: <a href="${D}generating-shader-binaries/">Generating shader binaries</a>.</p>`,
+<p>Next: <a href="${D}shader-discovery/">Shader discovery</a>.</p>`,
     },
 
     /* ---------------------------------------------------------------- */
@@ -463,7 +464,6 @@ module.AddResultLine("%entry", SpirVOpTable.OpLabel);`)}`,
   const reference = [
     {
       slug: 'builtin-values-across-styles',
-      wide: true,
       title: 'Built-in values across styles',
       kind: 'Reference',
       heroKind: 'reference',
@@ -471,25 +471,39 @@ module.AddResultLine("%entry", SpirVOpTable.OpLabel);`)}`,
       summary: 'The same built-in value, spelled in the HLSL, GLSL, Metal, Vulkan and WGSL vocabularies.',
       body: `
 <h2>Overview</h2>
-<p>Each row is one concept; each column is how a style names it. A dash means the style does not provide an attribute for that concept. Names are verified against the language sources.</p>
-${builtinMapTable()}
+<p>Every built-in value of a style, grouped by stage and written as C#. Pick the tab of your style. The comment above each member names the concept, so you can find the same value in any other tab.</p>
+${styleTabs(BUILTIN_VALUES, { file: 'BuiltIns.cs' })}
 <p>For resources and binding slots, see <a href="${D}resource-attributes-across-styles/">Resource attributes across styles</a>.</p>`,
     },
     {
       slug: 'resource-attributes-across-styles',
-      wide: true,
       title: 'Resource attributes across styles',
       kind: 'Reference',
       heroKind: 'reference',
       icon: 'list',
-      summary: 'Uniform buffers, storage buffers and binding slots in each vocabulary.',
+      summary: 'Uniform buffers, storage buffers, textures, samplers and binding slots in each vocabulary.',
       body: `
-<h2>Overview</h2>
-${resourceMapTable()}
+<h2>Uniform and storage buffers</h2>
+<p>The same three resources in every style: a uniform, a read and write storage buffer and a read-only one, each with its binding slot.</p>
+${styleTabs(RESOURCES_BY_STYLE, { file: 'Resources.cs' })}
+
+<h2>Textures and samplers</h2>
+<p>A texture and a sampler bound to their slots.</p>
+${styleTabs(TEXTURES_BY_STYLE, { file: 'Surface.cs' })}
+
 <h2>Shared attributes</h2>
-<p>Independent of style, <code>YotsubaShader.Language</code> provides <code>[Uniform]</code>, <code>[StorageBuffer(Access = …)]</code> and <code>[Binding(set, binding)]</code>. See <a href="${D}uniforms-and-storage-buffers/">Uniforms and storage buffers</a>.</p>
-<h2>Metal-style textures and samplers</h2>
-<p>The Metal vocabulary adds <code>[texture(n)]</code> and <code>[sampler(n)]</code> alongside <code>[buffer(n)]</code>, <code>[constant]</code> and <code>[device(readOnly)]</code>.</p>`,
+<p>Independent of style, <code>YotsubaShader.Language</code> provides these attributes. They work together with any of the vocabularies above. See <a href="${D}uniforms-and-storage-buffers/">Uniforms and storage buffers</a>.</p>
+${code('csharp', `using YotsubaShader.Language;
+using YotsubaShader.Language.Resources;
+
+public class Shared
+{
+    [Uniform, Binding(0, 0)]
+    public float Exposure;
+
+    [StorageBuffer(Access = ResourceAccess.ReadOnly), Binding(0, 1)]
+    public float[] Input;
+}`, 'Shared.cs')}`,
     },
     ...Object.keys(STYLE_META).map((id) => styleArticle(ctx, id)),
   ];

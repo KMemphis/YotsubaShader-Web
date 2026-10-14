@@ -89,7 +89,8 @@ const firstShader = {
     </ul>
     ${note('note', 'An HLSL-like style does not require an HLSL target. These are C# authoring choices; the compilation target is selected separately.')}
     <h2>What the compiler sees</h2>
-    <p>The frontend finds <code>BasicColorShader</code> because two of its methods carry <code>[ShaderStage]</code>. For each entry point it records the stage, the parameters (with their interface slots) and the return type. <code>[Location(n)]</code> becomes a location slot; <code>[SV_Position]</code> becomes the position built-in. The same shader written with <code>[gl_Position]</code>, <code>[position]</code>, <code>[BuiltIn_Position]</code> or <code>[@builtin_position]</code> produces the same slot.</p>
+    <p>The compiler starts by finding <code>BasicColorShader</code>, because two of its methods have <code>[ShaderStage]</code>. For each one it reads which stage it is, what it receives and what it returns.</p>
+    <p>The attributes tell it what each piece of data is for: <code>[Location(n)]</code> marks what passes from one stage to the next, and <code>[SV_Position]</code> marks the position where the vertex is drawn. You can write the same shader with <code>[gl_Position]</code>, <code>[position]</code>, <code>[BuiltIn_Position]</code> or <code>[@builtin_position]</code>, and the compiler understands it the same way.</p>
     <h2>Grow it</h2>
     <p>The same class can grow to include uniforms, textures, buffers and other stages. Add a <code>[Uniform]</code> field for per-frame data, or a <code>[ShaderStage(Stage.Compute)]</code> method for GPU compute.</p>
     <p><a class="link-more" href="/documentation/yotsuba-shader/writing-your-first-shader/">Read the full article ${icon('chevron-right')}</a></p>

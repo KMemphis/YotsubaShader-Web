@@ -41,6 +41,100 @@ const KEY_ROWS = [
   'Workgroup size (method attribute)',
 ];
 
+
+/* ----------------------------------------------------------- C# examples per style */
+const attr = (n) => (n.startsWith('@') ? `[${n}]` : `[${n}]`);
+const WG = { hlsl: 'numthreads(8, 8, 1)', glsl: 'layout_local_size(8, 8, 1)', wgsl: '@workgroup_size(8, 8, 1)' };
+const NS = { hlsl: 'HlslStyle', glsl: 'GlslStyle', metal: 'MetalStyle', vulkan: 'VulkanStyle', wgsl: 'WgslStyle' };
+const row = (label, col) => BUILTIN_MAP.find((r) => r[0] === label)[col];
+
+/** The common built-in values, used inside a real shader (one example per style). */
+export function builtinsCode(id) {
+  const c = COL[id];
+  const wg = WG[id]
+    ? `    // Workgroup size (method attribute)\n    [${WG[id]}]\n`
+    : '    // No method attribute: the workgroup size is a built-in value\n';
+  return `using YotsubaShader.Language;
+using YotsubaShader.Language.Attributes.${NS[id]};
+
+public struct VertexOutput
+{
+    // Clip-space position (vertex output)
+    [${row('Clip-space position (vertex output)', c)}]
+    public Vector4 Position;
+}
+
+public class BuiltIns
+{
+    [ShaderStage(Stage.Vertex)]
+    public VertexOutput Vertex(
+        // Vertex index
+        [${row('Vertex index', c)}] uint vertex,
+        // Instance index
+        [${row('Instance index', c)}] uint instance)
+    {
+        VertexOutput output;
+        output.Position = new Vector4(vertex, instance, 0, 1);
+        return output;
+    }
+
+    [ShaderStage(Stage.Fragment)]
+    public Vector4 Fragment(
+        // Fragment coordinate
+        [${row('Fragment coordinate', c)}] Vector4 coord)
+    {
+        return new Vector4(coord.X, coord.Y, 0, 1);
+    }
+
+    [ShaderStage(Stage.Compute)]
+${wg}    public void Compute(
+        // Global invocation id
+        [${row('Global invocation id', c)}] uint id)
+    {
+        uint index = id;
+    }
+}`;
+}
+
+/** Uniform and storage buffers with their binding slots (one example per style). */
+export function resourcesCode(id) {
+  const body = {
+    hlsl: [
+      '[cbuffer, register(RegisterPrefix.b, 0)]\n    public Material Material;',
+      '[register(RegisterPrefix.u, 0)]\n    public RWStructuredBuffer<float> Output;',
+      '[register("t0")]\n    public StructuredBuffer<float> Input;',
+    ],
+    glsl: ['[uniform, layout(0, 0)]\n    public Material Material;', '[buffer, layout(0, 1)]\n    public float[] Output;', '[buffer, layout(0, 2)]\n    public float[] Input;'],
+    metal: ['[constant, buffer(0)]\n    public Material Material;', '[device, buffer(1)]\n    public float[] Output;', '[device(readOnly: true), buffer(2)]\n    public float[] Input;'],
+    vulkan: [
+      '[Uniform, DescriptorSet(0), @Binding(0)]\n    public Material Material;',
+      '[StorageBuffer, DescriptorSet(0), @Binding(1)]\n    public float[] Output;',
+      '[StorageBuffer, DescriptorSet(0), @Binding(2)]\n    public float[] Input;',
+    ],
+    wgsl: [
+      '[uniform, @group(0), @binding(0)]\n    public Material Material;',
+      '[storage(storage_use.read_write), @group(0), @binding(1)]\n    public float[] Output;',
+      '[storage(storage_use.read), @group(0), @binding(2)]\n    public float[] Input;',
+    ],
+  }[id];
+  const same = id === 'glsl' || id === 'vulkan' ? 'Read-only storage buffer (same attribute)' : 'Read-only storage buffer';
+  return `using YotsubaShader.Language;
+using YotsubaShader.Language.Attributes.${NS[id]};
+
+public class Resources
+{
+    // Uniform buffer, with its binding slot
+    ${body[0]}
+
+    // Read/write storage buffer
+    ${body[1]}
+
+    // ${same}
+    ${body[2]}
+}`;
+}
+const BUILTINS = Object.fromEntries(Object.keys(COL).map((id) => [id, builtinsCode(id)]));
+
 export default function styles(ctx) {
   const counts = Object.fromEntries(Object.entries(ctx.styles).map(([k, v]) => [k, v.total]));
 
@@ -85,17 +179,10 @@ export default function styles(ctx) {
 </section>
 
 <section class="section section--rule">
-  <div class="container container--narrow">
-    <h2 class="h-lg">The same concept, five spellings</h2>
-    ${table(
-      ['Concept', 'HLSL', 'GLSL', 'Metal', 'Vulkan', 'WGSL'],
-      BUILTIN_MAP.filter((r) => KEY_ROWS.includes(r[0])).map((r) => [
-        r[0],
-        ...r.slice(1).map((v) => (v ? `<code>${v}</code>` : '<span class="muted">—</span>')),
-      ]),
-      { cls: 'table--map' },
-    )}
-    <p><a class="link-more" href="/documentation/yotsuba-shader/builtin-values-across-styles/">Full built-in reference ${icon('chevron-right')}</a></p>
+  <div class="container">
+    <h2 class="h-lg center">The same concept, five spellings</h2>
+    <div class="mt-48">${styleTabs(BUILTINS)}</div>
+    <p class="center"><a class="link-more" href="/documentation/yotsuba-shader/builtin-values-across-styles/">Full built-in reference ${icon('chevron-right')}</a></p>
   </div>
 </section>`,
   };
@@ -103,8 +190,6 @@ export default function styles(ctx) {
   const page = ([id, m]) => {
     const f = FIT[id];
     const col = COL[id];
-    const rows = BUILTIN_MAP.filter((r) => KEY_ROWS.includes(r[0]) && r[col]).map((r) => [r[0], `<code>${r[col]}</code>`]);
-    const resRows = RESOURCE_MAP.map((r) => [r[0], `<code>${r[col]}</code>`]);
     return {
       path: `/styles/${id}/`,
       section: 'styles',
@@ -127,12 +212,10 @@ export default function styles(ctx) {
     <p>${f.quirk}</p>
     <h2>The same shader</h2>
     ${code('csharp', STYLE_TRIANGLE[id], 'Triangle.cs')}
-    <h2>Resources</h2>
-    ${code('csharp', STYLE_RESOURCES[id], 'Lighting.cs')}
     <h2>Common built-ins</h2>
-    ${table(['Concept', 'Attribute'], rows)}
-    <h2>Resource attributes</h2>
-    ${table(['Concept', 'Attribute'], resRows)}
+    ${code('csharp', builtinsCode(id), 'BuiltIns.cs')}
+    <h2>Resources</h2>
+    ${code('csharp', resourcesCode(id), 'Resources.cs')}
     ${note('note', 'The attribute style never determines the output target. Every style resolves to the same IR slots.')}
     <p><a class="link-more" href="/documentation/yotsuba-shader/${id}-style-attributes/">All ${m.name} attributes ${icon('chevron-right')}</a></p>
     <p>Other styles: ${Object.entries(STYLE_META)

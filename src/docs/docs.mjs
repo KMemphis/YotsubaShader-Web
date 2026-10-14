@@ -15,7 +15,7 @@ export default function buildDocs(ctx) {
   });
 
   const tree = [
-    { items: slugs('understanding-yotsuba-shader', 'writing-your-first-shader', 'reusing-your-types-and-libraries', 'choosing-an-authoring-style') },
+    { items: slugs('understanding-yotsuba-shader', 'writing-your-first-shader', 'reusing-your-types-and-libraries', 'types-for-engines-and-frameworks', 'choosing-an-authoring-style') },
     {
       label: 'Language',
       groups: [

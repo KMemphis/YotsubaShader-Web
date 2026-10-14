@@ -162,10 +162,10 @@ function translateTitle(value, l) {
     .split(/( - | \| )/)
     .map((part) => {
       const key = collapse(part);
-      if (!key || /^( - | \| )$/.test(part) || !needsTranslation(key, l)) return part;
+      if (!key || /^( - | \| )$/.test(part)) return part;
       const tr = lookup(l, key);
       if (tr == null) {
-        l.missing.add(key);
+        if (needsTranslation(key, l)) l.missing.add(key);
         return part;
       }
       return tr;
