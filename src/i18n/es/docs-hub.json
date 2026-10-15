@@ -12,7 +12,6 @@
  "Follow a shader from C# source to SPIR-V: discovery, analysis, the intermediate representation and emission.": "Sigue un shader desde el código fuente en C# hasta SPIR-V: descubrimiento, análisis, representación intermedia y emisión.",
  "The same built-in value, spelled in the HLSL, GLSL, Metal, Vulkan and WGSL vocabularies.": "El mismo valor integrado, escrito en los vocabularios de HLSL, GLSL, Metal, Vulkan y WGSL.",
  "Generating shader binaries": "Generar binarios de shaders",
- "Three ways to get SPIR-V and the other formats into your project: a source generator, a command line and a library.": "Tres formas de llevar SPIR-V y los demás formatos a tu proyecto: un generador de código fuente, una línea de comandos y una biblioteca.",
  "Write shaders in C# with familiar attributes, and compile them to SPIR-V through a shared intermediate representation.": "Escribe shaders en C# con atributos conocidos y compílalos a SPIR-V mediante una representación intermedia compartida.",
  "Toggle navigation": "Mostrar u ocultar la navegación",
  "Authoring style for code samples": "Estilo de escritura para los ejemplos de código",

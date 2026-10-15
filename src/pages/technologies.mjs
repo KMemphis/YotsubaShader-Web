@@ -1,7 +1,6 @@
 import { icon, code, table, note, cardLink } from '../components.mjs';
 import { STYLE_META } from '../reference.mjs';
 import { BACKENDS, SPIRV_LOGO } from '../backends.mjs';
-import { LIB_SNIPPET } from '../snippets.mjs';
 
 const HOW = {
   vulkan: 'Compiler output',
@@ -135,16 +134,15 @@ foreach (ShaderInfo shader in shaders)
         Console.WriteLine($"  {entry.Stage}: {entry.Name}");
 }`)}
     <p>The caller must make sure the compilation has no C# errors before calling it.</p>
-    <h2>Roslyn, the Native AOT-compatible subset</h2>
-    <p>The frontend depends only on <code>Microsoft.CodeAnalysis.CSharp</code> and uses the part of Roslyn that works under Native AOT: syntax trees, compilations, symbols, the semantic model and operations. It does not use Workspaces or MEF. That keeps the compiler plain managed code that can be ahead-of-time compiled and embedded in your tools or your game. See <a href="/documentation/yotsuba-shader/generating-shader-binaries/">Generating shader binaries</a>.</p>
+    <h2>Roslyn</h2>
+    <p>The frontend depends only on <code>Microsoft.CodeAnalysis.CSharp</code> and uses syntax trees, compilations, symbols, the semantic model and operations. It does not use Workspaces or MEF. Roslyn runs in the build, so your application does not need it: see <a href="/documentation/yotsuba-shader/generating-shader-binaries/">Generating shader binaries</a>.</p>
     <h2>Analysis</h2>
     <p><code>ShaderProcessor.Process</code> turns each entry point into an IR <code>Function</code>: it resolves the stage, converts every parameter into a <code>Storage</code> (with its interface slot) and recognises the built-in attributes of all five styles.</p>
     <h2>Entry points</h2>
-    <p>Use the command-line compiler in builds, CI and content tools, or the compilation library in engines and editors that compile in-process.</p>
+    <p>Use the source generator in your build, or the command-line compiler in scripts, CI and content tools.</p>
     ${code('bash', `yotsuba compile YourGame.csproj \\
   --target spirv \\
   --output artifacts/shaders`, 'Terminal')}
-    ${code('csharp', LIB_SNIPPET, 'Importer.cs')}
     <p>Both share compilation behavior, diagnostics, validation and configuration.</p>
   </div>
 </section>`,

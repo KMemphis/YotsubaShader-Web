@@ -38,7 +38,6 @@
  "Graphics API": "API gráfica",
  "C# → IR → formats": "C# → IR → formatos",
  "Generate it where you already work.": "Genéralo donde ya trabajas.",
- "Three ways to get the binary for each platform into your project. The first one needs nothing but a build.": "Tres formas de llevar a tu proyecto el binario de cada plataforma. La primera solo necesita una compilación.",
  "A source generator, at build time.": "Un generador de código fuente, al compilar.",
  "Add one package and mark your shader class <code>partial</code>. When you build, Yotsuba Shader compiles every <code>[ShaderStage]</code> method and writes <strong>every binary you ask for</strong> into that class, with the reflection to use them. The shaders ship inside your assembly, and shader errors show up as compiler errors.": "Añade un paquete y marca tu clase de shader como <code>partial</code>. Al compilar, Yotsuba Shader compila cada método <code>[ShaderStage]</code> y escribe <strong>todos los binarios que pidas</strong> en esa clase, junto con la reflexión para usarlos. Los shaders viajan dentro de tu ensamblado y los errores de shader aparecen como errores del compilador.",
  "No files to copy and no extra step in your pipeline": "Sin archivos que copiar y sin pasos extra en tu pipeline",
@@ -47,9 +46,6 @@
  "How it works": "Cómo funciona",
  "Command line": "Línea de comandos",
  "For CI, content pipelines and build scripts. Pass it your <code>.csproj</code> and get one <code>.spv</code> per entry point.": "Para CI, pipelines de contenido y scripts de compilación. Pásale tu <code>.csproj</code> y obtén un <code>.spv</code> por cada punto de entrada.",
- "Library": "Biblioteca",
- "For editors, importers and hot reload. Hand the compiler a C# string and get SPIR-V back, in-process.": "Para editores, importadores y recarga en caliente. Dale al compilador una cadena de C# y recibe SPIR-V, dentro del mismo proceso.",
- "Plain C# on the Native AOT-compatible subset of Roslyn, with no native code of its own. For other formats, a small <code>Transpile</code> API turns the SPIR-V into HLSL, MSL, WGSL or GLSL text, with <strong>Naga</strong> underneath.": "C# normal sobre el subconjunto de Roslyn compatible con Native AOT, sin código nativo propio. Para otros formatos, una pequeña API <code>Transpile</code> convierte el SPIR-V en texto HLSL, MSL, WGSL o GLSL, con <strong>Naga</strong> por debajo.",
  "Every interface declared. Validated before the GPU.": "Cada interfaz declarada. Validada antes de llegar a la GPU.",
  "Inputs, outputs, resources, locations, bindings and stages are written down with attributes, never inferred from naming conventions. That is what lets the compiler check a shader long before any driver sees it.": "Entradas, salidas, recursos, ubicaciones, bindings y etapas se escriben con atributos, nunca se deducen por convenciones de nombres. Eso permite que el compilador revise un shader mucho antes de que lo vea cualquier controlador.",
  "Locations and built-in values on every stage boundary": "Ubicaciones y valores integrados en cada frontera entre etapas",
@@ -122,5 +118,6 @@
  "Yotsuba Shader introduction film": "Video de presentación de Yotsuba Shader",
  "Watch the film": "Ver el video",
  "One shader. Five ways to write it.": "Un shader. Cinco formas de escribirlo.",
- "You can write the same shader using the names of HLSL, GLSL, Metal, Vulkan or WGSL. Choose the one you already know. The result is the same.": "Puedes escribir el mismo shader con los nombres de HLSL, GLSL, Metal, Vulkan o WGSL. Elige el que ya conoces. El resultado es el mismo."
+ "You can write the same shader using the names of HLSL, GLSL, Metal, Vulkan or WGSL. Choose the one you already know. The result is the same.": "Puedes escribir el mismo shader con los nombres de HLSL, GLSL, Metal, Vulkan o WGSL. Elige el que ya conoces. El resultado es el mismo.",
+ "Two ways to get the binary for each platform into your project. The first one needs nothing but a build.": "Dos formas de llevar a tu proyecto el binario de cada plataforma. La primera no necesita más que una compilación."
 }

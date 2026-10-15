@@ -1,5 +1,5 @@
 import { icon, code, styleTabs, cardLink, wordmark } from '../components.mjs';
-import { STYLE_TRIANGLE, GEN_CSPROJ, GEN_OUTPUT, GEN_USE, CLI_SNIPPET, LIB_SNIPPET } from '../snippets.mjs';
+import { STYLE_TRIANGLE, GEN_CSPROJ, GEN_OUTPUT, GEN_USE, CLI_SNIPPET } from '../snippets.mjs';
 import { SITE } from '../site.mjs';
 import { flowDiagram } from '../diagram.mjs';
 
@@ -74,7 +74,7 @@ const home = {
   <div class="container">
     <div class="center" style="margin-bottom:40px">
       <h2 class="h-lg">Generate it where you already work.</h2>
-      <p class="lead">Three ways to get the binary for each platform into your project. The first one needs nothing but a build.</p>
+      <p class="lead">Two ways to get the binary for each platform into your project. The first one needs nothing but a build.</p>
     </div>
 
     <div class="gen-main">
@@ -101,15 +101,6 @@ const home = {
         <p class="card-body" style="margin:0">For CI, content pipelines and build scripts. Pass it your <code>.csproj</code> and get one <code>.spv</code> per entry point.</p>
       </div>
       <div>${code('bash', CLI_SNIPPET, 'Terminal')}</div>
-    </div>
-
-    <div class="panel panel--wide mt-24">
-      <div>
-        <h3 class="h-md" style="margin:14px 0 10px">Library</h3>
-        <p class="card-body" style="margin:0 0 12px">For editors, importers and hot reload. Hand the compiler a C# string and get SPIR-V back, in-process.</p>
-        <p class="card-body" style="margin:0">Plain C# on the Native AOT-compatible subset of Roslyn, with no native code of its own. For other formats, a small <code>Transpile</code> API turns the SPIR-V into HLSL, MSL, WGSL or GLSL text, with <strong>Naga</strong> underneath.</p>
-      </div>
-      <div>${code('csharp', LIB_SNIPPET, 'Importer.cs')}</div>
     </div>
   </div>
 </section>

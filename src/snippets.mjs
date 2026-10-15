@@ -295,18 +295,6 @@ export const CLI_SNIPPET = `yotsuba compile YourGame.csproj \\
   --target spirv \\
   --output artifacts/shaders`;
 
-export const LIB_SNIPPET = `using YotsubaShader.Compiler;
-
-string source = File.ReadAllText("Triangle.cs");
-
-// The compiler only produces SPIR-V
-byte[] spirv = YotsubaCompiler
-    .Compile(source, "Triangle.Vertex");
-
-// Transpile it to text (Naga runs underneath)
-string msl  = Transpile.FromSpirVToMsl(spirv);
-string wgsl = Transpile.FromSpirVToWgsl(spirv);`;
-
 export const TRANSPILE_USE = `using YotsubaShader.Transpile;
 
 var hlslOptions = new HlslOptions

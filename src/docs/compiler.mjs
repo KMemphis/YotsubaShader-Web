@@ -4,7 +4,7 @@ import { builtinValuesCode, attributeGroupCode, textureBindingCode, STYLE_IDS } 
 import { resourcesCode } from '../pages/styles.mjs';
 import { builtinMapTable, resourceMapTable, STYLE_META } from '../reference.mjs';
 import { SITE } from '../site.mjs';
-import { GEN_CSPROJ, GEN_INPUT, GEN_OUTPUT, GEN_TYPES, GEN_USE, CLI_SNIPPET, LIB_SNIPPET, TRANSPILE_USE, TRANSPILE_WINDOWS } from '../snippets.mjs';
+import { GEN_CSPROJ, GEN_INPUT, GEN_OUTPUT, GEN_TYPES, GEN_USE, CLI_SNIPPET, TRANSPILE_USE, TRANSPILE_WINDOWS } from '../snippets.mjs';
 
 const D = '/documentation/yotsuba-shader/';
 const BUILTIN_VALUES = Object.fromEntries(STYLE_IDS.map((id) => [id, builtinValuesCode(id)]));
@@ -90,7 +90,7 @@ export default function compilerDocs(ctx) {
 </ol>
 
 <h2>Entry points</h2>
-<p>The command-line compiler is made for builds, CI and content tools; the library for engines that want to compile without starting a separate process. Both share compilation behavior, diagnostics, validation and configuration.</p>
+<p>The source generator runs inside <code>dotnet build</code>. The command-line compiler is made for builds, CI and content tools. Both share compilation behavior, diagnostics, validation and configuration.</p>
 ${code('bash', CLI_SNIPPET, 'Terminal')}
 <p><code>--target</code> selects the backend independently of the attributes used to write the shader.</p>`,
     },
@@ -101,10 +101,10 @@ ${code('bash', CLI_SNIPPET, 'Terminal')}
       title: 'Generating shader binaries',
       kind: 'Article',
       icon: 'doc',
-      summary: 'Three ways to get SPIR-V and the other formats into your project: a source generator, a command line and a library.',
+      summary: 'Two ways to get SPIR-V and the other formats into your project: a source generator and a command line.',
       body: `
 <h2>Overview</h2>
-<p class="lead-p">A shader is only useful once its binary reaches the graphics API. Yotsuba Shader produces it in three ways. They share the same compiler core; they differ in <em>where</em> in your workflow it runs.</p>
+<p class="lead-p">A shader is only useful once its binary reaches the graphics API. Yotsuba Shader produces it in two ways. They share the same compiler core; they differ in <em>where</em> in your workflow it runs. In both, the compiler runs on your development machine or in CI, and only the final binaries reach your application.</p>
 
 <h2>1. A source generator, at build time</h2>
 <p>This is the primary workflow. A Roslyn source generator runs as part of <code>dotnet build</code>: it receives your project's compilation, finds every <code>[ShaderStage]</code> method, compiles it and writes the result back into your code as the other half of a <strong><code>partial</code> class</strong>: every binary you specified, plus its reflection.</p>
@@ -147,41 +147,12 @@ ${code('csharp', GEN_USE, 'Renderer.cs')}
 ${code('bash', CLI_SNIPPET, 'Terminal')}
 <p>The output folder then holds <code>Triangle.Vertex.spv</code>, <code>Triangle.Fragment.spv</code> and so on. To compile a single entry point, add <code>--entry Triangle.Vertex</code>. <code>--target</code> selects the backend independently of the attribute style you wrote the shader in. This is also the easiest way to inspect output with <code>spirv-val</code> and <code>spirv-dis</code>.</p>
 
-<h2>3. Library</h2>
-<p>For editors, asset importers and hot reload, call the compiler in-process. You pass it C# source as a string and get SPIR-V back:</p>
-${code('csharp', LIB_SNIPPET, 'Importer.cs')}
-<p>The compiler produces <strong>only SPIR-V</strong>. For every other format Yotsuba Shader gives you a small <code>Transpile</code> API over Naga (see <a href="${D}transpiling-spirv/">Transpiling from SPIR-V</a>). The compiler itself is plain C# with no native code of its own.</p>
-<h3>Translating from SPIR-V</h3>
-${table(
-  ['Format', 'Translator', 'Notes'],
-  [
-    ['<code>MSL</code>', 'Naga or SDL_ShaderCross', 'Both translate SPIR-V to Metal Shading Language.'],
-    ['<code>WGSL</code>', 'Naga', 'SPIR-V in, WGSL out.'],
-    ['<code>GLSL</code>, <code>GLSL ES</code>', 'Naga', 'GLSL 330+ and GLSL ES 300+.'],
-    ['<code>DXIL</code>', 'SDL_ShaderCross', 'Goes through SPIRV-Cross and DXC (the DXC build must be present). Naga does not write DXIL.'],
-    ['<code>DXBC</code>', 'SDL_ShaderCross', 'Naga does not write DXBC.'],
-  ],
-)}
-<p>Both translators are native libraries. <strong>You ship them with your application</strong>, including on consoles, where the platform's own build of SDL and Naga has to be part of the package.</p>
-<h3>Running Roslyn on a string, in a game</h3>
-<p><strong>Yotsuba Shader uses only the subset of Roslyn that is compatible with Native AOT:</strong> syntax trees, <code>CSharpCompilation</code>, the semantic model and operations (the <code>Microsoft.CodeAnalysis.CSharp</code> package). It does not use Roslyn's Workspaces or MEF-based services, which depend on reflection. The compiler analyses your C# with Roslyn, and that works without a JIT. We built a Native AOT executable that parses a C# string, resolves its types, reports errors, and then runs <code>ShaderDiscovery</code> and <code>ShaderProcessor</code> on it. It ran correctly (macOS arm64, about 42 MB). Roslyn is not annotated for trimming, so the build prints trim warnings, and the points below are what to plan for:</p>
-<ul>
-  <li><strong>No code is emitted.</strong> Only the syntax and semantic analysis is used, so no <code>Reflection.Emit</code> or JIT is needed.</li>
-  <li><strong>Reference assemblies must travel with the app.</strong> There is no SDK on a console, so embed the .NET reference metadata (and <code>YotsubaShader.Language</code>) as resources and load it from memory.</li>
-  <li><strong>Stay inside that subset in your own tools.</strong> Roslyn's workspace and completion services rely on MEF and reflection and are not suitable for AOT. (The browser playground does use them, for editor help only; the compiler itself does not.)</li>
-  <li><strong>Mind the memory.</strong> Roslyn needs far more memory than a shader needs; check the budget of your target.</li>
-  <li><strong>Consoles were not tested.</strong> Their toolchains are under NDA. The behavior above comes from desktop Native AOT; verify it on your target SDK.</li>
-</ul>
-${note('tip', 'On consoles, prefer the <strong>source generator</strong> or the <strong>command line</strong>: compile and translate on your development machine and ship only the final bytes. Then the console build needs neither Roslyn nor the translators.')}
-<p>The command line and the library share compilation behavior, diagnostics, validation and configuration.</p>
-
 <h2>Choosing</h2>
 ${table(
   ['Workflow', 'Runs', 'Best for', 'Output'],
   [
     ['<strong>Source generator</strong>', 'During <code>dotnet build</code>', 'Games, engines and apps that ship shaders with the code', 'Byte arrays in a <code>partial</code> class'],
     ['<strong>Command line</strong>', 'In scripts and CI', 'Content pipelines, inspection and validation', '<code>.spv</code> files'],
-    ['<strong>Library</strong>', 'Inside your tool', 'Editors, importers, hot reload', 'Bytes and diagnostics in memory'],
   ],
 )}`,
     },
