@@ -16,7 +16,7 @@ const SFX = LOC ? '-es' : '';
 const K = 2; // 60 fps: every action below is written for 30 fps and spread over K frames
 
 const SHADER = `using YotsubaShader.Language;
-using YotsubaShader.Language.Attributes.HlslStyle;
+using YotsubaShader.Language.StylesAttributes.HlslStyle;
 
 public struct VertexOutput
 {

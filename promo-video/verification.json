@@ -22,9 +22,9 @@
     {
      "name": "Triangle",
      "entryPoints": [
-      "VertexVertexOutput Vertex(uint id Attributes.HlslStyle.SV_VertexID)",
+      "VertexVertexOutput Vertex(uint id StylesAttributes.HlslStyle.SV_VertexID)",
       "FragmentVector4 Fragment(VertexOutput input)",
-      "Computevoid Compute(uint i Attributes.HlslStyle.SV_DispatchThreadID)"
+      "Computevoid Compute(uint i StylesAttributes.HlslStyle.SV_DispatchThreadID)"
      ]
     }
    ],
@@ -37,9 +37,9 @@
     {
      "name": "Triangle",
      "entryPoints": [
-      "VertexVertexOutput Vertex(uint id Attributes.GlslStyle.gl_VertexIndex)",
+      "VertexVertexOutput Vertex(uint id StylesAttributes.GlslStyle.gl_VertexIndex)",
       "FragmentVector4 Fragment(VertexOutput input)",
-      "Computevoid Compute(uint i Attributes.GlslStyle.gl_GlobalInvocationID)"
+      "Computevoid Compute(uint i StylesAttributes.GlslStyle.gl_GlobalInvocationID)"
      ]
     }
    ],
@@ -52,9 +52,9 @@
     {
      "name": "Triangle",
      "entryPoints": [
-      "VertexVertexOutput Vertex(uint id Attributes.MetalStyle.vertex_id)",
+      "VertexVertexOutput Vertex(uint id StylesAttributes.MetalStyle.vertex_id)",
       "FragmentVector4 Fragment(VertexOutput input)",
-      "Computevoid Compute(uint i Attributes.MetalStyle.thread_position_in_grid)"
+      "Computevoid Compute(uint i StylesAttributes.MetalStyle.thread_position_in_grid)"
      ]
     }
    ],
@@ -67,9 +67,9 @@
     {
      "name": "Triangle",
      "entryPoints": [
-      "VertexVertexOutput Vertex(uint id Attributes.VulkanStyle.BuiltIn_VertexIndex)",
+      "VertexVertexOutput Vertex(uint id StylesAttributes.VulkanStyle.BuiltIn_VertexIndex)",
       "FragmentVector4 Fragment(VertexOutput input)",
-      "Computevoid Compute(uint i Attributes.VulkanStyle.BuiltIn_GlobalInvocationId)"
+      "Computevoid Compute(uint i StylesAttributes.VulkanStyle.BuiltIn_GlobalInvocationId)"
      ]
     }
    ],
@@ -82,9 +82,9 @@
     {
      "name": "Triangle",
      "entryPoints": [
-      "VertexVertexOutput Vertex(uint id Attributes.WgslStyle.builtin_vertex_index)",
+      "VertexVertexOutput Vertex(uint id StylesAttributes.WgslStyle.builtin_vertex_index)",
       "FragmentVector4 Fragment(VertexOutput input)",
-      "Computevoid Compute(uint i Attributes.WgslStyle.builtin_global_invocation_id)"
+      "Computevoid Compute(uint i StylesAttributes.WgslStyle.builtin_global_invocation_id)"
      ]
     }
    ],
