@@ -1,3 +1,4 @@
+import { resUsing } from './examples.mjs';
 // Code samples shared by several pages. They mirror the README and the test fixtures in the repository.
 
 export const BASIC_COLOR = `using Microsoft.Xna.Framework;
@@ -53,8 +54,8 @@ public class BasicColorShader
  * One complete shader (vertex, fragment and compute) in each authoring vocabulary. Attribute names come from
  * YotsubaShader.Language. The vector type is the project's own (see TYPES_CS).
  */
-const triangle = ({ ns, usings = '', buffer, position, vertexId, globalId, size = '', note = '' }) => `using YotsubaShader.Language;
-using YotsubaShader.Language.StylesAttributes.${ns};${usings}
+const triangle = ({ ns, usings = '', res = '', buffer, position, vertexId, globalId, size = '', note = '' }) => `using YotsubaShader.Language;
+using YotsubaShader.Language.StylesAttributes.${ns};${usings}${res ? '\n' + res : ''}
 
 public struct VertexOutput
 {
@@ -97,25 +98,25 @@ export const STYLE_TRIANGLE = {
     size: '    [numthreads(8, 8, 1)]\n',
   }),
   glsl: triangle({
-    ns: 'GlslStyle',
+    ns: 'GlslStyle', res: resUsing('glsl'),
     buffer: '    [buffer, layout(0, 0)]\n    public float[] Output;',
     position: 'gl_Position', vertexId: 'gl_VertexIndex', globalId: 'gl_GlobalInvocationID',
     size: '    [layout_local_size(8, 8, 1)]\n',
   }),
   metal: triangle({
-    ns: 'MetalStyle',
+    ns: 'MetalStyle', res: resUsing('metal'),
     buffer: '    [device, buffer(0)]\n    public float[] Output;',
     position: 'position', vertexId: 'vertex_id', globalId: 'thread_position_in_grid',
     note: hostNote,
   }),
   vulkan: triangle({
-    ns: 'VulkanStyle',
+    ns: 'VulkanStyle', res: resUsing('vulkan'),
     buffer: '    [StorageBuffer, DescriptorSet(0), @Binding(0)]\n    public float[] Output;',
     position: 'BuiltIn_Position', vertexId: 'BuiltIn_VertexIndex', globalId: 'BuiltIn_GlobalInvocationId',
     note: hostNote,
   }),
   wgsl: triangle({
-    ns: 'WgslStyle',
+    ns: 'WgslStyle', res: resUsing('wgsl'),
     buffer: '    [storage(storage_use.read_write), @group(0), @binding(0)]\n    public float[] Output;',
     position: '@builtin_position', vertexId: '@builtin_vertex_index', globalId: '@builtin_global_invocation_id',
     size: '    [@workgroup_size(8, 8, 1)]\n',
@@ -125,6 +126,7 @@ export const STYLE_TRIANGLE = {
 /** Resource declarations (uniform + storage buffer) per vocabulary. */
 export const STYLE_RESOURCES = {
   hlsl: `using YotsubaShader.Language.StylesAttributes.HlslStyle;
+${resUsing('hlsl')}
 
 public class Lighting
 {
@@ -133,6 +135,7 @@ public class Lighting
     public Material Material;
 }`,
   glsl: `using YotsubaShader.Language.StylesAttributes.GlslStyle;
+${resUsing('glsl')}
 
 public class Lighting
 {
@@ -141,6 +144,7 @@ public class Lighting
     public Material Material;
 }`,
   metal: `using YotsubaShader.Language.StylesAttributes.MetalStyle;
+${resUsing('metal')}
 
 public class Lighting
 {
@@ -149,6 +153,7 @@ public class Lighting
     public Material Material;
 }`,
   vulkan: `using YotsubaShader.Language.StylesAttributes.VulkanStyle;
+${resUsing('vulkan')}
 
 public class Lighting
 {
@@ -158,6 +163,7 @@ public class Lighting
     public Material Material;
 }`,
   wgsl: `using YotsubaShader.Language.StylesAttributes.WgslStyle;
+${resUsing('wgsl')}
 
 public class Lighting
 {

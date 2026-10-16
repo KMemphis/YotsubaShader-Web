@@ -4,6 +4,10 @@ import { BUILTIN_MAP } from './reference.mjs';
 
 const COL = { hlsl: 1, glsl: 2, metal: 3, vulkan: 4, wgsl: 5 };
 const NS = { hlsl: 'HlslStyle', glsl: 'GlslStyle', metal: 'MetalStyle', vulkan: 'VulkanStyle', wgsl: 'WgslStyle' };
+// Resource attributes (cbuffer, register, device, StorageBuffer, @group...) live in a sub-namespace of each style.
+// The HLSL one really is spelled "Resorces" in the language source.
+export const RES_NS = { hlsl: 'HlslStyle.Resorces', glsl: 'GlslStyle.Resources', metal: 'MetalStyle.Resources', vulkan: 'VulkanStyle.Resources', wgsl: 'WgslStyle.Resources' };
+export const resUsing = (id) => `using YotsubaShader.Language.StylesAttributes.${RES_NS[id]};`;
 
 const TYPE_OF = [
   [/position|coordinate/i, 'Vector4'],
@@ -91,7 +95,7 @@ const cap = (s) => s[0].toUpperCase() + s.slice(1);
 export function attributeGroupCode(id, items, group) {
   const list = items.filter((i) => i.kind === group);
   if (!list.length) return '';
-  const ns = `using YotsubaShader.Language;\nusing YotsubaShader.Language.StylesAttributes.${NS[id]};\n\n`;
+  const ns = `using YotsubaShader.Language;\nusing YotsubaShader.Language.StylesAttributes.${NS[id]};\n${group === 'Resource' ? resUsing(id) + '\n' : ''}\n`;
   const conceptOf = (name) => {
     const row = BUILTIN_MAP.find((r) => r[1] !== null && [r[1], r[2], r[3], r[4], r[5]].some((v) => v && v.split(' / ').map((x) => x.replace(/N$/, '')).includes(name)));
     return row ? row[0] : null;
@@ -142,6 +146,7 @@ const TEX_BIND = {
 
 /** A texture and a sampler bound to their slots, in the style's own spelling. */
 export const textureBindingCode = (id) => `using YotsubaShader.Language.StylesAttributes.${NS[id]};
+${resUsing(id)}
 
 public class Surface
 {
