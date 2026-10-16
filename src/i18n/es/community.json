@@ -89,5 +89,15 @@
  "Plan your sponsorship": "Planifica tu patrocinio",
  "Use your own numbers to see what fits your team. This is a guide, not a price.": "Usa tus propios números para ver qué le conviene a tu equipo. Es una guía, no un precio.",
  "One compiler, five shader vocabularies and six output formats. Each one needs testing, fixes and updates.": "Un compilador, cinco vocabularios de shader y seis formatos de salida. Cada uno necesita pruebas, correcciones y actualizaciones.",
- "Keeping the output correct for SPIR-V, HLSL, MSL, WGSL, GLSL and GLSL ES as the tools and drivers around it change.": "Mantener correcta la salida para SPIR-V, HLSL, MSL, WGSL, GLSL y GLSL ES a medida que cambian las herramientas y los drivers."
+ "Keeping the output correct for SPIR-V, HLSL, MSL, WGSL, GLSL and GLSL ES as the tools and drivers around it change.": "Mantener correcta la salida para SPIR-V, HLSL, MSL, WGSL, GLSL y GLSL ES a medida que cambian las herramientas y los drivers.",
+ "Contact": "Contacto",
+ "How to reach the Yotsuba Shader maintainer: questions, collaboration and sponsorship.": "Cómo contactar con el mantenedor de Yotsuba Shader: preguntas, colaboración y patrocinio.",
+ "Questions, collaboration or sponsorship: write to the maintainer.": "Preguntas, colaboración o patrocinio: escribe al mantenedor.",
+ "What to write about": "Sobre qué escribirme",
+ "using Yotsuba Shader in your engine or framework,": "usar Yotsuba Shader en tu motor o framework,",
+ "sponsorship or support for the project,": "patrocinio o apoyo al proyecto,",
+ "collaboration, press or talks.": "colaboración, prensa o charlas.",
+ "Bugs and proposals": "Errores y propuestas",
+ "For bugs, feature requests and design changes, <a href=\"https://github.com/KMemphis/YotsubaShader/issues\" rel=\"noopener\">open an issue</a> so the discussion is public and others can help. See <a href=\"/community/contributing/\">Contributing</a>.": "Para errores, peticiones de funciones y cambios de diseño, <a href=\"https://github.com/KMemphis/YotsubaShader/issues\" rel=\"noopener\">abre un issue</a> para que la conversación sea pública y otros puedan ayudar. Consulta <a href=\"/community/contributing/\">Contribuir</a>.",
+ "Yotsuba Shader is maintained by one person. Replies may take a few days.": "Yotsuba Shader lo mantiene una sola persona. Las respuestas pueden tardar unos días."
 }

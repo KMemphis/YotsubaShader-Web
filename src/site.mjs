@@ -6,6 +6,7 @@ export const SITE = {
   tagline: 'Write shaders in C#. Compile for the backend you choose.',
   repo: 'https://github.com/KMemphis/YotsubaShader',
   sponsors: 'https://github.com/sponsors/KMemphis',
+  email: 'hello@yotsubashader.com',
   year: 2026,
   /** Public address of the site (no trailing slash), e.g. SITE_URL=https://example.com. Empty until there is a domain. */
   url: (process.env.SITE_URL || '').replace(/\/+$/, ''),
@@ -76,6 +77,7 @@ export const SECTIONS = {
       ['Overview', '/community/'],
       ['Contributing', '/community/contributing/'],
       ['Licensing', '/community/licensing/'],
+      ['Contact', '/community/contact/'],
     ],
   },
   donations: {

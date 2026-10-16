@@ -101,11 +101,12 @@ function footer() {
     <div class="foot-brand">
       ${wordmark({ size: 'foot' })}
       <p>${SITE.tagline}</p>
+      <p><a href="mailto:${SITE.email}">${SITE.email}</a></p>
     </div>
     <div class="foot-cols">
       ${col('Explore', [['Get Started', '/get-started/'], ['Styles', '/styles/'], ['Playground', '/playground/'], ["What's New", '/whats-new/'], ['Resources', '/resources/']])}
       ${col('Documentation', [['All documentation', '/documentation/'], ['Your first shader', '/documentation/yotsuba-shader/writing-your-first-shader/'], ['Authoring styles', '/documentation/yotsuba-shader/choosing-an-authoring-style/'], ['Attribute reference', '/documentation/yotsuba-shader/builtin-values-across-styles/']])}
-      ${col('Community', [['Community', '/community/'], ['Contributing', '/community/contributing/'], ['GitHub', SITE.repo], ['Sponsor on GitHub', SITE.sponsors], ['Donations', '/donations/']])}
+      ${col('Community', [['Community', '/community/'], ['Contributing', '/community/contributing/'], ['Contact', '/community/contact/'], ['GitHub', SITE.repo], ['Sponsor on GitHub', SITE.sponsors], ['Donations', '/donations/']])}
       ${col('Legal', [['Licensing', '/community/licensing/'], ['Sponsors', '/donations/sponsors/']])}
     </div>
   </div>

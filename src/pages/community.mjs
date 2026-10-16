@@ -345,4 +345,35 @@ const sponsors = {
 </section>`,
 };
 
-export default [community, contributing, licensing, donations, sponsors];
+const contact = {
+  path: '/community/contact/',
+  section: 'community',
+  title: 'Contact',
+  description: 'How to reach the Yotsuba Shader maintainer: questions, collaboration and sponsorship.',
+  body: `
+<section class="hero hero--compact">
+  <div class="container">
+    <h1 class="h-xl">Contact</h1>
+    <p class="lead">Questions, collaboration or sponsorship: write to the maintainer.</p>
+    <div class="hero-actions">
+      <a class="btn btn-primary" href="mailto:${SITE.email}">${SITE.email}</a>
+    </div>
+  </div>
+  <hr class="hero-rule">
+</section>
+<section class="section">
+  <div class="container container--narrow prose">
+    <h2>What to write about</h2>
+    <ul>
+      <li>using Yotsuba Shader in your engine or framework,</li>
+      <li>sponsorship or support for the project,</li>
+      <li>collaboration, press or talks.</li>
+    </ul>
+    <h2>Bugs and proposals</h2>
+    <p>For bugs, feature requests and design changes, <a href="${SITE.repo}/issues" rel="noopener">open an issue</a> so the discussion is public and others can help. See <a href="/community/contributing/">Contributing</a>.</p>
+    <p>Yotsuba Shader is maintained by one person. Replies may take a few days.</p>
+  </div>
+</section>`,
+};
+
+export default [community, contributing, licensing, contact, donations, sponsors];
