@@ -16,7 +16,7 @@ concurrency:
   cancel-in-progress: false
 
 env:
-  SITE_URL: https://yotsubashader.com     # sin barra final
+  SITE_URL: https://yotsubashader.com     # sin barra final.
 
 jobs:
   build:
