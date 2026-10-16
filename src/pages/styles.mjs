@@ -55,7 +55,7 @@ export function builtinsCode(id) {
     ? `    // Workgroup size (method attribute)\n    [${WG[id]}]\n`
     : '    // No method attribute: the workgroup size is a built-in value\n';
   return `using YotsubaShader.Language;
-using YotsubaShader.Language.Attributes.${NS[id]};
+using YotsubaShader.Language.StylesAttributes.${NS[id]};
 
 public struct VertexOutput
 {
@@ -119,7 +119,7 @@ export function resourcesCode(id) {
   }[id];
   const same = id === 'glsl' || id === 'vulkan' ? 'Read-only storage buffer (same attribute)' : 'Read-only storage buffer';
   return `using YotsubaShader.Language;
-using YotsubaShader.Language.Attributes.${NS[id]};
+using YotsubaShader.Language.StylesAttributes.${NS[id]};
 
 public class Resources
 {

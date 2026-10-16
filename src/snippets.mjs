@@ -2,8 +2,8 @@
 
 export const BASIC_COLOR = `using Microsoft.Xna.Framework;
 using YotsubaShader.Language;
-using YotsubaShader.Language.Attributes;
-using YotsubaShader.Language.Attributes.HlslStyle; // Attribute names inspired by HLSL.
+using YotsubaShader.Language.StylesAttributes;
+using YotsubaShader.Language.StylesAttributes.HlslStyle; // Attribute names inspired by HLSL.
 
 public struct VertexInput
 {
@@ -54,7 +54,7 @@ public class BasicColorShader
  * YotsubaShader.Language. The vector type is the project's own (see TYPES_CS).
  */
 const triangle = ({ ns, usings = '', buffer, position, vertexId, globalId, size = '', note = '' }) => `using YotsubaShader.Language;
-using YotsubaShader.Language.Attributes.${ns};${usings}
+using YotsubaShader.Language.StylesAttributes.${ns};${usings}
 
 public struct VertexOutput
 {
@@ -124,7 +124,7 @@ export const STYLE_TRIANGLE = {
 
 /** Resource declarations (uniform + storage buffer) per vocabulary. */
 export const STYLE_RESOURCES = {
-  hlsl: `using YotsubaShader.Language.Attributes.HlslStyle;
+  hlsl: `using YotsubaShader.Language.StylesAttributes.HlslStyle;
 
 public class Lighting
 {
@@ -132,7 +132,7 @@ public class Lighting
     [register(RegisterPrefix.b, 0)]
     public Material Material;
 }`,
-  glsl: `using YotsubaShader.Language.Attributes.GlslStyle;
+  glsl: `using YotsubaShader.Language.StylesAttributes.GlslStyle;
 
 public class Lighting
 {
@@ -140,7 +140,7 @@ public class Lighting
     [layout(set: 0, binding: 0)]
     public Material Material;
 }`,
-  metal: `using YotsubaShader.Language.Attributes.MetalStyle;
+  metal: `using YotsubaShader.Language.StylesAttributes.MetalStyle;
 
 public class Lighting
 {
@@ -148,7 +148,7 @@ public class Lighting
     [buffer(0)]
     public Material Material;
 }`,
-  vulkan: `using YotsubaShader.Language.Attributes.VulkanStyle;
+  vulkan: `using YotsubaShader.Language.StylesAttributes.VulkanStyle;
 
 public class Lighting
 {
@@ -157,7 +157,7 @@ public class Lighting
     [Binding(0)]
     public Material Material;
 }`,
-  wgsl: `using YotsubaShader.Language.Attributes.WgslStyle;
+  wgsl: `using YotsubaShader.Language.StylesAttributes.WgslStyle;
 
 public class Lighting
 {

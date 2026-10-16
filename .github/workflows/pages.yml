@@ -16,19 +16,25 @@ concurrency:
   cancel-in-progress: false
 
 env:
-  SITE_URL: https://yotsubashader.com     # sin barra final.
+  SITE_URL: https://yotsubashader.com     # sin barra final
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      # El build lee ../YotsubaShader.Language (referencia de atributos)
-      - name: Código del compilador (solo YotsubaShader.Language)
+      # El build lee ../YotsubaShader.Language (referencia de atributos) y el playground compila
+      # los proyectos del compilador, así que se necesitan al lado de Web/ (como en tu máquina).
+      - name: Código del compilador
         uses: actions/checkout@v7
         with:
           repository: KMemphis/YotsubaShader
           token: ${{ secrets.MAIN_REPO_TOKEN || github.token }}
-          sparse-checkout: YotsubaShader.Language
+          sparse-checkout: |
+            YotsubaShader.Language
+            YotsubaShader.IR
+            YotsubaShader.Compiler.SpirV
+            YotsubaShader.Generator
+            YotsubaShader.Roslyn
 
       - name: Esta web
         uses: actions/checkout@v7
@@ -38,6 +44,22 @@ jobs:
       - uses: actions/setup-node@v7
         with:
           node-version: 22
+
+      - uses: actions/setup-dotnet@v6
+        with:
+          dotnet-version: 8.0.x
+
+      # Si el compilador de la rama principal no compila en ese momento, la web se publica igual
+      # (sin playground) y el build deja un aviso en lugar de fallar.
+      - name: Construir el playground (compilador en WebAssembly)
+        id: playground
+        continue-on-error: true
+        working-directory: Web
+        run: npm run playground
+
+      - name: Avisar si el playground no se pudo construir
+        if: steps.playground.outcome == 'failure'
+        run: echo "::warning title=Playground no construido::dotnet publish falló; la web se publica sin el compilador en el navegador. Revisa que YotsubaShader compile en main."
 
       - name: Construir la web
         working-directory: Web
@@ -49,6 +71,11 @@ jobs:
           test -f sitemap.xml
           grep -q "^Sitemap: ${SITE_URL}/sitemap.xml" robots.txt
           grep -q "rel=\"canonical\" href=\"${SITE_URL}/\"" index.html
+
+      - name: Comprobar el playground
+        if: steps.playground.outcome == 'success'
+        working-directory: Web/dist
+        run: test -f playground-app/_framework/blazor.webassembly.js
 
       - uses: actions/configure-pages@v6
 

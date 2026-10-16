@@ -14,8 +14,8 @@
   <ItemGroup>
     <ProjectReference Include="..\..\YotsubaShader.Language\YotsubaShader.Language.csproj" />
     <ProjectReference Include="..\..\YotsubaShader.IR\YotsubaShader.IR.csproj" />
-    <ProjectReference Include="..\..\YotsubaShader.Compiler\YotsubaShader.Compiler.csproj" />
-    <ProjectReference Include="..\..\YotsubaShader.Frontend\YotsubaShader.Frontend.csproj" />
+    <ProjectReference Include="..\..\YotsubaShader.Compiler.SpirV\YotsubaShader.Compiler.SpirV.csproj" />
+    <ProjectReference Include="..\..\YotsubaShader.Roslyn\YotsubaShader.Roslyn.csproj" />
   </ItemGroup>
 
   <!-- Roslyn needs the raw metadata of YotsubaShader.Language to resolve its attributes. The runtime cannot hand it
@@ -27,7 +27,7 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="8.0.*" />
-    <!-- Same Roslyn version as YotsubaShader.Frontend. Workspaces + Features give completion, hover and quick info. -->
+    <!-- Same Roslyn version as YotsubaShader.Roslyn. Workspaces + Features give completion, hover and quick info. -->
     <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Features" Version="4.11.0" />
     <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Workspaces" Version="4.11.0" />
     <!-- Reference assemblies for the BCL, since the browser has no SDK on disk. -->

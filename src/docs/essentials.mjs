@@ -227,8 +227,8 @@ ${code('csharp', `public class BasicColorShader
 <h2>Add the using directives</h2>
 ${code('csharp', `using Microsoft.Xna.Framework;                       // Vector2, Vector4
 using YotsubaShader.Language;                        // ShaderStage, Stage
-using YotsubaShader.Language.Attributes;             // Location
-using YotsubaShader.Language.Attributes.HlslStyle;   // SV_Position (names inspired by HLSL)`)}
+using YotsubaShader.Language.StylesAttributes;             // Location
+using YotsubaShader.Language.StylesAttributes.HlslStyle;   // SV_Position (names inspired by HLSL)`)}
 
 <h2>What the compiler does with it</h2>
 <ol>
@@ -488,8 +488,8 @@ public class Lighting
 <p>Everything above lives in your engine. This is what a programmer who uses it writes: a shader with the types they already know, imported from your namespace.</p>
 ${code('csharp', `using MyEngine;
 using YotsubaShader.Language;
-using YotsubaShader.Language.Attributes;
-using YotsubaShader.Language.Attributes.HlslStyle;
+using YotsubaShader.Language.StylesAttributes;
+using YotsubaShader.Language.StylesAttributes.HlslStyle;
 using YotsubaShader.Language.Resources;
 
 public struct Material
@@ -650,7 +650,7 @@ public Vector4 Fragment(VertexOutput input) => input.Color;`)}
 
 <h2>Compute</h2>
 <p>Compute stages use a workgroup size method attribute, plus built-in inputs such as the global invocation id. Each style spells these in its own way.</p>
-${code('csharp', `using YotsubaShader.Language.Attributes.HlslStyle;
+${code('csharp', `using YotsubaShader.Language.StylesAttributes.HlslStyle;
 
 public class Fill
 {
@@ -798,7 +798,7 @@ ${styleTabs(RESOURCES_BY_STYLE, { file: 'Resources.cs' })}
 <h2>6. Everything together</h2>
 <p>A compute shader that multiplies every value of an input buffer by a scale and writes the result to an output buffer. The scale comes from a uniform.</p>
 ${code('csharp', `using YotsubaShader.Language;
-using YotsubaShader.Language.Attributes.HlslStyle;
+using YotsubaShader.Language.StylesAttributes.HlslStyle;
 using YotsubaShader.Language.Resources;
 
 public struct Settings
