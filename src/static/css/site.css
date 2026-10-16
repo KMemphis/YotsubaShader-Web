@@ -558,7 +558,7 @@ code { font-size: .88em; background: rgba(255,255,255,.09); padding: .12em .4em;
 }
 .playground .gnav { background: rgba(13,10,24,.82); }
 .playground .pg { background: var(--ink); }
-.playground .pg-bar { position: relative; background: rgba(19,15,34,.9); border-bottom: 0; }
+.playground .pg-bar { position: relative; z-index: 40; background: rgba(19,15,34,.9); border-bottom: 0; }
 .playground .pg-bar::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 1px; background: var(--pline); }
 .playground .pg-select span { color: #8f82b8; }
 .playground .pg-select select { background-color: var(--ink-3); border-color: var(--pline); color: #f1ecff; }
