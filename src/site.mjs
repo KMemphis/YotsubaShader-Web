@@ -7,6 +7,13 @@ export const SITE = {
   repo: 'https://github.com/KMemphis/YotsubaShader',
   sponsors: 'https://github.com/sponsors/KMemphis',
   email: 'hello@yotsubashader.com',
+  sponsorsEmail: 'sponsors@yotsubashader.com',
+  legalEmail: 'legal@yotsubashader.com',
+  newsEmail: 'news@yotsubashader.com',
+  /** Public endpoint of the contact list (static-site form, no key). Only https://yotsubashader.com may call it. */
+  subscribeEndpoint: 'https://flexocablemarketing.net/api/v1/public/companies/b066f9fc-7deb-4d3c-b8f1-0adc2871e139/contacts',
+  feedReleases: 'https://github.com/KMemphis/YotsubaShader/releases.atom',
+  feedCommits: 'https://github.com/KMemphis/YotsubaShader/commits/main.atom',
   year: 2026,
   /** Public address of the site (no trailing slash), e.g. SITE_URL=https://example.com. Empty until there is a domain. */
   url: (process.env.SITE_URL || '').replace(/\/+$/, ''),

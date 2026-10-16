@@ -18,7 +18,6 @@
  "Third-party components": "Componentes de terceros",
  "Yotsuba Shader builds on other open-source work, each under its own license: Roslyn (<code>Microsoft.CodeAnalysis</code>, MIT) and the SPIR-V grammar published by the Khronos Group (MIT). Their notices are kept in the repository.": "Yotsuba Shader se apoya en otros trabajos de código abierto, cada uno bajo su propia licencia: Roslyn (<code>Microsoft.CodeAnalysis</code>, MIT) y la gramática de SPIR-V publicada por el Khronos Group (MIT). Sus avisos se conservan en el repositorio.",
  "Name and logo": "Nombre y logotipo",
- "The MIT License covers the code. The name Yotsuba Shader and its logo are not part of it: please do not present a modified version as the official project.": "La licencia MIT cubre el código. El nombre Yotsuba Shader y su logotipo no forman parte de ella: por favor, no presentes una versión modificada como el proyecto oficial.",
  "Read the license in the repository": "Leer la licencia en el repositorio",
  "Support the development of Yotsuba Shader, a free and open-source shader framework for C#.": "Apoya el desarrollo de Yotsuba Shader, un framework de shaders gratuito y de código abierto para C#.",
  "Our sponsors": "Nuestros patrocinadores",

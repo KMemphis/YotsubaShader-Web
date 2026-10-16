@@ -93,7 +93,7 @@ const licensing = {
     <h2>Third-party components</h2>
     <p>Yotsuba Shader builds on other open-source work, each under its own license: Roslyn (<code>Microsoft.CodeAnalysis</code>, MIT) and the SPIR-V grammar published by the Khronos Group (MIT). Their notices are kept in the repository.</p>
     <h2>Name and logo</h2>
-    <p>The MIT License covers the code. The name Yotsuba Shader and its logo are not part of it: please do not present a modified version as the official project.</p>
+    <p>The MIT License covers the code. The name Yotsuba Shader and its logo are not part of it: please do not present a modified version as the official project. For questions about licensing or the use of the name, write to <a href="mailto:${SITE.legalEmail}">${SITE.legalEmail}</a>.</p>
     <p><a class="link-more" href="${SITE.repo}" rel="noopener">Read the license in the repository ${icon('chevron-right')}</a></p>
   </div>
 </section>`,
@@ -122,7 +122,7 @@ const donations = {
       <a class="btn btn-primary" href="${SITE.sponsors}" rel="noopener">${icon('heart')} Sponsor on GitHub</a>
       <a class="btn btn-secondary" href="#estimate">Plan your sponsorship</a>
     </div>
-    <p class="don-note">Payments are handled by GitHub Sponsors. This site does not collect payments.</p>
+    <p class="don-note">Payments are handled by GitHub Sponsors. This site does not collect payments. Questions about sponsoring: <a href="mailto:${SITE.sponsorsEmail}">${SITE.sponsorsEmail}</a>.</p>
   </div>
   <hr class="hero-rule">
 </section>
@@ -354,7 +354,7 @@ const contact = {
 <section class="hero hero--compact">
   <div class="container">
     <h1 class="h-xl">Contact</h1>
-    <p class="lead">Questions, collaboration or sponsorship: write to the maintainer.</p>
+    <p class="lead">Questions, collaboration, sponsorship or legal matters: write to the maintainer.</p>
     <div class="hero-actions">
       <a class="btn btn-primary" href="mailto:${SITE.email}">${SITE.email}</a>
     </div>
@@ -363,12 +363,13 @@ const contact = {
 </section>
 <section class="section">
   <div class="container container--narrow prose">
-    <h2>What to write about</h2>
+    <h2>Which address to use</h2>
     <ul>
-      <li>using Yotsuba Shader in your engine or framework,</li>
-      <li>sponsorship or support for the project,</li>
-      <li>collaboration, press or talks.</li>
+      <li><a href="mailto:${SITE.email}">${SITE.email}</a>: questions, using Yotsuba Shader in your engine or framework, collaboration, press or talks.</li>
+      <li><a href="mailto:${SITE.sponsorsEmail}">${SITE.sponsorsEmail}</a>: sponsorship and support for the project.</li>
+      <li><a href="mailto:${SITE.legalEmail}">${SITE.legalEmail}</a>: licensing, the name and logo, and other legal questions.</li>
     </ul>
+    <p>Want to follow the project instead? <a href="/whats-new/#subscribe">Get updates by email or feed</a>.</p>
     <h2>Bugs and proposals</h2>
     <p>For bugs, feature requests and design changes, <a href="${SITE.repo}/issues" rel="noopener">open an issue</a> so the discussion is public and others can help. See <a href="/community/contributing/">Contributing</a>.</p>
     <p>Yotsuba Shader is maintained by one person. Replies may take a few days.</p>
