@@ -73,14 +73,14 @@ code, kbd, pre { font-family: var(--mono); }
 .gnav-links { display: flex; align-items: center; gap: 34px; margin-right: auto; margin-left: 12px; }
 .gnav-links a { white-space: nowrap; color: rgba(245,245,247,.82); font-size: 14px; padding: 4px 0; transition: color .2s; }
 .gnav-links a:hover, .gnav-links a[aria-current] { color: var(--text); text-decoration: none; }
-.gnav-actions { display: flex; align-items: center; gap: 10px; }
+.gnav-actions { flex: none; display: flex; align-items: center; gap: 10px; }
 .icon-btn { display: inline-grid; place-items: center; width: 34px; height: 34px; border: 0; border-radius: 8px; background: none; color: var(--text-3); cursor: pointer; transition: color .2s, background .2s; }
 .icon-btn:hover { color: var(--text); background: rgba(255,255,255,.08); text-decoration: none; }
 .icon-btn .icon { width: 18px; height: 18px; }
 .nav-toggle { display: none; }
 .nav-toggle .i-close { display: none; }
 
-.support-btn { display: inline-flex; align-items: center; gap: 7px; background: var(--text); color: #1d1d1f; border: 0; border-radius: 8px; padding: 6px 12px; font: 600 12.5px/1 var(--font); cursor: pointer; transition: background .2s, transform .2s; }
+.support-btn { display: inline-flex; flex: none; white-space: nowrap; min-width: max-content; align-items: center; gap: 7px; background: var(--text); color: #1d1d1f; border: 0; border-radius: 8px; padding: 6px 12px; font: 600 12.5px/1 var(--font); cursor: pointer; transition: background .2s, transform .2s; }
 .support-btn:hover { background: #dcdce0; text-decoration: none; transform: translateY(-1px); }
 .support-btn .icon { width: 15px; height: 15px; color: var(--brand-red); }
 
