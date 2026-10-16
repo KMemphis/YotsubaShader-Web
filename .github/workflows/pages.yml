@@ -1,0 +1,68 @@
+name: Publicar web en GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+env:
+  SITE_URL: https://yotsubashader.com     # sin barra final
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      # El build lee ../YotsubaShader.Language (referencia de atributos)
+      - name: Código del compilador (solo YotsubaShader.Language)
+        uses: actions/checkout@v7
+        with:
+          repository: KMemphis/YotsubaShader
+          token: ${{ secrets.MAIN_REPO_TOKEN || github.token }}
+          sparse-checkout: YotsubaShader.Language
+
+      - name: Esta web
+        uses: actions/checkout@v7
+        with:
+          path: Web
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
+
+      - name: Construir la web
+        working-directory: Web
+        run: node build.mjs --strict-i18n   # falla si falta una traducción o hay un enlace roto
+
+      - name: Comprobar SEO (sitemap, robots, canonical)
+        working-directory: Web/dist
+        run: |
+          test -f sitemap.xml
+          grep -q "^Sitemap: ${SITE_URL}/sitemap.xml" robots.txt
+          grep -q "rel=\"canonical\" href=\"${SITE_URL}/\"" index.html
+
+      - uses: actions/configure-pages@v6
+
+      - uses: actions/upload-pages-artifact@v5
+        with:
+          path: Web/dist
+
+  deploy:
+    if: github.event_name != 'pull_request'   # los pull requests solo construyen
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v5
