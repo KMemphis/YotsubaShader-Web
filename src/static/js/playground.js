@@ -461,7 +461,8 @@
       const ex = examples.find((e) => e.id === params.get('example')) || examples[0];
       el.example.value = ex.id; files = clone(ex.files);
     }
-    project.files = clone(files);
+    // Saved projects and old shared links still say Language.Attributes (renamed to StylesAttributes).
+    project.files = clone(files).map((f) => ({ name: f.name, source: f.source.replace(/\bYotsubaShader\.Language\.Attributes\b/g, 'YotsubaShader.Language.StylesAttributes') }));
     project.active = project.files.some((f) => f.name === active) ? active : (project.files.find((f) => f.name === 'Shader.cs') || project.files[0]).name;
 
     try { editor = await loadMonaco(project.files); } catch { editor = textareaEditor(project.files); }
