@@ -29,6 +29,13 @@ function langSwitch(locale, pagePath) {
   return `<details class="lang" data-lang-menu><summary aria-label="${cur.langLabel}: ${cur.label}">${icon('globe')}<span>${cur.label}</span>${icon('chevron-down')}</summary><ul class="lang-menu">${items}</ul></details>`;
 }
 
+/** Canonical address and the same page in every language. Absolute when SITE.url is set, root-relative otherwise. */
+function seoTags(pagePath, locale) {
+  const at = (id) => `${SITE.url}${localePath(pagePath, id)}`;
+  const alternates = Object.values(LOCALES).map((L) => `<link rel="alternate" hreflang="${L.htmlLang}" href="${at(L.id)}">`);
+  return [`<link rel="canonical" href="${at(locale)}">`, ...alternates, `<link rel="alternate" hreflang="x-default" href="${at('en')}">`].join('\n');
+}
+
 /** Last step of a page: translate (non-English locales), fill the locale placeholders and make links relative. */
 function finalize(html, pagePath, locale) {
   const L = LOCALES[locale];
@@ -43,6 +50,7 @@ function finalize(html, pagePath, locale) {
     .replace(/__FILM_LANG__/g, () => L.htmlLang)
     .replace('__HTMLLANG__', () => L.htmlLang)
     .replace('<!--LANGREDIRECT-->', () => redirect)
+    .replace('<!--SEO-->', () => seoTags(pagePath, locale))
     .replace('<!--I18N-->', () => strings)
     .replace(/__LANGSWITCH__/g, () => langSwitch(locale, pagePath));
   return relativize(html, localePath(pagePath, locale));
@@ -116,7 +124,7 @@ const searchDialog = `<div class="search" id="search" hidden role="dialog" aria-
   </div>
 </div>`;
 
-function head({ title, description, pagePath, fullTitle }) {
+function head({ title, description, pagePath, fullTitle, noindex = false }) {
   return `<head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -136,15 +144,16 @@ function head({ title, description, pagePath, fullTitle }) {
 <link rel="stylesheet" href="/css/site.css">
 <script>try{var s=localStorage.getItem('ys-style');if(s)document.documentElement.dataset.style=s}catch(e){}</script>
 <!--LANGREDIRECT-->
+${noindex ? '<meta name="robots" content="noindex">' : '<!--SEO-->'}
 </head>`;
 }
 
 /** Standard page (home, get started, styles, ...). */
 export function renderPage(page, locale = 'en') {
-  const { path: pagePath, section, title, description, body, fullTitle, bodyClass = '', noFooter = false, scripts = [] } = page;
+  const { path: pagePath, section, title, description, body, fullTitle, bodyClass = '', noFooter = false, scripts = [], noindex = false } = page;
   const html = `<!doctype html>
 <html lang="__HTMLLANG__" data-root="__ROOT__">
-${head({ title, description, pagePath, fullTitle })}
+${head({ title, description, pagePath, fullTitle, noindex })}
 <body class="${bodyClass}">
 <a class="skip" href="#main">Skip to content</a>
 ${globalNav(section)}

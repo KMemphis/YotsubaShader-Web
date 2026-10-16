@@ -42,7 +42,6 @@
  "Map the types of your own project to native GPU types, and build shaders on external libraries instead of duplicating them.": "Asocia los tipos de tu propio proyecto a tipos nativos de la GPU y crea shaders sobre bibliotecas externas en lugar de duplicarlas.",
  "Mark methods with [ShaderStage] to declare vertex, fragment and compute entry points.": "Marca métodos con [ShaderStage] para declarar puntos de entrada de vertex, fragment y compute.",
  "Describe how data flows into and out of a stage with [Location] and built-in attributes.": "Describe cómo fluyen los datos hacia y desde una etapa con [Location] y los atributos integrados.",
- "At run time the compiler produces SPIR-V; a small Transpile API turns it into HLSL, MSL, WGSL or GLSL text, with Naga underneath.": "En tiempo de ejecución el compilador produce SPIR-V; una pequeña API Transpile lo convierte en texto HLSL, MSL, WGSL o GLSL, con Naga por debajo.",
  "How the frontend finds shaders in a Roslyn compilation, by symbol rather than by text.": "Cómo encuentra el frontend los shaders en una compilación de Roslyn: por símbolo y no por texto.",
  "The backend-neutral model that sits between the frontend and every backend.": "El modelo independiente del backend que se sitúa entre el frontend y cada backend.",
  "Assemble a SPIR-V 1.6 module instruction by instruction and encode it to a binary.": "Ensambla un módulo SPIR-V 1.6 instrucción por instrucción y codifícalo a un binario.",
@@ -53,5 +52,6 @@
  "Every attribute in the Vulkan-style vocabulary: SPIR-V BuiltIn names (BuiltIn_Position), DescriptorSet and Binding.": "Cada atributo del vocabulario estilo Vulkan: nombres BuiltIn de SPIR-V (BuiltIn_Position), DescriptorSet y Binding.",
  "Every attribute in the WGSL-style vocabulary: the @builtin(...), @group and @binding vocabulary of WebGPU, written with @ identifiers that remain valid C#.": "Cada atributo del vocabulario estilo WGSL: el vocabulario @builtin(...), @group y @binding de WebGPU, escrito con identificadores @ que siguen siendo C# válido.",
  "The projects in the solution and how they depend on each other.": "Los proyectos de la solución y cómo dependen unos de otros.",
- "On this page": "En esta página"
+ "On this page": "En esta página",
+ "At run time the compiler produces SPIR-V; a small Transpile API turns it into HLSL, MSL, WGSL or GLSL text, with SPIRV-Cross and Naga underneath.": "En tiempo de ejecución el compilador produce SPIR-V; una pequeña API Transpile lo convierte en texto HLSL, MSL, WGSL o GLSL, con SPIRV-Cross y Naga por debajo."
 }

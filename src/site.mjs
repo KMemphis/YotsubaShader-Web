@@ -7,6 +7,8 @@ export const SITE = {
   repo: 'https://github.com/KMemphis/YotsubaShader',
   sponsors: 'https://github.com/sponsors/KMemphis',
   year: 2026,
+  /** Public address of the site (no trailing slash), e.g. SITE_URL=https://example.com. Empty until there is a domain. */
+  url: (process.env.SITE_URL || '').replace(/\/+$/, ''),
 };
 
 /** Global navigation bar (left → right). */

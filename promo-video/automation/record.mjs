@@ -170,8 +170,8 @@ await session('site-docs', async (rec, page) => {
   await rec.hold(60);
 });
 await session('site-sponsors', async (rec, page) => {
-  await page.goto(`${BASE}${LOC}/donations/commercial-license/`, { waitUntil: 'networkidle' });
+  await page.goto(`${BASE}${LOC}/donations/`, { waitUntil: 'networkidle' });
   await rec.hold(40);
-  await scrollTo(rec, 520, 60);
+  await scrollTo(rec, 560, 60);
   await rec.hold(40);
 });

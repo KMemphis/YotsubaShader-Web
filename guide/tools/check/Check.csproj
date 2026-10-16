@@ -1,0 +1,35 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!-- Compiles the C# listings of the guide against the real YotsubaShader.Language project. -->
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <OutputType>Library</OutputType>
+    <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
+    <NoWarn>CS0649;CS0169;CS8618;CS0414;CS8603;CS8604</NoWarn>
+    <CodeDir>$(MSBuildThisFileDirectory)../../code/en/</CodeDir>
+    <LanguageProject Condition="'$(LanguageProject)' == ''">$(MSBuildThisFileDirectory)../../../../YotsubaShader.Language/YotsubaShader.Language.csproj</LanguageProject>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="$(LanguageProject)" />
+    <Using Include="YotsubaShader.Language.Native.Types.Vector" />
+    <Using Include="MyEngine" />
+    <Using Include="MyEngine.Graphics" />
+    <Using Include="MyEngine.Shaders" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="Stubs.cs" />
+    <Compile Include="$(CodeDir)Vector2.cs;$(CodeDir)Vector3.cs;$(CodeDir)Vector4.cs;$(CodeDir)IntVectors.cs" />
+    <Compile Include="$(CodeDir)Matrix4.cs;$(CodeDir)Textures.cs;$(CodeDir)SamplerState.cs;$(CodeDir)Interop.cs" />
+    <Compile Include="$(CodeDir)Types.cs;$(CodeDir)UniformData.cs;$(CodeDir)Sets.cs;$(CodeDir)Lit.cs" />
+    <Compile Include="$(CodeDir)IParameterSet.cs;$(CodeDir)ShaderBase.cs;$(CodeDir)ShaderFormats.cs" />
+    <Compile Include="$(CodeDir)IGraphicsDevice.cs;$(CodeDir)ShaderProgram.cs;$(CodeDir)Std140.cs" />
+    <Compile Include="$(CodeDir)FakeParameterSet.cs;$(CodeDir)LitTests.cs;$(CodeDir)Std140Test.cs" />
+    <!-- Fragments that are not a whole file: wrapped by check.sh -->
+    <Compile Include="$(MSBuildThisFileDirectory)obj/wrapped/*.cs" />
+  </ItemGroup>
+
+</Project>

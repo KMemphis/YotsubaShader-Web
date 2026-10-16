@@ -23,10 +23,9 @@ const TXT = {
     l1: 'Shaders in a C# engine', l2: 'usually live somewhere else.',
     items: ['Another language', 'Another toolchain', 'Another copy of your types'], gone: 'Gone.',
     plain: 'Plain C#. Your own types.',
-    of: (n: string) => `${n} of 3`,
+    of: (n: string) => `${n} of 2`,
     gen: 'Source generator', genSub: 'Compiles at build time',
     cli: 'Command line', cliSub: 'For CI and content pipelines',
-    lib: 'Library', libSub: 'For editors, importers and hot reload',
     genNote: 'Building the project generates Triangle.g.cs.', cliNote: 'Writes one .spv file per entry point.',
     concept: 'Concept illustration. Not a live recording.',
     refl: 'Same two fields. Every shader.',
@@ -36,10 +35,9 @@ const TXT = {
     l1: 'Los shaders de un motor en C#', l2: 'suelen vivir en otro lugar.',
     items: ['Otro lenguaje', 'Otra herramienta', 'Otra copia de tus tipos'], gone: 'Se acabó.',
     plain: 'C# normal. Tus propios tipos.',
-    of: (n: string) => `${n} de 3`,
+    of: (n: string) => `${n} de 2`,
     gen: 'Generador de código', genSub: 'Se compila al construir el proyecto',
     cli: 'Línea de comandos', cliSub: 'Para CI y pipelines de contenido',
-    lib: 'Biblioteca', libSub: 'Para editores, importadores y recarga en caliente',
     genNote: 'Al compilar el proyecto se genera Triangle.g.cs.', cliNote: 'Genera un archivo .spv por cada punto de entrada.',
     concept: 'Ilustración conceptual. No es una grabación real.',
     refl: 'Los mismos dos campos. Todos los shaders.',
@@ -122,7 +120,7 @@ const Playground: React.FC = () => {
   );
 };
 
-/* --------------------------------------------------------- 0:18 – 0:38 ways */
+/* --------------------------------------------------------- 0:18 – 0:38 ways (two) */
 const WayTitle: React.FC<{ n: string; label: string; sub: string }> = ({ n, label, sub }) => {
   const t = useT();
   return (
@@ -138,7 +136,7 @@ const Generator: React.FC = () => {
   const t = useT(); const S = useS();
   return (
     <Stage>
-      <Cam dur={200}>
+      <Cam dur={300}>
         <WayTitle n="1" label={t.gen} sub={t.genSub} />
         <Rise delay={8} style={{ position: 'absolute', left: 90, top: 280 }}>
           <Win title="YourGame.csproj" width={870} height={410}><Typed code={S.GEN_CSPROJ} lang="xml" from={14} cps={150} size={22} pad={26} /></Win>
@@ -159,26 +157,12 @@ const Cli: React.FC = () => {
   const t = useT(); const S = useS();
   return (
     <Stage>
-      <Cam dur={200}>
+      <Cam dur={300}>
         <WayTitle n="2" label={t.cli} sub={t.cliSub} />
         <Rise delay={8} style={{ position: 'absolute', left: 210, top: 320 }}>
           <Win title="Terminal" width={1500} height={390}><Typed code={'$ ' + S.CLI_SNIPPET} lang="bash" from={14} cps={50} size={44} pad={44} /></Win>
         </Rise>
         <Center top={760}><Note delay={70} style={{ fontSize: 36 }}>{t.cliNote}</Note></Center>
-      </Cam>
-    </Stage>
-  );
-};
-
-const Library: React.FC = () => {
-  const t = useT(); const S = useS();
-  return (
-    <Stage>
-      <Cam dur={200}>
-        <WayTitle n="3" label={t.lib} sub={t.libSub} />
-        <Rise delay={8} style={{ position: 'absolute', left: 210, top: 270 }}>
-          <Win title="Importer.cs" width={1500} height={650}><Typed code={S.LIB_SNIPPET} from={14} cps={140} size={32} pad={36} /></Win>
-        </Rise>
       </Cam>
     </Stage>
   );
@@ -259,16 +243,15 @@ const Content: React.FC<{ dissolve: number }> = ({ dissolve }) => {
       <AbsoluteFill style={{ opacity: fade(frame - from, 0, 10, len - 8, len) }}>{el}</AbsoluteFill>
     </Sequence>
   );
-  const third = Math.round(f(20) / 3);
+  const half = f(10);
   // One continuous note for the whole stretch that shows concept code (not repeated per scene).
   const noteOpacity = interpolate(frame, [f(18) + 14, f(18) + 34, f(42.7), f(43.4)], [0, 1, 1, 0], { extrapolateLeft: 'clamp', extrapolateRight: 'clamp' });
   return (
     <AbsoluteFill style={{ background: '#000', opacity: dissolve ? interpolate(local, [0, dissolve], [0, 1], { extrapolateRight: 'clamp' }) : 1 }}>
       {scene(0, f(10), <Problem />)}
       {scene(f(10), f(8), <Playground />)}
-      {scene(f(18), third + 1, <Generator />)}
-      {scene(f(18) + third, third + 1, <Cli />)}
-      {scene(f(18) + 2 * third, f(20) - 2 * third, <Library />)}
+      {scene(f(18), half + 1, <Generator />)}
+      {scene(f(18) + half, half + 1, <Cli />)}
       {scene(f(38), f(10), <Reflection />)}
       {scene(f(48), f(10), <Outro />)}
       <div style={{ opacity: noteOpacity }}><Footnote>{t.concept}</Footnote></div>

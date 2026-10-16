@@ -80,6 +80,26 @@ export function styleTabs(snippets, { file = 'Triangle.cs' } = {}) {
   return `<div class="style-tabs" data-style-group><div class="tablist" role="tablist" aria-label="Authoring style">${tabs}</div>${panels}</div>`;
 }
 
+export const ENGINES = [
+  { id: 'xna', label: 'XNA / MonoGame / FNA' },
+  { id: 'unity', label: 'Unity' },
+  { id: 'godot', label: 'Godot' },
+  { id: 'custom', label: 'Your engine' },
+];
+
+/** Tabbed code with one version per engine or framework. The choice is remembered across the site, like the style. */
+export function engineTabs(snippets, { file = 'Lit.cs' } = {}) {
+  const tabs = ENGINES.map(
+    (e, i) =>
+      `<button role="tab" type="button" data-engine="${e.id}" aria-selected="${i === 0}" tabindex="${i === 0 ? 0 : -1}">${e.label}</button>`,
+  ).join('');
+  const panels = ENGINES.map(
+    (e, i) =>
+      `<div class="tabpanel" role="tabpanel" data-engine="${e.id}"${i === 0 ? '' : ' hidden'}>${code('csharp', snippets[e.id], file)}</div>`,
+  ).join('');
+  return `<div class="style-tabs" data-engine-group><div class="tablist" role="tablist" aria-label="Engine">${tabs}</div>${panels}</div>`;
+}
+
 export function table(head, rows, { cls = '' } = {}) {
   const th = head.map((h) => `<th scope="col">${h}</th>`).join('');
   const tr = rows.map((r) => `<tr>${r.map((c) => `<td>${c}</td>`).join('')}</tr>`).join('');

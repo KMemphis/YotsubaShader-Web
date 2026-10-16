@@ -4,7 +4,7 @@ import { builtinValuesCode, attributeGroupCode, textureBindingCode, STYLE_IDS } 
 import { resourcesCode } from '../pages/styles.mjs';
 import { builtinMapTable, resourceMapTable, STYLE_META } from '../reference.mjs';
 import { SITE } from '../site.mjs';
-import { GEN_CSPROJ, GEN_INPUT, GEN_OUTPUT, GEN_TYPES, GEN_USE, CLI_SNIPPET, TRANSPILE_USE, TRANSPILE_WINDOWS } from '../snippets.mjs';
+import { GEN_CSPROJ, GEN_INPUT, GEN_OUTPUT, GEN_TYPES, GEN_USE, CLI_SNIPPET, TRANSPILE_USE, TRANSPILE_HLSL } from '../snippets.mjs';
 
 const D = '/documentation/yotsuba-shader/';
 const BUILTIN_VALUES = Object.fromEntries(STYLE_IDS.map((id) => [id, builtinValuesCode(id)]));
@@ -125,8 +125,7 @@ ${table(
   ['Binaries', 'What it holds', 'Typical use'],
   [
     ['<code>Binaries.SpirV</code>', 'SPIR-V binary', 'Vulkan'],
-    ['<code>Binaries.Dxil</code>', 'DXIL binary', 'Direct3D 12'],
-    ['<code>Binaries.Dxbc</code>', 'DXBC binary', 'Direct3D 11 and 12 (Shader Model 5.x)'],
+    ['<code>Binaries.Hlsl</code>', 'UTF-8 source text', 'Direct3D 11 and 12: compile it with DXC or FXC'],
     ['<code>Binaries.Msl</code>', 'UTF-8 source text', 'Metal compiles it at run time'],
     ['<code>Binaries.Wgsl</code>', 'UTF-8 source text', 'WebGPU'],
     ['<code>Binaries.Glsl</code>, <code>Binaries.GlslEs</code>', 'UTF-8 source text', 'OpenGL, WebGL'],
@@ -139,7 +138,7 @@ ${code('csharp', GEN_USE, 'Renderer.cs')}
   <li><strong>Nothing to ship separately.</strong> The binaries live inside your assembly.</li>
   <li><strong>Errors at build time.</strong> A shader that does not compile fails the build like any C# error.</li>
   <li><strong>One way to ask.</strong> Every shader has a <code>CompiledCode</code> and a <code>Reflection</code> field, so engines and tools handle all of them the same way.</li>
-  <li><strong>One target per platform.</strong> <code>spirv</code>, <code>dxil</code>, <code>dxbc</code>, <code>msl</code>, <code>wgsl</code>, <code>glsl</code> and <code>glsles</code>. Only the targets you list are generated.</li>
+  <li><strong>One target per platform.</strong> <code>spirv</code>, <code>hlsl</code>, <code>msl</code>, <code>wgsl</code>, <code>glsl</code> and <code>glsles</code>. Only the targets you list are generated.</li>
 </ul>
 
 <h2>2. Command line</h2>
@@ -163,14 +162,14 @@ ${table(
       title: 'Transpiling from SPIR-V',
       kind: 'Article',
       icon: 'doc',
-      summary: 'At run time the compiler produces SPIR-V; a small Transpile API turns it into HLSL, MSL, WGSL or GLSL text, with Naga underneath.',
+      summary: 'At run time the compiler produces SPIR-V; a small Transpile API turns it into HLSL, MSL, WGSL or GLSL text, with SPIRV-Cross and Naga underneath.',
       body: `
 <h2>Overview</h2>
 <p class="lead-p">The compiler produces one format: SPIR-V. When your tool or game needs another one at run time, you hand the SPIR-V to the <code>Transpile</code> API and get shader <strong>text</strong> back.</p>
 <div class="pipeline" role="list">
   <div class="pipe-step" role="listitem"><span class="pipe-ico">${icon('code')}</span><b>C# string</b><span>Your shader source</span></div>
   <div class="pipe-step" role="listitem"><span class="pipe-ico">${icon('cpu')}</span><b>SPIR-V</b><span>The compiler's output</span></div>
-  <div class="pipe-step" role="listitem"><span class="pipe-ico">${icon('layers')}</span><b>Transpile</b><span>Naga underneath</span></div>
+  <div class="pipe-step" role="listitem"><span class="pipe-ico">${icon('layers')}</span><b>Transpile</b><span>SPIRV-Cross and Naga underneath</span></div>
   <div class="pipe-step" role="listitem"><span class="pipe-ico">${icon('doc')}</span><b>Shader text</b><span>HLSL, MSL, WGSL, GLSL</span></div>
 </div>
 
@@ -178,40 +177,42 @@ ${table(
 <p>One static class, one function per output format, and an options object where the format needs one:</p>
 ${code('csharp', TRANSPILE_USE, 'Transpile.cs')}
 ${table(
-  ['Function', 'Output', 'Options'],
+  ['Function', 'Output', 'Translator', 'Options'],
   [
-    ['<code>FromSpirVToHlsl</code>', 'HLSL text', '<code>ShaderModel</code> (50, 51, 60 and up), <code>EntryPoint</code>'],
-    ['<code>FromSpirVToMsl</code>', 'Metal Shading Language text', 'Metal version'],
-    ['<code>FromSpirVToWgsl</code>', 'WGSL text', '—'],
-    ['<code>FromSpirVToGlsl</code>', 'GLSL or GLSL ES text', '<code>Version</code>, <code>Es</code>'],
+    ['<code>FromSpirVToHlsl</code>', 'HLSL text', 'SPIRV-Cross', '<code>ShaderModel</code> (50, 51, 60 and up), <code>EntryPoint</code>'],
+    ['<code>FromSpirVToMsl</code>', 'Metal Shading Language text', 'SPIRV-Cross', 'Metal version'],
+    ['<code>FromSpirVToWgsl</code>', 'WGSL text', 'Naga', '—'],
+    ['<code>FromSpirVToGlsl</code>', 'GLSL or GLSL ES text', 'Naga', '<code>Version</code>, <code>Es</code>'],
   ],
 )}
 <p>Every function takes the SPIR-V bytes and, where it makes sense, a binding map that says which <code>set</code> and <code>binding</code> becomes which register or slot. Without it, shaders that use textures or buffers cannot be laid out for HLSL.</p>
 
 <h2>What it uses underneath</h2>
-<p>The implementation is <strong>Naga</strong>, the shader translator of the wgpu project. It is dual licensed MIT or Apache-2.0 and written in Rust with no C or C++ dependencies of its own, so adopting it does not bring other native licenses with it (SPIRV-Cross, DXC or vkd3d). The only native piece Yotsuba Shader ships is a thin wrapper around Naga that exposes the functions above, because Naga has no C API. Because the wrapper sits behind the <code>Transpile</code> API, the code that calls it does not depend on Naga.</p>
+<p>Two open-source translators do the work, each for the formats it writes. <strong>SPIRV-Cross</strong>, from the Khronos Group, writes HLSL and Metal Shading Language and is licensed under Apache-2.0. <strong>Naga</strong>, the shader translator of the wgpu project, writes WGSL and GLSL and is dual licensed MIT or Apache-2.0. Both are native code, so each platform needs its own build. SPIRV-Cross has a C API that can be called directly; Naga has none, so Yotsuba Shader ships a thin wrapper around it. Because both sit behind the <code>Transpile</code> API, the code that calls it does not depend on either one.</p>
 
 <h2>From text to a binary</h2>
-<p>Naga writes text. Turning that text into something the GPU runs is the job of the platform:</p>
+<p>Both translators write text. Turning that text into something the GPU runs is the job of the platform:</p>
 ${table(
   ['Target', 'Who compiles the text', 'Extra files to ship'],
   [
     ['<strong>Metal</strong>', 'The Metal framework, at run time', 'None'],
     ['<strong>WebGPU</strong>', 'The browser', 'None'],
     ['<strong>OpenGL, WebGL</strong>', 'The graphics driver', 'None'],
-    ['<strong>Direct3D 11</strong> and <strong>Direct3D 12</strong> (Shader Model 5.x)', 'FXC, through <code>d3dcompiler_47.dll</code>', 'None on Windows: it is part of the operating system'],
-    ['<strong>Direct3D 12</strong> (Shader Model 6, DXIL)', 'DXC and its signing library', 'Yes. Not covered by Transpile; use SDL_ShaderCross, which goes through DXC'],
+    ['<strong>Direct3D 11</strong> and <strong>Direct3D 12</strong>', 'DXC (Shader Model 6) or FXC (Shader Model 5.x), whichever you already use', 'Not included. Yotsuba Shader stops at the HLSL text'],
   ],
 )}
-${code('csharp', TRANSPILE_WINDOWS, 'Windows.cs')}
-<p>That is how Direct3D 11 and Direct3D 12 are covered on Windows without redistributing anything. Naga does not write DXIL or DXBC, so a compiled Direct3D 12 Shader Model 6 binary is outside this API.</p>
+${code('csharp', TRANSPILE_HLSL, 'Direct3D.cs')}
+<p>Yotsuba Shader does not produce DXIL or DXBC. For Direct3D it stops at HLSL text, and the compiler you choose turns that text into bytecode.</p>
 
 <h2>Where to run it</h2>
 <ul>
-  <li><strong>On your development machine, at build time</strong> (with the source generator or the command line): translate once and ship only the final text or binaries. This needs no Naga at all on the player's machine.</li>
+  <li><strong>On your development machine, at build time</strong> (with the source generator or the command line): translate once and ship only the final text or binaries. This needs neither SPIRV-Cross nor Naga on the player's machine.</li>
   <li><strong>At run time</strong>, for editors, importers and shaders created while the program runs: this is what the API is for.</li>
-  <li><strong>On consoles</strong>, prefer build time. Naga was not verified against any console toolchain, and its wrapper must be built for each platform.</li>
+  <li><strong>On consoles</strong>, prefer build time. Neither SPIRV-Cross nor Naga was verified against any console toolchain, and each must be built for every platform.</li>
 </ul>
+<h2>Reading SPIR-V back into C#</h2>
+<p>The other direction, from SPIR-V to C#, is planned. There is no API for it yet.</p>
+
 <p>Next: <a href="${D}shader-discovery/">Shader discovery</a>.</p>`,
     },
 
@@ -524,7 +525,7 @@ dotnet run --project YotsubaShader.Example/YotsubaShader.Example.csproj`)}`,
 <p>The shaders you write and the binaries Yotsuba Shader generates from them belong to you. Nothing in them is subject to a copyleft requirement.</p>
 
 <h2>Third-party components</h2>
-<p>Roslyn (<code>Microsoft.CodeAnalysis</code>) and the SPIR-V grammar from the Khronos Group are used under the MIT License, and their notices are kept in the repository. Naga, used by the <code>Transpile</code> API, is licensed under MIT or Apache-2.0.</p>
+<p>Roslyn (<code>Microsoft.CodeAnalysis</code>) and the SPIR-V grammar from the Khronos Group are used under the MIT License, and their notices are kept in the repository. The <code>Transpile</code> API uses SPIRV-Cross, licensed under Apache-2.0, and Naga, licensed under MIT or Apache-2.0.</p>
 
 <h2>Name and logo</h2>
 <p>The license covers the code. The name Yotsuba Shader and its logo are not part of it.</p>

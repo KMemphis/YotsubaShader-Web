@@ -103,6 +103,38 @@
     });
   });
 
+  /* ---------------------------------------------- engine tabs (CPU examples) */
+  const ENGINE_KEY = 'ys-engine';
+  function applyEngine(engine, persist) {
+    $$('[data-engine-group]').forEach((group) => {
+      const tabs = $$('[role="tab"]', group);
+      if (!tabs.some((t) => t.dataset.engine === engine)) return;
+      tabs.forEach((t) => {
+        const on = t.dataset.engine === engine;
+        t.setAttribute('aria-selected', String(on));
+        t.tabIndex = on ? 0 : -1;
+      });
+      $$('.tabpanel', group).forEach((p) => (p.hidden = p.dataset.engine !== engine));
+    });
+    if (persist) store.set(ENGINE_KEY, engine);
+  }
+  const savedEngine = store.get(ENGINE_KEY);
+  if (savedEngine) applyEngine(savedEngine, false);
+  $$('[data-engine-group]').forEach((group) => {
+    group.addEventListener('click', (e) => {
+      const tab = e.target.closest('[role="tab"]');
+      if (tab) applyEngine(tab.dataset.engine, true);
+    });
+    group.addEventListener('keydown', (e) => {
+      if (!['ArrowLeft', 'ArrowRight'].includes(e.key)) return;
+      const tabs = $$('[role="tab"]', group);
+      const i = tabs.findIndex((t) => t.getAttribute('aria-selected') === 'true');
+      const next = tabs[(i + (e.key === 'ArrowRight' ? 1 : tabs.length - 1)) % tabs.length];
+      applyEngine(next.dataset.engine, true);
+      next.focus();
+    });
+  });
+
   /* -------------------------------------------------------- docs sidebar */
   const sidebar = $('#doc-sidebar');
   if (sidebar) {

@@ -100,41 +100,216 @@ const licensing = {
 };
 
 /* ---------------------------------------------------------------- donations */
+// Estimator defaults. The page renders them without JavaScript; donate.js recalculates when the numbers change.
+const EST = { developers: 5, hours: 4, rate: 50, share: 2 };
+const usd = (n) => '$' + Math.round(n).toLocaleString('en-US');
+const estValue = EST.developers * EST.hours * EST.rate;
+const estAmount = (estValue * EST.share) / 100;
+
 const donations = {
   path: '/donations/',
   section: 'donations',
   title: 'Donations',
   description: 'Support the development of Yotsuba Shader, a free and open-source shader framework for C#.',
+  scripts: ['/js/donate.js'],
   body: `
 <section class="hero hero--compact">
   <div class="container">
     <p style="font-size:44px;margin:0 0 6px;color:#ff3b30">${icon('heart')}</p>
-    <h1 class="h-xl">Support Yotsuba Shader</h1>
-    <p class="lead">Yotsuba Shader is free and open source. Sponsors keep it maintained and growing.</p>
+    <h1 class="h-xl">Keep Yotsuba Shader going.</h1>
+    <p class="lead">Yotsuba Shader is free under the MIT License, and it stays that way. Sponsors pay for the time it takes to keep it working.</p>
     <div class="hero-actions">
       <a class="btn btn-primary" href="${SITE.sponsors}" rel="noopener">${icon('heart')} Sponsor on GitHub</a>
-      <a class="btn btn-secondary" href="/donations/sponsors/">Our sponsors</a>
+      <a class="btn btn-secondary" href="#estimate">Plan your sponsorship</a>
     </div>
+    <p class="don-note">Payments are handled by GitHub Sponsors. This site does not collect payments.</p>
   </div>
   <hr class="hero-rule">
 </section>
+
 <section class="section">
   <div class="container">
+    <div class="center" style="margin-bottom:40px">
+      <h2 class="h-lg">What sponsoring changes</h2>
+    </div>
+    <div class="grid grid-3">
+      <div class="card">
+        <div class="card-icon">${icon('scale')}</div>
+        <h3 class="card-title card-title--left">Free stays free</h3>
+        <p class="card-body">The code is MIT. Sponsoring does not unlock features or change the license. Everyone gets the same code.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">${icon('cpu')}</div>
+        <h3 class="card-title card-title--left">Maintenance is real work</h3>
+        <p class="card-body">One compiler, five shader vocabularies and six output formats. Each one needs testing, fixes and updates.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">${icon('users')}</div>
+        <h3 class="card-title card-title--left">It goes to the maintainer</h3>
+        <p class="card-body">You sponsor through GitHub Sponsors, once or every month, and you can stop at any time.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section section--rule">
+  <div class="container">
+    <div class="center" style="margin-bottom:40px">
+      <h2 class="h-lg">What your sponsorship pays for</h2>
+      <p class="lead">Time. This is where that time goes.</p>
+    </div>
     <div class="grid grid-2">
+      <a class="card card--link" href="/technologies/">
+        <span class="card-icon">${icon('layers')}</span>
+        <span class="card-title">The compiler and its backends</span>
+        <span class="card-body">Keeping the output correct for SPIR-V, HLSL, MSL, WGSL, GLSL and GLSL ES as the tools and drivers around it change.</span>
+        <span class="card-more">See the technologies ${icon('external')}</span>
+      </a>
+      <a class="card card--link" href="/documentation/">
+        <span class="card-icon">${icon('book')}</span>
+        <span class="card-title">Documentation that teaches</span>
+        <span class="card-body">Tutorials with C# examples, in English and Spanish, kept in step with the code.</span>
+        <span class="card-more">Read the documentation ${icon('external')}</span>
+      </a>
+      <a class="card card--link" href="${SITE.repo}" rel="noopener">
+        <span class="card-icon">${icon('flask')}</span>
+        <span class="card-title">Testing on real platforms</span>
+        <span class="card-body">Checking the compiler on real devices and operating systems, not only on one machine.</span>
+        <span class="card-more">See the repository ${icon('external')}</span>
+      </a>
+      <a class="card card--link" href="/community/contributing/">
+        <span class="card-icon">${icon('users')}</span>
+        <span class="card-title">The community around it</span>
+        <span class="card-body">Answering issues, reviewing contributions and publishing releases.</span>
+        <span class="card-more">How to contribute ${icon('external')}</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<section class="section section--rule" id="estimate" data-sponsors="${SITE.sponsors}">
+  <div class="container">
+    <div class="center" style="margin-bottom:40px">
+      <h2 class="h-lg">Plan your sponsorship</h2>
+      <p class="lead">Use your own numbers to see what fits your team. This is a guide, not a price.</p>
+    </div>
+    <div class="calc">
+      <div class="calc-fields">
+        <div class="calc-field">
+          <label for="est-devs">Developers who use it</label>
+          <input id="est-devs" type="number" inputmode="numeric" min="1" max="10000" step="1" value="${EST.developers}">
+        </div>
+        <div class="calc-field">
+          <label for="est-hours">Hours it saves each developer per month</label>
+          <input id="est-hours" type="number" inputmode="decimal" min="0" max="1000" step="0.5" value="${EST.hours}">
+        </div>
+        <div class="calc-field">
+          <label for="est-rate">Cost of one hour of work (USD)</label>
+          <input id="est-rate" type="number" inputmode="decimal" min="0" max="10000" step="5" value="${EST.rate}">
+        </div>
+        <div class="calc-field">
+          <label for="est-share">Share of that value you give back: <b id="est-share-out">${EST.share}%</b></label>
+          <input id="est-share" type="range" min="1" max="10" step="1" value="${EST.share}">
+        </div>
+        <p class="don-note">These numbers stay in your browser.</p>
+      </div>
+      <div class="calc-out" aria-live="polite">
+        <div class="calc-row"><span>Hours saved per month</span><b id="est-hours-total">${EST.developers * EST.hours} h</b></div>
+        <div class="calc-row"><span>Value of that time</span><b id="est-value">${usd(estValue)}</b></div>
+        <div class="calc-result">
+          <span class="calc-label">Suggested sponsorship</span>
+          <span class="calc-amount"><b id="est-amount">${usd(estAmount)}</b> <small>/ month</small></span>
+          <span class="calc-year" id="est-year">${usd(estAmount * 12)} a year</span>
+        </div>
+        <div class="calc-actions">
+          <a class="btn btn-primary" href="${SITE.sponsors}" rel="noopener">${icon('heart')} Sponsor on GitHub</a>
+          <button class="calc-copy" type="button" id="est-copy" hidden>${icon('copy')}<span>Copy a request for your team</span></button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section section--rule">
+  <div class="container">
+    <div class="center" style="margin-bottom:40px">
+      <h2 class="h-lg">Who sponsors, and how</h2>
+    </div>
+    <div class="grid grid-3">
       <div class="panel">
-        <h2 class="h-md">Individuals and teams</h2>
-        <p class="card-body mt-24">Use Yotsuba Shader for free under the MIT License. If it helps you ship, consider <a href="${SITE.sponsors}" rel="noopener">sponsoring its development on GitHub</a>.</p>
+        <h3 class="h-md">On your own</h3>
+        <p class="card-body mt-24">Use it for free. If it saves you time, a small monthly amount helps keep it maintained.</p>
       </div>
       <div class="panel">
-        <h2 class="h-md">Engines, frameworks and tools</h2>
-        <p class="card-body mt-24">If your engine, framework or studio relies on Yotsuba Shader, <a href="${SITE.sponsors}" rel="noopener">sponsoring it on GitHub</a> helps keep it maintained, and you are welcome to <a href="${SITE.repo}" rel="noopener">get in touch</a> about integration.</p>
+        <h3 class="h-md">A studio</h3>
+        <p class="card-body mt-24">If your games ship with Yotsuba Shader, a monthly sponsorship costs little next to the time it saves your team.</p>
       </div>
+      <div class="panel">
+        <h3 class="h-md">An engine or framework</h3>
+        <p class="card-body mt-24">If your engine builds on Yotsuba Shader, sponsoring keeps what you depend on maintained. You are welcome to <a href="${SITE.repo}" rel="noopener">get in touch</a> about integration.</p>
+      </div>
+    </div>
+    <p class="center mt-24 muted">Sponsors who want to be listed appear on the <a href="/donations/sponsors/">Sponsors page</a>.</p>
+  </div>
+</section>
+
+<section class="section section--rule">
+  <div class="container">
+    <div class="center" style="margin-bottom:40px">
+      <h2 class="h-lg">Cannot sponsor? You can still help.</h2>
+    </div>
+    <div class="grid grid-3">
+      <a class="card card--link" href="${SITE.repo}" rel="noopener">
+        <span class="card-icon">${icon('code')}</span>
+        <span class="card-title">Star the repository</span>
+        <span class="card-body">It helps other developers find the project.</span>
+      </a>
+      <a class="card card--link" href="/community/contributing/">
+        <span class="card-icon">${icon('flask')}</span>
+        <span class="card-title">Report a problem</span>
+        <span class="card-body">A clear bug report is a real contribution.</span>
+      </a>
+      <a class="card card--link" href="/community/contributing/">
+        <span class="card-icon">${icon('globe')}</span>
+        <span class="card-title">Improve the docs and translations</span>
+        <span class="card-body">Fix a sentence, add an example or translate a page.</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<section class="section section--rule">
+  <div class="container container--narrow">
+    <div class="center" style="margin-bottom:32px">
+      <h2 class="h-lg">Questions</h2>
+    </div>
+    <div class="faq">
+      <details>
+        <summary>Is Yotsuba Shader still free?</summary>
+        <p>Yes. It is released under the MIT License. Sponsoring is optional and gives no extra rights.</p>
+      </details>
+      <details>
+        <summary>Do sponsors get a different license or extra features?</summary>
+        <p>No. Everyone uses the same code under the same license.</p>
+      </details>
+      <details>
+        <summary>Where is the payment processed?</summary>
+        <p>On GitHub Sponsors. This site never sees your payment details.</p>
+      </details>
+      <details>
+        <summary>Can I sponsor once, or every month?</summary>
+        <p>Both. GitHub Sponsors supports a one-time and a monthly sponsorship.</p>
+      </details>
+      <details>
+        <summary>Can I be listed as a sponsor?</summary>
+        <p>Yes, if you want to be. Listed sponsors appear on the <a href="/donations/sponsors/">Sponsors page</a>.</p>
+      </details>
     </div>
     <div class="sponsor-panel">
       <img class="sp-mark" src="/img/yotsuba-shader.webp" alt="" loading="lazy">
       <div class="sp-copy">
         <h2 class="card-title">Sponsor Yotsuba Shader</h2>
-        <p class="card-body">Your sponsorship funds its development and keeps it free for everyone.</p>
+        <p class="card-body">Your sponsorship pays for the time that keeps it maintained, and it stays free for everyone.</p>
         <div class="sp-actions">
           <a class="btn btn-primary" href="${SITE.sponsors}" rel="noopener">${icon('heart')} Sponsor on GitHub</a>
           <a class="link-more" href="/donations/sponsors/">Our sponsors ${icon('chevron-right')}</a>

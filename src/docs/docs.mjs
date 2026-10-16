@@ -15,7 +15,7 @@ export default function buildDocs(ctx) {
   });
 
   const tree = [
-    { items: slugs('understanding-yotsuba-shader', 'writing-your-first-shader', 'reusing-your-types-and-libraries', 'types-for-engines-and-frameworks', 'choosing-an-authoring-style') },
+    { items: slugs('understanding-yotsuba-shader', 'writing-your-first-shader', 'reusing-your-types-and-libraries', 'types-for-engines-and-frameworks', 'shader-parameters-for-your-engine', 'choosing-an-authoring-style') },
     {
       label: 'Language',
       groups: [
@@ -24,6 +24,7 @@ export default function buildDocs(ctx) {
           title: 'Resources and types',
           items: slugs('uniforms-and-storage-buffers', 'textures-and-samplers', 'vectors-matrices-and-arrays'),
         },
+        { title: 'In your game', items: slugs('using-shaders-in-your-game') },
       ],
     },
     {

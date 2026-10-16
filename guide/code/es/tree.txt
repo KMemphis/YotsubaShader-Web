@@ -1,0 +1,17 @@
+MyEngine/
+├── MyEngine.sln
+├── src/
+│   ├── MyEngine.Core/            vector, matrix and texture types
+│   │   ├── Vector2.cs  Vector3.cs  Vector4.cs  Matrix4.cs
+│   │   └── Texture2D.cs  SamplerState.cs
+│   ├── MyEngine.Graphics/        the graphics API layer
+│   │   ├── IGraphicsDevice.cs  IParameterSet.cs
+│   │   ├── ShaderProgram.cs  Std140.cs
+│   │   └── Vulkan/  Direct3D12/  Metal/  OpenGL/
+│   └── MyEngine.Shaders/         shader base class and engine shaders
+│       ├── ShaderBase.cs
+│       └── Lit.cs  Unlit.cs  Tonemap.cs
+├── samples/
+│   └── Game/                     a game that uses the engine
+└── tests/
+    └── MyEngine.Shaders.Tests/

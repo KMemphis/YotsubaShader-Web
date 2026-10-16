@@ -36,7 +36,7 @@ const overview = {
   </div>
 </section>
 
-<section class="section section--rule">
+<section class="section section--rule section--flush-top">
   <div class="container container--narrow">
     <h2 class="h-lg">Four steps</h2>
     <ol class="steps mt-32">

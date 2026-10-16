@@ -227,7 +227,7 @@ export const GEN_CSPROJ = `<ItemGroup>
 
 <PropertyGroup>
   <YotsubaTargets>
-    spirv;dxil;dxbc;msl;wgsl;glsl;glsles
+    spirv;hlsl;msl;wgsl;glsl;glsles
   </YotsubaTargets>
 </PropertyGroup>`;
 
@@ -309,6 +309,8 @@ string msl  = Transpile.FromSpirVToMsl(spirv);
 string wgsl = Transpile.FromSpirVToWgsl(spirv);
 string glsl = Transpile.FromSpirVToGlsl(spirv, glslOptions);`;
 
-export const TRANSPILE_WINDOWS = `// Windows: nothing extra to ship.
-// d3dcompiler_47.dll is part of the OS.
-byte[] dxbc = D3DCompile(hlsl, "Vertex", "vs_5_1");`;
+export const TRANSPILE_HLSL = `string hlsl = Transpile.FromSpirVToHlsl(spirv, hlslOptions);
+
+// Yotsuba Shader stops at the HLSL text. Pass it to the DXC
+// (Shader Model 6) or FXC (Shader Model 5.x) you already use,
+// with entry point "Vertex" and a profile such as "vs_6_0".`;

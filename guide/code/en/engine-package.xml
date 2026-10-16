@@ -1,0 +1,10 @@
+<PropertyGroup>
+  <PackageId>MyEngine</PackageId>
+  <Version>1.2.0</Version>
+  <PackageLicenseExpression>MIT</PackageLicenseExpression>
+</PropertyGroup>
+
+<ItemGroup>
+  <!-- Your users get the attributes together with your types -->
+  <PackageReference Include="YotsubaShader.Language" Version="1.*" />
+</ItemGroup>

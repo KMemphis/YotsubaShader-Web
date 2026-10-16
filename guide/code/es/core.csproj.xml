@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <!--  Solo metadatos: no cambia tus tipos ni su disposición en memoria  -->
+    <PackageReference Include="YotsubaShader.Language" Version="1.*" />
+  </ItemGroup>
+
+</Project>

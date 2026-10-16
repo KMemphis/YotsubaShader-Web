@@ -8,3 +8,7 @@ dist/
 promo-video/*.mp4
 promo-video/recordings/
 promo-video/remotion/public/intro/
+
+# build output of guide tooling
+guide/tools/check/bin/
+guide/tools/check/obj/

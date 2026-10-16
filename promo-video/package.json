@@ -7,7 +7,8 @@
     "record": "node automation/record.mjs",
     "verify": "node automation/verify.mjs",
     "studio": "remotion studio remotion/index.ts --public-dir=remotion/public",
-    "render": "remotion render remotion/index.ts PromoB-es YotsubaShader_Promo.mp4 --public-dir=remotion/public --codec=h264 --crf=15 --pixel-format=yuv420p --scale=2"
+    "render": "remotion render remotion/index.ts PromoA-en YotsubaShader_Promo_en_4K60.mp4 --public-dir=remotion/public --codec=h264 --crf=15 --pixel-format=yuv420p --scale=2",
+    "render:all": "sh automation/render-all.sh"
   },
   "dependencies": {
     "@remotion/cli": "^4.0.535",

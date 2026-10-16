@@ -1,5 +1,5 @@
 // Documentation articles: essentials + language.
-import { icon, code, styleTabs, table, note } from '../components.mjs';
+import { icon, code, styleTabs, engineTabs, table, note } from '../components.mjs';
 import { STYLE_TRIANGLE, STYLE_RESOURCES, BASIC_COLOR } from '../snippets.mjs';
 import { builtinMapTable, resourceMapTable } from '../reference.mjs';
 import { resourcesCode } from '../pages/styles.mjs';
@@ -10,6 +10,128 @@ const D = '/documentation/yotsuba-shader/';
 const TEXTURE_BINDINGS = Object.fromEntries(STYLE_IDS.map((id) => [id, textureBindingCode(id)]));
 const RESOURCES_BY_STYLE = Object.fromEntries(STYLE_IDS.map((id) => [id, resourcesCode(id)]));
 
+
+const BY_NAME = {
+  xna: `effect.Parameters["Exposure"].SetValue(1.2f);
+effect.Parameters["LightDirection"].SetValue(direction);`,
+  unity: `material.SetFloat("Exposure", 1.2f);
+material.SetVector("LightDirection", direction);`,
+  godot: `material.SetShaderParameter("Exposure", 1.2f);
+material.SetShaderParameter("LightDirection", direction);`,
+  custom: `parameters.Set("Exposure", 1.2f);
+parameters.Set("LightDirection", direction);`,
+};
+
+const TYPED = {
+  xna: `using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using YotsubaShader.Language.Resources;
+
+public class Lit : Effect
+{
+    // Wraps the effect that your game loaded
+    public Lit(Effect cloneSource) : base(cloneSource) { }
+
+    [Uniform]
+    public float Exposure
+    {
+        get => Parameters[nameof(Exposure)].GetValueSingle();
+        set => Parameters[nameof(Exposure)].SetValue(value);
+    }
+
+    [Uniform]
+    public Vector3 LightDirection
+    {
+        get => Parameters[nameof(LightDirection)].GetValueVector3();
+        set => Parameters[nameof(LightDirection)].SetValue(value);
+    }
+
+    // ... the [ShaderStage] methods
+}`,
+  unity: `using UnityEngine;
+using YotsubaShader.Language.Compiler;
+using YotsubaShader.Language.Resources;
+
+public class Lit
+{
+    // CPU only: it is not part of the shader
+    [ShaderIgnore]
+    private readonly Material material;
+
+    public Lit(Material material)
+    {
+        this.material = material;
+    }
+
+    [Uniform]
+    public float Exposure
+    {
+        get => material.GetFloat(nameof(Exposure));
+        set => material.SetFloat(nameof(Exposure), value);
+    }
+
+    [Uniform]
+    public Vector3 LightDirection
+    {
+        get => material.GetVector(nameof(LightDirection));
+        set => material.SetVector(nameof(LightDirection), value);
+    }
+
+    // ... the [ShaderStage] methods
+}`,
+  godot: `using Godot;
+using YotsubaShader.Language.Resources;
+
+public partial class Lit : ShaderMaterial
+{
+    [Uniform]
+    public float Exposure
+    {
+        get => GetShaderParameter(nameof(Exposure)).AsSingle();
+        set => SetShaderParameter(nameof(Exposure), value);
+    }
+
+    [Uniform]
+    public Vector3 LightDirection
+    {
+        get => GetShaderParameter(nameof(LightDirection)).AsVector3();
+        set => SetShaderParameter(nameof(LightDirection), value);
+    }
+
+    // ... the [ShaderStage] methods
+}`,
+  custom: `using System.Numerics;
+using YotsubaShader.Language.Compiler;
+using YotsubaShader.Language.Resources;
+
+public class Lit
+{
+    // Whatever your engine uses to reach a uniform by name
+    [ShaderIgnore]
+    private readonly IShaderParameters parameters;
+
+    public Lit(IShaderParameters parameters)
+    {
+        this.parameters = parameters;
+    }
+
+    [Uniform]
+    public float Exposure
+    {
+        get => parameters.Get<float>(nameof(Exposure));
+        set => parameters.Set(nameof(Exposure), value);
+    }
+
+    [Uniform]
+    public Vector3 LightDirection
+    {
+        get => parameters.Get<Vector3>(nameof(LightDirection));
+        set => parameters.Set(nameof(LightDirection), value);
+    }
+
+    // ... the [ShaderStage] methods
+}`,
+};
 
 export default [
   /* ------------------------------------------------------------------ */
@@ -174,6 +296,7 @@ ${code('csharp', `public class LitShader
 <h2>Overview</h2>
 <p class="lead-p">If you build an engine or a framework, you already expose types such as <code>Vector2</code>, <code>Matrix4</code> or <code>Texture2D</code>. You do not need a second set of types for shaders. In this tutorial you add the Yotsuba Shader attributes to the types you already have, one kind of GPU type at a time. At the end, the programmers who use your engine write shaders with the same types they use everywhere else.</p>
 <p>We will build the types of an imaginary engine called <code>MyEngine</code>: vectors, matrices, textures and a sampler.</p>
+${note('tip', 'The complete guide is a PDF: <a href="/downloads/yotsuba-shader-engine-guide-__FILM_LANG__.pdf">Integrating Yotsuba Shader into your engine</a>. It covers this tutorial and the steps that come after it, and the editable source is included.')}
 
 <h2>1. How the GPU sees your types</h2>
 <p>To the GPU, a struct without attributes is just a group of fields. The name does not matter: the first struct below is called <code>Vector2</code>, but the GPU does not treat it as a vector. The second one is a vector because of its attributes.</p>
@@ -458,7 +581,7 @@ ${code('xml', `<PropertyGroup>
   <Version>1.0.0</Version>
 </PropertyGroup>`, 'MyEngine.csproj')}
 <p>Two things to keep stable in new versions: the order of the components (index 0 is the first component, usually <code>X</code>) and the memory layout your engine uses to upload data. The attributes do not change the layout, so keep following the rules of the graphics API you use.</p>
-<p>Next: <a href="/documentation/yotsuba-shader/choosing-an-authoring-style/">Choosing an authoring style</a>.</p>`,
+<p>Next: <a href="/documentation/yotsuba-shader/shader-parameters-for-your-engine/">Typed shader parameters for your engine</a>.</p>`,
   },
 
   /* ------------------------------------------------------------------ */
@@ -953,6 +1076,232 @@ ${code('csharp', `public class Lights
     //              ImmutableArray<T>
     // Adding or removing elements does not exist on the GPU.
 }`, 'Lights.cs')}
-<p>Next: <a href="/documentation/yotsuba-shader/compilation-pipeline/">Compilation pipeline</a>.</p>`,
+<p>Next: <a href="/documentation/yotsuba-shader/using-shaders-in-your-game/">Using your shader in your game</a>.</p>`,
+  },
+
+  /* ------------------------------------------------------------------ */
+  {
+    slug: 'using-shaders-in-your-game',
+    title: 'Using your shader in your game',
+    kind: 'Tutorial',
+    icon: 'braces',
+    summary: 'Add CPU code to a shader class: typed properties that set the uniforms in XNA, Unity, Godot or your own engine, and work that runs once per draw instead of once per vertex.',
+    body: `
+<h2>Overview</h2>
+<p class="lead-p">A shader class is a normal C# class. Besides the shader, it can hold the code your game runs on the CPU to use it. Yotsuba Shader compiles the shader half and skips the rest. The name and the type of each uniform are written once, and the C# compiler checks them both when you build the shader and when your game uses it.</p>
+<p>If you are building an engine, <a href="${D}shader-parameters-for-your-engine/">Typed shader parameters for your engine</a> shows how to give every shader this API from a base class.</p>
+<p>The idea does not depend on an engine. Every engine has a way to set a uniform, usually by name. You put that call inside a property, and the rest of your game uses the property. The examples have a tab for XNA, Unity, Godot and your own engine; the choice is remembered.</p>
+${note('tip', 'The complete guide is a PDF: <a href="/downloads/yotsuba-shader-engine-guide-__FILM_LANG__.pdf">Integrating Yotsuba Shader into your engine</a>. It covers this tutorial and the steps that come after it, and the editable source is included.')}
+
+<h2>1. The usual way: names as strings</h2>
+<p>The engine sets a uniform by its name, written as a string:</p>
+${engineTabs(BY_NAME, { file: 'Game.cs' })}
+<p>A typo, a parameter that you renamed in the shader but not in the game, or a value of the wrong type all compile without errors. They fail when that line runs, not when you build.</p>
+
+<h2>2. A uniform with a typed property</h2>
+<p>Declare each uniform as a property and write its getter and setter yourself. Yotsuba Shader reads the name and the type of the property. What the accessors do is up to you: here they read and write the parameter of the engine. <code>nameof</code> keeps the name from being a string literal: rename the property and the parameter name follows.</p>
+${engineTabs(TYPED)}
+<p>Two ways to reach the engine appear in the tabs. In XNA, MonoGame, FNA and Godot the class <strong>inherits</strong> from the engine type (<code>Microsoft.Xna.Framework.Graphics.Effect</code> or <code>ShaderMaterial</code>), so <code>Parameters</code> or <code>SetShaderParameter</code> are available inside it. In Unity and in your own engine the class <strong>holds</strong> the object. A field that holds an engine object is not a GPU type, so it carries <code>[ShaderIgnore]</code>, which tells Yotsuba Shader not to treat it as part of the shader. The generated half of the class adds no base class, so inheriting does not conflict with it.</p>
+<p>Now the game sets the uniforms like any other property:</p>
+${code('csharp', `var lit = new Lit(/* the effect, material or parameters of your engine */);
+
+lit.Exposure = 1.2f;
+lit.LightDirection = direction;
+
+lit.Exposure = "bright";   // error CS0029: Cannot implicitly convert type 'string' to 'float'`, 'Game.cs')}
+${note('important', 'The engine object you pass must have a parameter with the same name as the property. The compiler cannot check that it was built from this shader. <code>ShaderReflection.Resources</code> lists the resources the compiler found, so you can compare.')}
+
+<h2>3. Do work on the CPU, once per draw</h2>
+<p>A shader runs its code for every vertex and every pixel. Anything that is the same for the whole draw is cheaper to compute once on the CPU. Here the game thinks in stops of light, and the class converts them to the multiplier that the shader receives. The same applies to a world-view-projection matrix: the game sets the three matrices, and the class multiplies them once. Everything you add that is not part of the shader carries <code>[ShaderIgnore]</code>.</p>
+${code('csharp', `// Inside the Lit class, in any of the engines above
+
+[ShaderIgnore]
+public float Stops
+{
+    get => MathF.Log2(Exposure);
+    set => Exposure = MathF.Pow(2, value);   // 1 stop = twice the light
+}
+
+[ShaderIgnore]
+public void Dim(float factor) => Exposure *= factor;`, 'Lit.cs')}
+<p>The game never has to know the multiplier:</p>
+${code('csharp', `lit.Stops = 1;     // Exposure becomes 2
+lit.Dim(0.5f);     // Exposure becomes 1`, 'Game.cs')}
+
+<h2>What you gain</h2>
+<ul>
+  <li><strong>One declaration.</strong> The name and the type are written once. Renaming a property with your IDE renames it in the shader and in the game.</li>
+  <li><strong>Errors when you build.</strong> A wrong type, a property that does not exist or a misspelled name is a C# error, not an exception during the game.</li>
+  <li><strong>Completion.</strong> Typing <code>lit.</code> lists the uniforms of the shader and their types.</li>
+  <li><strong>Any engine.</strong> Only the body of the getters and setters knows about the engine. The shader and the code that uses it stay the same.</li>
+  <li><strong>The CPU code travels with the shader.</strong> A shader shared as a <a href="${D}reusing-your-types-and-libraries/">library</a> brings its API with it, so the people who use it do not need to know its parameter names.</li>
+</ul>
+<p>Next: <a href="${D}compilation-pipeline/">Compilation pipeline</a>.</p>`,
+  },
+
+  /* ------------------------------------------------------------------ */
+  {
+    slug: 'shader-parameters-for-your-engine',
+    title: 'Typed shader parameters for your engine',
+    kind: 'Tutorial',
+    icon: 'braces',
+    summary: 'Step by step: give your engine a base class so that every shader exposes its uniforms as typed properties, checked when the shader loads and testable without a GPU.',
+    body: `
+<h2>Overview</h2>
+<p class="lead-p">If you build an engine, your users should not set uniforms with strings. In this tutorial you build the CPU side of Yotsuba Shader for an imaginary engine called <code>MyEngine</code>, so that a programmer writes one line per uniform and nothing else:</p>
+${code('csharp', `[Uniform]
+public float Exposure { get => Get<float>(); set => Set(value); }`, 'Game/Shaders/Lit.cs')}
+<p>The engine does the name lookup, the type check and the upload. You will build:</p>
+<ol>
+  <li>a small interface that hides how each graphics API sets a uniform;</li>
+  <li>a base class for every shader of the engine;</li>
+  <li>a shader written on top of it;</li>
+  <li>a check that runs when the shader loads;</li>
+  <li>a unit test that needs no GPU.</li>
+</ol>
+<p>It assumes you have read <a href="${D}using-shaders-in-your-game/">Using your shader in your game</a> and, for the types, <a href="${D}types-for-engines-and-frameworks/">Types for engines and frameworks</a>.</p>
+${note('tip', 'The complete guide is a PDF: <a href="/downloads/yotsuba-shader-engine-guide-__FILM_LANG__.pdf">Integrating Yotsuba Shader into your engine</a>. It covers this tutorial and the steps that come after it, and the editable source is included.')}
+
+<h2>1. Hide how the graphics API sets a uniform</h2>
+<p>Vulkan, Direct3D, Metal and OpenGL set uniforms in different ways. Put that difference behind one interface. It is the only part of this tutorial that depends on the graphics API.</p>
+${code('csharp', `namespace MyEngine.Graphics;
+
+public interface IParameterSet
+{
+    bool Has(string name);
+    T Get<T>(string name) where T : unmanaged;
+    void Set<T>(string name, in T value) where T : unmanaged;
+}`, 'MyEngine/Graphics/IParameterSet.cs')}
+<p>Each backend implements it once: for example, a Vulkan version writes into a uniform buffer, and an OpenGL version calls the uniform functions. Uniforms are plain data (floats, vectors, matrices), which is why <code>T</code> is <code>unmanaged</code>. Textures and samplers have their own methods and are not covered here.</p>
+
+<h2>2. A base class for every shader</h2>
+<p>The base class holds the parameter set and gives the shaders two helpers, <code>Get</code> and <code>Set</code>. The name of the uniform is not a parameter that the programmer writes: <code>[CallerMemberName]</code> makes the C# compiler fill it with the name of the property that calls the helper.</p>
+${code('csharp', `using System.Runtime.CompilerServices;
+using MyEngine.Graphics;
+using YotsubaShader.Language.Compiler;
+
+namespace MyEngine.Shaders;
+
+[ShaderIgnore]
+public abstract class ShaderBase
+{
+    [ShaderIgnore]
+    private readonly IParameterSet parameters;
+
+    protected ShaderBase(IParameterSet parameters)
+    {
+        this.parameters = parameters;
+    }
+
+    [ShaderIgnore]
+    protected T Get<T>([CallerMemberName] string name = "") where T : unmanaged
+        => parameters.Get<T>(name);
+
+    [ShaderIgnore]
+    protected void Set<T>(T value, [CallerMemberName] string name = "") where T : unmanaged
+        => parameters.Set(name, value);
+}`, 'MyEngine/Shaders/ShaderBase.cs')}
+<p>Inside <code>public float Exposure { get => Get&lt;float&gt;(); }</code>, the name is <code>"Exposure"</code>. There is no string and no <code>nameof</code> to forget, and renaming the property renames the uniform. Everything in this class is CPU code, so it carries <code>[ShaderIgnore]</code>: it tells Yotsuba Shader not to treat it as part of the shader. The generated half of a shader class adds no base class, so your <code>ShaderBase</code> never conflicts with it.</p>
+
+<h2>3. Write a shader on top of it</h2>
+<p>A shader is a <code>partial</code> class that inherits from <code>ShaderBase</code>. Each uniform is a property with a getter and a setter that call the helpers.</p>
+${code('csharp', `using MyEngine;
+using MyEngine.Graphics;
+using MyEngine.Shaders;
+using YotsubaShader.Language;
+using YotsubaShader.Language.Resources;
+
+public partial class Lit : ShaderBase
+{
+    public Lit(IParameterSet parameters) : base(parameters) { }
+
+    [Uniform]
+    public float Exposure { get => Get<float>(); set => Set(value); }
+
+    [Uniform]
+    public Vector3 LightDirection { get => Get<Vector3>(); set => Set(value); }
+
+    [ShaderStage(Stage.Fragment)]
+    public Vector4 Fragment(VertexOutput input)
+    {
+        /* uses Exposure and LightDirection */
+    }
+}`, 'Game/Shaders/Lit.cs')}
+<p><code>Vector3</code> is the engine's own type, mapped to the GPU with the attributes of <a href="${D}types-for-engines-and-frameworks/">Types for engines and frameworks</a>. The compiler reads the name and the type of each property, and the property has the same name and type when your game uses it.</p>
+
+<h2>4. Put CPU logic in the same class</h2>
+<p>Work that is the same for the whole draw can be done once on the CPU. Add it to the class and mark it <code>[ShaderIgnore]</code>:</p>
+${code('csharp', `[ShaderIgnore]
+public float Stops
+{
+    get => MathF.Log2(Exposure);
+    set => Exposure = MathF.Pow(2, value);   // 1 stop = twice the light
+}`, 'Game/Shaders/Lit.cs')}
+
+<h2>5. Check the shader when it loads</h2>
+<p>A parameter that the compiled shader does not have should fail when the shader loads, not on the first frame that draws with it. Every shader exposes <code>Reflection</code>, which lists the resources the compiler found. Pass it to the base class and compare it with the parameter set:</p>
+${code('csharp', `[ShaderIgnore]
+protected ShaderBase(IParameterSet parameters, ShaderReflection reflection)
+{
+    this.parameters = parameters;
+
+    foreach (var resource in reflection.Resources)
+    {
+        if (!parameters.Has(resource.Name))
+        {
+            throw new InvalidOperationException(
+                $"The shader has no parameter named '{resource.Name}'.");
+        }
+    }
+}`, 'MyEngine/Shaders/ShaderBase.cs')}
+<p>The shader passes its own reflection, which the generated half of the class declares as a static field:</p>
+${code('csharp', `public Lit(IParameterSet parameters) : base(parameters, Reflection) { }`, 'Game/Shaders/Lit.cs')}
+
+<h2>6. Test the CPU side without a GPU</h2>
+<p>Because the shader talks to the engine through <code>IParameterSet</code>, a test can use a fake one. The logic of the class runs in your build server, where there is no graphics card.</p>
+${code('csharp', `public sealed class FakeParameterSet : IParameterSet
+{
+    private readonly Dictionary<string, object> values = new();
+
+    public bool Has(string name) => true;
+
+    public T Get<T>(string name) where T : unmanaged
+        => values.TryGetValue(name, out var value) ? (T)value : default;
+
+    public void Set<T>(string name, in T value) where T : unmanaged
+        => values[name] = value;
+}
+
+public class LitTests
+{
+    [Fact]
+    public void One_stop_doubles_the_exposure()
+    {
+        var lit = new Lit(new FakeParameterSet());
+
+        lit.Stops = 1;
+
+        Assert.Equal(2f, lit.Exposure);
+    }
+}`, 'Tests/LitTests.cs')}
+
+<h2>7. Use it in the game</h2>
+${code('csharp', `// Your engine creates the parameter set for the compiled shader
+IParameterSet parameters = device.CreateParameterSet(shaderBinary);
+
+var lit = new Lit(parameters);
+lit.Exposure = 1.2f;
+lit.LightDirection = Vector3.Normalize(new Vector3(0.3f, -1f, 0.2f));
+
+lit.Exposure = "bright";   // error CS0029: Cannot implicitly convert type 'string' to 'float'`, 'Game/Renderer.cs')}
+
+<h2>What you built</h2>
+<ul>
+  <li>One interface per graphics API, and nothing else that depends on it.</li>
+  <li>A base class that makes each uniform one line, with its name taken from the property.</li>
+  <li>Type errors when the game is built, and missing parameters when the shader loads.</li>
+  <li>CPU logic in the same class as the shader, tested without a GPU.</li>
+</ul>
+<p>Next: <a href="${D}choosing-an-authoring-style/">Choosing an authoring style</a>.</p>`,
   },
 ];

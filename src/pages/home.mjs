@@ -83,7 +83,7 @@ const home = {
         <p>Add one package and mark your shader class <code>partial</code>. When you build, Yotsuba Shader compiles every <code>[ShaderStage]</code> method and writes <strong>every binary you ask for</strong> into that class, with the reflection to use them. The shaders ship inside your assembly, and shader errors show up as compiler errors.</p>
         <ul class="checks">
           <li>${icon('check')}<span>No files to copy and no extra step in your pipeline</span></li>
-          <li>${icon('check')}<span>Every format you ask for: SPIR-V, DXIL, DXBC, MSL, WGSL, GLSL</span></li>
+          <li>${icon('check')}<span>Every format you ask for: SPIR-V, HLSL, MSL, WGSL, GLSL, GLSL ES</span></li>
           <li>${icon('check')}<span>The same two fields on every shader, so engines can read any of them</span></li>
         </ul>
         <p class="mt-24"><a class="link-more" href="/documentation/yotsuba-shader/generating-shader-binaries/">How it works ${icon('chevron-right')}</a></p>
@@ -120,10 +120,10 @@ const home = {
     <div>${code('csharp', `public struct VertexOutput
 {
     [SV_Position]
-    public Vector4 Position;   // built-in
+    public Vector4 Position;  // built-in
 
     [Location(0)]
-    public Vector4 Color;      // carried to the fragment stage
+    public Vector4 Color;     // to the fragment
 }
 
 public sealed class Material
@@ -160,7 +160,7 @@ public sealed class Material
       </ul>
       <p class="mt-24"><a class="link-more" href="/documentation/yotsuba-shader/reusing-your-types-and-libraries/">Reusing your types and libraries ${icon('chevron-right')}</a></p>
     </div>
-    <div>${code('csharp', `// Your project's own type, mapped to a native GPU vector
+    <div>${code('csharp', `// Your own type, as a GPU vector
 [Vector]
 public struct Vector3
 {
@@ -171,7 +171,8 @@ public struct Vector3
 
 // ...and used directly by a shader
 [ShaderStage(Stage.Vertex)]
-public VertexOutput Vertex(Vector3 position) { /* ... */ }`, 'Types.cs')}</div>
+public VertexOutput Vertex(
+    Vector3 position) { /* ... */ }`, 'Types.cs')}</div>
   </div>
 </section>
 
@@ -309,6 +310,12 @@ const resources = {
       ${res('GitHub repository', 'Source code, issues and the README with the full authoring examples.', SITE.repo)}
       ${res('Documentation', 'Articles and reference for the language, the compiler and the intermediate representation.', '/documentation/')}
       ${res('Get started', 'Install the SDK, build the solution and read your first shader.', '/get-started/')}
+    </div>
+
+    <h2 class="h-md" style="margin-top:56px">Guides</h2>
+    <div class="grid grid-3 mt-24">
+      ${res('Integrating Yotsuba Shader into your engine (PDF)', 'A step-by-step guide for engine and framework authors: types, resources, compilation, typed parameters, loading, tests and packaging.', '/downloads/yotsuba-shader-engine-guide-__FILM_LANG__.pdf')}
+      ${res('Editable source of the guide', 'The guide is written in Typst. Edit it, translate it or adapt it to your engine. It includes both editions and every code listing.', '/downloads/yotsuba-shader-engine-guide-source.zip')}
     </div>
 
     <h2 class="h-md" style="margin-top:56px">Specifications</h2>

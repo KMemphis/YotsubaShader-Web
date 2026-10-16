@@ -21,5 +21,10 @@
  ".NET 8 SDK": "SDK de .NET 8",
  "Required to build the solution.": "Necesario para compilar la solución.",
  "Roslyn": "Roslyn",
- "The .NET compiler platform that powers shader discovery and analysis.": "La plataforma de compilación de .NET que impulsa el descubrimiento y el análisis de shaders."
+ "The .NET compiler platform that powers shader discovery and analysis.": "La plataforma de compilación de .NET que impulsa el descubrimiento y el análisis de shaders.",
+ "Guides": "Guías",
+ "Integrating Yotsuba Shader into your engine (PDF)": "Integrar Yotsuba Shader en tu motor (PDF)",
+ "A step-by-step guide for engine and framework authors: types, resources, compilation, typed parameters, loading, tests and packaging.": "Una guía paso a paso para quienes crean motores y frameworks: tipos, recursos, compilación, parámetros tipados, carga, pruebas y empaquetado.",
+ "Editable source of the guide": "Fuente editable de la guía",
+ "The guide is written in Typst. Edit it, translate it or adapt it to your engine. It includes both editions and every code listing.": "La guía está escrita en Typst. Edítala, tradúcela o adáptala a tu motor. Incluye las dos ediciones y todos los listados de código."
 }

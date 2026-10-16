@@ -271,12 +271,17 @@ function process(el, l) {
 }
 
 /** Paths that are files, not pages: they keep the same URL in every locale. */
-const ASSET = /^\/(?:css|js|img|playground-app|search-index)/;
+const ASSET = /^\/(?:css|js|img|downloads|playground-app|search-index)/;
 
 function localizeLinks(html, locale) {
   const prefix = LOCALES[locale].prefix;
   if (!prefix) return html;
   return html.replace(/(\shref=")(\/(?!\/)[^"]*)(")/g, (all, a, href, z) => (ASSET.test(href) ? all : `${a}${prefix}${href}${z}`));
+}
+
+/** Images with text in them live in one folder per language: /img/l10n/en/... becomes /img/l10n/<locale>/... */
+function localizeImages(html, locale) {
+  return html.replace(/(\s(?:src|srcset)=")\/img\/l10n\/en\//g, `$1/img/l10n/${locale}/`);
 }
 
 /** Translates a piece of HTML (a page body or a complete page) and rewrites its page links for the locale. */
@@ -287,7 +292,7 @@ export function localizeHtml(html, locale, { links = true } = {}) {
   tree.children.forEach((c) => process(c, l));
   let out = ser(tree);
   if (links) out = localizeLinks(out, locale);
-  return out;
+  return localizeImages(out, locale);
 }
 
 /** Translates a single short string (titles in the search index). */

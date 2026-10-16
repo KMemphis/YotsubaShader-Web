@@ -163,11 +163,22 @@ function build() {
     path: '/',
     section: 'home',
     title: 'Page not found',
+    noindex: true,
     description: 'The page you were looking for does not exist.',
     body: `<section class="notfound"><div><h1 class="h-xl">Page not found</h1><p class="lead" style="margin:18px auto 28px">That URL does not exist on this site.</p><a class="btn btn-primary" href="/">Back to the home page</a></div></section>`,
   });
   write('404.html', notFound);
   write('.nojekyll', '');
+
+  // robots.txt always; the sitemap needs absolute addresses, so it waits for SITE_URL.
+  write('robots.txt', `User-agent: *\nAllow: /\n${SITE.url ? `\nSitemap: ${SITE.url}/sitemap.xml\n` : ''}`);
+  if (SITE.url) {
+    const base = [...seen].filter((p) => !p.startsWith('/es/')).sort();
+    const entry = (p) =>
+      `  <url>\n    <loc>${SITE.url}${p}</loc>\n${locales.map((l) => `    <xhtml:link rel="alternate" hreflang="${LOCALES[l].htmlLang}" href="${SITE.url}${localePath(p, l)}"/>`).join('\n')}\n  </url>`;
+    const urls = locales.flatMap((l) => base.map((p) => entry(p).replace(`<loc>${SITE.url}${p}</loc>`, `<loc>${SITE.url}${localePath(p, l)}</loc>`)));
+    write('sitemap.xml', `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">\n${urls.join('\n')}\n</urlset>\n`);
+  }
 
   const broken = checkLinks();
   const ms = Date.now() - started;
@@ -253,6 +264,8 @@ const TYPES = {
   '.svg': 'image/svg+xml',
   '.png': 'image/png',
   '.webp': 'image/webp',
+  '.pdf': 'application/pdf',
+  '.zip': 'application/zip',
   '.json': 'application/json',
   '.mp4': 'video/mp4',
   '.webm': 'video/webm',

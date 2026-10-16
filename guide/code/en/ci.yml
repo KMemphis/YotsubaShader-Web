@@ -1,0 +1,24 @@
+name: build
+on: [push, pull_request]
+
+jobs:
+  shaders:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 8.0.x
+
+      # The source generator compiles every shader during the build
+      - run: dotnet build -c Release
+
+      # The unit tests need no GPU
+      - run: dotnet test -c Release --no-build
+
+      # Check the SPIR-V that the build produced
+      - run: |
+          sudo apt-get update && sudo apt-get install -y spirv-tools
+          yotsuba compile src/MyEngine.Shaders/MyEngine.Shaders.csproj \
+            --target spirv --output artifacts/shaders
+          for f in artifacts/shaders/*.spv; do spirv-val "$f"; done

@@ -4,12 +4,11 @@ import { BACKENDS, SPIRV_LOGO } from '../backends.mjs';
 
 const HOW = {
   vulkan: 'Compiler output',
-  d3d12: 'HLSL from <code>Transpile</code>, compiled with DXC',
-  d3d11: 'HLSL from <code>Transpile</code>, compiled with FXC',
-  metal: '<code>Transpile.FromSpirVToMsl</code>',
-  webgpu: '<code>Transpile.FromSpirVToWgsl</code>',
-  opengl: '<code>Transpile.FromSpirVToGlsl</code>',
-  webgl: '<code>Transpile.FromSpirVToGlsl</code> with <code>Es</code>',
+  d3d: '<code>Transpile.FromSpirVToHlsl</code> (SPIRV-Cross); compile the text with your own DXC or FXC',
+  metal: '<code>Transpile.FromSpirVToMsl</code> (SPIRV-Cross)',
+  webgpu: '<code>Transpile.FromSpirVToWgsl</code> (Naga)',
+  opengl: '<code>Transpile.FromSpirVToGlsl</code> (Naga)',
+  webgl: '<code>Transpile.FromSpirVToGlsl</code> with <code>Es</code> (Naga)',
 };
 
 export default function technologies(ctx) {

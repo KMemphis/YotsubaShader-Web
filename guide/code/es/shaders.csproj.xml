@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="YotsubaShader.SourceGenerator" Version="1.*"
+                      PrivateAssets="all" />
+    <ProjectReference Include="..\MyEngine.Core\MyEngine.Core.csproj" />
+    <ProjectReference Include="..\MyEngine.Graphics\MyEngine.Graphics.csproj" />
+  </ItemGroup>
+
+  <PropertyGroup>
+    <YotsubaTargets>
+      spirv;hlsl;msl;wgsl;glsl;glsles
+    </YotsubaTargets>
+  </PropertyGroup>
+
+</Project>

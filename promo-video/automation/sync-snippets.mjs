@@ -1,9 +1,9 @@
 // Pulls the code samples straight from the website's own source so the video shows exactly what the site documents.
 // Also writes the Spanish variant: only the comments change (the same translations the Spanish site uses).
 import fs from 'node:fs';
-import { GEN_CSPROJ, GEN_OUTPUT, GEN_USE, CLI_SNIPPET, LIB_SNIPPET, GEN_INPUT } from '../../src/snippets.mjs';
+import { GEN_CSPROJ, GEN_OUTPUT, GEN_USE, CLI_SNIPPET, GEN_INPUT } from '../../src/snippets.mjs';
 const OUT = new URL('../remotion/src/', import.meta.url).pathname;
-const base = { GEN_CSPROJ, GEN_OUTPUT, GEN_USE, CLI_SNIPPET, LIB_SNIPPET, GEN_INPUT };
+const base = { GEN_CSPROJ, GEN_OUTPUT, GEN_USE, CLI_SNIPPET, GEN_INPUT };
 fs.writeFileSync(OUT + 'snippets.json', JSON.stringify(base, null, 1));
 
 const un = (s) => s.replace(/&quot;/g, '"').replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&amp;/g, '&');
