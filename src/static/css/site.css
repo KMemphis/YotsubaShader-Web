@@ -784,3 +784,41 @@ main { position: relative; }
 .pg-figure img { display: block; width: auto; max-width: 100%; max-height: min(58vh, 520px); height: auto; border-radius: 14px; border: 1px solid var(--line); }
 .pg-figure figcaption { max-width: 60ch; font-size: 13px; line-height: 1.55; color: var(--text-4); }
 @media (max-width: 560px) { .docbar .lang > summary > span { display: none; } .docbar .lang > summary { padding: 0 9px; } }
+
+/* IDE window: a shader with its problems underlined, as an editor shows them */
+.ide { margin: 0; border-radius: 18px; overflow: hidden; background: #101012; border: 1px solid var(--line); box-shadow: 0 30px 80px rgba(0, 0, 0, .45); }
+.ide-bar { display: flex; align-items: center; gap: 14px; padding: 10px 14px; background: #1c1c1e; border-bottom: 1px solid var(--line-soft); }
+.ide-dots { display: inline-flex; gap: 7px; }
+.ide-dots i { width: 11px; height: 11px; border-radius: 50%; background: #3a3a3c; }
+.ide-dots i:nth-child(1) { background: #ff5f57; }
+.ide-dots i:nth-child(2) { background: #febc2e; }
+.ide-dots i:nth-child(3) { background: #28c840; }
+.ide-tab { font: 12px/1 var(--mono); color: var(--text-2); padding: 6px 10px; border-radius: 6px; background: #101012; }
+.ide-code { margin: 0; padding: 18px 20px; overflow-x: auto; font: 13px/1.65 var(--mono); color: #e5e5e7; tab-size: 4; }
+.ide-code code { background: none; padding: 0; font-size: inherit; color: inherit; border-radius: 0; }
+.sq { text-decoration: underline wavy; text-decoration-thickness: 1.5px; text-underline-offset: 4px; text-decoration-skip-ink: none; }
+.sq--error { text-decoration-color: var(--brand-red); }
+.sq--warning { text-decoration-color: var(--warn); }
+.ide-problems { border-top: 1px solid var(--line-soft); background: #161618; }
+.ide-head { display: flex; justify-content: space-between; gap: 12px; margin: 0; padding: 9px 16px; font-size: 12px; font-weight: 600; letter-spacing: .02em; text-transform: uppercase; color: var(--text-3); border-bottom: 1px solid var(--line-soft); }
+.ide-count { font-weight: 400; text-transform: none; letter-spacing: 0; }
+.ide-problems ul { list-style: none; margin: 0; padding: 6px 0; }
+.ide-problem { display: grid; grid-template-columns: 16px auto 1fr auto; grid-template-areas: "sev id text place"; align-items: baseline; column-gap: 10px; row-gap: 2px; padding: 7px 16px; font-size: 13px; line-height: 1.5; color: var(--text-2); }
+.ide-sev { grid-area: sev; width: 10px; height: 10px; border-radius: 50%; align-self: center; background: var(--brand-red); }
+.ide-problem--warning .ide-sev { background: var(--warn); border-radius: 2px; transform: rotate(45deg); }
+.ide-id { grid-area: id; justify-self: start; font: 12px var(--mono); color: var(--text-3); background: none; padding: 0; }
+.ide-text { grid-area: text; min-width: 0; }
+.ide-text code { font-size: 12px; }
+.ide-place { grid-area: place; font: 12px var(--mono); color: var(--text-4); white-space: nowrap; }
+@media (max-width: 700px) {
+  .ide-problem { grid-template-columns: 16px 1fr; grid-template-areas: "sev id" ". text" ". place"; }
+  .ide-sev { align-self: baseline; margin-top: 4px; }
+  .ide-code { font-size: 12px; padding: 14px; }
+}
+
+/* IDE diagnostics section on the home page */
+.diag-main { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); gap: 40px; align-items: center; }
+.diag-copy h3 { margin: 0 0 14px; font-size: clamp(24px, 2.6vw, 30px); font-weight: 600; letter-spacing: -0.02em; line-height: 1.15; }
+.diag-copy p { color: var(--text-3); }
+.diag-copy .code { margin-top: 22px; }
+@media (max-width: 960px) { .diag-main { grid-template-columns: minmax(0, 1fr); gap: 28px; } }

@@ -59,15 +59,42 @@ export function code(lang, src, file = '') {
 </figure>`;
 }
 
+/**
+ * An editor window with a shader, its errors underlined and the IDE's problem list below. `marks` maps a word of the
+ * code to a severity ("error" or "warning"); its first occurrence is underlined. `problems` are [severity, code, text, place].
+ */
+export function ideWindow({ file, src, marks = {}, problems = [], label = '' }) {
+  let html = highlight('csharp', src.replace(/^\n+|\s+$/g, ''));
+  for (const [word, sev] of Object.entries(marks)) {
+    html = html.replace(word, `<span class="sq sq--${sev}">${word}</span>`);
+  }
+  const count = (sev) => problems.filter((p) => p[0] === sev).length;
+  const plural = (n, one, many) => `${n} ${n === 1 ? one : many}`;
+  const rows = problems
+    .map(
+      ([sev, id, text, place]) =>
+        `<li class="ide-problem ide-problem--${sev}"><span class="ide-sev" aria-hidden="true"></span><code class="ide-id">${id}</code><span class="ide-text">${text}</span><span class="ide-place">${place}</span></li>`,
+    )
+    .join('');
+  return `<figure class="ide"${label ? ` aria-label="${label}"` : ''}>
+  <div class="ide-bar"><span class="ide-dots" aria-hidden="true"><i></i><i></i><i></i></span><span class="ide-tab">${esc(file)}</span></div>
+  <pre class="ide-code"><code>${html}</code></pre>
+  <div class="ide-problems">
+    <p class="ide-head"><span>Problems</span><span class="ide-count">${plural(count('error'), 'error', 'errors')} · ${plural(count('warning'), 'warning', 'warnings')}</span></p>
+    <ul>${rows}</ul>
+  </div>
+</figure>`;
+}
+
 export const STYLES = [
-  { id: 'hlsl', label: 'HLSL-like' },
-  { id: 'glsl', label: 'GLSL-like' },
-  { id: 'metal', label: 'Metal-like' },
-  { id: 'vulkan', label: 'Vulkan-like' },
-  { id: 'wgsl', label: 'WGSL-like' },
+  { id: 'hlsl', label: 'HLSL' },
+  { id: 'glsl', label: 'GLSL' },
+  { id: 'msl', label: 'MSL' },
+  { id: 'spirv', label: 'SPIR-V' },
+  { id: 'wgsl', label: 'WGSL' },
 ];
 
-/** Tabbed code that follows the visitor's chosen authoring style across the whole site. */
+/** Tabbed code that follows the visitor's chosen syntax across the whole site. */
 export function styleTabs(snippets, { file = 'Triangle.cs' } = {}) {
   const tabs = STYLES.map(
     (s, i) =>
@@ -77,7 +104,7 @@ export function styleTabs(snippets, { file = 'Triangle.cs' } = {}) {
     (s, i) =>
       `<div class="tabpanel" role="tabpanel" data-style="${s.id}"${i === 0 ? '' : ' hidden'}>${code('csharp', snippets[s.id], file)}</div>`,
   ).join('');
-  return `<div class="style-tabs" data-style-group><div class="tablist" role="tablist" aria-label="Authoring style">${tabs}</div>${panels}</div>`;
+  return `<div class="style-tabs" data-style-group><div class="tablist" role="tablist" aria-label="Syntax">${tabs}</div>${panels}</div>`;
 }
 
 export const ENGINES = [
@@ -87,7 +114,7 @@ export const ENGINES = [
   { id: 'custom', label: 'Your engine' },
 ];
 
-/** Tabbed code with one version per engine or framework. The choice is remembered across the site, like the style. */
+/** Tabbed code with one version per engine or framework. The choice is remembered across the site, like the syntax. */
 export function engineTabs(snippets, { file = 'Lit.cs' } = {}) {
   const tabs = ENGINES.map(
     (e, i) =>

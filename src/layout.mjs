@@ -7,7 +7,7 @@ import { LOCALES, localizeHtml, localePath, clientStrings } from './i18n/index.m
 const FONTS =
   'https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Outfit:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap';
 
-/** Turns root-relative links ("/styles/") into links relative to the page being written. */
+/** Turns root-relative links ("/syntaxes/") into links relative to the page being written. */
 export function relativize(html, pagePath) {
   const depth = pagePath.split('/').filter(Boolean).length;
   const prefix = depth === 0 ? './' : '../'.repeat(depth);
@@ -104,8 +104,8 @@ function footer() {
       <p><a href="mailto:${SITE.email}">${SITE.email}</a></p>
     </div>
     <div class="foot-cols">
-      ${col('Explore', [['Get Started', '/get-started/'], ['Styles', '/styles/'], ['Playground', '/playground/'], ["What's New", '/whats-new/'], ['Resources', '/resources/']])}
-      ${col('Documentation', [['All documentation', '/documentation/'], ['Your first shader', '/documentation/yotsuba-shader/writing-your-first-shader/'], ['Authoring styles', '/documentation/yotsuba-shader/choosing-an-authoring-style/'], ['Attribute reference', '/documentation/yotsuba-shader/builtin-values-across-styles/']])}
+      ${col('Explore', [['Get Started', '/get-started/'], ['Syntaxes', '/syntaxes/'], ['Playground', '/playground/'], ["What's New", '/whats-new/'], ['Resources', '/resources/']])}
+      ${col('Documentation', [['All documentation', '/documentation/'], ['Your first shader', '/documentation/yotsuba-shader/writing-your-first-shader/'], ['Syntaxes', '/documentation/yotsuba-shader/choosing-a-syntax/'], ['Attribute reference', '/documentation/yotsuba-shader/builtin-values-across-syntaxes/']])}
       ${col('Community', [['Community', '/community/'], ['Contributing', '/community/contributing/'], ['Contact', '/community/contact/'], ['GitHub', SITE.repo], ['Sponsor on GitHub', SITE.sponsors], ['Donations', '/donations/']])}
       ${col('Legal', [['Licensing', '/community/licensing/'], ['Sponsors', '/donations/sponsors/']])}
     </div>
@@ -143,13 +143,13 @@ function head({ title, description, pagePath, fullTitle, noindex = false }) {
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="${FONTS}" rel="stylesheet">
 <link rel="stylesheet" href="/css/site.css">
-<script>try{var s=localStorage.getItem('ys-style');if(s)document.documentElement.dataset.style=s}catch(e){}</script>
+<script>try{var s=localStorage.getItem('ys-style');s={metal:'msl',vulkan:'spirv'}[s]||s;if(s)document.documentElement.dataset.style=s}catch(e){}</script>
 <!--LANGREDIRECT-->
 ${noindex ? '<meta name="robots" content="noindex">' : '<!--SEO-->'}
 </head>`;
 }
 
-/** Standard page (home, get started, styles, ...). */
+/** Standard page (home, get started, syntaxes, ...). */
 export function renderPage(page, locale = 'en') {
   const { path: pagePath, section, title, description, body, fullTitle, bodyClass = '', noFooter = false, scripts = [], noindex = false } = page;
   const html = `<!doctype html>
@@ -208,7 +208,7 @@ export function renderDoc({ set, article, tree, articlesBySlug, prev, next, toc,
         .map((t) => `<li><a href="#${t.id}">${esc(t.text)}</a></li>`)
         .join('')}</ul></aside>`
     : '';
-  const styleSelect = `<label class="style-select"><span>Style:</span><select data-style-select aria-label="Authoring style for code samples">${STYLES.map((s) => `<option value="${s.id}">${s.label}</option>`).join('')}</select></label>`;
+  const styleSelect = `<label class="style-select"><span>Syntax:</span><select data-style-select aria-label="Syntax for code samples">${STYLES.map((s) => `<option value="${s.id}">${s.label}</option>`).join('')}</select></label>`;
   const pager = `<nav class="doc-pager" aria-label="Previous and next">
   ${prev ? `<a class="prev" href="${prev.slug === 'index' ? setHref : setHref + prev.slug + '/'}">${icon('chevron-left')}<span><small>Previous</small>${esc(prev.title)}</span></a>` : '<span></span>'}
   ${next ? `<a class="next" href="${setHref}${next.slug}/"><span><small>Next</small>${esc(next.title)}</span>${icon('chevron-right')}</a>` : '<span></span>'}

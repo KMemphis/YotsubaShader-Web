@@ -84,7 +84,8 @@
     if (styleSelect) styleSelect.value = style;
     if (persist) store.set(STYLE_KEY, style);
   }
-  const saved = store.get(STYLE_KEY);
+  // "metal" and "vulkan" were the ids of the MSL and SPIR-V syntaxes before they were renamed.
+  const saved = { metal: 'msl', vulkan: 'spirv' }[store.get(STYLE_KEY)] || store.get(STYLE_KEY);
   if (saved) applyStyle(saved, false);
   else if (styleSelect) styleSelect.value = 'hlsl';
   if (styleSelect) styleSelect.addEventListener('change', () => applyStyle(styleSelect.value, true));

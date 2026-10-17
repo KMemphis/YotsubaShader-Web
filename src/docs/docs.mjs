@@ -15,7 +15,7 @@ export default function buildDocs(ctx) {
   });
 
   const tree = [
-    { items: slugs('understanding-yotsuba-shader', 'writing-your-first-shader', 'reusing-your-types-and-libraries', 'types-for-engines-and-frameworks', 'shader-parameters-for-your-engine', 'choosing-an-authoring-style') },
+    { items: slugs('understanding-yotsuba-shader', 'writing-your-first-shader', 'reusing-your-types-and-libraries', 'types-for-engines-and-frameworks', 'shader-parameters-for-your-engine', 'choosing-a-syntax') },
     {
       label: 'Language',
       groups: [
@@ -35,6 +35,7 @@ export default function buildDocs(ctx) {
           items: slugs(
             'compilation-pipeline',
             'generating-shader-binaries',
+            'shader-diagnostics-in-your-ide',
             'transpiling-spirv',
             'shader-discovery',
             'intermediate-representation',
@@ -50,13 +51,13 @@ export default function buildDocs(ctx) {
         {
           title: 'Attribute reference',
           items: slugs(
-            'builtin-values-across-styles',
-            'resource-attributes-across-styles',
-            'hlsl-style-attributes',
-            'glsl-style-attributes',
-            'metal-style-attributes',
-            'vulkan-style-attributes',
-            'wgsl-style-attributes',
+            'builtin-values-across-syntaxes',
+            'resource-attributes-across-syntaxes',
+            'hlsl-syntax-attributes',
+            'glsl-syntax-attributes',
+            'msl-syntax-attributes',
+            'spirv-syntax-attributes',
+            'wgsl-syntax-attributes',
           ),
         },
       ],
@@ -96,7 +97,7 @@ export default function buildDocs(ctx) {
     body: `
 <h2>Overview</h2>
 <p class="lead-p">Yotsuba Shader is a shader framework and compiler for C#. Your team writes shaders using the types, structures and libraries of its own project, described with attributes. The compiler interprets their interfaces and stages, lowers them to a shared intermediate representation, and generates output for the selected backend.</p>
-<p>The attribute style you use does not determine the output target. HLSL, GLSL, Metal, Vulkan and WGSL provide equivalent authoring vocabularies; choose the one your team knows best.</p>
+<p>The syntax you write with does not determine the output target. HLSL, GLSL, MSL, SPIR-V and WGSL provide equivalent authoring vocabularies; choose the one your team knows best.</p>
 <h2>Topics</h2>
 ${topics}`,
   };
@@ -133,7 +134,7 @@ ${topics}`,
     </div>
     <h2 class="h-md" style="margin-top:56px">Start here</h2>
     <div class="grid grid-3 mt-24">
-      ${['understanding-yotsuba-shader', 'writing-your-first-shader', 'choosing-an-authoring-style', 'compilation-pipeline', 'builtin-values-across-styles', 'generating-shader-binaries']
+      ${['understanding-yotsuba-shader', 'writing-your-first-shader', 'choosing-a-syntax', 'shader-diagnostics-in-your-ide', 'builtin-values-across-syntaxes', 'generating-shader-binaries']
         .map((s) => {
           const a = bySlug.get(s);
           return cardLink({ href: `/documentation/${SET.slug}/${s}/`, icon: a.icon || 'doc', title: a.title, body: a.summary });

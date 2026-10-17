@@ -8,7 +8,7 @@
  "Write shaders": "Escribe shaders",
  "Real shaders reveal missing built-ins and awkward attribute names. Share the ones that do not compile.": "Los shaders reales revelan valores integrados que faltan y nombres de atributos incómodos. Comparte los que no compilan.",
  "Review attribute equivalence": "Revisa la equivalencia de atributos",
- "Each style should mean the same thing as its source language. Spotting a mismatch is a valuable contribution.": "Cada estilo debe significar lo mismo que su lenguaje de origen. Detectar una discrepancia es una contribución valiosa.",
+ "Each syntax should mean the same thing as its source language. Spotting a mismatch is a valuable contribution.": "Cada sintaxis debe significar lo mismo que su lenguaje de origen. Detectar una discrepancia es una contribución valiosa.",
  "Build backends": "Construye backends",
  "Add or improve the Direct3D, Metal, WebGPU, OpenGL and WebGL backends. The IR is the contract to build against.": "Añade o mejora los backends de Direct3D, Metal, WebGPU, OpenGL y WebGL. La IR es el contrato sobre el que construir.",
  "Improve tests and docs": "Mejora pruebas y documentación",
@@ -21,7 +21,6 @@
  "your proposal, and": "tu propuesta, y",
  "a motivating shader or backend example.": "un shader o ejemplo de backend que la motive.",
  "Attribute changes": "Cambios en atributos",
- "Attribute changes should explain their <strong>semantic equivalence</strong> with the language they are inspired by, and include tests where appropriate. An attribute in one style must mean the same thing as its counterparts in the other four.": "Los cambios en atributos deben explicar su <strong>equivalencia semántica</strong> con el lenguaje que los inspira e incluir pruebas cuando corresponda. Un atributo de un estilo debe significar lo mismo que sus equivalentes en los otros cuatro.",
  "Before you open a pull request": "Antes de abrir un pull request",
  "Licensing of contributions": "Licencia de las contribuciones",
  "Open the repository": "Abrir el repositorio",
@@ -108,5 +107,6 @@
  "<a href=\"mailto:sponsors@yotsubashader.com\">sponsors@yotsubashader.com</a>: sponsorship and support for the project.": "<a href=\"mailto:sponsors@yotsubashader.com\">sponsors@yotsubashader.com</a>: patrocinio y apoyo al proyecto.",
  "<a href=\"mailto:legal@yotsubashader.com\">legal@yotsubashader.com</a>: licensing, the name and logo, and other legal questions.": "<a href=\"mailto:legal@yotsubashader.com\">legal@yotsubashader.com</a>: licencia, nombre y logotipo, y otras dudas legales.",
  "Want to follow the project instead? <a href=\"/whats-new/#subscribe\">Get updates by email or feed</a>.": "¿Prefieres seguir el proyecto? <a href=\"/whats-new/#subscribe\">Recibe novedades por correo o feed</a>.",
- "Payments are handled by GitHub Sponsors. This site does not collect payments. Questions about sponsoring: <a href=\"mailto:sponsors@yotsubashader.com\">sponsors@yotsubashader.com</a>.": "Los pagos los gestiona GitHub Sponsors. Este sitio no cobra nada. Dudas sobre patrocinar: <a href=\"mailto:sponsors@yotsubashader.com\">sponsors@yotsubashader.com</a>."
+ "Payments are handled by GitHub Sponsors. This site does not collect payments. Questions about sponsoring: <a href=\"mailto:sponsors@yotsubashader.com\">sponsors@yotsubashader.com</a>.": "Los pagos los gestiona GitHub Sponsors. Este sitio no cobra nada. Dudas sobre patrocinar: <a href=\"mailto:sponsors@yotsubashader.com\">sponsors@yotsubashader.com</a>.",
+ "Attribute changes should explain their <strong>semantic equivalence</strong> with the language they are inspired by, and include tests where appropriate. An attribute in one syntax must mean the same thing as its counterparts in the other four.": "Los cambios en atributos deben explicar su <strong>equivalencia semántica</strong> con el lenguaje que los inspira e incluir pruebas cuando corresponda. Un atributo de una sintaxis debe significar lo mismo que sus equivalentes en las otras cuatro."
 }

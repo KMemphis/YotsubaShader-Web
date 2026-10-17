@@ -1,0 +1,5 @@
+#version 450
+#extension GL_KHR_shader_subgroup_basic : require
+layout(local_size_x = 128) in;
+layout(set = 0, binding = 0, std430) buffer Result { uint value[]; } result;
+void main() { result.value[0] = gl_SubgroupID; }

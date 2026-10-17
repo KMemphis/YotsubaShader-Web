@@ -86,7 +86,7 @@ La línea entre las dos columnas es el tema de esta guía. La columna izquierda 
 
 Escribe tus respuestas antes de empezar. Cambiarlas después es posible, pero afecta a todos los shaders que tus usuarios hayan escrito.
 
-+ *¿Qué estilo de escritura recomiendas?* Los vocabularios HLSL, GLSL, Metal, Vulkan y WGSL expresan la misma intención. El estilo no elige la salida. Elige el que la mayoría de tus usuarios ya conoce y úsalo en todos tus ejemplos. Ver el capítulo 4.
++ *¿Qué sintaxis recomiendas?* Las sintaxis HLSL, GLSL, MSL, SPIR-V y WGSL expresan la misma intención. La sintaxis no elige la salida. Elige la que la mayoría de tus usuarios ya conoce y úsalo en todos tus ejemplos. Ver el capítulo 4.
 + *¿Qué formatos publicas?* Solo las APIs gráficas que tu motor soporta. Cada formato que quitas hace la compilación más rápida y el paquete más pequeño. Ver el capítulo 6.
 + *¿Cuál es tu convención de bindings?* Una regla que dice qué `set` contiene la cámara, cuál el material y cuál el objeto. El capítulo 5 propone una.
 
@@ -217,23 +217,23 @@ Cada valor que cruza el límite entre etapas tiene un slot. Hay dos tipos que es
 
 #listing("Types.cs")
 
-`[Location(n)]` une una salida de una etapa con la entrada de la siguiente con el mismo número. `[SV_Position]` es un built-in: la posición en clip space que necesita la GPU. Cada estilo nombra los built-in a su manera. El apéndice B los lista lado a lado.
+`[Location(n)]` une una salida de una etapa con la entrada de la siguiente con el mismo número. `[SV_Position]` es un built-in: la posición en clip space que necesita la GPU. Cada sintaxis nombra los built-in a su manera. El apéndice B los lista lado a lado.
 
-== Elige un estilo de escritura para tu motor
+== Elige una sintaxis para tu motor
 
-Los cinco vocabularios son equivalentes. Un estilo tipo HLSL no exige un destino Direct3D, y uno tipo WGSL no exige WebGPU. Elige según las costumbres de tus usuarios, no según la API gráfica que soportas.
+Las cinco sintaxis son equivalentes. Cada una es su propio paquete, con un namespace del mismo nombre, construido sobre `YotsubaShader.Language`. La sintaxis HLSL no exige un destino Direct3D, y la sintaxis WGSL no exige WebGPU. Elige según las costumbres de tus usuarios, no según la API gráfica que soportas.
 
 #grid-table(
   ("Si tus usuarios…", "Recomienda"),
-  ("vienen de Unity, Direct3D o XNA y MonoGame", "tipo HLSL"),
-  ("vienen de OpenGL o Godot", "tipo GLSL"),
-  ("escriben para plataformas de Apple", "tipo Metal"),
-  ("trabajan cerca de Vulkan y SPIR-V", "tipo Vulkan"),
-  ("escriben para la web", "tipo WGSL"),
-  ("aún no tienen costumbre", "tipo HLSL: la relación entre etapas se ve fácil"),
+  ("vienen de Unity, Direct3D o XNA y MonoGame", "HLSL: `YotsubaShader.HlslSyntax`"),
+  ("vienen de OpenGL o Godot", "GLSL: `YotsubaShader.GlslSyntax`"),
+  ("escriben para plataformas de Apple", "MSL: `YotsubaShader.MslSyntax`"),
+  ("trabajan cerca de Vulkan y SPIR-V", "SPIR-V: `YotsubaShader.SpirvSyntax`"),
+  ("escriben para la web", "WGSL: `YotsubaShader.WgslSyntax`"),
+  ("aún no tienen costumbre", "HLSL: la relación entre etapas se ve fácil"),
 )
 
-#warn[Varios nombres existen en más de un estilo (`uniform` y `buffer`, por ejemplo). Importa un espacio de nombres de estilo por archivo, y pide lo mismo a tus usuarios.]
+#warn[Varios nombres existen en más de una sintaxis (`uniform` y `buffer`, por ejemplo). Importa un espacio de nombres de sintaxis por archivo, y pide lo mismo a tus usuarios.]
 
 == Un ejemplo completo
 
@@ -262,9 +262,9 @@ Un storage buffer es de lectura y escritura por defecto. Indica el acceso cuando
 
 == Slots de binding
 
-Tu motor necesita saber adónde va cada recurso. El atributo compartido `[Binding(set, binding)]` funciona en todos los estilos, y cada estilo también tiene la grafía de su lenguaje de origen.
+Tu motor necesita saber adónde va cada recurso. El atributo compartido `[Binding(set, binding)]` funciona en todas las sintaxis, y cada sintaxis también tiene la grafía de su lenguaje de origen.
 
-#snippet(name: "El mismo slot en cada estilo", lang: "cs", "[Uniform, Binding(1, 0)]                  // cualquier estilo\n[cbuffer, register(RegisterPrefix.b, 0)]   // tipo HLSL\n[uniform, layout(1, 0)]                   // tipo GLSL\n[constant, buffer(0)]                     // tipo Metal\n[Uniform, DescriptorSet(1), @Binding(0)]  // tipo Vulkan\n[uniform, @group(1), @binding(0)]         // tipo WGSL")
+#snippet(name: "El mismo slot en cada sintaxis", lang: "cs", "[Uniform, Binding(1, 0)]                  // cualquier sintaxis\n[cbuffer, register(RegisterPrefix.b, 0)]   // HLSL\n[uniform, layout(1, 0)]                   // GLSL\n[constant, buffer(0)]                     // MSL\n[Uniform, DescriptorSet(1), @Binding(0)]  // SPIR-V\n[uniform, @group(1), @binding(0)]         // WGSL")
 
 Los slots son solo números. El significado de cada número es tu convención.
 
@@ -630,7 +630,7 @@ Tus usuarios no deberían necesitar esta guía. Dales tres páginas: cómo agreg
   ("`Binaries.Msl` no está disponible", "El formato no está en `YotsubaTargets`", "Agrega `msl` y compila de nuevo"),
   ("`El shader no tiene ningún parámetro llamado …`", "El motor no puede proporcionar un recurso que el shader tiene", "Agrega el parámetro en el backend o renombra la propiedad"),
   ("Una pantalla negra sin errores", "Una struct de uniforms tiene distinta disposición en la CPU y en la GPU", "Calcula los desplazamientos con el ayudante del capítulo 8 y pruébalos"),
-  ("Dos atributos con el mismo nombre", "Dos espacios de nombres de estilo importados en un archivo", "Importa un espacio de nombres de estilo por archivo"),
+  ("Dos atributos con el mismo nombre", "Dos espacios de nombres de sintaxis importados en un archivo", "Importa un espacio de nombres de sintaxis por archivo"),
 )
 
 #[
@@ -655,13 +655,13 @@ Tus usuarios no deberían necesitar esta guía. Dales tres páginas: cómo agreg
 
 #set page(flipped: true)
 
-= Apéndice B: Valores built-in en cada estilo
+= Apéndice B: Valores built-in en cada sintaxis
 
 El mismo valor tiene un nombre distinto en cada vocabulario. Para el compilador, todos significan lo mismo.
 
 #include "generated/builtins-es.typ"
 
-= Apéndice C: Atributos de recursos en cada estilo
+= Apéndice C: Atributos de recursos en cada sintaxis
 
 #include "generated/resources-es.typ"
 
@@ -693,7 +693,7 @@ El mismo valor tiene un nombre distinto en cada vocabulario. Para el compilador,
   ("¿Mi juego necesita Roslyn o el compilador en tiempo de ejecución?", "No. El compilador se ejecuta durante la compilación. Al juego solo llegan los binarios generados, que son datos estáticos en tu ensamblado."),
   ("¿Puedo publicar solo SPIR-V y traducir en tiempo de ejecución?", "Sí, con la API `Transpile`. Está pensada para editores y herramientas. Para un juego publicado, traduce en tiempo de compilación y evita llevar un traductor en el reproductor."),
   ("¿Qué formatos necesito para un motor Direct3D?", "Solo `hlsl`. Compila el texto con el DXC o FXC que ya uses. Yotsuba Shader no produce DXIL ni DXBC."),
-  ("¿Pueden dos shaders usar estilos de escritura distintos?", "Sí. El estilo no cambia el resultado. Importa un espacio de nombres de estilo por archivo."),
+  ("¿Pueden dos shaders usar sintaxis distintas?", "Sí. La sintaxis no cambia el resultado. Importa un espacio de nombres de sintaxis por archivo."),
   ("¿Tengo que hacer mis clases de shader `partial`?", "Solo cuando usas el generador de código, porque añade la otra mitad de la clase. La línea de comandos no lo necesita."),
   ("¿A qué se aplica `[ShaderIgnore]`?", "A cualquier miembro o tipo que sea código de CPU: campos, propiedades, métodos y clases enteras, como una clase base."),
   ("¿Pueden convivir mi clase base y la mitad generada?", "Sí. La mitad generada no añade ninguna clase base, así que sirve cualquier clase de la que heredes, incluido el tipo de otro motor."),

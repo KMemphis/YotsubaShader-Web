@@ -1,8 +1,1 @@
-{
- "Style:": "Estilo:",
- "HLSL-like": "tipo HLSL",
- "GLSL-like": "tipo GLSL",
- "Metal-like": "tipo Metal",
- "Vulkan-like": "tipo Vulkan",
- "WGSL-like": "tipo WGSL"
-}
+{}

@@ -22,7 +22,7 @@ export const SITE = {
 /** Global navigation bar (left → right). */
 export const NAV = [
   { id: 'get-started', label: 'Get Started', href: '/get-started/' },
-  { id: 'styles', label: 'Styles', href: '/styles/' },
+  { id: 'syntaxes', label: 'Syntaxes', href: '/syntaxes/' },
   { id: 'playground', label: 'Playground', href: '/playground/' },
   { id: 'community', label: 'Community', href: '/community/' },
   { id: 'documentation', label: 'Documentation', href: '/documentation/' },
@@ -54,16 +54,16 @@ export const SECTIONS = {
       ['Build from Source', '/get-started/build-from-source/'],
     ],
   },
-  styles: {
-    title: 'Styles',
-    href: '/styles/',
+  syntaxes: {
+    title: 'Syntaxes',
+    href: '/syntaxes/',
     sub: [
-      ['Overview', '/styles/'],
-      ['HLSL', '/styles/hlsl/'],
-      ['GLSL', '/styles/glsl/'],
-      ['Metal', '/styles/metal/'],
-      ['Vulkan', '/styles/vulkan/'],
-      ['WGSL', '/styles/wgsl/'],
+      ['Overview', '/syntaxes/'],
+      ['HLSL', '/syntaxes/hlsl/'],
+      ['GLSL', '/syntaxes/glsl/'],
+      ['MSL', '/syntaxes/msl/'],
+      ['SPIR-V', '/syntaxes/spirv/'],
+      ['WGSL', '/syntaxes/wgsl/'],
     ],
   },
   technologies: {

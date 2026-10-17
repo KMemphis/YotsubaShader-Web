@@ -1,5 +1,5 @@
 import { icon, code, table, note, cardLink } from '../components.mjs';
-import { STYLE_META } from '../reference.mjs';
+import { SYNTAX_META } from '../reference.mjs';
 import { BACKENDS, SPIRV_LOGO } from '../backends.mjs';
 
 const HOW = {
@@ -12,7 +12,7 @@ const HOW = {
 };
 
 export default function technologies(ctx) {
-  const counts = Object.fromEntries(Object.entries(ctx.styles).map(([k, v]) => [k, v.total]));
+  const counts = Object.fromEntries(Object.entries(ctx.syntaxes).map(([k, v]) => [k, v.total]));
   const totalAttrs = Object.values(counts).reduce((a, b) => a + b, 0);
 
   const overview = {
@@ -74,9 +74,9 @@ public VertexOutput Vertex(VertexInput input) { /* ... */ }
 [ShaderStage(Stage.Fragment)]
 public Vector4 Fragment(VertexOutput input) => input.Color;`)}
     <h2>Interface slots</h2>
-    <p><code>[Location(n)]</code> marks input and output fields or properties. Built-in values (position, vertex index, global invocation id and many more) are expressed with the attribute vocabulary of your chosen style.</p>
+    <p><code>[Location(n)]</code> marks input and output fields or properties. Built-in values (position, vertex index, global invocation id and many more) are expressed with the attribute vocabulary of your chosen syntax.</p>
     <h2>Resources</h2>
-    <p>Shared attributes describe resources in every style: <code>[Uniform]</code>, <code>[StorageBuffer]</code> with a <code>ResourceAccess</code> mode (<code>ReadOnly</code>, <code>WriteOnly</code>, <code>ReadWrite</code>) and <code>[Binding(set, binding)]</code>. Each style adds its own spellings.</p>
+    <p>Shared attributes describe resources in every syntax: <code>[Uniform]</code>, <code>[StorageBuffer]</code> with a <code>ResourceAccess</code> mode (<code>ReadOnly</code>, <code>WriteOnly</code>, <code>ReadWrite</code>) and <code>[Binding(set, binding)]</code>. Each syntax adds its own spellings.</p>
     <h2>Your types, mapped to the GPU</h2>
     <p>Shaders live inside your C# project, so they use its types. Attributes map the vectors, matrices and textures you already have to native GPU types, and your shaders can build on external libraries and NuGet packages instead of redefining everything.</p>
     <p><a class="link-more" href="/documentation/yotsuba-shader/reusing-your-types-and-libraries/">Reusing your types and libraries ${icon('chevron-right')}</a></p>
@@ -92,17 +92,17 @@ public Vector4 Fragment(VertexOutput input) => input.Color;`)}
     )}
     <p>XNA-style <code>Vector2</code>, <code>Vector3</code> and <code>Vector4</code> from <code>Microsoft.Xna.Framework</code> are the types the examples use for positions and colors.</p>
     <h2>Five vocabularies</h2>
-    <p>The attribute names deliberately resemble their source languages. Across the five styles the language ships <strong>${totalAttrs}</strong> attributes.</p>
+    <p>The attribute names deliberately resemble their source languages. Across the five syntaxes the language ships <strong>${totalAttrs}</strong> attributes.</p>
     ${table(
-      ['Style', 'Inspired by', 'Attributes', 'Namespace'],
-      Object.entries(STYLE_META).map(([id, m]) => [
+      ['Syntax', 'Inspired by', 'Attributes', 'Package and namespace'],
+      Object.entries(SYNTAX_META).map(([id, m]) => [
         `<strong>${m.name}</strong>`,
         m.inspired,
         counts[id] || '—',
-        `<code>${m.namespace.replace('YotsubaShader.Language.', '')}</code>`,
+        `<code>${m.namespace}</code>`,
       ]),
     )}
-    <p><a class="link-more" href="/documentation/yotsuba-shader/builtin-values-across-styles/">Built-in values across styles ${icon('chevron-right')}</a></p>
+    <p><a class="link-more" href="/documentation/yotsuba-shader/builtin-values-across-syntaxes/">Built-in values across syntaxes ${icon('chevron-right')}</a></p>
   </div>
 </section>`,
   };
@@ -136,7 +136,7 @@ foreach (ShaderInfo shader in shaders)
     <h2>Roslyn</h2>
     <p>The frontend depends only on <code>Microsoft.CodeAnalysis.CSharp</code> and uses syntax trees, compilations, symbols, the semantic model and operations. It does not use Workspaces or MEF. Roslyn runs in the build, so your application does not need it: see <a href="/documentation/yotsuba-shader/generating-shader-binaries/">Generating shader binaries</a>.</p>
     <h2>Analysis</h2>
-    <p><code>ShaderProcessor.Process</code> turns each entry point into an IR <code>Function</code>: it resolves the stage, converts every parameter into a <code>Storage</code> (with its interface slot) and recognises the built-in attributes of all five styles.</p>
+    <p><code>ShaderProcessor.Process</code> turns each entry point into an IR <code>Function</code>: it resolves the stage, converts every parameter into a <code>Storage</code> (with its interface slot) and recognises the built-in attributes of all five syntaxes.</p>
     <h2>Entry points</h2>
     <p>Use the source generator in your build, or the command-line compiler in scripts, CI and content tools.</p>
     ${code('bash', `yotsuba compile YourGame.csproj \\
@@ -192,7 +192,7 @@ public abstract record class Storage(
     <h2>Types</h2>
     <p>Each type is a <code>Storage</code> record: <code>Bool</code>, <code>Int</code> (bits and signedness), <code>Float</code> (32-bit), <code>Double</code> (64-bit), <code>Vector</code> (float, int or uint components), <code>Matrix</code> (float or double; rows × columns), <code>Array</code>, <code>CustomStruct</code>, <code>Texture</code> and <code>Sampler</code>.</p>
     <h2>Why an IR</h2>
-    <p>The language vocabulary (five styles) and the output (SPIR-V and the formats derived from it) meet in the middle. Adding a style means mapping its attributes to existing slots; adding a backend means consuming the same model. Neither change touches the other side.</p>
+    <p>The language vocabulary (five syntaxes) and the output (SPIR-V and the formats derived from it) meet in the middle. Adding a syntax means mapping its attributes to existing slots; adding a backend means consuming the same model. Neither change touches the other side.</p>
     <p><a class="link-more" href="/documentation/yotsuba-shader/intermediate-representation/">IR in the documentation ${icon('chevron-right')}</a></p>
   </div>
 </section>`,
@@ -236,7 +236,7 @@ File.WriteAllBytes("mi modulo spirv.spv", spirV);`, 'Program.cs')}
     <h2>Generated operation table</h2>
     <p><code>YotsubaShader.Generator</code> is an incremental source generator. It reads the official <code>spirv.core.grammar.json</code> from Khronos and generates <code>SpirVOpTable</code>, so instructions are strongly typed instead of magic numbers.</p>
     <h2>Output targets</h2>
-    <p>SPIR-V is the shared intermediate binary. Vulkan consumes it directly; other graphics APIs expect their own shader format, which the <code>Transpile</code> API produces from the SPIR-V. The authoring style never decides the target.</p>
+    <p>SPIR-V is the shared intermediate binary. Vulkan consumes it directly; other graphics APIs expect their own shader format, which the <code>Transpile</code> API produces from the SPIR-V. The syntax never decides the target.</p>
     ${table(
       ['Platform', 'Shader format', 'How you get it'],
       BACKENDS.map((b) => [`<strong>${b.name}</strong>`, `<code>${b.format}</code>`, HOW[b.id]]),

@@ -45,5 +45,9 @@
  "[Matrix] + [MatrixColumn(i)]",
  "[Vector] + [VectorComponent(i)]",
  "class, struct",
- "struct"
+ "struct",
+ "Cubemap.cs(13, 6)",
+ "Cubemap.cs(7, 6)",
+ "Cubemap.cs(14, 50)",
+ "WebGL 2"
 ]

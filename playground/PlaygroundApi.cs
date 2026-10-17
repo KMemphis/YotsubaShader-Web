@@ -37,6 +37,7 @@
 
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using System.Text.RegularExpressions;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.Completion;
 using Microsoft.CodeAnalysis.CSharp;
@@ -59,6 +60,11 @@ public static class PlaygroundApi
     {
         DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
     };
+
+    // Namespaces hidden when attributes are displayed: YotsubaShader.Language and the five *Syntax vocabularies,
+    // including their Resources sub-namespace (YotsubaShader.HlslSyntax.Resources.).
+    private static readonly Regex AttributeNamespaces =
+        new(@"YotsubaShader\.(?:Language|(?:Glsl|Hlsl|Msl|Spirv|Wgsl)Syntax(?:\.Resources)?)\.", RegexOptions.Compiled);
 
     private static async Task<IReadOnlyList<FileDto>> Load(string filesJson)
     {
@@ -181,7 +187,7 @@ public static class PlaygroundApi
                     shaders.Add(new ShaderDto(shader.Name, shader.FullName, shader.EntryPoints.Select(e => new EntryPointDto(
                         e.Name, e.Stage.ToString(), e.ReturnType.ToDisplayString(SymbolDisplayFormat.MinimallyQualifiedFormat),
                         e.Parameters.Select(p => new ParameterDto(p.Name, p.Type.ToDisplayString(SymbolDisplayFormat.MinimallyQualifiedFormat),
-                            string.Join(", ", p.Symbol.GetAttributes().Select(a => a.ToString()!.Replace("YotsubaShader.Language.", ""))))).ToList())).ToList()));
+                            string.Join(", ", p.Symbol.GetAttributes().Select(a => AttributeNamespaces.Replace(a.ToString()!, ""))))).ToList())).ToList()));
                 }
 
                 // Surface frontend validation errors (for example inconsistent vector components) as diagnostics.

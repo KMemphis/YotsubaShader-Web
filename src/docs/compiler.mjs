@@ -1,19 +1,25 @@
 // Documentation articles: compiler, reference and project.
-import { icon, code, table, note, styleTabs } from '../components.mjs';
+import { icon, code, table, note, styleTabs, ideWindow } from '../components.mjs';
 import { builtinValuesCode, attributeGroupCode, textureBindingCode, STYLE_IDS } from '../examples.mjs';
-import { resourcesCode } from '../pages/styles.mjs';
-import { builtinMapTable, resourceMapTable, STYLE_META } from '../reference.mjs';
+import { resourcesCode } from '../pages/syntaxes.mjs';
+import { builtinMapTable, resourceMapTable, SYNTAX_META } from '../reference.mjs';
 import { SITE } from '../site.mjs';
-import { GEN_CSPROJ, GEN_INPUT, GEN_OUTPUT, GEN_TYPES, GEN_USE, CLI_SNIPPET, TRANSPILE_USE, TRANSPILE_HLSL } from '../snippets.mjs';
+import { GEN_CSPROJ, GEN_INPUT, GEN_OUTPUT, GEN_TYPES, GEN_USE, CLI_SNIPPET, TRANSPILE_USE, TRANSPILE_HLSL, IDE_EXAMPLE } from '../snippets.mjs';
 
 const D = '/documentation/yotsuba-shader/';
-const BUILTIN_VALUES = Object.fromEntries(STYLE_IDS.map((id) => [id, builtinValuesCode(id)]));
-const RESOURCES_BY_STYLE = Object.fromEntries(STYLE_IDS.map((id) => [id, resourcesCode(id)]));
-const TEXTURES_BY_STYLE = Object.fromEntries(STYLE_IDS.map((id) => [id, textureBindingCode(id)]));
 
-const styleArticle = (ctx, id) => {
-  const meta = STYLE_META[id];
-  const items = (ctx.styles[id] && ctx.styles[id].items) || [];
+/** Download links of the two reference PDFs (syntax table and backend compatibility), in the page's language. */
+export const PDF_LINKS = `<ul>
+<li><a href="/downloads/yotsuba-shader-syntax-reference-__FILM_LANG__.pdf">Syntax reference (PDF)</a>: every concept in the five syntaxes.</li>
+<li><a href="/downloads/yotsuba-shader-backend-compatibility-__FILM_LANG__.pdf">Backend compatibility (PDF)</a>: which graphics backends support each concept, verified with the shader toolchains.</li>
+</ul>`;
+const BUILTIN_VALUES = Object.fromEntries(STYLE_IDS.map((id) => [id, builtinValuesCode(id)]));
+const RESOURCES_BY_SYNTAX = Object.fromEntries(STYLE_IDS.map((id) => [id, resourcesCode(id)]));
+const TEXTURES_BY_SYNTAX = Object.fromEntries(STYLE_IDS.map((id) => [id, textureBindingCode(id)]));
+
+const syntaxArticle = (ctx, id) => {
+  const meta = SYNTAX_META[id];
+  const items = (ctx.syntaxes[id] && ctx.syntaxes[id].items) || [];
   const groups = ['Input', 'Input / Output', 'Output', 'Method', 'Resource', 'Type'];
   const titles = {
     Input: 'Input attributes',
@@ -38,17 +44,17 @@ const styleArticle = (ctx, id) => {
       return `<h2>${titles[g]}</h2><p>${blurb[g]}</p>${code('csharp', attributeGroupCode(id, items, g), `${g.replace(/\W+/g, '')}.cs`)}`;
     })
     .join('');
-  const exampleAttr = { hlsl: 'SV_Position', glsl: 'gl_Position', metal: 'position', vulkan: 'BuiltIn_Position', wgsl: '@builtin_position' }[id];
+  const exampleAttr = { hlsl: 'SV_Position', glsl: 'gl_Position', msl: 'position', spirv: 'BuiltIn_Position', wgsl: '@builtin_position' }[id];
   return {
-    slug: `${id}-style-attributes`,
+    slug: `${id}-syntax-attributes`,
     title: `${meta.name} attributes`,
     kind: 'Reference',
     heroKind: 'reference',
     icon: 'list',
-    summary: `Every attribute in the ${meta.name} vocabulary: ${/^[A-Z][a-z]/.test(meta.summary) ? meta.summary.charAt(0).toLowerCase() + meta.summary.slice(1) : meta.summary}`,
+    summary: `Every attribute of the ${meta.name}: ${/^[A-Z][a-z]/.test(meta.summary) ? meta.summary.charAt(0).toLowerCase() + meta.summary.slice(1) : meta.summary}`,
     body: `
 <h2>Overview</h2>
-<p>The ${meta.name} vocabulary is inspired by <strong>${meta.inspired}</strong>. It contains ${ctx.styles[id].total} attributes in the <code>${meta.namespace}</code> namespace, generated below from the language sources.</p>
+<p>The ${meta.name} is inspired by <strong>${meta.inspired}</strong>. It contains ${ctx.syntaxes[id].total} attributes in the <code>${meta.project}</code> package, whose namespace has the same name. They are generated below from its sources.</p>
 ${code('csharp', `using ${meta.namespace};
 
 public struct VertexOutput
@@ -56,7 +62,7 @@ public struct VertexOutput
     [${exampleAttr}]
     public Vector4 Position;
 }`)}
-<p>See the same concepts side by side in <a href="${D}builtin-values-across-styles/">Built-in values across styles</a> and <a href="${D}resource-attributes-across-styles/">Resource attributes across styles</a>.</p>
+<p>See the same concepts side by side in <a href="${D}builtin-values-across-syntaxes/">Built-in values across syntaxes</a> and <a href="${D}resource-attributes-across-syntaxes/">Resource attributes across syntaxes</a>.</p>
 ${sections || '<p class="muted">The language sources were not available when this page was built.</p>'}`,
   };
 };
@@ -96,6 +102,57 @@ ${code('bash', CLI_SNIPPET, 'Terminal')}
     },
 
     /* ---------------------------------------------------------------- */
+    {
+      slug: 'shader-diagnostics-in-your-ide',
+      title: 'Shader diagnostics in your IDE',
+      kind: 'Article',
+      icon: 'doc',
+      summary: 'Shader errors and backend incompatibilities, shown in the editor while you type, for the targets listed in your project.',
+      body: `
+<h2>Overview</h2>
+<p class="lead-p">Yotsuba Shader checks your shaders inside the IDE, while you write them. Mistakes in a shader and features that a target backend cannot run appear as errors and warnings in the editor, with the same squiggles and problem list as any other C# diagnostic. You find out before you build, and without a GPU.</p>
+${ideWindow({ ...IDE_EXAMPLE, label: 'An editor showing shader errors and backend warnings' })}
+
+<h2>Choose your targets</h2>
+<p>The backends come from your project. List them once in <code>&lt;YotsubaTargets&gt;</code>; every shader in the project is checked against each of them.</p>
+${code('xml', GEN_CSPROJ, 'YourGame.csproj')}
+${table(
+  ['Target', 'Format', 'Graphics backend'],
+  [
+    ['<code>spirv</code>', 'SPIR-V', 'Vulkan'],
+    ['<code>hlsl</code>', 'HLSL', 'Direct3D 12'],
+    ['<code>msl</code>', 'Metal Shading Language', 'Metal'],
+    ['<code>wgsl</code>', 'WGSL', 'WebGPU'],
+    ['<code>glsl</code>', 'GLSL', 'OpenGL'],
+    ['<code>glsles</code>', 'GLSL ES', 'WebGL 2'],
+  ],
+)}
+
+<h2>What is checked</h2>
+<ul>
+  <li><strong>The shader itself.</strong> An attribute in the wrong place, such as a compute-only attribute on a fragment stage, an output attribute on an input, or a value without its <code>[Location]</code>.</li>
+  <li><strong>Each target.</strong> Every built-in value, resource, type and stage is checked against each backend in <code>&lt;YotsubaTargets&gt;</code>. A shader that writes the render target layer works on Vulkan, Direct3D 12 and Metal, but not on WebGPU or WebGL 2, and the editor says so on that line.</li>
+  <li><strong>Types.</strong> A <code>double</code> is fine on Vulkan, Direct3D 12 and OpenGL, but Metal, WGSL and GLSL ES have no 64-bit floats.</li>
+</ul>
+<p>The syntax you write with does not matter: <code>[SV_RenderTargetArrayIndex]</code>, <code>[gl_Layer]</code>, <code>[render_target_array_index]</code> and <code>[BuiltIn_Layer]</code> are the same concept and get the same diagnostic.</p>
+
+<h2>Errors and warnings</h2>
+${table(
+  ['Severity', 'When'],
+  [
+    ['Error', 'The shader is wrong, or a target in your project cannot run it.'],
+    ['Warning', 'A target can run it only with an extension or an optional feature, for example <code>primitive_index</code> on WebGPU.'],
+  ],
+)}
+<p>Remove a target from <code>&lt;YotsubaTargets&gt;</code> and its diagnostics disappear. Add one and the editor shows what you would need to change.</p>
+
+<h2>Which backend supports what</h2>
+<p>The checks follow a compatibility table built by compiling every concept with the real shader toolchains of each backend. You can read it, and the table of every concept in the five syntaxes, as PDF files:</p>
+${PDF_LINKS}
+
+<h2>Where it works</h2>
+<p>The diagnostics run inside the C# compiler of your IDE, so they appear wherever C# analyzers do: Visual Studio, JetBrains Rider and Visual Studio Code with the C# extension. The same diagnostics also appear in <code>dotnet build</code> and in CI.</p>`,
+    },
     {
       slug: 'generating-shader-binaries',
       title: 'Generating shader binaries',
@@ -144,7 +201,7 @@ ${code('csharp', GEN_USE, 'Renderer.cs')}
 <h2>2. Command line</h2>
 <p>For builds, CI and content tools, you give the <code>yotsuba</code> command your project file. It loads the project's sources and references the way the C# compiler does, finds every <code>[ShaderStage]</code> method and writes one binary per entry point:</p>
 ${code('bash', CLI_SNIPPET, 'Terminal')}
-<p>The output folder then holds <code>Triangle.Vertex.spv</code>, <code>Triangle.Fragment.spv</code> and so on. To compile a single entry point, add <code>--entry Triangle.Vertex</code>. <code>--target</code> selects the backend independently of the attribute style you wrote the shader in. This is also the easiest way to inspect output with <code>spirv-val</code> and <code>spirv-dis</code>.</p>
+<p>The output folder then holds <code>Triangle.Vertex.spv</code>, <code>Triangle.Fragment.spv</code> and so on. To compile a single entry point, add <code>--entry Triangle.Vertex</code>. <code>--target</code> selects the backend independently of the syntax you wrote the shader in. This is also the easiest way to inspect output with <code>spirv-val</code> and <code>spirv-dis</code>.</p>
 
 <h2>Choosing</h2>
 ${table(
@@ -435,36 +492,39 @@ module.AddResultLine("%entry", SpirVOpTable.OpLabel);`)}`,
   /* ------------------------------------------------------------------ reference */
   const reference = [
     {
-      slug: 'builtin-values-across-styles',
-      title: 'Built-in values across styles',
+      slug: 'builtin-values-across-syntaxes',
+      title: 'Built-in values across syntaxes',
       kind: 'Reference',
       heroKind: 'reference',
       icon: 'list',
-      summary: 'The same built-in value, spelled in the HLSL, GLSL, Metal, Vulkan and WGSL vocabularies.',
+      summary: 'The same built-in value, spelled in the HLSL, GLSL, MSL, SPIR-V and WGSL syntaxes.',
       body: `
 <h2>Overview</h2>
-<p>Every built-in value of a style, grouped by stage and written as C#. Pick the tab of your style. The comment above each member names the concept, so you can find the same value in any other tab.</p>
+<p>Every built-in value of a syntax, grouped by stage and written as C#. Pick the tab of your syntax. The comment above each member names the concept, so you can find the same value in any other tab.</p>
 ${styleTabs(BUILTIN_VALUES, { file: 'BuiltIns.cs' })}
-<p>For resources and binding slots, see <a href="${D}resource-attributes-across-styles/">Resource attributes across styles</a>.</p>`,
+<p>For resources and binding slots, see <a href="${D}resource-attributes-across-syntaxes/">Resource attributes across syntaxes</a>.</p>
+<h2>Printable references</h2>
+<p>The whole table, every concept in the five syntaxes, and which graphics backends support each concept, as PDF files.</p>
+${PDF_LINKS}`,
     },
     {
-      slug: 'resource-attributes-across-styles',
-      title: 'Resource attributes across styles',
+      slug: 'resource-attributes-across-syntaxes',
+      title: 'Resource attributes across syntaxes',
       kind: 'Reference',
       heroKind: 'reference',
       icon: 'list',
-      summary: 'Uniform buffers, storage buffers, textures, samplers and binding slots in each vocabulary.',
+      summary: 'Uniform buffers, storage buffers, textures, samplers and binding slots in each syntax.',
       body: `
 <h2>Uniform and storage buffers</h2>
-<p>The same three resources in every style: a uniform, a read and write storage buffer and a read-only one, each with its binding slot.</p>
-${styleTabs(RESOURCES_BY_STYLE, { file: 'Resources.cs' })}
+<p>The same three resources in every syntax: a uniform, a read and write storage buffer and a read-only one, each with its binding slot.</p>
+${styleTabs(RESOURCES_BY_SYNTAX, { file: 'Resources.cs' })}
 
 <h2>Textures and samplers</h2>
 <p>A texture and a sampler bound to their slots.</p>
-${styleTabs(TEXTURES_BY_STYLE, { file: 'Surface.cs' })}
+${styleTabs(TEXTURES_BY_SYNTAX, { file: 'Surface.cs' })}
 
 <h2>Shared attributes</h2>
-<p>Independent of style, <code>YotsubaShader.Language</code> provides these attributes. They work together with any of the vocabularies above. See <a href="${D}uniforms-and-storage-buffers/">Uniforms and storage buffers</a>.</p>
+<p>Independent of the syntax, <code>YotsubaShader.Language</code> provides these attributes. They work together with any of the vocabularies above. See <a href="${D}uniforms-and-storage-buffers/">Uniforms and storage buffers</a>.</p>
 ${code('csharp', `using YotsubaShader.Language;
 using YotsubaShader.Language.Resources;
 
@@ -477,7 +537,7 @@ public class Shared
     public float[] Input;
 }`, 'Shared.cs')}`,
     },
-    ...Object.keys(STYLE_META).map((id) => styleArticle(ctx, id)),
+    ...Object.keys(SYNTAX_META).map((id) => syntaxArticle(ctx, id)),
   ];
 
   /* -------------------------------------------------------------------- project */

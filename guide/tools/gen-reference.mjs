@@ -26,6 +26,7 @@ const ES = {
   'Sample mask': 'Máscara de muestras',
   'Primitive index': 'Índice de primitiva',
   'Barycentric coordinates': 'Coordenadas baricéntricas',
+  'Barycentric coordinates (no perspective)': 'Coordenadas baricéntricas (sin perspectiva)',
   'Helper invocation': 'Invocación auxiliar',
   'Sample position': 'Posición de la muestra',
   'Compute stage': 'Etapa compute',
@@ -44,13 +45,15 @@ const ES = {
   'Read/write storage buffer': 'Storage buffer de lectura y escritura',
   'Read-only storage buffer': 'Storage buffer de solo lectura',
   'Binding slot': 'Slot de binding',
+  'Texture slot': 'Slot de textura',
+  'Sampler slot': 'Slot de sampler',
 };
 const unesc = (s) => s.replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&amp;/g, '&');
 const q = (s) => JSON.stringify(unesc(s));       // a Typst string literal
 const code = (s) => (s ? `text(font: mono, size: 6.3pt)[#${q(s)}]` : `text(fill: muted)[—]`);
 
 function table(rows, lang, withGroups) {
-  const head = [lang === 'es' ? 'Concepto' : 'Concept', 'HLSL', 'GLSL', 'Metal', 'Vulkan', 'WGSL'];
+  const head = [lang === 'es' ? 'Concepto' : 'Concept', 'HLSL', 'GLSL', 'MSL', 'SPIR-V', 'WGSL'];
   let out = `#table(\n  columns: (1.5fr, 1.3fr, 1.3fr, 1.3fr, 1.3fr, 1.3fr),\n  stroke: (x: none, y: 0.4pt + line-color),\n  inset: (x: 4pt, y: 4pt),\n  fill: (_, y) => if y == 0 { rgb("#f5f5f7") } else { none },\n`;
   out += `  table.header(${head.map((h) => `text(weight: "bold", size: 7pt)[${h}]`).join(', ')}),\n`;
   for (const r of rows) {

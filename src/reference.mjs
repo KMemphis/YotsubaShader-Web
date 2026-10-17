@@ -1,47 +1,55 @@
-// Reads the attribute vocabularies straight from YotsubaShader.Language (read-only) so the
-// reference pages never drift away from the source. If the folder is missing the site still
-// builds; the reference pages just show the curated cross-style table.
+// Reads the attribute vocabularies straight from the YotsubaShader.<X>Syntax projects (read-only) so
+// the reference pages never drift away from the source. If the folders are missing the site still
+// builds; the reference pages just show the curated cross-syntax table.
 
 import fs from 'node:fs';
 import path from 'node:path';
 
-export const STYLE_META = {
+/** The five syntax packages. Each one is a project and a namespace of the same name. */
+export const SYNTAX_META = {
   hlsl: {
-    dir: 'HlslStyle',
-    name: 'HLSL-style',
-    namespace: 'YotsubaShader.Language.StylesAttributes.HlslStyle',
+    project: 'YotsubaShader.HlslSyntax',
+    label: 'HLSL',
+    name: 'HLSL syntax',
     inspired: 'HLSL (Direct3D)',
     summary: 'System-value semantics such as SV_Position and numthreads, plus cbuffer and register for resources.',
   },
   glsl: {
-    dir: 'GlslStyle',
-    name: 'GLSL-style',
-    namespace: 'YotsubaShader.Language.StylesAttributes.GlslStyle',
+    project: 'YotsubaShader.GlslSyntax',
+    label: 'GLSL',
+    name: 'GLSL syntax',
     inspired: 'GLSL (OpenGL / Vulkan GLSL)',
     summary: 'gl_* built-ins, layout(set, binding), uniform and buffer.',
   },
-  metal: {
-    dir: 'MetalStyle',
-    name: 'Metal-style',
-    namespace: 'YotsubaShader.Language.StylesAttributes.MetalStyle',
-    inspired: 'Metal Shading Language',
+  msl: {
+    project: 'YotsubaShader.MslSyntax',
+    label: 'MSL',
+    name: 'MSL syntax',
+    inspired: 'the Metal Shading Language',
     summary: 'Attribute names from MSL such as position, vertex_id and thread_position_in_grid, plus buffer(n), texture(n) and sampler(n).',
   },
-  vulkan: {
-    dir: 'VulkanStyle',
-    name: 'Vulkan-style',
-    namespace: 'YotsubaShader.Language.StylesAttributes.VulkanStyle',
-    inspired: 'Vulkan / SPIR-V',
+  spirv: {
+    project: 'YotsubaShader.SpirvSyntax',
+    label: 'SPIR-V',
+    name: 'SPIR-V syntax',
+    inspired: 'SPIR-V (Vulkan)',
     summary: 'SPIR-V BuiltIn names (BuiltIn_Position), DescriptorSet and Binding.',
   },
   wgsl: {
-    dir: 'WgslStyle',
-    name: 'WGSL-style',
-    namespace: 'YotsubaShader.Language.StylesAttributes.WgslStyle',
+    project: 'YotsubaShader.WgslSyntax',
+    label: 'WGSL',
+    name: 'WGSL syntax',
     inspired: 'WGSL (WebGPU)',
     summary: 'The @builtin(...), @group and @binding vocabulary of WebGPU, written with @ identifiers that remain valid C#.',
   },
 };
+for (const meta of Object.values(SYNTAX_META)) meta.namespace = meta.project;
+
+export const SYNTAX_IDS = Object.keys(SYNTAX_META);
+
+/** `using` line for the attributes of a syntax, and for its resource attributes. */
+export const syntaxUsing = (id) => `using ${SYNTAX_META[id].namespace};`;
+export const resUsing = (id) => `using ${SYNTAX_META[id].namespace}.Resources;`;
 
 const KIND_ORDER = ['Input', 'Output', 'Input / Output', 'Method', 'Resource', 'Type'];
 
@@ -81,15 +89,16 @@ function scanFile(file) {
 }
 
 /** @returns {Record<string, {items: any[], total: number}>} */
-export function scanStyles(languageDir) {
+export function scanSyntaxes(repoDir) {
   const result = {};
-  for (const [id, meta] of Object.entries(STYLE_META)) {
-    const root = path.join(languageDir, 'StylesAttributes', meta.dir);
+  for (const [id, meta] of Object.entries(SYNTAX_META)) {
+    const root = path.join(repoDir, meta.project);
     const items = [];
     if (fs.existsSync(root)) {
       const walk = (dir) => {
         for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
           const full = path.join(dir, entry.name);
+          if (entry.isDirectory() && (entry.name === 'bin' || entry.name === 'obj')) continue;
           if (entry.isDirectory()) walk(full);
           else if (entry.name.endsWith('.cs')) {
             const resource = /Resour?ces$/.test(path.basename(dir));
@@ -120,7 +129,8 @@ export function scanStyles(languageDir) {
 const NONE = '<span class="muted">—</span>';
 const c = (s) => (s ? `<code>${s}</code>` : NONE);
 
-/** Curated cross-style equivalence of the built-in values (checked against the attribute files). */
+/** Curated cross-syntax equivalence of the built-in values (checked against the attribute files).
+ * Columns: concept, HLSL, GLSL, MSL, SPIR-V, WGSL (the order of SYNTAX_IDS). */
 export const BUILTIN_MAP = [
   ['Vertex stage', null],
   ['Clip-space position (vertex output)', 'SV_Position', 'gl_Position', 'position', 'BuiltIn_Position', '@builtin_position'],
@@ -135,12 +145,13 @@ export const BUILTIN_MAP = [
   ['Fragment coordinate', 'SV_Position', 'gl_FragCoord', 'position', 'BuiltIn_FragCoord', '@builtin_position'],
   ['Front-facing flag', 'SV_IsFrontFace', 'gl_FrontFacing', 'front_facing', 'BuiltIn_FrontFacing', '@builtin_front_facing'],
   ['Fragment depth (output)', 'SV_Depth', 'gl_FragDepth', 'depth', 'BuiltIn_FragDepth', '@builtin_frag_depth'],
-  ['Conservative depth', 'SV_DepthGreaterEqual / SV_DepthLessEqual', '', '', '', ''],
+  ['Conservative depth', 'SV_DepthGreaterEqual / SV_DepthLessEqual', '', 'depth("greater") / depth("less")', '', ''],
   ['Stencil reference (output)', 'SV_StencilRef', 'gl_FragStencilRefARB', 'stencil', 'BuiltIn_FragStencilRef', ''],
   ['Sample index', 'SV_SampleIndex', 'gl_SampleID', 'sample_id', 'BuiltIn_SampleId', '@builtin_sample_index'],
-  ['Sample mask', 'SV_Coverage', 'gl_SampleMask', 'sample_mask', 'BuiltIn_SampleMask', '@builtin_sample_mask'],
+  ['Sample mask', 'SV_Coverage', 'gl_SampleMask / gl_SampleMaskIn', 'sample_mask', 'BuiltIn_SampleMask', '@builtin_sample_mask'],
   ['Primitive index', 'SV_PrimitiveID', 'gl_PrimitiveID', 'primitive_id', 'BuiltIn_PrimitiveId', '@builtin_primitive_index'],
   ['Barycentric coordinates', 'SV_Barycentrics', 'gl_BaryCoordEXT', 'barycentric_coord', 'BuiltIn_BaryCoord', ''],
+  ['Barycentric coordinates (no perspective)', '', 'gl_BaryCoordNoPerspEXT', '', 'BuiltIn_BaryCoordNoPersp', ''],
   ['Helper invocation', '', 'gl_HelperInvocation', '', 'BuiltIn_HelperInvocation', ''],
   ['Sample position', '', 'gl_SamplePosition', '', 'BuiltIn_SamplePosition', ''],
   ['Compute stage', null],
@@ -162,10 +173,21 @@ export const RESOURCE_MAP = [
   ['Read/write storage buffer', 'RWStructuredBuffer&lt;T&gt;', 'buffer', 'device', 'StorageBuffer', 'storage(storage_use.read_write)'],
   ['Read-only storage buffer', 'StructuredBuffer&lt;T&gt;', 'buffer', 'device(readOnly: true)', 'StorageBuffer', 'storage(storage_use.read)'],
   ['Binding slot', 'register(RegisterPrefix.b, n)', 'layout(set, binding)', 'buffer(n), texture(n), sampler(n)', 'DescriptorSet(s) + Binding(n)', '@group(s) + @binding(n)'],
+  ['Texture slot', 'register(RegisterPrefix.t, n)', 'layout(set, binding)', 'texture(n)', 'DescriptorSet(s) + Binding(n)', '@group(s) + @binding(n)'],
+  ['Sampler slot', 'register(RegisterPrefix.s, n)', 'layout(set, binding)', 'sampler(n)', 'DescriptorSet(s) + Binding(n)', '@group(s) + @binding(n)'],
+];
+
+/** Attributes of the neutral core (YotsubaShader.Language): the same in every syntax. */
+export const CORE_MAP = [
+  ['Interface location (vertex inputs, varyings, fragment outputs)', 'Location(n)'],
+  ['Uniform buffer (neutral spelling)', 'Uniform'],
+  ['Storage buffer (neutral spelling)', 'StorageBuffer'],
+  ['Set and binding (neutral spelling)', 'Binding(set, binding)'],
+  ['Shader stage of a method', 'ShaderStage(Stage.Vertex | Fragment | Compute)'],
 ];
 
 export function builtinMapTable() {
-  const head = ['Concept', 'HLSL', 'GLSL', 'Metal', 'Vulkan', 'WGSL'];
+  const head = ['Concept', ...SYNTAX_IDS.map((id) => SYNTAX_META[id].label)];
   let html = '<div class="table-wrap"><table class="table table--map"><thead><tr>';
   html += head.map((h) => `<th scope="col">${h}</th>`).join('');
   html += '</tr></thead><tbody>';
@@ -183,7 +205,7 @@ export function builtinMapTable() {
 }
 
 export function resourceMapTable() {
-  const head = ['Concept', 'HLSL', 'GLSL', 'Metal', 'Vulkan', 'WGSL'];
+  const head = ['Concept', ...SYNTAX_IDS.map((id) => SYNTAX_META[id].label)];
   let html = '<div class="table-wrap"><table class="table table--map"><thead><tr>';
   html += head.map((h) => `<th scope="col">${h}</th>`).join('');
   html += '</tr></thead><tbody>';

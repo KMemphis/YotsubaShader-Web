@@ -15,14 +15,14 @@ import { fileURLToPath } from 'node:url';
 import { spawnSync } from 'node:child_process';
 
 import { renderPage, renderDoc, relativize } from './src/layout.mjs';
-import { scanStyles } from './src/reference.mjs';
+import { scanSyntaxes, SYNTAX_META } from './src/reference.mjs';
 import { SECTIONS, SITE } from './src/site.mjs';
 import { LOCALES, localePath, localizeHtml, translateText, i18nReport } from './src/i18n/index.mjs';
 import buildDocs from './src/docs/docs.mjs';
 
 import homePages from './src/pages/home.mjs';
 import getStarted from './src/pages/get-started.mjs';
-import styles from './src/pages/styles.mjs';
+import syntaxes from './src/pages/syntaxes.mjs';
 import technologies from './src/pages/technologies.mjs';
 import community from './src/pages/community.mjs';
 import playground from './src/pages/playground.mjs';
@@ -30,7 +30,7 @@ import playground from './src/pages/playground.mjs';
 const ROOT = path.dirname(fileURLToPath(import.meta.url));
 const DIST = path.join(ROOT, 'dist');
 const STATIC = path.join(ROOT, 'src', 'static');
-const LANGUAGE_DIR = path.resolve(ROOT, '..', 'YotsubaShader.Language');
+const REPO_DIR = path.resolve(ROOT, '..');
 
 const args = new Set(process.argv.slice(2));
 
@@ -85,15 +85,54 @@ function copyDir(src, dest) {
   }
 }
 
+/* --------------------------------------------------------------- redirects */
+// Pages renamed when the authoring "styles" became the YotsubaShader.<X>Syntax packages.
+const DOC = '/documentation/yotsuba-shader/';
+const REDIRECTS = {
+  '/styles/': '/syntaxes/',
+  '/styles/hlsl/': '/syntaxes/hlsl/',
+  '/styles/glsl/': '/syntaxes/glsl/',
+  '/styles/metal/': '/syntaxes/msl/',
+  '/styles/vulkan/': '/syntaxes/spirv/',
+  '/styles/wgsl/': '/syntaxes/wgsl/',
+  [`${DOC}choosing-an-authoring-style/`]: `${DOC}choosing-a-syntax/`,
+  [`${DOC}builtin-values-across-styles/`]: `${DOC}builtin-values-across-syntaxes/`,
+  [`${DOC}resource-attributes-across-styles/`]: `${DOC}resource-attributes-across-syntaxes/`,
+  [`${DOC}hlsl-style-attributes/`]: `${DOC}hlsl-syntax-attributes/`,
+  [`${DOC}glsl-style-attributes/`]: `${DOC}glsl-syntax-attributes/`,
+  [`${DOC}metal-style-attributes/`]: `${DOC}msl-syntax-attributes/`,
+  [`${DOC}vulkan-style-attributes/`]: `${DOC}spirv-syntax-attributes/`,
+  [`${DOC}wgsl-style-attributes/`]: `${DOC}wgsl-syntax-attributes/`,
+};
+
+function redirectPage(oldPath, newPath, locale) {
+  const depth = oldPath.split('/').filter(Boolean).length;
+  const rel = '../'.repeat(depth) + newPath.slice(1);
+  const canonical = SITE.url ? `${SITE.url}${newPath}` : rel;
+  return `<!doctype html>
+<html lang="${LOCALES[locale].htmlLang}">
+<head>
+<meta charset="utf-8">
+<title>${SITE.name}</title>
+<meta name="robots" content="noindex">
+<link rel="canonical" href="${canonical}">
+<meta http-equiv="refresh" content="0; url=${rel}">
+<script>location.replace(${JSON.stringify(rel)} + location.hash);</script>
+</head>
+<body><p><a href="${rel}">${SITE.name}</a></p></body>
+</html>
+`;
+}
+
 /* ------------------------------------------------------------------- build */
 function build() {
   const started = Date.now();
   fs.rmSync(DIST, { recursive: true, force: true });
   copyDir(STATIC, DIST);
 
-  const hasLanguage = fs.existsSync(LANGUAGE_DIR);
-  if (!hasLanguage) console.warn(`! ${LANGUAGE_DIR} not found: attribute reference pages will be empty.`);
-  const ctx = { styles: scanStyles(LANGUAGE_DIR) };
+  const missing = Object.values(SYNTAX_META).filter((m) => !fs.existsSync(path.join(REPO_DIR, m.project)));
+  if (missing.length) console.warn(`! ${missing.map((m) => m.project).join(', ')} not found next to Web/: their attribute reference pages will be empty.`);
+  const ctx = { syntaxes: scanSyntaxes(REPO_DIR) };
 
   const resolve = (mod) => (typeof mod === 'function' ? mod(ctx) : mod);
   const docs = buildDocs(ctx);
@@ -101,7 +140,7 @@ function build() {
   const pages = [
     ...resolve(homePages),
     ...resolve(getStarted),
-    ...resolve(styles),
+    ...resolve(syntaxes),
     ...resolve(technologies),
     ...resolve(community),
     ...resolve(playground),
@@ -168,6 +207,18 @@ function build() {
     body: `<section class="notfound"><div><h1 class="h-xl">Page not found</h1><p class="lead" style="margin:18px auto 28px">That URL does not exist on this site.</p><a class="btn btn-primary" href="/">Back to the home page</a></div></section>`,
   });
   write('404.html', notFound);
+
+  // Old addresses of pages that moved: a small page that sends the visitor (and search engines) to the new one.
+  // They are not part of `seen`, so they stay out of the sitemap and the search index.
+  for (const [from, to] of Object.entries(REDIRECTS)) {
+    for (const locale of locales) {
+      const oldPath = localePath(from, locale);
+      const newPath = localePath(to, locale);
+      if (seen.has(oldPath)) throw new Error(`Redirect would replace a real page: ${oldPath}`);
+      if (!seen.has(newPath)) throw new Error(`Redirect points to a missing page: ${oldPath} -> ${newPath}`);
+      write(outFile(oldPath), redirectPage(oldPath, newPath, locale));
+    }
+  }
   write('.nojekyll', '');
 
   // robots.txt always; the sitemap needs absolute addresses, so it waits for SITE_URL.

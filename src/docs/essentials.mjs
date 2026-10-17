@@ -2,7 +2,7 @@
 import { icon, code, styleTabs, engineTabs, table, note } from '../components.mjs';
 import { STYLE_TRIANGLE, STYLE_RESOURCES, BASIC_COLOR } from '../snippets.mjs';
 import { builtinMapTable, resourceMapTable } from '../reference.mjs';
-import { resourcesCode } from '../pages/styles.mjs';
+import { resourcesCode } from '../pages/syntaxes.mjs';
 import { textureBindingCode, STYLE_IDS } from '../examples.mjs';
 
 const D = '/documentation/yotsuba-shader/';
@@ -144,7 +144,7 @@ export default [
     body: `
 <h2>Overview</h2>
 <p class="lead-p">Yotsuba Shader is the shader authoring layer for your engine, framework or content tool. Your team writes shaders in C# using types, structures and attributes. The compiler interprets their interfaces and stages, lowers them to a shared intermediate representation, and generates output for the selected backend.</p>
-<p>The central idea is simple: <strong>the attribute style you use does not determine the output target</strong>. HLSL, GLSL, Metal, Vulkan and WGSL provide equivalent authoring vocabularies. Choose the one your team knows best, then select SPIR-V or another backend when compiling.</p>
+<p>The central idea is simple: <strong>the syntax you write with does not determine the output target</strong>. HLSL, GLSL, MSL, SPIR-V and WGSL provide equivalent authoring vocabularies. Choose the one your team knows best, then select SPIR-V or another backend when compiling.</p>
 <figure class="code" data-lang="text"><figcaption><span class="code-file">Pipeline</span></figcaption><pre><code>C# with familiar attributes
           ↓
 semantic analysis and validation
@@ -226,9 +226,8 @@ ${code('csharp', `public class BasicColorShader
 
 <h2>Add the using directives</h2>
 ${code('csharp', `using Microsoft.Xna.Framework;                       // Vector2, Vector4
-using YotsubaShader.Language;                        // ShaderStage, Stage
-using YotsubaShader.Language.StylesAttributes;             // Location
-using YotsubaShader.Language.StylesAttributes.HlslStyle;   // SV_Position (names inspired by HLSL)`)}
+using YotsubaShader.Language;                        // ShaderStage, Stage, Location
+using YotsubaShader.HlslSyntax;                      // SV_Position (names inspired by HLSL)`)}
 
 <h2>What the compiler does with it</h2>
 <ol>
@@ -238,7 +237,7 @@ using YotsubaShader.Language.StylesAttributes.HlslStyle;   // SV_Position (names
 </ol>
 
 <h2>Try another vocabulary</h2>
-<p>Replace <code>[SV_Position]</code> with <code>[gl_Position]</code>, <code>[position]</code>, <code>[BuiltIn_Position]</code> or <code>[@builtin_position]</code> (and the matching <code>using</code>) and the IR is identical. Read <a href="${D}choosing-an-authoring-style/">Choosing an authoring style</a>.</p>`,
+<p>Replace <code>[SV_Position]</code> with <code>[gl_Position]</code>, <code>[position]</code>, <code>[BuiltIn_Position]</code> or <code>[@builtin_position]</code> (and the matching <code>using</code>) and the IR is identical. Read <a href="${D}choosing-a-syntax/">Choosing a syntax</a>.</p>`,
   },
 
   /* ------------------------------------------------------------------ */
@@ -488,8 +487,7 @@ public class Lighting
 <p>Everything above lives in your engine. This is what a programmer who uses it writes: a shader with the types they already know, imported from your namespace.</p>
 ${code('csharp', `using MyEngine;
 using YotsubaShader.Language;
-using YotsubaShader.Language.StylesAttributes;
-using YotsubaShader.Language.StylesAttributes.HlslStyle;
+using YotsubaShader.HlslSyntax;
 using YotsubaShader.Language.Resources;
 
 public struct Material
@@ -586,35 +584,37 @@ ${code('xml', `<PropertyGroup>
 
   /* ------------------------------------------------------------------ */
   {
-    slug: 'choosing-an-authoring-style',
-    title: 'Choosing an authoring style',
+    slug: 'choosing-a-syntax',
+    title: 'Choosing a syntax',
     kind: 'Article',
     icon: 'braces',
-    summary: 'HLSL, GLSL, Metal, Vulkan and WGSL vocabularies express the same intent. Pick the one your team knows.',
+    summary: 'The HLSL, GLSL, MSL, SPIR-V and WGSL syntaxes express the same intent. Pick the one your team knows.',
     body: `
 <h2>Overview</h2>
-<p>The five examples below are the same shader: a vertex and a fragment stage, plus a compute stage that writes to a storage buffer. Only the attribute names change. Switch between them with the tabs, or with the <strong>Style</strong> menu at the top of the page; your choice is remembered across the documentation.</p>
-${note('important', 'An HLSL-like style does not require an HLSL target, and a WGSL-like style does not require WebGPU. These are C# authoring choices; the compilation target is selected separately.')}
+<p>The five examples below are the same shader: a vertex and a fragment stage, plus a compute stage that writes to a storage buffer. Only the attribute names change. Switch between them with the tabs, or with the <strong>Syntax</strong> menu at the top of the page; your choice is remembered across the documentation.</p>
+${note('important', 'The HLSL syntax does not require an HLSL target, and the WGSL syntax does not require WebGPU. These are C# authoring choices; the compilation targets are selected separately.')}
+<h2>One package per syntax</h2>
+<p>Each syntax is its own package with a namespace of the same name: <code>YotsubaShader.HlslSyntax</code>, <code>YotsubaShader.GlslSyntax</code>, <code>YotsubaShader.MslSyntax</code>, <code>YotsubaShader.SpirvSyntax</code> and <code>YotsubaShader.WgslSyntax</code>. Resource attributes live in its <code>.Resources</code> namespace, for example <code>YotsubaShader.HlslSyntax.Resources</code>. All of them build on <code>YotsubaShader.Language</code>, the neutral core with <code>[ShaderStage]</code>, <code>[Location]</code>, the shared resource attributes and the native types. Engines and frameworks build on that core; add only the syntax you write with.</p>
 
-<h2>The same shader in five styles</h2>
+<h2>The same shader in five syntaxes</h2>
 ${styleTabs(STYLE_TRIANGLE)}
 <p>These names deliberately resemble their source languages. In C#, WGSL-inspired attributes use <code>@</code> in the identifier, as in <code>[@builtin_position]</code>, while remaining valid C#.</p>
 
-<h2>Resources in five styles</h2>
+<h2>Resources in five syntaxes</h2>
 <p>Uniform buffers and binding slots follow the same pattern.</p>
 ${styleTabs(STYLE_RESOURCES, { file: 'Lighting.cs' })}
-<p>The shared <code>[Uniform]</code>, <code>[StorageBuffer]</code> and <code>[Binding]</code> attributes in <code>YotsubaShader.Language</code> work in every style as well.</p>
+<p>The shared <code>[Uniform]</code>, <code>[StorageBuffer]</code> and <code>[Binding]</code> attributes in <code>YotsubaShader.Language</code> work in every syntax as well.</p>
 
 <h2>Which one should I pick?</h2>
 <ul>
-  <li><strong>Your team already knows a shading language:</strong> use its vocabulary. Nothing in the IR depends on the style.</li>
-  <li><strong>You target a single API:</strong> the matching style reads most naturally (Metal-like for Metal, Vulkan-like for Vulkan), but it is a convenience, not a requirement.</li>
-  <li><strong>You are starting fresh:</strong> the HLSL-like style is a good first choice. The relationship between stages, inputs, position and fragment color is easy to see.</li>
+  <li><strong>Your team already knows a shading language:</strong> use its syntax. Nothing in the IR depends on the syntax.</li>
+  <li><strong>You target a single API:</strong> the matching syntax reads most naturally (MSL for Metal, SPIR-V for Vulkan), but it is a convenience, not a requirement.</li>
+  <li><strong>You are starting fresh:</strong> the HLSL syntax is a good first choice. The relationship between stages, inputs, position and fragment color is easy to see.</li>
 </ul>
-${note('tip', 'Several names exist in more than one style namespace (for example <code>uniform</code> and <code>buffer</code>). Import <strong>one</strong> style namespace per file to keep names unambiguous.')}
+${note('tip', 'Several names exist in more than one syntax namespace (for example <code>uniform</code> and <code>buffer</code>). Import <strong>one</strong> syntax namespace per file to keep names unambiguous.')}
 
 <h2>Equivalence</h2>
-<p>Each style is meant to be semantically equivalent to the others. The frontend already maps the position and vertex-index attributes of all five styles to the same IR built-ins. See the full table in <a href="${D}builtin-values-across-styles/">Built-in values across styles</a>.</p>`,
+<p>Each syntax is meant to be semantically equivalent to the others. The frontend already maps the position and vertex-index attributes of all five syntaxes to the same IR built-ins. See the full table in <a href="${D}builtin-values-across-syntaxes/">Built-in values across syntaxes</a>.</p>`,
   },
 
   /* ------------------------------------------------------------------ */
@@ -649,8 +649,8 @@ public VertexOutput Vertex(VertexInput input) { /* ... */ }
 public Vector4 Fragment(VertexOutput input) => input.Color;`)}
 
 <h2>Compute</h2>
-<p>Compute stages use a workgroup size method attribute, plus built-in inputs such as the global invocation id. Each style spells these in its own way.</p>
-${code('csharp', `using YotsubaShader.Language.StylesAttributes.HlslStyle;
+<p>Compute stages use a workgroup size method attribute, plus built-in inputs such as the global invocation id. Each syntax spells these in its own way.</p>
+${code('csharp', `using YotsubaShader.HlslSyntax;
 
 public class Fill
 {
@@ -662,14 +662,14 @@ public class Fill
     }
 }`, 'Fill.cs')}
 ${table(
-  ['Style', 'Workgroup size attribute'],
+  ['Syntax', 'Workgroup size attribute'],
   [
-    ['HLSL-like', '<code>[numthreads(x, y, z)]</code>'],
-    ['GLSL-like', '<code>[layout_local_size(x, y = 1, z = 1)]</code>'],
-    ['WGSL-like', '<code>[@workgroup_size(x, y = 1, z = 1)]</code>'],
+    ['HLSL', '<code>[numthreads(x, y, z)]</code>'],
+    ['GLSL', '<code>[layout_local_size(x, y = 1, z = 1)]</code>'],
+    ['WGSL', '<code>[@workgroup_size(x, y = 1, z = 1)]</code>'],
   ],
 )}
-<p>Metal and Vulkan-style vocabularies expose the workgroup size as a built-in value rather than a method attribute; see <a href="${D}builtin-values-across-styles/">Built-in values across styles</a>.</p>
+<p>The MSL and SPIR-V syntaxes expose the workgroup size as a built-in value rather than a method attribute; see <a href="${D}builtin-values-across-syntaxes/">Built-in values across syntaxes</a>.</p>
 
 <h2>How entry points are found</h2>
 <p>Discovery looks for ordinary methods (not constructors or property accessors) carrying the attribute, in declaration order, and it works on private methods too. A class may declare any number of stages. Read <a href="${D}shader-discovery/">Shader discovery</a>.</p>`,
@@ -701,15 +701,15 @@ public struct VertexOutput
 }`)}
 
 <h2>Built-in values</h2>
-<p>Built-ins are values the pipeline provides or consumes: the clip-space position, the vertex index, the fragment coordinate, the global invocation id and more. Each style has its own names for them. They apply to inputs, outputs or both, depending on the attribute.</p>
-<p>The complete mapping is in <a href="${D}builtin-values-across-styles/">Built-in values across styles</a>.</p>
+<p>Built-ins are values the pipeline provides or consumes: the clip-space position, the vertex index, the fragment coordinate, the global invocation id and more. Each syntax has its own names for them. They apply to inputs, outputs or both, depending on the attribute.</p>
+<p>The complete mapping is in <a href="${D}builtin-values-across-syntaxes/">Built-in values across syntaxes</a>.</p>
 
 <h2>In the IR</h2>
 ${table(
   ['Slot', 'Produced from'],
   [
     ['<code>LocationSlot(int)</code>', '<code>[Location(n)]</code>'],
-    ['<code>BuiltInSlot(BuiltIn)</code>', 'A built-in attribute from any style.'],
+    ['<code>BuiltInSlot(BuiltIn)</code>', 'A built-in attribute from any syntax.'],
     ['<code>VertexSlot(VertexSemantic)</code>', 'Defined for vertex semantics (position, color, texture coordinate, normal, …); the backend resolves it to a location.'],
   ],
 )}
@@ -783,7 +783,7 @@ public class ImmutableWeights
 <p>The mutable counterparts, <code>float[]</code>, <code>Span&lt;T&gt;</code>, <code>Memory&lt;T&gt;</code> and <code>ArraySegment&lt;T&gt;</code>, are read and write. Note that C# only allows <code>ReadOnlySpan&lt;T&gt;</code> and <code>Span&lt;T&gt;</code> as parameters and locals, not as fields of a class, so in a shader class field use <code>ImmutableArray&lt;T&gt;</code> or <code>ReadOnlyMemory&lt;T&gt;</code>.</p>
 
 <h2>5. Tell the GPU where each resource goes: binding slots</h2>
-<p>Your engine needs to know which slot each resource uses. The shared <code>[Binding(set, binding)]</code> attribute works in every style:</p>
+<p>Your engine needs to know which slot each resource uses. The shared <code>[Binding(set, binding)]</code> attribute works in every syntax:</p>
 ${code('csharp', `using YotsubaShader.Language;
 
 public class Bound
@@ -791,14 +791,14 @@ public class Bound
     [Uniform, Binding(0, 0)] public Material Material;
     [StorageBuffer, Binding(0, 1)] public Vector4[] Positions;
 }`, 'Bound.cs')}
-<p>Each style also has the spelling of its source language. Pick the tab of the style you write in. The three resources are the same in all of them: a uniform, a read and write storage buffer and a read-only one.</p>
+<p>Each syntax also has the spelling of its source language. Pick the tab of the syntax you write in. The three resources are the same in all of them: a uniform, a read and write storage buffer and a read-only one.</p>
 ${styleTabs(RESOURCES_BY_STYLE, { file: 'Resources.cs' })}
-<p>In the HLSL style, <code>register</code> has two forms that mean the same: <code>register(RegisterPrefix.t, 0)</code>, with the prefix and the number apart, and <code>register("t0")</code>, with a string made of the prefix letter (<code>b</code>, <code>t</code>, <code>s</code>, <code>u</code> or <code>c</code>) followed by the number.</p>
+<p>In the HLSL syntax, <code>register</code> has two forms that mean the same: <code>register(RegisterPrefix.t, 0)</code>, with the prefix and the number apart, and <code>register("t0")</code>, with a string made of the prefix letter (<code>b</code>, <code>t</code>, <code>s</code>, <code>u</code> or <code>c</code>) followed by the number.</p>
 
 <h2>6. Everything together</h2>
 <p>A compute shader that multiplies every value of an input buffer by a scale and writes the result to an output buffer. The scale comes from a uniform.</p>
 ${code('csharp', `using YotsubaShader.Language;
-using YotsubaShader.Language.StylesAttributes.HlslStyle;
+using YotsubaShader.HlslSyntax;
 using YotsubaShader.Language.Resources;
 
 public struct Settings
@@ -846,7 +846,7 @@ ${code('csharp', `public class Wrong
     title: 'Textures and samplers',
     kind: 'Tutorial',
     icon: 'doc',
-    summary: 'Declare textures and samplers, describe exactly what kind of image each one is, and bind them in the style you write in.',
+    summary: 'Declare textures and samplers, describe exactly what kind of image each one is, and bind them in the syntax you write in.',
     body: `
 <h2>Overview</h2>
 <p class="lead-p">A shader reads images through two objects: a <strong>texture</strong>, which holds the pixels, and a <strong>sampler</strong>, which decides how they are read. In Yotsuba Shader both are types: you mark a class or a struct with an attribute, and use it as a field of your shader. If you are building an engine, you mark the texture types you already have (see <a href="/documentation/yotsuba-shader/types-for-engines-and-frameworks/">Types for engines and frameworks</a>).</p>
@@ -937,7 +937,7 @@ ${code('csharp', `using YotsubaShader.Language.Native.Types;
 public class SamplerState { /* ... */ }`, 'SamplerState.cs')}
 
 <h2>6. Bind them in your shader</h2>
-<p>Use the texture and the sampler as fields of your shader class, and give each one its slot. The slot is spelled in the vocabulary of the style you write in. Pick its tab:</p>
+<p>Use the texture and the sampler as fields of your shader class, and give each one its slot. The slot is spelled in the syntax you write in. Pick its tab:</p>
 ${styleTabs(TEXTURE_BINDINGS, { file: 'Surface.cs' })}
 <p>In the HLSL tab, the texture uses the <code>RegisterPrefix</code> form and the sampler uses the string form: both are valid for any resource.</p>
 <p>The slots are only numbers: your engine decides which texture goes to which slot when it draws.</p>
@@ -1302,6 +1302,6 @@ lit.Exposure = "bright";   // error CS0029: Cannot implicitly convert type 'stri
   <li>Type errors when the game is built, and missing parameters when the shader loads.</li>
   <li>CPU logic in the same class as the shader, tested without a GPU.</li>
 </ul>
-<p>Next: <a href="${D}choosing-an-authoring-style/">Choosing an authoring style</a>.</p>`,
+<p>Next: <a href="${D}choosing-a-syntax/">Choosing a syntax</a>.</p>`,
   },
 ];

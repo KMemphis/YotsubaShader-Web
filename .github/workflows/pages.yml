@@ -22,8 +22,9 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      # El build lee ../YotsubaShader.Language (referencia de atributos) y el playground compila
-      # los proyectos del compilador, así que se necesitan al lado de Web/ (como en tu máquina).
+      # El build lee ../YotsubaShader.Language y las carpetas ../YotsubaShader.*Syntax (referencia de
+      # atributos) y el playground compila los proyectos del compilador, así que se necesitan al lado
+      # de Web/ (como en tu máquina).
       - name: Código del compilador
         uses: actions/checkout@v7
         with:
@@ -31,6 +32,11 @@ jobs:
           token: ${{ secrets.MAIN_REPO_TOKEN || github.token }}
           sparse-checkout: |
             YotsubaShader.Language
+            YotsubaShader.GlslSyntax
+            YotsubaShader.HlslSyntax
+            YotsubaShader.MslSyntax
+            YotsubaShader.SpirvSyntax
+            YotsubaShader.WgslSyntax
             YotsubaShader.IR
             YotsubaShader.Compiler.SpirV
             YotsubaShader.Generator

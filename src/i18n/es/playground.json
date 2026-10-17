@@ -2,11 +2,6 @@
  "Write a Yotsuba Shader in C# and inspect its diagnostics, shaders, intermediate representation and SPIR-V in the browser.": "Escribe un Yotsuba Shader en C# e inspecciona en el navegador sus diagnósticos, shaders, representación intermedia y SPIR-V.",
  "Example": "Ejemplo",
  "Basic color shader": "Shader de color básico",
- "Triangle (HLSL-like)": "Triángulo (tipo HLSL)",
- "Triangle (GLSL-like)": "Triángulo (tipo GLSL)",
- "Triangle (Metal-like)": "Triángulo (tipo Metal)",
- "Triangle (Vulkan-like)": "Triángulo (tipo Vulkan)",
- "Triangle (WGSL-like)": "Triángulo (tipo WGSL)",
  "Copy a link to this code": "Copiar un enlace a este código",
  "Share": "Compartir",
  "Compile (Ctrl/⌘ Enter)": "Compilar (Ctrl/⌘ Enter)",
@@ -18,5 +13,10 @@
  "The playground needs JavaScript.": "El playground necesita JavaScript.",
  "Texture and sampler": "Textura y sampler",
  "Input image": "Imagen de entrada",
- "Example input image. This is the kind of image your engine binds to <code>Albedo</code> when it draws. The playground compiles the shader; it does not render it.": "Imagen de entrada del ejemplo. Es el tipo de imagen que tu motor enlaza a <code>Albedo</code> al dibujar. El playground compila el shader; no lo renderiza."
+ "Example input image. This is the kind of image your engine binds to <code>Albedo</code> when it draws. The playground compiles the shader; it does not render it.": "Imagen de entrada del ejemplo. Es el tipo de imagen que tu motor enlaza a <code>Albedo</code> al dibujar. El playground compila el shader; no lo renderiza.",
+ "Triangle (HLSL)": "Triángulo (HLSL)",
+ "Triangle (GLSL)": "Triángulo (GLSL)",
+ "Triangle (MSL)": "Triángulo (MSL)",
+ "Triangle (SPIR-V)": "Triángulo (SPIR-V)",
+ "Triangle (WGSL)": "Triángulo (WGSL)"
 }

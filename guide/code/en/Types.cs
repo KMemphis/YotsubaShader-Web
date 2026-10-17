@@ -1,7 +1,6 @@
 using MyEngine;
 using YotsubaShader.Language;
-using YotsubaShader.Language.StylesAttributes;
-using YotsubaShader.Language.StylesAttributes.HlslStyle;
+using YotsubaShader.HlslSyntax;
 
 public struct VertexInput
 {

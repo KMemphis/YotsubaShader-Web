@@ -1,5 +1,5 @@
-import { icon, code, styleTabs, cardLink, wordmark } from '../components.mjs';
-import { STYLE_TRIANGLE, GEN_CSPROJ, GEN_OUTPUT, GEN_USE, CLI_SNIPPET } from '../snippets.mjs';
+import { icon, code, styleTabs, cardLink, wordmark, ideWindow } from '../components.mjs';
+import { STYLE_TRIANGLE, GEN_CSPROJ, GEN_OUTPUT, GEN_USE, CLI_SNIPPET, IDE_EXAMPLE } from '../snippets.mjs';
 import { SITE } from '../site.mjs';
 import { flowDiagram } from '../diagram.mjs';
 
@@ -53,10 +53,34 @@ const home = {
   <div class="container">
     <div class="center" style="margin-bottom:36px">
       <h2 class="h-lg">One shader. Five ways to write it.</h2>
-      <p class="lead">You can write the same shader using the names of HLSL, GLSL, Metal, Vulkan or WGSL. Choose the one you already know. The result is the same.</p>
+      <p class="lead">You can write the same shader using the names of HLSL, GLSL, MSL, SPIR-V or WGSL. Choose the one you already know. The result is the same.</p>
     </div>
     ${styleTabs(STYLE_TRIANGLE)}
-    <p class="center"><a class="link-more" href="/documentation/yotsuba-shader/choosing-an-authoring-style/">Choosing an authoring style ${icon('chevron-right')}</a></p>
+    <p class="center"><a class="link-more" href="/documentation/yotsuba-shader/choosing-a-syntax/">Choosing a syntax ${icon('chevron-right')}</a></p>
+  </div>
+</section>
+
+<section class="section section--rule">
+  <div class="container">
+    <div class="center" style="margin-bottom:40px">
+      <h2 class="h-lg">Shader errors in your IDE.</h2>
+      <p class="lead">Yotsuba Shader checks your shaders while you type, inside the IDE you already use. Mistakes in the shader and features your target backends cannot run appear as errors and warnings in the editor, before you build.</p>
+    </div>
+    <div class="diag-main">
+      ${ideWindow({ ...IDE_EXAMPLE, label: 'An editor showing shader errors and backend warnings' })}
+      <div class="diag-copy">
+        <h3>Checked against the backends in your project.</h3>
+        <p>List your targets once in the <code>.csproj</code>. Every attribute, type and stage is checked against each of them, and the editor tells you which backend does not support it and why.</p>
+        ${code('xml', GEN_CSPROJ, 'YourGame.csproj')}
+        <ul class="checks">
+          <li>${icon('check')}<span>Shader errors underlined in the editor, like any C# error</span></li>
+          <li>${icon('check')}<span>Compatibility with SPIR-V, HLSL, MSL, WGSL, GLSL and GLSL ES, checked per target</span></li>
+          <li>${icon('check')}<span>No build, no GPU and no driver needed to find out</span></li>
+          <li>${icon('check')}<span>Works wherever C# analyzers run: Visual Studio, Rider and VS Code</span></li>
+        </ul>
+        <p class="mt-24"><a class="link-more" href="/documentation/yotsuba-shader/shader-diagnostics-in-your-ide/">Shader diagnostics in your IDE ${icon('chevron-right')}</a></p>
+      </div>
+    </div>
   </div>
 </section>
 
@@ -254,10 +278,24 @@ const whatsNew = {
 </section>
 
 ${entry(
-  'Do more with five authoring styles',
-  'HLSL, GLSL, Metal, Vulkan and WGSL vocabularies now share the same semantic model. Choose the names your team knows; the compiler resolves them to the same IR built-ins.',
-  `<p>The frontend maps <code>SV_Position</code>, <code>gl_Position</code>, <code>position</code>, <code>BuiltIn_Position</code> and <code>@builtin_position</code> to the same position slot, and does the same for the vertex index. Interface slots declared with <code>[Location(n)]</code> work in every style.</p>`,
-  ['Choosing an authoring style', '/documentation/yotsuba-shader/choosing-an-authoring-style/'],
+  'Shader errors in your IDE',
+  'Yotsuba Shader checks your shaders while you type. Mistakes in a shader, and features that a backend in your project cannot run, appear as errors and warnings in the editor.',
+  `<p>List your targets in <code>&lt;YotsubaTargets&gt;</code> and every built-in value, resource, type and stage is checked against each of them: SPIR-V, HLSL, MSL, WGSL, GLSL and GLSL ES. The compatibility rules come from compiling every concept with the real toolchain of each backend, and they are published as a PDF.</p>`,
+  ['Shader diagnostics in your IDE', '/documentation/yotsuba-shader/shader-diagnostics-in-your-ide/'],
+)}
+
+${entry(
+  'One package per syntax',
+  'The HLSL, GLSL, MSL, SPIR-V and WGSL vocabularies are now separate packages: <code>YotsubaShader.HlslSyntax</code>, <code>YotsubaShader.GlslSyntax</code>, <code>YotsubaShader.MslSyntax</code>, <code>YotsubaShader.SpirvSyntax</code> and <code>YotsubaShader.WgslSyntax</code>.',
+  `<p>Each namespace has the name of its package, so <code>using YotsubaShader.Language.StylesAttributes.HlslStyle;</code> becomes <code>using YotsubaShader.HlslSyntax;</code>, and resources move to <code>YotsubaShader.HlslSyntax.Resources</code>. <code>[Location]</code> is now in <code>YotsubaShader.Language</code>, the neutral core that engines and frameworks build on. Add only the syntax you write with.</p>`,
+  ['Choosing a syntax', '/documentation/yotsuba-shader/choosing-a-syntax/'],
+)}
+
+${entry(
+  'Do more with five syntaxes',
+  'The HLSL, GLSL, MSL, SPIR-V and WGSL syntaxes now share the same semantic model. Choose the names your team knows; the compiler resolves them to the same IR built-ins.',
+  `<p>The frontend maps <code>SV_Position</code>, <code>gl_Position</code>, <code>position</code>, <code>BuiltIn_Position</code> and <code>@builtin_position</code> to the same position slot, and does the same for the vertex index. Interface slots declared with <code>[Location(n)]</code> work in every syntax.</p>`,
+  ['Choosing a syntax', '/documentation/yotsuba-shader/choosing-a-syntax/'],
 )}
 
 ${entry(
@@ -275,8 +313,8 @@ ${entry(
 )}
 
 ${entry(
-  'Resource attributes for every style',
-  'Uniform buffers, storage buffers, textures, samplers and binding slots are available in each vocabulary.',
+  'Resource attributes for every syntax',
+  'Uniform buffers, storage buffers, textures, samplers and binding slots are available in each syntax.',
   `<p>From <code>cbuffer</code> and <code>register</code> to <code>layout(set, binding)</code>, <code>buffer(n)</code>, <code>DescriptorSet</code> and <code>@group</code>/<code>@binding</code>, plus shared <code>[Uniform]</code> and <code>[StorageBuffer]</code> attributes with a <code>ResourceAccess</code> mode.</p>`,
   ['Uniforms and storage buffers', '/documentation/yotsuba-shader/uniforms-and-storage-buffers/'],
 )}
@@ -334,6 +372,8 @@ const resources = {
     <h2 class="h-md" style="margin-top:56px">Guides</h2>
     <div class="grid grid-3 mt-24">
       ${res('Integrating Yotsuba Shader into your engine (PDF)', 'A step-by-step guide for engine and framework authors: types, resources, compilation, typed parameters, loading, tests and packaging.', '/downloads/yotsuba-shader-engine-guide-__FILM_LANG__.pdf')}
+      ${res('Syntax reference (PDF)', 'Every concept of the language in the HLSL, GLSL, MSL, SPIR-V and WGSL syntaxes, side by side.', '/downloads/yotsuba-shader-syntax-reference-__FILM_LANG__.pdf')}
+      ${res('Backend compatibility (PDF)', 'Which graphics backends support each concept: Vulkan, Direct3D 12, Metal, WebGPU, OpenGL and WebGL 2, verified with their shader toolchains.', '/downloads/yotsuba-shader-backend-compatibility-__FILM_LANG__.pdf')}
       ${res('Editable source of the guide', 'The guide is written in Typst. Edit it, translate it or adapt it to your engine. It includes both editions and every code listing.', '/downloads/yotsuba-shader-engine-guide-source.zip')}
     </div>
 

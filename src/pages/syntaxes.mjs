@@ -1,8 +1,8 @@
 import { icon, code, table, note, cardLink, styleTabs } from '../components.mjs';
 import { STYLE_TRIANGLE, STYLE_RESOURCES } from '../snippets.mjs';
-import { STYLE_META, BUILTIN_MAP, RESOURCE_MAP } from '../reference.mjs';
+import { SYNTAX_META, BUILTIN_MAP, syntaxUsing, resUsing } from '../reference.mjs';
 
-const COL = { hlsl: 1, glsl: 2, metal: 3, vulkan: 4, wgsl: 5 };
+const COL = { hlsl: 1, glsl: 2, msl: 3, spirv: 4, wgsl: 5 };
 
 const FIT = {
   hlsl: {
@@ -15,12 +15,12 @@ const FIT = {
     why: 'The <code>gl_*</code> built-ins (<code>gl_Position</code>, <code>gl_VertexIndex</code>, <code>gl_GlobalInvocationID</code>) and <code>layout(set, binding)</code> carry over directly.',
     quirk: 'Workgroup size is <code>[layout_local_size(x, y, z)]</code>. Some attributes carry extension suffixes, such as <code>gl_BaryCoordEXT</code> and <code>gl_FragStencilRefARB</code>.',
   },
-  metal: {
+  msl: {
     for: 'Teams coming from the Metal Shading Language.',
     why: 'MSL attribute names (<code>position</code>, <code>vertex_id</code>, <code>thread_position_in_grid</code>) and the argument-index style resources <code>buffer(n)</code>, <code>texture(n)</code> and <code>sampler(n)</code>.',
     quirk: 'Address-space style resources are <code>constant</code> and <code>device</code>; workgroup size is exposed as the built-in <code>threads_per_threadgroup</code> rather than a method attribute.',
   },
-  vulkan: {
+  spirv: {
     for: 'Teams that think in SPIR-V and Vulkan descriptors.',
     why: 'Names mirror the SPIR-V <code>BuiltIn</code> decorations (<code>BuiltIn_Position</code>, <code>BuiltIn_GlobalInvocationId</code>), so the mapping to the binary is the most literal of the five.',
     quirk: 'Resources use <code>Uniform</code>, <code>StorageBuffer</code>, <code>DescriptorSet(s)</code> and <code>Binding(n)</code>.',
@@ -42,20 +42,19 @@ const KEY_ROWS = [
 ];
 
 
-/* ----------------------------------------------------------- C# examples per style */
+/* ----------------------------------------------------------- C# examples per syntax */
 const attr = (n) => (n.startsWith('@') ? `[${n}]` : `[${n}]`);
 const WG = { hlsl: 'numthreads(8, 8, 1)', glsl: 'layout_local_size(8, 8, 1)', wgsl: '@workgroup_size(8, 8, 1)' };
-const NS = { hlsl: 'HlslStyle', glsl: 'GlslStyle', metal: 'MetalStyle', vulkan: 'VulkanStyle', wgsl: 'WgslStyle' };
 const row = (label, col) => BUILTIN_MAP.find((r) => r[0] === label)[col];
 
-/** The common built-in values, used inside a real shader (one example per style). */
+/** The common built-in values, used inside a real shader (one example per syntax). */
 export function builtinsCode(id) {
   const c = COL[id];
   const wg = WG[id]
     ? `    // Workgroup size (method attribute)\n    [${WG[id]}]\n`
     : '    // No method attribute: the workgroup size is a built-in value\n';
   return `using YotsubaShader.Language;
-using YotsubaShader.Language.StylesAttributes.${NS[id]};
+${syntaxUsing(id)}
 
 public struct VertexOutput
 {
@@ -96,7 +95,7 @@ ${wg}    public void Compute(
 }`;
 }
 
-/** Uniform and storage buffers with their binding slots (one example per style). */
+/** Uniform and storage buffers with their binding slots (one example per syntax). */
 export function resourcesCode(id) {
   const body = {
     hlsl: [
@@ -105,8 +104,8 @@ export function resourcesCode(id) {
       '[register("t0")]\n    public StructuredBuffer<float> Input;',
     ],
     glsl: ['[uniform, layout(0, 0)]\n    public Material Material;', '[buffer, layout(0, 1)]\n    public float[] Output;', '[buffer, layout(0, 2)]\n    public float[] Input;'],
-    metal: ['[constant, buffer(0)]\n    public Material Material;', '[device, buffer(1)]\n    public float[] Output;', '[device(readOnly: true), buffer(2)]\n    public float[] Input;'],
-    vulkan: [
+    msl: ['[constant, buffer(0)]\n    public Material Material;', '[device, buffer(1)]\n    public float[] Output;', '[device(readOnly: true), buffer(2)]\n    public float[] Input;'],
+    spirv: [
       '[Uniform, DescriptorSet(0), @Binding(0)]\n    public Material Material;',
       '[StorageBuffer, DescriptorSet(0), @Binding(1)]\n    public float[] Output;',
       '[StorageBuffer, DescriptorSet(0), @Binding(2)]\n    public float[] Input;',
@@ -117,9 +116,10 @@ export function resourcesCode(id) {
       '[storage(storage_use.read), @group(0), @binding(2)]\n    public float[] Input;',
     ],
   }[id];
-  const same = id === 'glsl' || id === 'vulkan' ? 'Read-only storage buffer (same attribute)' : 'Read-only storage buffer';
+  const same = id === 'glsl' || id === 'spirv' ? 'Read-only storage buffer (same attribute)' : 'Read-only storage buffer';
   return `using YotsubaShader.Language;
-using YotsubaShader.Language.StylesAttributes.${NS[id]};
+${syntaxUsing(id)}
+${resUsing(id)}
 
 public class Resources
 {
@@ -135,19 +135,19 @@ public class Resources
 }
 const BUILTINS = Object.fromEntries(Object.keys(COL).map((id) => [id, builtinsCode(id)]));
 
-export default function styles(ctx) {
-  const counts = Object.fromEntries(Object.entries(ctx.styles).map(([k, v]) => [k, v.total]));
+export default function syntaxes(ctx) {
+  const counts = Object.fromEntries(Object.entries(ctx.syntaxes).map(([k, v]) => [k, v.total]));
 
   const overview = {
-    path: '/styles/',
-    section: 'styles',
-    title: 'Styles',
-    description: 'Five equivalent attribute vocabularies for writing shaders in C#: HLSL, GLSL, Metal, Vulkan and WGSL.',
+    path: '/syntaxes/',
+    section: 'syntaxes',
+    title: 'Syntaxes',
+    description: 'Five equivalent attribute vocabularies for writing shaders in C#: HLSL, GLSL, MSL, SPIR-V and WGSL.',
     body: `
 <section class="hero hero--compact">
   <div class="container">
     <h1 class="h-xl">One shader. Five ways to write it.</h1>
-    <p class="lead">You can write the same shader using the names of HLSL, GLSL, Metal, Vulkan or WGSL. Choose the one you already know. The result is the same.</p>
+    <p class="lead">You can write the same shader using the names of HLSL, GLSL, MSL, SPIR-V or WGSL. Choose the one you already know. The result is the same.</p>
   </div>
   <hr class="hero-rule">
 </section>
@@ -155,7 +155,8 @@ export default function styles(ctx) {
 <section class="section">
   <div class="container">
     ${styleTabs(STYLE_TRIANGLE)}
-    ${note('important', 'An HLSL-like style does not require an HLSL target, and a WGSL-like style does not require WebGPU. Style is an authoring choice; the compilation target is selected separately.')}
+    ${note('important', 'The HLSL syntax does not require an HLSL target, and the WGSL syntax does not require WebGPU. The syntax is an authoring choice; the compilation targets are selected separately.')}
+    ${note('note', 'Each syntax is its own package, <code>YotsubaShader.HlslSyntax</code>, <code>YotsubaShader.GlslSyntax</code>, <code>YotsubaShader.MslSyntax</code>, <code>YotsubaShader.SpirvSyntax</code> or <code>YotsubaShader.WgslSyntax</code>, with a namespace of the same name. They all build on <code>YotsubaShader.Language</code>, the neutral core that engines and frameworks use internally. Add only the syntax you write with.')}
   </div>
 </section>
 
@@ -163,17 +164,17 @@ export default function styles(ctx) {
   <div class="container">
     <h2 class="h-lg center">Choose your vocabulary</h2>
     <div class="grid grid-3 mt-48">
-      ${Object.entries(STYLE_META)
+      ${Object.entries(SYNTAX_META)
         .map(([id, m]) =>
           cardLink({
-            href: `/styles/${id}/`,
+            href: `/syntaxes/${id}/`,
             icon: 'braces',
             title: m.name,
             body: `${FIT[id].for} ${counts[id] || '—'} attributes.`,
           }),
         )
         .join('')}
-      ${cardLink({ href: '/documentation/yotsuba-shader/builtin-values-across-styles/', icon: 'list', title: 'Side-by-side reference', body: 'Every built-in value in all five vocabularies in one table.' })}
+      ${cardLink({ href: '/documentation/yotsuba-shader/builtin-values-across-syntaxes/', icon: 'list', title: 'Side-by-side reference', body: 'Every built-in value in all five syntaxes in one table.' })}
     </div>
   </div>
 </section>
@@ -182,7 +183,7 @@ export default function styles(ctx) {
   <div class="container">
     <h2 class="h-lg center">The same concept, five spellings</h2>
     <div class="mt-48">${styleTabs(BUILTINS)}</div>
-    <p class="center"><a class="link-more" href="/documentation/yotsuba-shader/builtin-values-across-styles/">Full built-in reference ${icon('chevron-right')}</a></p>
+    <p class="center"><a class="link-more" href="/documentation/yotsuba-shader/builtin-values-across-syntaxes/">Full built-in reference ${icon('chevron-right')}</a></p>
   </div>
 </section>`,
   };
@@ -191,16 +192,16 @@ export default function styles(ctx) {
     const f = FIT[id];
     const col = COL[id];
     return {
-      path: `/styles/${id}/`,
-      section: 'styles',
+      path: `/syntaxes/${id}/`,
+      section: 'syntaxes',
       title: m.name,
-      description: `The ${m.name} attribute vocabulary of Yotsuba Shader, inspired by ${m.inspired}.`,
+      description: `The attributes of the ${m.name} in Yotsuba Shader, inspired by ${m.inspired}.`,
       body: `
 <section class="hero hero--compact">
   <div class="container">
     <h1 class="h-xl">${m.name}</h1>
     <p class="lead">${f.for} Inspired by ${m.inspired}.</p>
-    <p class="hero-meta"><code>${m.namespace}</code> · ${counts[id] || '—'} attributes</p>
+    <p class="hero-meta">Package and namespace <code>${m.namespace}</code> · ${counts[id] || '—'} attributes</p>
   </div>
   <hr class="hero-rule">
 </section>
@@ -216,16 +217,16 @@ export default function styles(ctx) {
     ${code('csharp', builtinsCode(id), 'BuiltIns.cs')}
     <h2>Resources</h2>
     ${code('csharp', resourcesCode(id), 'Resources.cs')}
-    ${note('note', 'The attribute style never determines the output target. Every style resolves to the same IR slots.')}
-    <p><a class="link-more" href="/documentation/yotsuba-shader/${id}-style-attributes/">All ${m.name} attributes ${icon('chevron-right')}</a></p>
-    <p>Other styles: ${Object.entries(STYLE_META)
+    ${note('note', 'The syntax never determines the output target. Every syntax resolves to the same IR slots.')}
+    <p><a class="link-more" href="/documentation/yotsuba-shader/${id}-syntax-attributes/">All ${m.name} attributes ${icon('chevron-right')}</a></p>
+    <p>Other syntaxes: ${Object.entries(SYNTAX_META)
       .filter(([o]) => o !== id)
-      .map(([o, mm]) => `<a href="/styles/${o}/">${mm.name}</a>`)
+      .map(([o, mm]) => `<a href="/syntaxes/${o}/">${mm.name}</a>`)
       .join(' · ')}</p>
   </div>
 </section>`,
     };
   };
 
-  return [overview, ...Object.entries(STYLE_META).map(page)];
+  return [overview, ...Object.entries(SYNTAX_META).map(page)];
 }

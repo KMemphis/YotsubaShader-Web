@@ -1,13 +1,12 @@
-// C# examples generated from the language data (BUILTIN_MAP and the scanned attribute sources), one per style.
+// C# examples generated from the language data (BUILTIN_MAP and the scanned attribute sources), one per syntax.
 // The reference pages use them instead of tables: every concept is shown as code.
-import { BUILTIN_MAP } from './reference.mjs';
+import { BUILTIN_MAP, SYNTAX_IDS, syntaxUsing, resUsing } from './reference.mjs';
 
-const COL = { hlsl: 1, glsl: 2, metal: 3, vulkan: 4, wgsl: 5 };
-const NS = { hlsl: 'HlslStyle', glsl: 'GlslStyle', metal: 'MetalStyle', vulkan: 'VulkanStyle', wgsl: 'WgslStyle' };
-// Resource attributes (cbuffer, register, device, StorageBuffer, @group...) live in a sub-namespace of each style.
-// The HLSL one really is spelled "Resorces" in the language source.
-export const RES_NS = { hlsl: 'HlslStyle.Resorces', glsl: 'GlslStyle.Resources', metal: 'MetalStyle.Resources', vulkan: 'VulkanStyle.Resources', wgsl: 'WgslStyle.Resources' };
-export const resUsing = (id) => `using YotsubaShader.Language.StylesAttributes.${RES_NS[id]};`;
+// Resource attributes (cbuffer, register, device, StorageBuffer, @group...) live in the ".Resources" sub-namespace
+// of each syntax package, e.g. YotsubaShader.HlslSyntax.Resources.
+export { resUsing };
+
+const COL = { hlsl: 1, glsl: 2, msl: 3, spirv: 4, wgsl: 5 };
 
 const TYPE_OF = [
   [/position|coordinate/i, 'Vector4'],
@@ -40,10 +39,10 @@ function stages() {
 
 const WG = { hlsl: 'numthreads(8, 8, 1)', glsl: 'layout_local_size(8, 8, 1)', wgsl: '@workgroup_size(8, 8, 1)' };
 
-/** Every built-in value of the style, grouped by stage, as C#. */
+/** Every built-in value of the syntax, grouped by stage, as C#. */
 export function builtinValuesCode(id) {
   const c = COL[id];
-  const parts = [`using YotsubaShader.Language;\nusing YotsubaShader.Language.StylesAttributes.${NS[id]};\n`];
+  const parts = [`using YotsubaShader.Language;\n${syntaxUsing(id)}\n`];
   for (const { stage, rows } of stages()) {
     const members = [];
     let method = '';
@@ -69,7 +68,7 @@ export function builtinValuesCode(id) {
   return parts.join('\n');
 }
 
-/* --------------------------------------------------------------------------- per-style attribute reference */
+/* --------------------------------------------------------------------------- per-syntax attribute reference */
 const sampleArgs = (params) => {
   if (!params) return '';
   const args = [];
@@ -91,11 +90,11 @@ const sampleArgs = (params) => {
 const member = (name) => name.replace(/^@/, '').replace(/\W/g, '_').replace(/^(\d)/, '_$1');
 const cap = (s) => s[0].toUpperCase() + s.slice(1);
 
-/** One group of attributes of a style (Input, Output, Method, Resource, Type) used on real members. */
+/** One group of attributes of a syntax (Input, Output, Method, Resource, Type) used on real members. */
 export function attributeGroupCode(id, items, group) {
   const list = items.filter((i) => i.kind === group);
   if (!list.length) return '';
-  const ns = `using YotsubaShader.Language;\nusing YotsubaShader.Language.StylesAttributes.${NS[id]};\n${group === 'Resource' ? resUsing(id) + '\n' : ''}\n`;
+  const ns = `using YotsubaShader.Language;\n${syntaxUsing(id)}\n${group === 'Resource' ? resUsing(id) + '\n' : ''}\n`;
   const conceptOf = (name) => {
     const row = BUILTIN_MAP.find((r) => r[1] !== null && [r[1], r[2], r[3], r[4], r[5]].some((v) => v && v.split(' / ').map((x) => x.replace(/N$/, '')).includes(name)));
     return row ? row[0] : null;
@@ -139,13 +138,13 @@ export function attributeGroupCode(id, items, group) {
 const TEX_BIND = {
   hlsl: ['[register(RegisterPrefix.t, 0)]', '[register("s0")]'],
   glsl: ['[layout(0, 0)]', '[layout(0, 1)]'],
-  metal: ['[texture(0)]', '[sampler(0)]'],
-  vulkan: ['[DescriptorSet(0), @Binding(0)]', '[DescriptorSet(0), @Binding(1)]'],
+  msl: ['[texture(0)]', '[sampler(0)]'],
+  spirv: ['[DescriptorSet(0), @Binding(0)]', '[DescriptorSet(0), @Binding(1)]'],
   wgsl: ['[@group(0), @binding(0)]', '[@group(0), @binding(1)]'],
 };
 
-/** A texture and a sampler bound to their slots, in the style's own spelling. */
-export const textureBindingCode = (id) => `using YotsubaShader.Language.StylesAttributes.${NS[id]};
+/** A texture and a sampler bound to their slots, in the syntax's own spelling. */
+export const textureBindingCode = (id) => `${syntaxUsing(id)}
 ${resUsing(id)}
 
 public class Surface
@@ -155,4 +154,4 @@ public class Surface
 ${id === 'hlsl' ? '\n    // The same register, written as a string: letter + number\n' : '\n'}    ${TEX_BIND[id][1]}
     public SamplerState Sampler;
 }`;
-export const STYLE_IDS = Object.keys(NS);
+export const STYLE_IDS = SYNTAX_IDS;

@@ -1,10 +1,9 @@
-import { resUsing } from './examples.mjs';
+import { resUsing } from './reference.mjs';
 // Code samples shared by several pages. They mirror the README and the test fixtures in the repository.
 
 export const BASIC_COLOR = `using Microsoft.Xna.Framework;
 using YotsubaShader.Language;
-using YotsubaShader.Language.StylesAttributes;
-using YotsubaShader.Language.StylesAttributes.HlslStyle; // Attribute names inspired by HLSL.
+using YotsubaShader.HlslSyntax; // Attribute names inspired by HLSL.
 
 public struct VertexInput
 {
@@ -52,10 +51,10 @@ public class BasicColorShader
 
 /**
  * One complete shader (vertex, fragment and compute) in each authoring vocabulary. Attribute names come from
- * YotsubaShader.Language. The vector type is the project's own (see TYPES_CS).
+ * the YotsubaShader.<X>Syntax packages. The vector type is the project's own (see TYPES_CS).
  */
 const triangle = ({ ns, usings = '', res = '', buffer, position, vertexId, globalId, size = '', note = '' }) => `using YotsubaShader.Language;
-using YotsubaShader.Language.StylesAttributes.${ns};${usings}${res ? '\n' + res : ''}
+using YotsubaShader.${ns};${usings}${res ? '\n' + res : ''}
 
 public struct VertexOutput
 {
@@ -92,31 +91,31 @@ const hostNote = '    // Workgroup size is set by the host\n';
 
 export const STYLE_TRIANGLE = {
   hlsl: triangle({
-    ns: 'HlslStyle', usings: '\nusing YotsubaShader.Language.Resources;',
+    ns: 'HlslSyntax', usings: '\nusing YotsubaShader.Language.Resources;',
     buffer: '    [StorageBuffer] public float[] Output;',
     position: 'SV_Position', vertexId: 'SV_VertexID', globalId: 'SV_DispatchThreadID',
     size: '    [numthreads(8, 8, 1)]\n',
   }),
   glsl: triangle({
-    ns: 'GlslStyle', res: resUsing('glsl'),
+    ns: 'GlslSyntax', res: resUsing('glsl'),
     buffer: '    [buffer, layout(0, 0)]\n    public float[] Output;',
     position: 'gl_Position', vertexId: 'gl_VertexIndex', globalId: 'gl_GlobalInvocationID',
     size: '    [layout_local_size(8, 8, 1)]\n',
   }),
-  metal: triangle({
-    ns: 'MetalStyle', res: resUsing('metal'),
+  msl: triangle({
+    ns: 'MslSyntax', res: resUsing('msl'),
     buffer: '    [device, buffer(0)]\n    public float[] Output;',
     position: 'position', vertexId: 'vertex_id', globalId: 'thread_position_in_grid',
     note: hostNote,
   }),
-  vulkan: triangle({
-    ns: 'VulkanStyle', res: resUsing('vulkan'),
+  spirv: triangle({
+    ns: 'SpirvSyntax', res: resUsing('spirv'),
     buffer: '    [StorageBuffer, DescriptorSet(0), @Binding(0)]\n    public float[] Output;',
     position: 'BuiltIn_Position', vertexId: 'BuiltIn_VertexIndex', globalId: 'BuiltIn_GlobalInvocationId',
     note: hostNote,
   }),
   wgsl: triangle({
-    ns: 'WgslStyle', res: resUsing('wgsl'),
+    ns: 'WgslSyntax', res: resUsing('wgsl'),
     buffer: '    [storage(storage_use.read_write), @group(0), @binding(0)]\n    public float[] Output;',
     position: '@builtin_position', vertexId: '@builtin_vertex_index', globalId: '@builtin_global_invocation_id',
     size: '    [@workgroup_size(8, 8, 1)]\n',
@@ -125,7 +124,7 @@ export const STYLE_TRIANGLE = {
 
 /** Resource declarations (uniform + storage buffer) per vocabulary. */
 export const STYLE_RESOURCES = {
-  hlsl: `using YotsubaShader.Language.StylesAttributes.HlslStyle;
+  hlsl: `using YotsubaShader.HlslSyntax;
 ${resUsing('hlsl')}
 
 public class Lighting
@@ -134,7 +133,7 @@ public class Lighting
     [register(RegisterPrefix.b, 0)]
     public Material Material;
 }`,
-  glsl: `using YotsubaShader.Language.StylesAttributes.GlslStyle;
+  glsl: `using YotsubaShader.GlslSyntax;
 ${resUsing('glsl')}
 
 public class Lighting
@@ -143,8 +142,8 @@ public class Lighting
     [layout(set: 0, binding: 0)]
     public Material Material;
 }`,
-  metal: `using YotsubaShader.Language.StylesAttributes.MetalStyle;
-${resUsing('metal')}
+  msl: `using YotsubaShader.MslSyntax;
+${resUsing('msl')}
 
 public class Lighting
 {
@@ -152,8 +151,8 @@ public class Lighting
     [buffer(0)]
     public Material Material;
 }`,
-  vulkan: `using YotsubaShader.Language.StylesAttributes.VulkanStyle;
-${resUsing('vulkan')}
+  spirv: `using YotsubaShader.SpirvSyntax;
+${resUsing('spirv')}
 
 public class Lighting
 {
@@ -162,7 +161,7 @@ public class Lighting
     [Binding(0)]
     public Material Material;
 }`,
-  wgsl: `using YotsubaShader.Language.StylesAttributes.WgslStyle;
+  wgsl: `using YotsubaShader.WgslSyntax;
 ${resUsing('wgsl')}
 
 public class Lighting
@@ -334,9 +333,8 @@ public class SamplerState { }`;
 
 /** A shader that declares and binds a texture and a sampler (HLSL vocabulary). Reading pixels is not compiled yet. */
 export const TEXTURE_BINDING = `using YotsubaShader.Language;
-using YotsubaShader.Language.StylesAttributes;
-using YotsubaShader.Language.StylesAttributes.HlslStyle;
-using YotsubaShader.Language.StylesAttributes.HlslStyle.Resorces;
+using YotsubaShader.HlslSyntax;
+using YotsubaShader.HlslSyntax.Resources;
 
 public struct VertexOutput
 {
@@ -371,3 +369,33 @@ public class TexturedQuad
         return new Vector4(input.Uv.X, input.Uv.Y, 0.5f, 1);
     }
 }`;
+
+/** The shader of the IDE diagnostics example, with the problems the editor reports for it. */
+export const IDE_EXAMPLE = {
+  file: 'Cubemap.cs',
+  src: `using YotsubaShader.Language;
+using YotsubaShader.HlslSyntax;
+
+public struct VertexOutput
+{
+    [SV_Position] public Vector4 Position;
+    [SV_RenderTargetArrayIndex] public uint Layer;
+}
+
+public class Cubemap
+{
+    [ShaderStage(Stage.Fragment)]
+    [numthreads(8, 8, 1)]
+    public Vector4 Fragment(VertexOutput input, [SV_PrimitiveID] uint primitive)
+    {
+        return new Vector4(input.Position.X, input.Position.Y, 0, 1);
+    }
+}`,
+  marks: { SV_RenderTargetArrayIndex: 'error', numthreads: 'error', SV_PrimitiveID: 'warning' },
+  problems: [
+    ['error', 'YS1003', '<code>[numthreads]</code> only applies to compute stages, and <code>Fragment</code> is a fragment stage.', 'Cubemap.cs(13, 6)'],
+    ['error', 'YS2001', '<code>SV_RenderTargetArrayIndex</code> (render target layer) is not supported by WebGPU (<code>wgsl</code>).', 'Cubemap.cs(7, 6)'],
+    ['error', 'YS2001', '<code>SV_RenderTargetArrayIndex</code> (render target layer) is not supported by WebGL 2 (<code>glsles</code>).', 'Cubemap.cs(7, 6)'],
+    ['warning', 'YS2002', '<code>SV_PrimitiveID</code> needs the <code>primitive_index</code> extension on WebGPU (<code>wgsl</code>).', 'Cubemap.cs(14, 50)'],
+  ],
+};

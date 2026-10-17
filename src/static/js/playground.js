@@ -471,8 +471,14 @@
       const ex = examples.find((e) => e.id === params.get('example')) || examples[0];
       el.example.value = ex.id; files = clone(ex.files);
     }
-    // Saved projects and old shared links still say Language.Attributes (renamed to StylesAttributes).
-    project.files = clone(files).map((f) => ({ name: f.name, source: f.source.replace(/\bYotsubaShader\.Language\.Attributes\b/g, 'YotsubaShader.Language.StylesAttributes') }));
+    // Saved projects and old shared links use earlier namespaces: Language.Attributes, then Language.StylesAttributes.
+    // The vocabularies are now the YotsubaShader.<X>Syntax packages and [Location] lives in YotsubaShader.Language.
+    const SYNTAX = { Hlsl: 'Hlsl', Glsl: 'Glsl', Metal: 'Msl', Vulkan: 'Spirv', Wgsl: 'Wgsl' };
+    const migrate = (src) => src
+      .replace(/\bYotsubaShader\.Language\.(?:Styles)?Attributes\.(Hlsl|Glsl|Metal|Vulkan|Wgsl)Style\.Reso?u?rces\b/g, (_, n) => `YotsubaShader.${SYNTAX[n]}Syntax.Resources`)
+      .replace(/\bYotsubaShader\.Language\.(?:Styles)?Attributes\.(Hlsl|Glsl|Metal|Vulkan|Wgsl)Style\b/g, (_, n) => `YotsubaShader.${SYNTAX[n]}Syntax`)
+      .replace(/^using YotsubaShader\.Language\.(?:Styles)?Attributes;[^\n]*\n/gm, '');
+    project.files = clone(files).map((f) => ({ name: f.name, source: migrate(f.source) }));
     project.active = project.files.some((f) => f.name === active) ? active : (project.files.find((f) => f.name === 'Shader.cs') || project.files[0]).name;
 
     try { editor = await loadMonaco(project.files); } catch { editor = textareaEditor(project.files); }

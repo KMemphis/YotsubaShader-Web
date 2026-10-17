@@ -13,4 +13,4 @@ export const BACKENDS = [
 
 export const SPIRV_LOGO = { src: '/img/backends/spirv.svg', ratio: 1500 / 500 };
 
-export const STYLE_INPUTS = ['HLSL-like', 'GLSL-like', 'Metal-like', 'Vulkan-like', 'WGSL-like'];
+export const STYLE_INPUTS = ['HLSL', 'GLSL', 'MSL', 'SPIR-V', 'WGSL'];

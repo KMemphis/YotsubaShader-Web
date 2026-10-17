@@ -41,20 +41,35 @@ using Microsoft.CodeAnalysis;
 namespace YotsubaShader.Playground;
 
 /// <summary>
-/// References for the user's code: the .NET 8 reference assemblies plus YotsubaShader.Language.
+/// References for the user's code: the .NET 8 reference assemblies plus YotsubaShader.Language and the five
+/// YotsubaShader.*Syntax attribute vocabularies (GLSL, HLSL, MSL, SPIR-V, WGSL).
 /// Microsoft.Xna.Framework is intentionally NOT referenced; GPU types are declared in the user's own files.
 /// </summary>
 internal static class References
 {
+    // Embedded by Playground.csproj; the logical name of each resource is its file name.
+    private static readonly string[] Embedded =
+    [
+        "YotsubaShader.Language.dll",
+        "YotsubaShader.GlslSyntax.dll",
+        "YotsubaShader.HlslSyntax.dll",
+        "YotsubaShader.MslSyntax.dll",
+        "YotsubaShader.SpirvSyntax.dll",
+        "YotsubaShader.WgslSyntax.dll",
+    ];
+
     public static IReadOnlyList<MetadataReference> Default { get; } = Build();
 
     private static List<MetadataReference> Build()
     {
         var list = new List<MetadataReference>(Basic.Reference.Assemblies.Net80.References.All);
 
-        using var stream = typeof(References).Assembly.GetManifestResourceStream("YotsubaShader.Language.dll")
-            ?? throw new InvalidOperationException("YotsubaShader.Language.dll is not embedded in the playground.");
-        list.Add(MetadataReference.CreateFromStream(stream, filePath: "YotsubaShader.Language.dll"));
+        foreach (var name in Embedded)
+        {
+            using var stream = typeof(References).Assembly.GetManifestResourceStream(name)
+                ?? throw new InvalidOperationException($"{name} is not embedded in the playground.");
+            list.Add(MetadataReference.CreateFromStream(stream, filePath: name));
+        }
         return list;
     }
 }

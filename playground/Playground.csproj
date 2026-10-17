@@ -13,16 +13,32 @@
   <!-- The playground only references the compiler projects; it never modifies them. -->
   <ItemGroup>
     <ProjectReference Include="..\..\YotsubaShader.Language\YotsubaShader.Language.csproj" />
+    <ProjectReference Include="..\..\YotsubaShader.GlslSyntax\YotsubaShader.GlslSyntax.csproj" />
+    <ProjectReference Include="..\..\YotsubaShader.HlslSyntax\YotsubaShader.HlslSyntax.csproj" />
+    <ProjectReference Include="..\..\YotsubaShader.MslSyntax\YotsubaShader.MslSyntax.csproj" />
+    <ProjectReference Include="..\..\YotsubaShader.SpirvSyntax\YotsubaShader.SpirvSyntax.csproj" />
+    <ProjectReference Include="..\..\YotsubaShader.WgslSyntax\YotsubaShader.WgslSyntax.csproj" />
     <ProjectReference Include="..\..\YotsubaShader.IR\YotsubaShader.IR.csproj" />
     <ProjectReference Include="..\..\YotsubaShader.Compiler.SpirV\YotsubaShader.Compiler.SpirV.csproj" />
     <ProjectReference Include="..\..\YotsubaShader.Roslyn\YotsubaShader.Roslyn.csproj" />
   </ItemGroup>
 
-  <!-- Roslyn needs the raw metadata of YotsubaShader.Language to resolve its attributes. The runtime cannot hand it
-       out (Webcil + Mono), so the built DLL travels inside the app as an embedded resource. -->
+  <!-- Roslyn needs the raw metadata of YotsubaShader.Language and the *Syntax attribute vocabularies to resolve their
+       attributes. The runtime cannot hand it out (Webcil + Mono), so each built DLL travels inside the app as an
+       embedded resource. -->
   <ItemGroup>
     <EmbeddedResource Include="..\..\YotsubaShader.Language\bin\$(Configuration)\net8.0\YotsubaShader.Language.dll"
                       LogicalName="YotsubaShader.Language.dll" Visible="false" />
+    <EmbeddedResource Include="..\..\YotsubaShader.GlslSyntax\bin\$(Configuration)\net8.0\YotsubaShader.GlslSyntax.dll"
+                      LogicalName="YotsubaShader.GlslSyntax.dll" Visible="false" />
+    <EmbeddedResource Include="..\..\YotsubaShader.HlslSyntax\bin\$(Configuration)\net8.0\YotsubaShader.HlslSyntax.dll"
+                      LogicalName="YotsubaShader.HlslSyntax.dll" Visible="false" />
+    <EmbeddedResource Include="..\..\YotsubaShader.MslSyntax\bin\$(Configuration)\net8.0\YotsubaShader.MslSyntax.dll"
+                      LogicalName="YotsubaShader.MslSyntax.dll" Visible="false" />
+    <EmbeddedResource Include="..\..\YotsubaShader.SpirvSyntax\bin\$(Configuration)\net8.0\YotsubaShader.SpirvSyntax.dll"
+                      LogicalName="YotsubaShader.SpirvSyntax.dll" Visible="false" />
+    <EmbeddedResource Include="..\..\YotsubaShader.WgslSyntax\bin\$(Configuration)\net8.0\YotsubaShader.WgslSyntax.dll"
+                      LogicalName="YotsubaShader.WgslSyntax.dll" Visible="false" />
   </ItemGroup>
 
   <ItemGroup>

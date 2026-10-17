@@ -53,7 +53,8 @@ const overview = {
     <h2 class="h-lg center">Where to go next</h2>
     <div class="grid grid-3 mt-48">
       ${cardLink({ href: '/documentation/yotsuba-shader/understanding-yotsuba-shader/', icon: 'book', title: 'Understand the model', body: 'The language, the IR and the compiler stages in one article.' })}
-      ${cardLink({ href: '/documentation/yotsuba-shader/choosing-an-authoring-style/', icon: 'braces', title: 'Pick an authoring style', body: 'HLSL, GLSL, Metal, Vulkan or WGSL vocabulary. Same semantics.' })}
+      ${cardLink({ href: '/documentation/yotsuba-shader/choosing-a-syntax/', icon: 'braces', title: 'Pick a syntax', body: 'HLSL, GLSL, MSL, SPIR-V or WGSL syntax. Same semantics.' })}
+      ${cardLink({ href: '/documentation/yotsuba-shader/shader-diagnostics-in-your-ide/', icon: 'check', title: 'See errors in your IDE', body: 'Shader errors and backend incompatibilities in the editor, for the targets in your project.' })}
       ${cardLink({ href: '/technologies/', icon: 'layers', title: 'See the technologies', body: 'The language, the Roslyn frontend, the IR and the SPIR-V compiler.' })}
     </div>
   </div>
@@ -76,7 +77,7 @@ const firstShader = {
 
 <section class="section">
   <div class="container container--narrow prose">
-    <p>The HLSL-like style is a good place to start because the relationship between stages, inputs, position and fragment color is easy to see.</p>
+    <p>The HLSL syntax is a good place to start because the relationship between stages, inputs, position and fragment color is easy to see.</p>
     ${code('csharp', BASIC_COLOR, 'BasicColorShader.cs')}
     <h2>What each piece does</h2>
     <ul>
@@ -87,7 +88,7 @@ const firstShader = {
       <li><code>[ShaderStage]</code> identifies the vertex and fragment stages.</li>
       <li>The second <code>[Location(0)]</code> carries the color between those stages.</li>
     </ul>
-    ${note('note', 'An HLSL-like style does not require an HLSL target. These are C# authoring choices; the compilation target is selected separately.')}
+    ${note('note', 'The HLSL syntax does not require an HLSL target. These are C# authoring choices; the compilation targets are selected separately.')}
     <h2>What the compiler sees</h2>
     <p>The compiler starts by finding <code>BasicColorShader</code>, because two of its methods have <code>[ShaderStage]</code>. For each one it reads which stage it is, what it receives and what it returns.</p>
     <p>The attributes tell it what each piece of data is for: <code>[Location(n)]</code> marks what passes from one stage to the next, and <code>[SV_Position]</code> marks the position where the vertex is drawn. You can write the same shader with <code>[gl_Position]</code>, <code>[position]</code>, <code>[BuiltIn_Position]</code> or <code>[@builtin_position]</code>, and the compiler understands it the same way.</p>

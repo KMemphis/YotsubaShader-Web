@@ -13,7 +13,7 @@ export const LOCALES = {
   es: { id: 'es', label: 'Español', prefix: '/es', htmlLang: 'es', langLabel: 'Idioma' },
 };
 
-/** Root-relative path of a page in a locale ("/styles/" → "/es/styles/"). */
+/** Root-relative path of a page in a locale ("/syntaxes/" → "/es/syntaxes/"). */
 export const localePath = (pagePath, locale) => `${LOCALES[locale].prefix}${pagePath}`;
 
 /* ------------------------------------------------------------ dictionaries */

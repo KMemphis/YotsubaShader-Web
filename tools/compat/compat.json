@@ -1,0 +1,5388 @@
+{
+  "generated": "2026-10-17T21:06:58.474Z",
+  "targetEnv": "vulkan1.2",
+  "mslVersion": "metal3.0",
+  "tools": {
+    "dxc": "libdxcompiler.dylib: 1.9(5399-a107ba61)(1.9.0.5399)",
+    "naga": "30.0.1",
+    "spirv-cross": "Git commit: vulkan-sdk-1.4.350.0-32-g6c09849f Timestamp: 2026-07-27T16:15:42",
+    "glslang": "Glslang Version: 11:16.2.0",
+    "spirv-tools": "SPIRV-Tools v2026.2 unknown hash, 2026-06-29T13:50:01+00:00",
+    "metal": "Apple metal version 32023.921 (metalfe-32023.921.6)"
+  },
+  "backends": [
+    {
+      "id": "vulkan",
+      "label": "Vulkan (SPIR-V)"
+    },
+    {
+      "id": "d3d12",
+      "label": "Direct3D 12 (HLSL SM6)"
+    },
+    {
+      "id": "metal",
+      "label": "Metal (MSL)"
+    },
+    {
+      "id": "webgpu",
+      "label": "WebGPU (WGSL)"
+    },
+    {
+      "id": "opengl",
+      "label": "OpenGL 4.5 (GLSL)"
+    },
+    {
+      "id": "webgl2",
+      "label": "WebGL 2 (GLSL ES 3.00)"
+    }
+  ],
+  "statuses": {
+    "ok": "At least one translator produced output that the backend compiler accepts without extensions.",
+    "extension": "Output only validates with a non-core extension (listed per translator). \"unverified\": true means the backend compiler does not implement that extension, so the output could not be compiled.",
+    "dropped": "Output compiles, but the translator silently removed the concept (checked with the patterns in concepts.mjs).",
+    "invalid": "Translation succeeded but no output validates.",
+    "rejected": "Every translator failed to translate the shader.",
+    "n/a": "The shader stage does not exist on this backend."
+  },
+  "concepts": [
+    {
+      "id": "Position",
+      "group": "vertex",
+      "source": "hlsl",
+      "shaders": [
+        {
+          "file": "Position.hlsl",
+          "stage": "vert",
+          "frontend": "hlsl"
+        }
+      ],
+      "builtins": [
+        "Position"
+      ],
+      "capabilities": [
+        "Shader"
+      ],
+      "spirvExtensions": [],
+      "executionModes": [],
+      "results": {
+        "vulkan": {
+          "status": "ok",
+          "spirvVal": {
+            "status": "ok",
+            "message": "",
+            "extensions": []
+          },
+          "naga": {
+            "status": "n/a",
+            "message": "SPIR-V is the native format; validated with spirv-val"
+          },
+          "spirvCross": {
+            "status": "n/a",
+            "message": "SPIR-V is the native format; validated with spirv-val"
+          }
+        },
+        "d3d12": {
+          "status": "ok",
+          "naga": {
+            "status": "ok",
+            "message": "",
+            "extensions": [],
+            "files": [
+              "out/Position/Position/d3d12.naga.sm60.hlsl"
+            ],
+            "entry": "main"
+          },
+          "spirvCross": {
+            "status": "ok",
+            "message": "",
+            "extensions": [],
+            "files": [
+              "out/Position/Position/d3d12.spirvCross.sm60.hlsl"
+            ],
+            "entry": "main"
+          }
+        },
+        "metal": {
+          "status": "ok",
+          "naga": {
+            "status": "ok",
+            "message": "",
+            "extensions": [],
+            "files": [
+              "out/Position/Position/metal.naga.metal"
+            ]
+          },
+          "spirvCross": {
+            "status": "ok",
+            "message": "",
+            "extensions": [],
+            "files": [
+              "out/Position/Position/metal.spirvCross.metal"
+            ]
+          }
+        },
+        "webgpu": {
+          "status": "ok",
+          "naga": {
+            "status": "ok",
+            "message": "",
+            "extensions": [],
+            "files": [
+              "out/Position/Position/webgpu.naga.wgsl"
+            ]
+          },
+          "spirvCross": {
+            "status": "n/a",
+            "message": "spirv-cross has no WGSL backend"
+          }
+        },
+        "opengl": {
+          "status": "ok",
+          "naga": {
+            "status": "ok",
+            "message": "",
+            "extensions": [],
+            "files": [
+              "out/Position/Position/opengl.naga.vert"
+            ]
+          },
+          "spirvCross": {
+            "status": "ok",
+            "message": "",
+            "extensions": [],
+            "files": [
+              "out/Position/Position/opengl.spirvCross.vert"
+            ]
+          }
+        },
+        "webgl2": {
+          "status": "ok",
+          "naga": {
+            "status": "ok",
+            "message": "",
+            "extensions": [],
+            "files": [
+              "out/Position/Position/webgl2.naga.vert"
+            ]
+          },
+          "spirvCross": {
+            "status": "ok",
+            "message": "",
+            "extensions": [],
+            "files": [
+              "out/Position/Position/webgl2.spirvCross.vert"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": "VertexIndex",
+      "group": "vertex",
+      "source": "hlsl",
+      "shaders": [
+        {
+          "file": "VertexIndex.hlsl",
+          "stage": "vert",
+          "frontend": "hlsl"
+        }
+      ],
+      "builtins": [
+        "VertexIndex",
+        "Position"
+      ],
+      "capabilities": [
+        "Shader"
+      ],
+      "spirvExtensions": [],
+      "executionModes": [],
+      "results": {
+        "vulkan": {
+          "status": "ok",
+          "spirvVal": {
+            "status": "ok",
+            "message": "",
+            "extensions": []
+          },
+          "naga": {
+            "status": "n/a",
+            "message": "SPIR-V is the native format; validated with spirv-val"
+          },
+          "spirvCross": {
+            "status": "n/a",
+            "message": "SPIR-V is the native format; validated with spirv-val"
+          }
+        },
+        "d3d12": {
+          "status": "ok",
+          "naga": {
+            "status": "ok",
+            "message": "",
+            "extensions": [],
+            "files": [
+              "out/VertexIndex/VertexIndex/d3d12.naga.sm60.hlsl"
+            ],
+            "entry": "main"
+          },
+          "spirvCross": {
+            "status": "ok",
+            "message": "",
+            "extensions": [],
+            "files": [
+              "out/VertexIndex/VertexIndex/d3d12.spirvCross.sm60.hlsl"
+            ],
+            "entry": "main"
+          }
+        },
+        "metal": {
+          "status": "ok",
+          "naga": {
+            "status": "ok",
+            "message": "",
+            "extensions": [],
+            "files": [
+              "out/VertexIndex/VertexIndex/metal.naga.metal"
+            ]
+          },
+          "spirvCross": {
+            "status": "ok",
+            "message": "",
+            "extensions": [],
+            "files": [
+              "out/VertexIndex/VertexIndex/metal.spirvCross.metal"
+            ]
+          }
+        },
+        "webgpu": {
+          "status": "ok",
+          "naga": {
+            "status": "ok",
+            "message": "",
+            "extensions": [],
+            "files": [
+              "out/VertexIndex/VertexIndex/webgpu.naga.wgsl"
+            ]
+          },
+          "spirvCross": {
+            "status": "n/a",
+            "message": "spirv-cross has no WGSL backend"
+          }
+        },
+        "opengl": {
+          "status": "ok",
+          "naga": {
+            "status": "ok",
+            "message": "",
+            "extensions": [],
+            "files": [
+              "out/VertexIndex/VertexIndex/opengl.naga.vert"
+            ]
+          },
+          "spirvCross": {
+            "status": "ok",
+            "message": "",
+            "extensions": [],
+            "files": [
+              "out/VertexIndex/VertexIndex/opengl.spirvCross.vert"
+            ]
+          }
+        },
+        "webgl2": {
+          "status": "ok",
+          "naga": {
+            "status": "ok",
+            "message": "",
+            "extensions": [],
+            "files": [
+              "out/VertexIndex/VertexIndex/webgl2.naga.vert"
+            ]
+          },
+          "spirvCross": {
+            "status": "ok",
+            "message": "",
+            "extensions": [],
+            "files": [
+              "out/VertexIndex/VertexIndex/webgl2.spirvCross.vert"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": "InstanceIndex",
+      "group": "vertex",
+      "source": "hlsl",
+      "shaders": [
+        {
+          "file": "InstanceIndex.hlsl",
+          "stage": "vert",
+          "frontend": "hlsl"
+        }
+      ],
+      "builtins": [
+        "InstanceIndex",
+        "Position"
+      ],
+      "capabilities": [
+        "Shader"
+      ],
+      "spirvExtensions": [],
+      "executionModes": [],
+      "results": {
+        "vulkan": {
+          "status": "ok",
+          "spirvVal": {
+            "status": "ok",
+            "message": "",
+            "extensions": []
+          },
+          "naga": {
+            "status": "n/a",
+            "message": "SPIR-V is the native format; validated with spirv-val"
+          },
+          "spirvCross": {
+            "status": "n/a",
+            "message": "SPIR-V is the native format; validated with spirv-val"
+          }
+        },
+        "d3d12": {
+          "status": "ok",
+          "naga": {
+            "status": "ok",
+            "message": "",
+            "extensions": [],
+            "files": [
+              "out/InstanceIndex/InstanceIndex/d3d12.naga.sm60.hlsl"
+            ],
+            "entry": "main"
+          },
+          "spirvCross": {
+            "status": "ok",
+            "message": "",
+            "extensions": [],
+            "files": [
+              "out/InstanceIndex/InstanceIndex/d3d12.spirvCross.sm60.hlsl"
+            ],
+            "entry": "main"
+          }
+        },
+        "metal": {
+          "status": "ok",
+          "naga": {
+            "status": "ok",
+            "message": "",
+            "extensions": [],
+            "files": [
+              "out/InstanceIndex/InstanceIndex/metal.naga.metal"
+            ]
+          },
+          "spirvCross": {
+            "status": "ok",
+            "message": "",
+            "extensions": [],
+            "files": [
+              "out/InstanceIndex/InstanceIndex/metal.spirvCross.metal"
+            ]
+          }
+        },
+        "webgpu": {
+          "status": "ok",
+          "naga": {
+            "status": "ok",
+            "message": "",
+            "extensions": [],
+            "files": [
+              "out/InstanceIndex/InstanceIndex/webgpu.naga.wgsl"
+            ]
+          },
+          "spirvCross": {
+            "status": "n/a",
+            "message": "spirv-cross has no WGSL backend"
+          }
+        },
+        "opengl": {
+          "status": "ok",
+          "naga": {
+            "status": "ok",
+            "message": "",
+            "extensions": [],
+            "files": [
+              "out/InstanceIndex/InstanceIndex/opengl.naga.vert"
+            ]
+          },
+          "spirvCross": {
+            "status": "extension",
+            "message": "",
+            "extensions": [
+              "GL_ARB_shader_draw_parameters"
+            ],
+            "files": [
+              "out/InstanceIndex/InstanceIndex/opengl.spirvCross.vert"
+            ]
+          }
+        },
+        "webgl2": {
+          "status": "ok",
+          "naga": {
+            "status": "ok",
+            "message": "",
+            "extensions": [],
+            "files": [
+              "out/InstanceIndex/InstanceIndex/webgl2.naga.vert"
+            ]
+          },
+          "spirvCross": {
+            "status": "extension",
+            "message": "",
+            "extensions": [
+              "GL_ARB_shader_draw_parameters"
+            ],
+            "files": [
+              "out/InstanceIndex/InstanceIndex/webgl2.spirvCross.vert"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": "BaseVertex",
+      "group": "vertex",
+      "source": "hlsl",
+      "shaders": [
+        {
+          "file": "BaseVertex.hlsl",
+          "stage": "vert",
+          "frontend": "hlsl"
+        }
+      ],
+      "builtins": [
+        "BaseVertex",
+        "Position"
+      ],
+      "capabilities": [
+        "Shader",
+        "DrawParameters"
+      ],
+      "spirvExtensions": [],
+      "executionModes": [],
+      "results": {
+        "vulkan": {
+          "status": "ok",
+          "spirvVal": {
+            "status": "ok",
+            "message": "",
+            "extensions": []
+          },
+          "naga": {
+            "status": "n/a",
+            "message": "SPIR-V is the native format; validated with spirv-val"
+          },
+          "spirvCross": {
+            "status": "n/a",
+            "message": "SPIR-V is the native format; validated with spirv-val"
+          }
+        },
+        "d3d12": {
+          "status": "ok",
+          "naga": {
+            "status": "rejected",
+            "message": "[WARN  naga::front::spv] Unknown capability DrawParameters",
+            "extensions": []
+          },
+          "spirvCross": {
+            "status": "ok",
+            "message": "",
+            "extensions": [],
+            "files": [
+              "out/BaseVertex/BaseVertex/d3d12.spirvCross.sm60.hlsl"
+            ],
+            "entry": "main"
+          }
+        },
+        "metal": {
+          "status": "ok",
+          "naga": {
+            "status": "ok",
+            "message": "",
+            "extensions": [],
+            "files": [
+              "out/BaseVertex/BaseVertex/metal.naga.metal"
+            ]
+          },
+          "spirvCross": {
+            "status": "ok",
+            "message": "",
+            "extensions": [],
+            "files": [
+              "out/BaseVertex/BaseVertex/metal.spirvCross.metal"
+            ]
+          }
+        },
+        "webgpu": {
+          "status": "rejected",
+          "naga": {
+            "status": "rejected",
+            "message": "Unsupported builtin value: BaseVertex",
+            "extensions": []
+          },
+          "spirvCross": {
+            "status": "n/a",
+            "message": "spirv-cross has no WGSL backend"
+          }
+        },
+        "opengl": {
+          "status": "extension",
+          "naga": {
+            "status": "invalid",
+            "message": "ERROR: 0:14: 'gl_BaseVertex' : undeclared identifier",
+            "extensions": [],
+            "files": [
+              "out/BaseVertex/BaseVertex/opengl.naga.vert"
+            ]
+          },
+          "spirvCross": {
+            "status": "extension",
+            "message": "",
+            "extensions": [
+              "GL_ARB_shader_draw_parameters"
+            ],
+            "files": [
+              "out/BaseVertex/BaseVertex/opengl.spirvCross.vert"
+            ]
+          }
+        },
+        "webgl2": {
+          "status": "invalid",
+          "naga": {
+            "status": "invalid",
+            "message": "ERROR: 0:18: 'gl_BaseVertex' : undeclared identifier",
+            "extensions": [],
+            "files": [
+              "out/BaseVertex/BaseVertex/webgl2.naga.vert"
+            ]
+          },
+          "spirvCross": {
+            "status": "rejected",
+            "message": "SPIRV-Cross threw an exception: BaseVertex not supported in ES profile.",
+            "extensions": []
+          }
+        }
+      }
+    },
+    {
+      "id": "BaseInstance",
+      "group": "vertex",
+      "source": "hlsl",
+      "shaders": [
+        {
+          "file": "BaseInstance.hlsl",
+          "stage": "vert",
+          "frontend": "hlsl"
+        }
+      ],
+      "builtins": [
+        "BaseInstance",
+        "Position"
+      ],
+      "capabilities": [
+        "Shader",
+        "DrawParameters"
+      ],
+      "spirvExtensions": [],
+      "executionModes": [],
+      "results": {
+        "vulkan": {
+          "status": "ok",
+          "spirvVal": {
+            "status": "ok",
+            "message": "",
+            "extensions": []
+          },
+          "naga": {
+            "status": "n/a",
+            "message": "SPIR-V is the native format; validated with spirv-val"
+          },
+          "spirvCross": {
+            "status": "n/a",
+            "message": "SPIR-V is the native format; validated with spirv-val"
+          }
+        },
+        "d3d12": {
+          "status": "ok",
+          "naga": {
+            "status": "rejected",
+            "message": "[WARN  naga::front::spv] Unknown capability DrawParameters",
+            "extensions": []
+          },
+          "spirvCross": {
+            "status": "ok",
+            "message": "",
+            "extensions": [],
+            "files": [
+              "out/BaseInstance/BaseInstance/d3d12.spirvCross.sm60.hlsl"
+            ],
+            "entry": "main"
+          }
+        },
+        "metal": {
+          "status": "ok",
+          "naga": {
+            "status": "ok",
+            "message": "",
+            "extensions": [],
+            "files": [
+              "out/BaseInstance/BaseInstance/metal.naga.metal"
+            ]
+          },
+          "spirvCross": {
+            "status": "ok",
+            "message": "",
+            "extensions": [],
+            "files": [
+              "out/BaseInstance/BaseInstance/metal.spirvCross.metal"
+            ]
+          }
+        },
+        "webgpu": {
+          "status": "rejected",
+          "naga": {
+            "status": "rejected",
+            "message": "Unsupported builtin value: BaseInstance",
+            "extensions": []
+          },
+          "spirvCross": {
+            "status": "n/a",
+            "message": "spirv-cross has no WGSL backend"
+          }
+        },
+        "opengl": {
+          "status": "extension",
+          "naga": {
+            "status": "invalid",
+            "message": "ERROR: 0:14: 'gl_BaseInstance' : undeclared identifier",
+            "extensions": [],
+            "files": [
+              "out/BaseInstance/BaseInstance/opengl.naga.vert"
+            ]
+          },
+          "spirvCross": {
+            "status": "extension",
+            "message": "",
+            "extensions": [
+              "GL_ARB_shader_draw_parameters"
+            ],
+            "files": [
+              "out/BaseInstance/BaseInstance/opengl.spirvCross.vert"
+            ]
+          }
+        },
+        "webgl2": {
+          "status": "invalid",
+          "naga": {
+            "status": "invalid",
+            "message": "ERROR: 0:18: 'gl_BaseInstance' : undeclared identifier",
+            "extensions": [],
+            "files": [
+              "out/BaseInstance/BaseInstance/webgl2.naga.vert"
+            ]
+          },
+          "spirvCross": {
+            "status": "rejected",
+            "message": "SPIRV-Cross threw an exception: BaseInstance not supported in ES profile.",
+            "extensions": []
+          }
+        }
+      }
+    },
+    {
+      "id": "ClipDistance",
+      "group": "vertex",
+      "source": "hlsl",
+      "shaders": [
+        {
+          "file": "ClipDistance.hlsl",
+          "stage": "vert",
+          "frontend": "hlsl"
+        }
+      ],
+      "builtins": [
+        "ClipDistance",
+        "Position"
+      ],
+      "capabilities": [
+        "Shader",
+        "ClipDistance"
+      ],
+      "spirvExtensions": [],
+      "executionModes": [],
+      "results": {
+        "vulkan": {
+          "status": "ok",
+          "spirvVal": {
+            "status": "ok",
+            "message": "",
+            "extensions": []
+          },
+          "naga": {
+            "status": "n/a",
+            "message": "SPIR-V is the native format; validated with spirv-val"
+          },
+          "spirvCross": {
+            "status": "n/a",
+            "message": "SPIR-V is the native format; validated with spirv-val"
+          }
+        },
+        "d3d12": {
+          "status": "ok",
+          "naga": {
+            "status": "rejected",
+            "message": "Entry point main at Vertex is invalid: Capability Capabilities(CLIP_DISTANCES) is not supported",
+            "extensions": []
+          },
+          "spirvCross": {
+            "status": "ok",
+            "message": "",
+            "extensions": [],
+            "files": [
+              "out/ClipDistance/ClipDistance/d3d12.spirvCross.sm60.hlsl"
+            ],
+            "entry": "main"
+          }
+        },
+        "metal": {
+          "status": "ok",
+          "naga": {
+            "status": "ok",
+            "message": "",
+            "extensions": [],
+            "files": [
+              "out/ClipDistance/ClipDistance/metal.naga.metal"
+            ]
+          },
+          "spirvCross": {
+            "status": "ok",
+            "message": "",
+            "extensions": [],
+            "files": [
+              "out/ClipDistance/ClipDistance/metal.spirvCross.metal"
+            ]
+          }
+        },
+        "webgpu": {
+          "status": "extension",
+          "naga": {
+            "status": "extension",
+            "message": "Could not parse WGSL: error: the `clip_distances` extension is not supported in the current environment",
+            "extensions": [
+              "clip_distances"
+            ],
+            "files": [
+              "out/ClipDistance/ClipDistance/webgpu.naga.wgsl"
+            ]
+          },
+          "spirvCross": {
+            "status": "n/a",
+            "message": "spirv-cross has no WGSL backend"
+          }
+        },
+        "opengl": {
+          "status": "ok",
+          "naga": {
+            "status": "ok",
+            "message": "",
+            "extensions": [],
+            "files": [
+              "out/ClipDistance/ClipDistance/opengl.naga.vert"
+            ]
+          },
+          "spirvCross": {
+            "status": "ok",
+            "message": "",
+            "extensions": [],
+            "files": [
+              "out/ClipDistance/ClipDistance/opengl.spirvCross.vert"
+            ]
+          }
+        },
+        "webgl2": {
+          "status": "extension",
+          "naga": {
+            "status": "extension",
+            "message": "glslang does not implement GL_EXT_clip_cull_distance for this profile; output not compiled",
+            "extensions": [
+              "GL_EXT_clip_cull_distance"
+            ],
+            "unverified": true,
+            "files": [
+              "out/ClipDistance/ClipDistance/webgl2.naga.vert"
+            ]
+          },
+          "spirvCross": {
+            "status": "extension",
+            "message": "glslang does not implement GL_EXT_clip_cull_distance for this profile; output not compiled",
+            "extensions": [
+              "GL_EXT_clip_cull_distance"
+            ],
+            "unverified": true,
+            "files": [
+              "out/ClipDistance/ClipDistance/webgl2.spirvCross.vert"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": "Layer",
+      "group": "vertex",
+      "source": "hlsl",
+      "shaders": [
+        {
+          "file": "Layer.hlsl",
+          "stage": "vert",
+          "frontend": "hlsl"
+        }
+      ],
+      "builtins": [
+        "Position",
+        "Layer"
+      ],
+      "capabilities": [
+        "Shader",
+        "ShaderLayer"
+      ],
+      "spirvExtensions": [],
+      "executionModes": [],
+      "results": {
+        "vulkan": {
+          "status": "ok",
+          "spirvVal": {
+            "status": "ok",
+            "message": "",
+            "extensions": []
+          },
+          "naga": {
+            "status": "n/a",
+            "message": "SPIR-V is the native format; validated with spirv-val"
+          },
+          "spirvCross": {
+            "status": "n/a",
+            "message": "SPIR-V is the native format; validated with spirv-val"
+          }
+        },
+        "d3d12": {
+          "status": "ok",
+          "naga": {
+            "status": "rejected",
+            "message": "Entry point main at Vertex is invalid: Struct member 1 is missing a binding",
+            "extensions": []
+          },
+          "spirvCross": {
+            "status": "ok",
+            "message": "",
+            "extensions": [],
+            "files": [
+              "out/Layer/Layer/d3d12.spirvCross.sm60.hlsl"
+            ],
+            "entry": "main"
+          }
+        },
+        "metal": {
+          "status": "ok",
+          "naga": {
+            "status": "rejected",
+            "message": "Entry point main at Vertex is invalid: Struct member 1 is missing a binding",
+            "extensions": []
+          },
+          "spirvCross": {
+            "status": "ok",
+            "message": "",
+            "extensions": [],
+            "files": [
+              "out/Layer/Layer/metal.spirvCross.metal"
+            ]
+          }
+        },
+        "webgpu": {
+          "status": "rejected",
+          "naga": {
+            "status": "rejected",
+            "message": "Entry point main at Vertex is invalid: Struct member 1 is missing a binding",
+            "extensions": []
+          },
+          "spirvCross": {
+            "status": "n/a",
+            "message": "spirv-cross has no WGSL backend"
+          }
+        },
+        "opengl": {
+          "status": "extension",
+          "naga": {
+            "status": "rejected",
+            "message": "Entry point main at Vertex is invalid: Struct member 1 is missing a binding",
+            "extensions": []
+          },
+          "spirvCross": {
+            "status": "extension",
+            "message": "",
+            "extensions": [
+              "GL_ARB_shader_viewport_layer_array"
+            ],
+            "files": [
+              "out/Layer/Layer/opengl.spirvCross.vert"
+            ]
+          }
+        },
+        "webgl2": {
+          "status": "invalid",
+          "naga": {
+            "status": "rejected",
+            "message": "Entry point main at Vertex is invalid: Struct member 1 is missing a binding",
+            "extensions": []
+          },
+          "spirvCross": {
+            "status": "invalid",
+            "message": "ERROR: 0:9: 'gl_Layer' : undeclared identifier",
+            "extensions": [
+              "GL_NV_viewport_array2"
+            ],
+            "files": [
+              "out/Layer/Layer/webgl2.spirvCross.vert"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": "ViewportIndex",
+      "group": "vertex",
+      "source": "hlsl",
+      "shaders": [
+        {
+          "file": "ViewportIndex.hlsl",
+          "stage": "vert",
+          "frontend": "hlsl"
+        }
+      ],
+      "builtins": [
+        "Position",
+        "ViewportIndex"
+      ],
+      "capabilities": [
+        "Shader",
+        "ShaderViewportIndex"
+      ],
+      "spirvExtensions": [],
+      "executionModes": [],
+      "results": {
+        "vulkan": {
+          "status": "ok",
+          "spirvVal": {
+            "status": "ok",
+            "message": "",
+            "extensions": []
+          },
+          "naga": {
+            "status": "n/a",
+            "message": "SPIR-V is the native format; validated with spirv-val"
+          },
+          "spirvCross": {
+            "status": "n/a",
+            "message": "SPIR-V is the native format; validated with spirv-val"
+          }
+        },
+        "d3d12": {
+          "status": "ok",
+          "naga": {
+            "status": "rejected",
+            "message": "Entry point main at Vertex is invalid: Struct member 1 is missing a binding",
+            "extensions": []
+          },
+          "spirvCross": {
+            "status": "ok",
+            "message": "",
+            "extensions": [],
+            "files": [
+              "out/ViewportIndex/ViewportIndex/d3d12.spirvCross.sm60.hlsl"
+            ],
+            "entry": "main"
+          }
+        },
+        "metal": {
+          "status": "ok",
+          "naga": {
+            "status": "rejected",
+            "message": "Entry point main at Vertex is invalid: Struct member 1 is missing a binding",
+            "extensions": []
+          },
+          "spirvCross": {
+            "status": "ok",
+            "message": "",
+            "extensions": [],
+            "files": [
+              "out/ViewportIndex/ViewportIndex/metal.spirvCross.metal"
+            ]
+          }
+        },
+        "webgpu": {
+          "status": "rejected",
+          "naga": {
+            "status": "rejected",
+            "message": "Entry point main at Vertex is invalid: Struct member 1 is missing a binding",
+            "extensions": []
+          },
+          "spirvCross": {
+            "status": "n/a",
+            "message": "spirv-cross has no WGSL backend"
+          }
+        },
+        "opengl": {
+          "status": "invalid",
+          "naga": {
+            "status": "rejected",
+            "message": "Entry point main at Vertex is invalid: Struct member 1 is missing a binding",
+            "extensions": []
+          },
+          "spirvCross": {
+            "status": "invalid",
+            "message": "ERROR: 0:8: 'gl_ViewportIndex' : required extension not requested: Possible extensions include: GL_ARB_shader_viewport_layer_array",
+            "extensions": [],
+            "files": [
+              "out/ViewportIndex/ViewportIndex/opengl.spirvCross.vert"
+            ]
+          }
+        },
+        "webgl2": {
+          "status": "invalid",
+          "naga": {
+            "status": "rejected",
+            "message": "Entry point main at Vertex is invalid: Struct member 1 is missing a binding",
+            "extensions": []
+          },
+          "spirvCross": {
+            "status": "invalid",
+            "message": "ERROR: 0:8: 'gl_ViewportIndex' : undeclared identifier",
+            "extensions": [],
+            "files": [
+              "out/ViewportIndex/ViewportIndex/webgl2.spirvCross.vert"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": "FragCoord",
+      "group": "fragment",
+      "source": "hlsl",
+      "shaders": [
+        {
+          "file": "FragCoord.hlsl",
+          "stage": "frag",
+          "frontend": "hlsl"
+        }
+      ],
+      "builtins": [
+        "FragCoord"
+      ],
+      "capabilities": [
+        "Shader"
+      ],
+      "spirvExtensions": [],
+      "executionModes": [
+        "OriginUpperLeft"
+      ],
+      "results": {
+        "vulkan": {
+          "status": "ok",
+          "spirvVal": {
+            "status": "ok",
+            "message": "",
+            "extensions": []
+          },
+          "naga": {
+            "status": "n/a",
+            "message": "SPIR-V is the native format; validated with spirv-val"
+          },
+          "spirvCross": {
+            "status": "n/a",
+            "message": "SPIR-V is the native format; validated with spirv-val"
+          }
+        },
+        "d3d12": {
+          "status": "ok",
+          "naga": {
+            "status": "ok",
+            "message": "",
+            "extensions": [],
+            "files": [
+              "out/FragCoord/FragCoord/d3d12.naga.sm60.hlsl"
+            ],
+            "entry": "main"
+          },
+          "spirvCross": {
+            "status": "ok",
+            "message": "",
+            "extensions": [],
+            "files": [
+              "out/FragCoord/FragCoord/d3d12.spirvCross.sm60.hlsl"
+            ],
+            "entry": "main"
+          }
+        },
+        "metal": {
+          "status": "ok",
+          "naga": {
+            "status": "ok",
+            "message": "",
+            "extensions": [],
+            "files": [
+              "out/FragCoord/FragCoord/metal.naga.metal"
+            ]
+          },
+          "spirvCross": {
+            "status": "ok",
+            "message": "",
+            "extensions": [],
+            "files": [
+              "out/FragCoord/FragCoord/metal.spirvCross.metal"
+            ]
+          }
+        },
+        "webgpu": {
+          "status": "ok",
+          "naga": {
+            "status": "ok",
+            "message": "",
+            "extensions": [],
+            "files": [
+              "out/FragCoord/FragCoord/webgpu.naga.wgsl"
+            ]
+          },
+          "spirvCross": {
+            "status": "n/a",
+            "message": "spirv-cross has no WGSL backend"
+          }
+        },
+        "opengl": {
+          "status": "ok",
+          "naga": {
+            "status": "ok",
+            "message": "",
+            "extensions": [],
+            "files": [
+              "out/FragCoord/FragCoord/opengl.naga.frag"
+            ]
+          },
+          "spirvCross": {
+            "status": "ok",
+            "message": "",
+            "extensions": [],
+            "files": [
+              "out/FragCoord/FragCoord/opengl.spirvCross.frag"
+            ]
+          }
+        },
+        "webgl2": {
+          "status": "ok",
+          "naga": {
+            "status": "ok",
+            "message": "",
+            "extensions": [],
+            "files": [
+              "out/FragCoord/FragCoord/webgl2.naga.frag"
+            ]
+          },
+          "spirvCross": {
+            "status": "ok",
+            "message": "",
+            "extensions": [],
+            "files": [
+              "out/FragCoord/FragCoord/webgl2.spirvCross.frag"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": "PrimitiveId",
+      "group": "fragment",
+      "source": "hlsl",
+      "shaders": [
+        {
+          "file": "PrimitiveId.hlsl",
+          "stage": "frag",
+          "frontend": "hlsl"
+        }
+      ],
+      "builtins": [
+        "PrimitiveId"
+      ],
+      "capabilities": [
+        "Shader",
+        "Geometry"
+      ],
+      "spirvExtensions": [],
+      "executionModes": [
+        "OriginUpperLeft"
+      ],
+      "results": {
+        "vulkan": {
+          "status": "ok",
+          "spirvVal": {
+            "status": "ok",
+            "message": "",
+            "extensions": []
+          },
+          "naga": {
+            "status": "n/a",
+            "message": "SPIR-V is the native format; validated with spirv-val"
+          },
+          "spirvCross": {
+            "status": "n/a",
+            "message": "SPIR-V is the native format; validated with spirv-val"
+          }
+        },
+        "d3d12": {
+          "status": "ok",
+          "naga": {
+            "status": "ok",
+            "message": "",
+            "extensions": [],
+            "files": [
+              "out/PrimitiveId/PrimitiveId/d3d12.naga.sm60.hlsl"
+            ],
+            "entry": "main"
+          },
+          "spirvCross": {
+            "status": "ok",
+            "message": "",
+            "extensions": [],
+            "files": [
+              "out/PrimitiveId/PrimitiveId/d3d12.spirvCross.sm60.hlsl"
+            ],
+            "entry": "main"
+          }
+        },
+        "metal": {
+          "status": "ok",
+          "naga": {
+            "status": "ok",
+            "message": "",
+            "extensions": [],
+            "files": [
+              "out/PrimitiveId/PrimitiveId/metal.naga.metal"
+            ]
+          },
+          "spirvCross": {
+            "status": "ok",
+            "message": "",
+            "extensions": [],
+            "files": [
+              "out/PrimitiveId/PrimitiveId/metal.spirvCross.metal"
+            ]
+          }
+        },
+        "webgpu": {
+          "status": "extension",
+          "naga": {
+            "status": "extension",
+            "message": "Could not parse WGSL: error: the `primitive_index` extension is not supported in the current environment",
+            "extensions": [
+              "primitive_index"
+            ],
+            "files": [
+              "out/PrimitiveId/PrimitiveId/webgpu.naga.wgsl"
+            ]
+          },
+          "spirvCross": {
+            "status": "n/a",
+            "message": "spirv-cross has no WGSL backend"
+          }
+        },
+        "opengl": {
+          "status": "ok",
+          "naga": {
+            "status": "ok",
+            "message": "",
+            "extensions": [],
+            "files": [
+              "out/PrimitiveId/PrimitiveId/opengl.naga.frag"
+            ]
+          },
+          "spirvCross": {
+            "status": "ok",
+            "message": "",
+            "extensions": [],
+            "files": [
+              "out/PrimitiveId/PrimitiveId/opengl.spirvCross.frag"
+            ]
+          }
+        },
+        "webgl2": {
+          "status": "invalid",
+          "naga": {
+            "status": "invalid",
+            "message": "ERROR: 0:20: 'gl_PrimitiveID' : undeclared identifier",
+            "extensions": [
+              "GL_OES_geometry_shader"
+            ],
+            "files": [
+              "out/PrimitiveId/PrimitiveId/webgl2.naga.frag"
+            ]
+          },
+          "spirvCross": {
+            "status": "invalid",
+            "message": "ERROR: 0:9: 'gl_PrimitiveID' : undeclared identifier",
+            "extensions": [],
+            "files": [
+              "out/PrimitiveId/PrimitiveId/webgl2.spirvCross.frag"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": "FrontFacing",
+      "group": "fragment",
+      "source": "hlsl",
+      "shaders": [
+        {
+          "file": "FrontFacing.hlsl",
+          "stage": "frag",
+          "frontend": "hlsl"
+        }
+      ],
+      "builtins": [
+        "FrontFacing"
+      ],
+      "capabilities": [
+        "Shader"
+      ],
+      "spirvExtensions": [],
+      "executionModes": [
+        "OriginUpperLeft"
+      ],
+      "results": {
+        "vulkan": {
+          "status": "ok",
+          "spirvVal": {
+            "status": "ok",
+            "message": "",
+            "extensions": []
+          },
+          "naga": {
+            "status": "n/a",
+            "message": "SPIR-V is the native format; validated with spirv-val"
+          },
+          "spirvCross": {
+            "status": "n/a",
+            "message": "SPIR-V is the native format; validated with spirv-val"
+          }
+        },
+        "d3d12": {
+          "status": "ok",
+          "naga": {
+            "status": "invalid",
+            "message": "out/FrontFacing/FrontFacing/d3d12.naga.sm60.hlsl:11:49: error: condition for short-circuiting ternary operator must be scalar, for non-scalar types use 'select'",
+            "extensions": [],
+            "files": [
+              "out/FrontFacing/FrontFacing/d3d12.naga.sm60.hlsl"
+            ],
+            "entry": "main"
+          },
+          "spirvCross": {
+            "status": "ok",
+            "message": "",
+            "extensions": [],
+            "files": [
+              "out/FrontFacing/FrontFacing/d3d12.spirvCross.sm60.hlsl"
+            ],
+            "entry": "main"
+          }
+        },
+        "metal": {
+          "status": "ok",
+          "naga": {
+            "status": "ok",
+            "message": "",
+            "extensions": [],
+            "files": [
+              "out/FrontFacing/FrontFacing/metal.naga.metal"
+            ]
+          },
+          "spirvCross": {
+            "status": "ok",
+            "message": "",
+            "extensions": [],
+            "files": [
+              "out/FrontFacing/FrontFacing/metal.spirvCross.metal"
+            ]
+          }
+        },
+        "webgpu": {
+          "status": "ok",
+          "naga": {
+            "status": "ok",
+            "message": "",
+            "extensions": [],
+            "files": [
+              "out/FrontFacing/FrontFacing/webgpu.naga.wgsl"
+            ]
+          },
+          "spirvCross": {
+            "status": "n/a",
+            "message": "spirv-cross has no WGSL backend"
+          }
+        },
+        "opengl": {
+          "status": "ok",
+          "naga": {
+            "status": "ok",
+            "message": "",
+            "extensions": [],
+            "files": [
+              "out/FrontFacing/FrontFacing/opengl.naga.frag"
+            ]
+          },
+          "spirvCross": {
+            "status": "ok",
+            "message": "",
+            "extensions": [],
+            "files": [
+              "out/FrontFacing/FrontFacing/opengl.spirvCross.frag"
+            ]
+          }
+        },
+        "webgl2": {
+          "status": "ok",
+          "naga": {
+            "status": "ok",
+            "message": "",
+            "extensions": [],
+            "files": [
+              "out/FrontFacing/FrontFacing/webgl2.naga.frag"
+            ]
+          },
+          "spirvCross": {
+            "status": "ok",
+            "message": "",
+            "extensions": [],
+            "files": [
+              "out/FrontFacing/FrontFacing/webgl2.spirvCross.frag"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": "FragDepth",
+      "group": "fragment",
+      "source": "hlsl",
+      "shaders": [
+        {
+          "file": "FragDepth.hlsl",
+          "stage": "frag",
+          "frontend": "hlsl"
+        }
+      ],
+      "builtins": [
+        "FragCoord",
+        "FragDepth"
+      ],
+      "capabilities": [
+        "Shader"
+      ],
+      "spirvExtensions": [],
+      "executionModes": [
+        "OriginUpperLeft",
+        "DepthReplacing"
+      ],
+      "results": {
+        "vulkan": {
+          "status": "ok",
+          "spirvVal": {
+            "status": "ok",
+            "message": "",
+            "extensions": []
+          },
+          "naga": {
+            "status": "n/a",
+            "message": "SPIR-V is the native format; validated with spirv-val"
+          },
+          "spirvCross": {
+            "status": "n/a",
+            "message": "SPIR-V is the native format; validated with spirv-val"
+          }
+        },
+        "d3d12": {
+          "status": "ok",
+          "naga": {
+            "status": "ok",
+            "message": "",
+            "extensions": [],
+            "files": [
+              "out/FragDepth/FragDepth/d3d12.naga.sm60.hlsl"
+            ],
+            "entry": "main"
+          },
+          "spirvCross": {
+            "status": "ok",
+            "message": "",
+            "extensions": [],
+            "files": [
+              "out/FragDepth/FragDepth/d3d12.spirvCross.sm60.hlsl"
+            ],
+            "entry": "main"
+          }
+        },
+        "metal": {
+          "status": "ok",
+          "naga": {
+            "status": "ok",
+            "message": "",
+            "extensions": [],
+            "files": [
+              "out/FragDepth/FragDepth/metal.naga.metal"
+            ]
+          },
+          "spirvCross": {
+            "status": "ok",
+            "message": "",
+            "extensions": [],
+            "files": [
+              "out/FragDepth/FragDepth/metal.spirvCross.metal"
+            ]
+          }
+        },
+        "webgpu": {
+          "status": "ok",
+          "naga": {
+            "status": "ok",
+            "message": "",
+            "extensions": [],
+            "files": [
+              "out/FragDepth/FragDepth/webgpu.naga.wgsl"
+            ]
+          },
+          "spirvCross": {
+            "status": "n/a",
+            "message": "spirv-cross has no WGSL backend"
+          }
+        },
+        "opengl": {
+          "status": "ok",
+          "naga": {
+            "status": "ok",
+            "message": "",
+            "extensions": [],
+            "files": [
+              "out/FragDepth/FragDepth/opengl.naga.frag"
+            ]
+          },
+          "spirvCross": {
+            "status": "ok",
+            "message": "",
+            "extensions": [],
+            "files": [
+              "out/FragDepth/FragDepth/opengl.spirvCross.frag"
+            ]
+          }
+        },
+        "webgl2": {
+          "status": "ok",
+          "naga": {
+            "status": "ok",
+            "message": "",
+            "extensions": [],
+            "files": [
+              "out/FragDepth/FragDepth/webgl2.naga.frag"
+            ]
+          },
+          "spirvCross": {
+            "status": "ok",
+            "message": "",
+            "extensions": [],
+            "files": [
+              "out/FragDepth/FragDepth/webgl2.spirvCross.frag"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": "FragStencilRef",
+      "group": "fragment",
+      "source": "hlsl",
+      "shaders": [
+        {
+          "file": "FragStencilRef.hlsl",
+          "stage": "frag",
+          "frontend": "hlsl"
+        }
+      ],
+      "builtins": [
+        "FragCoord",
+        "FragStencilRefEXT"
+      ],
+      "capabilities": [
+        "Shader",
+        "StencilExportEXT"
+      ],
+      "spirvExtensions": [
+        "SPV_EXT_shader_stencil_export"
+      ],
+      "executionModes": [
+        "OriginUpperLeft"
+      ],
+      "results": {
+        "vulkan": {
+          "status": "extension",
+          "spirvVal": {
+            "status": "extension",
+            "message": "",
+            "extensions": [
+              "SPV_EXT_shader_stencil_export"
+            ]
+          },
+          "naga": {
+            "status": "n/a",
+            "message": "SPIR-V is the native format; validated with spirv-val"
+          },
+          "spirvCross": {
+            "status": "n/a",
+            "message": "SPIR-V is the native format; validated with spirv-val"
+          }
+        },
+        "d3d12": {
+          "status": "rejected",
+          "naga": {
+            "status": "rejected",
+            "message": "unsupported extension SPV_EXT_shader_stencil_export",
+            "extensions": []
+          },
+          "spirvCross": {
+            "status": "rejected",
+            "message": "SPIRV-Cross threw an exception: Unsupported builtin in HLSL: 5014",
+            "extensions": []
+          }
+        },
+        "metal": {
+          "status": "ok",
+          "naga": {
+            "status": "rejected",
+            "message": "unsupported extension SPV_EXT_shader_stencil_export",
+            "extensions": []
+          },
+          "spirvCross": {
+            "status": "ok",
+            "message": "",
+            "extensions": [],
+            "files": [
+              "out/FragStencilRef/FragStencilRef/metal.spirvCross.metal"
+            ]
+          }
+        },
+        "webgpu": {
+          "status": "rejected",
+          "naga": {
+            "status": "rejected",
+            "message": "unsupported extension SPV_EXT_shader_stencil_export",
+            "extensions": []
+          },
+          "spirvCross": {
+            "status": "n/a",
+            "message": "spirv-cross has no WGSL backend"
+          }
+        },
+        "opengl": {
+          "status": "extension",
+          "naga": {
+            "status": "rejected",
+            "message": "unsupported extension SPV_EXT_shader_stencil_export",
+            "extensions": []
+          },
+          "spirvCross": {
+            "status": "extension",
+            "message": "",
+            "extensions": [
+              "GL_ARB_shader_stencil_export"
+            ],
+            "files": [
+              "out/FragStencilRef/FragStencilRef/opengl.spirvCross.frag"
+            ]
+          }
+        },
+        "webgl2": {
+          "status": "rejected",
+          "naga": {
+            "status": "rejected",
+            "message": "unsupported extension SPV_EXT_shader_stencil_export",
+            "extensions": []
+          },
+          "spirvCross": {
+            "status": "rejected",
+            "message": "SPIRV-Cross threw an exception: Stencil export not supported in GLES.",
+            "extensions": []
+          }
+        }
+      }
+    },
+    {
+      "id": "SampleId",
+      "group": "fragment",
+      "source": "hlsl",
+      "shaders": [
+        {
+          "file": "SampleId.hlsl",
+          "stage": "frag",
+          "frontend": "hlsl"
+        }
+      ],
+      "builtins": [
+        "SampleId"
+      ],
+      "capabilities": [
+        "Shader",
+        "SampleRateShading"
+      ],
+      "spirvExtensions": [],
+      "executionModes": [
+        "OriginUpperLeft"
+      ],
+      "results": {
+        "vulkan": {
+          "status": "ok",
+          "spirvVal": {
+            "status": "ok",
+            "message": "",
+            "extensions": []
+          },
+          "naga": {
+            "status": "n/a",
+            "message": "SPIR-V is the native format; validated with spirv-val"
+          },
+          "spirvCross": {
+            "status": "n/a",
+            "message": "SPIR-V is the native format; validated with spirv-val"
+          }
+        },
+        "d3d12": {
+          "status": "ok",
+          "naga": {
+            "status": "ok",
+            "message": "",
+            "extensions": [],
+            "files": [
+              "out/SampleId/SampleId/d3d12.naga.sm60.hlsl"
+            ],
+            "entry": "main"
+          },
+          "spirvCross": {
+            "status": "ok",
+            "message": "",
+            "extensions": [],
+            "files": [
+              "out/SampleId/SampleId/d3d12.spirvCross.sm60.hlsl"
+            ],
+            "entry": "main"
+          }
+        },
+        "metal": {
+          "status": "ok",
+          "naga": {
+            "status": "ok",
+            "message": "",
+            "extensions": [],
+            "files": [
+              "out/SampleId/SampleId/metal.naga.metal"
+            ]
+          },
+          "spirvCross": {
+            "status": "ok",
+            "message": "",
+            "extensions": [],
+            "files": [
+              "out/SampleId/SampleId/metal.spirvCross.metal"
+            ]
+          }
+        },
+        "webgpu": {
+          "status": "ok",
+          "naga": {
+            "status": "ok",
+            "message": "",
+            "extensions": [],
+            "files": [
+              "out/SampleId/SampleId/webgpu.naga.wgsl"
+            ]
+          },
+          "spirvCross": {
+            "status": "n/a",
+            "message": "spirv-cross has no WGSL backend"
+          }
+        },
+        "opengl": {
+          "status": "ok",
+          "naga": {
+            "status": "ok",
+            "message": "",
+            "extensions": [],
+            "files": [
+              "out/SampleId/SampleId/opengl.naga.frag"
+            ]
+          },
+          "spirvCross": {
+            "status": "ok",
+            "message": "",
+            "extensions": [],
+            "files": [
+              "out/SampleId/SampleId/opengl.spirvCross.frag"
+            ]
+          }
+        },
+        "webgl2": {
+          "status": "invalid",
+          "naga": {
+            "status": "invalid",
+            "message": "ERROR: 0:20: 'gl_SampleID' : undeclared identifier",
+            "extensions": [
+              "GL_OES_sample_variables"
+            ],
+            "files": [
+              "out/SampleId/SampleId/webgl2.naga.frag"
+            ]
+          },
+          "spirvCross": {
+            "status": "invalid",
+            "message": "ERROR: 0:10: 'gl_SampleID' : undeclared identifier",
+            "extensions": [
+              "GL_OES_sample_variables"
+            ],
+            "files": [
+              "out/SampleId/SampleId/webgl2.spirvCross.frag"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": "SampleMask",
+      "group": "fragment",
+      "source": "hlsl",
+      "shaders": [
+        {
+          "file": "SampleMask.hlsl",
+          "stage": "frag",
+          "frontend": "hlsl"
+        }
+      ],
+      "builtins": [
+        "SampleMask"
+      ],
+      "capabilities": [
+        "Shader"
+      ],
+      "spirvExtensions": [],
+      "executionModes": [
+        "OriginUpperLeft"
+      ],
+      "results": {
+        "vulkan": {
+          "status": "ok",
+          "spirvVal": {
+            "status": "ok",
+            "message": "",
+            "extensions": []
+          },
+          "naga": {
+            "status": "n/a",
+            "message": "SPIR-V is the native format; validated with spirv-val"
+          },
+          "spirvCross": {
+            "status": "n/a",
+            "message": "SPIR-V is the native format; validated with spirv-val"
+          }
+        },
+        "d3d12": {
+          "status": "ok",
+          "naga": {
+            "status": "rejected",
+            "message": "Global variable [2] '' is invalid: Initializer doesn't match the variable type",
+            "extensions": []
+          },
+          "spirvCross": {
+            "status": "ok",
+            "message": "",
+            "extensions": [],
+            "files": [
+              "out/SampleMask/SampleMask/d3d12.spirvCross.sm60.hlsl"
+            ],
+            "entry": "main"
+          }
+        },
+        "metal": {
+          "status": "ok",
+          "naga": {
+            "status": "rejected",
+            "message": "Global variable [2] '' is invalid: Initializer doesn't match the variable type",
+            "extensions": []
+          },
+          "spirvCross": {
+            "status": "ok",
+            "message": "",
+            "extensions": [],
+            "files": [
+              "out/SampleMask/SampleMask/metal.spirvCross.metal"
+            ]
+          }
+        },
+        "webgpu": {
+          "status": "rejected",
+          "naga": {
+            "status": "rejected",
+            "message": "Global variable [2] '' is invalid: Initializer doesn't match the variable type",
+            "extensions": []
+          },
+          "spirvCross": {
+            "status": "n/a",
+            "message": "spirv-cross has no WGSL backend"
+          }
+        },
+        "opengl": {
+          "status": "ok",
+          "naga": {
+            "status": "rejected",
+            "message": "Global variable [2] '' is invalid: Initializer doesn't match the variable type",
+            "extensions": []
+          },
+          "spirvCross": {
+            "status": "ok",
+            "message": "",
+            "extensions": [],
+            "files": [
+              "out/SampleMask/SampleMask/opengl.spirvCross.frag"
+            ]
+          }
+        },
+        "webgl2": {
+          "status": "invalid",
+          "naga": {
+            "status": "rejected",
+            "message": "Global variable [2] '' is invalid: Initializer doesn't match the variable type",
+            "extensions": []
+          },
+          "spirvCross": {
+            "status": "invalid",
+            "message": "ERROR: 0:11: 'gl_SampleMask' : undeclared identifier",
+            "extensions": [
+              "GL_OES_sample_variables"
+            ],
+            "files": [
+              "out/SampleMask/SampleMask/webgl2.spirvCross.frag"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": "SamplePosition",
+      "group": "fragment",
+      "source": "glsl",
+      "shaders": [
+        {
+          "file": "SamplePosition.frag",
+          "stage": "frag",
+          "frontend": "glsl"
+        }
+      ],
+      "builtins": [
+        "SamplePosition"
+      ],
+      "capabilities": [
+        "Shader",
+        "SampleRateShading"
+      ],
+      "spirvExtensions": [],
+      "executionModes": [
+        "OriginUpperLeft"
+      ],
+      "results": {
+        "vulkan": {
+          "status": "ok",
+          "spirvVal": {
+            "status": "ok",
+            "message": "",
+            "extensions": []
+          },
+          "naga": {
+            "status": "n/a",
+            "message": "SPIR-V is the native format; validated with spirv-val"
+          },
+          "spirvCross": {
+            "status": "n/a",
+            "message": "SPIR-V is the native format; validated with spirv-val"
+          }
+        },
+        "d3d12": {
+          "status": "rejected",
+          "naga": {
+            "status": "rejected",
+            "message": "unsupported builtin %19",
+            "extensions": []
+          },
+          "spirvCross": {
+            "status": "rejected",
+            "message": "SPIRV-Cross threw an exception: Unsupported builtin in HLSL: 19",
+            "extensions": []
+          }
+        },
+        "metal": {
+          "status": "ok",
+          "naga": {
+            "status": "rejected",
+            "message": "unsupported builtin %19",
+            "extensions": []
+          },
+          "spirvCross": {
+            "status": "ok",
+            "message": "",
+            "extensions": [],
+            "files": [
+              "out/SamplePosition/SamplePosition/metal.spirvCross.metal"
+            ]
+          }
+        },
+        "webgpu": {
+          "status": "rejected",
+          "naga": {
+            "status": "rejected",
+            "message": "unsupported builtin %19",
+            "extensions": []
+          },
+          "spirvCross": {
+            "status": "n/a",
+            "message": "spirv-cross has no WGSL backend"
+          }
+        },
+        "opengl": {
+          "status": "ok",
+          "naga": {
+            "status": "rejected",
+            "message": "unsupported builtin %19",
+            "extensions": []
+          },
+          "spirvCross": {
+            "status": "ok",
+            "message": "",
+            "extensions": [],
+            "files": [
+              "out/SamplePosition/SamplePosition/opengl.spirvCross.frag"
+            ]
+          }
+        },
+        "webgl2": {
+          "status": "invalid",
+          "naga": {
+            "status": "rejected",
+            "message": "unsupported builtin %19",
+            "extensions": []
+          },
+          "spirvCross": {
+            "status": "invalid",
+            "message": "ERROR: 0:10: 'gl_SamplePosition' : undeclared identifier",
+            "extensions": [
+              "GL_OES_sample_variables"
+            ],
+            "files": [
+              "out/SamplePosition/SamplePosition/webgl2.spirvCross.frag"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": "HelperInvocation",
+      "group": "fragment",
+      "source": "glsl",
+      "shaders": [
+        {
+          "file": "HelperInvocation.frag",
+          "stage": "frag",
+          "frontend": "glsl"
+        }
+      ],
+      "builtins": [
+        "HelperInvocation"
+      ],
+      "capabilities": [
+        "Shader"
+      ],
+      "spirvExtensions": [],
+      "executionModes": [
+        "OriginUpperLeft"
+      ],
+      "results": {
+        "vulkan": {
+          "status": "ok",
+          "spirvVal": {
+            "status": "ok",
+            "message": "",
+            "extensions": []
+          },
+          "naga": {
+            "status": "n/a",
+            "message": "SPIR-V is the native format; validated with spirv-val"
+          },
+          "spirvCross": {
+            "status": "n/a",
+            "message": "SPIR-V is the native format; validated with spirv-val"
+          }
+        },
+        "d3d12": {
+          "status": "ok",
+          "naga": {
+            "status": "rejected",
+            "message": "unsupported builtin %23",
+            "extensions": []
+          },
+          "spirvCross": {
+            "status": "ok",
+            "message": "",
+            "extensions": [],
+            "files": [
+              "out/HelperInvocation/HelperInvocation/d3d12.spirvCross.sm60.hlsl"
+            ],
+            "entry": "main"
+          }
+        },
+        "metal": {
+          "status": "ok",
+          "naga": {
+            "status": "rejected",
+            "message": "unsupported builtin %23",
+            "extensions": []
+          },
+          "spirvCross": {
+            "status": "ok",
+            "message": "",
+            "extensions": [],
+            "files": [
+              "out/HelperInvocation/HelperInvocation/metal.spirvCross.metal"
+            ]
+          }
+        },
+        "webgpu": {
+          "status": "rejected",
+          "naga": {
+            "status": "rejected",
+            "message": "unsupported builtin %23",
+            "extensions": []
+          },
+          "spirvCross": {
+            "status": "n/a",
+            "message": "spirv-cross has no WGSL backend"
+          }
+        },
+        "opengl": {
+          "status": "ok",
+          "naga": {
+            "status": "rejected",
+            "message": "unsupported builtin %23",
+            "extensions": []
+          },
+          "spirvCross": {
+            "status": "ok",
+            "message": "",
+            "extensions": [],
+            "files": [
+              "out/HelperInvocation/HelperInvocation/opengl.spirvCross.frag"
+            ]
+          }
+        },
+        "webgl2": {
+          "status": "invalid",
+          "naga": {
+            "status": "rejected",
+            "message": "unsupported builtin %23",
+            "extensions": []
+          },
+          "spirvCross": {
+            "status": "invalid",
+            "message": "ERROR: 0:9: 'gl_HelperInvocation' : undeclared identifier",
+            "extensions": [],
+            "files": [
+              "out/HelperInvocation/HelperInvocation/webgl2.spirvCross.frag"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": "BaryCoord",
+      "group": "fragment",
+      "source": "hlsl",
+      "shaders": [
+        {
+          "file": "BaryCoord.hlsl",
+          "stage": "frag",
+          "frontend": "hlsl"
+        }
+      ],
+      "builtins": [
+        "BaryCoordKHR"
+      ],
+      "capabilities": [
+        "Shader",
+        "FragmentBarycentricKHR"
+      ],
+      "spirvExtensions": [
+        "SPV_KHR_fragment_shader_barycentric"
+      ],
+      "executionModes": [
+        "OriginUpperLeft"
+      ],
+      "results": {
+        "vulkan": {
+          "status": "extension",
+          "spirvVal": {
+            "status": "extension",
+            "message": "",
+            "extensions": [
+              "SPV_KHR_fragment_shader_barycentric"
+            ]
+          },
+          "naga": {
+            "status": "n/a",
+            "message": "SPIR-V is the native format; validated with spirv-val"
+          },
+          "spirvCross": {
+            "status": "n/a",
+            "message": "SPIR-V is the native format; validated with spirv-val"
+          }
+        },
+        "d3d12": {
+          "status": "ok",
+          "naga": {
+            "status": "ok",
+            "message": "SM 6.0: out/BaryCoord/BaryCoord/d3d12.naga.sm60.hlsl:15:1: error: Semantic SV_Barycentrics is invalid for shader model: ps",
+            "extensions": [],
+            "requires": "SM 6.1",
+            "files": [
+              "out/BaryCoord/BaryCoord/d3d12.naga.sm61.hlsl"
+            ],
+            "entry": "main"
+          },
+          "spirvCross": {
+            "status": "ok",
+            "message": "SM 6.0: SPIRV-Cross threw an exception: Need SM 6.1 for barycentrics.",
+            "extensions": [],
+            "requires": "SM 6.1",
+            "files": [
+              "out/BaryCoord/BaryCoord/d3d12.spirvCross.sm61.hlsl"
+            ],
+            "entry": "main"
+          }
+        },
+        "metal": {
+          "status": "ok",
+          "naga": {
+            "status": "ok",
+            "message": "",
+            "extensions": [],
+            "files": [
+              "out/BaryCoord/BaryCoord/metal.naga.metal"
+            ]
+          },
+          "spirvCross": {
+            "status": "ok",
+            "message": "",
+            "extensions": [],
+            "files": [
+              "out/BaryCoord/BaryCoord/metal.spirvCross.metal"
+            ]
+          }
+        },
+        "webgpu": {
+          "status": "invalid",
+          "naga": {
+            "status": "invalid",
+            "message": "error: Entry point main at Fragment is invalid: Argument 0 varying error; Capability Capabilities(SHADER_BARYCENTRICS) is not supported (accepted by naga only with non-WebGPU capabilities)",
+            "extensions": [],
+            "files": [
+              "out/BaryCoord/BaryCoord/webgpu.naga.wgsl"
+            ]
+          },
+          "spirvCross": {
+            "status": "n/a",
+            "message": "spirv-cross has no WGSL backend"
+          }
+        },
+        "opengl": {
+          "status": "extension",
+          "naga": {
+            "status": "extension",
+            "message": "",
+            "extensions": [
+              "GL_EXT_fragment_shader_barycentric"
+            ],
+            "files": [
+              "out/BaryCoord/BaryCoord/opengl.naga.frag"
+            ]
+          },
+          "spirvCross": {
+            "status": "extension",
+            "message": "",
+            "extensions": [
+              "GL_EXT_fragment_shader_barycentric"
+            ],
+            "files": [
+              "out/BaryCoord/BaryCoord/opengl.spirvCross.frag"
+            ]
+          }
+        },
+        "webgl2": {
+          "status": "invalid",
+          "naga": {
+            "status": "invalid",
+            "message": "ERROR: 0:20: 'gl_BaryCoordEXT' : undeclared identifier",
+            "extensions": [
+              "GL_EXT_fragment_shader_barycentric"
+            ],
+            "files": [
+              "out/BaryCoord/BaryCoord/webgl2.naga.frag"
+            ]
+          },
+          "spirvCross": {
+            "status": "rejected",
+            "message": "SPIRV-Cross threw an exception: gl_BaryCoordEXT requires ESSL 320.",
+            "extensions": []
+          }
+        }
+      }
+    },
+    {
+      "id": "BaryCoordNoPerspective",
+      "group": "fragment",
+      "source": "glsl",
+      "shaders": [
+        {
+          "file": "BaryCoordNoPerspective.frag",
+          "stage": "frag",
+          "frontend": "glsl"
+        }
+      ],
+      "builtins": [
+        "BaryCoordNoPerspKHR"
+      ],
+      "capabilities": [
+        "Shader",
+        "FragmentBarycentricKHR"
+      ],
+      "spirvExtensions": [
+        "SPV_KHR_fragment_shader_barycentric"
+      ],
+      "executionModes": [
+        "OriginUpperLeft"
+      ],
+      "results": {
+        "vulkan": {
+          "status": "extension",
+          "spirvVal": {
+            "status": "extension",
+            "message": "",
+            "extensions": [
+              "SPV_KHR_fragment_shader_barycentric"
+            ]
+          },
+          "naga": {
+            "status": "n/a",
+            "message": "SPIR-V is the native format; validated with spirv-val"
+          },
+          "spirvCross": {
+            "status": "n/a",
+            "message": "SPIR-V is the native format; validated with spirv-val"
+          }
+        },
+        "d3d12": {
+          "status": "ok",
+          "naga": {
+            "status": "ok",
+            "message": "SM 6.0: out/BaryCoordNoPerspective/BaryCoordNoPerspective/d3d12.naga.sm60.hlsl:15:1: error: Semantic SV_Barycentrics is invalid for shader model: ps",
+            "extensions": [],
+            "requires": "SM 6.1",
+            "files": [
+              "out/BaryCoordNoPerspective/BaryCoordNoPerspective/d3d12.naga.sm61.hlsl"
+            ],
+            "entry": "main"
+          },
+          "spirvCross": {
+            "status": "ok",
+            "message": "SM 6.0: SPIRV-Cross threw an exception: Need SM 6.1 for barycentrics.",
+            "extensions": [],
+            "requires": "SM 6.1",
+            "files": [
+              "out/BaryCoordNoPerspective/BaryCoordNoPerspective/d3d12.spirvCross.sm61.hlsl"
+            ],
+            "entry": "main"
+          }
+        },
+        "metal": {
+          "status": "ok",
+          "naga": {
+            "status": "ok",
+            "message": "",
+            "extensions": [],
+            "files": [
+              "out/BaryCoordNoPerspective/BaryCoordNoPerspective/metal.naga.metal"
+            ]
+          },
+          "spirvCross": {
+            "status": "ok",
+            "message": "",
+            "extensions": [],
+            "files": [
+              "out/BaryCoordNoPerspective/BaryCoordNoPerspective/metal.spirvCross.metal"
+            ]
+          }
+        },
+        "webgpu": {
+          "status": "invalid",
+          "naga": {
+            "status": "invalid",
+            "message": "error: Entry point main at Fragment is invalid: Argument 0 varying error; Capability Capabilities(SHADER_BARYCENTRICS) is not supported (accepted by naga only with non-WebGPU capabilities)",
+            "extensions": [],
+            "files": [
+              "out/BaryCoordNoPerspective/BaryCoordNoPerspective/webgpu.naga.wgsl"
+            ]
+          },
+          "spirvCross": {
+            "status": "n/a",
+            "message": "spirv-cross has no WGSL backend"
+          }
+        },
+        "opengl": {
+          "status": "extension",
+          "naga": {
+            "status": "extension",
+            "message": "",
+            "extensions": [
+              "GL_EXT_fragment_shader_barycentric"
+            ],
+            "files": [
+              "out/BaryCoordNoPerspective/BaryCoordNoPerspective/opengl.naga.frag"
+            ]
+          },
+          "spirvCross": {
+            "status": "extension",
+            "message": "",
+            "extensions": [
+              "GL_EXT_fragment_shader_barycentric"
+            ],
+            "files": [
+              "out/BaryCoordNoPerspective/BaryCoordNoPerspective/opengl.spirvCross.frag"
+            ]
+          }
+        },
+        "webgl2": {
+          "status": "invalid",
+          "naga": {
+            "status": "invalid",
+            "message": "ERROR: 0:20: 'gl_BaryCoordNoPerspEXT' : undeclared identifier",
+            "extensions": [
+              "GL_EXT_fragment_shader_barycentric"
+            ],
+            "files": [
+              "out/BaryCoordNoPerspective/BaryCoordNoPerspective/webgl2.naga.frag"
+            ]
+          },
+          "spirvCross": {
+            "status": "rejected",
+            "message": "SPIRV-Cross threw an exception: gl_BaryCoordNoPerspEXT requires ESSL 320.",
+            "extensions": []
+          }
+        }
+      }
+    },
+    {
+      "id": "ConservativeDepth",
+      "group": "fragment",
+      "source": "hlsl",
+      "shaders": [
+        {
+          "file": "ConservativeDepth.hlsl",
+          "stage": "frag",
+          "frontend": "hlsl"
+        }
+      ],
+      "builtins": [
+        "FragDepth"
+      ],
+      "capabilities": [
+        "Shader"
+      ],
+      "spirvExtensions": [],
+      "executionModes": [
+        "OriginUpperLeft",
+        "DepthReplacing",
+        "DepthGreater"
+      ],
+      "results": {
+        "vulkan": {
+          "status": "ok",
+          "spirvVal": {
+            "status": "ok",
+            "message": "",
+            "extensions": []
+          },
+          "naga": {
+            "status": "n/a",
+            "message": "SPIR-V is the native format; validated with spirv-val"
+          },
+          "spirvCross": {
+            "status": "n/a",
+            "message": "SPIR-V is the native format; validated with spirv-val"
+          }
+        },
+        "d3d12": {
+          "status": "ok",
+          "naga": {
+            "status": "rejected",
+            "message": "Entry point main at Fragment is invalid: Capability Capabilities(EARLY_DEPTH_TEST) is not supported",
+            "extensions": []
+          },
+          "spirvCross": {
+            "status": "ok",
+            "message": "",
+            "extensions": [],
+            "files": [
+              "out/ConservativeDepth/ConservativeDepth/d3d12.spirvCross.sm60.hlsl"
+            ],
+            "entry": "main"
+          }
+        },
+        "metal": {
+          "status": "ok",
+          "naga": {
+            "status": "rejected",
+            "message": "Entry point main at Fragment is invalid: Capability Capabilities(EARLY_DEPTH_TEST) is not supported",
+            "extensions": []
+          },
+          "spirvCross": {
+            "status": "ok",
+            "message": "",
+            "extensions": [],
+            "files": [
+              "out/ConservativeDepth/ConservativeDepth/metal.spirvCross.metal"
+            ]
+          }
+        },
+        "webgpu": {
+          "status": "dropped",
+          "naga": {
+            "status": "dropped",
+            "message": "output compiles but lacks /early_depth_test\\(greater_equal\\)/",
+            "extensions": [],
+            "files": [
+              "out/ConservativeDepth/ConservativeDepth/webgpu.naga.wgsl"
+            ]
+          },
+          "spirvCross": {
+            "status": "n/a",
+            "message": "spirv-cross has no WGSL backend"
+          }
+        },
+        "opengl": {
+          "status": "ok",
+          "naga": {
+            "status": "ok",
+            "message": "",
+            "extensions": [],
+            "files": [
+              "out/ConservativeDepth/ConservativeDepth/opengl.naga.frag"
+            ]
+          },
+          "spirvCross": {
+            "status": "ok",
+            "message": "",
+            "extensions": [],
+            "files": [
+              "out/ConservativeDepth/ConservativeDepth/opengl.spirvCross.frag"
+            ]
+          }
+        },
+        "webgl2": {
+          "status": "dropped",
+          "naga": {
+            "status": "dropped",
+            "message": "output compiles but lacks /depth_greater/",
+            "extensions": [
+              "GL_EXT_conservative_depth"
+            ],
+            "files": [
+              "out/ConservativeDepth/ConservativeDepth/webgl2.naga.frag"
+            ]
+          },
+          "spirvCross": {
+            "status": "dropped",
+            "message": "output compiles but lacks /depth_greater/",
+            "extensions": [],
+            "files": [
+              "out/ConservativeDepth/ConservativeDepth/webgl2.spirvCross.frag"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": "GlobalInvocationId",
+      "group": "compute",
+      "source": "hlsl",
+      "shaders": [
+        {
+          "file": "GlobalInvocationId.hlsl",
+          "stage": "comp",
+          "frontend": "hlsl"
+        }
+      ],
+      "builtins": [
+        "GlobalInvocationId"
+      ],
+      "capabilities": [
+        "Shader"
+      ],
+      "spirvExtensions": [],
+      "executionModes": [
+        "LocalSize 1 1 1"
+      ],
+      "results": {
+        "vulkan": {
+          "status": "ok",
+          "spirvVal": {
+            "status": "ok",
+            "message": "",
+            "extensions": []
+          },
+          "naga": {
+            "status": "n/a",
+            "message": "SPIR-V is the native format; validated with spirv-val"
+          },
+          "spirvCross": {
+            "status": "n/a",
+            "message": "SPIR-V is the native format; validated with spirv-val"
+          }
+        },
+        "d3d12": {
+          "status": "ok",
+          "naga": {
+            "status": "ok",
+            "message": "",
+            "extensions": [],
+            "files": [
+              "out/GlobalInvocationId/GlobalInvocationId/d3d12.naga.sm60.hlsl"
+            ],
+            "entry": "main"
+          },
+          "spirvCross": {
+            "status": "ok",
+            "message": "",
+            "extensions": [],
+            "files": [
+              "out/GlobalInvocationId/GlobalInvocationId/d3d12.spirvCross.sm60.hlsl"
+            ],
+            "entry": "main"
+          }
+        },
+        "metal": {
+          "status": "ok",
+          "naga": {
+            "status": "ok",
+            "message": "",
+            "extensions": [],
+            "files": [
+              "out/GlobalInvocationId/GlobalInvocationId/metal.naga.metal"
+            ]
+          },
+          "spirvCross": {
+            "status": "ok",
+            "message": "",
+            "extensions": [],
+            "files": [
+              "out/GlobalInvocationId/GlobalInvocationId/metal.spirvCross.metal"
+            ]
+          }
+        },
+        "webgpu": {
+          "status": "ok",
+          "naga": {
+            "status": "ok",
+            "message": "",
+            "extensions": [],
+            "files": [
+              "out/GlobalInvocationId/GlobalInvocationId/webgpu.naga.wgsl"
+            ]
+          },
+          "spirvCross": {
+            "status": "n/a",
+            "message": "spirv-cross has no WGSL backend"
+          }
+        },
+        "opengl": {
+          "status": "ok",
+          "naga": {
+            "status": "extension",
+            "message": "",
+            "extensions": [
+              "GL_ARB_compute_shader",
+              "GL_ARB_shader_storage_buffer_object"
+            ],
+            "files": [
+              "out/GlobalInvocationId/GlobalInvocationId/opengl.naga.comp"
+            ]
+          },
+          "spirvCross": {
+            "status": "ok",
+            "message": "",
+            "extensions": [],
+            "files": [
+              "out/GlobalInvocationId/GlobalInvocationId/opengl.spirvCross.comp"
+            ]
+          }
+        },
+        "webgl2": {
+          "status": "n/a",
+          "message": "WebGL 2 has no compute stage",
+          "naga": {
+            "status": "n/a",
+            "message": "WebGL 2 has no compute stage"
+          },
+          "spirvCross": {
+            "status": "n/a",
+            "message": "WebGL 2 has no compute stage"
+          }
+        }
+      }
+    },
+    {
+      "id": "LocalInvocationId",
+      "group": "compute",
+      "source": "hlsl",
+      "shaders": [
+        {
+          "file": "LocalInvocationId.hlsl",
+          "stage": "comp",
+          "frontend": "hlsl"
+        }
+      ],
+      "builtins": [
+        "LocalInvocationId"
+      ],
+      "capabilities": [
+        "Shader"
+      ],
+      "spirvExtensions": [],
+      "executionModes": [
+        "LocalSize 1 1 1"
+      ],
+      "results": {
+        "vulkan": {
+          "status": "ok",
+          "spirvVal": {
+            "status": "ok",
+            "message": "",
+            "extensions": []
+          },
+          "naga": {
+            "status": "n/a",
+            "message": "SPIR-V is the native format; validated with spirv-val"
+          },
+          "spirvCross": {
+            "status": "n/a",
+            "message": "SPIR-V is the native format; validated with spirv-val"
+          }
+        },
+        "d3d12": {
+          "status": "ok",
+          "naga": {
+            "status": "ok",
+            "message": "",
+            "extensions": [],
+            "files": [
+              "out/LocalInvocationId/LocalInvocationId/d3d12.naga.sm60.hlsl"
+            ],
+            "entry": "main"
+          },
+          "spirvCross": {
+            "status": "ok",
+            "message": "",
+            "extensions": [],
+            "files": [
+              "out/LocalInvocationId/LocalInvocationId/d3d12.spirvCross.sm60.hlsl"
+            ],
+            "entry": "main"
+          }
+        },
+        "metal": {
+          "status": "ok",
+          "naga": {
+            "status": "ok",
+            "message": "",
+            "extensions": [],
+            "files": [
+              "out/LocalInvocationId/LocalInvocationId/metal.naga.metal"
+            ]
+          },
+          "spirvCross": {
+            "status": "ok",
+            "message": "",
+            "extensions": [],
+            "files": [
+              "out/LocalInvocationId/LocalInvocationId/metal.spirvCross.metal"
+            ]
+          }
+        },
+        "webgpu": {
+          "status": "ok",
+          "naga": {
+            "status": "ok",
+            "message": "",
+            "extensions": [],
+            "files": [
+              "out/LocalInvocationId/LocalInvocationId/webgpu.naga.wgsl"
+            ]
+          },
+          "spirvCross": {
+            "status": "n/a",
+            "message": "spirv-cross has no WGSL backend"
+          }
+        },
+        "opengl": {
+          "status": "ok",
+          "naga": {
+            "status": "extension",
+            "message": "",
+            "extensions": [
+              "GL_ARB_compute_shader",
+              "GL_ARB_shader_storage_buffer_object"
+            ],
+            "files": [
+              "out/LocalInvocationId/LocalInvocationId/opengl.naga.comp"
+            ]
+          },
+          "spirvCross": {
+            "status": "ok",
+            "message": "",
+            "extensions": [],
+            "files": [
+              "out/LocalInvocationId/LocalInvocationId/opengl.spirvCross.comp"
+            ]
+          }
+        },
+        "webgl2": {
+          "status": "n/a",
+          "message": "WebGL 2 has no compute stage",
+          "naga": {
+            "status": "n/a",
+            "message": "WebGL 2 has no compute stage"
+          },
+          "spirvCross": {
+            "status": "n/a",
+            "message": "WebGL 2 has no compute stage"
+          }
+        }
+      }
+    },
+    {
+      "id": "LocalInvocationIndex",
+      "group": "compute",
+      "source": "hlsl",
+      "shaders": [
+        {
+          "file": "LocalInvocationIndex.hlsl",
+          "stage": "comp",
+          "frontend": "hlsl"
+        }
+      ],
+      "builtins": [
+        "LocalInvocationIndex"
+      ],
+      "capabilities": [
+        "Shader"
+      ],
+      "spirvExtensions": [],
+      "executionModes": [
+        "LocalSize 1 1 1"
+      ],
+      "results": {
+        "vulkan": {
+          "status": "ok",
+          "spirvVal": {
+            "status": "ok",
+            "message": "",
+            "extensions": []
+          },
+          "naga": {
+            "status": "n/a",
+            "message": "SPIR-V is the native format; validated with spirv-val"
+          },
+          "spirvCross": {
+            "status": "n/a",
+            "message": "SPIR-V is the native format; validated with spirv-val"
+          }
+        },
+        "d3d12": {
+          "status": "ok",
+          "naga": {
+            "status": "ok",
+            "message": "",
+            "extensions": [],
+            "files": [
+              "out/LocalInvocationIndex/LocalInvocationIndex/d3d12.naga.sm60.hlsl"
+            ],
+            "entry": "main"
+          },
+          "spirvCross": {
+            "status": "ok",
+            "message": "",
+            "extensions": [],
+            "files": [
+              "out/LocalInvocationIndex/LocalInvocationIndex/d3d12.spirvCross.sm60.hlsl"
+            ],
+            "entry": "main"
+          }
+        },
+        "metal": {
+          "status": "ok",
+          "naga": {
+            "status": "ok",
+            "message": "",
+            "extensions": [],
+            "files": [
+              "out/LocalInvocationIndex/LocalInvocationIndex/metal.naga.metal"
+            ]
+          },
+          "spirvCross": {
+            "status": "ok",
+            "message": "",
+            "extensions": [],
+            "files": [
+              "out/LocalInvocationIndex/LocalInvocationIndex/metal.spirvCross.metal"
+            ]
+          }
+        },
+        "webgpu": {
+          "status": "ok",
+          "naga": {
+            "status": "ok",
+            "message": "",
+            "extensions": [],
+            "files": [
+              "out/LocalInvocationIndex/LocalInvocationIndex/webgpu.naga.wgsl"
+            ]
+          },
+          "spirvCross": {
+            "status": "n/a",
+            "message": "spirv-cross has no WGSL backend"
+          }
+        },
+        "opengl": {
+          "status": "ok",
+          "naga": {
+            "status": "extension",
+            "message": "",
+            "extensions": [
+              "GL_ARB_compute_shader",
+              "GL_ARB_shader_storage_buffer_object"
+            ],
+            "files": [
+              "out/LocalInvocationIndex/LocalInvocationIndex/opengl.naga.comp"
+            ]
+          },
+          "spirvCross": {
+            "status": "ok",
+            "message": "",
+            "extensions": [],
+            "files": [
+              "out/LocalInvocationIndex/LocalInvocationIndex/opengl.spirvCross.comp"
+            ]
+          }
+        },
+        "webgl2": {
+          "status": "n/a",
+          "message": "WebGL 2 has no compute stage",
+          "naga": {
+            "status": "n/a",
+            "message": "WebGL 2 has no compute stage"
+          },
+          "spirvCross": {
+            "status": "n/a",
+            "message": "WebGL 2 has no compute stage"
+          }
+        }
+      }
+    },
+    {
+      "id": "WorkgroupId",
+      "group": "compute",
+      "source": "hlsl",
+      "shaders": [
+        {
+          "file": "WorkgroupId.hlsl",
+          "stage": "comp",
+          "frontend": "hlsl"
+        }
+      ],
+      "builtins": [
+        "WorkgroupId"
+      ],
+      "capabilities": [
+        "Shader"
+      ],
+      "spirvExtensions": [],
+      "executionModes": [
+        "LocalSize 1 1 1"
+      ],
+      "results": {
+        "vulkan": {
+          "status": "ok",
+          "spirvVal": {
+            "status": "ok",
+            "message": "",
+            "extensions": []
+          },
+          "naga": {
+            "status": "n/a",
+            "message": "SPIR-V is the native format; validated with spirv-val"
+          },
+          "spirvCross": {
+            "status": "n/a",
+            "message": "SPIR-V is the native format; validated with spirv-val"
+          }
+        },
+        "d3d12": {
+          "status": "ok",
+          "naga": {
+            "status": "ok",
+            "message": "",
+            "extensions": [],
+            "files": [
+              "out/WorkgroupId/WorkgroupId/d3d12.naga.sm60.hlsl"
+            ],
+            "entry": "main"
+          },
+          "spirvCross": {
+            "status": "ok",
+            "message": "",
+            "extensions": [],
+            "files": [
+              "out/WorkgroupId/WorkgroupId/d3d12.spirvCross.sm60.hlsl"
+            ],
+            "entry": "main"
+          }
+        },
+        "metal": {
+          "status": "ok",
+          "naga": {
+            "status": "ok",
+            "message": "",
+            "extensions": [],
+            "files": [
+              "out/WorkgroupId/WorkgroupId/metal.naga.metal"
+            ]
+          },
+          "spirvCross": {
+            "status": "ok",
+            "message": "",
+            "extensions": [],
+            "files": [
+              "out/WorkgroupId/WorkgroupId/metal.spirvCross.metal"
+            ]
+          }
+        },
+        "webgpu": {
+          "status": "ok",
+          "naga": {
+            "status": "ok",
+            "message": "",
+            "extensions": [],
+            "files": [
+              "out/WorkgroupId/WorkgroupId/webgpu.naga.wgsl"
+            ]
+          },
+          "spirvCross": {
+            "status": "n/a",
+            "message": "spirv-cross has no WGSL backend"
+          }
+        },
+        "opengl": {
+          "status": "ok",
+          "naga": {
+            "status": "extension",
+            "message": "",
+            "extensions": [
+              "GL_ARB_compute_shader",
+              "GL_ARB_shader_storage_buffer_object"
+            ],
+            "files": [
+              "out/WorkgroupId/WorkgroupId/opengl.naga.comp"
+            ]
+          },
+          "spirvCross": {
+            "status": "ok",
+            "message": "",
+            "extensions": [],
+            "files": [
+              "out/WorkgroupId/WorkgroupId/opengl.spirvCross.comp"
+            ]
+          }
+        },
+        "webgl2": {
+          "status": "n/a",
+          "message": "WebGL 2 has no compute stage",
+          "naga": {
+            "status": "n/a",
+            "message": "WebGL 2 has no compute stage"
+          },
+          "spirvCross": {
+            "status": "n/a",
+            "message": "WebGL 2 has no compute stage"
+          }
+        }
+      }
+    },
+    {
+      "id": "NumWorkgroups",
+      "group": "compute",
+      "source": "glsl",
+      "shaders": [
+        {
+          "file": "NumWorkgroups.comp",
+          "stage": "comp",
+          "frontend": "glsl"
+        }
+      ],
+      "builtins": [
+        "NumWorkgroups",
+        "WorkgroupSize"
+      ],
+      "capabilities": [
+        "Shader"
+      ],
+      "spirvExtensions": [],
+      "executionModes": [
+        "LocalSize 1 1 1"
+      ],
+      "results": {
+        "vulkan": {
+          "status": "ok",
+          "spirvVal": {
+            "status": "ok",
+            "message": "",
+            "extensions": []
+          },
+          "naga": {
+            "status": "n/a",
+            "message": "SPIR-V is the native format; validated with spirv-val"
+          },
+          "spirvCross": {
+            "status": "n/a",
+            "message": "SPIR-V is the native format; validated with spirv-val"
+          }
+        },
+        "d3d12": {
+          "status": "ok",
+          "naga": {
+            "status": "ok",
+            "message": "",
+            "extensions": [],
+            "files": [
+              "out/NumWorkgroups/NumWorkgroups/d3d12.naga.sm60.hlsl"
+            ],
+            "entry": "main"
+          },
+          "spirvCross": {
+            "status": "ok",
+            "message": "",
+            "extensions": [],
+            "files": [
+              "out/NumWorkgroups/NumWorkgroups/d3d12.spirvCross.sm60.hlsl"
+            ],
+            "entry": "main"
+          }
+        },
+        "metal": {
+          "status": "ok",
+          "naga": {
+            "status": "ok",
+            "message": "",
+            "extensions": [],
+            "files": [
+              "out/NumWorkgroups/NumWorkgroups/metal.naga.metal"
+            ]
+          },
+          "spirvCross": {
+            "status": "ok",
+            "message": "",
+            "extensions": [],
+            "files": [
+              "out/NumWorkgroups/NumWorkgroups/metal.spirvCross.metal"
+            ]
+          }
+        },
+        "webgpu": {
+          "status": "ok",
+          "naga": {
+            "status": "ok",
+            "message": "",
+            "extensions": [],
+            "files": [
+              "out/NumWorkgroups/NumWorkgroups/webgpu.naga.wgsl"
+            ]
+          },
+          "spirvCross": {
+            "status": "n/a",
+            "message": "spirv-cross has no WGSL backend"
+          }
+        },
+        "opengl": {
+          "status": "ok",
+          "naga": {
+            "status": "extension",
+            "message": "",
+            "extensions": [
+              "GL_ARB_compute_shader",
+              "GL_ARB_shader_storage_buffer_object"
+            ],
+            "files": [
+              "out/NumWorkgroups/NumWorkgroups/opengl.naga.comp"
+            ]
+          },
+          "spirvCross": {
+            "status": "ok",
+            "message": "",
+            "extensions": [],
+            "files": [
+              "out/NumWorkgroups/NumWorkgroups/opengl.spirvCross.comp"
+            ]
+          }
+        },
+        "webgl2": {
+          "status": "n/a",
+          "message": "WebGL 2 has no compute stage",
+          "naga": {
+            "status": "n/a",
+            "message": "WebGL 2 has no compute stage"
+          },
+          "spirvCross": {
+            "status": "n/a",
+            "message": "WebGL 2 has no compute stage"
+          }
+        }
+      }
+    },
+    {
+      "id": "WorkgroupSize",
+      "group": "compute",
+      "source": "glsl",
+      "shaders": [
+        {
+          "file": "WorkgroupSize.comp",
+          "stage": "comp",
+          "frontend": "glsl"
+        }
+      ],
+      "builtins": [
+        "WorkgroupSize"
+      ],
+      "capabilities": [
+        "Shader"
+      ],
+      "spirvExtensions": [],
+      "executionModes": [
+        "LocalSize 8 4 2"
+      ],
+      "results": {
+        "vulkan": {
+          "status": "ok",
+          "spirvVal": {
+            "status": "ok",
+            "message": "",
+            "extensions": []
+          },
+          "naga": {
+            "status": "n/a",
+            "message": "SPIR-V is the native format; validated with spirv-val"
+          },
+          "spirvCross": {
+            "status": "n/a",
+            "message": "SPIR-V is the native format; validated with spirv-val"
+          }
+        },
+        "d3d12": {
+          "status": "ok",
+          "naga": {
+            "status": "ok",
+            "message": "",
+            "extensions": [],
+            "files": [
+              "out/WorkgroupSize/WorkgroupSize/d3d12.naga.sm60.hlsl"
+            ],
+            "entry": "main"
+          },
+          "spirvCross": {
+            "status": "ok",
+            "message": "",
+            "extensions": [],
+            "files": [
+              "out/WorkgroupSize/WorkgroupSize/d3d12.spirvCross.sm60.hlsl"
+            ],
+            "entry": "main"
+          }
+        },
+        "metal": {
+          "status": "ok",
+          "naga": {
+            "status": "ok",
+            "message": "",
+            "extensions": [],
+            "files": [
+              "out/WorkgroupSize/WorkgroupSize/metal.naga.metal"
+            ]
+          },
+          "spirvCross": {
+            "status": "ok",
+            "message": "",
+            "extensions": [],
+            "files": [
+              "out/WorkgroupSize/WorkgroupSize/metal.spirvCross.metal"
+            ]
+          }
+        },
+        "webgpu": {
+          "status": "ok",
+          "naga": {
+            "status": "ok",
+            "message": "",
+            "extensions": [],
+            "files": [
+              "out/WorkgroupSize/WorkgroupSize/webgpu.naga.wgsl"
+            ]
+          },
+          "spirvCross": {
+            "status": "n/a",
+            "message": "spirv-cross has no WGSL backend"
+          }
+        },
+        "opengl": {
+          "status": "ok",
+          "naga": {
+            "status": "extension",
+            "message": "",
+            "extensions": [
+              "GL_ARB_compute_shader",
+              "GL_ARB_shader_storage_buffer_object"
+            ],
+            "files": [
+              "out/WorkgroupSize/WorkgroupSize/opengl.naga.comp"
+            ]
+          },
+          "spirvCross": {
+            "status": "ok",
+            "message": "",
+            "extensions": [],
+            "files": [
+              "out/WorkgroupSize/WorkgroupSize/opengl.spirvCross.comp"
+            ]
+          }
+        },
+        "webgl2": {
+          "status": "n/a",
+          "message": "WebGL 2 has no compute stage",
+          "naga": {
+            "status": "n/a",
+            "message": "WebGL 2 has no compute stage"
+          },
+          "spirvCross": {
+            "status": "n/a",
+            "message": "WebGL 2 has no compute stage"
+          }
+        }
+      }
+    },
+    {
+      "id": "LocalSize",
+      "group": "compute",
+      "source": "hlsl",
+      "shaders": [
+        {
+          "file": "LocalSize.hlsl",
+          "stage": "comp",
+          "frontend": "hlsl"
+        }
+      ],
+      "builtins": [],
+      "capabilities": [
+        "Shader"
+      ],
+      "spirvExtensions": [],
+      "executionModes": [
+        "LocalSize 8 4 2"
+      ],
+      "results": {
+        "vulkan": {
+          "status": "ok",
+          "spirvVal": {
+            "status": "ok",
+            "message": "",
+            "extensions": []
+          },
+          "naga": {
+            "status": "n/a",
+            "message": "SPIR-V is the native format; validated with spirv-val"
+          },
+          "spirvCross": {
+            "status": "n/a",
+            "message": "SPIR-V is the native format; validated with spirv-val"
+          }
+        },
+        "d3d12": {
+          "status": "ok",
+          "naga": {
+            "status": "ok",
+            "message": "",
+            "extensions": [],
+            "files": [
+              "out/LocalSize/LocalSize/d3d12.naga.sm60.hlsl"
+            ],
+            "entry": "main"
+          },
+          "spirvCross": {
+            "status": "ok",
+            "message": "",
+            "extensions": [],
+            "files": [
+              "out/LocalSize/LocalSize/d3d12.spirvCross.sm60.hlsl"
+            ],
+            "entry": "main"
+          }
+        },
+        "metal": {
+          "status": "ok",
+          "naga": {
+            "status": "ok",
+            "message": "",
+            "extensions": [],
+            "files": [
+              "out/LocalSize/LocalSize/metal.naga.metal"
+            ]
+          },
+          "spirvCross": {
+            "status": "ok",
+            "message": "",
+            "extensions": [],
+            "files": [
+              "out/LocalSize/LocalSize/metal.spirvCross.metal"
+            ]
+          }
+        },
+        "webgpu": {
+          "status": "ok",
+          "naga": {
+            "status": "ok",
+            "message": "",
+            "extensions": [],
+            "files": [
+              "out/LocalSize/LocalSize/webgpu.naga.wgsl"
+            ]
+          },
+          "spirvCross": {
+            "status": "n/a",
+            "message": "spirv-cross has no WGSL backend"
+          }
+        },
+        "opengl": {
+          "status": "ok",
+          "naga": {
+            "status": "extension",
+            "message": "",
+            "extensions": [
+              "GL_ARB_compute_shader",
+              "GL_ARB_shader_storage_buffer_object"
+            ],
+            "files": [
+              "out/LocalSize/LocalSize/opengl.naga.comp"
+            ]
+          },
+          "spirvCross": {
+            "status": "ok",
+            "message": "",
+            "extensions": [],
+            "files": [
+              "out/LocalSize/LocalSize/opengl.spirvCross.comp"
+            ]
+          }
+        },
+        "webgl2": {
+          "status": "n/a",
+          "message": "WebGL 2 has no compute stage",
+          "naga": {
+            "status": "n/a",
+            "message": "WebGL 2 has no compute stage"
+          },
+          "spirvCross": {
+            "status": "n/a",
+            "message": "WebGL 2 has no compute stage"
+          }
+        }
+      }
+    },
+    {
+      "id": "SubgroupSize",
+      "group": "subgroup",
+      "source": "hlsl",
+      "shaders": [
+        {
+          "file": "SubgroupSize.hlsl",
+          "stage": "comp",
+          "frontend": "hlsl"
+        }
+      ],
+      "builtins": [
+        "SubgroupSize"
+      ],
+      "capabilities": [
+        "Shader",
+        "GroupNonUniform"
+      ],
+      "spirvExtensions": [],
+      "executionModes": [
+        "LocalSize 64 1 1"
+      ],
+      "results": {
+        "vulkan": {
+          "status": "ok",
+          "spirvVal": {
+            "status": "ok",
+            "message": "",
+            "extensions": []
+          },
+          "naga": {
+            "status": "n/a",
+            "message": "SPIR-V is the native format; validated with spirv-val"
+          },
+          "spirvCross": {
+            "status": "n/a",
+            "message": "SPIR-V is the native format; validated with spirv-val"
+          }
+        },
+        "d3d12": {
+          "status": "ok",
+          "naga": {
+            "status": "ok",
+            "message": "",
+            "extensions": [],
+            "files": [
+              "out/SubgroupSize/SubgroupSize/d3d12.naga.sm60.hlsl"
+            ],
+            "entry": "main"
+          },
+          "spirvCross": {
+            "status": "ok",
+            "message": "",
+            "extensions": [],
+            "files": [
+              "out/SubgroupSize/SubgroupSize/d3d12.spirvCross.sm60.hlsl"
+            ],
+            "entry": "main"
+          }
+        },
+        "metal": {
+          "status": "ok",
+          "naga": {
+            "status": "ok",
+            "message": "",
+            "extensions": [],
+            "files": [
+              "out/SubgroupSize/SubgroupSize/metal.naga.metal"
+            ]
+          },
+          "spirvCross": {
+            "status": "ok",
+            "message": "",
+            "extensions": [],
+            "files": [
+              "out/SubgroupSize/SubgroupSize/metal.spirvCross.metal"
+            ]
+          }
+        },
+        "webgpu": {
+          "status": "extension",
+          "naga": {
+            "status": "extension",
+            "message": "error: Entry point main at Compute is invalid: Argument 0 varying error; Capability Capabilities(SUBGROUP) is not supported",
+            "extensions": [
+              "subgroups"
+            ],
+            "files": [
+              "out/SubgroupSize/SubgroupSize/webgpu.naga.wgsl"
+            ]
+          },
+          "spirvCross": {
+            "status": "n/a",
+            "message": "spirv-cross has no WGSL backend"
+          }
+        },
+        "opengl": {
+          "status": "extension",
+          "naga": {
+            "status": "invalid",
+            "message": "ERROR: 0:20: 'gl_SubgroupSize' : required extension not requested: GL_KHR_shader_subgroup_basic",
+            "extensions": [
+              "GL_ARB_compute_shader",
+              "GL_ARB_shader_storage_buffer_object"
+            ],
+            "files": [
+              "out/SubgroupSize/SubgroupSize/opengl.naga.comp"
+            ]
+          },
+          "spirvCross": {
+            "status": "extension",
+            "message": "",
+            "extensions": [
+              "GL_KHR_shader_subgroup_basic",
+              "GL_NV_shader_thread_group",
+              "GL_ARB_shader_int64",
+              "GL_ARB_shader_ballot",
+              "GL_AMD_gpu_shader_int64",
+              "GL_NV_gpu_shader5",
+              "GL_AMD_gcn_shader"
+            ],
+            "files": [
+              "out/SubgroupSize/SubgroupSize/opengl.spirvCross.comp"
+            ]
+          }
+        },
+        "webgl2": {
+          "status": "n/a",
+          "message": "WebGL 2 has no compute stage",
+          "naga": {
+            "status": "n/a",
+            "message": "WebGL 2 has no compute stage"
+          },
+          "spirvCross": {
+            "status": "n/a",
+            "message": "WebGL 2 has no compute stage"
+          }
+        }
+      }
+    },
+    {
+      "id": "SubgroupInvocationId",
+      "group": "subgroup",
+      "source": "hlsl",
+      "shaders": [
+        {
+          "file": "SubgroupInvocationId.hlsl",
+          "stage": "comp",
+          "frontend": "hlsl"
+        }
+      ],
+      "builtins": [
+        "LocalInvocationId",
+        "SubgroupLocalInvocationId"
+      ],
+      "capabilities": [
+        "Shader",
+        "GroupNonUniform"
+      ],
+      "spirvExtensions": [],
+      "executionModes": [
+        "LocalSize 64 1 1"
+      ],
+      "results": {
+        "vulkan": {
+          "status": "ok",
+          "spirvVal": {
+            "status": "ok",
+            "message": "",
+            "extensions": []
+          },
+          "naga": {
+            "status": "n/a",
+            "message": "SPIR-V is the native format; validated with spirv-val"
+          },
+          "spirvCross": {
+            "status": "n/a",
+            "message": "SPIR-V is the native format; validated with spirv-val"
+          }
+        },
+        "d3d12": {
+          "status": "ok",
+          "naga": {
+            "status": "ok",
+            "message": "",
+            "extensions": [],
+            "files": [
+              "out/SubgroupInvocationId/SubgroupInvocationId/d3d12.naga.sm60.hlsl"
+            ],
+            "entry": "main"
+          },
+          "spirvCross": {
+            "status": "ok",
+            "message": "",
+            "extensions": [],
+            "files": [
+              "out/SubgroupInvocationId/SubgroupInvocationId/d3d12.spirvCross.sm60.hlsl"
+            ],
+            "entry": "main"
+          }
+        },
+        "metal": {
+          "status": "ok",
+          "naga": {
+            "status": "ok",
+            "message": "",
+            "extensions": [],
+            "files": [
+              "out/SubgroupInvocationId/SubgroupInvocationId/metal.naga.metal"
+            ]
+          },
+          "spirvCross": {
+            "status": "ok",
+            "message": "",
+            "extensions": [],
+            "files": [
+              "out/SubgroupInvocationId/SubgroupInvocationId/metal.spirvCross.metal"
+            ]
+          }
+        },
+        "webgpu": {
+          "status": "extension",
+          "naga": {
+            "status": "extension",
+            "message": "error: Entry point main at Compute is invalid: Argument 1 varying error; Capability Capabilities(SUBGROUP) is not supported",
+            "extensions": [
+              "subgroups"
+            ],
+            "files": [
+              "out/SubgroupInvocationId/SubgroupInvocationId/webgpu.naga.wgsl"
+            ]
+          },
+          "spirvCross": {
+            "status": "n/a",
+            "message": "spirv-cross has no WGSL backend"
+          }
+        },
+        "opengl": {
+          "status": "extension",
+          "naga": {
+            "status": "invalid",
+            "message": "ERROR: 0:24: 'gl_SubgroupInvocationID' : required extension not requested: GL_KHR_shader_subgroup_basic",
+            "extensions": [
+              "GL_ARB_compute_shader",
+              "GL_ARB_shader_storage_buffer_object"
+            ],
+            "files": [
+              "out/SubgroupInvocationId/SubgroupInvocationId/opengl.naga.comp"
+            ]
+          },
+          "spirvCross": {
+            "status": "extension",
+            "message": "",
+            "extensions": [
+              "GL_KHR_shader_subgroup_basic",
+              "GL_NV_shader_thread_group",
+              "GL_ARB_shader_int64",
+              "GL_ARB_shader_ballot"
+            ],
+            "files": [
+              "out/SubgroupInvocationId/SubgroupInvocationId/opengl.spirvCross.comp"
+            ]
+          }
+        },
+        "webgl2": {
+          "status": "n/a",
+          "message": "WebGL 2 has no compute stage",
+          "naga": {
+            "status": "n/a",
+            "message": "WebGL 2 has no compute stage"
+          },
+          "spirvCross": {
+            "status": "n/a",
+            "message": "WebGL 2 has no compute stage"
+          }
+        }
+      }
+    },
+    {
+      "id": "SubgroupId",
+      "group": "subgroup",
+      "source": "glsl",
+      "shaders": [
+        {
+          "file": "SubgroupId.comp",
+          "stage": "comp",
+          "frontend": "glsl"
+        }
+      ],
+      "builtins": [
+        "SubgroupId",
+        "WorkgroupSize"
+      ],
+      "capabilities": [
+        "Shader",
+        "GroupNonUniform"
+      ],
+      "spirvExtensions": [],
+      "executionModes": [
+        "LocalSize 128 1 1"
+      ],
+      "results": {
+        "vulkan": {
+          "status": "ok",
+          "spirvVal": {
+            "status": "ok",
+            "message": "",
+            "extensions": []
+          },
+          "naga": {
+            "status": "n/a",
+            "message": "SPIR-V is the native format; validated with spirv-val"
+          },
+          "spirvCross": {
+            "status": "n/a",
+            "message": "SPIR-V is the native format; validated with spirv-val"
+          }
+        },
+        "d3d12": {
+          "status": "ok",
+          "naga": {
+            "status": "ok",
+            "message": "",
+            "extensions": [],
+            "files": [
+              "out/SubgroupId/SubgroupId/d3d12.naga.sm60.hlsl"
+            ],
+            "entry": "main"
+          },
+          "spirvCross": {
+            "status": "rejected",
+            "message": "SPIRV-Cross threw an exception: Unsupported builtin in HLSL: 40",
+            "extensions": []
+          }
+        },
+        "metal": {
+          "status": "ok",
+          "naga": {
+            "status": "ok",
+            "message": "",
+            "extensions": [],
+            "files": [
+              "out/SubgroupId/SubgroupId/metal.naga.metal"
+            ]
+          },
+          "spirvCross": {
+            "status": "ok",
+            "message": "",
+            "extensions": [],
+            "files": [
+              "out/SubgroupId/SubgroupId/metal.spirvCross.metal"
+            ]
+          }
+        },
+        "webgpu": {
+          "status": "extension",
+          "naga": {
+            "status": "extension",
+            "message": "error: Entry point main at Compute is invalid: Argument 0 varying error; Capability Capabilities(SUBGROUP) is not supported",
+            "extensions": [
+              "subgroups"
+            ],
+            "files": [
+              "out/SubgroupId/SubgroupId/webgpu.naga.wgsl"
+            ]
+          },
+          "spirvCross": {
+            "status": "n/a",
+            "message": "spirv-cross has no WGSL backend"
+          }
+        },
+        "opengl": {
+          "status": "extension",
+          "naga": {
+            "status": "invalid",
+            "message": "ERROR: 0:20: 'gl_SubgroupID' : required extension not requested: GL_KHR_shader_subgroup_basic",
+            "extensions": [
+              "GL_ARB_compute_shader",
+              "GL_ARB_shader_storage_buffer_object"
+            ],
+            "files": [
+              "out/SubgroupId/SubgroupId/opengl.naga.comp"
+            ]
+          },
+          "spirvCross": {
+            "status": "extension",
+            "message": "",
+            "extensions": [
+              "GL_KHR_shader_subgroup_basic",
+              "GL_NV_shader_thread_group"
+            ],
+            "files": [
+              "out/SubgroupId/SubgroupId/opengl.spirvCross.comp"
+            ]
+          }
+        },
+        "webgl2": {
+          "status": "n/a",
+          "message": "WebGL 2 has no compute stage",
+          "naga": {
+            "status": "n/a",
+            "message": "WebGL 2 has no compute stage"
+          },
+          "spirvCross": {
+            "status": "n/a",
+            "message": "WebGL 2 has no compute stage"
+          }
+        }
+      }
+    },
+    {
+      "id": "NumSubgroups",
+      "group": "subgroup",
+      "source": "glsl",
+      "shaders": [
+        {
+          "file": "NumSubgroups.comp",
+          "stage": "comp",
+          "frontend": "glsl"
+        }
+      ],
+      "builtins": [
+        "NumSubgroups",
+        "WorkgroupSize"
+      ],
+      "capabilities": [
+        "Shader",
+        "GroupNonUniform"
+      ],
+      "spirvExtensions": [],
+      "executionModes": [
+        "LocalSize 128 1 1"
+      ],
+      "results": {
+        "vulkan": {
+          "status": "ok",
+          "spirvVal": {
+            "status": "ok",
+            "message": "",
+            "extensions": []
+          },
+          "naga": {
+            "status": "n/a",
+            "message": "SPIR-V is the native format; validated with spirv-val"
+          },
+          "spirvCross": {
+            "status": "n/a",
+            "message": "SPIR-V is the native format; validated with spirv-val"
+          }
+        },
+        "d3d12": {
+          "status": "ok",
+          "naga": {
+            "status": "ok",
+            "message": "",
+            "extensions": [],
+            "files": [
+              "out/NumSubgroups/NumSubgroups/d3d12.naga.sm60.hlsl"
+            ],
+            "entry": "main"
+          },
+          "spirvCross": {
+            "status": "rejected",
+            "message": "SPIRV-Cross threw an exception: Unsupported builtin in HLSL: 38",
+            "extensions": []
+          }
+        },
+        "metal": {
+          "status": "ok",
+          "naga": {
+            "status": "ok",
+            "message": "",
+            "extensions": [],
+            "files": [
+              "out/NumSubgroups/NumSubgroups/metal.naga.metal"
+            ]
+          },
+          "spirvCross": {
+            "status": "ok",
+            "message": "",
+            "extensions": [],
+            "files": [
+              "out/NumSubgroups/NumSubgroups/metal.spirvCross.metal"
+            ]
+          }
+        },
+        "webgpu": {
+          "status": "extension",
+          "naga": {
+            "status": "extension",
+            "message": "error: Entry point main at Compute is invalid: Argument 0 varying error; Capability Capabilities(SUBGROUP) is not supported",
+            "extensions": [
+              "subgroups"
+            ],
+            "files": [
+              "out/NumSubgroups/NumSubgroups/webgpu.naga.wgsl"
+            ]
+          },
+          "spirvCross": {
+            "status": "n/a",
+            "message": "spirv-cross has no WGSL backend"
+          }
+        },
+        "opengl": {
+          "status": "extension",
+          "naga": {
+            "status": "invalid",
+            "message": "ERROR: 0:20: 'gl_NumSubgroups' : required extension not requested: GL_KHR_shader_subgroup_basic",
+            "extensions": [
+              "GL_ARB_compute_shader",
+              "GL_ARB_shader_storage_buffer_object"
+            ],
+            "files": [
+              "out/NumSubgroups/NumSubgroups/opengl.naga.comp"
+            ]
+          },
+          "spirvCross": {
+            "status": "extension",
+            "message": "",
+            "extensions": [
+              "GL_KHR_shader_subgroup_basic",
+              "GL_NV_shader_thread_group"
+            ],
+            "files": [
+              "out/NumSubgroups/NumSubgroups/opengl.spirvCross.comp"
+            ]
+          }
+        },
+        "webgl2": {
+          "status": "n/a",
+          "message": "WebGL 2 has no compute stage",
+          "naga": {
+            "status": "n/a",
+            "message": "WebGL 2 has no compute stage"
+          },
+          "spirvCross": {
+            "status": "n/a",
+            "message": "WebGL 2 has no compute stage"
+          }
+        }
+      }
+    },
+    {
+      "id": "Location",
+      "group": "interface",
+      "source": "hlsl",
+      "shaders": [
+        {
+          "file": "Location.vs.hlsl",
+          "stage": "vert",
+          "frontend": "hlsl"
+        },
+        {
+          "file": "Location.ps.hlsl",
+          "stage": "frag",
+          "frontend": "hlsl"
+        }
+      ],
+      "builtins": [
+        "Position"
+      ],
+      "capabilities": [
+        "Shader"
+      ],
+      "spirvExtensions": [],
+      "executionModes": [
+        "OriginUpperLeft"
+      ],
+      "results": {
+        "vulkan": {
+          "status": "ok",
+          "spirvVal": {
+            "status": "ok",
+            "message": "",
+            "extensions": []
+          },
+          "naga": {
+            "status": "n/a",
+            "message": "SPIR-V is the native format; validated with spirv-val"
+          },
+          "spirvCross": {
+            "status": "n/a",
+            "message": "SPIR-V is the native format; validated with spirv-val"
+          }
+        },
+        "d3d12": {
+          "status": "ok",
+          "naga": {
+            "status": "ok",
+            "message": "",
+            "extensions": [],
+            "files": [
+              "out/Location/Location-vs/d3d12.naga.sm60.hlsl",
+              "out/Location/Location-ps/d3d12.naga.sm60.hlsl"
+            ],
+            "entry": "main"
+          },
+          "spirvCross": {
+            "status": "ok",
+            "message": "",
+            "extensions": [],
+            "files": [
+              "out/Location/Location-vs/d3d12.spirvCross.sm60.hlsl",
+              "out/Location/Location-ps/d3d12.spirvCross.sm60.hlsl"
+            ],
+            "entry": "main"
+          }
+        },
+        "metal": {
+          "status": "ok",
+          "naga": {
+            "status": "ok",
+            "message": "",
+            "extensions": [],
+            "files": [
+              "out/Location/Location-vs/metal.naga.metal",
+              "out/Location/Location-ps/metal.naga.metal"
+            ]
+          },
+          "spirvCross": {
+            "status": "ok",
+            "message": "",
+            "extensions": [],
+            "files": [
+              "out/Location/Location-vs/metal.spirvCross.metal",
+              "out/Location/Location-ps/metal.spirvCross.metal"
+            ]
+          }
+        },
+        "webgpu": {
+          "status": "ok",
+          "naga": {
+            "status": "ok",
+            "message": "",
+            "extensions": [],
+            "files": [
+              "out/Location/Location-vs/webgpu.naga.wgsl",
+              "out/Location/Location-ps/webgpu.naga.wgsl"
+            ]
+          },
+          "spirvCross": {
+            "status": "n/a",
+            "message": "spirv-cross has no WGSL backend"
+          }
+        },
+        "opengl": {
+          "status": "ok",
+          "naga": {
+            "status": "ok",
+            "message": "",
+            "extensions": [],
+            "files": [
+              "out/Location/Location-vs/opengl.naga.vert",
+              "out/Location/Location-ps/opengl.naga.frag"
+            ]
+          },
+          "spirvCross": {
+            "status": "ok",
+            "message": "",
+            "extensions": [],
+            "files": [
+              "out/Location/Location-vs/opengl.spirvCross.vert",
+              "out/Location/Location-ps/opengl.spirvCross.frag"
+            ]
+          }
+        },
+        "webgl2": {
+          "status": "ok",
+          "naga": {
+            "status": "ok",
+            "message": "",
+            "extensions": [],
+            "files": [
+              "out/Location/Location-vs/webgl2.naga.vert",
+              "out/Location/Location-ps/webgl2.naga.frag"
+            ]
+          },
+          "spirvCross": {
+            "status": "ok",
+            "message": "",
+            "extensions": [],
+            "files": [
+              "out/Location/Location-vs/webgl2.spirvCross.vert",
+              "out/Location/Location-ps/webgl2.spirvCross.frag"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": "UniformBuffer",
+      "group": "resource",
+      "source": "hlsl",
+      "shaders": [
+        {
+          "file": "UniformBuffer.hlsl",
+          "stage": "frag",
+          "frontend": "hlsl"
+        }
+      ],
+      "builtins": [],
+      "capabilities": [
+        "Shader"
+      ],
+      "spirvExtensions": [],
+      "executionModes": [
+        "OriginUpperLeft"
+      ],
+      "results": {
+        "vulkan": {
+          "status": "ok",
+          "spirvVal": {
+            "status": "ok",
+            "message": "",
+            "extensions": []
+          },
+          "naga": {
+            "status": "n/a",
+            "message": "SPIR-V is the native format; validated with spirv-val"
+          },
+          "spirvCross": {
+            "status": "n/a",
+            "message": "SPIR-V is the native format; validated with spirv-val"
+          }
+        },
+        "d3d12": {
+          "status": "ok",
+          "naga": {
+            "status": "ok",
+            "message": "",
+            "extensions": [],
+            "files": [
+              "out/UniformBuffer/UniformBuffer/d3d12.naga.sm60.hlsl"
+            ],
+            "entry": "main"
+          },
+          "spirvCross": {
+            "status": "ok",
+            "message": "",
+            "extensions": [],
+            "files": [
+              "out/UniformBuffer/UniformBuffer/d3d12.spirvCross.sm60.hlsl"
+            ],
+            "entry": "main"
+          }
+        },
+        "metal": {
+          "status": "ok",
+          "naga": {
+            "status": "ok",
+            "message": "",
+            "extensions": [],
+            "files": [
+              "out/UniformBuffer/UniformBuffer/metal.naga.metal"
+            ]
+          },
+          "spirvCross": {
+            "status": "ok",
+            "message": "",
+            "extensions": [],
+            "files": [
+              "out/UniformBuffer/UniformBuffer/metal.spirvCross.metal"
+            ]
+          }
+        },
+        "webgpu": {
+          "status": "ok",
+          "naga": {
+            "status": "ok",
+            "message": "",
+            "extensions": [],
+            "files": [
+              "out/UniformBuffer/UniformBuffer/webgpu.naga.wgsl"
+            ]
+          },
+          "spirvCross": {
+            "status": "n/a",
+            "message": "spirv-cross has no WGSL backend"
+          }
+        },
+        "opengl": {
+          "status": "ok",
+          "naga": {
+            "status": "ok",
+            "message": "",
+            "extensions": [],
+            "files": [
+              "out/UniformBuffer/UniformBuffer/opengl.naga.frag"
+            ]
+          },
+          "spirvCross": {
+            "status": "ok",
+            "message": "",
+            "extensions": [],
+            "files": [
+              "out/UniformBuffer/UniformBuffer/opengl.spirvCross.frag"
+            ]
+          }
+        },
+        "webgl2": {
+          "status": "ok",
+          "naga": {
+            "status": "ok",
+            "message": "",
+            "extensions": [],
+            "files": [
+              "out/UniformBuffer/UniformBuffer/webgl2.naga.frag"
+            ]
+          },
+          "spirvCross": {
+            "status": "ok",
+            "message": "",
+            "extensions": [],
+            "files": [
+              "out/UniformBuffer/UniformBuffer/webgl2.spirvCross.frag"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": "StorageBufferReadOnly",
+      "group": "resource",
+      "source": "hlsl",
+      "shaders": [
+        {
+          "file": "StorageBufferReadOnly.hlsl",
+          "stage": "frag",
+          "frontend": "hlsl"
+        }
+      ],
+      "builtins": [],
+      "capabilities": [
+        "Shader"
+      ],
+      "spirvExtensions": [],
+      "executionModes": [
+        "OriginUpperLeft"
+      ],
+      "results": {
+        "vulkan": {
+          "status": "ok",
+          "spirvVal": {
+            "status": "ok",
+            "message": "",
+            "extensions": []
+          },
+          "naga": {
+            "status": "n/a",
+            "message": "SPIR-V is the native format; validated with spirv-val"
+          },
+          "spirvCross": {
+            "status": "n/a",
+            "message": "SPIR-V is the native format; validated with spirv-val"
+          }
+        },
+        "d3d12": {
+          "status": "ok",
+          "naga": {
+            "status": "ok",
+            "message": "",
+            "extensions": [],
+            "files": [
+              "out/StorageBufferReadOnly/StorageBufferReadOnly/d3d12.naga.sm60.hlsl"
+            ],
+            "entry": "main"
+          },
+          "spirvCross": {
+            "status": "ok",
+            "message": "",
+            "extensions": [],
+            "files": [
+              "out/StorageBufferReadOnly/StorageBufferReadOnly/d3d12.spirvCross.sm60.hlsl"
+            ],
+            "entry": "main"
+          }
+        },
+        "metal": {
+          "status": "ok",
+          "naga": {
+            "status": "ok",
+            "message": "",
+            "extensions": [],
+            "files": [
+              "out/StorageBufferReadOnly/StorageBufferReadOnly/metal.naga.metal"
+            ]
+          },
+          "spirvCross": {
+            "status": "ok",
+            "message": "",
+            "extensions": [],
+            "files": [
+              "out/StorageBufferReadOnly/StorageBufferReadOnly/metal.spirvCross.metal"
+            ]
+          }
+        },
+        "webgpu": {
+          "status": "ok",
+          "naga": {
+            "status": "ok",
+            "message": "",
+            "extensions": [],
+            "files": [
+              "out/StorageBufferReadOnly/StorageBufferReadOnly/webgpu.naga.wgsl"
+            ]
+          },
+          "spirvCross": {
+            "status": "n/a",
+            "message": "spirv-cross has no WGSL backend"
+          }
+        },
+        "opengl": {
+          "status": "ok",
+          "naga": {
+            "status": "extension",
+            "message": "",
+            "extensions": [
+              "GL_ARB_shader_storage_buffer_object"
+            ],
+            "files": [
+              "out/StorageBufferReadOnly/StorageBufferReadOnly/opengl.naga.frag"
+            ]
+          },
+          "spirvCross": {
+            "status": "ok",
+            "message": "",
+            "extensions": [],
+            "files": [
+              "out/StorageBufferReadOnly/StorageBufferReadOnly/opengl.spirvCross.frag"
+            ]
+          }
+        },
+        "webgl2": {
+          "status": "invalid",
+          "naga": {
+            "status": "rejected",
+            "message": "The selected version doesn't support Features(BUFFER_STORAGE | DYNAMIC_ARRAY_SIZE)",
+            "extensions": []
+          },
+          "spirvCross": {
+            "status": "invalid",
+            "message": "ERROR: 0:5: 'std430' : not supported for this version or the enabled extensions",
+            "extensions": [],
+            "files": [
+              "out/StorageBufferReadOnly/StorageBufferReadOnly/webgl2.spirvCross.frag"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": "StorageBufferReadWrite",
+      "group": "resource",
+      "source": "hlsl",
+      "shaders": [
+        {
+          "file": "StorageBufferReadWrite.hlsl",
+          "stage": "frag",
+          "frontend": "hlsl"
+        }
+      ],
+      "builtins": [],
+      "capabilities": [
+        "Shader"
+      ],
+      "spirvExtensions": [],
+      "executionModes": [
+        "OriginUpperLeft"
+      ],
+      "results": {
+        "vulkan": {
+          "status": "ok",
+          "spirvVal": {
+            "status": "ok",
+            "message": "",
+            "extensions": []
+          },
+          "naga": {
+            "status": "n/a",
+            "message": "SPIR-V is the native format; validated with spirv-val"
+          },
+          "spirvCross": {
+            "status": "n/a",
+            "message": "SPIR-V is the native format; validated with spirv-val"
+          }
+        },
+        "d3d12": {
+          "status": "ok",
+          "naga": {
+            "status": "ok",
+            "message": "",
+            "extensions": [],
+            "files": [
+              "out/StorageBufferReadWrite/StorageBufferReadWrite/d3d12.naga.sm60.hlsl"
+            ],
+            "entry": "main"
+          },
+          "spirvCross": {
+            "status": "ok",
+            "message": "",
+            "extensions": [],
+            "files": [
+              "out/StorageBufferReadWrite/StorageBufferReadWrite/d3d12.spirvCross.sm60.hlsl"
+            ],
+            "entry": "main"
+          }
+        },
+        "metal": {
+          "status": "ok",
+          "naga": {
+            "status": "ok",
+            "message": "",
+            "extensions": [],
+            "files": [
+              "out/StorageBufferReadWrite/StorageBufferReadWrite/metal.naga.metal"
+            ]
+          },
+          "spirvCross": {
+            "status": "ok",
+            "message": "",
+            "extensions": [],
+            "files": [
+              "out/StorageBufferReadWrite/StorageBufferReadWrite/metal.spirvCross.metal"
+            ]
+          }
+        },
+        "webgpu": {
+          "status": "ok",
+          "naga": {
+            "status": "ok",
+            "message": "",
+            "extensions": [],
+            "files": [
+              "out/StorageBufferReadWrite/StorageBufferReadWrite/webgpu.naga.wgsl"
+            ]
+          },
+          "spirvCross": {
+            "status": "n/a",
+            "message": "spirv-cross has no WGSL backend"
+          }
+        },
+        "opengl": {
+          "status": "ok",
+          "naga": {
+            "status": "extension",
+            "message": "",
+            "extensions": [
+              "GL_ARB_shader_storage_buffer_object"
+            ],
+            "files": [
+              "out/StorageBufferReadWrite/StorageBufferReadWrite/opengl.naga.frag"
+            ]
+          },
+          "spirvCross": {
+            "status": "ok",
+            "message": "",
+            "extensions": [],
+            "files": [
+              "out/StorageBufferReadWrite/StorageBufferReadWrite/opengl.spirvCross.frag"
+            ]
+          }
+        },
+        "webgl2": {
+          "status": "invalid",
+          "naga": {
+            "status": "rejected",
+            "message": "The selected version doesn't support Features(BUFFER_STORAGE | DYNAMIC_ARRAY_SIZE)",
+            "extensions": []
+          },
+          "spirvCross": {
+            "status": "invalid",
+            "message": "ERROR: 0:5: 'std430' : not supported for this version or the enabled extensions",
+            "extensions": [],
+            "files": [
+              "out/StorageBufferReadWrite/StorageBufferReadWrite/webgl2.spirvCross.frag"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": "TextureSampler",
+      "group": "resource",
+      "source": "hlsl",
+      "shaders": [
+        {
+          "file": "TextureSampler.hlsl",
+          "stage": "frag",
+          "frontend": "hlsl"
+        }
+      ],
+      "builtins": [],
+      "capabilities": [
+        "Shader"
+      ],
+      "spirvExtensions": [],
+      "executionModes": [
+        "OriginUpperLeft"
+      ],
+      "results": {
+        "vulkan": {
+          "status": "ok",
+          "spirvVal": {
+            "status": "ok",
+            "message": "",
+            "extensions": []
+          },
+          "naga": {
+            "status": "n/a",
+            "message": "SPIR-V is the native format; validated with spirv-val"
+          },
+          "spirvCross": {
+            "status": "n/a",
+            "message": "SPIR-V is the native format; validated with spirv-val"
+          }
+        },
+        "d3d12": {
+          "status": "ok",
+          "naga": {
+            "status": "ok",
+            "message": "",
+            "extensions": [],
+            "files": [
+              "out/TextureSampler/TextureSampler/d3d12.naga.sm60.hlsl"
+            ],
+            "entry": "main"
+          },
+          "spirvCross": {
+            "status": "ok",
+            "message": "",
+            "extensions": [],
+            "files": [
+              "out/TextureSampler/TextureSampler/d3d12.spirvCross.sm60.hlsl"
+            ],
+            "entry": "main"
+          }
+        },
+        "metal": {
+          "status": "ok",
+          "naga": {
+            "status": "ok",
+            "message": "",
+            "extensions": [],
+            "files": [
+              "out/TextureSampler/TextureSampler/metal.naga.metal"
+            ]
+          },
+          "spirvCross": {
+            "status": "ok",
+            "message": "",
+            "extensions": [],
+            "files": [
+              "out/TextureSampler/TextureSampler/metal.spirvCross.metal"
+            ]
+          }
+        },
+        "webgpu": {
+          "status": "ok",
+          "naga": {
+            "status": "ok",
+            "message": "",
+            "extensions": [],
+            "files": [
+              "out/TextureSampler/TextureSampler/webgpu.naga.wgsl"
+            ]
+          },
+          "spirvCross": {
+            "status": "n/a",
+            "message": "spirv-cross has no WGSL backend"
+          }
+        },
+        "opengl": {
+          "status": "ok",
+          "naga": {
+            "status": "ok",
+            "message": "",
+            "extensions": [],
+            "files": [
+              "out/TextureSampler/TextureSampler/opengl.naga.frag"
+            ]
+          },
+          "spirvCross": {
+            "status": "ok",
+            "message": "",
+            "extensions": [],
+            "files": [
+              "out/TextureSampler/TextureSampler/opengl.spirvCross.frag"
+            ]
+          }
+        },
+        "webgl2": {
+          "status": "ok",
+          "naga": {
+            "status": "ok",
+            "message": "",
+            "extensions": [],
+            "files": [
+              "out/TextureSampler/TextureSampler/webgl2.naga.frag"
+            ]
+          },
+          "spirvCross": {
+            "status": "ok",
+            "message": "",
+            "extensions": [],
+            "files": [
+              "out/TextureSampler/TextureSampler/webgl2.spirvCross.frag"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": "DescriptorSetBinding",
+      "group": "resource",
+      "source": "hlsl",
+      "shaders": [
+        {
+          "file": "DescriptorSetBinding.hlsl",
+          "stage": "frag",
+          "frontend": "hlsl"
+        }
+      ],
+      "builtins": [],
+      "capabilities": [
+        "Shader"
+      ],
+      "spirvExtensions": [],
+      "executionModes": [
+        "OriginUpperLeft"
+      ],
+      "results": {
+        "vulkan": {
+          "status": "ok",
+          "spirvVal": {
+            "status": "ok",
+            "message": "",
+            "extensions": []
+          },
+          "naga": {
+            "status": "n/a",
+            "message": "SPIR-V is the native format; validated with spirv-val"
+          },
+          "spirvCross": {
+            "status": "n/a",
+            "message": "SPIR-V is the native format; validated with spirv-val"
+          }
+        },
+        "d3d12": {
+          "status": "ok",
+          "naga": {
+            "status": "ok",
+            "message": "",
+            "extensions": [],
+            "files": [
+              "out/DescriptorSetBinding/DescriptorSetBinding/d3d12.naga.sm60.hlsl"
+            ],
+            "entry": "main"
+          },
+          "spirvCross": {
+            "status": "ok",
+            "message": "",
+            "extensions": [],
+            "files": [
+              "out/DescriptorSetBinding/DescriptorSetBinding/d3d12.spirvCross.sm60.hlsl"
+            ],
+            "entry": "main"
+          }
+        },
+        "metal": {
+          "status": "ok",
+          "naga": {
+            "status": "ok",
+            "message": "",
+            "extensions": [],
+            "files": [
+              "out/DescriptorSetBinding/DescriptorSetBinding/metal.naga.metal"
+            ]
+          },
+          "spirvCross": {
+            "status": "ok",
+            "message": "",
+            "extensions": [],
+            "files": [
+              "out/DescriptorSetBinding/DescriptorSetBinding/metal.spirvCross.metal"
+            ]
+          }
+        },
+        "webgpu": {
+          "status": "ok",
+          "naga": {
+            "status": "ok",
+            "message": "",
+            "extensions": [],
+            "files": [
+              "out/DescriptorSetBinding/DescriptorSetBinding/webgpu.naga.wgsl"
+            ]
+          },
+          "spirvCross": {
+            "status": "n/a",
+            "message": "spirv-cross has no WGSL backend"
+          }
+        },
+        "opengl": {
+          "status": "ok",
+          "naga": {
+            "status": "dropped",
+            "message": "output compiles but lacks /binding\\s*=\\s*2/",
+            "extensions": [],
+            "files": [
+              "out/DescriptorSetBinding/DescriptorSetBinding/opengl.naga.frag"
+            ]
+          },
+          "spirvCross": {
+            "status": "ok",
+            "message": "",
+            "extensions": [],
+            "files": [
+              "out/DescriptorSetBinding/DescriptorSetBinding/opengl.spirvCross.frag"
+            ]
+          }
+        },
+        "webgl2": {
+          "status": "ok",
+          "naga": {
+            "status": "ok",
+            "message": "",
+            "extensions": [],
+            "files": [
+              "out/DescriptorSetBinding/DescriptorSetBinding/webgl2.naga.frag"
+            ]
+          },
+          "spirvCross": {
+            "status": "ok",
+            "message": "",
+            "extensions": [],
+            "files": [
+              "out/DescriptorSetBinding/DescriptorSetBinding/webgl2.spirvCross.frag"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": "Double",
+      "group": "type",
+      "source": "hlsl",
+      "shaders": [
+        {
+          "file": "Double.hlsl",
+          "stage": "frag",
+          "frontend": "hlsl"
+        }
+      ],
+      "builtins": [],
+      "capabilities": [
+        "Shader",
+        "Float64"
+      ],
+      "spirvExtensions": [],
+      "executionModes": [
+        "OriginUpperLeft"
+      ],
+      "results": {
+        "vulkan": {
+          "status": "ok",
+          "spirvVal": {
+            "status": "ok",
+            "message": "",
+            "extensions": []
+          },
+          "naga": {
+            "status": "n/a",
+            "message": "SPIR-V is the native format; validated with spirv-val"
+          },
+          "spirvCross": {
+            "status": "n/a",
+            "message": "SPIR-V is the native format; validated with spirv-val"
+          }
+        },
+        "d3d12": {
+          "status": "ok",
+          "naga": {
+            "status": "ok",
+            "message": "",
+            "extensions": [],
+            "files": [
+              "out/Double/Double/d3d12.naga.sm60.hlsl"
+            ],
+            "entry": "main"
+          },
+          "spirvCross": {
+            "status": "ok",
+            "message": "",
+            "extensions": [],
+            "files": [
+              "out/Double/Double/d3d12.spirvCross.sm60.hlsl"
+            ],
+            "entry": "main"
+          }
+        },
+        "metal": {
+          "status": "rejected",
+          "naga": {
+            "status": "rejected",
+            "message": "Type [2] '' is invalid: Using `f64` values requires the `naga::valid::Capabilities::FLOAT64` flag",
+            "extensions": []
+          },
+          "spirvCross": {
+            "status": "rejected",
+            "message": "SPIRV-Cross threw an exception: double types are not supported in buffers in MSL.",
+            "extensions": []
+          }
+        },
+        "webgpu": {
+          "status": "invalid",
+          "naga": {
+            "status": "invalid",
+            "message": "error: Type [0] '' is invalid: Using `f64` values requires the `naga::valid::Capabilities::FLOAT64` flag (accepted by naga only with non-WebGPU capabilities)",
+            "extensions": [],
+            "files": [
+              "out/Double/Double/webgpu.naga.wgsl"
+            ]
+          },
+          "spirvCross": {
+            "status": "n/a",
+            "message": "spirv-cross has no WGSL backend"
+          }
+        },
+        "opengl": {
+          "status": "ok",
+          "naga": {
+            "status": "ok",
+            "message": "",
+            "extensions": [],
+            "files": [
+              "out/Double/Double/opengl.naga.frag"
+            ]
+          },
+          "spirvCross": {
+            "status": "ok",
+            "message": "",
+            "extensions": [],
+            "files": [
+              "out/Double/Double/opengl.spirvCross.frag"
+            ]
+          }
+        },
+        "webgl2": {
+          "status": "rejected",
+          "naga": {
+            "status": "rejected",
+            "message": "The selected version doesn't support Features(DOUBLE_TYPE)",
+            "extensions": []
+          },
+          "spirvCross": {
+            "status": "rejected",
+            "message": "SPIRV-Cross threw an exception: FP64 not supported in ES profile.",
+            "extensions": []
+          }
+        }
+      }
+    },
+    {
+      "id": "VertexStage",
+      "group": "stage",
+      "source": "hlsl",
+      "shaders": [
+        {
+          "file": "VertexStage.hlsl",
+          "stage": "vert",
+          "frontend": "hlsl"
+        }
+      ],
+      "builtins": [
+        "Position"
+      ],
+      "capabilities": [
+        "Shader"
+      ],
+      "spirvExtensions": [],
+      "executionModes": [],
+      "results": {
+        "vulkan": {
+          "status": "ok",
+          "spirvVal": {
+            "status": "ok",
+            "message": "",
+            "extensions": []
+          },
+          "naga": {
+            "status": "n/a",
+            "message": "SPIR-V is the native format; validated with spirv-val"
+          },
+          "spirvCross": {
+            "status": "n/a",
+            "message": "SPIR-V is the native format; validated with spirv-val"
+          }
+        },
+        "d3d12": {
+          "status": "ok",
+          "naga": {
+            "status": "ok",
+            "message": "",
+            "extensions": [],
+            "files": [
+              "out/VertexStage/VertexStage/d3d12.naga.sm60.hlsl"
+            ],
+            "entry": "main"
+          },
+          "spirvCross": {
+            "status": "ok",
+            "message": "",
+            "extensions": [],
+            "files": [
+              "out/VertexStage/VertexStage/d3d12.spirvCross.sm60.hlsl"
+            ],
+            "entry": "main"
+          }
+        },
+        "metal": {
+          "status": "ok",
+          "naga": {
+            "status": "ok",
+            "message": "",
+            "extensions": [],
+            "files": [
+              "out/VertexStage/VertexStage/metal.naga.metal"
+            ]
+          },
+          "spirvCross": {
+            "status": "ok",
+            "message": "",
+            "extensions": [],
+            "files": [
+              "out/VertexStage/VertexStage/metal.spirvCross.metal"
+            ]
+          }
+        },
+        "webgpu": {
+          "status": "ok",
+          "naga": {
+            "status": "ok",
+            "message": "",
+            "extensions": [],
+            "files": [
+              "out/VertexStage/VertexStage/webgpu.naga.wgsl"
+            ]
+          },
+          "spirvCross": {
+            "status": "n/a",
+            "message": "spirv-cross has no WGSL backend"
+          }
+        },
+        "opengl": {
+          "status": "ok",
+          "naga": {
+            "status": "ok",
+            "message": "",
+            "extensions": [],
+            "files": [
+              "out/VertexStage/VertexStage/opengl.naga.vert"
+            ]
+          },
+          "spirvCross": {
+            "status": "ok",
+            "message": "",
+            "extensions": [],
+            "files": [
+              "out/VertexStage/VertexStage/opengl.spirvCross.vert"
+            ]
+          }
+        },
+        "webgl2": {
+          "status": "ok",
+          "naga": {
+            "status": "ok",
+            "message": "",
+            "extensions": [],
+            "files": [
+              "out/VertexStage/VertexStage/webgl2.naga.vert"
+            ]
+          },
+          "spirvCross": {
+            "status": "ok",
+            "message": "",
+            "extensions": [],
+            "files": [
+              "out/VertexStage/VertexStage/webgl2.spirvCross.vert"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": "FragmentStage",
+      "group": "stage",
+      "source": "hlsl",
+      "shaders": [
+        {
+          "file": "FragmentStage.hlsl",
+          "stage": "frag",
+          "frontend": "hlsl"
+        }
+      ],
+      "builtins": [],
+      "capabilities": [
+        "Shader"
+      ],
+      "spirvExtensions": [],
+      "executionModes": [
+        "OriginUpperLeft"
+      ],
+      "results": {
+        "vulkan": {
+          "status": "ok",
+          "spirvVal": {
+            "status": "ok",
+            "message": "",
+            "extensions": []
+          },
+          "naga": {
+            "status": "n/a",
+            "message": "SPIR-V is the native format; validated with spirv-val"
+          },
+          "spirvCross": {
+            "status": "n/a",
+            "message": "SPIR-V is the native format; validated with spirv-val"
+          }
+        },
+        "d3d12": {
+          "status": "ok",
+          "naga": {
+            "status": "ok",
+            "message": "",
+            "extensions": [],
+            "files": [
+              "out/FragmentStage/FragmentStage/d3d12.naga.sm60.hlsl"
+            ],
+            "entry": "main"
+          },
+          "spirvCross": {
+            "status": "ok",
+            "message": "",
+            "extensions": [],
+            "files": [
+              "out/FragmentStage/FragmentStage/d3d12.spirvCross.sm60.hlsl"
+            ],
+            "entry": "main"
+          }
+        },
+        "metal": {
+          "status": "ok",
+          "naga": {
+            "status": "ok",
+            "message": "",
+            "extensions": [],
+            "files": [
+              "out/FragmentStage/FragmentStage/metal.naga.metal"
+            ]
+          },
+          "spirvCross": {
+            "status": "ok",
+            "message": "",
+            "extensions": [],
+            "files": [
+              "out/FragmentStage/FragmentStage/metal.spirvCross.metal"
+            ]
+          }
+        },
+        "webgpu": {
+          "status": "ok",
+          "naga": {
+            "status": "ok",
+            "message": "",
+            "extensions": [],
+            "files": [
+              "out/FragmentStage/FragmentStage/webgpu.naga.wgsl"
+            ]
+          },
+          "spirvCross": {
+            "status": "n/a",
+            "message": "spirv-cross has no WGSL backend"
+          }
+        },
+        "opengl": {
+          "status": "ok",
+          "naga": {
+            "status": "ok",
+            "message": "",
+            "extensions": [],
+            "files": [
+              "out/FragmentStage/FragmentStage/opengl.naga.frag"
+            ]
+          },
+          "spirvCross": {
+            "status": "ok",
+            "message": "",
+            "extensions": [],
+            "files": [
+              "out/FragmentStage/FragmentStage/opengl.spirvCross.frag"
+            ]
+          }
+        },
+        "webgl2": {
+          "status": "ok",
+          "naga": {
+            "status": "ok",
+            "message": "",
+            "extensions": [],
+            "files": [
+              "out/FragmentStage/FragmentStage/webgl2.naga.frag"
+            ]
+          },
+          "spirvCross": {
+            "status": "ok",
+            "message": "",
+            "extensions": [],
+            "files": [
+              "out/FragmentStage/FragmentStage/webgl2.spirvCross.frag"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": "ComputeStage",
+      "group": "stage",
+      "source": "hlsl",
+      "shaders": [
+        {
+          "file": "ComputeStage.hlsl",
+          "stage": "comp",
+          "frontend": "hlsl"
+        }
+      ],
+      "builtins": [],
+      "capabilities": [
+        "Shader"
+      ],
+      "spirvExtensions": [],
+      "executionModes": [
+        "LocalSize 1 1 1"
+      ],
+      "results": {
+        "vulkan": {
+          "status": "ok",
+          "spirvVal": {
+            "status": "ok",
+            "message": "",
+            "extensions": []
+          },
+          "naga": {
+            "status": "n/a",
+            "message": "SPIR-V is the native format; validated with spirv-val"
+          },
+          "spirvCross": {
+            "status": "n/a",
+            "message": "SPIR-V is the native format; validated with spirv-val"
+          }
+        },
+        "d3d12": {
+          "status": "ok",
+          "naga": {
+            "status": "ok",
+            "message": "",
+            "extensions": [],
+            "files": [
+              "out/ComputeStage/ComputeStage/d3d12.naga.sm60.hlsl"
+            ],
+            "entry": "main"
+          },
+          "spirvCross": {
+            "status": "ok",
+            "message": "",
+            "extensions": [],
+            "files": [
+              "out/ComputeStage/ComputeStage/d3d12.spirvCross.sm60.hlsl"
+            ],
+            "entry": "main"
+          }
+        },
+        "metal": {
+          "status": "ok",
+          "naga": {
+            "status": "ok",
+            "message": "",
+            "extensions": [],
+            "files": [
+              "out/ComputeStage/ComputeStage/metal.naga.metal"
+            ]
+          },
+          "spirvCross": {
+            "status": "ok",
+            "message": "",
+            "extensions": [],
+            "files": [
+              "out/ComputeStage/ComputeStage/metal.spirvCross.metal"
+            ]
+          }
+        },
+        "webgpu": {
+          "status": "ok",
+          "naga": {
+            "status": "ok",
+            "message": "",
+            "extensions": [],
+            "files": [
+              "out/ComputeStage/ComputeStage/webgpu.naga.wgsl"
+            ]
+          },
+          "spirvCross": {
+            "status": "n/a",
+            "message": "spirv-cross has no WGSL backend"
+          }
+        },
+        "opengl": {
+          "status": "ok",
+          "naga": {
+            "status": "extension",
+            "message": "",
+            "extensions": [
+              "GL_ARB_compute_shader"
+            ],
+            "files": [
+              "out/ComputeStage/ComputeStage/opengl.naga.comp"
+            ]
+          },
+          "spirvCross": {
+            "status": "ok",
+            "message": "",
+            "extensions": [],
+            "files": [
+              "out/ComputeStage/ComputeStage/opengl.spirvCross.comp"
+            ]
+          }
+        },
+        "webgl2": {
+          "status": "n/a",
+          "message": "WebGL 2 has no compute stage",
+          "naga": {
+            "status": "n/a",
+            "message": "WebGL 2 has no compute stage"
+          },
+          "spirvCross": {
+            "status": "n/a",
+            "message": "WebGL 2 has no compute stage"
+          }
+        }
+      }
+    }
+  ]
+}

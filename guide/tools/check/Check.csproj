@@ -10,10 +10,12 @@
     <NoWarn>CS0649;CS0169;CS8618;CS0414;CS8603;CS8604</NoWarn>
     <CodeDir>$(MSBuildThisFileDirectory)../../code/en/</CodeDir>
     <LanguageProject Condition="'$(LanguageProject)' == ''">$(MSBuildThisFileDirectory)../../../../YotsubaShader.Language/YotsubaShader.Language.csproj</LanguageProject>
+    <HlslSyntaxProject Condition="'$(HlslSyntaxProject)' == ''">$(MSBuildThisFileDirectory)../../../../YotsubaShader.HlslSyntax/YotsubaShader.HlslSyntax.csproj</HlslSyntaxProject>
   </PropertyGroup>
 
   <ItemGroup>
     <ProjectReference Include="$(LanguageProject)" />
+    <ProjectReference Include="$(HlslSyntaxProject)" />
     <Using Include="YotsubaShader.Language.Native.Types.Vector" />
     <Using Include="MyEngine" />
     <Using Include="MyEngine.Graphics" />

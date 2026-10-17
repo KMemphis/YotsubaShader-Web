@@ -28,7 +28,7 @@ const community = {
     <h2 class="h-md" style="margin-top:72px">Ways to help</h2>
     <div class="grid grid-2 mt-24">
       <div class="panel"><h3 class="h-md" style="font-size:20px;margin-bottom:10px">Write shaders</h3><p class="card-body" style="margin:0">Real shaders reveal missing built-ins and awkward attribute names. Share the ones that do not compile.</p></div>
-      <div class="panel"><h3 class="h-md" style="font-size:20px;margin-bottom:10px">Review attribute equivalence</h3><p class="card-body" style="margin:0">Each style should mean the same thing as its source language. Spotting a mismatch is a valuable contribution.</p></div>
+      <div class="panel"><h3 class="h-md" style="font-size:20px;margin-bottom:10px">Review attribute equivalence</h3><p class="card-body" style="margin:0">Each syntax should mean the same thing as its source language. Spotting a mismatch is a valuable contribution.</p></div>
       <div class="panel"><h3 class="h-md" style="font-size:20px;margin-bottom:10px">Build backends</h3><p class="card-body" style="margin:0">Add or improve the Direct3D, Metal, WebGPU, OpenGL and WebGL backends. The IR is the contract to build against.</p></div>
       <div class="panel"><h3 class="h-md" style="font-size:20px;margin-bottom:10px">Improve tests and docs</h3><p class="card-body" style="margin:0">Add frontend tests, SPIR-V validation checks and documentation for the pieces you use.</p></div>
     </div>
@@ -59,7 +59,7 @@ const contributing = {
       <li>a motivating shader or backend example.</li>
     </ul>
     <h2>Attribute changes</h2>
-    <p>Attribute changes should explain their <strong>semantic equivalence</strong> with the language they are inspired by, and include tests where appropriate. An attribute in one style must mean the same thing as its counterparts in the other four.</p>
+    <p>Attribute changes should explain their <strong>semantic equivalence</strong> with the language they are inspired by, and include tests where appropriate. An attribute in one syntax must mean the same thing as its counterparts in the other four.</p>
     <h2>Before you open a pull request</h2>
     ${code('bash', `dotnet build YotsubaShader.sln
 dotnet test YotsubaShader.Frontend.Tests`)}
