@@ -415,7 +415,13 @@ code { font-size: .88em; background: rgba(255,255,255,.09); padding: .12em .4em;
   .foot-inner { grid-template-columns: 1fr; }
 
   /* docs: sidebar becomes a drawer */
-  .sidebar-toggle { display: inline-grid; margin-left: -8px; }
+  .sidebar-toggle { display: inline-grid; margin-left: -8px; flex: none; }
+  /* docs second bar: everything has to fit in one row on a phone */
+  .docbar-inner { padding: 0 14px; gap: 8px; }
+  .docbar-title { flex: 1 1 0; min-width: 0; margin-right: 0; font-size: 19px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .docbar .style-select { flex: none; }
+  .docbar .lang-slot { flex: none; }
+  .docbar .lang > summary { padding: 0 9px; }
   .doc-shell { grid-template-columns: minmax(0, 1fr); }
   .doc-sidebar { position: fixed; left: 0; top: calc(var(--gnav-h) + var(--docbar-h)); bottom: 0; height: auto; width: min(340px, 88vw); transform: translateX(-102%); transition: transform .28s ease; box-shadow: 0 0 60px rgba(0,0,0,.7); }
   .sidebar-open .doc-sidebar { transform: none; }
@@ -777,3 +783,4 @@ main { position: relative; }
 .pg-figure { margin: 0; display: grid; gap: 14px; justify-items: start; }
 .pg-figure img { display: block; width: auto; max-width: 100%; max-height: min(58vh, 520px); height: auto; border-radius: 14px; border: 1px solid var(--line); }
 .pg-figure figcaption { max-width: 60ch; font-size: 13px; line-height: 1.55; color: var(--text-4); }
+@media (max-width: 560px) { .docbar .lang > summary > span { display: none; } .docbar .lang > summary { padding: 0 9px; } }
