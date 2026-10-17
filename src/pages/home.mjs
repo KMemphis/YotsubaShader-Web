@@ -235,6 +235,24 @@ const whatsNew = {
   <hr class="hero-rule">
 </section>
 
+<section class="section" id="subscribe">
+  <div class="container container--narrow">
+    <div class="panel">
+      <h2 class="h-md" style="margin-bottom:10px">Get every change</h2>
+      <p class="card-body" style="margin:0 0 20px">Leave your email and you will get a note from ${SITE.newsEmail} when there is a new release or a notable change. Nothing else. Your address is kept in the project's contact list and used only for these updates, and you can reply "unsubscribe" at any time.</p>
+      <form class="sub-form" id="sub-form" data-endpoint="${SITE.subscribeEndpoint}" novalidate>
+        <label class="sub-label" for="sub-email">Email</label>
+        <input id="sub-email" name="email" type="email" required autocomplete="email" placeholder="you@example.com">
+        <input class="sub-trap" name="website" type="text" tabindex="-1" autocomplete="off" aria-hidden="true">
+        <button class="btn btn-primary" type="submit">Subscribe</button>
+      </form>
+      <p class="sub-msg sub-msg--ok" id="sub-ok" role="status" hidden>Thanks! You are on the list.</p>
+      <p class="sub-msg sub-msg--err" id="sub-err" role="alert" hidden>That did not work. Please check the address and try again, or write to ${SITE.email}.</p>
+      <p class="don-note">No email? Follow the changes with a feed reader: <a href="${SITE.feedReleases}" rel="noopener">releases (Atom)</a> · <a href="${SITE.feedCommits}" rel="noopener">every change (Atom)</a>. On GitHub you can also choose Watch → Custom → Releases.</p>
+    </div>
+  </div>
+</section>
+
 ${entry(
   'Do more with five authoring styles',
   'HLSL, GLSL, Metal, Vulkan and WGSL vocabularies now share the same semantic model. Choose the names your team knows; the compiler resolves them to the same IR built-ins.',
@@ -282,25 +300,7 @@ ${entry(
   'Yotsuba Shader is released under the MIT License: use it in any project, commercial or not, with no fee.',
   `<p>That includes proprietary game engines, frameworks and editors. The shaders you write and the binaries generated from them are yours.</p>`,
   ['Licensing', '/community/licensing/'],
-)}
-
-<section class="section" id="subscribe">
-  <div class="container container--narrow">
-    <div class="panel">
-      <h2 class="h-md" style="margin-bottom:10px">Get every change</h2>
-      <p class="card-body" style="margin:0 0 20px">Leave your email and you will get a note from ${SITE.newsEmail} when there is a new release or a notable change. Nothing else. Your address is kept in the project's contact list and used only for these updates, and you can reply "unsubscribe" at any time.</p>
-      <form class="sub-form" id="sub-form" data-endpoint="${SITE.subscribeEndpoint}" novalidate>
-        <label class="sub-label" for="sub-email">Email</label>
-        <input id="sub-email" name="email" type="email" required autocomplete="email" placeholder="you@example.com">
-        <input class="sub-trap" name="website" type="text" tabindex="-1" autocomplete="off" aria-hidden="true">
-        <button class="btn btn-primary" type="submit">Subscribe</button>
-      </form>
-      <p class="sub-msg sub-msg--ok" id="sub-ok" role="status" hidden>Thanks! You are on the list.</p>
-      <p class="sub-msg sub-msg--err" id="sub-err" role="alert" hidden>That did not work. Please check the address and try again, or write to ${SITE.email}.</p>
-      <p class="don-note">No email? Follow the changes with a feed reader: <a href="${SITE.feedReleases}" rel="noopener">releases (Atom)</a> · <a href="${SITE.feedCommits}" rel="noopener">every change (Atom)</a>. On GitHub you can also choose Watch → Custom → Releases.</p>
-    </div>
-  </div>
-</section>`,
+)}`,
 };
 
 /* -------------------------------------------------------------- Resources */
