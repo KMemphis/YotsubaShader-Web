@@ -772,3 +772,8 @@ main { position: relative; }
 .sub-msg { margin: 14px 0 0; font-size: 15px; }
 .sub-msg--ok { color: #1d9b4f; }
 .sub-msg--err { color: #d93025; }
+
+/* Playground: example input image */
+.pg-figure { margin: 0; display: grid; gap: 14px; justify-items: start; }
+.pg-figure img { display: block; width: auto; max-width: 100%; max-height: min(58vh, 520px); height: auto; border-radius: 14px; border: 1px solid var(--line); }
+.pg-figure figcaption { max-width: 60ch; font-size: 13px; line-height: 1.55; color: var(--text-4); }

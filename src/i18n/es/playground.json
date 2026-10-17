@@ -15,5 +15,8 @@
  "New file": "Archivo nuevo",
  "Diagnostics <i class=\"pg-count\" id=\"pg-count-diagnostics\"></i>": "Diagnósticos <i class=\"pg-count\" id=\"pg-count-diagnostics\"></i>",
  "Shaders <i class=\"pg-count\" id=\"pg-count-shaders\"></i>": "Shaders <i class=\"pg-count\" id=\"pg-count-shaders\"></i>",
- "The playground needs JavaScript.": "El playground necesita JavaScript."
+ "The playground needs JavaScript.": "El playground necesita JavaScript.",
+ "Texture and sampler": "Textura y sampler",
+ "Input image": "Imagen de entrada",
+ "Example input image. This is the kind of image your engine binds to <code>Albedo</code> when it draws. The playground compiles the shader; it does not render it.": "Imagen de entrada del ejemplo. Es el tipo de imagen que tu motor enlaza a <code>Albedo</code> al dibujar. El playground compila el shader; no lo renderiza."
 }

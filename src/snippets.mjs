@@ -320,3 +320,54 @@ export const TRANSPILE_HLSL = `string hlsl = Transpile.FromSpirVToHlsl(spirv, hl
 // Yotsuba Shader stops at the HLSL text. Pass it to the DXC
 // (Shader Model 6) or FXC (Shader Model 5.x) you already use,
 // with entry point "Vertex" and a profile such as "vs_6_0".`;
+
+/** Types.cs of the texture example: TYPES_CS plus a texture and a sampler (the usings must stay at the top of the file). */
+export const TYPES_TEXTURE_CS = TYPES_CS
+  .replace('using YotsubaShader.Language.Native.Types.Matrix;', 'using YotsubaShader.Language.Native.Types;\nusing YotsubaShader.Language.Native.Types.Matrix;\nusing YotsubaShader.Language.Native.Types.Texture;')
+  + `
+
+[Texture(TextureDimension.D2, TextureComponentTypes.Float)]
+public class Texture2D { }
+
+[Sampler]
+public class SamplerState { }`;
+
+/** A shader that declares and binds a texture and a sampler (HLSL vocabulary). Reading pixels is not compiled yet. */
+export const TEXTURE_BINDING = `using YotsubaShader.Language;
+using YotsubaShader.Language.StylesAttributes;
+using YotsubaShader.Language.StylesAttributes.HlslStyle;
+using YotsubaShader.Language.StylesAttributes.HlslStyle.Resorces;
+
+public struct VertexOutput
+{
+    [SV_Position]
+    public Vector4 Position;
+
+    [Location(0)]
+    public Vector2 Uv;
+}
+
+public class TexturedQuad
+{
+    // The engine decides which image goes to slot t0 when it draws.
+    [register(RegisterPrefix.t, 0)]
+    public Texture2D Albedo;
+
+    [register("s0")]
+    public SamplerState Sampler;
+
+    [ShaderStage(Stage.Vertex)]
+    public VertexOutput Vertex([SV_VertexID] uint id)
+    {
+        VertexOutput output;
+        output.Position = new Vector4(0, 0, 0, 1);
+        output.Uv = new Vector2(0, 0);
+        return output;
+    }
+
+    [ShaderStage(Stage.Fragment)]
+    public Vector4 Fragment(VertexOutput input)
+    {
+        return new Vector4(input.Uv.X, input.Uv.Y, 0.5f, 1);
+    }
+}`;

@@ -384,6 +384,16 @@
     if (errors) selectTab('diagnostics');
   }
 
+  /** The "Input image" tab only exists for examples that come with an image. */
+  function syncImage() {
+    const ex = examples.find((e) => e.id === el.example.value) || {};
+    const tab = $('.pg-tabs [data-tab="image"]');
+    if (!tab) return;
+    tab.hidden = !ex.image;
+    if (ex.image) { const img = $('#pg-image'); if (img.getAttribute('src') !== ex.image) img.src = ex.image; }
+    else if (tab.getAttribute('aria-selected') === 'true') selectTab('diagnostics');
+  }
+
   function selectTab(name) {
     $$('.pg-tabs [role="tab"]').forEach((t) => t.setAttribute('aria-selected', String(t.dataset.tab === name)));
     Object.entries(el.panels).forEach(([k, p]) => (p.hidden = k !== name));
@@ -494,7 +504,7 @@
       project.files = clone(ex.files); project.files.forEach((f) => editor.add(f.name, f.source));
       loaded = JSON.stringify(ex.files);
       openFile((project.files.find((f) => f.name === 'Shader.cs') || project.files[0]).name);
-      editor.markers({}); scheduleAnalyze(0);
+      editor.markers({}); scheduleAnalyze(0); syncImage();
     });
 
     el.run.addEventListener('click', run);
@@ -511,8 +521,9 @@
     });
     document.addEventListener('keydown', (e) => { if ((e.metaKey || e.ctrlKey) && e.key === 'Enter') { e.preventDefault(); run(); } });
 
-    Object.values(el.panels).forEach((p) => { p.innerHTML = emptyState(T('Press <b>Compile</b> (Ctrl/⌘ Enter) to see the results.')); });
+    Object.entries(el.panels).filter(([k]) => k !== 'image').forEach(([, p]) => { p.innerHTML = emptyState(T('Press <b>Compile</b> (Ctrl/⌘ Enter) to see the results.')); });
     selectTab('diagnostics');
+    syncImage();
 
     // Backend: explicit demo, an already-registered one, or a Blazor app published next to the site.
     if (params.has('demo')) api.setBackend(demoBackend());

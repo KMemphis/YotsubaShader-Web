@@ -152,5 +152,6 @@
  "// Exposure becomes 2": "// Exposure pasa a ser 2",
  "// Exposure becomes 1": "// Exposure pasa a ser 1",
  "/* uses Exposure and LightDirection */": "/* usa Exposure y LightDirection */",
- "// Your engine creates the parameter set for the compiled shader": "// Tu motor crea el conjunto de parámetros para el shader compilado"
+ "// Your engine creates the parameter set for the compiled shader": "// Tu motor crea el conjunto de parámetros para el shader compilado",
+ "// The engine decides which image goes to slot t0 when it draws.": "// El motor decide qué imagen va al slot t0 cuando dibuja."
 }
