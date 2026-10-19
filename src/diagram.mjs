@@ -8,7 +8,7 @@ const sizes = JSON.parse(fs.readFileSync(new URL('./flow-sizes.json', import.met
 const DIR = '/img/l10n/en';
 
 export function flowDiagram() {
-  return `<figure class="flow" role="img" aria-label="A C# shader is compiled by Yotsuba Shader to SPIR-V. SPIR-V is one of the outputs, and YotsubaShaderCross translates it to HLSL, MSL, WGSL, GLSL and GLSL ES.">
+  return `<figure class="flow" role="img" aria-label="A C# shader is compiled by Yotsuba Shader to SPIR-V. SPIR-V is one of the outputs, and Yotsuba ShaderCross translates it to HLSL, MSL, WGSL, GLSL and GLSL ES.">
   <picture>
     <source media="(max-width: 760px)" srcset="${DIR}/flow-tall.webp" width="${sizes.tall.W}" height="${sizes.tall.H}">
     <img src="${DIR}/flow-wide.webp" width="${sizes.wide.W}" height="${sizes.wide.H}" alt="" loading="lazy" decoding="async">

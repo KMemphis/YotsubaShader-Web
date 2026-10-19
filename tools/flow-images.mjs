@@ -21,20 +21,20 @@ const TEXT = {
   en: {
     step1: 'Write it in C#',
     step2: 'Compile to SPIR-V',
-    step3: 'Transpile with YotsubaShaderCross',
+    step3: 'Transpile with Yotsuba ShaderCross',
     step4: 'Get your format',
     note4: 'SPIR-V, plus the formats transpiled from it',
     hub1: 'Yotsuba Shader',
-    hub2: 'YotsubaShaderCross',
+    hub2: 'Yotsuba ShaderCross',
   },
   es: {
     step1: 'Escríbelo en C#',
     step2: 'Compila a SPIR-V',
-    step3: 'Transpila con YotsubaShaderCross',
+    step3: 'Transpila con Yotsuba ShaderCross',
     step4: 'Obtén tu formato',
     note4: 'SPIR-V y los formatos que salen de él',
     hub1: 'Yotsuba Shader',
-    hub2: 'YotsubaShaderCross',
+    hub2: 'Yotsuba ShaderCross',
   },
 };
 

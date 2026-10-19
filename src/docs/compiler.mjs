@@ -219,14 +219,14 @@ ${table(
       title: 'Transpiling from SPIR-V',
       kind: 'Article',
       icon: 'doc',
-      summary: 'At run time the compiler produces SPIR-V; a small Transpile API powered by YotsubaShaderCross turns it into HLSL, MSL, WGSL, GLSL or GLSL ES text in pure C#.',
+      summary: 'At run time the compiler produces SPIR-V; a small Transpile API powered by Yotsuba ShaderCross turns it into HLSL, MSL, WGSL, GLSL or GLSL ES text in pure C#.',
       body: `
 <h2>Overview</h2>
 <p class="lead-p">The compiler produces one format: SPIR-V. When your tool or game needs another one at run time, you hand the SPIR-V to the <code>Transpile</code> API and get shader <strong>text</strong> back.</p>
 <div class="pipeline" role="list">
   <div class="pipe-step" role="listitem"><span class="pipe-ico">${icon('code')}</span><b>C# string</b><span>Your shader source</span></div>
   <div class="pipe-step" role="listitem"><span class="pipe-ico">${icon('cpu')}</span><b>SPIR-V</b><span>The compiler's output</span></div>
-  <div class="pipe-step" role="listitem"><span class="pipe-ico">${icon('layers')}</span><b>Transpile</b><span>Pure C# with YotsubaShaderCross</span></div>
+  <div class="pipe-step" role="listitem"><span class="pipe-ico">${icon('layers')}</span><b>Transpile</b><span>Pure C# with Yotsuba ShaderCross</span></div>
   <div class="pipe-step" role="listitem"><span class="pipe-ico">${icon('doc')}</span><b>Shader text</b><span>HLSL, MSL, WGSL, GLSL, GLSL ES</span></div>
 </div>
 
@@ -244,11 +244,11 @@ ${table(
 )}
 <p>Every function takes the SPIR-V bytes and, where it makes sense, a binding map that says which <code>set</code> and <code>binding</code> becomes which register or slot. Without it, shaders that use textures or buffers cannot be laid out for HLSL.</p>
 
-<h2>Pure C# transpilation with YotsubaShaderCross</h2>
-<p>Transpilation is handled natively by <strong>YotsubaShaderCross</strong>, a pure C# port of SPIRV-Cross operating directly in .NET 8. It consumes SPIR-V binary bytecode and emits clean, idiomatic shader text in HLSL, MSL, WGSL, GLSL and GLSL ES without native C++ binaries, P/Invoke, or external dependencies like Naga. Because it is written in pure managed C#, transpilation is fast, memory-safe, and fully portable across every platform supported by .NET.</p>
+<h2>Pure C# transpilation with Yotsuba ShaderCross</h2>
+<p>Transpilation is handled natively by <strong>Yotsuba ShaderCross</strong>, a pure C# port of SPIRV-Cross operating directly in .NET 8. It consumes SPIR-V binary bytecode and emits clean, idiomatic shader text in HLSL, MSL, WGSL, GLSL and GLSL ES without native C++ binaries, P/Invoke, or external dependencies like Naga. Because it is written in pure managed C#, transpilation is fast, memory-safe, and fully portable across every platform supported by .NET.</p>
 
 <h2>From text to a binary</h2>
-<p>YotsubaShaderCross produces clean shader text. Turning that text into something the GPU runs is the job of the target platform:</p>
+<p>Yotsuba ShaderCross produces clean shader text. Turning that text into something the GPU runs is the job of the target platform:</p>
 ${table(
   ['Target', 'Who compiles the text', 'Extra files to ship'],
   [
@@ -264,8 +264,8 @@ ${code('csharp', TRANSPILE_HLSL, 'Direct3D.cs')}
 <h2>Where to run it</h2>
 <ul>
   <li><strong>On your development machine, at build time</strong> (with the source generator or the command line): translate once and ship only the final text or binaries.</li>
-  <li><strong>At run time</strong>, for editors, importers and shaders created while the program runs: YotsubaShaderCross executes in pure C# with no native runtime dependencies.</li>
-  <li><strong>On consoles and mobile</strong>: because YotsubaShaderCross is 100% managed C# on .NET 8, it runs everywhere without needing native cross-compilations or platform-specific binaries.</li>
+  <li><strong>At run time</strong>, for editors, importers and shaders created while the program runs: Yotsuba ShaderCross executes in pure C# with no native runtime dependencies.</li>
+  <li><strong>On consoles and mobile</strong>: because Yotsuba ShaderCross is 100% managed C# on .NET 8, it runs everywhere without needing native cross-compilations or platform-specific binaries.</li>
 </ul>
 <h2>Reading SPIR-V back into C#</h2>
 <p>The other direction, from SPIR-V to C#, is planned. There is no API for it yet.</p>
@@ -586,7 +586,7 @@ dotnet run --project YotsubaShader.Example/YotsubaShader.Example.csproj`)}`,
 <p>The shaders you write and the binaries Yotsuba Shader generates from them belong to you. Nothing in them is subject to a copyleft requirement.</p>
 
 <h2>Third-party components</h2>
-<p>Roslyn (<code>Microsoft.CodeAnalysis</code>) and the SPIR-V grammar from the Khronos Group are used under the MIT License, and their notices are kept in the repository. YotsubaShaderCross is a pure C# port of SPIRV-Cross, keeping the original copyright notices under the Apache-2.0 license.</p>
+<p>Roslyn (<code>Microsoft.CodeAnalysis</code>) and the SPIR-V grammar from the Khronos Group are used under the MIT License, and their notices are kept in the repository. Yotsuba ShaderCross is a pure C# port of SPIRV-Cross, keeping the original copyright notices under the Apache-2.0 license.</p>
 
 <h2>Name and logo</h2>
 <p>The license covers the code. The name Yotsuba Shader and its logo are not part of it.</p>

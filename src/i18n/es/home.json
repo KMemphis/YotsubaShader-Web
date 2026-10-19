@@ -107,7 +107,7 @@
  "Two ways to get the binary for each platform into your project. The first one needs nothing but a build.": "Dos formas de llevar a tu proyecto el binario de cada plataforma. La primera no necesita más que una compilación.",
  "Compiles to SPIR-V, HLSL, MSL, WGSL, GLSL, GLSL ES": "Compila a SPIR-V, HLSL, MSL, WGSL, GLSL, GLSL ES",
  "Every format you ask for: SPIR-V, HLSL, MSL, WGSL, GLSL, GLSL ES": "Todos los formatos que pidas: SPIR-V, HLSL, MSL, WGSL, GLSL, GLSL ES",
- "A C# shader is compiled by Yotsuba Shader to SPIR-V. SPIR-V is one of the outputs, and YotsubaShaderCross translates it to HLSL, MSL, WGSL, GLSL and GLSL ES.": "Yotsuba Shader compila un shader en C# a SPIR-V. SPIR-V es una de las salidas, y YotsubaShaderCross lo traduce a HLSL, MSL, WGSL, GLSL y GLSL ES.",
+ "A C# shader is compiled by Yotsuba Shader to SPIR-V. SPIR-V is one of the outputs, and Yotsuba ShaderCross translates it to HLSL, MSL, WGSL, GLSL and GLSL ES.": "Yotsuba Shader compila un shader en C# a SPIR-V. SPIR-V es una de las salidas, y Yotsuba ShaderCross lo traduce a HLSL, MSL, WGSL, GLSL y GLSL ES.",
  "Shader errors in your IDE.": "Errores de shader en tu IDE.",
  "Yotsuba Shader checks your shaders while you type, inside the IDE you already use. Mistakes in the shader and features your target backends cannot run appear as errors and warnings in the editor, before you build.": "Yotsuba Shader revisa tus shaders mientras escribes, dentro del IDE que ya usas. Los fallos del shader y lo que tus backends de destino no pueden ejecutar aparecen como errores y advertencias en el editor, antes de compilar.",
  "An editor showing shader errors and backend warnings": "Un editor que muestra errores de shader y advertencias de backend",

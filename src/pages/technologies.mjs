@@ -4,11 +4,11 @@ import { BACKENDS, SPIRV_LOGO } from '../backends.mjs';
 
 const HOW = {
   vulkan: 'Compiler output',
-  d3d: '<code>Transpile.FromSpirVToHlsl</code> (YotsubaShaderCross); compile the text with your own DXC or FXC',
-  metal: '<code>Transpile.FromSpirVToMsl</code> (YotsubaShaderCross)',
-  webgpu: '<code>Transpile.FromSpirVToWgsl</code> (YotsubaShaderCross)',
-  opengl: '<code>Transpile.FromSpirVToGlsl</code> (YotsubaShaderCross)',
-  webgl: '<code>Transpile.FromSpirVToGlsl</code> with <code>Es</code> (YotsubaShaderCross)',
+  d3d: '<code>Transpile.FromSpirVToHlsl</code> (Yotsuba ShaderCross); compile the text with your own DXC or FXC',
+  metal: '<code>Transpile.FromSpirVToMsl</code> (Yotsuba ShaderCross)',
+  webgpu: '<code>Transpile.FromSpirVToWgsl</code> (Yotsuba ShaderCross)',
+  opengl: '<code>Transpile.FromSpirVToGlsl</code> (Yotsuba ShaderCross)',
+  webgl: '<code>Transpile.FromSpirVToGlsl</code> with <code>Es</code> (Yotsuba ShaderCross)',
 };
 
 export default function technologies(ctx) {
