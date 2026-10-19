@@ -219,15 +219,15 @@ ${table(
       title: 'Transpiling from SPIR-V',
       kind: 'Article',
       icon: 'doc',
-      summary: 'At run time the compiler produces SPIR-V; a small Transpile API turns it into HLSL, MSL, WGSL or GLSL text, with SPIRV-Cross and Naga underneath.',
+      summary: 'At run time the compiler produces SPIR-V; a small Transpile API powered by YotsubaShaderCross turns it into HLSL, MSL, WGSL, GLSL or GLSL ES text in pure C#.',
       body: `
 <h2>Overview</h2>
 <p class="lead-p">The compiler produces one format: SPIR-V. When your tool or game needs another one at run time, you hand the SPIR-V to the <code>Transpile</code> API and get shader <strong>text</strong> back.</p>
 <div class="pipeline" role="list">
   <div class="pipe-step" role="listitem"><span class="pipe-ico">${icon('code')}</span><b>C# string</b><span>Your shader source</span></div>
   <div class="pipe-step" role="listitem"><span class="pipe-ico">${icon('cpu')}</span><b>SPIR-V</b><span>The compiler's output</span></div>
-  <div class="pipe-step" role="listitem"><span class="pipe-ico">${icon('layers')}</span><b>Transpile</b><span>SPIRV-Cross and Naga underneath</span></div>
-  <div class="pipe-step" role="listitem"><span class="pipe-ico">${icon('doc')}</span><b>Shader text</b><span>HLSL, MSL, WGSL, GLSL</span></div>
+  <div class="pipe-step" role="listitem"><span class="pipe-ico">${icon('layers')}</span><b>Transpile</b><span>Pure C# with YotsubaShaderCross</span></div>
+  <div class="pipe-step" role="listitem"><span class="pipe-ico">${icon('doc')}</span><b>Shader text</b><span>HLSL, MSL, WGSL, GLSL, GLSL ES</span></div>
 </div>
 
 <h2>The API</h2>
@@ -236,19 +236,19 @@ ${code('csharp', TRANSPILE_USE, 'Transpile.cs')}
 ${table(
   ['Function', 'Output', 'Translator', 'Options'],
   [
-    ['<code>FromSpirVToHlsl</code>', 'HLSL text', 'SPIRV-Cross', '<code>ShaderModel</code> (50, 51, 60 and up), <code>EntryPoint</code>'],
-    ['<code>FromSpirVToMsl</code>', 'Metal Shading Language text', 'SPIRV-Cross', 'Metal version'],
-    ['<code>FromSpirVToWgsl</code>', 'WGSL text', 'Naga', '—'],
-    ['<code>FromSpirVToGlsl</code>', 'GLSL or GLSL ES text', 'Naga', '<code>Version</code>, <code>Es</code>'],
+    ['<code>FromSpirVToHlsl</code>', 'HLSL text', 'YotsubaShaderCross', '<code>ShaderModel</code> (50, 51, 60 and up), <code>EntryPoint</code>'],
+    ['<code>FromSpirVToMsl</code>', 'Metal Shading Language text', 'YotsubaShaderCross', 'Metal version'],
+    ['<code>FromSpirVToWgsl</code>', 'WGSL text', 'YotsubaShaderCross', '—'],
+    ['<code>FromSpirVToGlsl</code>', 'GLSL or GLSL ES text', 'YotsubaShaderCross', '<code>Version</code>, <code>Es</code>'],
   ],
 )}
 <p>Every function takes the SPIR-V bytes and, where it makes sense, a binding map that says which <code>set</code> and <code>binding</code> becomes which register or slot. Without it, shaders that use textures or buffers cannot be laid out for HLSL.</p>
 
-<h2>What it uses underneath</h2>
-<p>Two open-source translators do the work, each for the formats it writes. <strong>SPIRV-Cross</strong>, from the Khronos Group, writes HLSL and Metal Shading Language and is licensed under Apache-2.0. <strong>Naga</strong>, the shader translator of the wgpu project, writes WGSL and GLSL and is dual licensed MIT or Apache-2.0. Both are native code, so each platform needs its own build. SPIRV-Cross has a C API that can be called directly; Naga has none, so Yotsuba Shader ships a thin wrapper around it. Because both sit behind the <code>Transpile</code> API, the code that calls it does not depend on either one.</p>
+<h2>Pure C# transpilation with YotsubaShaderCross</h2>
+<p>Transpilation is handled natively by <strong>YotsubaShaderCross</strong>, a pure C# port of SPIRV-Cross operating directly in .NET 8. It consumes SPIR-V binary bytecode and emits clean, idiomatic shader text in HLSL, MSL, WGSL, GLSL and GLSL ES without native C++ binaries, P/Invoke, or external dependencies like Naga. Because it is written in pure managed C#, transpilation is fast, memory-safe, and fully portable across every platform supported by .NET.</p>
 
 <h2>From text to a binary</h2>
-<p>Both translators write text. Turning that text into something the GPU runs is the job of the platform:</p>
+<p>YotsubaShaderCross produces clean shader text. Turning that text into something the GPU runs is the job of the target platform:</p>
 ${table(
   ['Target', 'Who compiles the text', 'Extra files to ship'],
   [
@@ -263,9 +263,9 @@ ${code('csharp', TRANSPILE_HLSL, 'Direct3D.cs')}
 
 <h2>Where to run it</h2>
 <ul>
-  <li><strong>On your development machine, at build time</strong> (with the source generator or the command line): translate once and ship only the final text or binaries. This needs neither SPIRV-Cross nor Naga on the player's machine.</li>
-  <li><strong>At run time</strong>, for editors, importers and shaders created while the program runs: this is what the API is for.</li>
-  <li><strong>On consoles</strong>, prefer build time. Neither SPIRV-Cross nor Naga was verified against any console toolchain, and each must be built for every platform.</li>
+  <li><strong>On your development machine, at build time</strong> (with the source generator or the command line): translate once and ship only the final text or binaries.</li>
+  <li><strong>At run time</strong>, for editors, importers and shaders created while the program runs: YotsubaShaderCross executes in pure C# with no native runtime dependencies.</li>
+  <li><strong>On consoles and mobile</strong>: because YotsubaShaderCross is 100% managed C# on .NET 8, it runs everywhere without needing native cross-compilations or platform-specific binaries.</li>
 </ul>
 <h2>Reading SPIR-V back into C#</h2>
 <p>The other direction, from SPIR-V to C#, is planned. There is no API for it yet.</p>
@@ -558,6 +558,7 @@ ${table(
     ['<code>YotsubaShader.Frontend</code>', 'Discovery and semantic analysis of C# shaders (Roslyn).', 'Language, IR, Compiler'],
     ['<code>YotsubaShader.Compiler</code>', 'SPIR-V module construction and encoding.', 'Generator (analyzer), MonoGame framework'],
     ['<code>YotsubaShader.Generator</code>', 'SPIR-V operation table generated from the Khronos grammar.', 'Roslyn (build time only)'],
+    ['<code>YotsubaShaderCross</code>', 'Pure C# port of SPIRV-Cross for .NET 8, transpiling SPIR-V to HLSL, MSL, WGSL, GLSL and GLSL ES.', '—'],
     ['<code>YotsubaShader.Example</code>', 'Executable example of low-level SPIR-V assembly.', 'Compiler'],
     ['<code>YotsubaShader.Frontend.Tests</code>', 'Frontend discovery and analysis tests (xUnit).', 'Frontend'],
   ],
@@ -585,7 +586,7 @@ dotnet run --project YotsubaShader.Example/YotsubaShader.Example.csproj`)}`,
 <p>The shaders you write and the binaries Yotsuba Shader generates from them belong to you. Nothing in them is subject to a copyleft requirement.</p>
 
 <h2>Third-party components</h2>
-<p>Roslyn (<code>Microsoft.CodeAnalysis</code>) and the SPIR-V grammar from the Khronos Group are used under the MIT License, and their notices are kept in the repository. The <code>Transpile</code> API uses SPIRV-Cross, licensed under Apache-2.0, and Naga, licensed under MIT or Apache-2.0.</p>
+<p>Roslyn (<code>Microsoft.CodeAnalysis</code>) and the SPIR-V grammar from the Khronos Group are used under the MIT License, and their notices are kept in the repository. YotsubaShaderCross is a pure C# port of SPIRV-Cross, keeping the original copyright notices under the Apache-2.0 license.</p>
 
 <h2>Name and logo</h2>
 <p>The license covers the code. The name Yotsuba Shader and its logo are not part of it.</p>

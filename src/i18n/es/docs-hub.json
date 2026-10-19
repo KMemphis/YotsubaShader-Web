@@ -38,7 +38,7 @@
  "How the operation table is generated from the official Khronos grammar.": "Cómo se genera la tabla de operaciones a partir de la gramática oficial de Khronos.",
  "The projects in the solution and how they depend on each other.": "Los proyectos de la solución y cómo dependen unos de otros.",
  "On this page": "En esta página",
- "At run time the compiler produces SPIR-V; a small Transpile API turns it into HLSL, MSL, WGSL or GLSL text, with SPIRV-Cross and Naga underneath.": "En tiempo de ejecución el compilador produce SPIR-V; una pequeña API Transpile lo convierte en texto HLSL, MSL, WGSL o GLSL, con SPIRV-Cross y Naga por debajo.",
+ "At run time the compiler produces SPIR-V; a small Transpile API powered by YotsubaShaderCross turns it into HLSL, MSL, WGSL, GLSL or GLSL ES text in pure C#.": "En tiempo de ejecución el compilador produce SPIR-V; una pequeña API Transpile impulsada por YotsubaShaderCross lo convierte en texto HLSL, MSL, WGSL, GLSL o GLSL ES en C# puro.",
  "29 articles covering the language, the compiler and the attribute reference.": "29 artículos que cubren el lenguaje, el compilador y la referencia de atributos.",
  "The HLSL, GLSL, MSL, SPIR-V and WGSL syntaxes express the same intent. Pick the one your team knows.": "Las sintaxis HLSL, GLSL, MSL, SPIR-V y WGSL expresan la misma intención. Elige la que tu equipo conoce.",
  "Shader errors and backend incompatibilities, shown in the editor while you type, for the targets listed in your project.": "Errores de shader e incompatibilidades de backend, mostrados en el editor mientras escribes, para los destinos indicados en tu proyecto.",

@@ -394,8 +394,8 @@ public class Cubemap
   marks: { SV_RenderTargetArrayIndex: 'error', numthreads: 'error', SV_PrimitiveID: 'warning' },
   problems: [
     ['error', 'YS1003', '<code>[numthreads]</code> only applies to compute stages, and <code>Fragment</code> is a fragment stage.', 'Cubemap.cs(13, 6)'],
-    ['error', 'YS2001', '<code>SV_RenderTargetArrayIndex</code> (render target layer) is not supported by WebGPU (<code>wgsl</code>).', 'Cubemap.cs(7, 6)'],
     ['error', 'YS2001', '<code>SV_RenderTargetArrayIndex</code> (render target layer) is not supported by WebGL 2 (<code>glsles</code>).', 'Cubemap.cs(7, 6)'],
-    ['warning', 'YS2002', '<code>SV_PrimitiveID</code> needs the <code>primitive_index</code> extension on WebGPU (<code>wgsl</code>).', 'Cubemap.cs(14, 50)'],
+    ['error', 'YS2001', '<code>SV_PrimitiveID</code> (primitive index) is not supported by WebGL 2 (<code>glsles</code>).', 'Cubemap.cs(14, 50)'],
+    ['warning', 'YS2002', '<code>SV_RenderTargetArrayIndex</code> needs the <code>GL_ARB_shader_viewport_layer_array</code> extension on OpenGL (<code>glsl</code>).', 'Cubemap.cs(7, 6)'],
   ],
 };
