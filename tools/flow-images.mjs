@@ -94,7 +94,13 @@ const fit = (ratio, boxW, boxH) => {
 };
 
 /* ---------------------------------------------------------------- pieces */
-const DEFS = `<defs><marker id="ah" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M1 1 L9 5 L1 9" fill="none" stroke="${COLOR.accent}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></marker></defs>`;
+const DEFS = `<defs>
+  <marker id="ah" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M1 1 L9 5 L1 9" fill="none" stroke="${COLOR.accent}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></marker>
+  <filter id="cross-filter">
+    <feColorMatrix type="hueRotate" values="180"/>
+    <feColorMatrix type="saturate" values="1.2"/>
+  </filter>
+</defs>`;
 
 const arrow = (d, opacity = 1) => `<path d="${d}" fill="none" stroke="${COLOR.accent}" stroke-opacity="${opacity}" stroke-width="3" marker-end="url(#ah)"/>`;
 
@@ -202,7 +208,7 @@ function wide(t) {
   parts.push(arrow(`M${spRight} ${spCenterY + 14} C ${spRight + 80} ${spCenterY + 14}, ${CROSS.x - 70} ${crossCenterY}, ${CROSS.x - 12} ${crossCenterY}`));
 
   // Step 3: YotsubaShaderCross node
-  parts.push(`<image href="${YOTSUBA}" x="${CROSS.x}" y="${crossCenterY - CROSS.size / 2}" width="${CROSS.size}" height="${CROSS.size}"/>`);
+  parts.push(`<image href="${YOTSUBA}" filter="url(#cross-filter)" x="${CROSS.x}" y="${crossCenterY - CROSS.size / 2}" width="${CROSS.size}" height="${CROSS.size}"/>`);
   parts.push(`<text x="${CROSS.x + CROSS.size / 2}" y="${crossCenterY + CROSS.size / 2 + 24}" text-anchor="middle" font-family="${SANS}" font-size="22" font-weight="600" fill="${COLOR.text}">${esc(t.hub2)}</text>`);
 
   // Step 4: Arrows from YotsubaShaderCross branching into transpiled formats (rows 1..5)
@@ -259,7 +265,7 @@ function tall(t) {
   parts.push(step(3, t.step3, 30, y, 22));
   y += 38;
   const rowCy3 = y + 44;
-  parts.push(`<image href="${YOTSUBA}" x="30" y="${rowCy3 - 44}" width="88" height="88"/>`);
+  parts.push(`<image href="${YOTSUBA}" filter="url(#cross-filter)" x="30" y="${rowCy3 - 44}" width="88" height="88"/>`);
   parts.push(`<text x="130" y="${rowCy3 + 8}" font-family="${SANS}" font-size="23" font-weight="600" fill="${COLOR.text}">${esc(t.hub2)}</text>`);
   const y3Bottom = rowCy3 + 44 + 14;
   // Arrow from YotsubaShaderCross down to transpiled formats
