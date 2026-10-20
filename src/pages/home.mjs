@@ -1,4 +1,4 @@
-import { icon, code, styleTabs, cardLink, wordmark, ideWindow } from '../components.mjs';
+import { icon, code, styleTabs, cardLink, ideWindow } from '../components.mjs';
 import { STYLE_TRIANGLE, GEN_CSPROJ, GEN_OUTPUT, GEN_USE, CLI_SNIPPET, IDE_EXAMPLE } from '../snippets.mjs';
 import { SITE } from '../site.mjs';
 import { flowDiagram } from '../diagram.mjs';
@@ -13,38 +13,46 @@ const home = {
   body: `
 <section class="hero hero--film">
   <div class="container">
-    <div class="film" data-film>
-      <video class="film-video" preload="none" playsinline poster="/video/poster-__FILM_LANG__.webp" aria-label="Yotsuba Shader introduction film">
-        <source src="/video/promo-__FILM_LANG__-2160.mp4" media="(min-width: 1700px)" type="video/mp4">
-        <source src="/video/promo-__FILM_LANG__-1080.mp4" type="video/mp4">
-      </video>
-      <button class="film-play" type="button"><span class="film-ico">${'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5v13a1 1 0 0 0 1.5.86l10.5-6.5a1 1 0 0 0 0-1.72L9.5 4.64A1 1 0 0 0 8 5.5z" fill="currentColor"/></svg>'}</span><span>Watch the film</span></button>
+    <div class="hero-intro">
+      <div class="hero-copy">
+        <h1 class="h-xl">Write Shaders in C#.</h1>
+        <p class="lead"><span class="lead-u">Yotsuba Shader is a shader framework and compiler for C#.</span> Write shaders with the types from your own project and the libraries you already use, then compile for Spirv and other formats with Yotsuba ShaderCross.</p>
+        <div class="hero-actions">
+          <a class="btn btn-primary" href="/playground/">Try Playground ${icon('arrow-right')}</a>
+          <a class="btn btn-secondary" href="/get-started/first-shader/">Write your first shader</a>
+        </div>
+      </div>
+      <div class="film" data-film>
+        <video class="film-video" preload="none" playsinline poster="/video/poster-__FILM_LANG__.webp" aria-label="Yotsuba Shader introduction film">
+          <source src="/video/promo-__FILM_LANG__-2160.mp4" media="(min-width: 1700px)" type="video/mp4">
+          <source src="/video/promo-__FILM_LANG__-1080.mp4" type="video/mp4">
+        </video>
+        <button class="film-play" type="button"><span class="film-ico">${'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5v13a1 1 0 0 0 1.5.86l10.5-6.5a1 1 0 0 0 0-1.72L9.5 4.64A1 1 0 0 0 8 5.5z" fill="currentColor"/></svg>'}</span><span>Watch the film</span></button>
+      </div>
     </div>
-    <h1 class="h-xl">Write shaders in C#.</h1>
-    <p class="lead">Yotsuba Shader is a shader framework and compiler for C#. Write shaders with the types from your own project and the libraries you already use, then compile for the backend you choose.</p>
   </div>
   <hr class="hero-rule">
 </section>
 
-<section class="section">
+<section class="section section--rule">
   <div class="container">
-    <div class="card card--wide">
-      <div class="cw-brand">
-        <img class="cw-mark" src="/img/yotsuba-shader.webp" alt="" loading="lazy">
-        <div class="cw-name">${wordmark({ size: 'card', mark: false })}</div>
-      </div>
-      <div class="cw-copy">
-        <h2 class="card-title">Write your Shaders in C#</h2>
-        <p class="card-body">Write your shaders in C#. Yotsuba Shader compiles them into SPIR-V, and many other formats, to target every graphics backend.</p>
-        <a class="btn btn-primary" href="/playground/">Try Playground ${icon('arrow-right')}</a>
-      </div>
+    <div class="center">
+      <h2 class="h-lg">Write shaders once. Compile for any backend.</h2>
+      <p class="lead">Author in the vocabulary your team knows. A Roslyn-based frontend and a shared intermediate representation turn it into the shader format each graphics API expects, such as SPIR-V for Vulkan.</p>
     </div>
-    <p class="center lead mt-48" style="max-width:820px;margin-inline:auto;font-size:19px">
+    ${flowDiagram()}
+  </div>
+</section>
+
+<section class="section section--home-value">
+  <div class="container">
+    <p class="center lead home-value-copy">
       Vertex, fragment and compute stages, described in plain C#. Your project's own vector, matrix and texture types become native GPU types, and your shaders can build on external libraries, so there is no second language to learn and no duplicated types: if you can write C#, you can write shaders.
     </p>
-    <div class="hero-actions">
-      <a class="btn btn-primary" href="/get-started/">Get started</a>
-      <a class="btn btn-secondary" href="/documentation/">Read the documentation</a>
+    <div class="home-value-grid">
+      <a class="home-value-card" href="/playground/"><span class="home-value-kicker">Explore</span><strong>Try it in the Playground</strong><span>Start from working C# shader code.</span>${icon('arrow-right')}</a>
+      <a class="home-value-card" href="/documentation/yotsuba-shader/shader-diagnostics-in-your-ide/"><span class="home-value-kicker">Validate</span><strong>Catch errors in your IDE</strong><span>Know what every target supports before you build.</span>${icon('arrow-right')}</a>
+      <a class="home-value-card" href="/technologies/spir-v/"><span class="home-value-kicker">Target</span><strong>Compile for every backend</strong><span>Use one shader source across graphics APIs.</span>${icon('arrow-right')}</a>
     </div>
   </div>
 </section>
@@ -81,16 +89,6 @@ const home = {
         <p class="mt-24"><a class="link-more" href="/documentation/yotsuba-shader/shader-diagnostics-in-your-ide/">Shader diagnostics in your IDE ${icon('chevron-right')}</a></p>
       </div>
     </div>
-  </div>
-</section>
-
-<section class="section section--rule">
-  <div class="container">
-    <div class="center">
-      <h2 class="h-lg">Write shaders once. Compile for any backend.</h2>
-      <p class="lead">Author in the vocabulary your team knows. A Roslyn-based frontend and a shared intermediate representation turn it into the shader format each graphics API expects, such as SPIR-V for Vulkan.</p>
-    </div>
-    ${flowDiagram()}
   </div>
 </section>
 

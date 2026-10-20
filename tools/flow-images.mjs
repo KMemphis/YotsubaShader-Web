@@ -41,7 +41,8 @@ const TEXT = {
 const COLOR = {
   text: '#f5f5f7',
   dim: '#86868b',
-  accent: '#2997ff',
+  accent: '#FA679F',
+  emerald: '#00B89F',
   card: '#121212',
   chip: '#18181b',
   line: '#38383a',
@@ -96,6 +97,7 @@ const fit = (ratio, boxW, boxH) => {
 /* ---------------------------------------------------------------- pieces */
 const DEFS = `<defs>
   <marker id="ah" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M1 1 L9 5 L1 9" fill="none" stroke="${COLOR.accent}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></marker>
+  <marker id="ahe" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M1 1 L9 5 L1 9" fill="none" stroke="${COLOR.emerald}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></marker>
   <filter id="cross-filter">
     <feColorMatrix type="hueRotate" values="180"/>
     <feColorMatrix type="saturate" values="1.2"/>
@@ -103,6 +105,7 @@ const DEFS = `<defs>
 </defs>`;
 
 const arrow = (d, opacity = 1) => `<path d="${d}" fill="none" stroke="${COLOR.accent}" stroke-opacity="${opacity}" stroke-width="3" marker-end="url(#ah)"/>`;
+const arrowEmerald = (d, opacity = 1) => `<path d="${d}" fill="none" stroke="${COLOR.emerald}" stroke-opacity="${opacity}" stroke-width="3" marker-end="url(#ahe)"/>`;
 
 function step(n, text, x, y, size = 26) {
   return `<circle cx="${x + 18}" cy="${y - 10}" r="18" fill="${COLOR.accent}"/>`
@@ -215,7 +218,7 @@ function wide(t) {
   const crossRight = CROSS.x + CROSS.size + 12;
   for (let i = 1; i < OUTPUTS.length; i++) {
     const cy = ROW0 + i * ROW_H;
-    parts.push(arrow(`M${crossRight} ${crossCenterY} C ${crossRight + 80} ${crossCenterY}, ${OUT.x - 90} ${cy}, ${OUT.x - 12} ${cy}`, 0.9));
+    parts.push(arrowEmerald(`M${crossRight} ${crossCenterY} C ${crossRight + 80} ${crossCenterY}, ${OUT.x - 90} ${cy}, ${OUT.x - 12} ${cy}`, 0.9));
   }
 
   // Step 4: All output format chips
@@ -269,7 +272,7 @@ function tall(t) {
   parts.push(`<text x="130" y="${rowCy3 + 8}" font-family="${SANS}" font-size="23" font-weight="600" fill="${COLOR.text}">${esc(t.hub2)}</text>`);
   const y3Bottom = rowCy3 + 44 + 14;
   // Arrow from YotsubaShaderCross down to transpiled formats
-  parts.push(arrow(`M210 ${y3Bottom} V ${yChipsTarget - 12}`));
+  parts.push(arrowEmerald(`M210 ${y3Bottom} V ${yChipsTarget - 12}`));
 
   y = y3Bottom + 48 + 44;
 

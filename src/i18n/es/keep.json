@@ -20,6 +20,7 @@
  "HLSL (Direct3D)",
  "HLSL, MSL, WGSL, GLSL",
  "HLSL, MSL, WGSL, GLSL, GLSL ES",
+ "SPIR-V, HLSL, MSL, WGSL, GLSL and GLSL ES",
  "Language, IR, Compiler",
  "Metal",
  "Metal Shading Language",
