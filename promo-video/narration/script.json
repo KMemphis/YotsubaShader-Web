@@ -5,5 +5,5 @@
  {"id":"s3b","start":20.6,"end":28.0,"text":"A source generator puts every binary inside your assembly at build time."},
  {"id":"s3c","start":28.3,"end":37.9,"text":"A command line takes your project file, for CI and content pipelines."},
  {"id":"s4","start":38.4,"end":47.8,"text":"Whichever you pick, every shader exposes the same compiled code and reflection, so your engine loads any of them the same way."},
- {"id":"s5","start":48.3,"end":57.6,"text":"It is free under the MIT License, and sponsors keep it maintained. Try the playground, and tell me what your engine needs."}
+ {"id":"s5","start":48.3,"end":57.6,"text":"It is free under the MS-PL License. If you find it useful, consider becoming a sponsor or supporting with a monthly donation. Try the playground, and tell me what your engine needs."}
 ]

@@ -13,7 +13,7 @@ Hay una versión en español y otra en inglés del video; el guion de cada una e
 | 0:18 | 0:28 | 1 de 2 · Generador de código | "Puedes compilarlos de dos formas. Un generador de código deja todos los binarios dentro de tu ensamblado al compilar." |
 | 0:28 | 0:38 | 2 de 2 · Línea de comandos | "Una línea de comandos recibe el archivo de tu proyecto, para CI y pipelines de contenido." |
 | 0:38 | 0:48 | Los mismos dos campos · el sitio web | "Elijas la que elijas, cada shader expone el mismo código compilado y la misma reflexión, así que tu motor los carga siempre igual." |
-| 0:48 | 0:58 | Documentación · donaciones · cierre | "Es gratis bajo la licencia MIT, y los patrocinadores ayudan a mantenerlo. Prueba el Playground y cuéntame qué necesita tu motor." |
+| 0:48 | 0:58 | Documentación · donaciones · cierre | "Es gratis bajo la licencia MS-PL. Si te resulta útil, considera hacerte sponsor o donar mensualmente. Prueba el Playground y cuéntame qué necesita tu motor." |
 
 ## English
 
@@ -24,7 +24,7 @@ Hay una versión en español y otra en inglés del video; el guion de cada una e
 | 0:18 | 0:28 | 1 of 2 · Source generator | "Compile them two ways. A source generator puts every binary inside your assembly at build time." |
 | 0:28 | 0:38 | 2 of 2 · Command line | "A command line takes your project file, for CI and content pipelines." |
 | 0:38 | 0:48 | The same two fields · the website | "Whichever you pick, every shader exposes the same compiled code and reflection, so your engine loads any of them the same way." |
-| 0:48 | 0:58 | Documentation · donations · closing | "It is free under the MIT License, and sponsors keep it maintained. Try the playground, and tell me what your engine needs." |
+| 0:48 | 0:58 | Documentation · donations · closing | "It is free under the MS-PL License. If you find it useful, consider becoming a sponsor or supporting with a monthly donation. Try the playground, and tell me what your engine needs." |
 
 Notas
 - Las escenas 0:18–0:43 son ilustraciones conceptuales (llevan la nota al pie); si más adelante esas funciones existen, se sustituyen por grabaciones reales.

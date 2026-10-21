@@ -212,7 +212,7 @@ public VertexOutput Vertex(
 <section class="section section--rule">
   <div class="container">
     <div class="grid grid-3">
-      ${cardLink({ href: '/community/licensing/', icon: 'scale', title: 'Open source', body: 'Free under the MIT License. Read the repository, build it, and contribute.' })}
+      ${cardLink({ href: '/community/licensing/', icon: 'scale', title: 'Open source', body: 'Free under the Microsoft Public License (MS-PL). Read the repository, build it, and contribute.' })}
       ${cardLink({ href: '/donations/', icon: 'heart', title: 'Support the project', body: 'Sponsorship keeps Yotsuba Shader maintained and free for everyone.' })}
       ${cardLink({ href: '/community/contributing/', icon: 'users', title: 'Join the community', body: 'Propose attributes, backends and shaders. Design changes start as an issue.' })}
     </div>
@@ -332,8 +332,8 @@ ${entry(
 )}
 
 ${entry(
-  'Free and open source under the MIT License',
-  'Yotsuba Shader is released under the MIT License: use it in any project, commercial or not, with no fee.',
+  'Free and open source under the MS-PL',
+  'Yotsuba Shader is released under the Microsoft Public License (MS-PL): use it in any project, commercial or not, with no fee.',
   `<p>That includes proprietary game engines, frameworks and editors. The shaders you write and the binaries generated from them are yours.</p>`,
   ['Licensing', '/community/licensing/'],
 )}`,

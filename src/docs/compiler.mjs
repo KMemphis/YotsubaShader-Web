@@ -577,10 +577,10 @@ dotnet run --project YotsubaShader.Example/YotsubaShader.Example.csproj`)}`,
       title: 'Licensing',
       kind: 'Article',
       icon: 'doc',
-      summary: 'Yotsuba Shader is released under the MIT License.',
+      summary: 'Yotsuba Shader is released under the Microsoft Public License (MS-PL).',
       body: `
 <h2>Overview</h2>
-<p>Yotsuba Shader is released under the <strong>MIT License</strong>. You can use, copy, modify, merge, publish, distribute, sublicense and sell it, including inside proprietary engines, frameworks, editors and games, with no fee and without publishing your own source code. The only condition is to keep the copyright notice and the license text.</p>
+<p>Yotsuba Shader is released under the <strong>Microsoft Public License (MS-PL)</strong>. You can reproduce, modify, and distribute it, including inside proprietary engines, frameworks, editors and games, with no fee and without publishing your own source code. The main condition is to retain all copyright, patent, trademark, and attribution notices. If you distribute any portion in source code form, you must do so under the MS-PL.</p>
 
 <h2>Your shaders and their binaries</h2>
 <p>The shaders you write and the binaries Yotsuba Shader generates from them belong to you. Nothing in them is subject to a copyleft requirement.</p>

@@ -4,7 +4,7 @@
   const root = document.getElementById('estimate');
   if (!root) return;
 
-  const LETTER = 'Request to sponsor Yotsuba Shader\n\nYotsuba Shader is a shader framework and compiler for C#, released under the MIT License. {developers} developers on our team use it. We estimate that it saves each of them about {hours} hours per month, which is worth about {value} per month.\n\nWe propose to sponsor the project with {amount} per month ({share}% of that value) through GitHub Sponsors, so that it stays maintained.\n\nSponsor page: {url}';
+  const LETTER = 'Request to sponsor Yotsuba Shader\n\nYotsuba Shader is a shader framework and compiler for C#, released under the Microsoft Public License (MS-PL). {developers} developers on our team use it. We estimate that it saves each of them about {hours} hours per month, which is worth about {value} per month.\n\nWe propose to sponsor the project with {amount} per month ({share}% of that value) through GitHub Sponsors, so that it stays maintained.\n\nSponsor page: {url}';
   const T = (key) => (window.__YS_T__ && window.__YS_T__[key]) || key;
   const lang = document.documentElement.lang || 'en';
   const money = new Intl.NumberFormat(lang, { style: 'currency', currency: 'USD', maximumFractionDigits: 0 });

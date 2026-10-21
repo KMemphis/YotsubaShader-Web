@@ -22,7 +22,7 @@ const community = {
   <div class="container">
     <div class="grid grid-3">
       ${cardLink({ href: '/community/contributing/', icon: 'users', title: 'Contributing', body: 'Open an issue with your problem, proposal and a motivating shader or backend example.' })}
-      ${cardLink({ href: '/community/licensing/', icon: 'scale', title: 'Licensing', body: 'Free and open source under the MIT License. Use it in any project, commercial or not.' })}
+      ${cardLink({ href: '/community/licensing/', icon: 'scale', title: 'Licensing', body: 'Free and open source under the Microsoft Public License (MS-PL). Use it in any project, commercial or not.' })}
       ${cardLink({ href: '/donations/', icon: 'heart', title: 'Support the project', body: 'Sponsorship funds development and keeps the project maintained.' })}
     </div>
     <h2 class="h-md" style="margin-top:72px">Ways to help</h2>
@@ -64,7 +64,7 @@ const contributing = {
     ${code('bash', `dotnet build YotsubaShader.sln
 dotnet test YotsubaShader.Frontend.Tests`)}
     <h2>Licensing of contributions</h2>
-    <p>Yotsuba Shader is released under the MIT License, and contributions are accepted under the same license. See <a href="/community/licensing/">Licensing</a>.</p>
+    <p>Yotsuba Shader is released under the Microsoft Public License (MS-PL), and contributions are accepted under the same license. See <a href="/community/licensing/">Licensing</a>.</p>
     <p><a class="btn btn-primary" href="${SITE.repo}" rel="noopener">${icon('github')} Open the repository</a></p>
   </div>
 </section>`,
@@ -74,26 +74,26 @@ const licensing = {
   path: '/community/licensing/',
   section: 'community',
   title: 'Licensing',
-  description: 'Yotsuba Shader is released under the MIT License: free for any project, commercial or not.',
+  description: 'Yotsuba Shader is released under the Microsoft Public License (MS-PL): free for any project, commercial or not.',
   body: `
 <section class="hero hero--compact">
   <div class="container">
     <h1 class="h-xl">Licensing</h1>
-    <p class="lead">Yotsuba Shader is released under the MIT License. Use it in any project, commercial or not.</p>
+    <p class="lead">Yotsuba Shader is released under the Microsoft Public License (MS-PL). Use it in any project, commercial or not.</p>
   </div>
   <hr class="hero-rule">
 </section>
 <section class="section">
   <div class="container container--narrow prose">
-    <h2>The MIT License</h2>
-    <p>You can use, copy, modify, merge, publish, distribute, sublicense and sell Yotsuba Shader. That includes using it inside a proprietary game engine, framework, editor or game, with no fee and without publishing your own source code.</p>
-    <p>The only condition is to keep the copyright notice and the license text in copies or substantial portions of the software.</p>
+    <h2>Microsoft Public License (MS-PL)</h2>
+    <p>You can reproduce, modify, and distribute Yotsuba Shader. That includes using it inside a proprietary game engine, framework, editor or game, with no fee and without publishing your own source code.</p>
+    <p>The main condition is to retain all copyright, patent, trademark, and attribution notices. If you distribute any portion in source code form, you must do so under the MS-PL.</p>
     <h2>Your shaders and their binaries</h2>
     <p>The shaders you write and the binaries Yotsuba Shader generates from them belong to you. Nothing in them is subject to a copyleft requirement.</p>
     <h2>Third-party components</h2>
     <p>Yotsuba Shader builds on other open-source work, each under its own license: Roslyn (<code>Microsoft.CodeAnalysis</code>, MIT) and the SPIR-V grammar published by the Khronos Group (MIT). Their notices are kept in the repository.</p>
     <h2>Name and logo</h2>
-    <p>The MIT License covers the code. The name Yotsuba Shader and its logo are not part of it: please do not present a modified version as the official project. For questions about licensing or the use of the name, write to <a href="mailto:${SITE.legalEmail}">${SITE.legalEmail}</a>.</p>
+    <p>The MS-PL covers the code. The name Yotsuba Shader and its logo are not part of it: please do not present a modified version as the official project. For questions about licensing or the use of the name, write to <a href="mailto:${SITE.legalEmail}">${SITE.legalEmail}</a>.</p>
     <p><a class="link-more" href="${SITE.repo}" rel="noopener">Read the license in the repository ${icon('chevron-right')}</a></p>
   </div>
 </section>`,
@@ -117,7 +117,7 @@ const donations = {
   <div class="container">
     <p style="font-size:44px;margin:0 0 6px;color:#ff3b30">${icon('heart')}</p>
     <h1 class="h-xl">Keep Yotsuba Shader going.</h1>
-    <p class="lead">Yotsuba Shader is free under the MIT License, and it stays that way. Sponsors pay for the time it takes to keep it working.</p>
+    <p class="lead">Yotsuba Shader is free under the Microsoft Public License (MS-PL), and it stays that way. Consider becoming a sponsor or supporting with a monthly donation to keep it going.</p>
     <div class="hero-actions">
       <a class="btn btn-primary" href="${SITE.sponsors}" rel="noopener">${icon('heart')} Sponsor on GitHub</a>
       <a class="btn btn-secondary" href="#estimate">Plan your sponsorship</a>
@@ -136,7 +136,7 @@ const donations = {
       <div class="card">
         <div class="card-icon">${icon('scale')}</div>
         <h3 class="card-title card-title--left">Free stays free</h3>
-        <p class="card-body">The code is MIT. Sponsoring does not unlock features or change the license. Everyone gets the same code.</p>
+        <p class="card-body">The code is MS-PL. Sponsoring does not unlock features or change the license. Everyone gets the same code.</p>
       </div>
       <div class="card">
         <div class="card-icon">${icon('cpu')}</div>
@@ -286,7 +286,7 @@ const donations = {
     <div class="faq">
       <details>
         <summary>Is Yotsuba Shader still free?</summary>
-        <p>Yes. It is released under the MIT License. Sponsoring is optional and gives no extra rights.</p>
+        <p>Yes. It is released under the Microsoft Public License (MS-PL). Sponsoring is optional and gives no extra rights.</p>
       </details>
       <details>
         <summary>Do sponsors get a different license or extra features?</summary>

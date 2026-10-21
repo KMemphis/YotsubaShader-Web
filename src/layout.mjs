@@ -111,7 +111,7 @@ function footer() {
     </div>
   </div>
   <div class="foot-legal">
-    <p>Copyright © ${SITE.year} Yotsuba Shader contributors. Released under the MIT License.</p>
+    <p>Copyright © ${SITE.year} Yotsuba Shader contributors. Released under the Microsoft Public License (MS-PL).</p>
     <p class="foot-marks">Vulkan and the Vulkan logo are registered trademarks of the Khronos Group Inc. OpenGL® and the oval logo are trademarks or registered trademarks of Hewlett Packard Enterprise in the United States and/or other countries worldwide. WebGL and the WebGL logo are trademarks of the Khronos Group Inc. SPIR, SPIR-V and the SPIR logo are trademarks of the Khronos Group Inc. WebGPU logo by <a href="https://www.w3.org/" rel="noopener">W3C</a>, used under <a href="https://creativecommons.org/licenses/by/4.0/" rel="noopener">CC BY 4.0</a>. Metal is a trademark of Apple Inc.; Direct3D and DirectX are trademarks of Microsoft Corporation. These names and logos are used only to describe compilation targets and do not imply endorsement by or affiliation with their owners.</p>
   </div>
 </footer>`;
