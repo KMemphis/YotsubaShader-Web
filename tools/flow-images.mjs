@@ -96,6 +96,16 @@ const fit = (ratio, boxW, boxH) => {
 
 /* ---------------------------------------------------------------- pieces */
 const DEFS = `<defs>
+  <filter id="surface-shadow" x="-10%" y="-18%" width="120%" height="144%">
+    <feDropShadow dx="0" dy="10" stdDeviation="14" flood-color="#000" flood-opacity=".28"/>
+  </filter>
+  <linearGradient id="output-chip-bg" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0" stop-color="#242426"/>
+    <stop offset="1" stop-color="#1b1b1d"/>
+  </linearGradient>
+  <filter id="output-chip-shadow" x="-12%" y="-24%" width="124%" height="164%">
+    <feDropShadow dx="0" dy="8" stdDeviation="10" flood-color="#000" flood-opacity=".3"/>
+  </filter>
   <marker id="ah" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M1 1 L9 5 L1 9" fill="none" stroke="${COLOR.accent}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></marker>
   <marker id="ahe" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M1 1 L9 5 L1 9" fill="none" stroke="${COLOR.emerald}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></marker>
   <filter id="cross-filter">
@@ -114,25 +124,47 @@ function step(n, text, x, y, size = 26) {
 }
 
 const CODE = [
-  [['attr', '[ShaderStage(Stage.Fragment)]']],
+  [['', '['], ['attrName', 'ShaderStage'], ['', '('], ['ty', 'Stage'], ['', '.'], ['enum', 'Vertex'], ['', ')]']],
+  [['kw', 'public'], ['', ' '], ['ty', 'VertexOutput'], ['', ' Vertex('], ['ty', 'VertexInput'], ['', ' input)']],
+  [['', '{']],
+  [['', '    '], ['kw', 'return'], ['', ' '], ['kw', 'new'], ['', ' '], ['ty', 'VertexOutput']],
+  [['', '    {']],
+  [['', '        Position = '], ['kw', 'new'], ['', ' '], ['ty', 'Vector4'], ['', '(input.Position, '], ['num', '0f'], ['', ', '], ['num', '1f'], ['', '),']],
+  [['', '        Color = input.Color']],
+  [['', '    };']],
+  [['', '}']],
+  [['', '']],
+  [['', '['], ['attrName', 'ShaderStage'], ['', '('], ['ty', 'Stage'], ['', '.'], ['enum', 'Fragment'], ['', ')]']],
   [['kw', 'public'], ['', ' '], ['ty', 'Vector4'], ['', ' Fragment('], ['ty', 'VertexOutput'], ['', ' input)']],
   [['', '{']],
-  [['', '    '], ['kw', 'return'], ['', ' '], ['kw', 'new'], ['', ' '], ['ty', 'Vector4'], ['', '('], ['num', '1'], ['', ', '], ['num', '0.4f'], ['', ', '], ['num', '0.7f'], ['', ', '], ['num', '1'], ['', ');']],
+  [['', '    '], ['kw', 'return'], ['', ' input.Color;']],
+  [['', '}']],
+  [['', '']],
+  [['', '['], ['attrName', 'ShaderStage'], ['', '('], ['ty', 'Stage'], ['', '.'], ['enum', 'Compute'], ['', ')]']],
+  [['kw', 'public'], ['', ' '], ['kw', 'void'], ['', ' Compute('], ['ty', 'uint3'], ['', ' id)']],
+  [['', '{']],
+  [['', '    uint index = id.X;']],
+  [['', '    Output[index] = Input[index] * '], ['num', '2.0f'], ['', ';']],
   [['', '}']],
 ];
-const TOKEN = { attr: '#ffa14f', kw: '#ff7ab2', ty: '#6bdfff', num: '#d9c97c', '': '#e5e5e7' };
+// Keep the site's existing syntax palette, with realistic separation inside attributes.
+const TOKEN = { attrName: '#DCDCAA', enum: '#4FC1FF', kw: '#ff7ab2', ty: '#6bdfff', num: '#d9c97c', comment: '#6A9955', '': '#e5e5e7' };
 
 function codeCard(x, y, w, size, lineH) {
   const bar = 46;
+  const longestLine = Math.max(...CODE.map((line) => line.map(([, text]) => text).join('').length));
+  // Keep the longest source line inside the editor at every rendered size.
+  const codeSize = Math.min(size, (w - 52) / (longestLine * 0.61));
   const h = bar + CODE.length * lineH + 26;
   const lines = CODE.map((line, i) => {
     const spans = line.map(([k, t]) => `<tspan fill="${TOKEN[k]}">${esc(t)}</tspan>`).join('');
-    return `<text x="${x + 26}" y="${y + bar + 14 + (i + 1) * lineH - lineH * 0.25}" font-family="${MONO}" font-size="${size}" xml:space="preserve">${spans}</text>`;
+    return `<text x="${x + 26}" y="${y + bar + 14 + (i + 1) * lineH - lineH * 0.25}" font-family="${MONO}" font-size="${codeSize.toFixed(2)}" xml:space="preserve">${spans}</text>`;
   }).join('');
   return {
     h,
-    svg: `<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="18" fill="${COLOR.card}" stroke="${COLOR.line}" stroke-width="1.5"/>`
-      + `<line x1="${x}" y1="${y + bar}" x2="${x + w}" y2="${y + bar}" stroke="${COLOR.line}" stroke-width="1.5"/>`
+    svg: `<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="22" fill="#1c1c1e" filter="url(#surface-shadow)"/>`
+      + `<rect x="${x + 0.75}" y="${y + 0.75}" width="${w - 1.5}" height="${h - 1.5}" rx="21.25" fill="none" stroke="#fff" stroke-opacity=".1" stroke-width="1.5"/>`
+      + `<line x1="${x}" y1="${y + bar}" x2="${x + w}" y2="${y + bar}" stroke="#fff" stroke-opacity=".1" stroke-width="1.5"/>`
       + `<text x="${x + 26}" y="${y + 30}" font-family="${SANS}" font-size="20" fill="${COLOR.dim}">Triangle.cs</text>`
       + lines,
   };
@@ -142,18 +174,22 @@ function codeCard(x, y, w, size, lineH) {
 function chip(o, x, cy, w, h, scale = 1) {
   const y = cy - h / 2;
   const logo = o.logo;
-  let out = `<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="14" fill="${COLOR.chip}" stroke="${COLOR.line}" stroke-width="1.5"/>`;
-  out += `<text x="${x + 24 * scale}" y="${cy + 10 * scale}" font-family="${SANS}" font-size="${30 * scale}" font-weight="600" fill="${COLOR.text}">${esc(o.format)}</text>`;
+  const radius = 20;
+  let out = `<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="${radius}" fill="url(#output-chip-bg)" filter="url(#output-chip-shadow)"/>`;
+  out += `<rect x="${x + 0.75}" y="${y + 0.75}" width="${w - 1.5}" height="${h - 1.5}" rx="${radius - 0.75}" fill="none" stroke="#fff" stroke-opacity=".11" stroke-width="1.5"/>`;
+  out += `<text x="${x + 26 * scale}" y="${cy + 9 * scale}" font-family="${SANS}" font-size="${29 * scale}" font-weight="500" letter-spacing="-.25" fill="${COLOR.text}">${esc(o.format)}</text>`;
   if (logo) {
     const l = o.iconOnly ? fit(o.ratio, 50 * scale, h * 0.6) : fit(o.ratio, 105 * scale, h * 0.48);
-    out += `<image href="${svgLogo(logo, true)}" x="${x + w - 20 * scale - l.w}" y="${cy - l.h / 2}" width="${l.w}" height="${l.h}"/>`;
+    out += `<image href="${svgLogo(logo, true)}" x="${x + w - 24 * scale - l.w}" y="${cy - l.h / 2}" width="${l.w}" height="${l.h}" opacity=".92"/>`;
   }
   return out;
 }
 
 const spirvNode = (x, cy, w, h) => {
   const l = fit(SPIRV_LOGO.ratio, w - 36, h * 0.52);
-  return `<rect x="${x}" y="${cy - h / 2}" width="${w}" height="${h}" rx="16" fill="${COLOR.chip}" stroke="${COLOR.line}" stroke-width="1.5"/>`
+  const y = cy - h / 2;
+  return `<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="20" fill="#1c1c1e" filter="url(#surface-shadow)"/>`
+    + `<rect x="${x + 0.75}" y="${y + 0.75}" width="${w - 1.5}" height="${h - 1.5}" rx="19.25" fill="none" stroke="#fff" stroke-opacity=".1" stroke-width="1.5"/>`
     + `<image href="${svgLogo(SPIRV_LOGO.src, true)}" x="${x + (w - l.w) / 2}" y="${cy - l.h / 2}" width="${l.w}" height="${l.h}"/>`;
 };
 
@@ -167,8 +203,8 @@ function wide(t) {
   const CY_TRANSPILE = ROW0 + 3 * ROW_H; // row 3 is WGSL (middle of rows 1..5)
   const CY_ALL = ROW0 + ((rows - 1) * ROW_H) / 2;
 
-  const cardH = codeCard(0, 0, 620, 23, 40).h;
-  const c = codeCard(50, CY_ALL - cardH / 2, 620, 23, 40);
+  const cardH = codeCard(0, 0, 620, 23, 23).h;
+  const c = codeCard(50, CY_ALL - cardH / 2, 620, 23, 23);
 
   const HUB = { x: 740, size: 116 };
   const SP = { x: 935, w: 180, h: 78 };
@@ -239,7 +275,7 @@ function tall(t) {
   // Step 1: Write it in C#
   parts.push(step(1, t.step1, 30, y, 26));
   y += 28;
-  const card = codeCard(30, y, 690, 22, 38);
+  const card = codeCard(30, y, 690, 22, 26);
   parts.push(card.svg);
   y += card.h + 16;
   parts.push(arrow(`M375 ${y} V ${y + 46}`));
@@ -310,7 +346,9 @@ function write(lang, kind, { W, H, svg }) {
   fs.mkdirSync(outDir, { recursive: true });
   const out = path.join(outDir, `flow-${kind}.webp`);
   fs.writeFileSync(svgPath, file);
-  execFileSync('rsvg-convert', ['-w', String(W), svgPath, '-o', pngPath]);
+  // Rasterize at 2× while keeping the logical dimensions in flow-sizes.json.
+  // This prevents text and thin arrows from becoming soft on high-density displays.
+  execFileSync('rsvg-convert', ['-w', String(W * 2), svgPath, '-o', pngPath]);
   if (process.env.FLOW_REVIEW) execFileSync('rsvg-convert', ['-b', '#000000', '-w', String(W), svgPath, '-o', path.join(process.env.FLOW_REVIEW, `${lang}-${kind}.png`)]);
   execFileSync('cwebp', ['-quiet', '-lossless', '-z', '9', pngPath, '-o', out]);
   console.log(`${path.relative(ROOT, out)}  ${W}x${H}  ${(fs.statSync(out).size / 1024).toFixed(0)} KB`);

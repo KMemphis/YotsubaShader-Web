@@ -44,6 +44,111 @@ const home = {
   </div>
 </section>
 
+<section class="section stages-home" aria-labelledby="stages-home-title">
+  <div class="container">
+    <div class="center stages-home-header">
+      <p class="eyebrow">SHADER STAGES</p>
+      <h2 class="h-lg" id="stages-home-title">The pipeline today. The stages coming next.</h2>
+      <p class="lead">Vertex, Fragment and Compute are supported now. Geometry, Hull and Domain are planned for March 2027.</p>
+    </div>
+    <div class="stages-timeline">
+      <article class="stages-timeline-item stages-timeline-item--now">
+        <div class="stages-timeline-copy">
+          <p class="stages-timeline-date">Now</p>
+          <h3><span lang="en">Vertex</span>, <span lang="en">Fragment</span>, <span lang="en">Compute</span></h3>
+          <p>Supported today, from vertex processing through pixels and general-purpose GPU work.</p>
+        </div>
+        <figure class="stages-timeline-media">
+          <img src="/img/stages/rasterization.svg" alt="A triangle being rasterized into a grid of pixels" width="450" height="450" loading="lazy">
+          <figcaption>Rasterization diagram by Wojciech Mula, via <a href="https://commons.wikimedia.org/wiki/File:Rasterisation-triangle_example.svg" target="_blank" rel="noopener">Wikimedia Commons</a> · Public domain</figcaption>
+        </figure>
+      </article>
+      <article class="stages-timeline-item stages-timeline-item--roadmap">
+        <div class="stages-timeline-copy">
+          <p class="stages-timeline-date">March 2027</p>
+          <h3><span lang="en">Geometry</span>, <span lang="en">Hull</span>, <span lang="en">Domain</span></h3>
+          <p>Planned support for geometry processing and GPU tessellation.</p>
+        </div>
+        <figure class="stages-timeline-media">
+          <img src="/img/stages/tessellation.svg" alt="A tessellation pipeline turning a cube into a smooth shaded sphere" width="351" height="214" loading="lazy">
+          <figcaption>Tessellation diagram by Romainbehar and Mark Viking, via <a href="https://commons.wikimedia.org/wiki/File:Tesselation_pipeline.svg" target="_blank" rel="noopener">Wikimedia Commons</a> · <a href="https://creativecommons.org/licenses/by-sa/3.0/" target="_blank" rel="noopener">CC BY-SA 3.0</a></figcaption>
+        </figure>
+      </article>
+      <article class="stages-timeline-item stages-timeline-item--ray">
+        <div class="stages-timeline-copy">
+          <p class="stages-timeline-date">October 2027</p>
+          <h3>4. Ray tracing pipeline</h3>
+          <p>Planned support for the programmable stages that make ray tracing extensible.</p>
+          <ul class="stages-timeline-stage-list">
+            <li>Ray Generation</li>
+            <li>Intersection</li>
+            <li>Any-Hit</li>
+            <li>Closest-Hit</li>
+            <li>Miss</li>
+            <li>Callable</li>
+          </ul>
+        </div>
+        <figure class="stages-timeline-media">
+          <img src="/img/stages/ray-tracing.svg" alt="Rays traveling from a camera to a scene object and a light source" width="875" height="582" loading="lazy">
+          <figcaption>Ray-tracing diagram by Henrik, via <a href="https://commons.wikimedia.org/wiki/File:Ray_trace_diagram.svg" target="_blank" rel="noopener">Wikimedia Commons</a> · <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noopener">CC BY-SA 4.0</a></figcaption>
+        </figure>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section class="section sponsors-home" aria-labelledby="sponsors-home-title">
+  <div class="container">
+    <div class="center sponsors-home-header">
+      <p class="eyebrow"><span lang="en">SPONSORS</span></p>
+      <h2 class="h-lg" id="sponsors-home-title">Sponsors help decide what comes next.</h2>
+      <p class="lead">Yotsuba Shader is free for everyone. Sponsorship pays for the time that keeps it maintained, and gives you a say in where that time goes.</p>
+    </div>
+    <div class="grid grid-4 sponsors-home-grid">
+      <article class="card sponsor-home-card">
+        <div class="sponsor-home-media"><img src="/img/sponsors/roadmap.svg" alt="" width="960" height="540" loading="lazy"></div>
+        <div class="sponsor-home-copy">
+          <h3 class="card-title">Shape the roadmap</h3>
+          <p class="card-body">Vote on which backend or integration comes next, and send feature ideas to <a href="mailto:sponsor-roadmap@yotsubashader.com">sponsor-roadmap@yotsubashader.com</a>. Every $50/month gives you 1 request per year.</p>
+        </div>
+      </article>
+      <article class="card sponsor-home-card">
+        <div class="sponsor-home-media"><img src="/img/sponsors/devlog.svg" alt="" width="960" height="540" loading="lazy"></div>
+        <div class="sponsor-home-copy">
+          <h3 class="card-title">Follow the work</h3>
+          <p class="card-body">Get the sponsors-only devlog and a private channel to talk to me directly.</p>
+        </div>
+      </article>
+      <article class="card sponsor-home-card">
+        <div class="sponsor-home-media"><img src="/img/sponsors/visibility.svg" alt="" width="960" height="540" loading="lazy"></div>
+        <div class="sponsor-home-copy">
+          <h3 class="card-title">Get visibility</h3>
+          <p class="card-body">Your name, link or logo on the Sponsors page, the README and the website, plus a mention in major release announcements.</p>
+        </div>
+      </article>
+      <article class="card sponsor-home-card">
+        <div class="sponsor-home-media"><img src="/img/sponsors/engine-integration.svg" alt="" width="960" height="540" loading="lazy"></div>
+        <div class="sponsor-home-copy">
+          <h3 class="card-title">Build it into your engine</h3>
+          <p class="card-body">Partners get a dedicated integration session to bring Yotsuba Shader into their environment.</p>
+        </div>
+      </article>
+    </div>
+    <div class="sponsors-tier-strip" aria-label="Sponsorship tiers">
+      <span><strong>$25</strong> Maintainer's Ally</span>
+      <span><strong>$50</strong> Studio Supporter <span class="sponsors-tier-detail">(1 request/year)</span></span>
+      <span><strong>$100</strong> Team Sponsor <span class="sponsors-tier-detail">(2)</span></span>
+      <span><strong>$250</strong> Engine and Framework Sponsor <span class="sponsors-tier-detail">(5)</span></span>
+      <span><strong>$500</strong> Engine and Framework Partner <span class="sponsors-tier-detail">(10)</span></span>
+    </div>
+    <p class="sponsors-home-note">Sponsoring never unlocks features or changes the license. Everyone gets the same code.</p>
+    <div class="sponsors-home-actions">
+      <a class="btn btn-primary" href="https://github.com/sponsors/KMemphis" target="_blank" rel="noopener">Become a sponsor ${icon('external')}</a>
+      <a class="btn btn-secondary" href="/donations/">See all tiers</a>
+    </div>
+  </div>
+</section>
+
 <section class="section section--home-value">
   <div class="container">
     <p class="center lead home-value-copy">
