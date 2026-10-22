@@ -30,6 +30,7 @@ jobs:
         with:
           repository: KMemphis/YotsubaShader
           token: ${{ secrets.MAIN_REPO_TOKEN || github.token }}
+          ref: main
           sparse-checkout: |
             YotsubaShader.Language
             YotsubaShader.Concepts
