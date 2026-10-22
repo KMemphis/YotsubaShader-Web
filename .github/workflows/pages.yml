@@ -32,6 +32,7 @@ jobs:
           token: ${{ secrets.MAIN_REPO_TOKEN || github.token }}
           sparse-checkout: |
             YotsubaShader.Language
+            YotsubaShader.Concepts
             YotsubaShader.GlslSyntax
             YotsubaShader.HlslSyntax
             YotsubaShader.MslSyntax
