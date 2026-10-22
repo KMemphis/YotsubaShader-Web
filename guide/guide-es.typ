@@ -6,7 +6,7 @@
   lang: "es",
   title: "Integrar Yotsuba Shader en tu motor",
   subtitle: "Todo lo que necesitas para dar a quienes usan tu framework shaders escritos en C\# con tipado fuerte y validados",
-  edition: "Edición 1.0 · Octubre de 2026 · Yotsuba Shader se publica bajo la licencia MIT",
+  edition: "Edición 1.0 · Octubre de 2026 · Yotsuba Shader se publica bajo la Microsoft Public License (MS-PL)",
   toc-title: "Contenido",
 )
 
@@ -603,7 +603,7 @@ Una biblioteca de shaders es una biblioteca normal de .NET. Reutiliza tus tipos,
 
 #grid-table(
   ("Componente", "Licencia", "Dónde importa"),
-  ("Yotsuba Shader", "MIT", "Tu paquete puede ser comercial o no, sin tarifa"),
+  ("Yotsuba Shader", "MS-PL", "Tu paquete puede ser comercial o no, sin tarifa"),
   ("Roslyn", "MIT", "Dentro del compilador"),
   ("SPIRV-Cross", "Apache-2.0", "Si usas `Transpile` para HLSL o MSL"),
   ("Naga", "MIT o Apache-2.0", "Si usas `Transpile` para WGSL o GLSL"),

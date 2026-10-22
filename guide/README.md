@@ -61,4 +61,4 @@ The text uses Helvetica Neue and Menlo (macOS). On another system Typst falls ba
 
 ## License · Licencia
 
-MIT, like Yotsuba Shader. The name and the logo of Yotsuba Shader are not covered by the license.
+MS-PL, like Yotsuba Shader. The name and the logo of Yotsuba Shader are not covered by the license.
