@@ -23,12 +23,14 @@
     <ProjectReference Include="..\..\YotsubaShader.Roslyn\YotsubaShader.Roslyn.csproj" />
   </ItemGroup>
 
-  <!-- Roslyn needs the raw metadata of YotsubaShader.Language and the *Syntax attribute vocabularies to resolve their
-       attributes. The runtime cannot hand it out (Webcil + Mono), so each built DLL travels inside the app as an
-       embedded resource. -->
+  <!-- Roslyn needs the raw metadata of YotsubaShader.Language, YotsubaShader.Concepts and the *Syntax attribute
+       vocabularies to resolve their attributes. The runtime cannot hand it out (Webcil + Mono), so each built DLL
+       travels inside the app as an embedded resource. -->
   <ItemGroup>
     <EmbeddedResource Include="..\..\YotsubaShader.Language\bin\$(Configuration)\net8.0\YotsubaShader.Language.dll"
                       LogicalName="YotsubaShader.Language.dll" Visible="false" />
+    <EmbeddedResource Include="..\..\YotsubaShader.Concepts\bin\$(Configuration)\net8.0\YotsubaShader.Concepts.dll"
+                      LogicalName="YotsubaShader.Concepts.dll" Visible="false" />
     <EmbeddedResource Include="..\..\YotsubaShader.GlslSyntax\bin\$(Configuration)\net8.0\YotsubaShader.GlslSyntax.dll"
                       LogicalName="YotsubaShader.GlslSyntax.dll" Visible="false" />
     <EmbeddedResource Include="..\..\YotsubaShader.HlslSyntax\bin\$(Configuration)\net8.0\YotsubaShader.HlslSyntax.dll"

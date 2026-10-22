@@ -24,15 +24,17 @@ Monaco (one model per file) ──► YotsubaPlayground backend ──► DotNet
 
 ## No XNA by default
 
-User code references only the .NET 8 reference assemblies (`Basic.Reference.Assemblies.Net80`) and
-`YotsubaShader.Language`. `Microsoft.Xna.Framework` is **not** referenced. The default project has two files:
+User code references the .NET 8 reference assemblies (`Basic.Reference.Assemblies.Net80`),
+`YotsubaShader.Language` and the selected `YotsubaShader.*Syntax` vocabulary. `Microsoft.Xna.Framework` is **not**
+referenced. The default project has two files:
 
 - `Types.cs`: your own `Vector2/3/4` and `Matrix4`, mapped to native GPU types with `[Vector]`, `[VectorComponent]`,
   `[Matrix]` and `[MatrixColumn]`.
 - `Shader.cs`: the shader, written against those types.
 
-`YotsubaShader.Language.dll` is embedded in the app as a resource (see `Playground.csproj`) because the runtime
-cannot expose raw metadata of Webcil assemblies.
+`YotsubaShader.Language.dll`, `YotsubaShader.Concepts.dll` and the syntax assemblies are embedded in the app as
+resources (see `Playground.csproj`) because the runtime cannot expose raw metadata of Webcil assemblies. The
+`Concepts` metadata is required because the syntax attributes inherit from `YotsubaShaderConcept`.
 
 ## Run it
 

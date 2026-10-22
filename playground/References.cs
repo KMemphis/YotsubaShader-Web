@@ -72,8 +72,8 @@ using Microsoft.CodeAnalysis;
 namespace YotsubaShader.Playground;
 
 /// <summary>
-/// References for the user's code: the .NET 8 reference assemblies plus YotsubaShader.Language and the five
-/// YotsubaShader.*Syntax attribute vocabularies (GLSL, HLSL, MSL, SPIR-V, WGSL).
+/// References for the user's code: the .NET 8 reference assemblies plus YotsubaShader.Language,
+/// YotsubaShader.Concepts and the five YotsubaShader.*Syntax attribute vocabularies (GLSL, HLSL, MSL, SPIR-V, WGSL).
 /// Microsoft.Xna.Framework is intentionally NOT referenced; GPU types are declared in the user's own files.
 /// </summary>
 internal static class References
@@ -82,6 +82,7 @@ internal static class References
     private static readonly string[] Embedded =
     [
         "YotsubaShader.Language.dll",
+        "YotsubaShader.Concepts.dll",
         "YotsubaShader.GlslSyntax.dll",
         "YotsubaShader.HlslSyntax.dll",
         "YotsubaShader.MslSyntax.dll",
