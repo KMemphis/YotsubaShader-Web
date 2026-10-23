@@ -605,7 +605,7 @@ Una biblioteca de shaders es una biblioteca normal de .NET. Reutiliza tus tipos,
   ("Componente", "Licencia", "Dónde importa"),
   ("Yotsuba Shader", "MS-PL", "Tu paquete puede ser comercial o no, sin tarifa"),
   ("Roslyn", "MIT", "Dentro del compilador"),
-  ("SPIRV-Cross", "Apache-2.0", "Si usas `Transpile` para HLSL o MSL"),
+  ("SPIRV-Cross", "Apache-2.0 o MIT (se usa MIT)", "Si usas `Transpile` para HLSL o MSL"),
   ("Naga", "MIT o Apache-2.0", "Si usas `Transpile` para WGSL o GLSL"),
   ("Gramática SPIR-V de Khronos", "MIT", "En las tablas del compilador"),
 )

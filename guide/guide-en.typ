@@ -605,7 +605,7 @@ A shader library is a normal .NET library. Reuse your types, build on libraries 
   ("Component", "License", "Where it matters"),
   ("Yotsuba Shader", "MS-PL", "Your package can be commercial or not, with no fee"),
   ("Roslyn", "MIT", "Inside the compiler"),
-  ("SPIRV-Cross", "Apache-2.0", "If you use `Transpile` for HLSL or MSL"),
+  ("SPIRV-Cross", "Apache-2.0 OR MIT (MIT used)", "If you use `Transpile` for HLSL or MSL"),
   ("Naga", "MIT or Apache-2.0", "If you use `Transpile` for WGSL or GLSL"),
   ("Khronos SPIR-V grammar", "MIT", "In the compiler's tables"),
 )

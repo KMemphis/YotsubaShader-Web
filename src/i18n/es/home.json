@@ -152,6 +152,7 @@
  "Yotsuba Shader introduction film": "Video de presentación de Yotsuba Shader",
  "Watch the film": "Ver el video",
  "One shader. Five ways to write it.": "Un shader. Cinco formas de escribirlo.",
+ "You can write the same shader using the names of HLSL, GLSL, MSL, SPIR-V or WGSL. This choice is visual: every syntax compiles to SPIR-V and can then be transpiled to the other target languages through Yotsuba ShaderCross. The generated shader semantics remain the same.": "Puedes escribir el mismo shader con los nombres de HLSL, GLSL, MSL, SPIR-V o WGSL. Esta elección es visual: todas las sintaxis compilan a SPIR-V y pueden transpilarse mediante Yotsuba ShaderCross a los demás lenguajes de destino. La semántica del shader generado sigue siendo la misma.",
  "Two ways to get the binary for each platform into your project. The first one needs nothing but a build.": "Dos formas de llevar a tu proyecto el binario de cada plataforma. La primera no necesita más que una compilación.",
  "Compiles to SPIR-V, HLSL, MSL, WGSL, GLSL, GLSL ES": "Compila a SPIR-V, HLSL, MSL, WGSL, GLSL, GLSL ES",
  "Every format you ask for: SPIR-V, HLSL, MSL, WGSL, GLSL, GLSL ES": "Todos los formatos que pidas: SPIR-V, HLSL, MSL, WGSL, GLSL, GLSL ES",

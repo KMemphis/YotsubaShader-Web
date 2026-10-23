@@ -586,7 +586,7 @@ dotnet run --project YotsubaShader.Example/YotsubaShader.Example.csproj`)}`,
 <p>The shaders you write and the binaries Yotsuba Shader generates from them belong to you. Nothing in them is subject to a copyleft requirement.</p>
 
 <h2>Third-party components</h2>
-<p>Roslyn (<code>Microsoft.CodeAnalysis</code>) and the SPIR-V grammar from the Khronos Group are used under the MIT License, and their notices are kept in the repository. Yotsuba ShaderCross is a pure C# port of SPIRV-Cross, keeping the original copyright notices under the Apache-2.0 license.</p>
+<p>Roslyn (<code>Microsoft.CodeAnalysis</code>) and the SPIR-V grammar from the Khronos Group are used under the MIT License, and their notices are kept in the repository. Yotsuba ShaderCross is released under the MS-PL. Its translated SPIRV-Cross code retains the original copyright notices from SPIRV-Cross, which is dual-licensed under Apache-2.0 OR MIT and is used here under the MIT License.</p>
 
 <h2>Name and logo</h2>
 <p>The license covers the code. The name Yotsuba Shader and its logo are not part of it.</p>

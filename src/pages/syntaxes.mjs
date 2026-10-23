@@ -72,7 +72,7 @@ public class BuiltIns
         // Instance index
         [${row('Instance index', c)}] uint instance)
     {
-        VertexOutput output;
+        VertexOutput output = new VertexOutput();
         output.Position = new Vector4(vertex, instance, 0, 1);
         return output;
     }
@@ -147,7 +147,7 @@ export default function syntaxes(ctx) {
 <section class="hero hero--compact">
   <div class="container">
     <h1 class="h-xl">One shader. Five ways to write it.</h1>
-    <p class="lead">You can write the same shader using the names of HLSL, GLSL, MSL, SPIR-V or WGSL. Choose the one you already know. The result is the same.</p>
+    <p class="lead">You can write the same shader using the names of HLSL, GLSL, MSL, SPIR-V or WGSL. This choice is visual: every syntax compiles to SPIR-V and can then be transpiled to the other target languages through Yotsuba ShaderCross. The generated shader semantics remain the same.</p>
   </div>
   <hr class="hero-rule">
 </section>

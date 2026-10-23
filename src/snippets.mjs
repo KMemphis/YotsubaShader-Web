@@ -28,7 +28,7 @@ public class BasicColorShader
     [ShaderStage(Stage.Vertex)]
     public VertexOutput Vertex(VertexInput input)
     {
-        VertexOutput output;
+        VertexOutput output = new VertexOutput();
 
         output.Position = new Vector4(
             input.Position.X,
@@ -69,7 +69,7 @@ ${buffer}
     [ShaderStage(Stage.Vertex)]
     public VertexOutput Vertex([${vertexId}] uint id)
     {
-        VertexOutput output;
+        VertexOutput output = new VertexOutput();
         output.Position = new Vector4(0, 0, 0, 1);
         return output;
     }
@@ -357,7 +357,7 @@ public class TexturedQuad
     [ShaderStage(Stage.Vertex)]
     public VertexOutput Vertex([SV_VertexID] uint id)
     {
-        VertexOutput output;
+        VertexOutput output = new VertexOutput();
         output.Position = new Vector4(0, 0, 0, 1);
         output.Uv = new Vector2(0, 0);
         return output;

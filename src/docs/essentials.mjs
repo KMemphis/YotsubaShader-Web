@@ -208,7 +208,7 @@ ${code('csharp', `public class BasicColorShader
     [ShaderStage(Stage.Vertex)]
     public VertexOutput Vertex(VertexInput input)
     {
-        VertexOutput output;
+        VertexOutput output = new VertexOutput();
 
         output.Position = new Vector4(input.Position.X, input.Position.Y, 0.0f, 1.0f);
         output.Color = input.Color;
@@ -519,7 +519,7 @@ public class LitShader
     [ShaderStage(Stage.Vertex)]
     public VertexOutput Vertex(VertexInput input)
     {
-        VertexOutput output;
+        VertexOutput output = new VertexOutput();
         output.Position = new Vector4(
             input.Position.X, input.Position.Y, input.Position.Z, 1);
         output.UV = input.UV;

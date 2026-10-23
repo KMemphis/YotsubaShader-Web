@@ -166,7 +166,7 @@ const home = {
   <div class="container">
     <div class="center" style="margin-bottom:36px">
       <h2 class="h-lg">One shader. Five ways to write it.</h2>
-      <p class="lead">You can write the same shader using the names of HLSL, GLSL, MSL, SPIR-V or WGSL. Choose the one you already know. The result is the same.</p>
+      <p class="lead">You can write the same shader using the names of HLSL, GLSL, MSL, SPIR-V or WGSL. This choice is visual: every syntax compiles to SPIR-V and can then be transpiled to the other target languages through Yotsuba ShaderCross. The generated shader semantics remain the same.</p>
     </div>
     ${styleTabs(STYLE_TRIANGLE)}
     <p class="center"><a class="link-more" href="/documentation/yotsuba-shader/choosing-a-syntax/">Choosing a syntax ${icon('chevron-right')}</a></p>
