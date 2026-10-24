@@ -1,5 +1,4 @@
 {
- "Write a Yotsuba Shader in C# and inspect its diagnostics, shaders, intermediate representation and SPIR-V in the browser.": "Escribe un Yotsuba Shader en C# e inspecciona en el navegador sus diagnósticos, shaders, representación intermedia y SPIR-V.",
  "Example": "Ejemplo",
  "Basic color shader": "Shader de color básico",
  "Copy a link to this code": "Copiar un enlace a este código",
