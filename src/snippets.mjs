@@ -28,7 +28,7 @@ public class BasicColorShader
     [ShaderStage(Stage.Vertex)]
     public VS_Output VS(VS_Input input)
     {
-        VS_Output output;
+        VS_Output output = new VS_Output();
 
         output.Position = new Vector4(
             input.Position.X,
