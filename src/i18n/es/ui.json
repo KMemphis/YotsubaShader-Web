@@ -17,12 +17,21 @@
  "Compiler error": "Error del compilador",
  "Replace the current files with this example?": "¿Reemplazar los archivos actuales por este ejemplo?",
  "Link copied": "Enlace copiado",
- "Press <b>Compile</b> (Ctrl/⌘ Enter) to see the results.": "Pulsa <b>Compilar</b> (Ctrl/⌘ Enter) para ver los resultados.",
  "Loading compiler…": "Cargando el compilador…",
  "Download .spv": "Descargar .spv",
  "error": "error",
  "warning": "advertencia",
  "info": "información",
  "Request to sponsor Yotsuba Shader\n\nYotsuba Shader is a shader framework and compiler for C#, released under the Microsoft Public License (MS-PL). {developers} developers on our team use it. We estimate that it saves each of them about {hours} hours per month, which is worth about {value} per month.\n\nWe propose to sponsor the project with {amount} per month ({share}% of that value) through GitHub Sponsors, so that it stays maintained.\n\nSponsor page: {url}": "Solicitud para patrocinar Yotsuba Shader\n\nYotsuba Shader es un framework y compilador de shaders para C#, publicado bajo la Microsoft Public License (MS-PL). {developers} desarrolladores de nuestro equipo lo usan. Estimamos que le ahorra a cada uno unas {hours} horas al mes, lo que vale unos {value} al mes.\n\nProponemos patrocinar el proyecto con {amount} al mes ({share}% de ese valor) a través de GitHub Sponsors, para que siga mantenido.\n\nPágina de patrocinio: {url}",
- "{amount} a year": "{amount} al año"
+ "{amount} a year": "{amount} al año",
+ "Line {line}, column {column}": "Línea {line}, columna {column}",
+ "No issues found": "Sin problemas detectados",
+ "Compilation failed": "La compilación falló",
+ "Analysis completed": "Análisis completado",
+ "Compile your code to inspect diagnostics and shader entry points.": "Compila tu código para consultar los diagnósticos y los puntos de entrada de tus shaders.",
+ "Ready when you are": "Todo listo para empezar",
+ "Hide navigator": "Ocultar navegador",
+ "Show navigator": "Mostrar navegador",
+ "Hide inspector": "Ocultar inspector",
+ "Show inspector": "Mostrar inspector"
 }

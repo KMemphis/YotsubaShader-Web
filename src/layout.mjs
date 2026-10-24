@@ -125,7 +125,7 @@ const searchDialog = `<div class="search" id="search" hidden role="dialog" aria-
   </div>
 </div>`;
 
-function head({ title, description, pagePath, fullTitle, noindex = false }) {
+function head({ title, description, pagePath, fullTitle, noindex = false, styles = [] }) {
   return `<head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -143,6 +143,7 @@ function head({ title, description, pagePath, fullTitle, noindex = false }) {
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="${FONTS}" rel="stylesheet">
 <link rel="stylesheet" href="/css/site.css">
+${styles.map(src => `<link rel="stylesheet" href="${esc(src)}">`).join('\n')}
 <script>try{var s=localStorage.getItem('ys-style');s={metal:'msl',vulkan:'spirv'}[s]||s;if(s)document.documentElement.dataset.style=s}catch(e){}</script>
 <!--LANGREDIRECT-->
 ${noindex ? '<meta name="robots" content="noindex">' : '<!--SEO-->'}
@@ -151,10 +152,10 @@ ${noindex ? '<meta name="robots" content="noindex">' : '<!--SEO-->'}
 
 /** Standard page (home, get started, syntaxes, ...). */
 export function renderPage(page, locale = 'en') {
-  const { path: pagePath, section, title, description, body, fullTitle, bodyClass = '', noFooter = false, scripts = [], noindex = false } = page;
+  const { path: pagePath, section, title, description, body, fullTitle, bodyClass = '', noFooter = false, scripts = [], styles = [], noindex = false } = page;
   const html = `<!doctype html>
 <html lang="__HTMLLANG__" data-root="__ROOT__">
-${head({ title, description, pagePath, fullTitle, noindex })}
+${head({ title, description, pagePath, fullTitle, noindex, styles })}
 <body class="${bodyClass}">
 <a class="skip" href="#main">Skip to content</a>
 ${globalNav(section)}

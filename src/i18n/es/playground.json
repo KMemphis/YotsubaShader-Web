@@ -17,5 +17,17 @@
  "Triangle (GLSL)": "Triángulo (GLSL)",
  "Triangle (MSL)": "Triángulo (MSL)",
  "Triangle (SPIR-V)": "Triángulo (SPIR-V)",
- "Triangle (WGSL)": "Triángulo (WGSL)"
+ "Triangle (WGSL)": "Triángulo (WGSL)",
+ "Availability": "Disponibilidad",
+ "Ctrl / ⌘ Enter <span>to compile</span>": "Ctrl / ⌘ Enter <span>para compilar</span>",
+ "Hide navigator": "Ocultar navegador",
+ "C# shaders": "Shaders en C#",
+ "Workspace view": "Vista del espacio de trabajo",
+ "Editor": "Editor",
+ "Results": "Resultados",
+ "Current availability": "Disponibilidad actual",
+ "Hide inspector": "Ocultar inspector",
+ "Project navigator": "Navegador del proyecto",
+ "Results inspector": "Inspector de resultados",
+ "Close navigator": "Cerrar navegador"
 }

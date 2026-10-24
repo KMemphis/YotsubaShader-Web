@@ -20,6 +20,8 @@ export default function playground() {
       image: '/img/enuma.webp',
     },
   ];
+  const defaultIndex = examples.findIndex(example => example.id === 'texture-binding');
+  examples.unshift(...examples.splice(defaultIndex, 1));
 
   return [
     {
@@ -29,43 +31,70 @@ export default function playground() {
       description: 'Edit C# shader declarations and inspect C# diagnostics and discovered entry points. IR and SPIR-V output are not yet implemented in the playground.',
       bodyClass: 'playground',
       noFooter: true,
+      styles: ['/css/playground.css'],
       scripts: ['/js/playground.js'],
       body: `
 <div class="pg" id="pg">
-  <div class="pg-bar">
-    <div class="pg-group">
-      <label class="pg-select"><span>Example</span>
+  <header class="pg-toolbar">
+    <div class="pg-toolbar-leading">
+      <button class="pg-icon-button" type="button" id="pg-navigator-toggle" aria-controls="pg-navigator" aria-expanded="true" title="Hide navigator">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M9 4v16"/></svg>
+        <span class="sr-only">Hide navigator</span>
+      </button>
+      <div class="pg-title"><h1>Playground</h1><span>C# shaders</span></div>
+      <label class="pg-select"><span class="sr-only">Example</span>
         <select id="pg-example" aria-label="Example">${examples.map((e) => `<option value="${e.id}">${e.name}</option>`).join('')}</select>
       </label>
     </div>
-    <div class="pg-group pg-group--end">
-      __LANGSWITCH__
-      <span class="pg-status" id="pg-status" role="status" data-state="off"></span>
-      <button class="pg-btn" type="button" id="pg-share" title="Copy a link to this code">${icon('external')}<span>Share</span></button>
-      <button class="pg-btn pg-btn--primary" type="button" id="pg-run" title="Compile (Ctrl/⌘ Enter)">${icon('zap')}<span>Compile</span></button>
+
+    <div class="pg-mobile-scope" role="tablist" aria-label="Workspace view">
+      <button type="button" role="tab" data-mobile-view="editor" aria-selected="true">Editor</button>
+      <button type="button" role="tab" data-mobile-view="results" aria-selected="false">Results</button>
     </div>
-  </div>
 
-  <p class="pg-banner">The playground currently provides C# analysis and shader discovery. IR generation, SPIR-V output, and rendering are not available here yet.</p>
-  <div class="pg-banner" id="pg-banner" hidden></div>
+    <div class="pg-toolbar-actions">
+      <details class="pg-info">
+        <summary class="pg-icon-button" aria-label="Availability" title="Availability">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 10v6M12 7h.01"/></svg>
+        </summary>
+        <div class="pg-popover"><h2>Current availability</h2><p>The playground currently provides C# analysis and shader discovery. IR generation, SPIR-V output, and rendering are not available here yet.</p></div>
+      </details>
+      __LANGSWITCH__
+      <button class="pg-btn" type="button" id="pg-share" title="Copy a link to this code">${icon('external')}<span>Share</span></button>
+      <button class="pg-btn pg-btn--primary" type="button" id="pg-run" title="Compile (Ctrl/⌘ Enter)"><svg class="icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="m8 5 11 7-11 7Z"/></svg><span>Compile</span></button>
+      <button class="pg-icon-button" type="button" id="pg-inspector-toggle" aria-controls="pg-inspector" aria-expanded="true" title="Hide inspector">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M15 4v16"/></svg>
+        <span class="sr-only">Hide inspector</span>
+      </button>
+    </div>
+  </header>
+  <div class="pg-banner" id="pg-banner" role="status" hidden></div>
 
-  <div class="pg-panes">
-    <section class="pg-pane pg-editor" aria-label="Source code">
-      <div class="pg-filebar">
-        <div class="pg-files" id="pg-files" role="tablist" aria-label="Files"></div>
+  <div class="pg-workspace">
+    <aside class="pg-navigator" id="pg-navigator" aria-label="Project navigator">
+      <header class="pg-panel-heading">
+        <h2>Project</h2>
         <button class="pg-add" type="button" id="pg-add" aria-label="New file" title="New file">${icon('plus')}</button>
-      </div>
-      <div class="pg-editor-host" id="pg-editor"></div>
+      </header>
+      <div class="pg-files" id="pg-files" role="tablist" aria-label="Files"></div>
+    </aside>
+
+    <section class="pg-editor" aria-label="Source code">
+      <header class="pg-editor-heading"><span id="pg-active-file">Shader.cs</span></header>
+      <div class="pg-editor-host" id="pg-editor" role="tabpanel" tabindex="0"></div>
     </section>
 
-    <section class="pg-pane pg-output" aria-label="Output">
-      <div class="pg-tabs" role="tablist" aria-label="Output">
+    <aside class="pg-inspector" id="pg-inspector" aria-label="Results inspector">
+      <header class="pg-inspector-heading">
+        <h2 class="sr-only">Results</h2>
+        <div class="pg-tabs" role="tablist" aria-label="Output">
         <button role="tab" type="button" data-tab="diagnostics" aria-selected="true">Diagnostics <i class="pg-count" id="pg-count-diagnostics"></i></button>
         <button role="tab" type="button" data-tab="shaders" aria-selected="false">Shaders <i class="pg-count" id="pg-count-shaders"></i></button>
         <button role="tab" type="button" data-tab="ir" aria-selected="false" hidden>IR</button>
         <button role="tab" type="button" data-tab="spirv" aria-selected="false" hidden>SPIR-V</button>
         <button role="tab" type="button" data-tab="image" aria-selected="false" hidden>Input image</button>
-      </div>
+        </div>
+      </header>
       <div class="pg-panels">
         <div class="pg-panel" data-panel="diagnostics" role="tabpanel"></div>
         <div class="pg-panel" data-panel="shaders" role="tabpanel" hidden></div>
@@ -78,8 +107,10 @@ export default function playground() {
           </figure>
         </div>
       </div>
-    </section>
+    </aside>
   </div>
+  <button class="pg-backdrop" id="pg-backdrop" type="button" aria-label="Close navigator" hidden></button>
+  <footer class="pg-statusbar"><span class="pg-status" id="pg-status" role="status" data-state="off"></span><span class="pg-shortcut">Ctrl / ⌘ Enter <span>to compile</span></span></footer>
 </div>
 <script type="application/json" id="pg-examples">${JSON.stringify(examples).replace(/</g, '\\u003c')}</script>
 <noscript><p style="padding:24px">The playground needs JavaScript.</p></noscript>`,

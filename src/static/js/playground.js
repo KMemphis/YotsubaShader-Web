@@ -31,11 +31,13 @@
   const examples = JSON.parse($('#pg-examples').textContent);
   const el = {
     example: $('#pg-example'), run: $('#pg-run'), share: $('#pg-share'), status: $('#pg-status'), banner: $('#pg-banner'),
-    host: $('#pg-editor'), files: $('#pg-files'), add: $('#pg-add'),
+    root: $('#pg'), host: $('#pg-editor'), files: $('#pg-files'), add: $('#pg-add'), activeFile: $('#pg-active-file'),
+    navigator: $('#pg-navigator'), navigatorToggle: $('#pg-navigator-toggle'), inspector: $('#pg-inspector'),
+    inspectorToggle: $('#pg-inspector-toggle'), backdrop: $('#pg-backdrop'),
     panels: Object.fromEntries($$('[data-panel]').map((p) => [p.dataset.panel, p])),
   };
   const esc = (s) => String(s ?? '').replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]);
-  const emptyState = (text) => `<div class="pg-empty"><img src="${root}img/yotsuba-shader.webp" alt="" width="64" height="64"><p>${text}</p></div>`;
+  const emptyState = (text, title = '') => `<div class="pg-empty">${title ? `<h2>${esc(title)}</h2>` : ''}<p>${text}</p></div>`;
   const setState = (state) => { el.status.dataset.state = state; };
   /** Tiny highlighter for IR / SPIR-V text: opcodes, %ids, numbers and ; comments. */
   const hl = (text) => esc(text).split('\n').map((line) => {
@@ -48,6 +50,33 @@
   const project = { files: [], active: '' };
   const current = () => project.files.find((f) => f.name === project.active);
   const save = () => { try { localStorage.setItem(STORE, JSON.stringify(project)); } catch { /* storage unavailable */ } };
+  const mobileViewport = matchMedia('(max-width: 760px)');
+  const navigatorDrawerViewport = matchMedia('(max-width: 900px)');
+
+  function setNavigator(open) {
+    el.root.classList.toggle('pg--navigator-hidden', !open);
+    el.navigatorToggle.setAttribute('aria-expanded', String(open));
+    const label = open ? T('Hide navigator') : T('Show navigator');
+    el.navigatorToggle.title = label;
+    $('.sr-only', el.navigatorToggle).textContent = label;
+    el.backdrop.hidden = !open || !navigatorDrawerViewport.matches;
+  }
+
+  function setInspector(open) {
+    el.root.classList.toggle('pg--inspector-hidden', !open);
+    el.inspectorToggle.setAttribute('aria-expanded', String(open));
+    const label = open ? T('Hide inspector') : T('Show inspector');
+    el.inspectorToggle.title = label;
+    $('.sr-only', el.inspectorToggle).textContent = label;
+  }
+
+  function setMobileView(view) {
+    el.root.dataset.mobileView = view;
+    $$('[data-mobile-view]').forEach((button) => {
+      button.setAttribute('aria-selected', String(button.dataset.mobileView === view));
+      button.tabIndex = button.dataset.mobileView === view ? 0 : -1;
+    });
+  }
 
   /* ------------------------------------------------------------- backend */
   const api = (window.YotsubaPlayground = window.YotsubaPlayground || {});
@@ -168,10 +197,18 @@
         cases: {
           '@keywords': 'keyword.$0',
           '@shaderAttributes': 'annotation',
+          '@shaderTypes': 'type.identifier',
           '@default': 'method',
         },
       }];
-      const colorIdentifiers = (rules) => [method, ...rules.map((rule) => {
+      const contextual = [
+        [/(\[)(\s*)([A-Za-z_]\w*)(?=\s*[\](,])/, ['delimiter.square', '', 'annotation']],
+        [/\b(Stage|RegisterPrefix)(\.)([A-Za-z_]\w*)/, ['type.identifier', 'delimiter', 'enum.member']],
+        [/([A-Z]\w*(?:<[^>\n]+>)?|float|double|int|uint|bool)(\s+)([A-Za-z_]\w*)(?=\s*[;={])/, ['type.identifier', '', 'field']],
+        [/(\.)([A-Za-z_]\w*)(?=\s*\()/, ['delimiter', 'method']],
+        [/(\.)([A-Za-z_]\w*)/, ['delimiter', 'field']],
+      ];
+      const colorIdentifiers = (rules) => [...contextual, method, ...rules.map((rule) => {
         if (Array.isArray(rule) && rule[1]?.cases?.['@default'] &&
             (rule[1].cases['@default'] === 'identifier' || rule[1].cases['@default'].token === 'identifier')) {
           return [rule[0], { cases: { ...rule[1].cases,
@@ -182,6 +219,8 @@
       })];
       m.languages.setMonarchTokensProvider('csharp', {
         ...language,
+        shaderTypes: [...new Set([...examples.flatMap(e => e.files), ...files].flatMap(f =>
+          [...f.source.matchAll(/\b(?:class|struct|enum)\s+(\w+)/g)].map(match => match[1])))],
         shaderAttributes: ['ShaderStage', 'SV_Target', 'TEXCOORD', 'COLOR', 'POSITION', 'NORMAL',
           'register', 'cbuffer', 'numthreads', 'packoffset', 'VectorComponent'],
         tokenizer: { ...language.tokenizer,
@@ -204,15 +243,23 @@
     m.editor.defineTheme('yotsuba', {
       base: 'vs-dark', inherit: true,
       rules: [
-        { token: 'keyword', foreground: 'ff7eb6' }, { token: 'keyword.cs', foreground: 'ff7eb6' },
-        { token: 'type.identifier', foreground: '64D8CB' }, { token: 'type', foreground: '64D8CB' },
-        { token: 'method', foreground: 'E8D89C' },
-        { token: 'string', foreground: 'E6AD92' }, { token: 'number', foreground: 'B5CEA8' },
-        { token: 'comment', foreground: '8DAF87' }, { token: 'identifier', foreground: 'B9DDF3' },
-        { token: 'delimiter', foreground: 'a99bd0' }, { token: 'delimiter.square', foreground: 'ffc774' }, { token: 'annotation', foreground: '64D8CB' },
+        { token: 'keyword', foreground: '569CD6' }, { token: 'keyword.cs', foreground: '569CD6' },
+        ...['return', 'if', 'else', 'for', 'foreach', 'while', 'do', 'switch', 'case',
+          'break', 'continue', 'throw', 'try', 'catch', 'finally', 'yield'].map(word =>
+          ({ token: `keyword.${word}`, foreground: 'C586C0' })),
+        { token: 'type.identifier', foreground: '4EC9B0' }, { token: 'type', foreground: '4EC9B0' },
+        { token: 'annotation', foreground: '4EC9B0' },
+        { token: 'method', foreground: 'DCDCAA' },
+        { token: 'identifier', foreground: '9CDCFE' }, { token: 'field', foreground: 'DCDCDC' },
+        { token: 'enum.member', foreground: 'B8D7A3' },
+        { token: 'string', foreground: 'CE9178' }, { token: 'string.escape', foreground: 'D7BA7D' },
+        { token: 'number', foreground: 'B5CEA8' },
+        { token: 'comment', foreground: '6A9955' },
+        ...['delimiter', 'delimiter.square', 'delimiter.curly', 'delimiter.parenthesis',
+          'delimiter.angle'].map(token => ({ token, foreground: 'D4D4D4' })),
       ],
       colors: {
-        'editor.background': '#0f0b1b', 'editor.foreground': '#ece7fb', 'editor.lineHighlightBackground': '#1a1430',
+        'editor.background': '#0f0b1b', 'editor.foreground': '#D4D4D4', 'editor.lineHighlightBackground': '#1a1430',
         'editor.selectionBackground': '#4a2f8a88', 'editor.inactiveSelectionBackground': '#3a2a6b55', 'editorCursor.foreground': '#ff7eb6',
         'editorLineNumber.foreground': '#4d4272', 'editorLineNumber.activeForeground': '#c3a6ff', 'editorIndentGuide.background1': '#221a38',
         'editorIndentGuide.activeBackground1': '#3a2d5e', 'editorWidget.background': '#17122a', 'editorWidget.border': '#2d2447',
@@ -224,7 +271,7 @@
     });
     const ed = m.editor.create(el.host, {
       model: null, theme: 'yotsuba', automaticLayout: true, fontSize: 14, fontFamily: '"JetBrains Mono", SFMono-Regular, Menlo, monospace',
-      minimap: { enabled: false }, scrollBeyondLastLine: false, padding: { top: 14 }, tabSize: 4, ariaLabel: T('Shader source'),
+      minimap: { enabled: false }, bracketPairColorization: { enabled: false }, scrollBeyondLastLine: false, padding: { top: 14 }, tabSize: 4, ariaLabel: T('Shader source'),
       quickSuggestions: { other: true, comments: false, strings: false }, fixedOverflowWidgets: true,
     });
     ed.addCommand(m.KeyMod.CtrlCmd | m.KeyCode.Enter, () => run());
@@ -316,10 +363,14 @@
   function renderFiles() {
     el.files.replaceChildren(...project.files.map((f) => {
       const tab = document.createElement('div');
-      tab.className = 'pg-file'; tab.setAttribute('role', 'tab'); tab.tabIndex = 0;
+      tab.className = 'pg-file'; tab.setAttribute('role', 'tab'); tab.tabIndex = f.name === project.active ? 0 : -1;
+      tab.id = 'pg-file-' + project.files.indexOf(f);
+      tab.setAttribute('aria-controls', 'pg-editor');
+      if (f.name === project.active) el.host.setAttribute('aria-labelledby', tab.id);
       tab.setAttribute('aria-selected', String(f.name === project.active));
       tab.dataset.name = f.name;
-      const dot = document.createElement('i'); dot.className = 'pg-dot-file'; dot.dataset.c = String(project.files.indexOf(f) % 4);
+      const dot = document.createElement('span'); dot.className = 'pg-file-symbol'; dot.setAttribute('aria-hidden', 'true');
+      dot.innerHTML = '<svg viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="currentColor"><path d="M9.5 1.5h-6v13h9V5Zm0 0V5h3"/></svg>';
       const label = document.createElement('span'); label.textContent = f.name;
       tab.append(dot, label);
       if (project.files.length > 1) {
@@ -333,7 +384,12 @@
   }
 
   function openFile(name) {
-    project.active = name; editor.show(name); renderFiles(); save();
+    project.active = name;
+    el.activeFile.textContent = name;
+    editor.show(name);
+    renderFiles();
+    save();
+    if (navigatorDrawerViewport.matches) setNavigator(false);
   }
 
   function validName(raw, except) {
@@ -396,8 +452,8 @@
     diags.forEach((d) => { (byFile[d.file || project.active] ||= []).push(d); });
     editor.markers(byFile);
     el.panels.diagnostics.innerHTML = diags.length
-      ? `<ul class="pg-diags">${diags.map((d) => `<li class="pg-diag pg-diag--${esc(d.severity)}"><button type="button" data-file="${esc(d.file || '')}" data-line="${d.line || 1}"><b>${esc(T(d.severity))}</b><span>${esc(d.message)}</span><small>${d.id ? esc(d.id) + ' · ' : ''}${d.file ? `<b>${esc(d.file)}</b> · ` : ''}line ${d.line || '?'}, col ${d.column || '?'}</small></button></li>`).join('')}</ul>`
-      : emptyState(T('No diagnostics. Your code compiles cleanly.'));
+      ? `<ul class="pg-diags">${diags.map((d) => `<li class="pg-diag pg-diag--${esc(d.severity)}"><button type="button" data-file="${esc(d.file || '')}" data-line="${d.line || 1}"><span class="pg-diag-icon" aria-hidden="true">${d.severity === 'error' ? '×' : d.severity === 'warning' ? '△' : 'i'}</span><span><span class="pg-diag-severity">${esc(T(d.severity))}</span><span>${esc(d.message)}</span><small>${d.id ? esc(d.id) + ' · ' : ''}${d.file ? `<b>${esc(d.file)}</b> · ` : ''}${T('Line {line}, column {column}', { line: d.line || '?', column: d.column || '?' })}</small></span></button></li>`).join('')}</ul>`
+      : emptyState(T('No diagnostics. Your code compiles cleanly.'), T('No issues found'));
     return errors;
   }
 
@@ -407,7 +463,15 @@
     const shaders = result.shaders || [];
     $('#pg-count-shaders').textContent = shaders.length ? String(shaders.length) : '';
     el.panels.shaders.innerHTML = shaders.length
-      ? shaders.map((s) => `<div class="pg-shader"><h3>${esc(s.fullName || s.name)}</h3><ul>${(s.entryPoints || []).map((e) => `<li><span class="pg-stage pg-stage--${esc(String(e.stage).toLowerCase())}">${esc(e.stage)}</span><code>${esc(e.returnType || 'void')} ${esc(e.name)}(${(e.parameters || []).map((p) => `${esc(p.type)} ${esc(p.name)}${p.slot ? ` <i>${esc(p.slot)}</i>` : ''}`).join(', ')})</code></li>`).join('')}</ul></div>`).join('')
+      ? shaders.map((s) => {
+          const entries = s.entryPoints || [];
+          return `<section class="pg-shader"><header class="pg-shader-heading"><h3>${esc(s.fullName || s.name)}</h3></header><ul>${entries.map((e) => {
+            const stage = String(e.stage).toLowerCase();
+            const parameters = e.parameters || [];
+            const type = (value) => `<span class="pg-signature-type${value === 'void' ? ' pg-signature-keyword' : ''}">${esc(value)}</span>`;
+            return `<li class="pg-entry pg-entry--${esc(stage)}"><div class="pg-entry-heading"><span class="pg-stage pg-stage--${esc(stage)}">${esc(e.stage)}</span></div><code class="pg-entry-signature">${type(e.returnType || 'void')} <span class="pg-signature-method">${esc(e.name)}</span><span class="pg-signature-punctuation">(</span>${parameters.map((p) => `${type(p.type)} <span class="pg-signature-parameter">${esc(p.name)}</span>`).join('<span class="pg-signature-punctuation">, </span>')}<span class="pg-signature-punctuation">)</span></code>${parameters.some(p => p.slot) ? `<div class="pg-entry-bindings">${parameters.filter(p => p.slot).map(p => `<span class="pg-entry-binding"><span>${esc(p.name)}</span><span aria-hidden="true">:</span><code>${esc(p.slot)}</code></span>`).join('')}</div>` : ''}</li>`;
+          }).join('')}</ul></section>`;
+        }).join('')
       : emptyState(T('No shaders found yet. Mark a method with <code>[ShaderStage(Stage.Vertex)]</code>.'));
 
     el.panels.ir.innerHTML = result.ir ? `<pre>${hl(result.ir)}</pre>` : emptyState(T('The IR will appear here once the pipeline produces it.'));
@@ -422,6 +486,8 @@
       a.click(); URL.revokeObjectURL(a.href);
     });
     selectTab(errors ? 'diagnostics' : 'shaders');
+    if (mobileViewport.matches) setMobileView('results');
+    return errors;
   }
 
   /** The "Input image" tab only exists for examples that come with an image. */
@@ -429,13 +495,17 @@
     const ex = examples.find((e) => e.id === el.example.value) || {};
     const tab = $('.pg-tabs [data-tab="image"]');
     if (!tab) return;
-    tab.hidden = !ex.image;
-    if (ex.image) { const img = $('#pg-image'); if (img.getAttribute('src') !== ex.image) img.src = ex.image; }
-    else if (tab.getAttribute('aria-selected') === 'true') selectTab('diagnostics');
+    // Keep the preview implementation available, but hide it until rendering is ready.
+    tab.hidden = true;
+    if (tab.getAttribute('aria-selected') === 'true') selectTab('diagnostics');
   }
 
   function selectTab(name) {
-    $$('.pg-tabs [role="tab"]').forEach((t) => t.setAttribute('aria-selected', String(t.dataset.tab === name)));
+    $$('.pg-tabs [role="tab"]').forEach((t) => {
+      const selected = t.dataset.tab === name;
+      t.setAttribute('aria-selected', String(selected));
+      t.tabIndex = selected ? 0 : -1;
+    });
     Object.entries(el.panels).forEach(([k, p]) => (p.hidden = k !== name));
   }
 
@@ -463,12 +533,12 @@
     const t0 = performance.now();
     try {
       const style = (examples.find((e) => e.id === el.example.value) || {}).style || '';
-      render(await backend.compile(clone(project.files), { style }));
-      el.status.textContent = `${backend.name} · ${Math.round(performance.now() - t0)} ms`; setState('ok');
-      const bar = $('.pg-bar'); bar.classList.remove('pg-pulse'); void bar.offsetWidth; bar.classList.add('pg-pulse');
+      const errors = render(await backend.compile(clone(project.files), { style }));
+      el.status.textContent = `${errors ? T('Compilation failed') : T('Analysis completed')} · ${Math.round(performance.now() - t0)} ms`;
+      setState(errors ? 'error' : 'ok');
     } catch (err) {
       render({ diagnostics: [{ severity: 'error', message: T('Compiler error: {message}', { message: err && err.message ? err.message : err }), line: 1, column: 1 }] });
-      el.status.textContent = T('Compiler error'); setState('off');
+      el.status.textContent = T('Compiler error'); setState('error');
     } finally { running = false; el.run.disabled = false; }
   }
 
@@ -504,13 +574,16 @@
     if (!files) {
       try {
         const saved = JSON.parse(localStorage.getItem(STORE) || 'null');
-        if (saved && Array.isArray(saved.files) && saved.files.length) { files = saved.files; active = saved.active; }
+        if (saved && Array.isArray(saved.files) && saved.files.length) { files = saved.files; active = saved.active; project.example = saved.example; }
       } catch { /* ignore */ }
     }
     if (!files) {
       const ex = examples.find((e) => e.id === params.get('example')) || examples[0];
       el.example.value = ex.id; files = clone(ex.files);
     }
+    const matchedExample = examples.find(e => JSON.stringify(e.files) === JSON.stringify(files));
+    project.example = matchedExample?.id || project.example || el.example.value;
+    if (examples.some(e => e.id === project.example)) el.example.value = project.example;
     // Saved projects and old shared links use earlier namespaces: Language.Attributes, then Language.StylesAttributes.
     // The vocabularies are now the YotsubaShader.<X>Syntax packages and [Location] lives in YotsubaShader.Language.
     const SYNTAX = { Hlsl: 'Hlsl', Glsl: 'Glsl', Metal: 'Msl', Vulkan: 'Spirv', Wgsl: 'Wgsl' };
@@ -527,6 +600,7 @@
       if (f && f.source !== source) { f.source = source; save(); scheduleAnalyze(); }
     });
     editor.show(project.active);
+    el.activeFile.textContent = project.active;
     renderFiles();
 
     // files
@@ -537,8 +611,44 @@
       if (tab && !tab.querySelector('input')) openFile(tab.dataset.name);
     });
     el.files.addEventListener('dblclick', (e) => { const tab = e.target.closest('.pg-file'); if (tab) startRename(tab.dataset.name); });
-    el.files.addEventListener('keydown', (e) => { const tab = e.target.closest('.pg-file'); if (tab && (e.key === 'Enter' || e.key === ' ') && !tab.querySelector('input')) { e.preventDefault(); openFile(tab.dataset.name); } else if (tab && e.key === 'F2') startRename(tab.dataset.name); });
+    el.files.addEventListener('keydown', (e) => {
+      const tab = e.target.closest('.pg-file');
+      if (!tab || tab.querySelector('input') || e.target.closest('[data-del]')) return;
+      if (['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown', 'Home', 'End'].includes(e.key)) {
+        e.preventDefault();
+        const tabs = [...el.files.querySelectorAll('[role="tab"]')];
+        const index = tabs.indexOf(tab);
+        const forward = e.key === 'ArrowRight' || e.key === 'ArrowDown';
+        const next = e.key === 'Home' ? 0 : e.key === 'End' ? tabs.length - 1 : (index + (forward ? 1 : -1) + tabs.length) % tabs.length;
+        openFile(tabs[next].dataset.name);
+        el.files.querySelector('[aria-selected="true"]').focus();
+      } else if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openFile(tab.dataset.name); }
+      else if (e.key === 'F2') startRename(tab.dataset.name);
+    });
     el.add.addEventListener('click', newFile);
+
+    // Workspace visibility. Desktop uses side panels; mobile uses a navigator drawer and one content surface.
+    el.navigatorToggle.addEventListener('click', () => setNavigator(el.root.classList.contains('pg--navigator-hidden')));
+    el.inspectorToggle.addEventListener('click', () => setInspector(el.root.classList.contains('pg--inspector-hidden')));
+    el.backdrop.addEventListener('click', () => setNavigator(false));
+    $$('[data-mobile-view]').forEach((button) => button.addEventListener('click', () => setMobileView(button.dataset.mobileView)));
+    $('.pg-mobile-scope').addEventListener('keydown', (event) => {
+      if (!['ArrowLeft', 'ArrowRight', 'Home', 'End'].includes(event.key)) return;
+      event.preventDefault();
+      const tabs = $$('[data-mobile-view]');
+      const currentIndex = tabs.indexOf(document.activeElement);
+      const next = event.key === 'Home' ? 0 : event.key === 'End' ? tabs.length - 1 : (currentIndex + (event.key === 'ArrowRight' ? 1 : -1) + tabs.length) % tabs.length;
+      setMobileView(tabs[next].dataset.mobileView);
+      tabs[next].focus();
+    });
+    const syncViewport = () => {
+      setNavigator(!navigatorDrawerViewport.matches);
+      if (mobileViewport.matches) setMobileView('editor');
+      else setInspector(true);
+    };
+    mobileViewport.addEventListener('change', syncViewport);
+    navigatorDrawerViewport.addEventListener('change', syncViewport);
+    syncViewport();
 
     // examples replace the whole project (asking first if the user changed something)
     let loaded = JSON.stringify((examples.find((e) => e.id === el.example.value) || examples[0]).files);
@@ -546,6 +656,7 @@
       const ex = examples.find((e) => e.id === el.example.value);
       const dirty = JSON.stringify(project.files.map(({ name, source }) => ({ name, source }))) !== loaded;
       if (dirty && !confirm(T('Replace the current files with this example?'))) { el.example.value = examples.find((e) => JSON.stringify(e.files) === loaded)?.id || examples[0].id; return; }
+      project.example = ex.id;
       project.files.forEach((f) => editor.remove(f.name));
       project.files = clone(ex.files); project.files.forEach((f) => editor.add(f.name, f.source));
       loaded = JSON.stringify(ex.files);
@@ -558,16 +669,37 @@
       const link = `${location.origin}${location.pathname}#p=${await encodeProject()}`;
       try { await navigator.clipboard.writeText(link); el.status.textContent = T('Link copied'); } catch { location.hash = `p=${await encodeProject()}`; }
     });
-    $$('.pg-tabs [role="tab"]').forEach((t) => t.addEventListener('click', () => selectTab(t.dataset.tab)));
+    $$('.pg-tabs [role="tab"]').forEach((t) => {
+      t.id = 'pg-tab-' + t.dataset.tab;
+      t.setAttribute('aria-controls', 'pg-panel-' + t.dataset.tab);
+      el.panels[t.dataset.tab].id = 'pg-panel-' + t.dataset.tab;
+      el.panels[t.dataset.tab].setAttribute('aria-labelledby', t.id);
+      el.panels[t.dataset.tab].tabIndex = 0;
+      t.addEventListener('click', () => selectTab(t.dataset.tab));
+    });
+    $('.pg-tabs').addEventListener('keydown', (event) => {
+      if (!['ArrowLeft', 'ArrowRight', 'Home', 'End'].includes(event.key)) return;
+      event.preventDefault();
+      const tabs = $$('.pg-tabs [role="tab"]').filter(tab => !tab.hidden);
+      const index = tabs.indexOf(document.activeElement);
+      const next = event.key === 'Home' ? 0 : event.key === 'End' ? tabs.length - 1 : (index + (event.key === 'ArrowRight' ? 1 : -1) + tabs.length) % tabs.length;
+      selectTab(tabs[next].dataset.tab);
+      tabs[next].focus();
+    });
     el.panels.diagnostics.addEventListener('click', (e) => {
       const b = e.target.closest('[data-line]');
       if (!b) return;
       const file = b.dataset.file || project.active;
-      if (project.files.some((f) => f.name === file)) { project.active = file; renderFiles(); save(); editor.reveal(file, Number(b.dataset.line)); }
+      if (project.files.some((f) => f.name === file)) {
+        project.active = file;
+        el.activeFile.textContent = file;
+        renderFiles(); save(); editor.reveal(file, Number(b.dataset.line));
+        if (mobileViewport.matches) setMobileView('editor');
+      }
     });
     document.addEventListener('keydown', (e) => { if ((e.metaKey || e.ctrlKey) && e.key === 'Enter') { e.preventDefault(); run(); } });
 
-    Object.entries(el.panels).filter(([k]) => k !== 'image').forEach(([, p]) => { p.innerHTML = emptyState(T('Press <b>Compile</b> (Ctrl/⌘ Enter) to see the results.')); });
+    Object.entries(el.panels).filter(([k]) => k !== 'image').forEach(([, p]) => { p.innerHTML = emptyState(T('Compile your code to inspect diagnostics and shader entry points.'), T('Ready when you are')); });
     selectTab('diagnostics');
     syncImage();
 
