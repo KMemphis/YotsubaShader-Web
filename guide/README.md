@@ -1,5 +1,7 @@
 # Integrating Yotsuba Shader into your engine · Integrar Yotsuba Shader en tu motor
 
+> **API status (2026-10-23): historical design guide.** The PDF editions and code listings in this folder have not been migrated to the current API. They include proposed source-generator, CLI, runtime, and resource interfaces. They are no longer linked as current website documentation. Use the website reference and `Web/tools/check-api-examples.py` for the reviewed examples.
+
 A step-by-step guide in English and Spanish, as editable source and as PDF.
 Una guía paso a paso en español e inglés, como fuente editable y como PDF.
 

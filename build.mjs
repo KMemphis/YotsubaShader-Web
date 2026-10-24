@@ -24,6 +24,7 @@ import homePages from './src/pages/home.mjs';
 import getStarted from './src/pages/get-started.mjs';
 import syntaxes from './src/pages/syntaxes.mjs';
 import technologies from './src/pages/technologies.mjs';
+import compilation from './src/pages/compilation.mjs';
 import community from './src/pages/community.mjs';
 import playground from './src/pages/playground.mjs';
 
@@ -142,6 +143,7 @@ function build() {
     ...resolve(getStarted),
     ...resolve(syntaxes),
     ...resolve(technologies),
+    ...resolve(compilation),
     ...resolve(community),
     ...resolve(playground),
     docs.hub,

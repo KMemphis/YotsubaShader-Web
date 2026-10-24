@@ -26,7 +26,7 @@ export default function playground() {
       path: '/playground/',
       section: 'playground',
       title: 'Playground',
-      description: 'Write a Yotsuba Shader in C# and inspect its diagnostics, shaders, intermediate representation and SPIR-V in the browser.',
+      description: 'Edit C# shader declarations and inspect C# diagnostics and discovered entry points. IR and SPIR-V output are not yet implemented in the playground.',
       bodyClass: 'playground',
       noFooter: true,
       scripts: ['/js/playground.js'],
@@ -46,6 +46,7 @@ export default function playground() {
     </div>
   </div>
 
+  <p class="pg-banner">The playground currently provides C# analysis and shader discovery. IR generation, SPIR-V output, and rendering are not available here yet.</p>
   <div class="pg-banner" id="pg-banner" hidden></div>
 
   <div class="pg-panes">

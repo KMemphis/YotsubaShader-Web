@@ -1,18 +1,16 @@
+import { apiSource } from '../current-api.mjs';
 // Documentation articles: compiler, reference and project.
 import { icon, code, table, note, styleTabs, ideWindow } from '../components.mjs';
 import { builtinValuesCode, attributeGroupCode, textureBindingCode, STYLE_IDS } from '../examples.mjs';
 import { resourcesCode } from '../pages/syntaxes.mjs';
 import { builtinMapTable, resourceMapTable, SYNTAX_META } from '../reference.mjs';
 import { SITE } from '../site.mjs';
-import { GEN_CSPROJ, GEN_INPUT, GEN_OUTPUT, GEN_TYPES, GEN_USE, CLI_SNIPPET, TRANSPILE_USE, TRANSPILE_HLSL, IDE_EXAMPLE } from '../snippets.mjs';
+import { TRANSPILE_USE } from '../snippets.mjs';
 
 const D = '/documentation/yotsuba-shader/';
 
 /** Download links of the two reference PDFs (syntax table and backend compatibility), in the page's language. */
-export const PDF_LINKS = `<ul>
-<li><a href="/downloads/yotsuba-shader-syntax-reference-__FILM_LANG__.pdf">Syntax reference (PDF)</a>: every concept in the five syntaxes.</li>
-<li><a href="/downloads/yotsuba-shader-backend-compatibility-__FILM_LANG__.pdf">Backend compatibility (PDF)</a>: which graphics backends support each concept, verified with the shader toolchains.</li>
-</ul>`;
+export const PDF_LINKS = `<p>Use the source-generated attribute pages below as the current reference. Earlier PDF guides and their source archive have not been updated for this API and are no longer linked as current documentation.</p>`;
 const BUILTIN_VALUES = Object.fromEntries(STYLE_IDS.map((id) => [id, builtinValuesCode(id)]));
 const RESOURCES_BY_SYNTAX = Object.fromEntries(STYLE_IDS.map((id) => [id, resourcesCode(id)]));
 const TEXTURES_BY_SYNTAX = Object.fromEntries(STYLE_IDS.map((id) => [id, textureBindingCode(id)]));
@@ -62,6 +60,7 @@ public struct VertexOutput
     [${exampleAttr}]
     public Vector4 Position;
 }`)}
+<p>These pages list declared attributes. They do not imply that every concept is lowered by Roslyn or supported by every output target. Vector names in the listings require compatible project types.</p>
 <p>See the same concepts side by side in <a href="${D}builtin-values-across-syntaxes/">Built-in values across syntaxes</a> and <a href="${D}resource-attributes-across-syntaxes/">Resource attributes across syntaxes</a>.</p>
 ${sections || '<p class="muted">The language sources were not available when this page was built.</p>'}`,
   };
@@ -75,30 +74,17 @@ export default function compilerDocs(ctx) {
       title: 'Compilation pipeline',
       kind: 'Article',
       icon: 'doc',
-      summary: 'Follow a shader from C# source to SPIR-V: discovery, analysis, the intermediate representation and emission.',
+      summary: "Current compilation stages and the boundaries between implemented APIs and planned build integration.",
       body: `
 <h2>Overview</h2>
-<p>Compilation is a sequence of small, separate steps. Each one has a project of its own, so a stage can evolve, or be replaced, independently.</p>
-<div class="pipeline" role="list">
-  <div class="pipe-step" role="listitem"><span class="pipe-ico">${icon('code')}</span><b>C# source</b><span>Classes, structs, attributes</span></div>
-  <div class="pipe-step" role="listitem"><span class="pipe-ico">${icon('search')}</span><b>Discovery</b><span><code>ShaderDiscovery</code></span></div>
-  <div class="pipe-step" role="listitem"><span class="pipe-ico">${icon('doc')}</span><b>Analysis</b><span><code>ShaderProcessor</code></span></div>
-  <div class="pipe-step" role="listitem"><span class="pipe-ico">${icon('layers')}</span><b>IR</b><span><code>Shader</code>, <code>Function</code></span></div>
-  <div class="pipe-step" role="listitem"><span class="pipe-ico">${icon('cpu')}</span><b>SPIR-V</b><span><code>SpirVModule</code></span></div>
-</div>
-
+<p>The repository is in pre-release development. Attribute declarations and low-level APIs exist, but the complete C# → IR → SPIR-V pipeline is not finished. Authoring examples describe interfaces; they are not end-to-end compilation guarantees.</p>
+<p>The current projects are <code>YotsubaShader.Language</code>, the five syntax projects, <code>YotsubaShader.Concepts</code>, <code>YotsubaShader.Roslyn</code>, <code>YotsubaShader.IR</code>, and <code>YotsubaShader.Compiler.SpirV</code>.</p>
 <h2>Step by step</h2>
-<ol>
-  <li><strong>Discovery.</strong> <a href="${D}shader-discovery/">ShaderDiscovery</a> finds classes with <code>[ShaderStage]</code> methods using Roslyn symbols.</li>
-  <li><strong>Analysis.</strong> <code>ShaderProcessor</code> converts each entry point: stage, inputs and outputs as <code>Storage</code> with interface slots, and the function body.</li>
-  <li><strong>Intermediate representation.</strong> The result is a <code>Shader</code> made of <code>Function</code> records. See <a href="${D}intermediate-representation/">Intermediate representation</a>.</li>
-  <li><strong>Emission.</strong> A backend consumes the IR. For SPIR-V, <a href="${D}building-spirv-modules/">SpirVModule</a> collects instructions and <code>SpirVCompiler</code> encodes the binary.</li>
-</ol>
-
-<h2>Entry points</h2>
-<p>The source generator runs inside <code>dotnet build</code>. The command-line compiler is made for builds, CI and content tools. Both share compilation behavior, diagnostics, validation and configuration.</p>
-${code('bash', CLI_SNIPPET, 'Terminal')}
-<p><code>--target</code> selects the backend independently of the attributes used to write the shader.</p>`,
+<p><code>ShaderDiscovery.Find(compilation, token)</code> finds entry points. <code>ShaderProcessor.Process(compilation, token)</code> attempts to build IR and accumulates results in its <code>Shaders</code> list. Body processing is partial: assignments, return statements, calls, and many other operations still throw <code>NotImplementedException</code>.</p>
+<p><code>SpirVCompiler.Compile(SpirVModule)</code> encodes an explicitly assembled module. It does not accept a C# string or an IR <code>Shader</code>. The IR-to-SPIR-V lowering path remains unfinished.</p>
+<h2>Build integration</h2>
+<p>A shader compilation CLI and build-time shader source generator are planned. The existing <code>YotsubaShader.Generator</code> generates the SPIR-V instruction table, not compiled shader classes.</p>
+`,
     },
 
     /* ---------------------------------------------------------------- */
@@ -107,110 +93,36 @@ ${code('bash', CLI_SNIPPET, 'Terminal')}
       title: 'Shader diagnostics in your IDE',
       kind: 'Article',
       icon: 'doc',
-      summary: 'Shader errors and backend incompatibilities, shown in the editor while you type, for the targets listed in your project.',
+      summary: "Available C# checks and exceptions, with planned IDE shader diagnostics identified explicitly.",
       body: `
-<h2>Overview</h2>
-<p class="lead-p">Yotsuba Shader checks your shaders inside the IDE, while you write them. Mistakes in a shader and features that a target backend cannot run appear as errors and warnings in the editor, with the same squiggles and problem list as any other C# diagnostic. You find out before you build, and without a GPU.</p>
-${ideWindow({ ...IDE_EXAMPLE, label: 'An editor showing shader errors and backend warnings' })}
-
-<h2>Choose your targets</h2>
-<p>The backends come from your project. List them once in <code>&lt;YotsubaTargets&gt;</code>; every shader in the project is checked against each of them.</p>
-${code('xml', GEN_CSPROJ, 'YourGame.csproj')}
-${table(
-  ['Target', 'Format', 'Graphics backend'],
-  [
-    ['<code>spirv</code>', 'SPIR-V', 'Vulkan'],
-    ['<code>hlsl</code>', 'HLSL', 'Direct3D 12'],
-    ['<code>msl</code>', 'Metal Shading Language', 'Metal'],
-    ['<code>wgsl</code>', 'WGSL', 'WebGPU'],
-    ['<code>glsl</code>', 'GLSL', 'OpenGL'],
-    ['<code>glsles</code>', 'GLSL ES', 'WebGL 2'],
-  ],
-)}
-
-<h2>What is checked</h2>
-<ul>
-  <li><strong>The shader itself.</strong> An attribute in the wrong place, such as a compute-only attribute on a fragment stage, an output attribute on an input, or a value without its <code>[Location]</code>.</li>
-  <li><strong>Each target.</strong> Every built-in value, resource, type and stage is checked against each backend in <code>&lt;YotsubaTargets&gt;</code>. A shader that writes the render target layer works on Vulkan, Direct3D 12 and Metal, but not on WebGPU or WebGL 2, and the editor says so on that line.</li>
-  <li><strong>Types.</strong> A <code>double</code> is fine on Vulkan, Direct3D 12 and OpenGL, but Metal, WGSL and GLSL ES have no 64-bit floats.</li>
-</ul>
-<p>The syntax you write with does not matter: <code>[SV_RenderTargetArrayIndex]</code>, <code>[gl_Layer]</code>, <code>[render_target_array_index]</code> and <code>[BuiltIn_Layer]</code> are the same concept and get the same diagnostic.</p>
-
-<h2>Errors and warnings</h2>
-${table(
-  ['Severity', 'When'],
-  [
-    ['Error', 'The shader is wrong, or a target in your project cannot run it.'],
-    ['Warning', 'A target can run it only with an extension or an optional feature, for example <code>primitive_index</code> on WebGPU.'],
-  ],
-)}
-<p>Remove a target from <code>&lt;YotsubaTargets&gt;</code> and its diagnostics disappear. Add one and the editor shows what you would need to change.</p>
-
-<h2>Which backend supports what</h2>
-<p>The checks follow a compatibility table built by compiling every concept with the real shader toolchains of each backend. You can read it, and the table of every concept in the five syntaxes, as PDF files:</p>
-${PDF_LINKS}
-
-<h2>Where it works</h2>
-<p>The diagnostics run inside the C# compiler of your IDE, so they appear wherever C# analyzers do: Visual Studio, JetBrains Rider and Visual Studio Code with the C# extension. The same diagnostics also appear in <code>dotnet build</code> and in CI.</p>`,
+<h2>Current status</h2>
+<p>C# checks attribute names, constructor arguments, and allowed attribute targets. Roslyn discovery and processing also perform some checks, but processing errors currently surface as exceptions.</p>
+<p>Live shader diagnostics, per-backend compatibility warnings, <code>YotsubaTargets</code>, and the previously illustrated <code>YS1003</code>, <code>YS2001</code>, and <code>YS2002</code> analyzer messages are planned; their implementation was not found in the repository.</p>
+<p>The implemented source generator reports <code>YSG0001</code> when its SPIR-V grammar input is missing. That diagnostic belongs to operation-table generation, not shader validation.</p>
+`,
     },
     {
       slug: 'generating-shader-binaries',
       title: 'Generating shader binaries',
       kind: 'Article',
       icon: 'doc',
-      summary: 'Two ways to get SPIR-V and the other formats into your project: a source generator and a command line.',
+      summary: "Encode manually assembled SPIR-V modules; shader source generation and the shader CLI are planned.",
       body: `
-<h2>Overview</h2>
-<p class="lead-p">A shader is only useful once its binary reaches the graphics API. Yotsuba Shader produces it in two ways. They share the same compiler core; they differ in <em>where</em> in your workflow it runs. In both, the compiler runs on your development machine or in CI, and only the final binaries reach your application.</p>
+<h2>Current API</h2>
+<p>The implemented binary encoder is <code>YotsubaShader.Compiler.SpirV.SpirVCompiler</code>. Its input is a manually built <code>SpirVModule</code>; its output is <code>byte[]</code>.</p>
+${code('csharp', `using YotsubaShader.Compiler.SpirV;
+using YotsubaShader.Compiler.SpirV.Builder;
 
-<h2>1. A source generator, at build time</h2>
-<p>This is the primary workflow. A Roslyn source generator runs as part of <code>dotnet build</code>: it receives your project's compilation, finds every <code>[ShaderStage]</code> method, compiles it and writes the result back into your code as the other half of a <strong><code>partial</code> class</strong>: every binary you specified, plus its reflection.</p>
-<p>You opt in by referencing the generator and choosing the targets:</p>
-${code('xml', GEN_CSPROJ, 'YourGame.csproj')}
-<p>and by declaring the shader class <code>partial</code>:</p>
-${code('csharp', GEN_INPUT, 'Triangle.cs')}
-<p>The generator adds the other half of the class. It declares two fields and fills them with code it generates:</p>
-${code('csharp', GEN_OUTPUT, 'Triangle.g.cs')}
-<p>Both fields carry <code>[ShaderIgnore]</code>, which tells Yotsuba Shader not to treat them as part of the shader. The generated half adds no base class, so your own inheritance never conflicts with it.</p>
-<p>Every shader exposes the same two types, so any tool or engine can read any shader the same way:</p>
-${code('csharp', GEN_TYPES, 'YotsubaShader.Runtime')}
-<ul>
-  <li><strong><code>ShaderCompiledCode</code></strong> holds the binaries, one per entry point and format. The key is the <strong>name of your C# method</strong>; <code>nameof(Triangle.Vertex)</code> keeps it checked by the compiler. Text formats are returned as UTF-8 bytes, and <code>GetText</code> decodes them.</li>
-  <li><strong><code>ShaderReflection</code></strong> lists the <code>BinaryFormats</code> that were generated, the entry points (name, stage and the name each format uses) and the resources (name, kind, access and the slot each format uses), so you do not read the binaries to build a pipeline.</li>
-</ul>
-${table(
-  ['Binaries', 'What it holds', 'Typical use'],
-  [
-    ['<code>Binaries.SpirV</code>', 'SPIR-V binary', 'Vulkan'],
-    ['<code>Binaries.Hlsl</code>', 'UTF-8 source text', 'Direct3D 11 and 12: compile it with DXC or FXC'],
-    ['<code>Binaries.Msl</code>', 'UTF-8 source text', 'Metal compiles it at run time'],
-    ['<code>Binaries.Wgsl</code>', 'UTF-8 source text', 'WebGPU'],
-    ['<code>Binaries.Glsl</code>, <code>Binaries.GlslEs</code>', 'UTF-8 source text', 'OpenGL, WebGL'],
-  ],
-)}
-<p>The magic number <code>0x07230203</code> that starts every SPIR-V module is stored little-endian, which is why a SPIR-V binary begins with <code>0x03, 0x02, 0x23, 0x07</code>. The data lives as static data in your assembly, so reading it does not copy or allocate. Only the formats you list in <code>YotsubaTargets</code> are generated.</p>
-${code('csharp', GEN_USE, 'Renderer.cs')}
-<h3>Why it is the main path</h3>
-<ul>
-  <li><strong>Nothing to ship separately.</strong> The binaries live inside your assembly.</li>
-  <li><strong>Errors at build time.</strong> A shader that does not compile fails the build like any C# error.</li>
-  <li><strong>One way to ask.</strong> Every shader has a <code>CompiledCode</code> and a <code>Reflection</code> field, so engines and tools handle all of them the same way.</li>
-  <li><strong>One target per platform.</strong> <code>spirv</code>, <code>hlsl</code>, <code>msl</code>, <code>wgsl</code>, <code>glsl</code> and <code>glsles</code>. Only the targets you list are generated.</li>
-</ul>
-
-<h2>2. Command line</h2>
-<p>For builds, CI and content tools, you give the <code>yotsuba</code> command your project file. It loads the project's sources and references the way the C# compiler does, finds every <code>[ShaderStage]</code> method and writes one binary per entry point:</p>
-${code('bash', CLI_SNIPPET, 'Terminal')}
-<p>The output folder then holds <code>Triangle.Vertex.spv</code>, <code>Triangle.Fragment.spv</code> and so on. To compile a single entry point, add <code>--entry Triangle.Vertex</code>. <code>--target</code> selects the backend independently of the syntax you wrote the shader in. This is also the easiest way to inspect output with <code>spirv-val</code> and <code>spirv-dis</code>.</p>
-
-<h2>Choosing</h2>
-${table(
-  ['Workflow', 'Runs', 'Best for', 'Output'],
-  [
-    ['<strong>Source generator</strong>', 'During <code>dotnet build</code>', 'Games, engines and apps that ship shaders with the code', 'Byte arrays in a <code>partial</code> class'],
-    ['<strong>Command line</strong>', 'In scripts and CI', 'Content pipelines, inspection and validation', '<code>.spv</code> files'],
-  ],
-)}`,
+static byte[] EncodeModule(SpirVModule module)
+{
+    return new SpirVCompiler().Compile(module);
+}`)}
+<p>The caller must supply a complete, valid module and validate the result with SPIR-V tools. Encoding a module is not the same as compiling a C# shader.</p>
+<h2>Planned workflows</h2>
+<p>The documented <code>yotsuba compile</code> command, <code>YotsubaTargets</code> MSBuild property, <code>YotsubaShader.SourceGenerator</code> package, and generated <code>ShaderCompiledCode</code> properties are not implemented in this checkout. No installation or usage command is provided for them.</p>
+<p>The language declares <code>CompilerGeneratedCodeAttribute</code> and <code>Binaries</code>. These declarations express intended output choices; they do not implement generation or prove that each format is supported.</p>
+${code('csharp', apiSource('YotsubaShader.Language/Compiler/CompilerGeneratedCodeAttribute.cs'))}
+`,
     },
 
     /* ---------------------------------------------------------------- */
@@ -219,58 +131,15 @@ ${table(
       title: 'Transpiling from SPIR-V',
       kind: 'Article',
       icon: 'doc',
-      summary: 'At run time the compiler produces SPIR-V; a small Transpile API powered by Yotsuba ShaderCross turns it into HLSL, MSL, WGSL, GLSL or GLSL ES text in pure C#.',
+      summary: "Use the actual Parser and backend compiler classes of YotsubaShaderCross. WGSL remains planned.",
       body: `
-<h2>Overview</h2>
-<p class="lead-p">The compiler produces one format: SPIR-V. When your tool or game needs another one at run time, you hand the SPIR-V to the <code>Transpile</code> API and get shader <strong>text</strong> back.</p>
-<div class="pipeline" role="list">
-  <div class="pipe-step" role="listitem"><span class="pipe-ico">${icon('code')}</span><b>C# string</b><span>Your shader source</span></div>
-  <div class="pipe-step" role="listitem"><span class="pipe-ico">${icon('cpu')}</span><b>SPIR-V</b><span>The compiler's output</span></div>
-  <div class="pipe-step" role="listitem"><span class="pipe-ico">${icon('layers')}</span><b>Transpile</b><span>Pure C# with Yotsuba ShaderCross</span></div>
-  <div class="pipe-step" role="listitem"><span class="pipe-ico">${icon('doc')}</span><b>Shader text</b><span>HLSL, MSL, WGSL, GLSL, GLSL ES</span></div>
-</div>
-
-<h2>The API</h2>
-<p>One static class, one function per output format, and an options object where the format needs one:</p>
-${code('csharp', TRANSPILE_USE, 'Transpile.cs')}
-${table(
-  ['Function', 'Output', 'Translator', 'Options'],
-  [
-    ['<code>FromSpirVToHlsl</code>', 'HLSL text', 'YotsubaShaderCross', '<code>ShaderModel</code> (50, 51, 60 and up), <code>EntryPoint</code>'],
-    ['<code>FromSpirVToMsl</code>', 'Metal Shading Language text', 'YotsubaShaderCross', 'Metal version'],
-    ['<code>FromSpirVToWgsl</code>', 'WGSL text', 'YotsubaShaderCross', '—'],
-    ['<code>FromSpirVToGlsl</code>', 'GLSL or GLSL ES text', 'YotsubaShaderCross', '<code>Version</code>, <code>Es</code>'],
-  ],
-)}
-<p>Every function takes the SPIR-V bytes and, where it makes sense, a binding map that says which <code>set</code> and <code>binding</code> becomes which register or slot. Without it, shaders that use textures or buffers cannot be laid out for HLSL.</p>
-
-<h2>Pure C# transpilation with Yotsuba ShaderCross</h2>
-<p>Transpilation is handled natively by <strong>Yotsuba ShaderCross</strong>, a pure C# port of SPIRV-Cross operating directly in .NET 8. It consumes SPIR-V binary bytecode and emits clean, idiomatic shader text in HLSL, MSL, WGSL, GLSL and GLSL ES without native C++ binaries, P/Invoke, or external dependencies like Naga. Because it is written in pure managed C#, transpilation is fast, memory-safe, and fully portable across every platform supported by .NET.</p>
-
-<h2>From text to a binary</h2>
-<p>Yotsuba ShaderCross produces clean shader text. Turning that text into something the GPU runs is the job of the target platform:</p>
-${table(
-  ['Target', 'Who compiles the text', 'Extra files to ship'],
-  [
-    ['<strong>Metal</strong>', 'The Metal framework, at run time', 'None'],
-    ['<strong>WebGPU</strong>', 'The browser', 'None'],
-    ['<strong>OpenGL, WebGL</strong>', 'The graphics driver', 'None'],
-    ['<strong>Direct3D 11</strong> and <strong>Direct3D 12</strong>', 'DXC (Shader Model 6) or FXC (Shader Model 5.x), whichever you already use', 'Not included. Yotsuba Shader stops at the HLSL text'],
-  ],
-)}
-${code('csharp', TRANSPILE_HLSL, 'Direct3D.cs')}
-<p>Yotsuba Shader does not produce DXIL or DXBC. For Direct3D it stops at HLSL text, and the compiler you choose turns that text into bytecode.</p>
-
-<h2>Where to run it</h2>
-<ul>
-  <li><strong>On your development machine, at build time</strong> (with the source generator or the command line): translate once and ship only the final text or binaries.</li>
-  <li><strong>At run time</strong>, for editors, importers and shaders created while the program runs: Yotsuba ShaderCross executes in pure C# with no native runtime dependencies.</li>
-  <li><strong>On consoles and mobile</strong>: because Yotsuba ShaderCross is 100% managed C# on .NET 8, it runs everywhere without needing native cross-compilations or platform-specific binaries.</li>
-</ul>
-<h2>Reading SPIR-V back into C#</h2>
-<p>The other direction, from SPIR-V to C#, is planned. There is no API for it yet.</p>
-
-<p>Next: <a href="${D}shader-discovery/">Shader discovery</a>.</p>`,
+<h2>Current API</h2>
+<p>YotsubaShaderCross exposes <code>Parser</code>, <code>CompilerGLSL</code>, <code>CompilerHLSL</code>, <code>CompilerMSL</code>, and reflection APIs. There is no <code>YotsubaShader.Transpile</code> namespace or <code>Transpile.FromSpirVTo*</code> wrapper in this checkout.</p>
+${code('csharp', TRANSPILE_USE, 'SpirvToGlsl.cs')}
+<p>For GLSL ES, set <code>options.es = true</code> and choose an appropriate version, such as <code>300</code>. For HLSL or MSL, use their compiler classes and backend-specific options. The result is source text; the target graphics toolchain still compiles that text.</p>
+<p>WGSL emission is planned for 2027 and has no implemented compiler class. <code>CompilerCSHARP</code> exists as a stub whose constructors throw <code>NotImplementedException</code>. Neither is a usable conversion path today.</p>
+<p>The translated library targets .NET 8. Managed code alone does not establish compatibility with every console, browser, AOT environment, or GPU driver; validate your intended platform separately.</p>
+`,
     },
 
     /* ---------------------------------------------------------------- */
@@ -281,49 +150,22 @@ ${code('csharp', TRANSPILE_HLSL, 'Direct3D.cs')}
       icon: 'doc',
       summary: 'How the frontend finds shaders in a Roslyn compilation, by symbol rather than by text.',
       body: `
-<h2>Overview</h2>
-<p><code>ShaderDiscovery.Find</code> receives a Roslyn <code>Compilation</code> and returns one <code>ShaderInfo</code> per class that declares at least one <code>[ShaderStage]</code> method. It works with symbols, not text, so it does not matter how the attribute is written: through an alias, a <code>using</code> directive, or its long or short name.</p>
-${code('csharp', `public static class ShaderDiscovery
+<h2>Current API</h2>
+<p><code>ShaderDiscovery.Find(Compilation, CancellationToken)</code> belongs to <code>YotsubaShader.Roslyn</code>. It inspects types declared in the current assembly and finds ordinary methods carrying <code>YotsubaShader.Language.ShaderStageAttribute</code>. Check C# compilation errors before discovery.</p>
+${code('csharp', `using Microsoft.CodeAnalysis;
+using YotsubaShader.Roslyn;
+
+static void Inspect(Compilation compilation)
 {
-    public const string ShaderStageAttributeMetadataName =
-        "YotsubaShader.Language.ShaderStageAttribute";
-
-    public static ImmutableArray<ShaderInfo> Find(
-        Compilation compilation,
-        CancellationToken cancellationToken = default);
-}`, 'ShaderDiscovery.cs')}
-${note('important', 'The caller must check that the compilation has no C# errors before calling <code>Find</code>.')}
-
+    var shaders = ShaderDiscovery.Find(compilation);
+    foreach (var shader in shaders)
+    foreach (var entry in shader.EntryPoints)
+        System.Console.WriteLine($"{shader.FullName}.{entry.Name}: {entry.Stage}");
+}`)}
+<p>Private methods and nested types are inspected. Helpers without the stage attribute are not entry points. Referenced assemblies are not searched for shader classes. Discovery reads declarations; it does not establish that method bodies compile to GPU instructions.</p>
 <h2>The model</h2>
-${code('csharp', `public sealed record ShaderInfo(
-    INamedTypeSymbol Type,
-    ImmutableArray<EntryPointInfo> EntryPoints)
-{
-    public string Name => Type.Name;
-    public string FullName => /* e.g. "Game.MegaShader" */;
-}
-
-public sealed record EntryPointInfo(
-    IMethodSymbol Method,
-    Stage Stage,
-    ImmutableArray<ParameterInfo> Parameters,
-    ITypeSymbol ReturnType);
-
-public sealed record ParameterInfo(IParameterSymbol Symbol);`, 'ShaderInfo.cs')}
-
-<h2>Rules</h2>
-<ul>
-  <li>Only types of <strong>your</strong> project are inspected, not the types in referenced assemblies.</li>
-  <li>Only ordinary methods count: constructors and property accessors are skipped.</li>
-  <li>Entry points are returned in declaration order.</li>
-  <li>Private methods work, and helper methods without <code>[ShaderStage]</code> in the same class are simply ignored.</li>
-  <li>Attributes are read directly from the method; those of an overridden method are not inherited.</li>
-  <li>The stage arrives as the underlying number of the enum value and is converted back to <code>Stage</code>.</li>
-</ul>
-
-<h2>Tests</h2>
-<p><code>YotsubaShader.Frontend.Tests</code> checks discovery on a "mega shader" class that mixes two stages, helper methods and properties: it finds the class, returns <code>VS</code> and <code>FS</code> in order with their stages, and exposes parameter names, types and return types.</p>
-${code('bash', 'dotnet test YotsubaShader.Frontend.Tests')}`,
+${code('csharp', apiSource('YotsubaShader.Roslyn/Model/ShaderInfo.cs'))}
+`,
     },
 
     /* ---------------------------------------------------------------- */
@@ -334,55 +176,17 @@ ${code('bash', 'dotnet test YotsubaShader.Frontend.Tests')}`,
       icon: 'doc',
       summary: 'The backend-neutral model that sits between the frontend and every backend.',
       body: `
-<h2>Overview</h2>
-<p>The IR (<code>YotsubaShader.IR</code>) is the contract between the language and the backends. It describes <em>what a shader is</em>, not how any single API expresses it.</p>
-
-<h2>Shader and function</h2>
-${code('csharp', `public readonly record struct Shader(
-    IReadOnlyList<Function> Functions,
-    IReadOnlyList<Storage> Constants);
-
-public readonly record struct Function(
-    string HumanName,
-    Stage Stage,                      // None, Fragment, Vertex, Compute
-    IReadOnlyList<Storage> Inputs,
-    IReadOnlyList<Storage> Outputs,
-    IReadOnlyList<Statement> Body);`)}
-
-<h2>Storage</h2>
-<p>Every value is a <code>Storage</code> record with a name, a kind and an optional interface slot.</p>
-${code('csharp', `public abstract record class Storage(
-    string HumanName,
-    StorageKind Kind,
-    InterfaceSlot? Slot);
-
-public enum StorageKind
-{ Input, Output, Uniform, StorageBuffer, PushConstant, Texture, Sampler, Local }`)}
-
-<h2>Types</h2>
-${table(
-  ['Type', 'Notable fields'],
-  [
-    ['<code>Bool</code>', '<code>InitialValue</code>'],
-    ['<code>Int</code>', '<code>Bits</code>, <code>Signed</code>, <code>InitialValue</code>'],
-    ['<code>Float</code>, <code>Double</code>', '32-bit and 64-bit, <code>InitialValue</code>'],
-    ['<code>Vector</code>', '<code>ComponentsType</code> (Float, Int, Uint), <code>ComponentsLength</code>, <code>ComponentsDefaultValues</code>'],
-    ['<code>Matrix</code>', '<code>ComponentsType</code> (Float, Double), <code>Rows</code>, <code>Columns</code>'],
-    ['<code>Array</code>', 'Homogeneous, indexable sequence of elements.'],
-    ['<code>CustomStruct</code>', '<code>Properties</code>: nested storage, each with its own slot.'],
-    ['<code>Texture</code>', '<code>Dimensions</code>, <code>TextureComponentsType</code>, <code>Depth</code>, <code>Arrayed</code>, <code>Multisampled</code>, <code>Usage</code>, <code>Format</code>'],
-    ['<code>Sampler</code>', 'A sampler.'],
-  ],
-)}
-
-<h2>Interface slots</h2>
-<p>An <code>InterfaceSlot</code> is a <code>LocationSlot</code> (a number), a <code>BuiltInSlot</code> (a system value such as position) or a <code>VertexSlot</code> (a semantic the backend resolves to a location).</p>
-
+<h2>Current declarations</h2>
+${code('csharp', apiSource('YotsubaShader.IR/Intermediate/Shader.cs'))}
+${code('csharp', apiSource('YotsubaShader.IR/Intermediate/Function.cs'))}
+${code('csharp', apiSource('YotsubaShader.IR/Intermediate/Storage.cs'))}
+${code('csharp', apiSource('YotsubaShader.IR/Intermediate/StorageKind.cs'))}
+<p>A <code>Shader</code> currently contains only <code>Functions</code>; its constructor has no <code>Constants</code> parameter. Storage types and interface slots describe the IR model, independently of whether frontend lowering or backend emission is implemented for each case.</p>
 <h2>Function bodies</h2>
-<p>A body is a list of <code>Statement</code> records built from <code>Expression</code> records: literals (bool, int, float, double, vector, matrix, array, struct), assignments, and assignment targets (a storage, a storage array element, a struct property of a storage).</p>
-
-<h2>XNA helpers</h2>
-<p><code>XnaHelper</code> offers factory methods that build IR values for XNA-style types: <code>XNA_CreateVector2</code>, <code>XNA_CreateVector3</code> (from component values) and <code>XNA_CreateTexture2D</code>. They let the frontend map <code>Vector2</code>, <code>Vector3</code> or a 2D texture to the matching IR storage.</p>`,
+${code('csharp', apiSource('YotsubaShader.IR/Intermediate/FunctionBody/Statements/Block.cs'))}
+${code('csharp', apiSource('YotsubaShader.IR/Intermediate/FunctionBody/Statements/VariableDeclaration.cs'))}
+<p>Block traversal is implemented. Local declaration processing creates storage but remains unfinished; expression processing and numerous statement handlers still throw. An IR type declaration is not evidence of complete C# support.</p>
+`,
     },
 
     /* ---------------------------------------------------------------- */
@@ -475,7 +279,7 @@ spirv-dis "mi modulo spirv.spv"`)}`,
 <h2>How it is wired</h2>
 <ul>
   <li>The generator targets <code>netstandard2.0</code> so it can run inside the compiler.</li>
-  <li><code>YotsubaShader.Compiler</code> references it as an analyzer and declares the grammar as an <code>AdditionalFile</code>.</li>
+  <li><code>YotsubaShader.Compiler.SpirV</code> references it as an analyzer and declares the grammar as an <code>AdditionalFile</code>.</li>
   <li>At build time it generates <code>SpirVOpTable</code>, <code>SpirVOp</code> and <code>SpirVOpClass</code>.</li>
 </ul>
 ${note('important', 'If the grammar file is not among the <code>AdditionalFiles</code>, the generator reports a <strong>YSG0001</strong> warning and <code>SpirVOpTable</code> is not generated, so the compiler project will not build.')}
@@ -504,7 +308,7 @@ module.AddResultLine("%entry", SpirVOpTable.OpLabel);`)}`,
 ${styleTabs(BUILTIN_VALUES, { file: 'BuiltIns.cs' })}
 <p>For resources and binding slots, see <a href="${D}resource-attributes-across-syntaxes/">Resource attributes across syntaxes</a>.</p>
 <h2>Printable references</h2>
-<p>The whole table, every concept in the five syntaxes, and which graphics backends support each concept, as PDF files.</p>
+<p>The reference below describes declarations in this checkout; it does not certify backend compatibility.</p>
 ${PDF_LINKS}`,
     },
     {
@@ -516,26 +320,15 @@ ${PDF_LINKS}`,
       summary: 'Uniform buffers, storage buffers, textures, samplers and binding slots in each syntax.',
       body: `
 <h2>Uniform and storage buffers</h2>
-<p>The same three resources in every syntax: a uniform, a read and write storage buffer and a read-only one, each with its binding slot.</p>
+<p>These are declaration examples with binding slots. Access markers differ by syntax; the GLSL and SPIR-V examples do not distinguish read-only access.</p>
 ${styleTabs(RESOURCES_BY_SYNTAX, { file: 'Resources.cs' })}
 
 <h2>Textures and samplers</h2>
 <p>A texture and a sampler bound to their slots.</p>
 ${styleTabs(TEXTURES_BY_SYNTAX, { file: 'Surface.cs' })}
 
-<h2>Shared attributes</h2>
-<p>Independent of the syntax, <code>YotsubaShader.Language</code> provides these attributes. They work together with any of the vocabularies above. See <a href="${D}uniforms-and-storage-buffers/">Uniforms and storage buffers</a>.</p>
-${code('csharp', `using YotsubaShader.Language;
-using YotsubaShader.Language.Resources;
-
-public class Shared
-{
-    [Uniform, Binding(0, 0)]
-    public float Exposure;
-
-    [StorageBuffer(Access = ResourceAccess.ReadOnly), Binding(0, 1)]
-    public float[] Input;
-}`, 'Shared.cs')}`,
+<h2>Resource namespaces</h2>
+<p>Resources belong to each syntax namespace, such as <code>YotsubaShader.HlslSyntax.Resources</code> or <code>YotsubaShader.SpirvSyntax.Resources</code>. Declarations are not proof of complete resource lowering. See the buffer tutorial for current constructors.</p>`,
     },
     ...Object.keys(SYNTAX_META).map((id) => syntaxArticle(ctx, id)),
   ];
@@ -554,13 +347,14 @@ ${table(
   ['Project', 'Role', 'Depends on'],
   [
     ['<code>YotsubaShader.Language</code>', 'Authoring layer: stages, attributes, resources and the types you map to the GPU.', '—'],
+    ['<code>YotsubaShader.Concepts</code>', 'Shared concept markers for syntax attributes.', '—'],
     ['<code>YotsubaShader.IR</code>', 'Shared model between the frontend and backends.', '—'],
-    ['<code>YotsubaShader.Frontend</code>', 'Discovery and semantic analysis of C# shaders (Roslyn).', 'Language, IR, Compiler'],
-    ['<code>YotsubaShader.Compiler</code>', 'SPIR-V module construction and encoding.', 'Generator (analyzer), MonoGame framework'],
+    ['<code>YotsubaShader.Roslyn</code>', 'Discovery and semantic analysis of C# shaders (Roslyn).', 'Concepts, Language, IR, Roslyn package'],
+    ['<code>YotsubaShader.Compiler.SpirV</code>', 'SPIR-V module construction and encoding.', 'IR, Generator (analyzer), MonoGame package'],
     ['<code>YotsubaShader.Generator</code>', 'SPIR-V operation table generated from the Khronos grammar.', 'Roslyn (build time only)'],
-    ['<code>YotsubaShaderCross</code>', 'Pure C# port of SPIRV-Cross for .NET 8, transpiling SPIR-V to HLSL, MSL, WGSL, GLSL and GLSL ES.', '—'],
+    ['<code>YotsubaShaderCross</code>', 'Managed SPIRV-Cross translation for GLSL, GLSL ES, HLSL, MSL, and reflection. WGSL is planned.', '—'],
     ['<code>YotsubaShader.Example</code>', 'Executable example of low-level SPIR-V assembly.', 'Compiler'],
-    ['<code>YotsubaShader.Frontend.Tests</code>', 'Frontend discovery and analysis tests (xUnit).', 'Frontend'],
+    ['<code>YotsubaShader.Frontend.Tests</code>', 'Frontend discovery and analysis tests (xUnit).', 'Roslyn, Language, HlslSyntax, SpirvSyntax, MonoGame, xUnit'],
   ],
 )}
 

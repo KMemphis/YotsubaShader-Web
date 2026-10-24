@@ -4,11 +4,11 @@ import { BACKENDS, SPIRV_LOGO } from '../backends.mjs';
 
 const HOW = {
   vulkan: 'Compiler output',
-  d3d: '<code>Transpile.FromSpirVToHlsl</code> (Yotsuba ShaderCross); compile the text with your own DXC or FXC',
-  metal: '<code>Transpile.FromSpirVToMsl</code> (Yotsuba ShaderCross)',
-  webgpu: '<code>Transpile.FromSpirVToWgsl</code> (Yotsuba ShaderCross)',
-  opengl: '<code>Transpile.FromSpirVToGlsl</code> (Yotsuba ShaderCross)',
-  webgl: '<code>Transpile.FromSpirVToGlsl</code> with <code>Es</code> (Yotsuba ShaderCross)',
+  d3d: '<code>CompilerHLSL</code> (YotsubaShaderCross); compile the resulting HLSL with a target compiler',
+  metal: '<code>CompilerMSL</code> (YotsubaShaderCross)',
+  webgpu: 'Planned for 2027; no WGSL emitter is implemented',
+  opengl: '<code>CompilerGLSL</code> (YotsubaShaderCross)',
+  webgl: '<code>CompilerGLSL</code> with <code>options.es = true</code>',
 };
 
 export default function technologies(ctx) {
@@ -41,9 +41,9 @@ export default function technologies(ctx) {
     <h2 class="h-lg center" style="margin-top:96px">From C# to a binary module</h2>
     <div class="pipeline" role="list">
       <div class="pipe-step" role="listitem"><span class="pipe-ico">${icon('code')}</span><b>Language</b><span><code>YotsubaShader.Language</code></span></div>
-      <div class="pipe-step" role="listitem"><span class="pipe-ico">${icon('search')}</span><b>Frontend</b><span><code>YotsubaShader.Frontend</code></span></div>
+      <div class="pipe-step" role="listitem"><span class="pipe-ico">${icon('search')}</span><b>Frontend</b><span><code>YotsubaShader.Roslyn</code></span></div>
       <div class="pipe-step" role="listitem"><span class="pipe-ico">${icon('layers')}</span><b>IR</b><span><code>YotsubaShader.IR</code></span></div>
-      <div class="pipe-step" role="listitem"><span class="pipe-ico">${icon('cpu')}</span><b>Compiler</b><span><code>YotsubaShader.Compiler</code></span></div>
+      <div class="pipe-step" role="listitem"><span class="pipe-ico">${icon('cpu')}</span><b>Compiler</b><span><code>YotsubaShader.Compiler.SpirV</code></span></div>
       <div class="pipe-step" role="listitem"><span class="pipe-ico">${icon('box')}</span><b>SPIR-V module</b><span><code>.spv</code></span></div>
     </div>
     <p class="pipeline-note">Each stage is its own project, so a backend can be added without touching how shaders are written.</p>
@@ -76,7 +76,7 @@ public Vector4 Fragment(VertexOutput input) => input.Color;`)}
     <h2>Interface slots</h2>
     <p><code>[Location(n)]</code> marks input and output fields or properties. Built-in values (position, vertex index, global invocation id and many more) are expressed with the attribute vocabulary of your chosen syntax.</p>
     <h2>Resources</h2>
-    <p>Shared attributes describe resources in every syntax: <code>[Uniform]</code>, <code>[StorageBuffer]</code> with a <code>ResourceAccess</code> mode (<code>ReadOnly</code>, <code>WriteOnly</code>, <code>ReadWrite</code>) and <code>[Binding(set, binding)]</code>. Each syntax adds its own spellings.</p>
+    <p>Resources are declared in each syntax namespace. For SPIR-V use <code>[Uniform]</code> or <code>[StorageBuffer]</code> with separate <code>[DescriptorSet(n)]</code> and <code>[Binding(n)]</code>. The current attributes have no <code>ResourceAccess</code> property.</p>
     <h2>Your types, mapped to the GPU</h2>
     <p>Shaders live inside your C# project, so they use its types. Attributes map the vectors, matrices and textures you already have to native GPU types, and your shaders can build on external libraries and NuGet packages instead of redefining everything.</p>
     <p><a class="link-more" href="/documentation/yotsuba-shader/reusing-your-types-and-libraries/">Reusing your types and libraries ${icon('chevron-right')}</a></p>
@@ -138,11 +138,9 @@ foreach (ShaderInfo shader in shaders)
     <h2>Analysis</h2>
     <p><code>ShaderProcessor.Process</code> turns each entry point into an IR <code>Function</code>: it resolves the stage, converts every parameter into a <code>Storage</code> (with its interface slot) and recognises the built-in attributes of all five syntaxes.</p>
     <h2>Entry points</h2>
-    <p>Use the source generator in your build, or the command-line compiler in scripts, CI and content tools.</p>
-    ${code('bash', `yotsuba compile YourGame.csproj \\
-  --target spirv \\
-  --output artifacts/shaders`, 'Terminal')}
-    <p>Both share compilation behavior, diagnostics, validation and configuration.</p>
+    <p>Shader build integration and a shader compilation CLI are planned. The existing generator only produces the SPIR-V operation table.</p>
+
+    <p>There is no implemented C# shader command-line contract to document yet.</p>
   </div>
 </section>`,
   };
@@ -164,8 +162,7 @@ foreach (ShaderInfo shader in shaders)
   <div class="container container--narrow prose">
     <h2>The model</h2>
     ${code('csharp', `public readonly record struct Shader(
-    IReadOnlyList<Function> Functions,
-    IReadOnlyList<Storage> Constants);
+    IReadOnlyList<Function> Functions);
 
 public readonly record struct Function(
     string HumanName,
@@ -236,7 +233,7 @@ File.WriteAllBytes("mi modulo spirv.spv", spirV);`, 'Program.cs')}
     <h2>Generated operation table</h2>
     <p><code>YotsubaShader.Generator</code> is an incremental source generator. It reads the official <code>spirv.core.grammar.json</code> from Khronos and generates <code>SpirVOpTable</code>, so instructions are strongly typed instead of magic numbers.</p>
     <h2>Output targets</h2>
-    <p>SPIR-V is the shared intermediate binary. Vulkan consumes it directly; other graphics APIs expect their own shader format, which the <code>Transpile</code> API produces from the SPIR-V. The syntax never decides the target.</p>
+    <p>YotsubaShaderCross provides GLSL, HLSL, and MSL compiler classes for SPIR-V input. WGSL emission is planned. These APIs do not complete the unfinished C# frontend pipeline.</p>
     ${table(
       ['Platform', 'Shader format', 'How you get it'],
       BACKENDS.map((b) => [`<strong>${b.name}</strong>`, `<code>${b.format}</code>`, HOW[b.id]]),

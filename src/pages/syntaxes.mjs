@@ -121,6 +121,11 @@ export function resourcesCode(id) {
 ${syntaxUsing(id)}
 ${resUsing(id)}
 
+public struct Material
+{
+    public float Exposure;
+}
+
 public class Resources
 {
     // Uniform buffer, with its binding slot
@@ -147,7 +152,7 @@ export default function syntaxes(ctx) {
 <section class="hero hero--compact">
   <div class="container">
     <h1 class="h-xl">One shader. Five ways to write it.</h1>
-    <p class="lead">You can write the same shader using the names of HLSL, GLSL, MSL, SPIR-V or WGSL. This choice is visual: every syntax compiles to SPIR-V and can then be transpiled to the other target languages through Yotsuba ShaderCross. The generated shader semantics remain the same.</p>
+    <p class="lead">The five syntax projects declare C# attributes inspired by HLSL, GLSL, MSL, SPIR-V, and WGSL. Their concepts are intended to share an output path; the complete compiler pipeline is still in development. WGSL authoring attributes exist, while WGSL output is planned for 2027.</p>
   </div>
   <hr class="hero-rule">
 </section>

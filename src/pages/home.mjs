@@ -1,5 +1,5 @@
 import { icon, code, styleTabs, cardLink, ideWindow } from '../components.mjs';
-import { STYLE_TRIANGLE, GEN_CSPROJ, GEN_OUTPUT, GEN_USE, CLI_SNIPPET, IDE_EXAMPLE } from '../snippets.mjs';
+import { STYLE_TRIANGLE } from '../snippets.mjs';
 import { SITE } from '../site.mjs';
 import { flowDiagram } from '../diagram.mjs';
 
@@ -49,14 +49,14 @@ const home = {
     <div class="center stages-home-header">
       <p class="eyebrow">SHADER STAGES</p>
       <h2 class="h-lg" id="stages-home-title">The pipeline today. The stages coming next.</h2>
-      <p class="lead">Vertex, Fragment and Compute are supported now. Geometry, Hull and Domain are planned for March 2027.</p>
+      <p class="lead">Vertex, Fragment and Compute are declared in the current API; full compilation is in development. Geometry, Hull and Domain are planned for March 2027.</p>
     </div>
     <div class="stages-timeline">
       <article class="stages-timeline-item stages-timeline-item--now">
         <div class="stages-timeline-copy">
           <p class="stages-timeline-date">Now</p>
           <h3><span lang="en">Vertex</span>, <span lang="en">Fragment</span>, <span lang="en">Compute</span></h3>
-          <p>Supported today, from vertex processing through pixels and general-purpose GPU work.</p>
+          <p>Authoring declarations exist today. Complete GPU compilation is still in development.</p>
         </div>
         <figure class="stages-timeline-media">
           <img src="/img/stages/rasterization.svg" alt="A triangle being rasterized into a grid of pixels" width="450" height="450" loading="lazy">
@@ -106,40 +106,33 @@ const home = {
     </div>
     <div class="grid grid-4 sponsors-home-grid">
       <article class="card sponsor-home-card">
-        <div class="sponsor-home-media"><img src="/img/sponsors/roadmap.svg" alt="" width="960" height="540" loading="lazy"></div>
+        <div class="sponsor-home-media"><img src="/img/sponsors/roadmap.webp" alt="" width="960" height="540" loading="lazy"></div>
         <div class="sponsor-home-copy">
           <h3 class="card-title">Shape the roadmap</h3>
           <p class="card-body">Vote on which backend or integration comes next, and send feature ideas to <a href="mailto:sponsor-roadmap@yotsubashader.com">sponsor-roadmap@yotsubashader.com</a>. Every $50/month gives you 1 request per year.</p>
         </div>
       </article>
       <article class="card sponsor-home-card">
-        <div class="sponsor-home-media"><img src="/img/sponsors/devlog.svg" alt="" width="960" height="540" loading="lazy"></div>
+        <div class="sponsor-home-media"><img src="/img/sponsors/devlog.webp" alt="" width="960" height="540" loading="lazy"></div>
         <div class="sponsor-home-copy">
           <h3 class="card-title">Follow the work</h3>
           <p class="card-body">Get the sponsors-only devlog and a private channel to talk to me directly.</p>
         </div>
       </article>
       <article class="card sponsor-home-card">
-        <div class="sponsor-home-media"><img src="/img/sponsors/visibility.svg" alt="" width="960" height="540" loading="lazy"></div>
+        <div class="sponsor-home-media"><img src="/img/sponsors/visibility.webp" alt="" width="960" height="540" loading="lazy"></div>
         <div class="sponsor-home-copy">
           <h3 class="card-title">Get visibility</h3>
           <p class="card-body">Your name, link or logo on the Sponsors page, the README and the website, plus a mention in major release announcements.</p>
         </div>
       </article>
       <article class="card sponsor-home-card">
-        <div class="sponsor-home-media"><img src="/img/sponsors/engine-integration.svg" alt="" width="960" height="540" loading="lazy"></div>
+        <div class="sponsor-home-media"><img src="/img/sponsors/engine-integration.webp" alt="" width="960" height="540" loading="lazy"></div>
         <div class="sponsor-home-copy">
           <h3 class="card-title">Build it into your engine</h3>
           <p class="card-body">Partners get a dedicated integration session to bring Yotsuba Shader into their environment.</p>
         </div>
       </article>
-    </div>
-    <div class="sponsors-tier-strip" aria-label="Sponsorship tiers">
-      <span><strong>$25</strong> Maintainer's Ally</span>
-      <span><strong>$50</strong> Studio Supporter <span class="sponsors-tier-detail">(1 request/year)</span></span>
-      <span><strong>$100</strong> Team Sponsor <span class="sponsors-tier-detail">(2)</span></span>
-      <span><strong>$250</strong> Engine and Framework Sponsor <span class="sponsors-tier-detail">(5)</span></span>
-      <span><strong>$500</strong> Engine and Framework Partner <span class="sponsors-tier-detail">(10)</span></span>
     </div>
     <p class="sponsors-home-note">Sponsoring never unlocks features or changes the license. Everyone gets the same code.</p>
     <div class="sponsors-home-actions">
@@ -156,7 +149,7 @@ const home = {
     </p>
     <div class="home-value-grid">
       <a class="home-value-card" href="/playground/"><span class="home-value-kicker">Explore</span><strong>Try it in the Playground</strong><span>Start from working C# shader code.</span>${icon('arrow-right')}</a>
-      <a class="home-value-card" href="/documentation/yotsuba-shader/shader-diagnostics-in-your-ide/"><span class="home-value-kicker">Validate</span><strong>Catch errors in your IDE</strong><span>Know what every target supports before you build.</span>${icon('arrow-right')}</a>
+      <a class="home-value-card" href="/documentation/yotsuba-shader/shader-diagnostics-in-your-ide/"><span class="home-value-kicker">Validate</span><strong>Catch errors in your IDE</strong><span>See current validation limits and planned checks.</span>${icon('arrow-right')}</a>
       <a class="home-value-card" href="/technologies/spir-v/"><span class="home-value-kicker">Target</span><strong>Compile for every backend</strong><span>Use one shader source across graphics APIs.</span>${icon('arrow-right')}</a>
     </div>
   </div>
@@ -166,71 +159,24 @@ const home = {
   <div class="container">
     <div class="center" style="margin-bottom:36px">
       <h2 class="h-lg">One shader. Five ways to write it.</h2>
-      <p class="lead">You can write the same shader using the names of HLSL, GLSL, MSL, SPIR-V or WGSL. This choice is visual: every syntax compiles to SPIR-V and can then be transpiled to the other target languages through Yotsuba ShaderCross. The generated shader semantics remain the same.</p>
+      <p class="lead">Five attribute vocabularies describe shader concepts in C#. Their intended output path is shared; complete lowering is in development, and WGSL output remains planned.</p>
     </div>
     ${styleTabs(STYLE_TRIANGLE)}
     <p class="center"><a class="link-more" href="/documentation/yotsuba-shader/choosing-a-syntax/">Choosing a syntax ${icon('chevron-right')}</a></p>
   </div>
 </section>
 
-<section class="section section--rule">
-  <div class="container">
-    <div class="center" style="margin-bottom:40px">
-      <h2 class="h-lg">Shader errors in your IDE.</h2>
-      <p class="lead">Yotsuba Shader checks your shaders while you type, inside the IDE you already use. Mistakes in the shader and features your target backends cannot run appear as errors and warnings in the editor, before you build.</p>
-    </div>
-    <div class="diag-main">
-      ${ideWindow({ ...IDE_EXAMPLE, label: 'An editor showing shader errors and backend warnings' })}
-      <div class="diag-copy">
-        <h3>Checked against the backends in your project.</h3>
-        <p>List your targets once in the <code>.csproj</code>. Every attribute, type and stage is checked against each of them, and the editor tells you which backend does not support it and why.</p>
-        ${code('xml', GEN_CSPROJ, 'YourGame.csproj')}
-        <ul class="checks">
-          <li>${icon('check')}<span>Shader errors underlined in the editor, like any C# error</span></li>
-          <li>${icon('check')}<span>Compatibility with SPIR-V, HLSL, MSL, WGSL, GLSL and GLSL ES, checked per target</span></li>
-          <li>${icon('check')}<span>No build, no GPU and no driver needed to find out</span></li>
-          <li>${icon('check')}<span>Works wherever C# analyzers run: Visual Studio, Rider and VS Code</span></li>
-        </ul>
-        <p class="mt-24"><a class="link-more" href="/documentation/yotsuba-shader/shader-diagnostics-in-your-ide/">Shader diagnostics in your IDE ${icon('chevron-right')}</a></p>
-      </div>
-    </div>
-  </div>
-</section>
+<section class="section section--rule"><div class="container container--narrow">
+<h2 class="h-lg">Shader diagnostics: planned</h2>
+<p class="lead">The playground exposes C# diagnostics and shader discovery today. Shader-specific IDE diagnostics and backend compatibility analysis are planned.</p>
+<p><a class="link-more" href="/documentation/yotsuba-shader/shader-diagnostics-in-your-ide/">Read the current validation status ${icon('chevron-right')}</a></p>
+</div></section>
 
-<section class="section section--rule">
-  <div class="container">
-    <div class="center" style="margin-bottom:40px">
-      <h2 class="h-lg">Generate it where you already work.</h2>
-      <p class="lead">Two ways to get the binary for each platform into your project. The first one needs nothing but a build.</p>
-    </div>
-
-    <div class="gen-main">
-      <div class="gen-copy">
-        <h3>A source generator, at build time.</h3>
-        <p>Add one package and mark your shader class <code>partial</code>. When you build, Yotsuba Shader compiles every <code>[ShaderStage]</code> method and writes <strong>every binary you ask for</strong> into that class, with the reflection to use them. The shaders ship inside your assembly, and shader errors show up as compiler errors.</p>
-        <ul class="checks">
-          <li>${icon('check')}<span>No files to copy and no extra step in your pipeline</span></li>
-          <li>${icon('check')}<span>Every format you ask for: SPIR-V, HLSL, MSL, WGSL, GLSL, GLSL ES</span></li>
-          <li>${icon('check')}<span>The same two fields on every shader, so engines can read any of them</span></li>
-        </ul>
-        <p class="mt-24"><a class="link-more" href="/documentation/yotsuba-shader/generating-shader-binaries/">How it works ${icon('chevron-right')}</a></p>
-      </div>
-      <div class="gen-code">
-        ${code('xml', GEN_CSPROJ, 'YourGame.csproj')}
-        ${code('csharp', GEN_OUTPUT, 'Triangle.g.cs')}
-        ${code('csharp', GEN_USE, 'Renderer.cs')}
-      </div>
-    </div>
-
-    <div class="panel panel--wide mt-24">
-      <div>
-        <h3 class="h-md" style="margin:14px 0 10px">Command line</h3>
-        <p class="card-body" style="margin:0">For CI, content pipelines and build scripts. Pass it your <code>.csproj</code> and get one <code>.spv</code> per entry point.</p>
-      </div>
-      <div>${code('bash', CLI_SNIPPET, 'Terminal')}</div>
-    </div>
-  </div>
-</section>
+<section class="section section--rule"><div class="container container--narrow">
+<h2 class="h-lg">Build integration: in development</h2>
+<p class="lead">The existing generator builds the SPIR-V instruction table. A source generator that compiles your shaders, and a shader compilation CLI, are planned.</p>
+<p><a class="link-more" href="/documentation/yotsuba-shader/generating-shader-binaries/">Explore current binary generation ${icon('chevron-right')}</a></p>
+</div></section>
 
 <section class="section section--rule">
   <div class="container feature">
@@ -244,18 +190,22 @@ const home = {
       </ul>
       <p class="mt-24"><a class="link-more" href="/documentation/yotsuba-shader/interface-slots-and-locations/">Interface slots and locations ${icon('chevron-right')}</a></p>
     </div>
-    <div>${code('csharp', `public struct VertexOutput
+    <div>${code('csharp', `using Microsoft.Xna.Framework;
+using YotsubaShader.HlslSyntax;
+using YotsubaShader.HlslSyntax.Resources;
+
+public struct VertexOutput
 {
     [SV_Position]
     public Vector4 Position;  // built-in
 
-    [Location(0)]
+    [COLOR]
     public Vector4 Color;     // to the fragment
 }
 
 public sealed class Material
 {
-    [Uniform]
+    [cbuffer, register(RegisterPrefix.b, 0)]
     public float Exposure;
 }`, 'Interfaces.cs')}</div>
   </div>
@@ -382,15 +332,15 @@ const whatsNew = {
 
 ${entry(
   'Shader errors in your IDE',
-  'Yotsuba Shader checks your shaders while you type. Mistakes in a shader, and features that a backend in your project cannot run, appear as errors and warnings in the editor.',
-  `<p>List your targets in <code>&lt;YotsubaTargets&gt;</code> and every built-in value, resource, type and stage is checked against each of them: SPIR-V, HLSL, MSL, WGSL, GLSL and GLSL ES. The compatibility rules come from compiling every concept with the real toolchain of each backend, and they are published as a PDF.</p>`,
+  'Live shader diagnostics and per-backend checks are planned. Current C# diagnostics are available through the playground.',
+  `<p>The repository does not yet implement <code>YotsubaTargets</code> or a backend compatibility analyzer. See the documentation for the current API and planned workflows.</p>`,
   ['Shader diagnostics in your IDE', '/documentation/yotsuba-shader/shader-diagnostics-in-your-ide/'],
 )}
 
 ${entry(
   'One package per syntax',
   'The HLSL, GLSL, MSL, SPIR-V and WGSL vocabularies are now separate packages: <code>YotsubaShader.HlslSyntax</code>, <code>YotsubaShader.GlslSyntax</code>, <code>YotsubaShader.MslSyntax</code>, <code>YotsubaShader.SpirvSyntax</code> and <code>YotsubaShader.WgslSyntax</code>.',
-  `<p>Each namespace has the name of its package, so <code>using YotsubaShader.Language.StylesAttributes.HlslStyle;</code> becomes <code>using YotsubaShader.HlslSyntax;</code>, and resources move to <code>YotsubaShader.HlslSyntax.Resources</code>. <code>[Location]</code> is now in <code>YotsubaShader.Language</code>, the neutral core that engines and frameworks build on. Add only the syntax you write with.</p>`,
+  `<p>Use <code>YotsubaShader.HlslSyntax</code> for HLSL attributes and <code>YotsubaShader.HlslSyntax.Resources</code> for resources. The numbered <code>Location</code> attribute belongs to <code>YotsubaShader.SpirvSyntax</code>. These are source projects; published NuGet availability is not established here.</p>`,
   ['Choosing a syntax', '/documentation/yotsuba-shader/choosing-a-syntax/'],
 )}
 
@@ -418,7 +368,7 @@ ${entry(
 ${entry(
   'Resource attributes for every syntax',
   'Uniform buffers, storage buffers, textures, samplers and binding slots are available in each syntax.',
-  `<p>From <code>cbuffer</code> and <code>register</code> to <code>layout(set, binding)</code>, <code>buffer(n)</code>, <code>DescriptorSet</code> and <code>@group</code>/<code>@binding</code>, plus shared <code>[Uniform]</code> and <code>[StorageBuffer]</code> attributes with a <code>ResourceAccess</code> mode.</p>`,
+  `<p>Each syntax has its own resource attributes. SPIR-V uses separate <code>DescriptorSet(n)</code> and <code>Binding(n)</code>; its <code>StorageBuffer</code> marker has no access-mode property.</p>`,
   ['Uniforms and storage buffers', '/documentation/yotsuba-shader/uniforms-and-storage-buffers/'],
 )}
 
@@ -474,10 +424,9 @@ const resources = {
 
     <h2 class="h-md" style="margin-top:56px">Guides</h2>
     <div class="grid grid-3 mt-24">
-      ${res('Integrating Yotsuba Shader into your engine (PDF)', 'A step-by-step guide for engine and framework authors: types, resources, compilation, typed parameters, loading, tests and packaging.', '/downloads/yotsuba-shader-engine-guide-__FILM_LANG__.pdf')}
-      ${res('Syntax reference (PDF)', 'Every concept of the language in the HLSL, GLSL, MSL, SPIR-V and WGSL syntaxes, side by side.', '/downloads/yotsuba-shader-syntax-reference-__FILM_LANG__.pdf')}
-      ${res('Backend compatibility (PDF)', 'Which graphics backends support each concept: Vulkan, Direct3D 12, Metal, WebGPU, OpenGL and WebGL 2, verified with their shader toolchains.', '/downloads/yotsuba-shader-backend-compatibility-__FILM_LANG__.pdf')}
-      ${res('Editable source of the guide', 'The guide is written in Typst. Edit it, translate it or adapt it to your engine. It includes both editions and every code listing.', '/downloads/yotsuba-shader-engine-guide-source.zip')}
+      ${res('Types for engines and frameworks', 'Current type annotations and integration limits.', '/documentation/yotsuba-shader/types-for-engines-and-frameworks/')}
+      ${res('Current attribute reference', 'Attribute declarations read from the current source projects.', '/documentation/yotsuba-shader/builtin-values-across-syntaxes/')}
+      ${res('Current validation status', 'Implemented checks and planned backend diagnostics.', '/documentation/yotsuba-shader/shader-diagnostics-in-your-ide/')}
     </div>
 
     <h2 class="h-md" style="margin-top:56px">Specifications</h2>

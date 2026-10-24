@@ -63,7 +63,7 @@ function usageKind(text) {
 }
 
 function scanFile(file) {
-  const src = fs.readFileSync(file, 'utf8');
+  const src = fs.readFileSync(file, 'utf8').replace(/\[ConceptKey\([^)]*\)\]/g, '');
   const out = [];
   const typeRe = /public\s+(?:sealed\s+)?(class|struct|enum)\s+(@?\w+)(<[\w, ]+>)?\s*(?:\(([^)]*)\))?/g;
   for (const m of src.matchAll(typeRe)) {
@@ -78,6 +78,7 @@ function scanFile(file) {
     }
     out.push({
       name,
+      namespace: /namespace\s+([\w.]+)\s*[;{]/.exec(src)?.[1],
       display: name + generic,
       form,
       attribute: isAttribute,

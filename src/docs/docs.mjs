@@ -1,7 +1,7 @@
 // Documentation set: sidebar tree, landing page and hub.
 import essentials from './essentials.mjs';
 import compilerDocs from './compiler.mjs';
-import { cardLink, icon } from '../components.mjs';
+import { cardLink, icon, note } from '../components.mjs';
 
 export const SET = { slug: 'yotsuba-shader', title: 'Yotsuba Shader' };
 
@@ -107,7 +107,7 @@ ${topics}`,
     const i = order.indexOf(a.slug);
     const prev = a.slug === 'index' ? null : i > 0 ? bySlug.get(order[i - 1]) : landing;
     const next = a.slug === 'index' ? bySlug.get(order[0]) : i < order.length - 1 ? bySlug.get(order[i + 1]) : null;
-    return { ...a, prev, next };
+    return { ...a, body: note('important', "Pre-release API reference, reviewed against the checkout on 23 October 2026. The C# \u2192 IR \u2192 SPIR-V pipeline is incomplete; authoring declarations and planned workflows are distinguished below.") + a.body, prev, next };
   });
 
   const hub = {

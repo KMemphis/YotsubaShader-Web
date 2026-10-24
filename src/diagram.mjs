@@ -13,5 +13,6 @@ export function flowDiagram() {
     <source media="(max-width: 760px)" srcset="${DIR}/flow-tall.webp" width="${sizes.tall.W}" height="${sizes.tall.H}">
     <img src="${DIR}/flow-wide.webp" width="${sizes.wide.W}" height="${sizes.wide.H}" alt="" loading="lazy" decoding="async">
   </picture>
+  <figcaption>Intended compilation pipeline. C# lowering is incomplete; WGSL output is planned for 2027.</figcaption>
 </figure>`;
 }

@@ -1,17 +1,17 @@
 import { icon, code, table, note, cardLink } from '../components.mjs';
-import { BASIC_COLOR, GEN_USE } from '../snippets.mjs';
+import { BASIC_COLOR } from '../snippets.mjs';
 import { SITE } from '../site.mjs';
 
 const overview = {
   path: '/get-started/',
   section: 'get-started',
   title: 'Get Started',
-  description: 'Add Yotsuba Shader to your .NET project, write your first C# shader and build it.',
+  description: 'Explore the pre-release authoring API and build the current source checkout.',
   body: `
 <section class="hero hero--compact">
   <div class="container">
     <h1 class="h-xl">Get started with Yotsuba Shader</h1>
-    <p class="lead">Add the package, write a shader in C# and build your project. It takes a few minutes.</p>
+    <p class="lead">Explore C# shader declarations and the current compiler components.</p>
     <div class="hero-actions">
       <a class="btn btn-primary" href="/get-started/first-shader/">Your first shader ${icon('arrow-right')}</a>
       <a class="btn btn-secondary" href="/get-started/build-from-source/">Build from source</a>
@@ -23,7 +23,7 @@ const overview = {
 <section class="section">
   <div class="container container--narrow">
     <h2 class="h-lg">Before you begin</h2>
-    <p class="lead mt-24">Yotsuba Shader is a NuGet package for any .NET 8 project. You can also build it from source.</p>
+    <p class="lead mt-24">The source projects target .NET 8. This checkout does not establish the availability of a published, production-ready NuGet package.</p>
     ${table(
       ['Requirement', 'Details'],
       [
@@ -38,13 +38,9 @@ const overview = {
 
 <section class="section section--rule section--flush-top">
   <div class="container container--narrow">
-    <h2 class="h-lg">Four steps</h2>
-    <ol class="steps mt-32">
-      <li><div><h3>Add the package</h3><p>Reference the source generator from your project.</p>${code('bash', 'dotnet add package YotsubaShader.SourceGenerator')}</div></li>
-      <li><div><h3>Write a shader</h3><p>Mark a class <code>partial</code> and add <code>[ShaderStage]</code> methods, with the types you already use.</p><a class="link-more" href="/get-started/first-shader/">Your first shader ${icon('chevron-right')}</a></div></li>
-      <li><div><h3>Build</h3><p>Every stage is compiled during the build, and the binaries and their reflection are added to your class.</p>${code('bash', 'dotnet build')}</div></li>
-      <li><div><h3>Use it</h3><p>Read the binary for your graphics API from the class.</p>${code('csharp', GEN_USE, 'Renderer.cs')}</div></li>
-    </ol>
+    <h2 class="h-lg">Explore the current API</h2>
+    <p>Start with the source checkout, its authoring examples, and shader discovery. Complete shader compilation, build-time shader generation, and engine adapters are still in development.</p>
+    <a class="link-more" href="/get-started/build-from-source/">Build from source ${icon('chevron-right')}</a>
   </div>
 </section>
 
@@ -54,7 +50,7 @@ const overview = {
     <div class="grid grid-3 mt-48">
       ${cardLink({ href: '/documentation/yotsuba-shader/understanding-yotsuba-shader/', icon: 'book', title: 'Understand the model', body: 'The language, the IR and the compiler stages in one article.' })}
       ${cardLink({ href: '/documentation/yotsuba-shader/choosing-a-syntax/', icon: 'braces', title: 'Pick a syntax', body: 'HLSL, GLSL, MSL, SPIR-V or WGSL syntax. Same semantics.' })}
-      ${cardLink({ href: '/documentation/yotsuba-shader/shader-diagnostics-in-your-ide/', icon: 'check', title: 'See errors in your IDE', body: 'Shader errors and backend incompatibilities in the editor, for the targets in your project.' })}
+      ${cardLink({ href: '/documentation/yotsuba-shader/shader-diagnostics-in-your-ide/', icon: 'check', title: 'See errors in your IDE', body: 'Current validation limits and planned shader diagnostics.' })}
       ${cardLink({ href: '/technologies/', icon: 'layers', title: 'See the technologies', body: 'The language, the Roslyn frontend, the IR and the SPIR-V compiler.' })}
     </div>
   </div>
@@ -82,18 +78,18 @@ const firstShader = {
     <h2>What each piece does</h2>
     <ul>
       <li><code>VertexInput</code> defines the data supplied by the engine.</li>
-      <li><code>[Location(0)]</code> and <code>[Location(1)]</code> identify the pipeline inputs: position and color.</li>
+      <li><code>[POSITION]</code> and <code>[COLOR]</code> identify the vertex inputs.</li>
       <li><code>VertexOutput</code> defines what the vertex shader passes to the next stage.</li>
       <li><code>[SV_Position]</code> marks the position required by the GPU.</li>
       <li><code>[ShaderStage]</code> identifies the vertex and fragment stages.</li>
-      <li>The second <code>[Location(0)]</code> carries the color between those stages.</li>
+      <li><code>[COLOR]</code> carries color between the stages; <code>[return: SV_Target(0)]</code> identifies the fragment color output.</li>
     </ul>
     ${note('note', 'The HLSL syntax does not require an HLSL target. These are C# authoring choices; the compilation targets are selected separately.')}
     <h2>What the compiler sees</h2>
     <p>The compiler starts by finding <code>BasicColorShader</code>, because two of its methods have <code>[ShaderStage]</code>. For each one it reads which stage it is, what it receives and what it returns.</p>
-    <p>The attributes tell it what each piece of data is for: <code>[Location(n)]</code> marks what passes from one stage to the next, and <code>[SV_Position]</code> marks the position where the vertex is drawn. You can write the same shader with <code>[gl_Position]</code>, <code>[position]</code>, <code>[BuiltIn_Position]</code> or <code>[@builtin_position]</code>, and the compiler understands it the same way.</p>
+    <p>The attributes describe user semantics and built-ins. <code>[Location(n)]</code> is available separately from <code>YotsubaShader.SpirvSyntax</code>. Syntax declarations cover more concepts than the current processor can lower.</p>
     <h2>Grow it</h2>
-    <p>The same class can grow to include uniforms, textures, buffers and other stages. Add a <code>[Uniform]</code> field for per-frame data, or a <code>[ShaderStage(Stage.Compute)]</code> method for GPU compute.</p>
+    <p>Resources use the namespace of the chosen syntax, for example <code>YotsubaShader.SpirvSyntax.Resources</code>. Compute declarations exist, while complete shader body compilation remains unfinished.</p>
     <p><a class="link-more" href="/documentation/yotsuba-shader/writing-your-first-shader/">Read the full article ${icon('chevron-right')}</a></p>
   </div>
 </section>`,
@@ -133,9 +129,9 @@ spirv-dis "mi modulo spirv.spv"`)}
       ['Project', 'Role'],
       [
         ['<code>YotsubaShader.Language</code>', 'Authoring layer: stages, attributes, resources and the types you map to the GPU.'],
-        ['<code>YotsubaShader.Frontend</code>', 'Discovery and semantic analysis of C# shaders.'],
+        ['<code>YotsubaShader.Roslyn</code>', 'Discovery and semantic analysis of C# shaders.'],
         ['<code>YotsubaShader.IR</code>', 'Shared model between the frontend and backends.'],
-        ['<code>YotsubaShader.Compiler</code>', 'SPIR-V module construction and encoding.'],
+        ['<code>YotsubaShader.Compiler.SpirV</code>', 'SPIR-V module construction and encoding.'],
         ['<code>YotsubaShader.Generator</code>', 'SPIR-V operation table generated from the Khronos grammar.'],
         ['<code>YotsubaShader.Example</code>', 'Executable example of low-level SPIR-V assembly.'],
         ['<code>YotsubaShader.Frontend.Tests</code>', 'Frontend discovery and analysis tests.'],

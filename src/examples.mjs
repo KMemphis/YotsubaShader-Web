@@ -9,13 +9,15 @@ export { resUsing };
 const COL = { hlsl: 1, glsl: 2, msl: 3, spirv: 4, wgsl: 5 };
 
 const TYPE_OF = [
+  [/sample position/i, 'Vector2'],
+  [/invocation id|workgroup id|number of workgroups|workgroup size \(built-in|workgroup count/i, 'UInt3'],
   [/position|coordinate/i, 'Vector4'],
   [/front-facing|helper/i, 'bool'],
   [/barycentric/i, 'Vector3'],
   [/sample position/i, 'Vector2'],
   [/clip distance|depth/i, 'float'],
 ];
-const typeFor = (concept) => (TYPE_OF.find(([re]) => re.test(concept)) || [, 'uint'])[1];
+const typeFor = (concept, id) => /^(Vertex index|Instance index|Base vertex|Base instance)$/.test(concept) && ['glsl', 'spirv'].includes(id) ? 'int' : (TYPE_OF.find(([re]) => re.test(concept)) || [, 'uint'])[1];
 
 const pascal = (concept) =>
   concept
@@ -45,6 +47,7 @@ export function builtinValuesCode(id) {
   const parts = [`using YotsubaShader.Language;\n${syntaxUsing(id)}\n`];
   for (const { stage, rows } of stages()) {
     const members = [];
+    const usedNames = new Map();
     let method = '';
     for (const row of rows) {
       const concept = row[0];
@@ -56,8 +59,11 @@ export function builtinValuesCode(id) {
       }
       const names = raw.split(' / ');
       names.forEach((n, i) => {
-        const member = pascal(concept) + (i ? String(i + 1) : '');
-        members.push(`    // ${concept}\n    ${attrText(n)} public ${typeFor(concept)} ${member};`);
+        const baseName = pascal(concept) + (i ? String(i + 1) : '');
+        const count = (usedNames.get(baseName) || 0) + 1;
+        usedNames.set(baseName, count);
+        const member = baseName + (count > 1 ? count : '');
+        members.push(`    // ${concept}\n    ${attrText(n)} public ${typeFor(concept, id)} ${member};`);
       });
     }
     const kind = stage.replace(' stage', '');
@@ -112,8 +118,9 @@ export function attributeGroupCode(id, items, group) {
   if (group === 'Type') {
     const lines = list.map((i) => {
       const n = i.display;
-      if (/^\w+<T>$/.test(n)) return `    public ${n.replace('<T>', '<float>')} ${n.replace('<T>', '')}Value;`;
-      return `    public ${n} ${cap(n)}Value;`;
+      const qualified = `${i.namespace}.${n}`;
+      if (/^\w+<T>$/.test(n)) return `    public ${qualified.replace('<T>', '<float>')} ${n.replace('<T>', '')}GenericValue;`;
+      return `    public ${qualified} ${cap(n)}Value;`;
     });
     return ns + `public class Types\n{\n${lines.join('\n')}\n}`;
   }
@@ -121,7 +128,7 @@ export function attributeGroupCode(id, items, group) {
   const used = new Map();
   const lines = list.map((i, index) => {
     const concept = conceptOf(i.name || i.display);
-    const type = group === 'Resource' ? 'float' : concept ? typeFor(concept) : 'Vector4';
+    const type = group === 'Resource' ? 'float' : concept ? typeFor(concept, id) : 'Vector4';
     const attr = `${i.display === 'Binding' ? '@Binding' : i.display}${sampleArgs(i.params)}`;
     let name = concept ? pascal(concept) : `Value${index + 1}`;
     const n = (used.get(name) || 0) + 1;
