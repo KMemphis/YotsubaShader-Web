@@ -72,10 +72,7 @@ export const SECTIONS = {
     sub: [
       ['Overview', '/technologies/'],
       ['Language', '/technologies/language/'],
-      ['Compiler', '/technologies/compiler/'],
       ['Compilation process', '/technologies/compilation/'],
-      ['IR', '/technologies/intermediate-representation/'],
-      ['SPIR-V', '/technologies/spir-v/'],
     ],
   },
   community: {

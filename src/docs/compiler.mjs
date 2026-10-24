@@ -76,14 +76,14 @@ export default function compilerDocs(ctx) {
       icon: 'doc',
       summary: "Current compilation stages and the boundaries between implemented APIs and planned build integration.",
       body: `
-<h2>Overview</h2>
-<p>The repository is in pre-release development. Attribute declarations and low-level APIs exist, but the complete C# → IR → SPIR-V pipeline is not finished. Authoring examples describe interfaces; they are not end-to-end compilation guarantees.</p>
-<p>The current projects are <code>YotsubaShader.Language</code>, the five syntax projects, <code>YotsubaShader.Concepts</code>, <code>YotsubaShader.Roslyn</code>, <code>YotsubaShader.IR</code>, and <code>YotsubaShader.Compiler.SpirV</code>.</p>
-<h2>Step by step</h2>
-<p><code>ShaderDiscovery.Find(compilation, token)</code> finds entry points. <code>ShaderProcessor.Process(compilation, token)</code> attempts to build IR and accumulates results in its <code>Shaders</code> list. Body processing is partial: assignments, return statements, calls, and many other operations still throw <code>NotImplementedException</code>.</p>
-<p><code>SpirVCompiler.Compile(SpirVModule)</code> encodes an explicitly assembled module. It does not accept a C# string or an IR <code>Shader</code>. The IR-to-SPIR-V lowering path remains unfinished.</p>
-<h2>Build integration</h2>
-<p>A shader compilation CLI and build-time shader source generator are planned. The existing <code>YotsubaShader.Generator</code> generates the SPIR-V instruction table, not compiled shader classes.</p>
+<h2>What you write</h2>
+<p>Declare vertex, fragment, or compute entry points in C#, using your chosen attribute syntax. HLSL is the default vocabulary in these examples.</p>
+<h2>What the compiler handles</h2>
+<p>Yotsuba Shader analyzes the declarations and supported shader logic, uses an internal representation, and is intended to generate SPIR-V. These are internal compilation steps; you do not build IR records or SPIR-V modules yourself.</p>
+<p>Yotsuba ShaderCross translates SPIR-V into GLSL ES, GLSL, MSL, or HLSL. WGSL output is planned for 2027. Your engine then loads the result through its graphics API.</p>
+<h2>Current status</h2>
+<p>The complete C# compilation path and build integration are still in development. This page explains the intended workflow, not an available installation or command-line contract.</p>
+<p><a href="/technologies/compilation/">See the illustrated compilation process.</a></p>
 `,
     },
 
@@ -106,22 +106,14 @@ export default function compilerDocs(ctx) {
       title: 'Generating shader binaries',
       kind: 'Article',
       icon: 'doc',
-      summary: "Encode manually assembled SPIR-V modules; shader source generation and the shader CLI are planned.",
+      summary: "Intended shader build workflow and the current availability of binary generation.",
       body: `
-<h2>Current API</h2>
-<p>The implemented binary encoder is <code>YotsubaShader.Compiler.SpirV.SpirVCompiler</code>. Its input is a manually built <code>SpirVModule</code>; its output is <code>byte[]</code>.</p>
-${code('csharp', `using YotsubaShader.Compiler.SpirV;
-using YotsubaShader.Compiler.SpirV.Builder;
-
-static byte[] EncodeModule(SpirVModule module)
-{
-    return new SpirVCompiler().Compile(module);
-}`)}
-<p>The caller must supply a complete, valid module and validate the result with SPIR-V tools. Encoding a module is not the same as compiling a C# shader.</p>
-<h2>Planned workflows</h2>
-<p>The documented <code>yotsuba compile</code> command, <code>YotsubaTargets</code> MSBuild property, <code>YotsubaShader.SourceGenerator</code> package, and generated <code>ShaderCompiledCode</code> properties are not implemented in this checkout. No installation or usage command is provided for them.</p>
-<p>The language declares <code>CompilerGeneratedCodeAttribute</code> and <code>Binaries</code>. These declarations express intended output choices; they do not implement generation or prove that each format is supported.</p>
-${code('csharp', apiSource('YotsubaShader.Language/Compiler/CompilerGeneratedCodeAttribute.cs'))}
+<h2>For shader authors</h2>
+<p>The intended workflow is to compile your C# shader as part of your project build, then load the resulting shader through your engine. You should not call the internal SPIR-V module builder or binary encoder directly.</p>
+<h2>Current status</h2>
+<p>Automatic shader compilation during the build and the shader compilation CLI are still in development. No supported package installation command, generated binary-access API, or command-line contract is available in this checkout.</p>
+<p>The existing source generator builds the compiler instruction table internally. It is not a shader compilation tool for application projects.</p>
+<p><a href="/technologies/compilation/">See the illustrated compilation process.</a></p>
 `,
     },
 

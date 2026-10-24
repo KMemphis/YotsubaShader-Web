@@ -62,8 +62,8 @@ export default function playground() {
       <div class="pg-tabs" role="tablist" aria-label="Output">
         <button role="tab" type="button" data-tab="diagnostics" aria-selected="true">Diagnostics <i class="pg-count" id="pg-count-diagnostics"></i></button>
         <button role="tab" type="button" data-tab="shaders" aria-selected="false">Shaders <i class="pg-count" id="pg-count-shaders"></i></button>
-        <button role="tab" type="button" data-tab="ir" aria-selected="false">IR</button>
-        <button role="tab" type="button" data-tab="spirv" aria-selected="false">SPIR-V</button>
+        <button role="tab" type="button" data-tab="ir" aria-selected="false" hidden>IR</button>
+        <button role="tab" type="button" data-tab="spirv" aria-selected="false" hidden>SPIR-V</button>
         <button role="tab" type="button" data-tab="image" aria-selected="false" hidden>Input image</button>
       </div>
       <div class="pg-panels">

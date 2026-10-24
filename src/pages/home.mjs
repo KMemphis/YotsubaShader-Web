@@ -150,7 +150,7 @@ const home = {
     <div class="home-value-grid">
       <a class="home-value-card" href="/playground/"><span class="home-value-kicker">Explore</span><strong>Try it in the Playground</strong><span>Start from working C# shader code.</span>${icon('arrow-right')}</a>
       <a class="home-value-card" href="/documentation/yotsuba-shader/shader-diagnostics-in-your-ide/"><span class="home-value-kicker">Validate</span><strong>Catch errors in your IDE</strong><span>See current validation limits and planned checks.</span>${icon('arrow-right')}</a>
-      <a class="home-value-card" href="/technologies/spir-v/"><span class="home-value-kicker">Target</span><strong>Compile for every backend</strong><span>Use one shader source across graphics APIs.</span>${icon('arrow-right')}</a>
+      <a class="home-value-card" href="/technologies/compilation/"><span class="home-value-kicker">Target</span><strong>Compile for every backend</strong><span>Use one shader source across graphics APIs.</span>${icon('arrow-right')}</a>
     </div>
   </div>
 </section>
@@ -362,7 +362,7 @@ ${entry(
   'Roslyn-based shader discovery',
   'The frontend finds your shaders by symbol, not by text, so aliases, <code>using</code> directives and long or short attribute names all just work.',
   `<p><code>ShaderDiscovery.Find</code> walks the types of your project, returns each class with its entry points in declaration order, and exposes parameters and return types to the rest of the compiler. A test suite covers discovery and analysis.</p>`,
-  ['Shader discovery', '/documentation/yotsuba-shader/shader-discovery/'],
+  ['Compilation process', '/technologies/compilation/'],
 )}
 
 ${entry(
@@ -381,9 +381,9 @@ ${entry(
 
 ${entry(
   'SPIR-V 1.6 module construction',
-  'Build modules explicitly with <code>SpirVModule</code> and encode them to a valid binary with <code>SpirVCompiler</code>.',
+  'SPIR-V is an intermediate format used inside the compilation pipeline; shader authors do not need to construct its modules manually.',
   `<p>The operation table is generated from the official Khronos grammar, so every instruction, capability, execution model and decoration is available as a typed value.</p>`,
-  ['Building SPIR-V modules', '/documentation/yotsuba-shader/building-spirv-modules/'],
+  ['Compilation process', '/technologies/compilation/'],
 )}
 
 ${entry(

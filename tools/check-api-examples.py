@@ -18,6 +18,7 @@ import {resourcesCode} from './Web/src/pages/syntaxes.mjs';
 import {builtinValuesCode,attributeGroupCode} from './Web/src/examples.mjs';
 import {scanSyntaxes} from './Web/src/reference.mjs';
 import buildDocs from './Web/src/docs/docs.mjs';
+import technologies from './Web/src/pages/technologies.mjs';
 const list=[['basic',withoutXna(BASIC_COLOR),TYPES_CS],['texture',TEXTURE_BINDING,TYPES_TEXTURE_CS]];
 const syntaxes=scanSyntaxes(process.cwd());
 for(const id of Object.keys(STYLE_TRIANGLE)) {
@@ -35,6 +36,13 @@ for(const article of buildDocs({syntaxes}).articles.filter(a=>selected.has(a.slu
  for(const block of article.body.matchAll(/<figure class="code" data-lang="csharp">[\s\S]*?<pre><code>([\s\S]*?)<\/code><\/pre>/g)) {
   const source=withoutXna(block[1].replace(/<[^>]+>/g,'').replace(/&lt;/g,'<').replace(/&gt;/g,'>').replace(/&quot;/g,'"').replace(/&#39;/g,"'").replace(/&amp;/g,'&'));
   list.push([`article-${article.slug}-${++index}`,source,source.includes('public struct Vector2') ? '' : TYPES_CS]);
+ }
+}
+for(const page of technologies({}).filter(p=>p.path==='/technologies/language/')) {
+ let index=0;
+ for(const block of page.body.matchAll(/<figure class="code" data-lang="csharp">[\s\S]*?<pre><code>([\s\S]*?)<\/code><\/pre>/g)) {
+  const source=withoutXna(block[1].replace(/<[^>]+>/g,'').replace(/&lt;/g,'<').replace(/&gt;/g,'>').replace(/&quot;/g,'"').replace(/&#39;/g,"'").replace(/&amp;/g,'&'));
+  list.push([`language-${++index}`,source,TYPES_CS]);
  }
 }
 console.log(JSON.stringify(list));

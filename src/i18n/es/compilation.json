@@ -25,7 +25,6 @@
   "Start with the shader you want to write.": "Empieza por el shader que quieres escribir.",
   "One intermediate module.": "Un módulo intermedio.",
   "SPIR-V stores shader instructions, types, entry points, and resource bindings in a binary module. A Vulkan application can use a compatible module directly; other output paths pass it to Yotsuba ShaderCross.": "SPIR-V almacena instrucciones, tipos, puntos de entrada y bindings de recursos en un módulo binario. Una aplicación Vulkan puede utilizar directamente un módulo compatible; las demás rutas de salida lo envían a Yotsuba ShaderCross.",
-  "Learn about SPIR-V →": "Conoce SPIR-V →",
   "YOTSUBA SHADERCROSS": "YOTSUBA SHADERCROSS",
   "Generate the source for your target.": "Genera el código fuente para tu destino.",
   "ShaderCross reads SPIR-V and emits GLSL ES, GLSL, MSL, or HLSL source. WGSL is a planned output. Your engine or graphics API then compiles the generated source as required by the target platform.": "ShaderCross lee SPIR-V y genera código fuente GLSL ES, GLSL, MSL o HLSL. WGSL es una salida planificada. Después, tu motor o API gráfica compila el código generado según lo que requiera la plataforma de destino.",

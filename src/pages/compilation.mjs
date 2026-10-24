@@ -55,7 +55,7 @@ export default [{
       ${code('csharp', BASIC_COLOR, 'BasicColorShader.cs')}
     </div>
     <div class="compilation-detail compilation-detail--text">
-      <div><p class="eyebrow">SPIR-V</p><h2 class="h-lg">One intermediate module.</h2><p>SPIR-V stores shader instructions, types, entry points, and resource bindings in a binary module. A Vulkan application can use a compatible module directly; other output paths pass it to Yotsuba ShaderCross.</p><a class="compilation-text-link" href="/technologies/spir-v/">Learn about SPIR-V →</a></div>
+      <div><p class="eyebrow">SPIR-V</p><h2 class="h-lg">One intermediate module.</h2><p>SPIR-V stores shader instructions, types, entry points, and resource bindings in a binary module. A Vulkan application can use a compatible module directly; other output paths pass it to Yotsuba ShaderCross.</p></div>
       <div><p class="eyebrow">YOTSUBA SHADERCROSS</p><h2 class="h-lg">Generate the source for your target.</h2><p>ShaderCross reads SPIR-V and emits GLSL ES, GLSL, MSL, or HLSL source. WGSL is a planned output. Your engine or graphics API then compiles the generated source as required by the target platform.</p><p>Android is a platform, not a shader format: use GLSL ES for an OpenGL ES renderer, or SPIR-V for a Vulkan renderer. WebGL uses GLSL ES; WebGPU uses WGSL.</p></div>
     </div>
   </div>

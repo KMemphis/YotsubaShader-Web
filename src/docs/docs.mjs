@@ -7,7 +7,8 @@ export const SET = { slug: 'yotsuba-shader', title: 'Yotsuba Shader' };
 
 export default function buildDocs(ctx) {
   const { core, reference, project } = compilerDocs(ctx);
-  const articles = [...essentials, ...core, ...reference, ...project];
+  const internalArticles = new Set(['shader-discovery', 'intermediate-representation', 'building-spirv-modules', 'spirv-operation-generator', 'repository-architecture']);
+  const articles = [...essentials, ...core, ...reference, ...project].filter(a => !internalArticles.has(a.slug));
   const bySlug = new Map(articles.map((a) => [a.slug, a]));
   const slugs = (...list) => list.filter((s) => {
     if (!bySlug.has(s)) throw new Error(`Unknown doc slug in tree: ${s}`);
@@ -37,10 +38,6 @@ export default function buildDocs(ctx) {
             'generating-shader-binaries',
             'shader-diagnostics-in-your-ide',
             'transpiling-spirv',
-            'shader-discovery',
-            'intermediate-representation',
-            'building-spirv-modules',
-            'spirv-operation-generator',
           ),
         },
       ],
@@ -64,7 +61,7 @@ export default function buildDocs(ctx) {
     },
     {
       label: 'Project',
-      groups: [{ title: 'About Yotsuba Shader', items: slugs('repository-architecture', 'licensing') }],
+      groups: [{ title: 'About Yotsuba Shader', items: slugs('licensing') }],
     },
   ];
 

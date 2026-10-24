@@ -961,3 +961,28 @@ main { position: relative; }
 
 .compilation-card-media--brand { display: grid; place-items: center; background: #f5f5f7; }
 .compilation-card-media--brand > img { width: 78%; height: 60%; object-fit: contain; }
+
+/* Author-facing language guide. */
+.language-hero { padding: 80px 0 64px; }
+.language-hero .lead { max-width: 800px; }
+.language-foundations { padding-top: 24px; }
+.language-status { max-width: 900px; padding: 20px 24px; margin-bottom: 40px; border: 1px solid var(--line); border-radius: 16px; color: var(--text-2); font-size: 14px; line-height: 1.7; }
+.language-concept { padding: 24px; border-radius: 20px; background: var(--elev); }
+.language-step { display: block; color: var(--text-3); font-size: 13px; margin-bottom: 24px; }
+.language-concept h2 { font-size: 21px; margin-bottom: 14px; }
+.language-concept p { color: var(--text-2); font-size: 15px; line-height: 1.65; margin-bottom: 0; }
+.language-example { display: grid; grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr); gap: 56px; align-items: start; }
+.language-example > * { min-width: 0; }
+.language-example h2 { margin-bottom: 28px; }
+.language-example p { color: var(--text-2); line-height: 1.75; }
+.language-example .code { margin-top: 0; }
+.language-example .language-caption { font-size: 13px; color: var(--text-3); }
+.language-surface { background: var(--elev); }
+.language-surface .h-lg { margin-bottom: 28px; }
+.language-vocabularies { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 28px; }
+@media (max-width: 760px) {
+  .language-hero { padding: 52px 0 40px; }
+  .language-example { grid-template-columns: minmax(0, 1fr); gap: 28px; }
+  .language-concepts { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 420px) { .language-concepts { grid-template-columns: minmax(0, 1fr); } }

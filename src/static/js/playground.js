@@ -150,7 +150,46 @@
     });
   }
 
-  function monacoEditor(m, files) {
+  async function monacoEditor(m, files) {
+    // Extend Monaco's C# lexer; retain its string, comment and keyword handling.
+    // These lexical colors do not imply Roslyn semantic classification.
+    const csharp = m.languages.getLanguages().find((language) => language.id === 'csharp');
+    if (csharp?.loader) {
+      const { language } = await csharp.loader();
+      const identifier = {
+        cases: {
+          '@keywords': 'keyword.$0',
+          '@shaderAttributes': 'annotation',
+          '[A-Z]\\w*': 'type.identifier',
+          '@default': 'identifier',
+        },
+      };
+      const method = [/\@?[a-zA-Z_]\w*(?=\s*\()/, {
+        cases: {
+          '@keywords': 'keyword.$0',
+          '@shaderAttributes': 'annotation',
+          '@default': 'method',
+        },
+      }];
+      const colorIdentifiers = (rules) => [method, ...rules.map((rule) => {
+        if (Array.isArray(rule) && rule[1]?.cases?.['@default'] &&
+            (rule[1].cases['@default'] === 'identifier' || rule[1].cases['@default'].token === 'identifier')) {
+          return [rule[0], { cases: { ...rule[1].cases,
+            '@default': { ...identifier, ...(rule[1].cases['@default'].next ? { next: rule[1].cases['@default'].next } : {}) },
+          } }];
+        }
+        return rule;
+      })];
+      m.languages.setMonarchTokensProvider('csharp', {
+        ...language,
+        shaderAttributes: ['ShaderStage', 'SV_Target', 'TEXCOORD', 'COLOR', 'POSITION', 'NORMAL',
+          'register', 'cbuffer', 'numthreads', 'packoffset', 'VectorComponent'],
+        tokenizer: { ...language.tokenizer,
+          root: colorIdentifiers(language.tokenizer.root),
+          qualified: colorIdentifiers(language.tokenizer.qualified),
+        },
+      });
+    }
     const models = new Map();
     let listener = () => {};
     const uri = (name) => m.Uri.parse(`file:///${encodeURIComponent(name)}`);
@@ -166,10 +205,11 @@
       base: 'vs-dark', inherit: true,
       rules: [
         { token: 'keyword', foreground: 'ff7eb6' }, { token: 'keyword.cs', foreground: 'ff7eb6' },
-        { token: 'type.identifier', foreground: 'c3a6ff' }, { token: 'type', foreground: 'c3a6ff' },
-        { token: 'string', foreground: '5ef0cf' }, { token: 'number', foreground: 'ffc774' },
-        { token: 'comment', foreground: '7d6fa3', fontStyle: 'italic' }, { token: 'identifier', foreground: 'ece7fb' },
-        { token: 'delimiter', foreground: 'a99bd0' }, { token: 'delimiter.square', foreground: 'ffc774' }, { token: 'annotation', foreground: 'ffc774' },
+        { token: 'type.identifier', foreground: '64D8CB' }, { token: 'type', foreground: '64D8CB' },
+        { token: 'method', foreground: 'E8D89C' },
+        { token: 'string', foreground: 'E6AD92' }, { token: 'number', foreground: 'B5CEA8' },
+        { token: 'comment', foreground: '8DAF87' }, { token: 'identifier', foreground: 'B9DDF3' },
+        { token: 'delimiter', foreground: 'a99bd0' }, { token: 'delimiter.square', foreground: 'ffc774' }, { token: 'annotation', foreground: '64D8CB' },
       ],
       colors: {
         'editor.background': '#0f0b1b', 'editor.foreground': '#ece7fb', 'editor.lineHighlightBackground': '#1a1430',
@@ -381,7 +421,7 @@
       const a = Object.assign(document.createElement('a'), { href: URL.createObjectURL(new Blob([bin])), download: 'shader.spv' });
       a.click(); URL.revokeObjectURL(a.href);
     });
-    if (errors) selectTab('diagnostics');
+    selectTab(errors ? 'diagnostics' : 'shaders');
   }
 
   /** The "Input image" tab only exists for examples that come with an image. */

@@ -36,7 +36,7 @@ SPIR-V · future backends</code></pre></figure>
 <p>Yotsuba Shader is organised around three ideas that map to separate projects:</p>
 <ul>
   <li><strong>Language</strong> (<code>YotsubaShader.Language</code>): the attributes and native types you write against. See <a href="${D}shader-stages/">Shader stages</a>.</li>
-  <li><strong>Intermediate representation</strong> (<code>YotsubaShader.IR</code>): a backend-neutral model of functions, storage and interface slots. See <a href="${D}intermediate-representation/">Intermediate representation</a>.</li>
+  <li><strong>Intermediate representation</strong> (<code>YotsubaShader.IR</code>): a backend-neutral model of functions, storage and interface slots. See <a href="/technologies/compilation/">Compilation process</a>.</li>
   <li><strong>Compiler</strong> (<code>YotsubaShader.Roslyn</code>, <code>YotsubaShader.Compiler.SpirV</code>): discovery, analysis and SPIR-V emission. See <a href="${D}compilation-pipeline/">Compilation pipeline</a>.</li>
 </ul>
 

@@ -90,6 +90,15 @@ function copyDir(src, dest) {
 // Pages renamed when the authoring "styles" became the YotsubaShader.<X>Syntax packages.
 const DOC = '/documentation/yotsuba-shader/';
 const REDIRECTS = {
+  '/technologies/spir-v/': '/technologies/compilation/',
+  '/technologies/compiler/': '/technologies/compilation/',
+  '/technologies/intermediate-representation/': '/technologies/compilation/',
+  [`${DOC}shader-discovery/`]: '/technologies/compilation/',
+  [`${DOC}intermediate-representation/`]: '/technologies/compilation/',
+  [`${DOC}building-spirv-modules/`]: '/technologies/compilation/',
+  [`${DOC}spirv-operation-generator/`]: '/technologies/compilation/',
+  [`${DOC}repository-architecture/`]: '/technologies/compilation/',
+
   '/styles/': '/syntaxes/',
   '/styles/hlsl/': '/syntaxes/hlsl/',
   '/styles/glsl/': '/syntaxes/glsl/',
