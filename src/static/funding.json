@@ -1,0 +1,81 @@
+{
+  "$schema": "https://fundingjson.org/schema/v1.1.0.json",
+  "version": "v1.1.0",
+  "entity": {
+    "type": "individual",
+    "role": "maintainer",
+    "name": "Memphis Yomael Núñez Cruz",
+    "email": "sponsors@yotsubashader.com",
+    "description": "Maintainer of YotsubaShader, an open-source C# shader authoring framework and compiler infrastructure project. The project is developed publicly under the Microsoft Public License and aims to let engine and framework developers describe shaders in C# using familiar HLSL, GLSL, MSL, SPIR-V, or WGSL-inspired vocabularies.",
+    "webpageUrl": {
+      "url": "https://yotsubashader.com/community/contact/"
+    }
+  },
+  "projects": [
+    {
+      "guid": "yotsubashader",
+      "name": "YotsubaShader",
+      "description": "YotsubaShader is an open-source shader authoring framework and compiler infrastructure project for .NET. Its repository contains five C# authoring vocabularies, Roslyn-based shader discovery and semantic processing, a backend-neutral intermediate representation, SPIR-V module construction, and a browser-based documentation and analysis playground. The complete C# to IR to GPU binary pipeline remains under active development.",
+      "webpageUrl": {
+        "url": "https://yotsubashader.com"
+      },
+      "repositoryUrl": {
+        "url": "https://github.com/KMemphis/YotsubaShader"
+      },
+      "licenses": [
+        "spdx:MS-PL"
+      ],
+      "tags": [
+        "developer-tools",
+        "compiler",
+        "dotnet",
+        "c-sharp",
+        "graphics",
+        "shaders",
+        "game-development",
+        "spir-v"
+      ]
+    }
+  ],
+  "funding": {
+    "channels": [
+      {
+        "guid": "bank-transfer",
+        "type": "bank",
+        "description": "International bank transfer details and required tax documentation will be provided privately after approval."
+      },
+      {
+        "guid": "github-sponsors",
+        "type": "payment-provider",
+        "address": "https://github.com/sponsors/KMemphis",
+        "description": "One-time and recurring sponsorship through GitHub Sponsors."
+      }
+    ],
+    "plans": [
+      {
+        "guid": "monthly-maintenance",
+        "status": "active",
+        "name": "Monthly maintenance",
+        "description": "Recurring support for maintenance, documentation, testing, and releases.",
+        "amount": 500,
+        "currency": "USD",
+        "frequency": "monthly",
+        "channels": [
+          "github-sponsors"
+        ]
+      },
+      {
+        "guid": "compiler-sustainability",
+        "status": "active",
+        "name": "YotsubaShader compiler sustainability",
+        "description": "One-time support for stabilizing the public pre-release codebase, expanding automated frontend and SPIR-V validation, maintaining the documentation and playground, preparing reproducible releases, and reducing the project's single-maintainer risk.",
+        "amount": 10000,
+        "currency": "USD",
+        "frequency": "one-time",
+        "channels": [
+          "bank-transfer"
+        ]
+      }
+    ]
+  }
+}
