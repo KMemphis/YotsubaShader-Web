@@ -33,5 +33,17 @@
  "Hide navigator": "Ocultar navegador",
  "Show navigator": "Mostrar navegador",
  "Hide inspector": "Ocultar inspector",
- "Show inspector": "Mostrar inspector"
+ "Show inspector": "Mostrar inspector",
+ "Module": "Módulo",
+ "Lowered IR explorer": "Explorador de IR reducida",
+ "Lowered IR": "IR reducida",
+ "Copy IR": "Copiar IR",
+ "Expand IR": "Ampliar IR",
+ "Restore workspace": "Restaurar espacio de trabajo",
+ "Function": "Función",
+ "Stage": "Etapa",
+ "Lines": "Líneas",
+ "IR code for {name}": "Código IR de {name}",
+ "IR copied": "IR copiada",
+ "Could not copy IR": "No se pudo copiar la IR"
 }

@@ -44,6 +44,36 @@
     if (/^\s*;/.test(line)) return `<span class="hl-c">${line}</span>`;
     return line.replace(/(%[\w.]+)/g, '<span class="hl-id">$1</span>').replace(/\b(Op[A-Za-z]+)\b/g, '<span class="hl-op">$1</span>').replace(/\b(\d+(?:\.\d+)?)\b/g, '<span class="hl-n">$1</span>');
   }).join('\n');
+  /**
+   * The browser receives a human-readable IR document, not a JSON dump of its
+   * object graph. The compiler owns that document; this is deliberately only a
+   * view-model parser for its function headers, so the inspector can offer
+   * useful navigation without inventing an alternative IR format in JavaScript.
+   */
+  const splitIrFunctions = (text) => {
+    const lines = String(text || '').replace(/\r\n?/g, '\n').split('\n');
+    const functions = [];
+    let current = null;
+    lines.forEach((line) => {
+      const header = line.match(/^function\s+(.+?)\s+\[([^\]]+)]\s*$/);
+      if (header) {
+        if (current) functions.push(current);
+        current = { name: header[1], stage: header[2], lines: [line] };
+      } else if (current) {
+        current.lines.push(line);
+      }
+    });
+    if (current) functions.push(current);
+    return functions.length ? functions : [{ name: T('Module'), stage: '', lines }];
+  };
+  const hlIrLine = (line) => {
+    if (/^\s*;/.test(line)) return `<span class="hl-c">${esc(line)}</span>`;
+    return esc(line)
+      .replace(/\b(function|input|output|local|store|return)\b/g, '<span class="hl-ir-keyword">$1</span>')
+      .replace(/\b(Vertex|Fragment|Compute)\b/g, '<span class="hl-ir-stage">$1</span>')
+      .replace(/\b(float32|float64|int32|uint32|bool|void|vector\d+|matrix\d+x\d+)\b/g, '<span class="hl-ir-type">$1</span>')
+      .replace(/\b(\d+(?:\.\d+)?(?:f)?)\b/g, '<span class="hl-n">$1</span>');
+  };
   const clone = (files) => files.map((f) => ({ name: f.name, source: f.source }));
 
   /* ------------------------------------------------------------- project */
@@ -442,6 +472,65 @@
 
   /* ----------------------------------------------------------- rendering */
   let lastDiagnostics = [];
+  let selectedIrFunction = '';
+
+  function renderIr(ir) {
+    if (!ir) {
+      el.panels.ir.innerHTML = emptyState(T('The IR will appear here once the pipeline produces it.'));
+      return;
+    }
+
+    const functions = splitIrFunctions(ir).map((item, index) => ({ ...item, key: String(index) }));
+    if (!functions.some((item) => item.key === selectedIrFunction)) selectedIrFunction = functions[0].key;
+    const item = functions.find((candidate) => candidate.key === selectedIrFunction) || functions[0];
+    const lineCount = item.lines.length;
+    const stage = item.stage || T('Module');
+    const code = item.lines.map((line, index) => `<li><span class="pg-ir-line-number" aria-hidden="true">${index + 1}</span><code>${hlIrLine(line) || '&nbsp;'}</code></li>`).join('');
+
+    el.panels.ir.innerHTML = `<section class="pg-ir-explorer" aria-label="${esc(T('Lowered IR explorer'))}">
+      <header class="pg-ir-header">
+        <div class="pg-ir-title"><span>${esc(T('Lowered IR'))}</span><strong>${esc(item.name)}</strong></div>
+        <div class="pg-ir-actions">
+          <button class="pg-icon-button" type="button" id="pg-ir-copy" aria-label="${esc(T('Copy IR'))}" title="${esc(T('Copy IR'))}">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="1"/><path d="M15 9V5a1 1 0 0 0-1-1H5a1 1 0 0 0-1 1v9a1 1 0 0 0 1 1h4"/></svg>
+          </button>
+          <button class="pg-icon-button" type="button" id="pg-ir-expand" aria-pressed="${el.root.classList.contains('pg--ir-expanded')}" aria-label="${esc(T('Expand IR'))}" title="${esc(T('Expand IR'))}">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 4H4v5M15 4h5v5M20 15v5h-5M4 15v5h5"/></svg>
+          </button>
+        </div>
+      </header>
+      <div class="pg-ir-function-picker">
+        <label for="pg-ir-function">${esc(T('Function'))}</label>
+        <select id="pg-ir-function">${functions.map((candidate) => `<option value="${esc(candidate.key)}"${candidate.key === item.key ? ' selected' : ''}>${esc(candidate.name)}${candidate.stage ? ` · ${esc(candidate.stage)}` : ''}</option>`).join('')}</select>
+      </div>
+      <dl class="pg-ir-metadata">
+        <div><dt>${esc(T('Stage'))}</dt><dd class="pg-ir-stage">${esc(stage)}</dd></div>
+        <div><dt>${esc(T('Lines'))}</dt><dd>${lineCount}</dd></div>
+      </dl>
+      <div class="pg-ir-code" role="region" aria-label="${esc(T('IR code for {name}', { name: item.name }))}" tabindex="0"><ol>${code}</ol></div>
+      <p class="pg-ir-status" aria-live="polite"></p>
+    </section>`;
+
+    $('#pg-ir-function')?.addEventListener('change', (event) => {
+      selectedIrFunction = event.target.value;
+      renderIr(ir);
+    });
+    $('#pg-ir-copy')?.addEventListener('click', async () => {
+      const status = $('.pg-ir-status', el.panels.ir);
+      try {
+        await navigator.clipboard.writeText(item.lines.join('\n'));
+        status.textContent = T('IR copied');
+      } catch {
+        status.textContent = T('Could not copy IR');
+      }
+    });
+    $('#pg-ir-expand')?.addEventListener('click', () => {
+      const expanded = el.root.classList.toggle('pg--ir-expanded');
+      $('#pg-ir-expand').setAttribute('aria-pressed', String(expanded));
+      $('#pg-ir-expand').setAttribute('aria-label', T(expanded ? 'Restore workspace' : 'Expand IR'));
+      $('#pg-ir-expand').title = T(expanded ? 'Restore workspace' : 'Expand IR');
+    });
+  }
 
   function renderDiagnostics(diags) {
     lastDiagnostics = diags;
@@ -474,7 +563,7 @@
         }).join('')
       : emptyState(T('No shaders found yet. Mark a method with <code>[ShaderStage(Stage.Vertex)]</code>.'));
 
-    el.panels.ir.innerHTML = result.ir ? `<pre>${hl(result.ir)}</pre>` : emptyState(T('The IR will appear here once the pipeline produces it.'));
+    renderIr(result.ir);
 
     const sp = result.spirv;
     el.panels.spirv.innerHTML = sp && sp.text
@@ -485,7 +574,7 @@
       const a = Object.assign(document.createElement('a'), { href: URL.createObjectURL(new Blob([bin])), download: 'shader.spv' });
       a.click(); URL.revokeObjectURL(a.href);
     });
-    selectTab(errors ? 'diagnostics' : 'shaders');
+    selectTab(errors ? 'diagnostics' : result.ir ? 'ir' : 'shaders');
     if (mobileViewport.matches) setMobileView('results');
     return errors;
   }

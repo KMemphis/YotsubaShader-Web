@@ -139,6 +139,29 @@
 .pg-figure figcaption { color: var(--pg-muted); font-size: 10px; line-height: 1.55; }
 .pg-actions { margin-bottom: 12px; }
 .hl-op { color: #569cd6; } .hl-id { color: #9cdcfe; } .hl-n { color: #b5cea8; } .hl-c { color: #6a9955; }
+.hl-ir-keyword { color: #c586c0; } .hl-ir-stage { color: #569cd6; } .hl-ir-type { color: #4ec9b0; }
+
+/* IR is an inspector, not a serialized object dump. Its compact header gives
+   context first; the code surface remains the primary reading experience. */
+.pg-ir-explorer { display: flex; flex-direction: column; min-height: 100%; }
+.pg-ir-header { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 0 0 12px; border-bottom: 1px solid var(--pg-line); }
+.pg-ir-title { display: grid; min-width: 0; gap: 2px; }
+.pg-ir-title span, .pg-ir-function-picker label, .pg-ir-metadata dt { color: var(--pg-muted); font-size: 9px; font-weight: 650; letter-spacing: .055em; text-transform: uppercase; }
+.pg-ir-title strong { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: var(--pg-text); font: 600 13px/1.25 var(--mono); }
+.pg-ir-actions { display: flex; gap: 6px; flex: none; }
+.pg-ir-function-picker { display: grid; gap: 5px; padding: 12px 0; border-bottom: 1px solid var(--pg-line); }
+.pg-ir-function-picker select { width: 100%; height: 29px; min-width: 0; border: 1px solid var(--pg-line); border-radius: 5px; padding: 0 8px; background: var(--pg-control); color: var(--pg-text); font: 11px var(--mono); }
+.pg-ir-metadata { display: flex; flex-wrap: wrap; gap: 18px; margin: 0; padding: 10px 0; border-bottom: 1px solid var(--pg-line); }
+.pg-ir-metadata div { display: grid; gap: 3px; }
+.pg-ir-metadata dd { margin: 0; color: var(--pg-secondary); font: 11px var(--mono); }
+.pg-ir-metadata .pg-ir-stage { color: var(--pg-code-type); }
+.pg-ir-code { flex: 1; min-height: 180px; margin-top: 12px; overflow: auto; border: 1px solid color-mix(in srgb, var(--pg-line) 78%, transparent); border-radius: 6px; background: #121018; }
+.pg-ir-code ol { min-width: max-content; margin: 0; padding: 9px 0; list-style: none; counter-reset: ir-line; }
+.pg-ir-code li { display: grid; grid-template-columns: 34px auto; min-height: 20px; counter-increment: ir-line; }
+.pg-ir-code li:hover { background: rgba(255,255,255,.035); }
+.pg-ir-line-number { padding: 0 9px 0 0; color: #69616e; text-align: right; user-select: none; font: 10px/20px var(--mono); }
+.pg-ir-code code { padding-right: 16px; color: var(--pg-secondary); font: 11px/20px var(--mono); white-space: pre; }
+.pg-ir-status { min-height: 14px; margin: 7px 0 0; color: var(--pg-muted); font-size: 10px; }
 .pg-statusbar { display: flex; align-items: center; justify-content: space-between; gap: 12px; min-height: 24px; padding: 3px 10px; flex: none; border-top: 1px solid var(--pg-line); background: var(--pg-chrome); color: var(--pg-muted); font-size: 9px; }
 .pg-status { display: inline-flex; align-items: center; gap: 6px; min-width: 0; overflow-wrap: anywhere; }
 .pg-status::before { content: ""; width: 5px; height: 5px; border-radius: 50%; flex: none; background: var(--pg-muted); }
@@ -155,6 +178,12 @@
   .pg--inspector-hidden .pg-workspace { grid-template-columns: 190px minmax(320px, 1fr) 0; }
   .pg-title span { display: none; }
   .pg-select select { width: 160px; }
+}
+@media (min-width: 901px) {
+  .pg--ir-expanded .pg-workspace { grid-template-columns: 0 minmax(320px, .85fr) minmax(500px, 1.15fr); }
+  .pg--ir-expanded .pg-navigator { visibility: hidden; }
+  .pg--ir-expanded .pg-inspector { border-left-color: var(--pg-line); }
+  .pg--ir-expanded .pg-panels { padding: 20px; }
 }
 @media (min-width: 761px) and (max-width: 900px) {
   .pg-workspace, .pg--navigator-hidden .pg-workspace { grid-template-columns: minmax(320px, 1fr) 320px; }
@@ -193,6 +222,7 @@
   .pg-tabs { width: 100%; }
   .pg-tabs button { flex: 1; height: 30px; }
   .pg-panels { padding: 16px; }
+  .pg-ir-code { min-height: 220px; }
   .pg-file { height: 44px; font-size: 13px; }
   .pg-file-x { width: 36px; height: 36px; color: var(--pg-secondary); }
   .pg-panel-heading { height: 44px; }
