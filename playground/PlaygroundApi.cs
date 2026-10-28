@@ -68,6 +68,7 @@
 
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using System.Text;
 using System.Text.RegularExpressions;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.Completion;
@@ -208,6 +209,7 @@ public static class PlaygroundApi
         var diagnostics = Diagnostics(compilation);
         bool ok = diagnostics.All(d => d.Severity != "error");
         var shaders = new List<ShaderDto>();
+        string? ir = null;
 
         if (ok)
         {
@@ -221,8 +223,9 @@ public static class PlaygroundApi
                             string.Join(", ", p.Symbol.GetAttributes().Select(a => AttributeNamespaces.Replace(a.ToString()!, ""))))).ToList())).ToList()));
                 }
 
-                // Surface frontend validation errors (for example inconsistent vector components) as diagnostics.
-                new ShaderProcessor().Process(compilation, CancellationToken.None);
+                // Surface frontend validation errors and expose the same IR that a backend receives.
+                var loweredShaders = new ShaderProcessor().Process(compilation, CancellationToken.None);
+                ir = IrText.Format(loweredShaders);
             }
             catch (NotImplementedException)
             {
@@ -240,9 +243,101 @@ public static class PlaygroundApi
             diagnostics.Add(new DiagnosticDto("info", "No shader found. Mark a method with [ShaderStage(Stage.Vertex)].", 1, 1, "YS0100", File: null));
         }
 
-        var result = new CompileResult(ok, diagnostics, shaders, Ir: null, Spirv: null);
+        var result = new CompileResult(ok, diagnostics, shaders, Ir: ir, Spirv: null);
         return JsonSerializer.Serialize(result, Json);
     }
+}
+
+internal static class IrText
+{
+    public static string Format(IReadOnlyList<YotsubaShader.IR.Intermediate.Shader> shaders)
+    {
+        var text = new StringBuilder();
+        foreach (var shader in shaders)
+        foreach (var function in shader.Functions)
+        {
+            text.Append("function ").Append(function.HumanName)
+                .Append(" [").Append(function.Stage).AppendLine("]");
+            WriteStorageList(text, "input", function.Inputs);
+            WriteStorageList(text, "output", function.Outputs);
+            foreach (var statement in function.Body) WriteStatement(text, statement, 1);
+            text.AppendLine();
+        }
+        return text.ToString().TrimEnd();
+    }
+
+    private static void WriteStorageList(StringBuilder text, string label, IReadOnlyList<YotsubaShader.IR.Intermediate.Storage> values)
+    {
+        foreach (var storage in values)
+            text.Append("  ").Append(label).Append(' ').Append(storage.HumanName)
+                .Append(": ").Append(StorageType(storage)).AppendLine();
+    }
+
+    private static void WriteStatement(StringBuilder text, YotsubaShader.IR.Intermediate.FunctionBody.Statement statement, int indent)
+    {
+        var pad = new string(' ', indent * 2);
+        switch (statement)
+        {
+            case YotsubaShader.IR.Intermediate.FunctionBody.Statements.Block block:
+                foreach (var child in block.Statements) WriteStatement(text, child, indent);
+                break;
+            case YotsubaShader.IR.Intermediate.FunctionBody.Statements.VariableDeclaration declaration:
+                text.Append(pad).Append("local ").Append(declaration.Storage.HumanName).Append(": ")
+                    .Append(StorageType(declaration.Storage));
+                if (declaration.Initializer is not null) text.Append(" = ").Append(Expression(declaration.Initializer));
+                text.AppendLine();
+                break;
+            case YotsubaShader.IR.Intermediate.FunctionBody.Expressions.Assignment assignment:
+                text.Append(pad).Append(Expression(assignment.Target)).Append(" = ")
+                    .Append(Expression(assignment.Value)).AppendLine();
+                break;
+            case YotsubaShader.IR.Intermediate.FunctionBody.Statements.Return returned:
+                text.Append(pad).Append("return");
+                if (returned.Value is not null) text.Append(' ').Append(Expression(returned.Value));
+                text.AppendLine();
+                break;
+            default:
+                text.Append(pad).Append("<unsupported ").Append(statement.GetType().Name).AppendLine(">");
+                break;
+        }
+    }
+
+    private static string Expression(YotsubaShader.IR.Intermediate.FunctionBody.Expression value) => value switch
+    {
+        YotsubaShader.IR.Intermediate.FunctionBody.Expressions.AssignmentTargets.StorageReference reference => reference.Storage.HumanName,
+        YotsubaShader.IR.Intermediate.FunctionBody.Expressions.AssignmentTargets.StorageStructPropertyReference member => $"{Expression(member.Reference)}.{member.PropertyName}",
+        YotsubaShader.IR.Intermediate.FunctionBody.Expressions.AssignmentTargets.StorageArrayElementReference element => $"{Expression(element.ArrayReference)}[{Expression(element.Index)}]",
+        YotsubaShader.IR.Intermediate.FunctionBody.Expressions.Literals.IntLiteral integer => integer.Value + (integer.Signed ? "" : "u"),
+        YotsubaShader.IR.Intermediate.FunctionBody.Expressions.Literals.FloatLiteral single => single.Value.ToString(System.Globalization.CultureInfo.InvariantCulture) + "f",
+        YotsubaShader.IR.Intermediate.FunctionBody.Expressions.Literals.DoubleLiteral number => number.Value.ToString(System.Globalization.CultureInfo.InvariantCulture),
+        YotsubaShader.IR.Intermediate.FunctionBody.Expressions.Literals.BoolLiteral boolean => boolean.Value ? "true" : "false",
+        YotsubaShader.IR.Intermediate.FunctionBody.Expressions.Literals.VectorExpression vector => $"vector{vector.Values.Count}({string.Join(", ", vector.Values.Select(Expression))})",
+        YotsubaShader.IR.Intermediate.FunctionBody.Expressions.Literals.CustomStructExpression structure => $"{structure.StructType.HumanName}()",
+        YotsubaShader.IR.Intermediate.FunctionBody.Expressions.BinaryExpression binary => $"({Expression(binary.Left)} {Binary(binary.Operator)} {Expression(binary.Right)})",
+        YotsubaShader.IR.Intermediate.ValueConvertions.NumericConversion conversion => $"{conversion.TargetType}({Expression(conversion.Operand)})",
+        _ => $"<unsupported {value.GetType().Name}>"
+    };
+
+    private static string Binary(YotsubaShader.IR.Intermediate.FunctionBody.Expressions.BinaryOperator op) => op switch
+    {
+        YotsubaShader.IR.Intermediate.FunctionBody.Expressions.BinaryOperator.Add => "+",
+        YotsubaShader.IR.Intermediate.FunctionBody.Expressions.BinaryOperator.Subtract => "-",
+        YotsubaShader.IR.Intermediate.FunctionBody.Expressions.BinaryOperator.Multiply => "*",
+        YotsubaShader.IR.Intermediate.FunctionBody.Expressions.BinaryOperator.Divide => "/",
+        YotsubaShader.IR.Intermediate.FunctionBody.Expressions.BinaryOperator.Remainder => "%",
+        _ => op.ToString()
+    };
+
+    private static string StorageType(YotsubaShader.IR.Intermediate.Storage storage) => storage switch
+    {
+        YotsubaShader.IR.Intermediate.Types.Vector vector => $"{vector.ComponentsType.ToString().ToLowerInvariant()}{vector.ComponentsLength}",
+        YotsubaShader.IR.Intermediate.Types.Int integer => (integer.Signed ? "int" : "uint") + integer.Bits,
+        YotsubaShader.IR.Intermediate.Types.Float => "float",
+        YotsubaShader.IR.Intermediate.Types.Double => "double",
+        YotsubaShader.IR.Intermediate.Types.Bool => "bool",
+        YotsubaShader.IR.Intermediate.Types.CustomStruct structure => structure.HumanName,
+        _ => storage.GetType().Name
+    };
 }
 
 // JSON contract consumed by playground.js (camelCase on the wire).
