@@ -26,27 +26,27 @@ public class BasicColorShader
     }
 
     [ShaderStage(Stage.Vertex)]
-    public VS_Output VS(VS_Input input)
+    public VS_Output VS(VS_Input vertex)
     {
         VS_Output output = new VS_Output();
 
         output.Position = new Vector4(
-            input.Position.X,
-            input.Position.Y,
+            vertex.Position.X,
+            vertex.Position.Y,
             0.0f,
             1.0f
         );
 
-        output.Color = input.Color;
+        output.Color = vertex.Color;
 
         return output;
     }
 
     [ShaderStage(Stage.Fragment)]
     [return: SV_Target(0)]
-    public Vector4 FS(VS_Output input)
+    public Vector4 FS(VS_Output fragment)
     {
-        return input.Color;
+        return fragment.Color;
     }
 }`;
 
@@ -76,7 +76,7 @@ ${buffer}
     }
 
     [ShaderStage(Stage.Fragment)]
-${ns === 'HlslSyntax' ? '    [return: SV_Target(0)]\n' : ''}    public Vector4 Fragment(VertexOutput input)
+${ns === 'HlslSyntax' ? '    [return: SV_Target(0)]\n' : ''}    public Vector4 Fragment(VertexOutput vertex)
     {
         return new Vector4(1, 0.4f, 0.7f, 1);
     }
@@ -306,8 +306,8 @@ public class TexturedQuad
 
     [ShaderStage(Stage.Fragment)]
     [return: SV_Target(0)]
-    public Vector4 Fragment(VertexOutput input)
+    public Vector4 Fragment(VertexOutput vertex)
     {
-        return new Vector4(input.Uv.X, input.Uv.Y, 0.5f, 1);
+        return new Vector4(vertex.Uv.X, vertex.Uv.Y, 0.5f, 1);
     }
 }`;
