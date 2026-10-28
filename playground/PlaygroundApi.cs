@@ -269,8 +269,27 @@ internal static class IrText
     private static void WriteStorageList(StringBuilder text, string label, IReadOnlyList<YotsubaShader.IR.Intermediate.Storage> values)
     {
         foreach (var storage in values)
-            text.Append("  ").Append(label).Append(' ').Append(storage.HumanName)
-                .Append(": ").Append(StorageType(storage)).AppendLine();
+            WriteStorage(text, label, storage, 1);
+    }
+
+    private static void WriteStorage(StringBuilder text, string label, YotsubaShader.IR.Intermediate.Storage storage, int indent)
+    {
+        var pad = new string(' ', indent * 2);
+        text.Append(pad).Append(label).Append(' ').Append(storage.HumanName).Append(": ");
+
+        if (storage is not YotsubaShader.IR.Intermediate.Types.CustomStruct structure)
+        {
+            text.Append(StorageType(storage)).Append(Slot(storage.Slot)).AppendLine();
+            return;
+        }
+
+        text.AppendLine("struct {");
+        foreach (var property in structure.Properties)
+        {
+            text.Append(new string(' ', (indent + 1) * 2)).Append(property.HumanName)
+                .Append(": ").Append(StorageType(property)).Append(Slot(property.Slot)).AppendLine();
+        }
+        text.Append(pad).AppendLine("}");
     }
 
     private static void WriteStatement(StringBuilder text, YotsubaShader.IR.Intermediate.FunctionBody.Statement statement, int indent)
@@ -335,8 +354,26 @@ internal static class IrText
         YotsubaShader.IR.Intermediate.Types.Float => "float",
         YotsubaShader.IR.Intermediate.Types.Double => "double",
         YotsubaShader.IR.Intermediate.Types.Bool => "bool",
-        YotsubaShader.IR.Intermediate.Types.CustomStruct structure => structure.HumanName,
+        YotsubaShader.IR.Intermediate.Types.CustomStruct structure =>
+            $"struct {{ {string.Join(", ", structure.Properties.Select(property => $"{property.HumanName}: {StorageType(property)}{Slot(property.Slot)}"))} }}",
+        YotsubaShader.IR.Intermediate.Types.Array array =>
+            $"{StorageType(array.ElementType)}[{array.Length?.ToString() ?? ""}]",
+        YotsubaShader.IR.Intermediate.Types.Matrix matrix =>
+            $"{matrix.ComponentsType.ToString().ToLowerInvariant()}{matrix.Rows}x{matrix.Columns}",
+        YotsubaShader.IR.Intermediate.Types.Sampler => "sampler",
+        YotsubaShader.IR.Intermediate.Types.Texture texture =>
+            $"texture{texture.Dimensions.ToString().ToLowerInvariant()}",
         _ => storage.GetType().Name
+    };
+
+    private static string Slot(YotsubaShader.IR.Intermediate.Slot.InterfaceSlot? slot) => slot switch
+    {
+        YotsubaShader.IR.Intermediate.Slot.BuiltInSlot builtIn => $" @builtin({builtIn.BuiltIn})",
+        YotsubaShader.IR.Intermediate.Slot.LocationSlot location => $" @location({location.Location})",
+        YotsubaShader.IR.Intermediate.Slot.VertexSlot vertex =>
+            $" @semantic({vertex.Semantic.Usage}{vertex.Semantic.Index})",
+        null => "",
+        _ => $" @{slot}"
     };
 }
 
