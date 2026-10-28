@@ -28,18 +28,18 @@ public class BasicColorShader
     [ShaderStage(Stage.Vertex)]
     public VS_Output VS(VS_Input vertex)
     {
-        VS_Output output = new VS_Output();
+        VS_Output vertexOutput = new VS_Output();
 
-        output.Position = new Vector4(
+        vertexOutput.Position = new Vector4(
             vertex.Position.X,
             vertex.Position.Y,
             0.0f,
             1.0f
         );
 
-        output.Color = vertex.Color;
+        vertexOutput.Color = vertex.Color;
 
-        return output;
+        return vertexOutput;
     }
 
     [ShaderStage(Stage.Fragment)]
@@ -70,9 +70,9 @@ ${buffer}
     [ShaderStage(Stage.Vertex)]
     public VertexOutput Vertex([${vertexId}] uint id)
     {
-        VertexOutput output = new VertexOutput();
-        output.Position = new Vector4(0, 0, 0, 1);
-        return output;
+        VertexOutput vertexOutput = new VertexOutput();
+        vertexOutput.Position = new Vector4(0, 0, 0, 1);
+        return vertexOutput;
     }
 
     [ShaderStage(Stage.Fragment)]
@@ -298,10 +298,10 @@ public class TexturedQuad
     [ShaderStage(Stage.Vertex)]
     public VertexOutput Vertex([SV_VertexID] uint id)
     {
-        VertexOutput output = new VertexOutput();
-        output.Position = new Vector4(0, 0, 0, 1);
-        output.Uv = new Vector2(0, 0);
-        return output;
+        VertexOutput vertexOutput = new VertexOutput();
+        vertexOutput.Position = new Vector4(0, 0, 0, 1);
+        vertexOutput.Uv = new Vector2(0, 0);
+        return vertexOutput;
     }
 
     [ShaderStage(Stage.Fragment)]
