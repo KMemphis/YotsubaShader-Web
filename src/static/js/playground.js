@@ -588,7 +588,7 @@
       const a = Object.assign(document.createElement('a'), { href: URL.createObjectURL(new Blob([bin])), download: 'shader.spv' });
       a.click(); URL.revokeObjectURL(a.href);
     });
-    selectTab(errors ? 'diagnostics' : result.ir ? 'ir' : 'shaders');
+    selectTab(errors ? 'diagnostics' : sp && sp.text ? 'spirv' : result.ir ? 'ir' : 'shaders');
     if (mobileViewport.matches) setMobileView('results');
     return errors;
   }
