@@ -44,6 +44,20 @@
     if (/^\s*;/.test(line)) return `<span class="hl-c">${line}</span>`;
     return line.replace(/(%[\w.]+)/g, '<span class="hl-id">$1</span>').replace(/\b(Op[A-Za-z]+)\b/g, '<span class="hl-op">$1</span>').replace(/\b(\d+(?:\.\d+)?)\b/g, '<span class="hl-n">$1</span>');
   }).join('\n');
+  const hlOperands = (text) => esc(text)
+    .replace(/(%[\w.]+)/g, '<span class="hl-id">$1</span>')
+    .replace(/\b(\d+(?:\.\d+)?)\b/g, '<span class="hl-n">$1</span>');
+  /** Present one SPIR-V instruction per row. The four assembly columns preserve
+   * the conventional `result = opcode operands` layout: header instructions leave
+   * the result columns empty, so their opcode aligns with typed instructions. */
+  const spirvAssembly = (text) => String(text).replace(/\r\n?/g, '\n').split('\n').map((raw) => {
+    const line = raw.trim();
+    if (/^\s*;/.test(line)) return `<div class="pg-spirv-line pg-spirv-line--plain"><span class="hl-c">${esc(line)}</span></div>`;
+    const instruction = line.match(/^(?:(%[\w.]+)\s*(=)\s*)?(Op[A-Za-z]+)(?:\s+(.*))?$/);
+    if (!instruction) return `<div class="pg-spirv-line pg-spirv-line--plain">${hl(line)}</div>`;
+    const [, result = '', equals = '', opcode, operands = ''] = instruction;
+    return `<div class="pg-spirv-line"><span class="pg-spirv-result">${hlOperands(result) || '&nbsp;'}</span><span class="pg-spirv-equals">${esc(equals) || '&nbsp;'}</span><span class="pg-spirv-op">${esc(opcode)}</span><span class="pg-spirv-operands">${hlOperands(operands) || '&nbsp;'}</span></div>`;
+  }).join('');
   /**
    * The browser receives a human-readable IR document, not a JSON dump of its
    * object graph. The compiler owns that document; this is deliberately only a
@@ -567,8 +581,8 @@
 
     const sp = result.spirv;
     el.panels.spirv.innerHTML = sp && sp.text
-      ? `${sp.base64 ? `<div class="pg-actions"><button type="button" class="pg-btn" id="pg-dl">${T('Download .spv')}</button></div>` : ''}<pre>${hl(sp.text)}</pre>`
-      : emptyState(T('SPIR-V will appear here once the pipeline produces it.'));
+      ? `${sp.base64 ? `<div class="pg-actions"><button type="button" class="pg-btn" id="pg-dl">${T('Download .spv')}</button></div>` : ''}<section class="pg-spirv-assembly" aria-label="SPIR-V Assembly">${spirvAssembly(sp.text)}</section>`
+      : emptyState(T('SPIR-V Assembly will appear here once the pipeline produces it.'));
     $('#pg-dl')?.addEventListener('click', () => {
       const bin = Uint8Array.from(atob(sp.base64), (c) => c.charCodeAt(0));
       const a = Object.assign(document.createElement('a'), { href: URL.createObjectURL(new Blob([bin])), download: 'shader.spv' });

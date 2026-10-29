@@ -76,6 +76,7 @@ using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.QuickInfo;
 using Microsoft.JSInterop;
+using YotsubaShader.Compiler.SpirV;
 using YotsubaShader.Roslyn;
 
 namespace YotsubaShader.Playground;
@@ -210,6 +211,7 @@ public static class PlaygroundApi
         bool ok = diagnostics.All(d => d.Severity != "error");
         var shaders = new List<ShaderDto>();
         string? ir = null;
+        string? spirv = null;
 
         if (ok)
         {
@@ -226,6 +228,15 @@ public static class PlaygroundApi
                 // Surface frontend validation errors and expose the same IR that a backend receives.
                 var loweredShaders = new ShaderProcessor().Process(compilation, CancellationToken.None);
                 ir = IrText.Format(loweredShaders);
+
+                // This is intentionally the assembly-like module text, not a binary artifact.
+                // It lets the Playground expose the lowering incrementally while the backend is
+                // still under development and before modules are ready for spirv-val or Vulkan.
+                var modules = loweredShaders
+                    .Select(shader => new IRToSpirvModule().Compile(shader).ToText())
+                    .Where(text => !string.IsNullOrWhiteSpace(text))
+                    .ToList();
+                spirv = modules.Count == 0 ? null : string.Join("\n\n", modules);
             }
             catch (NotImplementedException)
             {
@@ -243,7 +254,12 @@ public static class PlaygroundApi
             diagnostics.Add(new DiagnosticDto("info", "No shader found. Mark a method with [ShaderStage(Stage.Vertex)].", 1, 1, "YS0100", File: null));
         }
 
-        var result = new CompileResult(ok, diagnostics, shaders, Ir: ir, Spirv: null);
+        var result = new CompileResult(
+            ok,
+            diagnostics,
+            shaders,
+            Ir: ir,
+            Spirv: spirv is null ? null : new SpirvDto(spirv));
         return JsonSerializer.Serialize(result, Json);
     }
 }

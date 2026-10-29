@@ -10,7 +10,7 @@
  "No diagnostics. Your code compiles cleanly.": "Sin diagnósticos. Tu código compila sin problemas.",
  "No shaders found yet. Mark a method with <code>[ShaderStage(Stage.Vertex)]</code>.": "Aún no se encontró ningún shader. Marca un método con <code>[ShaderStage(Stage.Vertex)]</code>.",
  "The IR will appear here once the pipeline produces it.": "La IR aparecerá aquí cuando el pipeline la produzca.",
- "SPIR-V will appear here once the pipeline produces it.": "El SPIR-V aparecerá aquí cuando el pipeline lo produzca.",
+ "SPIR-V Assembly will appear here once the pipeline produces it.": "El SPIR-V Assembly aparecerá aquí cuando el pipeline lo produzca.",
  "The compiler could not be loaded. See the notice above.": "No se pudo cargar el compilador. Consulta el aviso de arriba.",
  "Compiling…": "Compilando…",
  "Compiler error: {message}": "Error del compilador: {message}",

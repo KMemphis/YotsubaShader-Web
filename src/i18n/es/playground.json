@@ -25,11 +25,12 @@
  "Workspace view": "Vista del espacio de trabajo",
  "Editor": "Editor",
  "Results": "Resultados",
+ "SPIR-V Assembly": "SPIR-V Assembly",
  "Current availability": "Disponibilidad actual",
  "Hide inspector": "Ocultar inspector",
  "Project navigator": "Navegador del proyecto",
  "Results inspector": "Inspector de resultados",
  "Close navigator": "Cerrar navegador",
  "Edit C# shader declarations, inspect diagnostics and discovered entry points, and review IR when the connected compiler produces it.": "Edita declaraciones de shaders en C#, inspecciona diagnósticos y puntos de entrada detectados, y revisa el IR cuando el compilador conectado lo produzca.",
- "The playground provides C# analysis and shader discovery. The IR view displays the compiler output when it is available; SPIR-V output and rendering are not available here yet.": "El playground ofrece análisis de C# y detección de shaders. La vista de IR muestra la salida del compilador cuando está disponible; la salida SPIR-V y el renderizado aún no están disponibles."
+ "The playground provides C# analysis, shader discovery, and compiler inspection. The IR and SPIR-V Assembly tabs show the text produced by the connected pipeline; the assembly view can be partial while the backend is under development. Rendering is not available here yet.": "El playground ofrece análisis de C#, detección de shaders e inspección del compilador. Las pestañas de IR y SPIR-V Assembly muestran el texto producido por el pipeline conectado; la vista de assembly puede ser parcial mientras el backend está en desarrollo. El renderizado aún no está disponible."
 }

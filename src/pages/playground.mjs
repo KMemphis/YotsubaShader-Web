@@ -57,7 +57,7 @@ export default function playground() {
         <summary class="pg-icon-button" aria-label="Availability" title="Availability">
           <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 10v6M12 7h.01"/></svg>
         </summary>
-        <div class="pg-popover"><h2>Current availability</h2><p>The playground provides C# analysis and shader discovery. The IR view displays the compiler output when it is available; SPIR-V output and rendering are not available here yet.</p></div>
+        <div class="pg-popover"><h2>Current availability</h2><p>The playground provides C# analysis, shader discovery, and compiler inspection. The IR and SPIR-V Assembly tabs show the text produced by the connected pipeline; the assembly view can be partial while the backend is under development. Rendering is not available here yet.</p></div>
       </details>
       __LANGSWITCH__
       <button class="pg-btn" type="button" id="pg-share" title="Copy a link to this code">${icon('external')}<span>Share</span></button>
@@ -91,7 +91,7 @@ export default function playground() {
         <button role="tab" type="button" data-tab="diagnostics" aria-selected="true">Diagnostics <i class="pg-count" id="pg-count-diagnostics"></i></button>
         <button role="tab" type="button" data-tab="shaders" aria-selected="false">Shaders <i class="pg-count" id="pg-count-shaders"></i></button>
         <button role="tab" type="button" data-tab="ir" aria-selected="false">IR</button>
-        <button role="tab" type="button" data-tab="spirv" aria-selected="false" hidden>SPIR-V</button>
+        <button role="tab" type="button" data-tab="spirv" aria-selected="false">SPIR-V Assembly</button>
         <button role="tab" type="button" data-tab="image" aria-selected="false" hidden>Input image</button>
         </div>
       </header>
