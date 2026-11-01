@@ -103,15 +103,22 @@
 .pg-panels { flex: 1; min-height: 0; padding: 16px; overflow: auto; }
 .pg-panel { min-height: 100%; }
 .pg-panel pre { font: 12px/1.7 var(--mono); white-space: pre; overflow-x: auto; }
-/* Assembly is instruction-oriented: the opcode keeps its column while its operands
-   wrap beneath one another, which remains legible in the narrow result inspector. */
-.pg-spirv-assembly { display: grid; gap: 6px; margin: 0; padding: 12px; border: 1px solid color-mix(in srgb, var(--pg-line) 78%, transparent); border-radius: 6px; background: #121018; font: 12px/1.7 var(--mono); }
-.pg-spirv-line { display: grid; grid-template-columns: minmax(18ch, max-content) 1.2ch max-content minmax(0, 1fr); align-items: baseline; column-gap: .8ch; min-width: 0; }
-.pg-spirv-result { min-width: 0; color: var(--pg-text); text-align: right; overflow-wrap: anywhere; }
-.pg-spirv-equals { color: var(--pg-secondary); text-align: center; }
-.pg-spirv-op { color: #569cd6; white-space: nowrap; }
-.pg-spirv-operands { min-width: 0; color: var(--pg-text); overflow-wrap: anywhere; }
-.pg-spirv-line--plain { display: block; white-space: pre-wrap; overflow-wrap: anywhere; }
+/* SPIR-V is a code surface. Shared grid tracks align every instruction and long
+   IDs scroll horizontally instead of collapsing operands one character per line. */
+.pg-spirv-explorer { display: flex; flex-direction: column; min-height: 100%; }
+.pg-spirv-header { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 0 0 12px; border-bottom: 1px solid var(--pg-line); }
+.pg-spirv-title { display: grid; min-width: 0; gap: 2px; }
+.pg-spirv-title span { color: var(--pg-muted); font-size: 9px; font-weight: 650; letter-spacing: .055em; text-transform: uppercase; }
+.pg-spirv-title strong { color: var(--pg-text); font: 600 13px/1.25 var(--mono); }
+.pg-spirv-actions { display: flex; align-items: center; gap: 6px; flex: none; }
+.pg-spirv-code { flex: 1; min-height: 180px; margin-top: 12px; overflow: auto; border: 1px solid color-mix(in srgb, var(--pg-line) 78%, transparent); border-radius: 6px; background: #121018; }
+.pg-spirv-assembly { display: grid; grid-template-columns: 34px max-content; width: max-content; min-width: 100%; padding: 9px 0; font: 11px/20px var(--mono); counter-reset: spirv-line; }
+.pg-spirv-line { display: grid; grid-template-columns: subgrid; grid-column: 1 / -1; align-items: baseline; min-height: 20px; counter-increment: spirv-line; }
+.pg-spirv-line:hover { background: rgba(255,255,255,.035); }
+.pg-spirv-line-number::before { content: counter(spirv-line); }
+.pg-spirv-line-number { padding-right: 9px; color: #69616e; text-align: right; user-select: none; font-size: 10px; }
+.pg-spirv-line code { padding: 0 16px 0 10px; color: var(--pg-text); font: inherit; white-space: pre; }
+.pg-spirv-status { min-height: 14px; margin: 7px 0 0; color: var(--pg-muted); font-size: 10px; }
 .pg-empty { display: flex; flex-direction: column; align-items: flex-start; justify-content: center; min-height: 180px; gap: 6px; }
 .pg-empty h2 { margin: 0; font-size: 14px; font-weight: 600; letter-spacing: -.01em; }
 .pg-empty p { max-width: 32ch; margin: 0; color: var(--pg-muted); font-size: 11px; line-height: 1.55; }
@@ -232,6 +239,7 @@
   .pg-tabs button { flex: 1; height: 30px; }
   .pg-panels { padding: 16px; }
   .pg-ir-code { min-height: 220px; }
+  .pg-spirv-code { min-height: 220px; }
   .pg-file { height: 44px; font-size: 13px; }
   .pg-file-x { width: 36px; height: 36px; color: var(--pg-secondary); }
   .pg-panel-heading { height: 44px; }

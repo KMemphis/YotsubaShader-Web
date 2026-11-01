@@ -322,7 +322,7 @@ internal static class IrText
                 if (declaration.Initializer is not null) text.Append(" = ").Append(Expression(declaration.Initializer));
                 text.AppendLine();
                 break;
-            case YotsubaShader.IR.Intermediate.FunctionBody.Expressions.Assignment assignment:
+            case YotsubaShader.IR.Intermediate.FunctionBody.Statements.Assignment assignment:
                 text.Append(pad).Append(Expression(assignment.Target)).Append(" = ")
                     .Append(Expression(assignment.Value)).AppendLine();
                 break;

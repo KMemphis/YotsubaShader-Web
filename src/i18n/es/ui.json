@@ -38,12 +38,17 @@
  "Lowered IR explorer": "Explorador de IR reducida",
  "Lowered IR": "IR reducida",
  "Copy IR": "Copiar IR",
+ "Copy SPIR-V": "Copiar SPIR-V",
  "Expand IR": "Ampliar IR",
+ "Expand SPIR-V": "Ampliar SPIR-V",
  "Restore workspace": "Restaurar espacio de trabajo",
  "Function": "Función",
  "Stage": "Etapa",
  "Lines": "Líneas",
  "IR code for {name}": "Código IR de {name}",
  "IR copied": "IR copiada",
- "Could not copy IR": "No se pudo copiar la IR"
+ "Could not copy IR": "No se pudo copiar la IR",
+ "instructions": "instrucciones",
+ "SPIR-V copied": "SPIR-V copiado",
+ "Could not copy SPIR-V": "No se pudo copiar el SPIR-V"
 }

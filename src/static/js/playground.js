@@ -44,19 +44,13 @@
     if (/^\s*;/.test(line)) return `<span class="hl-c">${line}</span>`;
     return line.replace(/(%[\w.]+)/g, '<span class="hl-id">$1</span>').replace(/\b(Op[A-Za-z]+)\b/g, '<span class="hl-op">$1</span>').replace(/\b(\d+(?:\.\d+)?)\b/g, '<span class="hl-n">$1</span>');
   }).join('\n');
-  const hlOperands = (text) => esc(text)
-    .replace(/(%[\w.]+)/g, '<span class="hl-id">$1</span>')
-    .replace(/\b(\d+(?:\.\d+)?)\b/g, '<span class="hl-n">$1</span>');
-  /** Present one SPIR-V instruction per row. The four assembly columns preserve
-   * the conventional `result = opcode operands` layout: header instructions leave
-   * the result columns empty, so their opcode aligns with typed instructions. */
+  /** Present one complete SPIR-V instruction per numbered row. Long instructions
+   * remain intact and use horizontal scrolling, like a conventional disassembler. */
   const spirvAssembly = (text) => String(text).replace(/\r\n?/g, '\n').split('\n').map((raw) => {
-    const line = raw.trim();
-    if (/^\s*;/.test(line)) return `<div class="pg-spirv-line pg-spirv-line--plain"><span class="hl-c">${esc(line)}</span></div>`;
-    const instruction = line.match(/^(?:(%[\w.]+)\s*(=)\s*)?(Op[A-Za-z]+)(?:\s+(.*))?$/);
-    if (!instruction) return `<div class="pg-spirv-line pg-spirv-line--plain">${hl(line)}</div>`;
-    const [, result = '', equals = '', opcode, operands = ''] = instruction;
-    return `<div class="pg-spirv-line"><span class="pg-spirv-result">${hlOperands(result) || '&nbsp;'}</span><span class="pg-spirv-equals">${esc(equals) || '&nbsp;'}</span><span class="pg-spirv-op">${esc(opcode)}</span><span class="pg-spirv-operands">${hlOperands(operands) || '&nbsp;'}</span></div>`;
+    // SpirVModule.ToText() pads result-less instructions so their opcode aligns
+    // with the opcode after `%result =`, matching conventional spirv-dis output.
+    const line = raw.trimEnd();
+    return `<div class="pg-spirv-line"><span class="pg-spirv-line-number" aria-hidden="true"></span><code>${hl(line) || '&nbsp;'}</code></div>`;
   }).join('');
   /**
    * The browser receives a human-readable IR document, not a JSON dump of its
@@ -546,6 +540,54 @@
     });
   }
 
+  function renderSpirv(sp) {
+    if (!sp?.text) {
+      el.panels.spirv.innerHTML = emptyState(T('SPIR-V Assembly will appear here once the pipeline produces it.'));
+      return;
+    }
+
+    const instructions = String(sp.text).replace(/\r\n?/g, '\n').split('\n').filter((line) => line.trim()).length;
+    el.panels.spirv.innerHTML = `<section class="pg-spirv-explorer" aria-label="SPIR-V Assembly">
+      <header class="pg-spirv-header">
+        <div class="pg-spirv-title"><span>SPIR-V</span><strong>${instructions} ${esc(T('instructions'))}</strong></div>
+        <div class="pg-spirv-actions">
+          ${sp.base64 ? `<button type="button" class="pg-btn" id="pg-dl">${T('Download .spv')}</button>` : ''}
+          <button class="pg-icon-button" type="button" id="pg-spirv-copy" aria-label="${esc(T('Copy SPIR-V'))}" title="${esc(T('Copy SPIR-V'))}">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="1"/><path d="M15 9V5a1 1 0 0 0-1-1H5a1 1 0 0 0-1 1v9a1 1 0 0 0 1 1h4"/></svg>
+          </button>
+          <button class="pg-icon-button" type="button" id="pg-spirv-expand" aria-pressed="${el.root.classList.contains('pg--ir-expanded')}" aria-label="${esc(T('Expand SPIR-V'))}" title="${esc(T('Expand SPIR-V'))}">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 4H4v5M15 4h5v5M20 15v5h-5M4 15v5h5"/></svg>
+          </button>
+        </div>
+      </header>
+      <div class="pg-spirv-code" role="region" aria-label="SPIR-V Assembly" tabindex="0">
+        <div class="pg-spirv-assembly">${spirvAssembly(sp.text)}</div>
+      </div>
+      <p class="pg-spirv-status" aria-live="polite"></p>
+    </section>`;
+
+    $('#pg-dl')?.addEventListener('click', () => {
+      const bin = Uint8Array.from(atob(sp.base64), (c) => c.charCodeAt(0));
+      const a = Object.assign(document.createElement('a'), { href: URL.createObjectURL(new Blob([bin])), download: 'shader.spv' });
+      a.click(); URL.revokeObjectURL(a.href);
+    });
+    $('#pg-spirv-copy')?.addEventListener('click', async () => {
+      const status = $('.pg-spirv-status', el.panels.spirv);
+      try {
+        await navigator.clipboard.writeText(sp.text);
+        status.textContent = T('SPIR-V copied');
+      } catch {
+        status.textContent = T('Could not copy SPIR-V');
+      }
+    });
+    $('#pg-spirv-expand')?.addEventListener('click', () => {
+      const expanded = el.root.classList.toggle('pg--ir-expanded');
+      $('#pg-spirv-expand').setAttribute('aria-pressed', String(expanded));
+      $('#pg-spirv-expand').setAttribute('aria-label', T(expanded ? 'Restore workspace' : 'Expand SPIR-V'));
+      $('#pg-spirv-expand').title = T(expanded ? 'Restore workspace' : 'Expand SPIR-V');
+    });
+  }
+
   function renderDiagnostics(diags) {
     lastDiagnostics = diags;
     const errors = diags.filter((d) => d.severity === 'error').length;
@@ -580,14 +622,7 @@
     renderIr(result.ir);
 
     const sp = result.spirv;
-    el.panels.spirv.innerHTML = sp && sp.text
-      ? `${sp.base64 ? `<div class="pg-actions"><button type="button" class="pg-btn" id="pg-dl">${T('Download .spv')}</button></div>` : ''}<section class="pg-spirv-assembly" aria-label="SPIR-V Assembly">${spirvAssembly(sp.text)}</section>`
-      : emptyState(T('SPIR-V Assembly will appear here once the pipeline produces it.'));
-    $('#pg-dl')?.addEventListener('click', () => {
-      const bin = Uint8Array.from(atob(sp.base64), (c) => c.charCodeAt(0));
-      const a = Object.assign(document.createElement('a'), { href: URL.createObjectURL(new Blob([bin])), download: 'shader.spv' });
-      a.click(); URL.revokeObjectURL(a.href);
-    });
+    renderSpirv(sp);
     selectTab(errors ? 'diagnostics' : sp && sp.text ? 'spirv' : result.ir ? 'ir' : 'shaders');
     if (mobileViewport.matches) setMobileView('results');
     return errors;
