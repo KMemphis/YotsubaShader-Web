@@ -40,9 +40,11 @@ jobs:
             YotsubaShader.SpirvSyntax
             YotsubaShader.WgslSyntax
             YotsubaShader.IR
+            YotsubaShader.Compiler
             YotsubaShader.Compiler.SpirV
             YotsubaShader.Generator
             YotsubaShader.Roslyn
+            YotsubaShaderCross
 
       - name: Esta web
         uses: actions/checkout@v7
