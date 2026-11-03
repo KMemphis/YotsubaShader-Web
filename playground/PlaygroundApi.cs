@@ -68,7 +68,6 @@
 
 using System.Text.Json;
 using System.Text.Json.Serialization;
-using System.Text;
 using System.Text.RegularExpressions;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.Completion;
@@ -76,7 +75,8 @@ using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.QuickInfo;
 using Microsoft.JSInterop;
-using YotsubaShader.Compiler.SpirV;
+using YotsubaShader.Compiler;
+using YotsubaShader.IR.Intermediate;
 using YotsubaShader.Roslyn;
 
 namespace YotsubaShader.Playground;
@@ -84,8 +84,8 @@ namespace YotsubaShader.Playground;
 /// <summary>
 /// Entry points called from the website (Web/src/static/js/playground.js).
 /// Everything takes the editor's files as JSON: [{ "name": "Shader.cs", "source": "..." }].
-/// Roslyn analysis (diagnostics, completion, hover, signature help) works on plain C# today;
-/// the Yotsuba pipeline (IR / SPIR-V) is added to <see cref="Compile"/> as it becomes available.
+/// Roslyn analysis (diagnostics, completion, hover, signature help) works on plain C# today.
+/// <see cref="Compile"/> invokes the public Yotsuba compiler facade for every backend output.
 /// </summary>
 public static class PlaygroundApi
 {
@@ -210,8 +210,8 @@ public static class PlaygroundApi
         var diagnostics = Diagnostics(compilation);
         bool ok = diagnostics.All(d => d.Severity != "error");
         var shaders = new List<ShaderDto>();
-        string? ir = null;
         string? spirv = null;
+        var outputs = new List<ShaderOutputDto>();
 
         if (ok)
         {
@@ -225,22 +225,39 @@ public static class PlaygroundApi
                             string.Join(", ", p.Symbol.GetAttributes().Select(a => AttributeNamespaces.Replace(a.ToString()!, ""))))).ToList())).ToList()));
                 }
 
-                // Surface frontend validation errors and expose the same IR that a backend receives.
-                var loweredShaders = new ShaderProcessor().Process(compilation, CancellationToken.None);
-                ir = IrText.Format(loweredShaders);
+                var compiledShaders = CSharpToSpirvCompiler.Compile(
+                    compilation,
+                    CancellationToken.None);
 
-                // This is intentionally the assembly-like module text, not a binary artifact.
-                // It lets the Playground expose the lowering incrementally while the backend is
-                // still under development and before modules are ready for spirv-val or Vulkan.
-                var modules = loweredShaders
-                    .Select(shader => new IRToSpirvModule().Compile(shader).ToText())
+                var modules = compiledShaders
+                    .Select(shader => shader.SpirVAs)
                     .Where(text => !string.IsNullOrWhiteSpace(text))
                     .ToList();
+
                 spirv = modules.Count == 0 ? null : string.Join("\n\n", modules);
-            }
-            catch (NotImplementedException)
-            {
-                // The frontend does not lower every construct yet; discovery results are still valid.
+
+                foreach (CompiledCode compiledShader in compiledShaders)
+                {
+                    var stages = compiledShader.Reflection.IntermediateLanguage.Functions
+                        .Where(function => function.Stage != Stage.None)
+                        .Select(function => new ShaderStageOutputDto(
+                            function.HumanName,
+                            function.Stage.ToString(),
+                            compiledShader.ToHlsl(function.Stage),
+                            compiledShader.ToGlsl(function.Stage),
+                            // WebGL 2 executes ESSL 3.00 vertex/fragment shaders. Compute is shown as
+                            // generated code only and SPIRV-Cross requires ESSL 3.10 for that stage.
+                            compiledShader.ToGlslEs(
+                                function.Stage,
+                                function.Stage == Stage.Compute ? 310u : 300u),
+                            compiledShader.ToMsl(function.Stage),
+                            compiledShader.ToCpp(function.Stage)))
+                        .ToList();
+
+                    outputs.Add(new ShaderOutputDto(
+                        compiledShader.CSharpFullClassName,
+                        stages));
+                }
             }
             catch (Exception ex)
             {
@@ -258,147 +275,20 @@ public static class PlaygroundApi
             ok,
             diagnostics,
             shaders,
-            Ir: ir,
-            Spirv: spirv is null ? null : new SpirvDto(spirv));
+            Spirv: spirv is null ? null : new SpirvDto(spirv),
+            Outputs: outputs);
         return JsonSerializer.Serialize(result, Json);
     }
 }
 
-internal static class IrText
-{
-    public static string Format(IReadOnlyList<YotsubaShader.IR.Intermediate.Shader> shaders)
-    {
-        var text = new StringBuilder();
-        foreach (var shader in shaders)
-        foreach (var function in shader.Functions)
-        {
-            text.Append("function ").Append(function.HumanName)
-                .Append(" [").Append(function.Stage).AppendLine("]");
-            WriteStorageList(text, "input", function.Inputs);
-            WriteStorageList(text, "output", function.Outputs);
-            foreach (var statement in function.Body) WriteStatement(text, statement, 1);
-            text.AppendLine();
-        }
-        return text.ToString().TrimEnd();
-    }
-
-    private static void WriteStorageList(StringBuilder text, string label, IReadOnlyList<YotsubaShader.IR.Intermediate.Storage> values)
-    {
-        foreach (var storage in values)
-            WriteStorage(text, label, storage, 1);
-    }
-
-    private static void WriteStorage(StringBuilder text, string label, YotsubaShader.IR.Intermediate.Storage storage, int indent)
-    {
-        var pad = new string(' ', indent * 2);
-        text.Append(pad).Append(label).Append(' ').Append(storage.HumanName).Append(": ");
-
-        if (storage is not YotsubaShader.IR.Intermediate.Types.CustomStruct structure)
-        {
-            text.Append(StorageType(storage)).Append(Slot(storage.Slot)).AppendLine();
-            return;
-        }
-
-        text.AppendLine("struct {");
-        foreach (var property in structure.Properties)
-        {
-            text.Append(new string(' ', (indent + 1) * 2)).Append(property.HumanName)
-                .Append(": ").Append(StorageType(property)).Append(Slot(property.Slot)).AppendLine();
-        }
-        text.Append(pad).AppendLine("}");
-    }
-
-    private static void WriteStatement(StringBuilder text, YotsubaShader.IR.Intermediate.FunctionBody.Statement statement, int indent)
-    {
-        var pad = new string(' ', indent * 2);
-        switch (statement)
-        {
-            case YotsubaShader.IR.Intermediate.FunctionBody.Statements.Block block:
-                foreach (var child in block.Statements) WriteStatement(text, child, indent);
-                break;
-            case YotsubaShader.IR.Intermediate.FunctionBody.Statements.VariableDeclaration declaration:
-                text.Append(pad).Append("local ").Append(declaration.Storage.HumanName).Append(": ")
-                    .Append(StorageType(declaration.Storage));
-                if (declaration.Initializer is not null) text.Append(" = ").Append(Expression(declaration.Initializer));
-                text.AppendLine();
-                break;
-            case YotsubaShader.IR.Intermediate.FunctionBody.Statements.Assignment assignment:
-                text.Append(pad).Append(Expression(assignment.Target)).Append(" = ")
-                    .Append(Expression(assignment.Value)).AppendLine();
-                break;
-            case YotsubaShader.IR.Intermediate.FunctionBody.Statements.Return returned:
-                text.Append(pad).Append("return");
-                if (returned.Value is not null) text.Append(' ').Append(Expression(returned.Value));
-                text.AppendLine();
-                break;
-            default:
-                text.Append(pad).Append("<unsupported ").Append(statement.GetType().Name).AppendLine(">");
-                break;
-        }
-    }
-
-    private static string Expression(YotsubaShader.IR.Intermediate.FunctionBody.Expression value) => value switch
-    {
-        YotsubaShader.IR.Intermediate.FunctionBody.Expressions.AssignmentTargets.StorageReference reference => reference.Storage.HumanName,
-        YotsubaShader.IR.Intermediate.FunctionBody.Expressions.AssignmentTargets.StorageStructPropertyReference member => $"{Expression(member.Reference)}.{member.PropertyName}",
-        YotsubaShader.IR.Intermediate.FunctionBody.Expressions.AssignmentTargets.StorageArrayElementReference element => $"{Expression(element.ArrayReference)}[{Expression(element.Index)}]",
-        YotsubaShader.IR.Intermediate.FunctionBody.Expressions.Literals.IntLiteral integer => integer.Value + (integer.Signed ? "" : "u"),
-        YotsubaShader.IR.Intermediate.FunctionBody.Expressions.Literals.FloatLiteral single => single.Value.ToString(System.Globalization.CultureInfo.InvariantCulture) + "f",
-        YotsubaShader.IR.Intermediate.FunctionBody.Expressions.Literals.DoubleLiteral number => number.Value.ToString(System.Globalization.CultureInfo.InvariantCulture),
-        YotsubaShader.IR.Intermediate.FunctionBody.Expressions.Literals.BoolLiteral boolean => boolean.Value ? "true" : "false",
-        YotsubaShader.IR.Intermediate.FunctionBody.Expressions.Literals.VectorExpression vector => $"vector{vector.Values.Count}({string.Join(", ", vector.Values.Select(Expression))})",
-        YotsubaShader.IR.Intermediate.FunctionBody.Expressions.Literals.CustomStructExpression structure => $"{structure.StructType.HumanName}()",
-        YotsubaShader.IR.Intermediate.FunctionBody.Expressions.BinaryExpression binary => $"({Expression(binary.Left)} {Binary(binary.Operator)} {Expression(binary.Right)})",
-        YotsubaShader.IR.Intermediate.ValueConvertions.NumericConversion conversion => $"{conversion.TargetType}({Expression(conversion.Operand)})",
-        _ => $"<unsupported {value.GetType().Name}>"
-    };
-
-    private static string Binary(YotsubaShader.IR.Intermediate.FunctionBody.Expressions.BinaryOperator op) => op switch
-    {
-        YotsubaShader.IR.Intermediate.FunctionBody.Expressions.BinaryOperator.Add => "+",
-        YotsubaShader.IR.Intermediate.FunctionBody.Expressions.BinaryOperator.Subtract => "-",
-        YotsubaShader.IR.Intermediate.FunctionBody.Expressions.BinaryOperator.Multiply => "*",
-        YotsubaShader.IR.Intermediate.FunctionBody.Expressions.BinaryOperator.Divide => "/",
-        YotsubaShader.IR.Intermediate.FunctionBody.Expressions.BinaryOperator.Remainder => "%",
-        _ => op.ToString()
-    };
-
-    private static string StorageType(YotsubaShader.IR.Intermediate.Storage storage) => storage switch
-    {
-        YotsubaShader.IR.Intermediate.Types.Vector vector => $"{vector.ComponentsType.ToString().ToLowerInvariant()}{vector.ComponentsLength}",
-        YotsubaShader.IR.Intermediate.Types.Int integer => (integer.Signed ? "int" : "uint") + integer.Bits,
-        YotsubaShader.IR.Intermediate.Types.Float => "float",
-        YotsubaShader.IR.Intermediate.Types.Double => "double",
-        YotsubaShader.IR.Intermediate.Types.Bool => "bool",
-        YotsubaShader.IR.Intermediate.Types.CustomStruct structure =>
-            $"struct {{ {string.Join(", ", structure.Properties.Select(property => $"{property.HumanName}: {StorageType(property)}{Slot(property.Slot)}"))} }}",
-        YotsubaShader.IR.Intermediate.Types.Array array =>
-            $"{StorageType(array.ElementType)}[{array.Length?.ToString() ?? ""}]",
-        YotsubaShader.IR.Intermediate.Types.Matrix matrix =>
-            $"{matrix.ComponentsType.ToString().ToLowerInvariant()}{matrix.Rows}x{matrix.Columns}",
-        YotsubaShader.IR.Intermediate.Types.Sampler => "sampler",
-        YotsubaShader.IR.Intermediate.Types.Texture texture =>
-            $"texture{texture.Dimensions.ToString().ToLowerInvariant()}",
-        _ => storage.GetType().Name
-    };
-
-    private static string Slot(YotsubaShader.IR.Intermediate.Slot.InterfaceSlot? slot) => slot switch
-    {
-        YotsubaShader.IR.Intermediate.Slot.BuiltInSlot builtIn => $" @builtin({builtIn.BuiltIn})",
-        YotsubaShader.IR.Intermediate.Slot.LocationSlot location => $" @location({location.Location})",
-        YotsubaShader.IR.Intermediate.Slot.VertexSlot vertex =>
-            $" @semantic({vertex.Semantic.Usage}{vertex.Semantic.Index})",
-        null => "",
-        _ => $" @{slot}"
-    };
-}
-
 // JSON contract consumed by playground.js (camelCase on the wire).
-public sealed record CompileResult(bool Ok, IReadOnlyList<DiagnosticDto> Diagnostics, IReadOnlyList<ShaderDto> Shaders, string? Ir, SpirvDto? Spirv);
+public sealed record CompileResult(bool Ok, IReadOnlyList<DiagnosticDto> Diagnostics, IReadOnlyList<ShaderDto> Shaders, SpirvDto? Spirv, IReadOnlyList<ShaderOutputDto> Outputs);
 public sealed record DiagnosticDto(string Severity, string Message, int Line, int Column, string? Id = null, int? EndLine = null, int? EndColumn = null, string? File = null);
 public sealed record ShaderDto(string Name, string? FullName, IReadOnlyList<EntryPointDto> EntryPoints);
 public sealed record EntryPointDto(string Name, string Stage, string ReturnType, IReadOnlyList<ParameterDto> Parameters);
 public sealed record ParameterDto(string Name, string Type, string? Slot = null);
 public sealed record SpirvDto(string Text, string? Base64 = null);
+public sealed record ShaderOutputDto(string Name, IReadOnlyList<ShaderStageOutputDto> Stages);
+public sealed record ShaderStageOutputDto(string Name, string Stage, string Hlsl, string Glsl, string GlslEs, string Msl, string Cpp);
 public sealed record CompletionDto(string Label, string Kind, string? SortText, string? FilterText, string? Detail);
 public sealed record SignatureDto(string Label, IReadOnlyList<string> Parameters);

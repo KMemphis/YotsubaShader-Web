@@ -14,7 +14,7 @@
  *   files = [{ name: 'Shader.cs', source: '...' }, ...]
  *   CompileResult = { ok, diagnostics: [{ severity: 'error'|'warning'|'info', message, line, column, endLine?, endColumn?,
  *                     id?, file? }], shaders: [{ name, fullName?, entryPoints: [{ name, stage, returnType,
- *                     parameters: [{ name, type, slot? }] }] }], ir?: string, spirv?: { text, base64? } }
+ *                     parameters: [{ name, type, slot? }] }] }], spirv?: { text, base64? }, outputs?: [...] }
  *
  * A Blazor WebAssembly build is detected automatically when it is published to ./playground-app/ and a demo
  * backend is available with ?demo=1. See Web/playground/README.md.
@@ -34,12 +34,15 @@
     root: $('#pg'), host: $('#pg-editor'), files: $('#pg-files'), add: $('#pg-add'), activeFile: $('#pg-active-file'),
     navigator: $('#pg-navigator'), navigatorToggle: $('#pg-navigator-toggle'), inspector: $('#pg-inspector'),
     inspectorToggle: $('#pg-inspector-toggle'), backdrop: $('#pg-backdrop'),
+    diagnostics: $('#pg-editor-diagnostics'),
+    previewCanvas: $('#pg-preview-canvas'), previewStatus: $('#pg-preview-status'),
+    previewMessage: $('#pg-preview-message'), previewDetail: $('#pg-preview-detail'),
     panels: Object.fromEntries($$('[data-panel]').map((p) => [p.dataset.panel, p])),
   };
   const esc = (s) => String(s ?? '').replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]);
   const emptyState = (text, title = '') => `<div class="pg-empty">${title ? `<h2>${esc(title)}</h2>` : ''}<p>${text}</p></div>`;
   const setState = (state) => { el.status.dataset.state = state; };
-  /** Tiny highlighter for IR / SPIR-V text: opcodes, %ids, numbers and ; comments. */
+  /** Tiny highlighter for SPIR-V assembly: opcodes, %ids, numbers and ; comments. */
   const hl = (text) => esc(text).split('\n').map((line) => {
     if (/^\s*;/.test(line)) return `<span class="hl-c">${line}</span>`;
     return line.replace(/(%[\w.]+)/g, '<span class="hl-id">$1</span>').replace(/\b(Op[A-Za-z]+)\b/g, '<span class="hl-op">$1</span>').replace(/\b(\d+(?:\.\d+)?)\b/g, '<span class="hl-n">$1</span>');
@@ -52,36 +55,6 @@
     const line = raw.trimEnd();
     return `<div class="pg-spirv-line"><span class="pg-spirv-line-number" aria-hidden="true"></span><code>${hl(line) || '&nbsp;'}</code></div>`;
   }).join('');
-  /**
-   * The browser receives a human-readable IR document, not a JSON dump of its
-   * object graph. The compiler owns that document; this is deliberately only a
-   * view-model parser for its function headers, so the inspector can offer
-   * useful navigation without inventing an alternative IR format in JavaScript.
-   */
-  const splitIrFunctions = (text) => {
-    const lines = String(text || '').replace(/\r\n?/g, '\n').split('\n');
-    const functions = [];
-    let current = null;
-    lines.forEach((line) => {
-      const header = line.match(/^function\s+(.+?)\s+\[([^\]]+)]\s*$/);
-      if (header) {
-        if (current) functions.push(current);
-        current = { name: header[1], stage: header[2], lines: [line] };
-      } else if (current) {
-        current.lines.push(line);
-      }
-    });
-    if (current) functions.push(current);
-    return functions.length ? functions : [{ name: T('Module'), stage: '', lines }];
-  };
-  const hlIrLine = (line) => {
-    if (/^\s*;/.test(line)) return `<span class="hl-c">${esc(line)}</span>`;
-    return esc(line)
-      .replace(/\b(function|input|output|local|store|return)\b/g, '<span class="hl-ir-keyword">$1</span>')
-      .replace(/\b(Vertex|Fragment|Compute)\b/g, '<span class="hl-ir-stage">$1</span>')
-      .replace(/\b(float32|float64|int32|uint32|bool|void|vector\d+|matrix\d+x\d+)\b/g, '<span class="hl-ir-type">$1</span>')
-      .replace(/\b(\d+(?:\.\d+)?(?:f)?)\b/g, '<span class="hl-n">$1</span>');
-  };
   const clone = (files) => files.map((f) => ({ name: f.name, source: f.source }));
 
   /* ------------------------------------------------------------- project */
@@ -119,7 +92,7 @@
   /* ------------------------------------------------------------- backend */
   const api = (window.YotsubaPlayground = window.YotsubaPlayground || {});
   let backend = null;
-  api.setBackend = (b) => { backend = b; showBackend(); scheduleAnalyze(0); };
+  api.setBackend = (b) => { backend = b; showBackend(); scheduleAnalyze(0); scheduleLiveCompile(120); };
   api.getBackend = () => backend;
 
   /** Attach a Blazor WebAssembly app exposing the static [JSInvokable] methods of PlaygroundApi. */
@@ -161,8 +134,8 @@
           ok: true,
           diagnostics: [{ severity: 'info', message: 'Demo output. Connect the compiler to see real results.', line: 1, column: 1 }],
           shaders: [{ name: names[names.length - 1] || 'Shader', entryPoints: stages.map((m) => ({ name: m[3], stage: m[1], returnType: m[2], parameters: [] })) }],
-          ir: '; demo: the IR dump of the connected compiler appears here',
           spirv: { text: '; demo: SPIR-V text appears here\nOpCapability Shader\nOpMemoryModel Logical GLSL450' },
+          outputs: [{ name: names[names.length - 1] || 'Shader', stages: stages.map((m) => ({ name: m[3], stage: m[1], hlsl: '// HLSL output', glsl: '#version 450\n// GLSL output', glslEs: '#version 300 es\n// GLSL ES output', msl: '// MSL output', cpp: '// C++ output' })) }],
         };
       },
     };
@@ -179,6 +152,296 @@
     }
     el.status.textContent = backend ? backend.name : T('Compiler unavailable');
     setState(backend && !backend.demo ? 'ok' : 'off');
+  }
+
+  /* -------------------------------------------------------- WebGL preview */
+  const livePreview = {
+    gl: null,
+    program: null,
+    vao: null,
+    buffers: [],
+    textures: [],
+    uniforms: [],
+    raf: 0,
+    startedAt: performance.now(),
+    frame: 0,
+  };
+
+  function setPreviewState(state, label, detail, message = '') {
+    el.previewStatus.dataset.state = state;
+    el.previewStatus.textContent = label;
+    el.previewDetail.textContent = detail;
+    el.previewMessage.textContent = message;
+    el.previewMessage.hidden = !message;
+  }
+
+  function disposePreviewProgram() {
+    const gl = livePreview.gl;
+    cancelAnimationFrame(livePreview.raf);
+    livePreview.raf = 0;
+    if (!gl) return;
+    livePreview.buffers.forEach((buffer) => gl.deleteBuffer(buffer));
+    livePreview.textures.forEach((texture) => gl.deleteTexture(texture));
+    if (livePreview.vao) gl.deleteVertexArray(livePreview.vao);
+    if (livePreview.program) gl.deleteProgram(livePreview.program);
+    livePreview.program = null;
+    livePreview.vao = null;
+    livePreview.buffers = [];
+    livePreview.textures = [];
+    livePreview.uniforms = [];
+  }
+
+  function ensurePreviewContext() {
+    if (livePreview.gl) return livePreview.gl;
+    const gl = el.previewCanvas.getContext('webgl2', { antialias: true, alpha: false, depth: true });
+    if (!gl) {
+      setPreviewState('error', T('WebGL2 unavailable'), T('This browser cannot create a WebGL2 context.'), T('Open the playground in a browser with WebGL2 enabled.'));
+      return null;
+    }
+    livePreview.gl = gl;
+    new ResizeObserver(() => drawPreviewFrame(performance.now(), false)).observe(el.previewCanvas);
+    return gl;
+  }
+
+  function compilePreviewShader(gl, type, source) {
+    const shader = gl.createShader(type);
+    gl.shaderSource(shader, source);
+    gl.compileShader(shader);
+    if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
+      const stage = type === gl.VERTEX_SHADER ? T('Vertex') : T('Fragment');
+      const log = gl.getShaderInfoLog(shader) || T('Unknown WebGL shader error');
+      gl.deleteShader(shader);
+      throw new Error(`${stage}: ${log.trim()}`);
+    }
+    return shader;
+  }
+
+  function linkPreviewProgram(gl, vertexSource, fragmentSource) {
+    let vertex = null;
+    let fragment = null;
+    let program = null;
+    try {
+      vertex = compilePreviewShader(gl, gl.VERTEX_SHADER, vertexSource);
+      fragment = compilePreviewShader(gl, gl.FRAGMENT_SHADER, fragmentSource);
+      program = gl.createProgram();
+      gl.attachShader(program, vertex);
+      gl.attachShader(program, fragment);
+      gl.linkProgram(program);
+      if (!gl.getProgramParameter(program, gl.LINK_STATUS)) throw new Error((gl.getProgramInfoLog(program) || T('Unknown WebGL program error')).trim());
+      return program;
+    } catch (error) {
+      if (program) gl.deleteProgram(program);
+      throw error;
+    } finally {
+      if (vertex) gl.deleteShader(vertex);
+      if (fragment) gl.deleteShader(fragment);
+    }
+  }
+
+  function splitArguments(value) {
+    const result = [];
+    let start = 0;
+    let depth = 0;
+    for (let index = 0; index < value.length; index++) {
+      const character = value[index];
+      if ('([{'.includes(character)) depth++;
+      else if (')]}'.includes(character)) depth--;
+      else if (character === ',' && depth === 0) {
+        result.push(value.slice(start, index).trim());
+        start = index + 1;
+      }
+    }
+    result.push(value.slice(start).trim());
+    return result;
+  }
+
+  function sourceInterface() {
+    const source = project.files.map((file) => file.source).join('\n');
+    const vertex = /\[ShaderStage\s*\(\s*Stage\.Vertex\s*\)\][\s\S]*?public\s+([\w.]+)\s+\w+\s*\(/.exec(source);
+    const fragment = /\[ShaderStage\s*\(\s*Stage\.Fragment\s*\)\][\s\S]*?public\s+[\w.]+\s+\w+\s*\(\s*([\w.]+)\s+(\w+)/.exec(source);
+    const structName = vertex?.[1]?.split('.').pop();
+    if (!structName) return null;
+    const escapedName = structName.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    const body = new RegExp(`struct\\s+${escapedName}\\s*\\{([\\s\\S]*?)\\n\\}`, 'm').exec(source)?.[1];
+    if (!body) return null;
+    const fields = [];
+    const fieldPattern = /((?:\s*\[[^\]]+\]\s*)*)public\s+([\w.]+)\s+(\w+)\s*;/g;
+    for (const match of body.matchAll(fieldPattern)) {
+      fields.push({ name: match[3], type: match[2].split('.').pop(), position: /(?:SV_Position|BuiltIn_Position|gl_Position|\bposition\b)/i.test(`${match[1]} ${match[3]}`) });
+    }
+    return { fields, fragmentParameter: fragment?.[2] || 'fragment' };
+  }
+
+  function glslType(type) {
+    return ({ Vector2: 'vec2', Vector3: 'vec3', Vector4: 'vec4', Float2: 'vec2', Float3: 'vec3', Float4: 'vec4', float: 'float' })[type] || 'vec4';
+  }
+
+  function insertShaderDeclarations(source, declarations) {
+    const newline = source.indexOf('\n');
+    return newline < 0 ? `${source}\n${declarations}\n` : `${source.slice(0, newline + 1)}${declarations}\n${source.slice(newline + 1)}`;
+  }
+
+  function adaptSourcesForWebgl(vertexSource, fragmentSource) {
+    const descriptor = sourceInterface();
+    if (!descriptor?.fields.length) return null;
+    const assignment = /_return\s*=\s*[A-Za-z_]\w*\(([^;]*)\);/.exec(vertexSource);
+    if (!assignment) return null;
+    const argumentsList = splitArguments(assignment[1]);
+    if (argumentsList.length < descriptor.fields.length) return null;
+    const positionIndex = Math.max(0, descriptor.fields.findIndex((field) => field.position));
+    const varyings = descriptor.fields.map((field, index) => ({ ...field, index, location: index < positionIndex ? index : index - 1 })).filter((field) => !field.position);
+    const vertexDeclarations = varyings.map((field) => `out highp ${glslType(field.type)} _pg_${field.name};`).join('\n');
+    const fragmentDeclarations = varyings.map((field) => `in highp ${glslType(field.type)} _pg_${field.name};`).join('\n');
+    const consumesGeometry = /\bgl_VertexID\b/.test(vertexSource)
+      || /(?:layout\s*\([^)]*\)\s*)?in\s+(?:(?:lowp|mediump|highp)\s+)?(?:float|vec[234]|int|ivec[234]|uint|uvec[234])\s+\w+\s*;/m.test(vertexSource);
+    const positionAssignment = consumesGeometry
+      ? `gl_Position = ${argumentsList[positionIndex]};`
+      : `vec2 _pg_position = gl_VertexID == 0 ? vec2(-0.78, -0.68) : (gl_VertexID == 1 ? vec2(0.0, 0.78) : vec2(0.78, -0.68));
+    gl_Position = vec4(_pg_position, 0.0, 1.0);`;
+    const replacement = [positionAssignment, ...varyings.map((field) => `_pg_${field.name} = ${argumentsList[field.index]};`)].join('\n    ');
+    let vertex = vertexSource.replace(assignment[0], replacement);
+    let fragment = fragmentSource;
+    for (const field of varyings) {
+      const reference = new RegExp(`\\b${descriptor.fragmentParameter}\\.${field.name}\\b`, 'g');
+      fragment = fragment.replace(reference, `_pg_${field.name}`);
+    }
+    fragment = fragment.replace(/\.X\b/g, '.x').replace(/\.Y\b/g, '.y').replace(/\.Z\b/g, '.z').replace(/\.W\b/g, '.w');
+    if (vertexDeclarations) vertex = insertShaderDeclarations(vertex, vertexDeclarations);
+    if (fragmentDeclarations) fragment = insertShaderDeclarations(fragment, fragmentDeclarations);
+    return { vertex, fragment, geometryFallback: !consumesGeometry };
+  }
+
+  function attributeValues(name, components) {
+    const lower = name.toLowerCase();
+    const position = [[-.78, -.68, 0, 1], [.0, .78, 0, 1], [.78, -.68, 0, 1]];
+    const color = [[1, .25, .48, 1], [.27, .83, .78, 1], [.53, .42, 1, 1]];
+    const uv = [[0, 0, 0, 1], [.5, 1, 0, 1], [1, 0, 0, 1]];
+    const source = lower.includes('position') ? position : lower.includes('color') ? color : lower.includes('uv') || lower.includes('texcoord') ? uv : [[0, 0, 0, 1], [0, 0, 0, 1], [0, 0, 0, 1]];
+    return new Float32Array(source.flatMap((value) => value.slice(0, components)));
+  }
+
+  function preparePreviewInputs(gl, program) {
+    const vao = gl.createVertexArray();
+    gl.bindVertexArray(vao);
+    livePreview.vao = vao;
+    const componentCount = new Map([[gl.FLOAT, 1], [gl.FLOAT_VEC2, 2], [gl.FLOAT_VEC3, 3], [gl.FLOAT_VEC4, 4]]);
+    const attributes = gl.getProgramParameter(program, gl.ACTIVE_ATTRIBUTES);
+    for (let index = 0; index < attributes; index++) {
+      const info = gl.getActiveAttrib(program, index);
+      const components = componentCount.get(info.type);
+      const location = gl.getAttribLocation(program, info.name);
+      if (!components || location < 0) continue;
+      const buffer = gl.createBuffer();
+      livePreview.buffers.push(buffer);
+      gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
+      gl.bufferData(gl.ARRAY_BUFFER, attributeValues(info.name, components), gl.STATIC_DRAW);
+      gl.enableVertexAttribArray(location);
+      gl.vertexAttribPointer(location, components, gl.FLOAT, false, 0, 0);
+    }
+
+    const uniformCount = gl.getProgramParameter(program, gl.ACTIVE_UNIFORMS);
+    for (let index = 0; index < uniformCount; index++) {
+      const info = gl.getActiveUniform(program, index);
+      livePreview.uniforms.push({ info, location: gl.getUniformLocation(program, info.name) });
+    }
+    gl.bindVertexArray(null);
+  }
+
+  function setPreviewUniforms(gl, elapsed) {
+    let textureUnit = 0;
+    for (const { info, location } of livePreview.uniforms) {
+      if (location === null) continue;
+      const name = info.name.toLowerCase();
+      if (info.type === gl.FLOAT && (name.includes('time') || name.includes('itime'))) gl.uniform1f(location, elapsed);
+      else if (info.type === gl.INT && name.includes('frame')) gl.uniform1i(location, livePreview.frame);
+      else if (info.type === gl.FLOAT_VEC2 && name.includes('resolution')) gl.uniform2f(location, el.previewCanvas.width, el.previewCanvas.height);
+      else if (info.type === gl.FLOAT_VEC3 && name.includes('resolution')) gl.uniform3f(location, el.previewCanvas.width, el.previewCanvas.height, 1);
+      else if (info.type === gl.FLOAT_MAT4) gl.uniformMatrix4fv(location, false, new Float32Array([1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1]));
+      else if (info.type === gl.SAMPLER_2D && livePreview.frame === 0) {
+        const texture = gl.createTexture();
+        livePreview.textures.push(texture);
+        gl.activeTexture(gl.TEXTURE0 + textureUnit);
+        gl.bindTexture(gl.TEXTURE_2D, texture);
+        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
+        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
+        gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, 1, 1, 0, gl.RGBA, gl.UNSIGNED_BYTE, new Uint8Array([244, 92, 157, 255]));
+        gl.uniform1i(location, textureUnit++);
+      }
+    }
+  }
+
+  function drawPreviewFrame(now, animate = true) {
+    const gl = livePreview.gl;
+    if (!gl || !livePreview.program) return;
+    const rect = el.previewCanvas.getBoundingClientRect();
+    const scale = Math.min(devicePixelRatio || 1, 2);
+    const cssWidth = rect.width || el.previewCanvas.clientWidth || 320;
+    const cssHeight = rect.height || el.previewCanvas.clientHeight || 185;
+    const width = Math.max(1, Math.round(cssWidth * scale));
+    const height = Math.max(1, Math.round(cssHeight * scale));
+    if (el.previewCanvas.width !== width || el.previewCanvas.height !== height) {
+      el.previewCanvas.width = width;
+      el.previewCanvas.height = height;
+    }
+    gl.viewport(0, 0, width, height);
+    gl.clearColor(.035, .025, .065, 1);
+    gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+    gl.useProgram(livePreview.program);
+    gl.bindVertexArray(livePreview.vao);
+    setPreviewUniforms(gl, (now - livePreview.startedAt) / 1000);
+    gl.drawArrays(gl.TRIANGLES, 0, 3);
+    gl.bindVertexArray(null);
+    livePreview.frame++;
+    if (animate) livePreview.raf = requestAnimationFrame((time) => drawPreviewFrame(time));
+  }
+
+  function previewPair(outputs) {
+    for (const shader of outputs || []) {
+      const stages = shader.stages || [];
+      const vertex = stages.find((stage) => String(stage.stage).toLowerCase() === 'vertex' && stage.glslEs);
+      const fragment = stages.find((stage) => String(stage.stage).toLowerCase() === 'fragment' && stage.glslEs);
+      if (vertex && fragment) return { shader, vertex, fragment };
+    }
+    return null;
+  }
+
+  function updateLivePreview(outputs) {
+    const pair = previewPair(outputs);
+    if (!pair) {
+      disposePreviewProgram();
+      setPreviewState('idle', T('Waiting for shaders'), T('The preview needs one vertex and one fragment entry point.'), T('Add compatible vertex and fragment entry points to start the preview.'));
+      return;
+    }
+    const gl = ensurePreviewContext();
+    if (!gl) return;
+    try {
+      let program;
+      let adapted = false;
+      let geometryFallback = false;
+      try {
+        program = linkPreviewProgram(gl, pair.vertex.glslEs, pair.fragment.glslEs);
+      } catch (originalError) {
+        const sources = adaptSourcesForWebgl(pair.vertex.glslEs, pair.fragment.glslEs);
+        if (!sources) throw originalError;
+        program = linkPreviewProgram(gl, sources.vertex, sources.fragment);
+        adapted = true;
+        geometryFallback = sources.geometryFallback;
+      }
+      disposePreviewProgram();
+      livePreview.program = program;
+      livePreview.startedAt = performance.now();
+      livePreview.frame = 0;
+      preparePreviewInputs(gl, program);
+      const previewNotes = [
+        adapted ? T('WebGL interface adapter') : '',
+        geometryFallback ? T('Preview geometry') : '',
+      ].filter(Boolean);
+      setPreviewState('ok', T('Live'), `${pair.shader.fullName || pair.shader.name} · ${pair.vertex.name} + ${pair.fragment.name}${previewNotes.length ? ` · ${previewNotes.join(' · ')}` : ''}`);
+      drawPreviewFrame(performance.now());
+    } catch (error) {
+      const message = String(error?.message || error).replace(/^ERROR:\s*/i, '');
+      setPreviewState('error', T('Preview paused'), T('The last valid frame remains visible.'), message);
+    }
   }
 
   /* ------------------------------------------------------------- editors */
@@ -297,14 +560,14 @@
           'delimiter.angle'].map(token => ({ token, foreground: 'D4D4D4' })),
       ],
       colors: {
-        'editor.background': '#0f0b1b', 'editor.foreground': '#D4D4D4', 'editor.lineHighlightBackground': '#1a1430',
-        'editor.selectionBackground': '#4a2f8a88', 'editor.inactiveSelectionBackground': '#3a2a6b55', 'editorCursor.foreground': '#ff7eb6',
-        'editorLineNumber.foreground': '#4d4272', 'editorLineNumber.activeForeground': '#c3a6ff', 'editorIndentGuide.background1': '#221a38',
-        'editorIndentGuide.activeBackground1': '#3a2d5e', 'editorWidget.background': '#17122a', 'editorWidget.border': '#2d2447',
-        'editorSuggestWidget.background': '#17122a', 'editorSuggestWidget.border': '#2d2447', 'editorSuggestWidget.selectedBackground': '#2a2050',
-        'editorSuggestWidget.highlightForeground': '#ff7eb6', 'editorHoverWidget.background': '#17122a', 'editorHoverWidget.border': '#2d2447',
-        'editorBracketMatch.background': '#ff7eb633', 'editorBracketMatch.border': '#ff7eb688', 'scrollbarSlider.background': '#3a2d5e66',
-        'scrollbarSlider.hoverBackground': '#4d3f7a99', 'editorGutter.background': '#0f0b1b',
+        'editor.background': '#101012', 'editor.foreground': '#D4D4D4', 'editor.lineHighlightBackground': '#1c1c1e',
+        'editor.selectionBackground': '#fa679f42', 'editor.inactiveSelectionBackground': '#fa679f24', 'editorCursor.foreground': '#FA679F',
+        'editorLineNumber.foreground': '#5c5c60', 'editorLineNumber.activeForeground': '#a1a1a6', 'editorIndentGuide.background1': '#242426',
+        'editorIndentGuide.activeBackground1': '#3a3a3c', 'editorWidget.background': '#1c1c1e', 'editorWidget.border': '#333336',
+        'editorSuggestWidget.background': '#1c1c1e', 'editorSuggestWidget.border': '#333336', 'editorSuggestWidget.selectedBackground': '#2c2c2e',
+        'editorSuggestWidget.highlightForeground': '#FA679F', 'editorHoverWidget.background': '#1c1c1e', 'editorHoverWidget.border': '#333336',
+        'editorBracketMatch.background': '#fa679f26', 'editorBracketMatch.border': '#fa679f99', 'scrollbarSlider.background': '#48484a66',
+        'scrollbarSlider.hoverBackground': '#63636699', 'editorGutter.background': '#101012',
       },
     });
     const ed = m.editor.create(el.host, {
@@ -462,7 +725,7 @@
         const f = project.files.find((x) => x.name === name);
         f.name = next; editor.rename(name, next);
         if (project.active === name) project.active = next;
-        save(); scheduleAnalyze();
+        save(); scheduleAnalyze(); scheduleLiveCompile();
       }
       renderFiles();
     };
@@ -475,70 +738,12 @@
     const idx = project.files.findIndex((f) => f.name === name);
     project.files.splice(idx, 1); editor.remove(name);
     if (project.active === name) project.active = project.files[Math.max(0, idx - 1)].name;
-    editor.show(project.active); renderFiles(); save(); scheduleAnalyze();
+    editor.show(project.active); renderFiles(); save(); scheduleAnalyze(); scheduleLiveCompile();
   }
 
   /* ----------------------------------------------------------- rendering */
   let lastDiagnostics = [];
-  let selectedIrFunction = '';
-
-  function renderIr(ir) {
-    if (!ir) {
-      el.panels.ir.innerHTML = emptyState(T('The IR will appear here once the pipeline produces it.'));
-      return;
-    }
-
-    const functions = splitIrFunctions(ir).map((item, index) => ({ ...item, key: String(index) }));
-    if (!functions.some((item) => item.key === selectedIrFunction)) selectedIrFunction = functions[0].key;
-    const item = functions.find((candidate) => candidate.key === selectedIrFunction) || functions[0];
-    const lineCount = item.lines.length;
-    const stage = item.stage || T('Module');
-    const code = item.lines.map((line, index) => `<li><span class="pg-ir-line-number" aria-hidden="true">${index + 1}</span><code>${hlIrLine(line) || '&nbsp;'}</code></li>`).join('');
-
-    el.panels.ir.innerHTML = `<section class="pg-ir-explorer" aria-label="${esc(T('Lowered IR explorer'))}">
-      <header class="pg-ir-header">
-        <div class="pg-ir-title"><span>${esc(T('Lowered IR'))}</span><strong>${esc(item.name)}</strong></div>
-        <div class="pg-ir-actions">
-          <button class="pg-icon-button" type="button" id="pg-ir-copy" aria-label="${esc(T('Copy IR'))}" title="${esc(T('Copy IR'))}">
-            <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="1"/><path d="M15 9V5a1 1 0 0 0-1-1H5a1 1 0 0 0-1 1v9a1 1 0 0 0 1 1h4"/></svg>
-          </button>
-          <button class="pg-icon-button" type="button" id="pg-ir-expand" aria-pressed="${el.root.classList.contains('pg--ir-expanded')}" aria-label="${esc(T('Expand IR'))}" title="${esc(T('Expand IR'))}">
-            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 4H4v5M15 4h5v5M20 15v5h-5M4 15v5h5"/></svg>
-          </button>
-        </div>
-      </header>
-      <div class="pg-ir-function-picker">
-        <label for="pg-ir-function">${esc(T('Function'))}</label>
-        <select id="pg-ir-function">${functions.map((candidate) => `<option value="${esc(candidate.key)}"${candidate.key === item.key ? ' selected' : ''}>${esc(candidate.name)}${candidate.stage ? ` · ${esc(candidate.stage)}` : ''}</option>`).join('')}</select>
-      </div>
-      <dl class="pg-ir-metadata">
-        <div><dt>${esc(T('Stage'))}</dt><dd class="pg-ir-stage">${esc(stage)}</dd></div>
-        <div><dt>${esc(T('Lines'))}</dt><dd>${lineCount}</dd></div>
-      </dl>
-      <div class="pg-ir-code" role="region" aria-label="${esc(T('IR code for {name}', { name: item.name }))}" tabindex="0"><ol>${code}</ol></div>
-      <p class="pg-ir-status" aria-live="polite"></p>
-    </section>`;
-
-    $('#pg-ir-function')?.addEventListener('change', (event) => {
-      selectedIrFunction = event.target.value;
-      renderIr(ir);
-    });
-    $('#pg-ir-copy')?.addEventListener('click', async () => {
-      const status = $('.pg-ir-status', el.panels.ir);
-      try {
-        await navigator.clipboard.writeText(item.lines.join('\n'));
-        status.textContent = T('IR copied');
-      } catch {
-        status.textContent = T('Could not copy IR');
-      }
-    });
-    $('#pg-ir-expand')?.addEventListener('click', () => {
-      const expanded = el.root.classList.toggle('pg--ir-expanded');
-      $('#pg-ir-expand').setAttribute('aria-pressed', String(expanded));
-      $('#pg-ir-expand').setAttribute('aria-label', T(expanded ? 'Restore workspace' : 'Expand IR'));
-      $('#pg-ir-expand').title = T(expanded ? 'Restore workspace' : 'Expand IR');
-    });
-  }
+  const selectedOutput = {};
 
   function renderSpirv(sp) {
     if (!sp?.text) {
@@ -588,22 +793,66 @@
     });
   }
 
+  function renderBackendOutput(panel, label, property, outputs) {
+    const variants = outputs.flatMap((shader) => (shader.stages || []).map((stage) => ({
+      key: `${shader.fullName || shader.name}:${stage.stage}:${stage.name}`,
+      label: `${shader.fullName || shader.name} · ${stage.name} (${stage.stage})`,
+      text: stage[property] || '',
+    }))).filter((variant) => variant.text);
+
+    if (!variants.length) {
+      el.panels[panel].innerHTML = emptyState(T('{language} output will appear here once the compiler produces it.', { language: label }));
+      return;
+    }
+
+    if (!variants.some((variant) => variant.key === selectedOutput[panel])) {
+      selectedOutput[panel] = variants[0].key;
+    }
+
+    const selected = variants.find((variant) => variant.key === selectedOutput[panel]) || variants[0];
+
+    el.panels[panel].innerHTML = `<section class="pg-output-explorer" aria-label="${esc(label)}">
+      <header class="pg-output-header">
+        <div><span class="pg-eyebrow">${esc(T('Generated code'))}</span><h2>${esc(label)}</h2></div>
+        <span>${variants.length} ${esc(variants.length === 1 ? T('entry point') : T('entry points'))}</span>
+      </header>
+      <div class="pg-variant-cards" role="tablist" aria-label="${esc(T('Entry point'))}">
+        ${variants.map((variant) => {
+          const match = /\(([^)]+)\)$/.exec(variant.label);
+          const stage = match?.[1] || '';
+          const name = variant.label.replace(/\s*\([^)]+\)$/, '');
+          return `<button class="pg-variant-card" type="button" role="tab" data-output-key="${esc(variant.key)}" aria-selected="${variant.key === selected.key}"><span class="pg-stage">${esc(stage)}</span><strong>${esc(name)}</strong></button>`;
+        }).join('')}
+      </div>
+      <div class="pg-output-code" role="region" aria-label="${esc(label)}" tabindex="0"><pre><code>${esc(selected.text)}</code></pre></div>
+    </section>`;
+
+    $$('.pg-variant-card', el.panels[panel]).forEach((card) => card.addEventListener('click', () => {
+      selectedOutput[panel] = card.dataset.outputKey;
+      renderBackendOutput(panel, label, property, outputs);
+    }));
+  }
+
   function renderDiagnostics(diags) {
     lastDiagnostics = diags;
     const errors = diags.filter((d) => d.severity === 'error').length;
-    $('#pg-count-diagnostics').textContent = diags.length ? String(diags.length) : '';
-    $('#pg-count-diagnostics').dataset.error = errors ? '1' : '';
     const byFile = {};
     diags.forEach((d) => { (byFile[d.file || project.active] ||= []).push(d); });
     editor.markers(byFile);
-    el.panels.diagnostics.innerHTML = diags.length
+    el.diagnostics.innerHTML = diags.length
       ? `<ul class="pg-diags">${diags.map((d) => `<li class="pg-diag pg-diag--${esc(d.severity)}"><button type="button" data-file="${esc(d.file || '')}" data-line="${d.line || 1}"><span class="pg-diag-icon" aria-hidden="true">${d.severity === 'error' ? '×' : d.severity === 'warning' ? '△' : 'i'}</span><span><span class="pg-diag-severity">${esc(T(d.severity))}</span><span>${esc(d.message)}</span><small>${d.id ? esc(d.id) + ' · ' : ''}${d.file ? `<b>${esc(d.file)}</b> · ` : ''}${T('Line {line}, column {column}', { line: d.line || '?', column: d.column || '?' })}</small></span></button></li>`).join('')}</ul>`
-      : emptyState(T('No diagnostics. Your code compiles cleanly.'), T('No issues found'));
+      : `<p class="pg-editor-diagnostics-empty">${esc(T('No diagnostics. Your code compiles cleanly.'))}</p>`;
     return errors;
   }
 
-  function render(result) {
+  function render(result, { focusResults = true } = {}) {
     const errors = renderDiagnostics(result.diagnostics || []);
+
+    if (errors || result.ok === false) {
+      setPreviewState('error', T('Preview paused'), T('Fix the diagnostics to update the live preview.'), T('The last valid frame remains visible while the code contains errors.'));
+      if (focusResults && mobileViewport.matches) setMobileView('results');
+      return errors;
+    }
 
     const shaders = result.shaders || [];
     $('#pg-count-shaders').textContent = shaders.length ? String(shaders.length) : '';
@@ -619,27 +868,32 @@
         }).join('')
       : emptyState(T('No shaders found yet. Mark a method with <code>[ShaderStage(Stage.Vertex)]</code>.'));
 
-    renderIr(result.ir);
-
     const sp = result.spirv;
     renderSpirv(sp);
-    selectTab(errors ? 'diagnostics' : sp && sp.text ? 'spirv' : result.ir ? 'ir' : 'shaders');
-    if (mobileViewport.matches) setMobileView('results');
+    const outputs = result.outputs || [];
+    renderBackendOutput('hlsl', 'HLSL', 'hlsl', outputs);
+    renderBackendOutput('glsl', 'GLSL', 'glsl', outputs);
+    renderBackendOutput('gles', 'GLSL ES', 'glslEs', outputs);
+    renderBackendOutput('msl', 'MSL', 'msl', outputs);
+    renderBackendOutput('cpp', 'C++', 'cpp', outputs);
+    updateLivePreview(outputs);
+    if (focusResults) selectTab(sp && sp.text ? 'spirv' : 'shaders');
+    if (focusResults && mobileViewport.matches) setMobileView('results');
     return errors;
   }
 
   /** The "Input image" tab only exists for examples that come with an image. */
   function syncImage() {
     const ex = examples.find((e) => e.id === el.example.value) || {};
-    const tab = $('.pg-tabs [data-tab="image"]');
+    const tab = $('.pg-output-card[data-tab="image"]');
     if (!tab) return;
     // Keep the preview implementation available, but hide it until rendering is ready.
     tab.hidden = true;
-    if (tab.getAttribute('aria-selected') === 'true') selectTab('diagnostics');
+    if (tab.getAttribute('aria-selected') === 'true') selectTab('shaders');
   }
 
   function selectTab(name) {
-    $$('.pg-tabs [role="tab"]').forEach((t) => {
+    $$('.pg-output-cards [role="tab"]').forEach((t) => {
       const selected = t.dataset.tab === name;
       t.setAttribute('aria-selected', String(selected));
       t.tabIndex = selected ? 0 : -1;
@@ -662,11 +916,38 @@
     }, delay);
   }
 
+  let liveCompileTimer = 0;
+  let liveCompileSequence = 0;
+  let liveCompiling = false;
+  function scheduleLiveCompile(delay = 900) {
+    clearTimeout(liveCompileTimer);
+    const sequence = ++liveCompileSequence;
+    if (!backend || !editor) return;
+    liveCompileTimer = setTimeout(async () => {
+      if (running || liveCompiling) { scheduleLiveCompile(300); return; }
+      liveCompiling = true;
+      setPreviewState('busy', T('Updating…'), T('Compiling the latest changes…'));
+      try {
+        const style = (examples.find((e) => e.id === el.example.value) || {}).style || '';
+        const result = await backend.compile(clone(project.files), { style });
+        if (sequence === liveCompileSequence) render(result, { focusResults: false });
+      } catch (error) {
+        if (sequence === liveCompileSequence) {
+          setPreviewState('error', T('Preview paused'), T('The live compiler could not update the preview.'), String(error?.message || error));
+        }
+      } finally {
+        liveCompiling = false;
+      }
+    }, delay);
+  }
+
   /* ---------------------------------------------------------------- run */
   let running = false;
   async function run() {
     if (running) return;
-    if (!backend) { renderDiagnostics([{ severity: 'info', message: T('The compiler could not be loaded. See the notice above.'), line: 1, column: 1 }]); selectTab('diagnostics'); return; }
+    if (!backend) { renderDiagnostics([{ severity: 'info', message: T('The compiler could not be loaded. See the notice above.'), line: 1, column: 1 }]); return; }
+    clearTimeout(liveCompileTimer);
+    liveCompileSequence++;
     running = true; el.run.disabled = true; el.status.textContent = T('Compiling…'); setState('busy');
     const t0 = performance.now();
     try {
@@ -735,7 +1016,7 @@
     try { editor = await loadMonaco(project.files); } catch { editor = textareaEditor(project.files); }
     editor.onChange((name, source) => {
       const f = project.files.find((x) => x.name === name);
-      if (f && f.source !== source) { f.source = source; save(); scheduleAnalyze(); }
+      if (f && f.source !== source) { f.source = source; save(); scheduleAnalyze(); scheduleLiveCompile(); }
     });
     editor.show(project.active);
     el.activeFile.textContent = project.active;
@@ -799,7 +1080,7 @@
       project.files = clone(ex.files); project.files.forEach((f) => editor.add(f.name, f.source));
       loaded = JSON.stringify(ex.files);
       openFile((project.files.find((f) => f.name === 'Shader.cs') || project.files[0]).name);
-      editor.markers({}); scheduleAnalyze(0); syncImage();
+      editor.markers({}); scheduleAnalyze(0); scheduleLiveCompile(120); syncImage();
     });
 
     el.run.addEventListener('click', run);
@@ -807,7 +1088,7 @@
       const link = `${location.origin}${location.pathname}#p=${await encodeProject()}`;
       try { await navigator.clipboard.writeText(link); el.status.textContent = T('Link copied'); } catch { location.hash = `p=${await encodeProject()}`; }
     });
-    $$('.pg-tabs [role="tab"]').forEach((t) => {
+    $$('.pg-output-cards [role="tab"]').forEach((t) => {
       t.id = 'pg-tab-' + t.dataset.tab;
       t.setAttribute('aria-controls', 'pg-panel-' + t.dataset.tab);
       el.panels[t.dataset.tab].id = 'pg-panel-' + t.dataset.tab;
@@ -815,16 +1096,16 @@
       el.panels[t.dataset.tab].tabIndex = 0;
       t.addEventListener('click', () => selectTab(t.dataset.tab));
     });
-    $('.pg-tabs').addEventListener('keydown', (event) => {
+    $('.pg-output-cards').addEventListener('keydown', (event) => {
       if (!['ArrowLeft', 'ArrowRight', 'Home', 'End'].includes(event.key)) return;
       event.preventDefault();
-      const tabs = $$('.pg-tabs [role="tab"]').filter(tab => !tab.hidden);
+      const tabs = $$('.pg-output-cards [role="tab"]').filter(tab => !tab.hidden);
       const index = tabs.indexOf(document.activeElement);
       const next = event.key === 'Home' ? 0 : event.key === 'End' ? tabs.length - 1 : (index + (event.key === 'ArrowRight' ? 1 : -1) + tabs.length) % tabs.length;
       selectTab(tabs[next].dataset.tab);
       tabs[next].focus();
     });
-    el.panels.diagnostics.addEventListener('click', (e) => {
+    el.diagnostics.addEventListener('click', (e) => {
       const b = e.target.closest('[data-line]');
       if (!b) return;
       const file = b.dataset.file || project.active;
@@ -837,8 +1118,8 @@
     });
     document.addEventListener('keydown', (e) => { if ((e.metaKey || e.ctrlKey) && e.key === 'Enter') { e.preventDefault(); run(); } });
 
-    Object.entries(el.panels).filter(([k]) => k !== 'image').forEach(([, p]) => { p.innerHTML = emptyState(T('Compile your code to inspect diagnostics and shader entry points.'), T('Ready when you are')); });
-    selectTab('diagnostics');
+    Object.entries(el.panels).filter(([k]) => k !== 'image').forEach(([, p]) => { p.innerHTML = emptyState(T('Compile your code to inspect shader entry points and generated code.'), T('Ready when you are')); });
+    selectTab('shaders');
     syncImage();
 
     // Backend: explicit demo, an already-registered one, or a Blazor app published next to the site.

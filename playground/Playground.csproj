@@ -19,7 +19,7 @@
     <ProjectReference Include="..\..\YotsubaShader.SpirvSyntax\YotsubaShader.SpirvSyntax.csproj" />
     <ProjectReference Include="..\..\YotsubaShader.WgslSyntax\YotsubaShader.WgslSyntax.csproj" />
     <ProjectReference Include="..\..\YotsubaShader.IR\YotsubaShader.IR.csproj" />
-    <ProjectReference Include="..\..\YotsubaShader.Compiler.SpirV\YotsubaShader.Compiler.SpirV.csproj" />
+    <ProjectReference Include="..\..\YotsubaShader.Compiler\YotsubaShader.Compiler.csproj" />
     <ProjectReference Include="..\..\YotsubaShader.Roslyn\YotsubaShader.Roslyn.csproj" />
   </ItemGroup>
 
@@ -46,10 +46,15 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="8.0.*" />
     <!-- Same Roslyn version as YotsubaShader.Roslyn. Workspaces + Features give completion, hover and quick info. -->
-    <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Features" Version="4.11.0" />
-    <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Workspaces" Version="4.11.0" />
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Features" Version="5.0.0" />
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Workspaces" Version="5.0.0" />
     <!-- Reference assemblies for the BCL, since the browser has no SDK on disk. -->
     <PackageReference Include="Basic.Reference.Assemblies.Net80" Version="1.*" />
+  </ItemGroup>
+
+  <!-- Roslyn Workspaces reaches SpinLock through metadata while initializing its solution cache. -->
+  <ItemGroup>
+    <TrimmerRootDescriptor Include="ILLink.Descriptors.xml" />
   </ItemGroup>
 
 </Project>

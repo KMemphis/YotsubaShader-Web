@@ -329,6 +329,7 @@ const TYPES = {
   '.pdf': 'application/pdf',
   '.zip': 'application/zip',
   '.json': 'application/json',
+  '.wasm': 'application/wasm',
   '.mp4': 'video/mp4',
   '.webm': 'video/webm',
 };

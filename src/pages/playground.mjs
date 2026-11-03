@@ -28,7 +28,7 @@ export default function playground() {
       path: '/playground/',
       section: 'playground',
       title: 'Playground',
-      description: 'Edit C# shader declarations, inspect diagnostics and discovered entry points, and review IR when the connected compiler produces it.',
+      description: 'Edit C# shader declarations, inspect diagnostics and discovered entry points, and review generated backend code from the connected compiler.',
       bodyClass: 'playground',
       noFooter: true,
       styles: ['/css/playground.css'],
@@ -57,7 +57,7 @@ export default function playground() {
         <summary class="pg-icon-button" aria-label="Availability" title="Availability">
           <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 10v6M12 7h.01"/></svg>
         </summary>
-        <div class="pg-popover"><h2>Current availability</h2><p>The playground provides C# analysis, shader discovery, and compiler inspection. The IR and SPIR-V Assembly tabs show the text produced by the connected pipeline; the assembly view can be partial while the backend is under development. Rendering is not available here yet.</p></div>
+        <div class="pg-popover"><h2>Current availability</h2><p>The playground provides C# analysis, shader discovery, SPIR-V assembly, generated backend code, and a basic live WebGL2 preview for compatible vertex and fragment shaders.</p></div>
       </details>
       __LANGSWITCH__
       <button class="pg-btn" type="button" id="pg-share" title="Copy a link to this code">${icon('external')}<span>Share</span></button>
@@ -82,24 +82,45 @@ export default function playground() {
     <section class="pg-editor" aria-label="Source code">
       <header class="pg-editor-heading"><span id="pg-active-file">Shader.cs</span></header>
       <div class="pg-editor-host" id="pg-editor" role="tabpanel" tabindex="0"></div>
+      <section class="pg-editor-diagnostics" id="pg-editor-diagnostics" aria-label="Diagnostics" aria-live="polite"></section>
     </section>
 
     <aside class="pg-inspector" id="pg-inspector" aria-label="Results inspector">
-      <header class="pg-inspector-heading">
-        <h2 class="sr-only">Results</h2>
-        <div class="pg-tabs" role="tablist" aria-label="Output">
-        <button role="tab" type="button" data-tab="diagnostics" aria-selected="true">Diagnostics <i class="pg-count" id="pg-count-diagnostics"></i></button>
-        <button role="tab" type="button" data-tab="shaders" aria-selected="false">Shaders <i class="pg-count" id="pg-count-shaders"></i></button>
-        <button role="tab" type="button" data-tab="ir" aria-selected="false">IR</button>
-        <button role="tab" type="button" data-tab="spirv" aria-selected="false">SPIR-V Assembly</button>
-        <button role="tab" type="button" data-tab="image" aria-selected="false" hidden>Input image</button>
+      <section class="pg-preview" aria-labelledby="pg-preview-title">
+        <header class="pg-preview-header">
+          <div>
+            <span class="pg-eyebrow">WebGL2</span>
+            <h2 id="pg-preview-title">Live preview</h2>
+          </div>
+          <span class="pg-preview-status" id="pg-preview-status" data-state="idle">Waiting for shaders</span>
+        </header>
+        <div class="pg-preview-surface">
+          <canvas id="pg-preview-canvas" aria-label="Live shader preview"></canvas>
+          <div class="pg-preview-message" id="pg-preview-message" role="status">Add compatible vertex and fragment entry points to start the preview.</div>
         </div>
-      </header>
+        <p class="pg-preview-detail" id="pg-preview-detail">The preview updates automatically after you stop typing.</p>
+      </section>
+
+      <nav class="pg-output-nav" aria-label="Generated outputs">
+        <div class="pg-output-cards" role="tablist" aria-label="Output format">
+          <button class="pg-output-card" role="tab" type="button" data-tab="shaders" aria-selected="false"><span class="pg-output-card-symbol" aria-hidden="true">${icon('layers')}</span><span><strong>Shaders <i class="pg-count" id="pg-count-shaders"></i></strong><small>Entry points</small></span></button>
+          <button class="pg-output-card" role="tab" type="button" data-tab="spirv" aria-selected="false"><span class="pg-output-card-symbol pg-output-card-symbol--logo" aria-hidden="true"><img src="/img/backends/spirv.svg" alt=""></span><span><strong>SPIR-V</strong><small>Assembly</small></span></button>
+          <button class="pg-output-card" role="tab" type="button" data-tab="hlsl" aria-selected="false"><span class="pg-output-card-symbol" aria-hidden="true">${icon('layers')}</span><span><strong>HLSL</strong><small>DirectX</small></span></button>
+          <button class="pg-output-card" role="tab" type="button" data-tab="glsl" aria-selected="false"><span class="pg-output-card-symbol pg-output-card-symbol--logo" aria-hidden="true"><img src="/img/backends/opengl.svg" alt=""></span><span><strong>GLSL</strong><small>OpenGL</small></span></button>
+          <button class="pg-output-card" role="tab" type="button" data-tab="gles" aria-selected="false"><span class="pg-output-card-symbol pg-output-card-symbol--logo" aria-hidden="true"><img src="/img/backends/webgl.svg" alt=""></span><span><strong>GLSL ES</strong><small>WebGL</small></span></button>
+          <button class="pg-output-card" role="tab" type="button" data-tab="msl" aria-selected="false"><span class="pg-output-card-symbol" aria-hidden="true">${icon('box')}</span><span><strong>MSL</strong><small>Metal</small></span></button>
+          <button class="pg-output-card" role="tab" type="button" data-tab="cpp" aria-selected="false"><span class="pg-output-card-symbol" aria-hidden="true">${icon('cpu')}</span><span><strong>C++</strong><small>CPU</small></span></button>
+          <button class="pg-output-card" role="tab" type="button" data-tab="image" aria-selected="false" hidden><span><strong>Input image</strong></span></button>
+        </div>
+      </nav>
       <div class="pg-panels">
-        <div class="pg-panel" data-panel="diagnostics" role="tabpanel"></div>
         <div class="pg-panel" data-panel="shaders" role="tabpanel" hidden></div>
-        <div class="pg-panel" data-panel="ir" role="tabpanel" hidden></div>
         <div class="pg-panel" data-panel="spirv" role="tabpanel" hidden></div>
+        <div class="pg-panel" data-panel="hlsl" role="tabpanel" hidden></div>
+        <div class="pg-panel" data-panel="glsl" role="tabpanel" hidden></div>
+        <div class="pg-panel" data-panel="gles" role="tabpanel" hidden></div>
+        <div class="pg-panel" data-panel="msl" role="tabpanel" hidden></div>
+        <div class="pg-panel" data-panel="cpp" role="tabpanel" hidden></div>
         <div class="pg-panel" data-panel="image" role="tabpanel" hidden>
           <figure class="pg-figure">
             <img id="pg-image" alt="" width="720" height="1080" decoding="async">

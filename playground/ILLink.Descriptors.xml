@@ -1,0 +1,5 @@
+<linker>
+  <assembly fullname="System.Threading">
+    <type fullname="System.Threading.SpinLock" preserve="all" />
+  </assembly>
+</linker>
