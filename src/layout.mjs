@@ -4,6 +4,11 @@ import { esc } from './highlight.mjs';
 import { BACKENDS } from './backends.mjs';
 import { LOCALES, localizeHtml, localePath, clientStrings } from './i18n/index.mjs';
 
+const OUTPUT_FORMATS = [...BACKENDS.map((backend) => backend.format), 'C++'];
+const CROSS_FORMATS = [...BACKENDS
+  .filter((backend) => backend.format !== 'SPIR-V')
+  .map((backend) => backend.format), 'C++'];
+
 const FONTS =
   'https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Outfit:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap';
 
@@ -89,7 +94,7 @@ function subNav(sectionId, currentPath) {
     .map(([label, href]) => `<a href="${href}"${href === currentPath ? ' aria-current="page"' : ''}>${label}</a>`)
     .join('');
   return `<div class="subnav"><div class="subnav-inner">${s.standard
-    ? `<a class="subnav-title subnav-title--std" href="/technologies/compilation/" aria-label="Compiles to ${BACKENDS.map((b) => b.format).join(', ')}"><span class="std-lead">Compiles to</span><span class="spirv-chip spirv-chip--sm"><img src="/img/backends/spirv.svg" alt="SPIR-V"></span>${BACKENDS.filter((b) => b.format !== 'SPIR-V').map((b) => `<span class="fmt${b.logo ? ' fmt--logo' : ''}" title="${esc(b.name)}">${b.logo ? `<img src="${b.logo}" alt="${esc(b.name)}">` : ''}${esc(b.format)}</span>`).join('')}<span class="fmt fmt--more" title="${BACKENDS.filter((b) => b.format !== 'SPIR-V').map((b) => b.format).join(', ')}">+${BACKENDS.length - 1}</span></a>`
+    ? `<a class="subnav-title subnav-title--std" href="/technologies/compilation/" aria-label="Compiles to ${OUTPUT_FORMATS.join(', ')}"><span class="std-lead">Compiles to</span><span class="spirv-chip spirv-chip--sm"><img src="/img/backends/spirv.svg" alt="SPIR-V"></span>${BACKENDS.filter((b) => b.format !== 'SPIR-V').map((b) => `<span class="fmt${b.logo ? ' fmt--logo' : ''}" title="${esc(b.name)}">${b.logo ? `<img src="${b.logo}" alt="${esc(b.name)}">` : ''}${esc(b.format)}</span>`).join('')}<span class="fmt">C++</span><span class="fmt fmt--more" title="${CROSS_FORMATS.join(', ')}">+${CROSS_FORMATS.length}</span></a>`
     : `<a class="subnav-title" href="${s.href}">${s.title}</a>`}<nav class="subnav-links" aria-label="${s.title}">${links}</nav></div></div>`;
 }
 

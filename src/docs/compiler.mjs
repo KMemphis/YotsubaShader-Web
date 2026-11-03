@@ -80,7 +80,7 @@ export default function compilerDocs(ctx) {
 <p>Declare vertex, fragment, or compute entry points in C#, using your chosen attribute syntax. HLSL is the default vocabulary in these examples.</p>
 <h2>What the compiler handles</h2>
 <p>Yotsuba Shader analyzes the declarations and supported shader logic, uses an internal representation, and is intended to generate SPIR-V. These are internal compilation steps; you do not build IR records or SPIR-V modules yourself.</p>
-<p>Yotsuba ShaderCross translates SPIR-V into GLSL ES, GLSL, MSL, or HLSL. WGSL output is planned for 2027. Your engine then loads the result through its graphics API.</p>
+<p>Yotsuba ShaderCross translates SPIR-V into GLSL ES, GLSL, MSL, HLSL, or C++ source. WGSL output is planned for 2027. Your engine then loads shader-source results through its graphics API; C++ is available for tooling and integration workflows.</p>
 <h2>Current status</h2>
 <p>The complete C# compilation path and build integration are still in development. This page explains the intended workflow, not an available installation or command-line contract.</p>
 <p><a href="/technologies/compilation/">See the illustrated compilation process.</a></p>
@@ -126,9 +126,9 @@ export default function compilerDocs(ctx) {
       summary: "Use the actual Parser and backend compiler classes of YotsubaShaderCross. WGSL remains planned.",
       body: `
 <h2>Current API</h2>
-<p>YotsubaShaderCross exposes <code>Parser</code>, <code>CompilerGLSL</code>, <code>CompilerHLSL</code>, <code>CompilerMSL</code>, and reflection APIs. There is no <code>YotsubaShader.Transpile</code> namespace or <code>Transpile.FromSpirVTo*</code> wrapper in this checkout.</p>
+<p>YotsubaShaderCross exposes <code>Parser</code>, <code>CompilerGLSL</code>, <code>CompilerHLSL</code>, <code>CompilerMSL</code>, <code>CompilerCPP</code>, and reflection APIs. There is no <code>YotsubaShader.Transpile</code> namespace or <code>Transpile.FromSpirVTo*</code> wrapper in this checkout.</p>
 ${code('csharp', TRANSPILE_USE, 'SpirvToGlsl.cs')}
-<p>For GLSL ES, set <code>options.es = true</code> and choose an appropriate version, such as <code>300</code>. For HLSL or MSL, use their compiler classes and backend-specific options. The result is source text; the target graphics toolchain still compiles that text.</p>
+<p>For GLSL ES, set <code>options.es = true</code> and choose an appropriate version, such as <code>300</code>. For HLSL or MSL, use their compiler classes and backend-specific options. <code>CompilerCPP</code> emits C++ for tooling and integration workflows. The result is source text; the target graphics toolchain still compiles shader-source results.</p>
 <p>WGSL emission is planned for 2027 and has no implemented compiler class. <code>CompilerCSHARP</code> exists as a stub whose constructors throw <code>NotImplementedException</code>. Neither is a usable conversion path today.</p>
 <p>The translated library targets .NET 8. Managed code alone does not establish compatibility with every console, browser, AOT environment, or GPU driver; validate your intended platform separately.</p>
 `,
@@ -344,7 +344,7 @@ ${table(
     ['<code>YotsubaShader.Roslyn</code>', 'Discovery and semantic analysis of C# shaders (Roslyn).', 'Concepts, Language, IR, Roslyn package'],
     ['<code>YotsubaShader.Compiler.SpirV</code>', 'SPIR-V module construction and encoding.', 'IR, Generator (analyzer), MonoGame package'],
     ['<code>YotsubaShader.Generator</code>', 'SPIR-V operation table generated from the Khronos grammar.', 'Roslyn (build time only)'],
-    ['<code>YotsubaShaderCross</code>', 'Managed SPIRV-Cross translation for GLSL, GLSL ES, HLSL, MSL, and reflection. WGSL is planned.', '—'],
+    ['<code>YotsubaShaderCross</code>', 'Managed SPIRV-Cross translation for GLSL, GLSL ES, HLSL, MSL, C++, and reflection. WGSL is planned.', '—'],
     ['<code>YotsubaShader.Example</code>', 'Executable example of low-level SPIR-V assembly.', 'Compiler'],
     ['<code>YotsubaShader.Frontend.Tests</code>', 'Frontend discovery and analysis tests (xUnit).', 'Roslyn, Language, HlslSyntax, SpirvSyntax, MonoGame, xUnit'],
   ],

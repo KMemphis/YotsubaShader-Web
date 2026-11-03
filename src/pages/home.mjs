@@ -133,7 +133,7 @@ public VertexOutput Vertex(
     <div class="center">
       <p class="eyebrow"><span class="badge badge--plain">In development</span> <span class="badge badge--plain">WGSL · Roadmap 2027</span></p>
       <h2 class="h-lg">Write shaders once. Compile to multiple formats.</h2>
-      <p class="lead">The intended build workflow turns one C# shader into SPIR-V, HLSL, GLSL, GLSL ES and MSL. Generated files will be written to a directory in your project; complete C# lowering and build integration are still in development, and WGSL remains on the roadmap.</p>
+      <p class="lead">The intended build workflow turns one C# shader into SPIR-V, HLSL, GLSL, GLSL ES, MSL and C++. Generated files will be written to a directory in your project; complete C# lowering and build integration are still in development, and WGSL remains on the roadmap.</p>
     </div>
     ${flowDiagram()}
     <p class="center mt-24"><a class="link-more" href="/documentation/yotsuba-shader/generating-shader-binaries/">Explore the current compilation status ${icon('chevron-right')}</a></p>

@@ -87,6 +87,7 @@ const OUTPUTS = [
     ratio: b.ratio,
     iconOnly: b.iconOnly,
   })),
+  { format: 'C++', logo: null },
 ];
 
 const fit = (ratio, boxW, boxH) => {
@@ -250,7 +251,7 @@ function wide(t) {
   parts.push(`<image href="${YOTSUBA}" filter="url(#cross-filter)" x="${CROSS.x}" y="${crossCenterY - CROSS.size / 2}" width="${CROSS.size}" height="${CROSS.size}"/>`);
   parts.push(`<text x="${CROSS.x + CROSS.size / 2}" y="${crossCenterY + CROSS.size / 2 + 24}" text-anchor="middle" font-family="${SANS}" font-size="22" font-weight="600" fill="${COLOR.text}">${esc(t.hub2)}</text>`);
 
-  // Step 4: Arrows from YotsubaShaderCross branching into transpiled formats (rows 1..5)
+  // Step 4: Arrows from YotsubaShaderCross branching into transpiled formats.
   const crossRight = CROSS.x + CROSS.size + 12;
   for (let i = 1; i < OUTPUTS.length; i++) {
     const cy = ROW0 + i * ROW_H;
@@ -317,9 +318,8 @@ function tall(t) {
   parts.push(`<text x="30" y="${y + 36}" font-family="${SANS}" font-size="20" fill="${COLOR.dim}">${esc(t.note4)}</text>`);
   y += 64;
 
-  // Chips in 2 columns:
-  // Col 0: HLSL, MSL, GLSL (transpiled)
-  // Col 1: SPIR-V (direct binary at top), WGSL, GLSL ES
+  // Chips in 2 columns. SPIR-V is the direct binary output; every other
+  // format comes from ShaderCross.
   const grid = [
     { col: 1, row: 0, o: OUTPUTS[0] }, // SPIR-V
     { col: 0, row: 0, o: OUTPUTS[1] }, // HLSL
@@ -327,13 +327,14 @@ function tall(t) {
     { col: 1, row: 1, o: OUTPUTS[3] }, // WGSL
     { col: 0, row: 2, o: OUTPUTS[4] }, // GLSL
     { col: 1, row: 2, o: OUTPUTS[5] }, // GLSL ES
+    { col: 0, row: 3, o: OUTPUTS[6] }, // C++
   ];
 
   grid.forEach(({ col, row, o }) => {
     parts.push(chip(o, 30 + col * 360, y + row * 92 + 36, 330, 72, 0.95));
   });
 
-  const H = y + 3 * 92 + 20;
+  const H = y + 4 * 92 + 20;
   return { W, H, svg: parts.join('\n') };
 }
 
