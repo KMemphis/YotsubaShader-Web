@@ -1,4 +1,4 @@
-import { icon, code, styleTabs, cardLink, ideWindow } from '../components.mjs';
+import { icon, code, styleTabs, cardLink } from '../components.mjs';
 import { STYLE_TRIANGLE } from '../snippets.mjs';
 import { SITE } from '../site.mjs';
 import { flowDiagram } from '../diagram.mjs';
@@ -16,7 +16,7 @@ const home = {
     <div class="hero-intro">
       <div class="hero-copy">
         <h1 class="h-xl">Write Shaders in C#.</h1>
-        <p class="lead"><span class="lead-u">Yotsuba Shader is a shader framework and compiler for C#.</span> Write shaders with the types from your own project and the libraries you already use, then compile for Spirv and other formats with Yotsuba ShaderCross.</p>
+        <p class="lead"><span class="lead-u">Yotsuba Shader is an SDK for writing shaders in C#.</span> It covers the graphics pipeline with Vertex, Fragment and Compute declarations today. Full GPU compilation is in development; Geometry, Hull, Domain and Ray Tracing are planned.</p>
         <div class="hero-actions">
           <a class="btn btn-primary" href="/playground/">Try Playground ${icon('arrow-right')}</a>
           <a class="btn btn-secondary" href="/get-started/first-shader/">Write your first shader</a>
@@ -34,27 +34,17 @@ const home = {
   <hr class="hero-rule">
 </section>
 
-<section class="section section--rule">
-  <div class="container">
-    <div class="center">
-      <h2 class="h-lg">Write shaders once. Compile for any backend.</h2>
-      <p class="lead">Author in the vocabulary your team knows. A Roslyn-based frontend and a shared intermediate representation turn it into the shader format each graphics API expects, such as SPIR-V for Vulkan.</p>
-    </div>
-    ${flowDiagram()}
-  </div>
-</section>
-
-<section class="section stages-home" aria-labelledby="stages-home-title">
+<section class="section stages-home" id="shader-stages" aria-labelledby="stages-home-title">
   <div class="container">
     <div class="center stages-home-header">
       <p class="eyebrow">SHADER STAGES</p>
       <h2 class="h-lg" id="stages-home-title">The pipeline today. The stages coming next.</h2>
-      <p class="lead">Vertex, Fragment and Compute are declared in the current API; full compilation is in development. Geometry, Hull and Domain are planned for March 2027.</p>
+      <p class="lead">Yotsuba Shader is an SDK for authoring shaders in C#. Vertex, Fragment and Compute are declared in the current API; full compilation is in development. Geometry, Hull and Domain are planned for March 2027.</p>
     </div>
     <div class="stages-timeline">
       <article class="stages-timeline-item stages-timeline-item--now">
         <div class="stages-timeline-copy">
-          <p class="stages-timeline-date">Now</p>
+          <p class="stages-timeline-date">Now · In development</p>
           <h3><span lang="en">Vertex</span>, <span lang="en">Fragment</span>, <span lang="en">Compute</span></h3>
           <p>Authoring declarations exist today. Complete GPU compilation is still in development.</p>
         </div>
@@ -65,7 +55,7 @@ const home = {
       </article>
       <article class="stages-timeline-item stages-timeline-item--roadmap">
         <div class="stages-timeline-copy">
-          <p class="stages-timeline-date">March 2027</p>
+          <p class="stages-timeline-date">March 2027 · Planned</p>
           <h3><span lang="en">Geometry</span>, <span lang="en">Hull</span>, <span lang="en">Domain</span></h3>
           <p>Planned support for geometry processing and GPU tessellation.</p>
         </div>
@@ -76,7 +66,7 @@ const home = {
       </article>
       <article class="stages-timeline-item stages-timeline-item--ray">
         <div class="stages-timeline-copy">
-          <p class="stages-timeline-date">October 2027</p>
+          <p class="stages-timeline-date">October 2027 · Planned</p>
           <h3>4. Ray tracing pipeline</h3>
           <p>Planned support for the programmable stages that make ray tracing extensible.</p>
           <ul class="stages-timeline-stage-list">
@@ -97,7 +87,136 @@ const home = {
   </div>
 </section>
 
-<section class="section sponsors-home" aria-labelledby="sponsors-home-title">
+<section class="section section--rule" id="shader-vocabularies">
+  <div class="container">
+    <div class="center" style="margin-bottom:36px">
+      <p class="eyebrow">FIVE C# SYNTAX LIBRARIES</p>
+      <h2 class="h-lg">Use the shader-language vocabulary you already know.</h2>
+      <p class="lead">Yotsuba Shader includes five C# libraries that reproduce the vocabulary of HLSL, GLSL, MSL, SPIR-V and WGSL. Use the familiar names for attributes, types and resources; the compiler resolves them to the same semantic model. Complete lowering is in development, and WGSL output remains planned.</p>
+    </div>
+    ${styleTabs(STYLE_TRIANGLE)}
+    <p class="center"><a class="link-more" href="/documentation/yotsuba-shader/choosing-a-syntax/">Choosing a syntax ${icon('chevron-right')}</a></p>
+  </div>
+</section>
+
+<section class="section section--rule" id="shared-types">
+  <div class="container feature feature--rev">
+    <div>
+      <p class="eyebrow">CPU + GPU</p>
+      <h2 class="h-lg">Use your own types. Bring your own libraries.</h2>
+      <p>Your shaders are part of your C# project, so they share its types. Mark the vectors, matrices and textures you already have with an attribute and they become native GPU types, with no parallel set of shader-only structs to keep in sync.</p>
+      <ul class="checks">
+        <li>${icon('check')}<span>Map your project's CPU types to native GPU types with attributes</span></li>
+        <li>${icon('check')}<span>Build shaders on external libraries and NuGet packages</span></li>
+        <li>${icon('check')}<span>One codebase for CPU and GPU: the same types on both sides</span></li>
+      </ul>
+      <p class="mt-24"><a class="link-more" href="/documentation/yotsuba-shader/reusing-your-types-and-libraries/">Reusing your types and libraries ${icon('chevron-right')}</a></p>
+    </div>
+    <div>${code('csharp', `// Your own type, as a GPU vector
+[Vector]
+public struct Vector3
+{
+    [VectorComponent(0)] public float X;
+    [VectorComponent(1)] public float Y;
+    [VectorComponent(2)] public float Z;
+}
+
+// ...and used directly by a shader
+[ShaderStage(Stage.Vertex)]
+public VertexOutput Vertex(
+    Vector3 position) { /* ... */ }`, 'Types.cs')}</div>
+  </div>
+</section>
+
+<section class="section section--rule" id="compile-formats">
+  <div class="container">
+    <div class="center">
+      <p class="eyebrow"><span class="badge badge--plain">In development</span> <span class="badge badge--plain">WGSL · Roadmap 2027</span></p>
+      <h2 class="h-lg">Write shaders once. Compile to multiple formats.</h2>
+      <p class="lead">The intended build workflow turns one C# shader into SPIR-V, HLSL, GLSL, GLSL ES and MSL. Generated files will be written to a directory in your project; complete C# lowering and build integration are still in development, and WGSL remains on the roadmap.</p>
+    </div>
+    ${flowDiagram()}
+    <p class="center mt-24"><a class="link-more" href="/documentation/yotsuba-shader/generating-shader-binaries/">Explore the current compilation status ${icon('chevron-right')}</a></p>
+  </div>
+</section>
+
+<section class="section section--rule" id="project-targets">
+  <div class="container feature">
+    <div>
+      <p class="eyebrow"><span class="badge badge--plain">Planned</span></p>
+      <h2 class="h-lg">Choose your targets in the <code>.csproj</code>.</h2>
+      <p>The planned build integration will let each project select the shader formats it needs. The public property name and value format have not been finalized, so there is no configuration syntax to copy yet.</p>
+      <p class="mt-24"><a class="link-more" href="/documentation/yotsuba-shader/generating-shader-binaries/">Follow the planned build workflow ${icon('chevron-right')}</a></p>
+    </div>
+    <div>${code('xml', `<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <!-- Planned: target selection syntax is not final. -->
+  </PropertyGroup>
+</Project>`, 'YourProject.csproj')}</div>
+  </div>
+</section>
+
+<section class="section section--rule" id="ide-diagnostics">
+  <div class="container feature feature--rev">
+    <div>
+      <p class="eyebrow"><span class="badge badge--plain">Planned</span></p>
+      <h2 class="h-lg">Catch shader errors while you code.</h2>
+      <p>The playground exposes C# diagnostics and shader discovery today. Shader-specific IDE diagnostics and per-backend compatibility analysis are planned.</p>
+      <p>Inputs, outputs, resources, locations, bindings and stages are already declared explicitly with attributes. Those declarations are the foundation for reporting incompatible functions and interface mistakes before a shader reaches the GPU.</p>
+      <ul class="checks">
+        <li>${icon('check')}<span>Locations and built-in values on every stage boundary</span></li>
+        <li>${icon('check')}<span>Uniforms, storage buffers, textures and samplers with explicit bindings</span></li>
+        <li>${icon('check')}<span>Planned compatibility checks for each selected backend</span></li>
+      </ul>
+      <p class="mt-24"><a class="link-more" href="/documentation/yotsuba-shader/shader-diagnostics-in-your-ide/">Read the current validation status ${icon('chevron-right')}</a></p>
+    </div>
+    <div>${code('csharp', `using Microsoft.Xna.Framework;
+using YotsubaShader.HlslSyntax;
+using YotsubaShader.HlslSyntax.Resources;
+
+public struct VertexOutput
+{
+    [SV_Position]
+    public Vector4 Position;
+
+    [COLOR]
+    public Vector4 Color;
+}
+
+public sealed class Material
+{
+    [cbuffer, register(RegisterPrefix.b, 0)]
+    public float Exposure;
+}`, 'Interfaces.cs')}</div>
+  </div>
+</section>
+
+<section class="section section--rule">
+  <div class="container">
+    <div class="center" style="margin-bottom:36px">
+      <h2 class="h-lg">Everything a shader needs, in C#.</h2>
+    </div>
+    <div class="grid grid-4">
+      ${cardLink({ href: '/documentation/yotsuba-shader/shader-stages/', icon: 'layers', title: 'Stages', body: 'Vertex, fragment and compute entry points with [ShaderStage].' })}
+      ${cardLink({ href: '/documentation/yotsuba-shader/interface-slots-and-locations/', icon: 'list', title: 'Interfaces', body: 'Locations and built-in values across stage boundaries.' })}
+      ${cardLink({ href: '/documentation/yotsuba-shader/uniforms-and-storage-buffers/', icon: 'box', title: 'Resources', body: 'Uniforms, storage buffers, textures and samplers.' })}
+      ${cardLink({ href: '/documentation/yotsuba-shader/vectors-matrices-and-arrays/', icon: 'code', title: 'Native types', body: 'Scalars, vectors, matrices, arrays and structs.' })}
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="banner">
+      <h2>A portable shader library ecosystem for your framework or engine.</h2>
+      <p>Shaders are ordinary C#, so a shader library is just a .NET library. Reuse your own types, use libraries from others, and share yours as a package on <a href="https://www.nuget.org/" rel="noopener">NuGet</a>, like any other C# code.</p>
+      <code class="banner-code"><span class="tok-k">dotnet</span> add package Acme.Shaders.Lighting</code>
+      <a class="link-more" href="/get-started/">Get started ${icon('chevron-right')}</a>
+    </div>
+  </div>
+</section>
+
+<section class="section sponsors-home section--rule" aria-labelledby="sponsors-home-title">
   <div class="container">
     <div class="center sponsors-home-header">
       <p class="eyebrow"><span lang="en">SPONSORS</span></p>
@@ -138,138 +257,6 @@ const home = {
     <div class="sponsors-home-actions">
       <a class="btn btn-primary" href="https://github.com/sponsors/KMemphis" target="_blank" rel="noopener">Become a sponsor ${icon('external')}</a>
       <a class="btn btn-secondary" href="/donations/">See all tiers</a>
-    </div>
-  </div>
-</section>
-
-<section class="section section--home-value">
-  <div class="container">
-    <p class="center lead home-value-copy">
-      Vertex, fragment and compute stages, described in plain C#. Your project's own vector, matrix and texture types become native GPU types, and your shaders can build on external libraries, so there is no second language to learn and no duplicated types: if you can write C#, you can write shaders.
-    </p>
-    <div class="home-value-grid">
-      <a class="home-value-card" href="/playground/"><span class="home-value-kicker">Explore</span><strong>Try it in the Playground</strong><span>Start from working C# shader code.</span>${icon('arrow-right')}</a>
-      <a class="home-value-card" href="/documentation/yotsuba-shader/shader-diagnostics-in-your-ide/"><span class="home-value-kicker">Validate</span><strong>Catch errors in your IDE</strong><span>See current validation limits and planned checks.</span>${icon('arrow-right')}</a>
-      <a class="home-value-card" href="/technologies/compilation/"><span class="home-value-kicker">Target</span><strong>Compile for every backend</strong><span>Use one shader source across graphics APIs.</span>${icon('arrow-right')}</a>
-    </div>
-  </div>
-</section>
-
-<section class="section section--rule">
-  <div class="container">
-    <div class="center" style="margin-bottom:36px">
-      <h2 class="h-lg">One shader. Five ways to write it.</h2>
-      <p class="lead">Five attribute vocabularies describe shader concepts in C#. Their intended output path is shared; complete lowering is in development, and WGSL output remains planned.</p>
-    </div>
-    ${styleTabs(STYLE_TRIANGLE)}
-    <p class="center"><a class="link-more" href="/documentation/yotsuba-shader/choosing-a-syntax/">Choosing a syntax ${icon('chevron-right')}</a></p>
-  </div>
-</section>
-
-<section class="section section--rule"><div class="container container--narrow">
-<h2 class="h-lg">Shader diagnostics: planned</h2>
-<p class="lead">The playground exposes C# diagnostics and shader discovery today. Shader-specific IDE diagnostics and backend compatibility analysis are planned.</p>
-<p><a class="link-more" href="/documentation/yotsuba-shader/shader-diagnostics-in-your-ide/">Read the current validation status ${icon('chevron-right')}</a></p>
-</div></section>
-
-<section class="section section--rule"><div class="container container--narrow">
-<h2 class="h-lg">Build integration: in development</h2>
-<p class="lead">The existing generator builds the SPIR-V instruction table. A source generator that compiles your shaders, and a shader compilation CLI, are planned.</p>
-<p><a class="link-more" href="/documentation/yotsuba-shader/generating-shader-binaries/">Explore current binary generation ${icon('chevron-right')}</a></p>
-</div></section>
-
-<section class="section section--rule">
-  <div class="container feature">
-    <div>
-      <h2 class="h-lg">Every interface declared. Validated before the GPU.</h2>
-      <p>Inputs, outputs, resources, locations, bindings and stages are written down with attributes, never inferred from naming conventions. That is what lets the compiler check a shader long before any driver sees it.</p>
-      <ul class="checks">
-        <li>${icon('check')}<span>Locations and built-in values on every stage boundary</span></li>
-        <li>${icon('check')}<span>Uniforms, storage buffers, textures and samplers with explicit bindings</span></li>
-        <li>${icon('check')}<span>Vertex, fragment and compute entry points in one C# class</span></li>
-      </ul>
-      <p class="mt-24"><a class="link-more" href="/documentation/yotsuba-shader/interface-slots-and-locations/">Interface slots and locations ${icon('chevron-right')}</a></p>
-    </div>
-    <div>${code('csharp', `using Microsoft.Xna.Framework;
-using YotsubaShader.HlslSyntax;
-using YotsubaShader.HlslSyntax.Resources;
-
-public struct VertexOutput
-{
-    [SV_Position]
-    public Vector4 Position;  // built-in
-
-    [COLOR]
-    public Vector4 Color;     // to the fragment
-}
-
-public sealed class Material
-{
-    [cbuffer, register(RegisterPrefix.b, 0)]
-    public float Exposure;
-}`, 'Interfaces.cs')}</div>
-  </div>
-</section>
-
-<section class="section section--rule">
-  <div class="container">
-    <div class="center" style="margin-bottom:36px">
-      <h2 class="h-lg">Everything a shader needs, in C#.</h2>
-    </div>
-    <div class="grid grid-4">
-      ${cardLink({ href: '/documentation/yotsuba-shader/shader-stages/', icon: 'layers', title: 'Stages', body: 'Vertex, fragment and compute entry points with [ShaderStage].' })}
-      ${cardLink({ href: '/documentation/yotsuba-shader/interface-slots-and-locations/', icon: 'list', title: 'Interfaces', body: 'Locations and built-in values across stage boundaries.' })}
-      ${cardLink({ href: '/documentation/yotsuba-shader/uniforms-and-storage-buffers/', icon: 'box', title: 'Resources', body: 'Uniforms, storage buffers, textures and samplers.' })}
-      ${cardLink({ href: '/documentation/yotsuba-shader/vectors-matrices-and-arrays/', icon: 'code', title: 'Native types', body: 'Scalars, vectors, matrices, arrays and structs.' })}
-    </div>
-  </div>
-</section>
-
-<section class="section section--rule">
-  <div class="container feature feature--rev">
-    <div>
-      <h2 class="h-lg">Use your own types. Bring your own libraries.</h2>
-      <p>Your shaders are part of your C# project, so they share its types. Mark the vectors, matrices and textures you already have with an attribute and they become native GPU types, with no parallel set of shader-only structs to keep in sync.</p>
-      <ul class="checks">
-        <li>${icon('check')}<span>Map your project's CPU types to native GPU types with attributes</span></li>
-        <li>${icon('check')}<span>Build shaders on external libraries and NuGet packages</span></li>
-        <li>${icon('check')}<span>One codebase for CPU and GPU: the same types on both sides</span></li>
-      </ul>
-      <p class="mt-24"><a class="link-more" href="/documentation/yotsuba-shader/reusing-your-types-and-libraries/">Reusing your types and libraries ${icon('chevron-right')}</a></p>
-    </div>
-    <div>${code('csharp', `// Your own type, as a GPU vector
-[Vector]
-public struct Vector3
-{
-    [VectorComponent(0)] public float X;
-    [VectorComponent(1)] public float Y;
-    [VectorComponent(2)] public float Z;
-}
-
-// ...and used directly by a shader
-[ShaderStage(Stage.Vertex)]
-public VertexOutput Vertex(
-    Vector3 position) { /* ... */ }`, 'Types.cs')}</div>
-  </div>
-</section>
-
-<section class="section">
-  <div class="container">
-    <div class="banner">
-      <h2>A portable shader library ecosystem for your framework or engine.</h2>
-      <p>Shaders are ordinary C#, so a shader library is just a .NET library. Reuse your own types, use libraries from others, and share yours as a package on <a href="https://www.nuget.org/" rel="noopener">NuGet</a>, like any other C# code.</p>
-      <code class="banner-code"><span class="tok-k">dotnet</span> add package Acme.Shaders.Lighting</code>
-      <a class="link-more" href="/get-started/">Get started ${icon('chevron-right')}</a>
-    </div>
-  </div>
-</section>
-
-<section class="section section--rule">
-  <div class="container">
-    <div class="grid grid-3">
-      ${cardLink({ href: '/community/licensing/', icon: 'scale', title: 'Open source', body: 'Free under the Microsoft Public License (MS-PL). Read the repository, build it, and contribute.' })}
-      ${cardLink({ href: '/donations/', icon: 'heart', title: 'Support the project', body: 'Sponsorship keeps Yotsuba Shader maintained and free for everyone.' })}
-      ${cardLink({ href: '/community/contributing/', icon: 'users', title: 'Join the community', body: 'Propose attributes, backends and shaders. Design changes start as an issue.' })}
     </div>
   </div>
 </section>
