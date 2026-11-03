@@ -20,8 +20,6 @@ export default function playground() {
       image: '/img/enuma.webp',
     },
   ];
-  const defaultIndex = examples.findIndex(example => example.id === 'texture-binding');
-  examples.unshift(...examples.splice(defaultIndex, 1));
 
   return [
     {
