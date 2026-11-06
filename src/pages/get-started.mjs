@@ -6,7 +6,7 @@ const overview = {
   path: '/get-started/',
   section: 'get-started',
   title: 'Get Started',
-  description: 'Explore the pre-release authoring API and build the current source checkout.',
+  description: 'Explore the C# authoring API and build the current source checkout.',
   body: `
 <section class="hero hero--compact">
   <div class="container">
@@ -39,7 +39,7 @@ const overview = {
 <section class="section section--rule section--flush-top">
   <div class="container container--narrow">
     <h2 class="h-lg">Explore the current API</h2>
-    <p>Start with the source checkout, its authoring examples, and shader discovery. Complete shader compilation, build-time shader generation, and engine adapters are still in development.</p>
+    <p>Start with the source checkout, its authoring examples, shader discovery, and the supported compiler path. The CLI can emit backend files or generate project-local C# accessors; engine adapters and unsupported shader constructs still require application-specific work.</p>
     <a class="link-more" href="/get-started/build-from-source/">Build from source ${icon('chevron-right')}</a>
   </div>
 </section>
@@ -66,7 +66,7 @@ const firstShader = {
 <section class="hero hero--compact">
   <div class="container">
     <h1 class="h-xl">Your first shader</h1>
-    <p class="lead">A color shader in C#: the vertex stage receives a position and a color per vertex, passes the color along, and the fragment stage returns it.</p>
+    <p class="lead">A color shader in C#: the vertex stage receives a position and a color per vertex, passes the color along, and the fragment stage returns it. This example is also compiled by the repository's current supported path.</p>
   </div>
   <hr class="hero-rule">
 </section>
@@ -89,7 +89,7 @@ const firstShader = {
     <p>The compiler starts by finding <code>BasicColorShader</code>, because two of its methods have <code>[ShaderStage]</code>. For each one it reads which stage it is, what it receives and what it returns.</p>
     <p>The attributes describe user semantics and built-ins. <code>[Location(n)]</code> is available separately from <code>YotsubaShader.SpirvSyntax</code>. Syntax declarations cover more concepts than the current processor can lower.</p>
     <h2>Grow it</h2>
-    <p>Resources use the namespace of the chosen syntax, for example <code>YotsubaShader.SpirvSyntax.Resources</code>. Compute declarations exist, while complete shader body compilation remains unfinished.</p>
+    <p>Resources use the namespace of the chosen syntax, for example <code>YotsubaShader.SpirvSyntax.Resources</code>. Compute declarations and the supported body subset compile today; resource sampling, arbitrary library calls, and other unsupported operations still need dedicated support.</p>
     <p><a class="link-more" href="/documentation/yotsuba-shader/writing-your-first-shader/">Read the full article ${icon('chevron-right')}</a></p>
   </div>
 </section>`,
@@ -104,7 +104,7 @@ const build = {
 <section class="hero hero--compact">
   <div class="container">
     <h1 class="h-xl">Build from source</h1>
-    <p class="lead">Build the solution, run the tests and validate the SPIR-V module the example produces.</p>
+    <p class="lead">Build the solution, compile the example shader, inspect the generated accessors, and run the tests.</p>
   </div>
   <hr class="hero-rule">
 </section>
@@ -113,17 +113,22 @@ const build = {
   <div class="container container--narrow prose">
     <h2>Build</h2>
     ${code('bash', 'dotnet build YotsubaShader.sln')}
-    <h2>Run the example</h2>
-    <p>The example project assembles a fragment-shader module instruction by instruction with <code>SpirVModule</code> and encodes it with <code>SpirVCompiler</code>.</p>
-    ${code('bash', 'dotnet run --project YotsubaShader.Example/YotsubaShader.Example.csproj')}
-    <p>This creates <code>mi modulo spirv.spv</code> in the working directory.</p>
-    <h2>Validate the module</h2>
-    <p>If you have SPIRV-Tools installed, validate and disassemble the output:</p>
-    ${code('bash', `spirv-val "mi modulo spirv.spv"
-spirv-dis "mi modulo spirv.spv"`)}
+    <h2>Compile the example shader</h2>
+    <p><code>BasicColorShader</code> contains vertex, fragment, and compute entry points. The CLI discovers those methods and writes the selected backend artifacts to the output directory.</p>
+    ${code('bash', `dotnet run --project YotsubaShader.CLI/YotsubaShader.CLI.csproj -- \\
+  compile YotsubaShader.Example/YotsubaShader.Example.csproj \\
+  --target spirv --target hlsl --target glsl --target gles --target msl --target cpp \\
+  --output artifacts/`)}
+    <p>To generate project-local C# accessors instead, use <code>add</code>. It writes <code>YotsubaShader.g.cs</code> beside the project and exposes <code>ToSpirV</code>, <code>ToHlsl</code>, <code>ToGlsl</code>, <code>ToGlslEs</code>, and <code>ToMSL</code> extension methods.</p>
+    ${code('bash', `dotnet run --project YotsubaShader.CLI/YotsubaShader.CLI.csproj -- \\
+  add YotsubaShader.Example/YotsubaShader.Example.csproj --target spirv`)}
+    <h2>Validate SPIR-V</h2>
+    <p>If you have SPIRV-Tools installed, validate and disassemble a generated <code>.spv</code> file from <code>artifacts/</code>:</p>
+    ${code('bash', `spirv-val artifacts/YotsubaShader/Example/BasicColorShader.spv
+spirv-dis artifacts/YotsubaShader/Example/BasicColorShader.spv`)}
     <h2>Run the tests</h2>
-    <p>The frontend test project covers shader discovery and analysis.</p>
-    ${code('bash', 'dotnet test YotsubaShader.Frontend.Tests')}
+    <p>The example project covers shader discovery and analysis alongside representative compilation behavior.</p>
+    ${code('bash', 'dotnet test YotsubaShader.Example/YotsubaShader.Example.csproj')}
     <h2>Repository architecture</h2>
     ${table(
       ['Project', 'Role'],
@@ -133,8 +138,8 @@ spirv-dis "mi modulo spirv.spv"`)}
         ['<code>YotsubaShader.IR</code>', 'Shared model between the frontend and backends.'],
         ['<code>YotsubaShader.Compiler.SpirV</code>', 'SPIR-V module construction and encoding.'],
         ['<code>YotsubaShader.Generator</code>', 'SPIR-V operation table generated from the Khronos grammar.'],
-        ['<code>YotsubaShader.Example</code>', 'Executable example of low-level SPIR-V assembly.'],
-        ['<code>YotsubaShader.Frontend.Tests</code>', 'Frontend discovery and analysis tests.'],
+        ['<code>YotsubaShader.CLI</code>', 'Project compilation, target emission, and generated C# accessors.'],
+        ['<code>YotsubaShader.Example</code>', 'BasicColorShader declarations, frontend tests, and generated accessors.'],
       ],
     )}
     ${note('tip', 'Changing the compiler or the language? Open an issue first with your proposal and a motivating shader. See <a href="/community/contributing/">Contributing</a>.')}

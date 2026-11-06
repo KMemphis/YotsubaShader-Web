@@ -61,8 +61,8 @@ const contributing = {
     <h2>Attribute changes</h2>
     <p>Attribute changes should explain their <strong>semantic equivalence</strong> with the language they are inspired by, and include tests where appropriate. An attribute in one syntax must mean the same thing as its counterparts in the other four.</p>
     <h2>Before you open a pull request</h2>
-    ${code('bash', `dotnet build YotsubaShader.sln
-dotnet test YotsubaShader.Frontend.Tests`)}
+${code('bash', `dotnet build YotsubaShader.sln
+dotnet test YotsubaShader.Example/YotsubaShader.Example.csproj`)}
     <h2>Licensing of contributions</h2>
     <p>Yotsuba Shader is released under the Microsoft Public License (MS-PL), and contributions are accepted under the same license. See <a href="/community/licensing/">Licensing</a>.</p>
     <p><a class="btn btn-primary" href="${SITE.repo}" rel="noopener">${icon('github')} Open the repository</a></p>

@@ -1,75 +1,64 @@
 # Website API documentation review
 
-Reviewed against the local source checkout on 2026-10-23.
+Reviewed against the local source checkout on 2026-11-06.
 
-## Corrections
+## Current documentation state
 
-- Updated project names to `YotsubaShader.Roslyn` and
-  `YotsubaShader.Compiler.SpirV`, preserving the actual
-  `YotsubaShader.Frontend.Tests` test-project name.
-- Made HLSL the primary example vocabulary. Vertex output is reused as fragment
-  input; the fragment return now declares `[return: SV_Target(0)]`.
-- Distinguished `YotsubaShader.SpirvSyntax.Location(int)` from the parameterless
-  concept marker `YotsubaShader.Concepts.LocationAttribute`.
-- Replaced nonexistent shared resource APIs with syntax-specific declarations:
-  HLSL `cbuffer`/`register`, SPIR-V `DescriptorSet`/`Binding`, and the actual
-  constructors in the other vocabularies. Removed invented `ResourceAccess` and
-  `StorageBuffer.Access` usage.
-- Replaced the nonexistent `Transpile.FromSpirVTo*` wrapper with the actual
-  `YotsubaShaderCross.Parser` and backend compiler API.
-- Identified WGSL output and the C# conversion stub as unavailable; authoring
-  vocabulary coverage is not backend implementation coverage.
-- Corrected the IR `Shader` constructor and discovery model, including the
-  `ParameterInfo.IsField` argument. These central declarations are now read from
-  their source files during the website build.
-- Distinguished SPIR-V operation-table generation from planned shader binary
-  generation. Removed installation instructions for an unimplemented shader
-  source-generator package and shader CLI.
-- Replaced fictional IDE analyzer screenshots and diagnostic promises with the
-  current status. The existing browser API provides C# diagnostics and discovery;
-  its IR and SPIR-V response fields are currently null.
-- Reworked engine integration, CPU debugging, native-type mapping, and library
-  reuse articles to state their implementation boundaries.
-- Corrected reference generation: strip constructor parameter metadata before
-  printing signatures, preserve resource type namespaces, and avoid duplicate
-  member names, including generic/non-generic type pairs.
-- Updated English and Spanish text. Existing documentation URLs remain intact.
+- The examples use the actual project names `YotsubaShader.Roslyn`,
+  `YotsubaShader.Compiler.SpirV`, and `YotsubaShader.Example`.
+- HLSL is the primary example vocabulary. Vertex, fragment, and compute entry
+  points are represented by the current public `Stage` enum.
+- The syntax references distinguish authoring vocabularies from output targets:
+  HLSL, GLSL, MSL, SPIR-V, and WGSL-style attributes describe equivalent
+  concepts, while WGSL output remains planned.
+- Resource examples use the constructors and namespaces that exist in the
+  syntax projects. The documentation does not present declarations as proof
+  that every resource operation is lowered by every backend.
+- SPIR-V translation examples use the actual `YotsubaShaderCross.Parser` and
+  backend compiler classes rather than a nonexistent `Transpile.FromSpirVTo*`
+  wrapper.
+- The current compiler path is documented as a supported C# subset. It emits
+  SPIR-V, HLSL, GLSL, GLSL ES, MSL, and C++ through the CLI and Playground
+  APIs, while unsupported operations and incomplete engine integration remain
+  explicit.
+- The CLI `add` command is documented as the generator of
+  `YotsubaShader.g.cs`, including its `ToSpirV`, `ToHlsl`, `ToGlsl`,
+  `ToGlslEs`, and `ToMSL` extension methods.
+- The Playground contract documents `diagnostics`, `shaders`, `spirv.text`,
+  and `outputs`. It no longer promises an `ir` response field or a browser
+  SPIR-V binary when the connected backend does not provide one.
 
 ## Verification
 
 Run from the parent repository:
 
 ```sh
+node Web/build.mjs --strict-i18n
 python3 Web/tools/check-api-examples.py
-node Web/build.mjs
 git -C Web diff --check
 ```
 
-Results for this review:
+The current verification results are:
 
-- 57/57 shared examples, generated reference examples, and selected tutorial
+- 61/61 shared examples, generated reference examples, and selected tutorial
   listings compile as C# against the current authoring source declarations.
-- The checker assembles the authoring projects into a temporary library and
-  compiles independent examples against it. It does not build or modify the
-  parent repository projects. Where a sample uses project vector names, the
-  check supplies the website's explicitly annotated `Types.cs` definitions;
-  this does not certify native mapping of unmodified MonoGame vector types.
-- 112 localized pages built; all internal links resolve and all rendered Spanish
-  text has translations. Older dictionary entries may remain unused.
-- Documentation routes, HLSL's default tab, fragment output semantics, and removal
-  of unavailable package installation instructions were checked.
+- 96 localized pages build for English and Spanish, with internal links and
+  Spanish translations checked by the strict build.
+- The website build reflects the current Playground API: SPIR-V assembly text
+  and backend source outputs are available; IR is not part of the response
+  contract.
 
-These checks do **not** establish complete C# → IR → SPIR-V compilation, shader
-semantic conformance, driver compatibility, or performance. The compiler source
-projects were inspected, not modified or rebuilt by this review.
+These checks do not establish complete support for arbitrary C# syntax,
+resource sampling, engine runtime integration, GPU-driver compatibility, or
+WGSL output. They verify that the documented examples and generated website
+match the current source checkout.
 
-## Archived material
+## Repository build note
 
-The earlier engine-guide PDFs, reference PDFs, editable ZIP, and `guide/` listings
-were not regenerated. Links promoting them as current documentation were removed,
-and `guide/README.md` identifies them as historical design material. Their files
-remain recoverable at their existing paths. Promotional video frames and other
-pre-rendered illustrations were not regenerated; the pipeline illustration now
-has an explicit development-status caption.
+The parent solution build is the source-of-truth check for the compiler
+projects. The current working tree also contains uncommitted changes in
+`YotsubaShader.Example/TestCompilation.cs` and its project file; the example
+test run currently reports failures caused by those dynamic compilation
+references, so this review does not describe the test suite as fully passing.
 
 No commit, push, deployment, or external communication was performed.

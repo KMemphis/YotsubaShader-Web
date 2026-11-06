@@ -68,7 +68,7 @@
         "guid": "compiler-sustainability",
         "status": "active",
         "name": "YotsubaShader compiler sustainability",
-        "description": "One-time support for stabilizing the public pre-release codebase, expanding automated frontend and SPIR-V validation, maintaining the documentation and playground, preparing reproducible releases, and reducing the project's single-maintainer risk.",
+        "description": "One-time support for stabilizing the public codebase, expanding automated frontend and SPIR-V validation, maintaining the documentation and playground, preparing reproducible releases, and reducing the project's single-maintainer risk.",
         "amount": 10000,
         "currency": "USD",
         "frequency": "one-time",

@@ -30,7 +30,7 @@ semantic analysis and validation
           ↓
 Yotsuba IR
           ↓
-SPIR-V · future backends</code></pre></figure>
+SPIR-V · HLSL · GLSL · GLSL ES · MSL · C++</code></pre></figure>
 
 <h2>The three layers</h2>
 <p>Yotsuba Shader is organised around three ideas that map to separate projects:</p>
@@ -61,7 +61,7 @@ ${code('csharp', BASIC_COLOR, 'BasicColorShader.cs')}
 ${code('csharp', BASIC_COLOR, 'BasicColorShader.cs')}
 <h2>What happens between stages</h2>
 <p>The application supplies positions and colors. The vertex stage writes clip-space position with z = 0 and w = 1 and passes color onward. The rasterizer interpolates color for the fragment stage. The application remains responsible for vertex layout, render targets, pipeline creation, and draw calls.</p>
-<p>This is an authoring example, not a successful C#-to-SPIR-V compilation test. MonoGame types without native mapping attributes are treated as ordinary structs by the current processor. Body lowering is still incomplete.</p>
+<p>This example is also the shape used by the current supported C#-to-SPIR-V path. Project types need compatible native mapping metadata; a third-party type or an arbitrary C# method is not automatically GPU-compatible. Unsupported body operations are reported instead of being silently treated as shader code.</p>
 `,
   },
 
@@ -87,7 +87,7 @@ public struct Float2
 }`)}
 <p>A name such as <code>Vector2</code> does not provide native vector semantics. You can annotate types you own; an unchanged third-party assembly cannot acquire these attributes through a using directive. Unannotated structs are inspected as fields and properties.</p>
 <h2>Sharing libraries</h2>
-<p>You can distribute C# types and shader source through NuGet. GPU compilation of arbitrary library methods is not implemented: shader discovery only searches the current assembly, and invocation processing is unfinished. Packaging code does not establish GPU compatibility.</p>
+<p>You can distribute C# types and shader source through NuGet. The current compiler discovers shader entry points in the current assembly; GPU compilation of arbitrary referenced-library methods and all invocation patterns is not guaranteed. Packaging code does not establish GPU compatibility.</p>
 `,
   },
 

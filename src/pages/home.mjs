@@ -16,7 +16,7 @@ const home = {
     <div class="hero-intro">
       <div class="hero-copy">
         <h1 class="h-xl">Write Shaders in C#.</h1>
-        <p class="lead"><span class="lead-u">Yotsuba Shader is an SDK for writing shaders in C#.</span> It covers the graphics pipeline with Vertex, Fragment and Compute declarations today. Full GPU compilation is in development; Geometry, Hull, Domain and Ray Tracing are planned.</p>
+        <p class="lead"><span class="lead-u">Yotsuba Shader is an SDK for writing shaders in C#.</span> It covers Vertex, Fragment and Compute declarations, and the connected compiler emits SPIR-V plus backend source for the supported shader subset. Geometry, Hull, Domain and Ray Tracing are planned.</p>
         <div class="hero-actions">
           <a class="btn btn-primary" href="/playground/">Try Playground ${icon('arrow-right')}</a>
           <a class="btn btn-secondary" href="/get-started/first-shader/">Write your first shader</a>
@@ -39,14 +39,14 @@ const home = {
     <div class="center stages-home-header">
       <p class="eyebrow">SHADER STAGES</p>
       <h2 class="h-lg" id="stages-home-title">The pipeline today. The stages coming next.</h2>
-      <p class="lead">Yotsuba Shader is an SDK for authoring shaders in C#. Vertex, Fragment and Compute are declared in the current API; full compilation is in development. Geometry, Hull and Domain are planned for March 2027.</p>
+      <p class="lead">Yotsuba Shader is an SDK for authoring shaders in C#. Vertex, Fragment and Compute are declared and compile through the supported frontend and SPIR-V path. Geometry, Hull and Domain are planned for March 2027.</p>
     </div>
     <div class="stages-timeline">
       <article class="stages-timeline-item stages-timeline-item--now">
         <div class="stages-timeline-copy">
-          <p class="stages-timeline-date">Now · In development</p>
+          <p class="stages-timeline-date">Now · Supported path</p>
           <h3><span lang="en">Vertex</span>, <span lang="en">Fragment</span>, <span lang="en">Compute</span></h3>
-          <p>Authoring declarations exist today. Complete GPU compilation is still in development.</p>
+          <p>These entry points can compile through the supported C# shader subset and emit the available backend formats.</p>
         </div>
         <figure class="stages-timeline-media">
           <img src="/img/stages/rasterization.svg" alt="A triangle being rasterized into a grid of pixels" width="450" height="450" loading="lazy">
@@ -92,7 +92,7 @@ const home = {
     <div class="center" style="margin-bottom:36px">
       <p class="eyebrow">FIVE C# SYNTAX LIBRARIES</p>
       <h2 class="h-lg">Use the shader-language vocabulary you already know.</h2>
-      <p class="lead">Yotsuba Shader includes five C# libraries that reproduce the vocabulary of HLSL, GLSL, MSL, SPIR-V and WGSL. Use the familiar names for attributes, types and resources; the compiler resolves them to the same semantic model. Complete lowering is in development, and WGSL output remains planned.</p>
+      <p class="lead">Yotsuba Shader includes five C# libraries that reproduce the vocabulary of HLSL, GLSL, MSL, SPIR-V and WGSL. Use the familiar names for attributes, types and resources; the compiler resolves them to the same semantic model and lowers supported declarations to the available outputs. WGSL output remains planned.</p>
     </div>
     ${styleTabs(STYLE_TRIANGLE)}
     <p class="center"><a class="link-more" href="/documentation/yotsuba-shader/choosing-a-syntax/">Choosing a syntax ${icon('chevron-right')}</a></p>
@@ -131,9 +131,9 @@ public VertexOutput Vertex(
 <section class="section section--rule" id="compile-formats">
   <div class="container">
     <div class="center">
-      <p class="eyebrow"><span class="badge badge--plain">In development</span> <span class="badge badge--plain">WGSL · Roadmap 2027</span></p>
+      <p class="eyebrow"><span class="badge badge--plain">Available now</span> <span class="badge badge--plain">WGSL · Roadmap 2027</span></p>
       <h2 class="h-lg">Write shaders once. Compile to multiple formats.</h2>
-      <p class="lead">The intended build workflow turns one C# shader into SPIR-V, HLSL, GLSL, GLSL ES, MSL and C++. Generated files will be written to a directory in your project; complete C# lowering and build integration are still in development, and WGSL remains on the roadmap.</p>
+      <p class="lead">The current CLI turns one supported C# shader into SPIR-V, HLSL, GLSL, GLSL ES, MSL and C++. The <code>compile</code> command writes target files to an output directory, while <code>add</code> writes a readable <code>YotsubaShader.g.cs</code> accessor file beside the project. WGSL remains on the roadmap.</p>
     </div>
     ${flowDiagram()}
     <p class="center mt-24"><a class="link-more" href="/documentation/yotsuba-shader/generating-shader-binaries/">Explore the current compilation status ${icon('chevron-right')}</a></p>
@@ -143,16 +143,15 @@ public VertexOutput Vertex(
 <section class="section section--rule" id="project-targets">
   <div class="container feature">
     <div>
-      <p class="eyebrow"><span class="badge badge--plain">Planned</span></p>
-      <h2 class="h-lg">Choose your targets in the <code>.csproj</code>.</h2>
-      <p>The planned build integration will let each project select the shader formats it needs. The public property name and value format have not been finalized, so there is no configuration syntax to copy yet.</p>
-      <p class="mt-24"><a class="link-more" href="/documentation/yotsuba-shader/generating-shader-binaries/">Follow the planned build workflow ${icon('chevron-right')}</a></p>
+      <p class="eyebrow"><span class="badge badge--plain">Available now</span></p>
+      <h2 class="h-lg">Generate accessors from the <code>.csproj</code>.</h2>
+      <p>A project build can invoke the CLI <code>add</code> command and generate <code>YotsubaShader.g.cs</code> beside the project. The file contains the compiled SPIR-V bytes and readable HLSL, GLSL, GLSL ES, and MSL accessors for each discovered shader stage.</p>
+      <p class="mt-24"><a class="link-more" href="/documentation/yotsuba-shader/generating-shader-binaries/">Read the current build workflow ${icon('chevron-right')}</a></p>
     </div>
-    <div>${code('xml', `<Project Sdk="Microsoft.NET.Sdk">
-  <PropertyGroup>
-    <!-- Planned: target selection syntax is not final. -->
-  </PropertyGroup>
-</Project>`, 'YourProject.csproj')}</div>
+    <div>${code('xml', `<Target Name="GenerateYotsubaShaderAccessors"
+        AfterTargets="Build">
+  <Exec Command="dotnet run --project YotsubaShader.CLI/YotsubaShader.CLI.csproj -- add $(MSBuildProjectFullPath) --target spirv" />
+</Target>`, 'YourProject.csproj')}</div>
   </div>
 </section>
 

@@ -12,7 +12,7 @@ const outputs = [
 
 const steps = [
   ['01', 'C# shader code', 'Your types, functions, and shader logic.', '/img/sponsors/devlog.webp'],
-  ['02', 'Yotsuba Shader', 'Roslyn analysis → Yotsuba IR → SPIR-V generation.', '/img/compilation/compiler.webp', '/img/yotsuba-shader.webp'],
+  ['02', 'Yotsuba Shader', 'Roslyn analysis → Yotsuba IR → SPIR-V generation for the supported shader subset.', '/img/compilation/compiler.webp', '/img/yotsuba-shader.webp'],
   ['03', 'SPIR-V', 'A binary shader module shared by the output paths.', '/img/backends/spirv.svg'],
   ['04', 'Yotsuba ShaderCross', 'Translate the SPIR-V module into the target shader language.', '/img/compilation/shadercross.webp', '/img/yotsuba-shadercross.webp'],
 ];
@@ -45,7 +45,7 @@ export default [{
       ${outputs.map(([format, api, detail, image]) => `<article class="compilation-output${format === 'WGSL' ? ' compilation-output--planned' : ''}"><div class="compilation-card-media"><img src="${image}" alt="" width="800" height="500" loading="lazy" decoding="async"></div><div class="compilation-output-copy"><div class="compilation-output-title"><h4>${format}</h4>${format === 'WGSL' ? '<span class="compilation-badge">Planned</span>' : ''}</div><p class="compilation-api">${api}</p><p>${detail}</p></div></article>`).join('')}
     </div>
     <p class="compilation-imagery-note">Illustrative imagery by independent photographers and 3D artists.</p>
-    <p class="compilation-status"><strong>In development.</strong> This diagram describes the intended compilation pipeline. The complete C# → IR → SPIR-V path is still being assembled. WGSL output is planned for 2027.</p>
+    <p class="compilation-status"><strong>Available for the supported shader subset.</strong> The CLI can write SPIR-V, HLSL, GLSL, GLSL ES, MSL, and C++ outputs. The <code>add</code> command can also generate a visible <code>YotsubaShader.g.cs</code> file with typed accessors for the compiled shader. Unsupported C# operations and resource paths still require validation, and WGSL output is planned for 2027.</p>
   </div>
 </section>
 

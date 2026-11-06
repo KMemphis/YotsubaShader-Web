@@ -1,4 +1,6 @@
-// Output targets of the compiler: graphics API, the shader format it consumes, and how real the backend is.
+// Output targets of the compiler: graphics API, the shader format it consumes, and whether the
+// current repository emits that format. WGSL remains a roadmap target while its authoring
+// vocabulary is already available.
 // Logos are used only where the owner publishes them for reference (Khronos, W3C). Metal and Direct3D are
 // shown by name: Apple and Microsoft do not license their logos to third parties.
 
@@ -6,7 +8,7 @@ export const BACKENDS = [
   { id: 'vulkan', name: 'Vulkan', format: 'SPIR-V', logo: '/img/backends/vulkan.svg', ratio: 1300 / 500 },
   { id: 'd3d', name: 'Direct3D 11 / 12', format: 'HLSL', logo: null },
   { id: 'metal', name: 'Metal', format: 'MSL', logo: null },
-  { id: 'webgpu', name: 'WebGPU', format: 'WGSL', logo: '/img/backends/webgpu.svg', ratio: 768 / 600, iconOnly: true },
+  { id: 'webgpu', name: 'WebGPU', format: 'WGSL', logo: '/img/backends/webgpu.svg', ratio: 768 / 600, iconOnly: true, planned: true },
   { id: 'opengl', name: 'OpenGL', format: 'GLSL', logo: '/img/backends/opengl.svg', ratio: 1200 / 500 },
   { id: 'webgl', name: 'WebGL', format: 'GLSL ES', logo: '/img/backends/webgl.svg', ratio: 1200 / 500 },
 ];

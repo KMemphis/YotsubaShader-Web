@@ -104,7 +104,7 @@ ${topics}`,
     const i = order.indexOf(a.slug);
     const prev = a.slug === 'index' ? null : i > 0 ? bySlug.get(order[i - 1]) : landing;
     const next = a.slug === 'index' ? bySlug.get(order[0]) : i < order.length - 1 ? bySlug.get(order[i + 1]) : null;
-    return { ...a, body: note('important', "Pre-release API reference, reviewed against the checkout on 23 October 2026. The C# \u2192 IR \u2192 SPIR-V pipeline is incomplete; authoring declarations and planned workflows are distinguished below.") + a.body, prev, next };
+    return { ...a, body: note('important', "Current API reference, reviewed against the checkout on 6 November 2026. Supported Vertex, Fragment, and Compute shader paths compile to SPIR-V and backend source; unsupported constructs, runtime integration, and planned outputs are identified below.") + a.body, prev, next };
   });
 
   const hub = {

@@ -74,15 +74,15 @@ export default function compilerDocs(ctx) {
       title: 'Compilation pipeline',
       kind: 'Article',
       icon: 'doc',
-      summary: "Current compilation stages and the boundaries between implemented APIs and planned build integration.",
+      summary: "Current compilation stages, CLI outputs, and the boundaries of the supported shader subset.",
       body: `
 <h2>What you write</h2>
 <p>Declare vertex, fragment, or compute entry points in C#, using your chosen attribute syntax. HLSL is the default vocabulary in these examples.</p>
 <h2>What the compiler handles</h2>
-<p>Yotsuba Shader analyzes the declarations and supported shader logic, uses an internal representation, and is intended to generate SPIR-V. These are internal compilation steps; you do not build IR records or SPIR-V modules yourself.</p>
+<p>Yotsuba Shader analyzes the declarations and supported shader logic, lowers them through its internal representation, and generates SPIR-V. These are internal compilation steps; you do not build IR records or SPIR-V modules yourself for the normal C# shader workflow.</p>
 <p>Yotsuba ShaderCross translates SPIR-V into GLSL ES, GLSL, MSL, HLSL, or C++ source. WGSL output is planned for 2027. Your engine then loads shader-source results through its graphics API; C++ is available for tooling and integration workflows.</p>
 <h2>Current status</h2>
-<p>The complete C# compilation path and build integration are still in development. This page explains the intended workflow, not an available installation or command-line contract.</p>
+<p>The supported path is available through <code>YotsubaShader.CLI</code>. The <code>compile</code> command writes target-specific artifacts, while <code>add</code> writes a project-local <code>YotsubaShader.g.cs</code> file with accessors for the compiled shader. The frontend still rejects or reports unsupported C# operations, resources, and stage features instead of treating arbitrary C# as GPU code.</p>
 <p><a href="/technologies/compilation/">See the illustrated compilation process.</a></p>
 `,
     },
@@ -106,13 +106,22 @@ export default function compilerDocs(ctx) {
       title: 'Generating shader binaries',
       kind: 'Article',
       icon: 'doc',
-      summary: "Intended shader build workflow and the current availability of binary generation.",
+      summary: "Generate SPIR-V artifacts or readable project-local accessors with the current CLI.",
       body: `
 <h2>For shader authors</h2>
-<p>The intended workflow is to compile your C# shader as part of your project build, then load the resulting shader through your engine. You should not call the internal SPIR-V module builder or binary encoder directly.</p>
-<h2>Current status</h2>
-<p>Automatic shader compilation during the build and the shader compilation CLI are still in development. No supported package installation command, generated binary-access API, or command-line contract is available in this checkout.</p>
-<p>The existing source generator builds the compiler instruction table internally. It is not a shader compilation tool for application projects.</p>
+<p>The current workflow is to compile your C# shader as part of a project or content build, then load the resulting shader through your engine. You should not call the internal SPIR-V module builder or binary encoder directly for ordinary shader projects.</p>
+<h2>Compile external artifacts</h2>
+${code('bash', `dotnet run --project YotsubaShader.CLI/YotsubaShader.CLI.csproj -- \\
+  compile Game.Graphics.csproj \\
+  --target spirv --target hlsl --target glsl --target gles --target msl --target cpp \\
+  --output artifacts/`, 'compile.sh')}
+<p>The <code>compile</code> command discovers methods marked with <code>[ShaderStage]</code> and writes SPIR-V binary files plus HLSL, GLSL, GLSL ES, MSL, or C++ source for the selected targets.</p>
+<h2>Generate C# accessors</h2>
+${code('bash', `dotnet run --project YotsubaShader.CLI/YotsubaShader.CLI.csproj -- \\
+  add Game.Graphics.csproj --target spirv`, 'add.sh')}
+<p>The <code>add</code> command writes <code>YotsubaShader.g.cs</code> beside the project. It contains the public static <code>YotsubaShader_ShadersCompilations</code> extension class with <code>ToSpirV</code>, <code>ToHlsl(Stage)</code>, <code>ToGlsl(Stage)</code>, <code>ToGlslEs(Stage)</code>, and <code>ToMSL(Stage)</code>. SPIR-V is returned as <code>byte[]</code>; the other accessors return readable shader source strings embedded as raw C# literals.</p>
+<p>The generated class is marked <code>CompilerGenerated</code> and <code>EditorBrowsable(Never)</code>, so it stays out of normal IntelliSense lists while remaining available to the project. The current CLI requires one <code>--target</code> argument for <code>add</code>, but the helper set is generated for every discovered shader stage; use <code>compile</code> when you need target-specific files.</p>
+<p>The existing source generator builds the compiler instruction table internally. It is separate from the application-project <code>add</code> command.</p>
 <p><a href="/technologies/compilation/">See the illustrated compilation process.</a></p>
 `,
     },
@@ -190,7 +199,7 @@ ${code('csharp', apiSource('YotsubaShader.IR/Intermediate/FunctionBody/Statement
       summary: 'Assemble a SPIR-V 1.6 module instruction by instruction and encode it to a binary.',
       body: `
 <h2>Overview</h2>
-<p>The compiler project exposes a low-level API to assemble SPIR-V explicitly. The example project uses it to build a fragment shader that writes a magenta color to its output.</p>
+<p>The compiler project exposes a low-level API to assemble SPIR-V explicitly. The high-level C# shader compiler uses this backend for its supported path, while the low-level API remains available when an application needs to construct a module instruction by instruction.</p>
 
 <h2>Instructions</h2>
 <p><code>SpirVModule</code> keeps an ordered list of instructions:</p>
@@ -249,12 +258,12 @@ OpDecorate %f_color Location 0
 <h2>Encoding</h2>
 ${code('csharp', `SpirVCompiler compiler = new SpirVCompiler();
 byte[] spirV = compiler.Compile(module);
-File.WriteAllBytes("mi modulo spirv.spv", spirV);`)}
+File.WriteAllBytes("shader.spv", spirV);`)}
 <p>The encoder writes the module header (magic number <code>0x07230203</code>, version 1.6, generator, id bound, schema) and then each instruction: opcode and word count, the result type when the operation has one, the result id, and the operands. A string operand takes several words, so word counts are computed after all operands are written. Ids are numbered while encoding.</p>
 
 <h2>Validate</h2>
-${code('bash', `spirv-val "mi modulo spirv.spv"
-spirv-dis "mi modulo spirv.spv"`)}`,
+${code('bash', `spirv-val shader.spv
+spirv-dis shader.spv`)}`,
     },
 
     /* ---------------------------------------------------------------- */
@@ -345,8 +354,8 @@ ${table(
     ['<code>YotsubaShader.Compiler.SpirV</code>', 'SPIR-V module construction and encoding.', 'IR, Generator (analyzer), MonoGame package'],
     ['<code>YotsubaShader.Generator</code>', 'SPIR-V operation table generated from the Khronos grammar.', 'Roslyn (build time only)'],
     ['<code>YotsubaShaderCross</code>', 'Managed SPIRV-Cross translation for GLSL, GLSL ES, HLSL, MSL, C++, and reflection. WGSL is planned.', '—'],
-    ['<code>YotsubaShader.Example</code>', 'Executable example of low-level SPIR-V assembly.', 'Compiler'],
-    ['<code>YotsubaShader.Frontend.Tests</code>', 'Frontend discovery and analysis tests (xUnit).', 'Roslyn, Language, HlslSyntax, SpirvSyntax, MonoGame, xUnit'],
+    ['<code>YotsubaShader.CLI</code>', 'Project compilation, target emission, and generated C# accessors.', 'Compiler, MSBuild, Roslyn'],
+    ['<code>YotsubaShader.Example</code>', 'BasicColorShader declarations, frontend tests, and generated accessors.', 'Compiler, Roslyn, Language, HlslSyntax, SpirvSyntax, MonoGame, xUnit'],
   ],
 )}
 
