@@ -77,6 +77,9 @@ using Microsoft.CodeAnalysis.QuickInfo;
 using Microsoft.JSInterop;
 using YotsubaShader.Compiler;
 using YotsubaShader.IR.Intermediate;
+using YotsubaShader.IR.Intermediate.Slot;
+using YotsubaShader.IR.Intermediate.Slot.Types;
+using YotsubaShader.IR.Intermediate.Types;
 using YotsubaShader.Roslyn;
 
 namespace YotsubaShader.Playground;
@@ -219,7 +222,7 @@ public static class PlaygroundApi
             {
                 foreach (var shader in ShaderDiscovery.Find(compilation))
                 {
-                    shaders.Add(new ShaderDto(shader.Name, shader.FullName, shader.EntryPoints.Select(e => new EntryPointDto(
+                    shaders.Add(new ShaderDto(shader.Name, shader.FullName, shader.Functions.Select(e => new EntryPointDto(
                         e.Name, e.Stage.ToString(), e.ReturnType.ToDisplayString(SymbolDisplayFormat.MinimallyQualifiedFormat),
                         e.Parameters.Select(p => new ParameterDto(p.Name, p.Type.ToDisplayString(SymbolDisplayFormat.MinimallyQualifiedFormat),
                             string.Join(", ", p.Symbol.GetAttributes().Select(a => AttributeNamespaces.Replace(a.ToString()!, ""))))).ToList())).ToList()));
@@ -251,7 +254,10 @@ public static class PlaygroundApi
                                 function.Stage,
                                 function.Stage == Stage.Compute ? 310u : 300u),
                             compiledShader.ToMsl(function.Stage),
-                            compiledShader.ToCpp(function.Stage)))
+                            compiledShader.ToCpp(function.Stage),
+                            new ShaderInterfaceDto(
+                                FlattenInterface(function.Inputs, isReturnValue: false).ToArray(),
+                                FlattenOutputs(function.Outputs).ToArray())))
                         .ToList();
 
                     outputs.Add(new ShaderOutputDto(
@@ -279,6 +285,101 @@ public static class PlaygroundApi
             Outputs: outputs);
         return JsonSerializer.Serialize(result, Json);
     }
+
+    private static IEnumerable<ShaderInterfaceItemDto> FlattenInterface(
+        IEnumerable<Storage> storages,
+        bool isReturnValue)
+    {
+        foreach (Storage storage in storages)
+        {
+            if (storage is CustomStruct structure)
+            {
+                foreach (ShaderInterfaceItemDto item in FlattenInterface(structure.Properties, isReturnValue))
+                    yield return item;
+
+                continue;
+            }
+
+            ShaderInterfaceItemDto? description = DescribeInterface(storage, isReturnValue);
+            if (description is not null)
+                yield return description;
+        }
+    }
+
+    private static IEnumerable<ShaderInterfaceItemDto> FlattenOutputs(
+        IEnumerable<Storage> storages)
+    {
+        foreach (Storage storage in storages)
+        {
+            foreach (ShaderInterfaceItemDto item in FlattenInterface(
+                         [storage],
+                         storage.HumanName == "__return"))
+            {
+                yield return item;
+            }
+        }
+    }
+
+    private static ShaderInterfaceItemDto? DescribeInterface(Storage storage, bool isReturnValue)
+    {
+        if (storage.Slot is null)
+            return null;
+
+        string? builtIn = null;
+        int? location = null;
+
+        switch (storage.Slot)
+        {
+            case BuiltInSlot slot:
+                builtIn = slot.BuiltIn.ToString();
+                break;
+
+            case LocationSlot slot:
+                location = slot.Location;
+                break;
+
+            case VertexSlot slot:
+                location = ResolveVertexLocation(slot.Semantic);
+                break;
+        }
+
+        return new ShaderInterfaceItemDto(
+            storage.HumanName,
+            GetShaderValueType(storage),
+            builtIn,
+            location,
+            isReturnValue);
+    }
+
+    private static int ResolveVertexLocation(VertexSemantic semantic) =>
+        semantic.Usage switch
+        {
+            VertexUsage.TextureCoordinate => semantic.Index,
+            VertexUsage.Color => 8 + semantic.Index,
+            VertexUsage.Normal => 16 + semantic.Index,
+            VertexUsage.Tangent => 16 + semantic.Index,
+            VertexUsage.Binormal => 32 + semantic.Index,
+            VertexUsage.Position => semantic.Index,
+            _ => semantic.Index,
+        };
+
+    private static string GetShaderValueType(Storage storage) => storage switch
+    {
+        Float => "float",
+        YotsubaShader.IR.Intermediate.Types.Double => "double",
+        Bool => "bool",
+        Int { Signed: true } => "int",
+        Int => "uint",
+        Vector vector => vector.ComponentsType switch
+        {
+            VectorComponentsType.Float => $"vec{vector.ComponentsLength}",
+            VectorComponentsType.Double => $"dvec{vector.ComponentsLength}",
+            VectorComponentsType.Int => $"ivec{vector.ComponentsLength}",
+            VectorComponentsType.Uint => $"uvec{vector.ComponentsLength}",
+            _ => "vec4",
+        },
+        _ => "vec4",
+    };
 }
 
 // JSON contract consumed by playground.js (camelCase on the wire).
@@ -289,6 +390,23 @@ public sealed record EntryPointDto(string Name, string Stage, string ReturnType,
 public sealed record ParameterDto(string Name, string Type, string? Slot = null);
 public sealed record SpirvDto(string Text, string? Base64 = null);
 public sealed record ShaderOutputDto(string Name, IReadOnlyList<ShaderStageOutputDto> Stages);
-public sealed record ShaderStageOutputDto(string Name, string Stage, string Hlsl, string Glsl, string GlslEs, string Msl, string Cpp);
+public sealed record ShaderStageOutputDto(
+    string Name,
+    string Stage,
+    string Hlsl,
+    string Glsl,
+    string GlslEs,
+    string Msl,
+    string Cpp,
+    ShaderInterfaceDto Interface);
+public sealed record ShaderInterfaceDto(
+    IReadOnlyList<ShaderInterfaceItemDto> Inputs,
+    IReadOnlyList<ShaderInterfaceItemDto> Outputs);
+public sealed record ShaderInterfaceItemDto(
+    string Name,
+    string Type,
+    string? BuiltIn,
+    int? Location,
+    bool IsReturnValue);
 public sealed record CompletionDto(string Label, string Kind, string? SortText, string? FilterText, string? Detail);
 public sealed record SignatureDto(string Label, IReadOnlyList<string> Parameters);

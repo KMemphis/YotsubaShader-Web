@@ -14,7 +14,7 @@
  *   files = [{ name: 'Shader.cs', source: '...' }, ...]
  *   CompileResult = { ok, diagnostics: [{ severity: 'error'|'warning'|'info', message, line, column, endLine?, endColumn?,
  *                     id?, file? }], shaders: [{ name, fullName?, entryPoints: [{ name, stage, returnType,
- *                     parameters: [{ name, type, slot? }] }] }], spirv?: { text, base64? }, outputs?: [...] }
+ *                     parameters: [{ name, type, slot? }] }] }], spirv?: { text, base64? }, outputs?: [{ stages: [{ interface: { inputs, outputs } }] }] }
  *
  * A Blazor WebAssembly build is detected automatically when it is published to ./playground-app/ and a demo
  * backend is available with ?demo=1. See Web/playground/README.md.
@@ -31,17 +31,28 @@
   const examples = JSON.parse($('#pg-examples').textContent);
   const el = {
     example: $('#pg-example'), run: $('#pg-run'), share: $('#pg-share'), status: $('#pg-status'), banner: $('#pg-banner'),
-    root: $('#pg'), host: $('#pg-editor'), files: $('#pg-files'), add: $('#pg-add'), activeFile: $('#pg-active-file'),
+    root: $('#pg'), loading: $('#pg-loading'), loadingDetail: $('#pg-loading-detail'), host: $('#pg-editor'),
+    files: $('#pg-files'), add: $('#pg-add'), activeFile: $('#pg-active-file'),
     navigator: $('#pg-navigator'), navigatorToggle: $('#pg-navigator-toggle'), inspector: $('#pg-inspector'),
     inspectorToggle: $('#pg-inspector-toggle'), backdrop: $('#pg-backdrop'),
     diagnostics: $('#pg-editor-diagnostics'),
-    previewCanvas: $('#pg-preview-canvas'), previewStatus: $('#pg-preview-status'),
+    previewCanvas: $('#pg-preview-canvas'),
     previewMessage: $('#pg-preview-message'), previewDetail: $('#pg-preview-detail'),
     panels: Object.fromEntries($$('[data-panel]').map((p) => [p.dataset.panel, p])),
   };
   const esc = (s) => String(s ?? '').replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]);
   const emptyState = (text, title = '') => `<div class="pg-empty">${title ? `<h2>${esc(title)}</h2>` : ''}<p>${text}</p></div>`;
   const setState = (state) => { el.status.dataset.state = state; };
+  function setLoading(loading, detail = T('Preparing the compiler…')) {
+    el.loading.hidden = !loading;
+    el.loading.setAttribute('aria-busy', String(loading));
+    el.loadingDetail.textContent = detail;
+    if (loading) el.root.setAttribute('aria-busy', 'true');
+    else el.root.removeAttribute('aria-busy');
+    [...el.root.children].forEach((child) => {
+      if (child !== el.loading) child.inert = loading;
+    });
+  }
   /** Tiny highlighter for SPIR-V assembly: opcodes, %ids, numbers and ; comments. */
   const hl = (text) => esc(text).split('\n').map((line) => {
     if (/^\s*;/.test(line)) return `<span class="hl-c">${line}</span>`;
@@ -142,6 +153,7 @@
   }
 
   function showBackend() {
+    if (backend) setLoading(false);
     el.banner.hidden = !!backend && !backend.demo;
     if (!backend) {
       el.banner.textContent = T('The compiler could not be loaded. Check your connection and reload the page.');
@@ -167,9 +179,7 @@
     frame: 0,
   };
 
-  function setPreviewState(state, label, detail, message = '') {
-    el.previewStatus.dataset.state = state;
-    el.previewStatus.textContent = label;
+  function setPreviewState(detail, message = '') {
     el.previewDetail.textContent = detail;
     el.previewMessage.textContent = message;
     el.previewMessage.hidden = !message;
@@ -195,7 +205,7 @@
     if (livePreview.gl) return livePreview.gl;
     const gl = el.previewCanvas.getContext('webgl2', { antialias: true, alpha: false, depth: true });
     if (!gl) {
-      setPreviewState('error', T('WebGL2 unavailable'), T('This browser cannot create a WebGL2 context.'), T('Open the playground in a browser with WebGL2 enabled.'));
+      setPreviewState(T('This browser cannot create a WebGL2 context.'), T('Open the playground in a browser with WebGL2 enabled.'));
       return null;
     }
     livePreview.gl = gl;
@@ -281,7 +291,175 @@
     return newline < 0 ? `${source}\n${declarations}\n` : `${source.slice(0, newline + 1)}${declarations}\n${source.slice(newline + 1)}`;
   }
 
-  function adaptSourcesForWebgl(vertexSource, fragmentSource) {
+  function interfacePosition(item) {
+    return String(item?.builtIn || '').toLowerCase() === 'position';
+  }
+
+  function interfaceName(item, index) {
+    const name = String(item?.name || `varying${index}`).replace(/[^A-Za-z0-9_]/g, '_');
+    return `_pg_${name || `varying${index}`}`;
+  }
+
+  function sameInterfaceSlot(left, right) {
+    if (left?.location == null || right?.location == null) return false;
+    return Number(left.location) === Number(right.location);
+  }
+
+  function extractReturnAssignment(source) {
+    const match = /(^|\n)\s*_return\s*=\s*([^;]+);/.exec(source);
+    if (!match) return null;
+    const expression = match[2].trim();
+    const constructor = /^[A-Za-z_]\w*\s*\((.*)\)$/.exec(expression);
+    return {
+      text: match[0].trim(),
+      expression,
+      isConstructor: Boolean(constructor),
+      arguments: constructor ? splitArguments(constructor[1]) : [expression],
+    };
+  }
+
+  function removeInterfaceBlocks(source, qualifier, items) {
+    const memberNames = new Set(items.map((item) => String(item?.name || '')).filter(Boolean));
+    if (!memberNames.size) return source;
+    const block = new RegExp(`\\b${qualifier}\\s+[A-Za-z_]\\w*\\s*\\{([\\s\\S]*?)\\}\\s*[A-Za-z_]\\w*\\s*;`, 'g');
+    return source.replace(block, (declaration, body) => {
+      const containsReflectedMember = [...memberNames].some((name) =>
+        new RegExp(`\\b${name.replace(/[.*+?^${}()|[\\]\\\\]/g, '\\$&')}\\b`).test(body));
+      return containsReflectedMember ? '' : declaration;
+    });
+  }
+
+  function flatInterfaceVariables(source, qualifier) {
+    const declaration = new RegExp(
+      `(?:layout\\s*\\([^)]*\\)\\s*)?\\b${qualifier}\\s+` +
+      `(?:(?:highp|mediump|lowp)\\s+)?([A-Za-z_]\\w*)\\s+([A-Za-z_]\\w*)\\s*;`,
+      'g');
+    return [...source.matchAll(declaration)].map((match) => ({ type: match[1], name: match[2] }));
+  }
+
+  function reflectedVariable(variables, item, index) {
+    const member = String(item?.name || '');
+    const exact = variables.find((variable) =>
+      variable.name === member || variable.name.endsWith(`_${member}`));
+    return exact || variables[index] || null;
+  }
+
+  function renameShaderIdentifier(source, currentName, nextName) {
+    if (!currentName || currentName === nextName) return source;
+    const escaped = currentName.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    return source.replace(new RegExp(`\\b${escaped}\\b`, 'g'), nextName);
+  }
+
+  function adaptFlatReflectedSources(vertexSource, fragmentSource, varyings) {
+    const vertexVariables = flatInterfaceVariables(vertexSource, 'out');
+    const fragmentVariables = flatInterfaceVariables(fragmentSource, 'in');
+    if (!vertexVariables.length || !fragmentVariables.length) return null;
+
+    let vertex = vertexSource;
+    let fragment = fragmentSource;
+    let renamed = false;
+    varyings.forEach((varying, index) => {
+      const vertexVariable = reflectedVariable(vertexVariables, varying.output, index);
+      const fragmentVariable = reflectedVariable(fragmentVariables, varying.input, index);
+      if (!vertexVariable || !fragmentVariable) return;
+      vertex = renameShaderIdentifier(vertex, vertexVariable.name, varying.name);
+      fragment = renameShaderIdentifier(fragment, fragmentVariable.name, varying.name);
+      renamed = true;
+    });
+
+    return renamed ? { vertex, fragment, geometryFallback: false } : null;
+  }
+
+  function adaptReflectedSourcesForWebgl(vertexSource, fragmentSource, vertexInterface, fragmentInterface) {
+    const outputs = (vertexInterface?.outputs || []).filter((item) => item?.builtIn || item?.location != null);
+    const inputs = (fragmentInterface?.inputs || []).filter((item) => item?.builtIn || item?.location != null);
+    if (!outputs.length) return null;
+
+    const position = outputs.find(interfacePosition);
+    const varyingOutputs = outputs.filter((item) => !interfacePosition(item));
+    const varyings = varyingOutputs
+      .map((output, index) => ({
+        output,
+        input: inputs.find((candidate) => sameInterfaceSlot(output, candidate)),
+        name: interfaceName(output, index),
+      }))
+      .filter((item) => item.input);
+
+    // SPIRV-Cross often emits interface members as flat variables such as
+    // `_return_Color` and `fragment_Color`. WebGL links by variable name, so
+    // normalize both stages to the same location-derived reflected name.
+    const flatSources = adaptFlatReflectedSources(
+      vertexSource,
+      fragmentSource,
+      varyings);
+    if (flatSources) return flatSources;
+
+    const assignment = extractReturnAssignment(vertexSource);
+    if (!assignment) return null;
+
+    const outputArguments = assignment.arguments;
+    const returnOutputs = outputs.filter((item) => item.isReturnValue !== false);
+    const argumentFor = (item) => {
+      if (item?.isReturnValue === false) return null;
+      const index = returnOutputs.indexOf(item);
+      if (index < 0) return null;
+      if (assignment.isConstructor) return outputArguments[index] || null;
+      const expression = assignment.expression;
+      const member = String(item?.name || '');
+      return member && member !== '__return' && member !== '_return'
+        ? `${expression}.${member}`
+        : expression;
+    };
+
+    const positionArgument = position ? argumentFor(position) : null;
+    const hasPositionWrite = /\bgl_Position\s*=/.test(vertexSource);
+    const replacement = [];
+    if (positionArgument && !hasPositionWrite) replacement.push(`gl_Position = ${positionArgument};`);
+    else if (!hasPositionWrite) return null;
+
+    for (const varying of varyings) {
+      const value = argumentFor(varying.output);
+      if (value) replacement.push(`${varying.name} = ${value};`);
+    }
+
+    if (!replacement.length) return null;
+
+    let vertex = vertexSource.replace(assignment.text, replacement.join('\n    '));
+    let fragment = fragmentSource;
+    const vertexByLocation = new Map(varyings.map((varying) => [varying.output.location, varying.name]));
+    for (const input of inputs) {
+      const name = vertexByLocation.get(input.location);
+      if (!name) continue;
+      const escaped = String(input.name || '').replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+      if (!escaped) continue;
+      fragment = fragment.replace(new RegExp(`\\b[A-Za-z_]\\w*\\.${escaped}\\b`, 'g'), name);
+    }
+
+    // WebGL/ANGLE can flatten interface blocks using their instance names,
+    // making otherwise compatible blocks link as different varyings. Once the
+    // reflected members use canonical location-based names, remove the old
+    // blocks so only the canonical varyings participate in linking.
+    vertex = removeInterfaceBlocks(vertex, 'out', varyingOutputs);
+    fragment = removeInterfaceBlocks(fragment, 'in', inputs);
+
+    const vertexDeclarations = varyings
+      .map((varying) => `out highp ${glslType(varying.output.type)} ${varying.name};`)
+      .join('\n');
+    const fragmentDeclarations = varyings
+      .map((varying) => `in highp ${glslType(varying.output.type)} ${varying.name};`)
+      .join('\n');
+
+    if (vertexDeclarations) vertex = insertShaderDeclarations(vertex, vertexDeclarations);
+    if (fragmentDeclarations) fragment = insertShaderDeclarations(fragment, fragmentDeclarations);
+    fragment = fragment.replace(/\.X\b/g, '.x').replace(/\.Y\b/g, '.y').replace(/\.Z\b/g, '.z').replace(/\.W\b/g, '.w');
+    return { vertex, fragment, geometryFallback: false };
+  }
+
+  function adaptSourcesForWebgl(vertexSource, fragmentSource, vertexInterface, fragmentInterface) {
+    if (vertexInterface?.outputs?.length || fragmentInterface?.inputs?.length) {
+      return adaptReflectedSourcesForWebgl(vertexSource, fragmentSource, vertexInterface, fragmentInterface);
+    }
+
     const descriptor = sourceInterface();
     if (!descriptor?.fields.length) return null;
     const assignment = /_return\s*=\s*[A-Za-z_]\w*\(([^;]*)\);/.exec(vertexSource);
@@ -292,12 +470,7 @@
     const varyings = descriptor.fields.map((field, index) => ({ ...field, index, location: index < positionIndex ? index : index - 1 })).filter((field) => !field.position);
     const vertexDeclarations = varyings.map((field) => `out highp ${glslType(field.type)} _pg_${field.name};`).join('\n');
     const fragmentDeclarations = varyings.map((field) => `in highp ${glslType(field.type)} _pg_${field.name};`).join('\n');
-    const consumesGeometry = /\bgl_VertexID\b/.test(vertexSource)
-      || /(?:layout\s*\([^)]*\)\s*)?in\s+(?:(?:lowp|mediump|highp)\s+)?(?:float|vec[234]|int|ivec[234]|uint|uvec[234])\s+\w+\s*;/m.test(vertexSource);
-    const positionAssignment = consumesGeometry
-      ? `gl_Position = ${argumentsList[positionIndex]};`
-      : `vec2 _pg_position = gl_VertexID == 0 ? vec2(-0.78, -0.68) : (gl_VertexID == 1 ? vec2(0.0, 0.78) : vec2(0.78, -0.68));
-    gl_Position = vec4(_pg_position, 0.0, 1.0);`;
+    const positionAssignment = `gl_Position = ${argumentsList[positionIndex]};`;
     const replacement = [positionAssignment, ...varyings.map((field) => `_pg_${field.name} = ${argumentsList[field.index]};`)].join('\n    ');
     let vertex = vertexSource.replace(assignment[0], replacement);
     let fragment = fragmentSource;
@@ -308,7 +481,7 @@
     fragment = fragment.replace(/\.X\b/g, '.x').replace(/\.Y\b/g, '.y').replace(/\.Z\b/g, '.z').replace(/\.W\b/g, '.w');
     if (vertexDeclarations) vertex = insertShaderDeclarations(vertex, vertexDeclarations);
     if (fragmentDeclarations) fragment = insertShaderDeclarations(fragment, fragmentDeclarations);
-    return { vertex, fragment, geometryFallback: !consumesGeometry };
+    return { vertex, fragment, geometryFallback: false };
   }
 
   function attributeValues(name, components) {
@@ -409,7 +582,7 @@
     const pair = previewPair(outputs);
     if (!pair) {
       disposePreviewProgram();
-      setPreviewState('idle', T('Waiting for shaders'), T('The preview needs one vertex and one fragment entry point.'), T('Add compatible vertex and fragment entry points to start the preview.'));
+      setPreviewState(T('The preview needs one vertex and one fragment entry point.'), T('Add compatible vertex and fragment entry points to start the preview.'));
       return;
     }
     const gl = ensurePreviewContext();
@@ -421,7 +594,11 @@
       try {
         program = linkPreviewProgram(gl, pair.vertex.glslEs, pair.fragment.glslEs);
       } catch (originalError) {
-        const sources = adaptSourcesForWebgl(pair.vertex.glslEs, pair.fragment.glslEs);
+        const sources = adaptSourcesForWebgl(
+          pair.vertex.glslEs,
+          pair.fragment.glslEs,
+          pair.vertex.interface,
+          pair.fragment.interface);
         if (!sources) throw originalError;
         program = linkPreviewProgram(gl, sources.vertex, sources.fragment);
         adapted = true;
@@ -436,11 +613,11 @@
         adapted ? T('WebGL interface adapter') : '',
         geometryFallback ? T('Preview geometry') : '',
       ].filter(Boolean);
-      setPreviewState('ok', T('Live'), `${pair.shader.fullName || pair.shader.name} · ${pair.vertex.name} + ${pair.fragment.name}${previewNotes.length ? ` · ${previewNotes.join(' · ')}` : ''}`);
+      setPreviewState(`${pair.shader.fullName || pair.shader.name} · ${pair.vertex.name} + ${pair.fragment.name}${previewNotes.length ? ` · ${previewNotes.join(' · ')}` : ''}`);
       drawPreviewFrame(performance.now());
     } catch (error) {
       const message = String(error?.message || error).replace(/^ERROR:\s*/i, '');
-      setPreviewState('error', T('Preview paused'), T('The last valid frame remains visible.'), message);
+      setPreviewState(T('The last valid frame remains visible.'), message);
     }
   }
 
@@ -744,6 +921,35 @@
   /* ----------------------------------------------------------- rendering */
   let lastDiagnostics = [];
   const selectedOutput = {};
+  const copyIcon = '<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V6a2 2 0 0 1 2-2h9"/></svg>';
+  const expandIcon = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 4H4v5M15 4h5v5M20 15v5h-5M4 15v5h5"/></svg>';
+
+  function codeActions(panel, copyLabel, expandLabel) {
+    const expanded = el.root.classList.contains('pg--output-expanded');
+    const currentExpandLabel = expanded ? T('Restore workspace') : expandLabel;
+    return `<button class="pg-icon-button" type="button" data-copy-output="${esc(panel)}" aria-label="${esc(copyLabel)}" title="${esc(copyLabel)}">${copyIcon}</button>
+      <button class="pg-icon-button" type="button" data-expand-output="${esc(panel)}" aria-pressed="${expanded}" aria-label="${esc(currentExpandLabel)}" title="${esc(currentExpandLabel)}">${expandIcon}</button>`;
+  }
+
+  function wireCodeActions(container, text, labels) {
+    const status = $('[data-output-status]', container);
+    $('[data-copy-output]', container)?.addEventListener('click', async () => {
+      try {
+        await navigator.clipboard.writeText(text);
+        status.textContent = labels.copied;
+      } catch {
+        status.textContent = labels.copyFailed;
+      }
+    });
+    $('[data-expand-output]', container)?.addEventListener('click', (event) => {
+      const button = event.currentTarget;
+      const expanded = el.root.classList.toggle('pg--output-expanded');
+      const label = expanded ? T('Restore workspace') : labels.expand;
+      button.setAttribute('aria-pressed', String(expanded));
+      button.setAttribute('aria-label', label);
+      button.title = label;
+    });
+  }
 
   function renderSpirv(sp) {
     if (!sp?.text) {
@@ -757,18 +963,13 @@
         <div class="pg-spirv-title"><span>SPIR-V</span><strong>${instructions} ${esc(T('instructions'))}</strong></div>
         <div class="pg-spirv-actions">
           ${sp.base64 ? `<button type="button" class="pg-btn" id="pg-dl">${T('Download .spv')}</button>` : ''}
-          <button class="pg-icon-button" type="button" id="pg-spirv-copy" aria-label="${esc(T('Copy SPIR-V'))}" title="${esc(T('Copy SPIR-V'))}">
-            <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="1"/><path d="M15 9V5a1 1 0 0 0-1-1H5a1 1 0 0 0-1 1v9a1 1 0 0 0 1 1h4"/></svg>
-          </button>
-          <button class="pg-icon-button" type="button" id="pg-spirv-expand" aria-pressed="${el.root.classList.contains('pg--ir-expanded')}" aria-label="${esc(T('Expand SPIR-V'))}" title="${esc(T('Expand SPIR-V'))}">
-            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 4H4v5M15 4h5v5M20 15v5h-5M4 15v5h5"/></svg>
-          </button>
+          ${codeActions('spirv', T('Copy SPIR-V'), T('Expand SPIR-V'))}
         </div>
       </header>
       <div class="pg-spirv-code" role="region" aria-label="SPIR-V Assembly" tabindex="0">
         <div class="pg-spirv-assembly">${spirvAssembly(sp.text)}</div>
       </div>
-      <p class="pg-spirv-status" aria-live="polite"></p>
+      <p class="pg-spirv-status" data-output-status aria-live="polite"></p>
     </section>`;
 
     $('#pg-dl')?.addEventListener('click', () => {
@@ -776,20 +977,10 @@
       const a = Object.assign(document.createElement('a'), { href: URL.createObjectURL(new Blob([bin])), download: 'shader.spv' });
       a.click(); URL.revokeObjectURL(a.href);
     });
-    $('#pg-spirv-copy')?.addEventListener('click', async () => {
-      const status = $('.pg-spirv-status', el.panels.spirv);
-      try {
-        await navigator.clipboard.writeText(sp.text);
-        status.textContent = T('SPIR-V copied');
-      } catch {
-        status.textContent = T('Could not copy SPIR-V');
-      }
-    });
-    $('#pg-spirv-expand')?.addEventListener('click', () => {
-      const expanded = el.root.classList.toggle('pg--ir-expanded');
-      $('#pg-spirv-expand').setAttribute('aria-pressed', String(expanded));
-      $('#pg-spirv-expand').setAttribute('aria-label', T(expanded ? 'Restore workspace' : 'Expand SPIR-V'));
-      $('#pg-spirv-expand').title = T(expanded ? 'Restore workspace' : 'Expand SPIR-V');
+    wireCodeActions(el.panels.spirv, sp.text, {
+      copied: T('SPIR-V copied'),
+      copyFailed: T('Could not copy SPIR-V'),
+      expand: T('Expand SPIR-V'),
     });
   }
 
@@ -814,7 +1005,10 @@
     el.panels[panel].innerHTML = `<section class="pg-output-explorer" aria-label="${esc(label)}">
       <header class="pg-output-header">
         <div><span class="pg-eyebrow">${esc(T('Generated code'))}</span><h2>${esc(label)}</h2></div>
-        <span>${variants.length} ${esc(variants.length === 1 ? T('entry point') : T('entry points'))}</span>
+        <div class="pg-output-actions">
+          <span class="pg-output-count">${variants.length} ${esc(variants.length === 1 ? T('entry point') : T('entry points'))}</span>
+          ${codeActions(panel, `${T('Copy code')} · ${label}`, `${T('Expand code')} · ${label}`)}
+        </div>
       </header>
       <div class="pg-variant-cards" role="tablist" aria-label="${esc(T('Entry point'))}">
         ${variants.map((variant) => {
@@ -825,12 +1019,18 @@
         }).join('')}
       </div>
       <div class="pg-output-code" role="region" aria-label="${esc(label)}" tabindex="0"><pre><code>${esc(selected.text)}</code></pre></div>
+      <p class="pg-output-status" data-output-status aria-live="polite"></p>
     </section>`;
 
     $$('.pg-variant-card', el.panels[panel]).forEach((card) => card.addEventListener('click', () => {
       selectedOutput[panel] = card.dataset.outputKey;
       renderBackendOutput(panel, label, property, outputs);
     }));
+    wireCodeActions(el.panels[panel], selected.text, {
+      copied: T('Code copied'),
+      copyFailed: T('Could not copy code'),
+      expand: `${T('Expand code')} · ${label}`,
+    });
   }
 
   function renderDiagnostics(diags) {
@@ -849,7 +1049,7 @@
     const errors = renderDiagnostics(result.diagnostics || []);
 
     if (errors || result.ok === false) {
-      setPreviewState('error', T('Preview paused'), T('Fix the diagnostics to update the live preview.'), T('The last valid frame remains visible while the code contains errors.'));
+      setPreviewState(T('The last valid frame remains visible while the code contains errors.'), T('Fix the diagnostics to update the live preview.'));
       if (focusResults && mobileViewport.matches) setMobileView('results');
       return errors;
     }
@@ -926,14 +1126,14 @@
     liveCompileTimer = setTimeout(async () => {
       if (running || liveCompiling) { scheduleLiveCompile(300); return; }
       liveCompiling = true;
-      setPreviewState('busy', T('Updating…'), T('Compiling the latest changes…'));
+      setPreviewState(T('Compiling the latest changes…'));
       try {
         const style = (examples.find((e) => e.id === el.example.value) || {}).style || '';
         const result = await backend.compile(clone(project.files), { style });
         if (sequence === liveCompileSequence) render(result, { focusResults: false });
       } catch (error) {
         if (sequence === liveCompileSequence) {
-          setPreviewState('error', T('Preview paused'), T('The live compiler could not update the preview.'), String(error?.message || error));
+          setPreviewState(T('The live compiler could not update the preview.'), String(error?.message || error));
         }
       } finally {
         liveCompiling = false;
@@ -984,6 +1184,7 @@
 
   /* --------------------------------------------------------------- start */
   async function start() {
+    setLoading(!backend);
     const params = new URLSearchParams(location.search);
     const hash = new URLSearchParams(location.hash.slice(1));
     let files = null;
@@ -1129,8 +1330,21 @@
       showBackend();
       try {
         const head = await fetch(root + 'playground-app/_framework/blazor.boot.json', { method: 'HEAD' });
-        if (head.ok) { el.status.textContent = T('Loading compiler…'); setState('busy'); await api.connectBlazor(); }
-      } catch { if (!backend) el.status.textContent = T('Compiler unavailable'); }
+        if (head.ok) {
+          el.loadingDetail.textContent = T('Loading compiler…');
+          el.status.textContent = T('Loading compiler…');
+          setState('busy');
+          await api.connectBlazor();
+        } else if (!backend) {
+          setLoading(false);
+          el.status.textContent = T('Compiler unavailable');
+        }
+      } catch {
+        if (!backend) {
+          setLoading(false);
+          el.status.textContent = T('Compiler unavailable');
+        }
+      }
     }
   }
   start();

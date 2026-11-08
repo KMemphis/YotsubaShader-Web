@@ -33,6 +33,15 @@ export default function playground() {
       scripts: ['/js/playground.js'],
       body: `
 <div class="pg" id="pg">
+  <div class="pg-loading" id="pg-loading" role="status" aria-live="polite" aria-busy="true">
+    <div class="pg-loading-card">
+      <span class="pg-loading-spinner" aria-hidden="true"></span>
+      <div>
+        <p class="pg-loading-title">Loading Playground</p>
+        <p class="pg-loading-detail" id="pg-loading-detail">Preparing the compiler…</p>
+      </div>
+    </div>
+  </div>
   <header class="pg-toolbar">
     <div class="pg-toolbar-leading">
       <button class="pg-icon-button" type="button" id="pg-navigator-toggle" aria-controls="pg-navigator" aria-expanded="true" title="Hide navigator">
@@ -90,7 +99,6 @@ export default function playground() {
             <span class="pg-eyebrow">WebGL2</span>
             <h2 id="pg-preview-title">Live preview</h2>
           </div>
-          <span class="pg-preview-status" id="pg-preview-status" data-state="idle">Waiting for shaders</span>
         </header>
         <div class="pg-preview-surface">
           <canvas id="pg-preview-canvas" aria-label="Live shader preview"></canvas>
@@ -129,7 +137,7 @@ export default function playground() {
     </aside>
   </div>
   <button class="pg-backdrop" id="pg-backdrop" type="button" aria-label="Close navigator" hidden></button>
-  <footer class="pg-statusbar"><span class="pg-status" id="pg-status" role="status" data-state="off"></span><span class="pg-shortcut">Ctrl / ⌘ Enter <span>to compile</span></span></footer>
+  <footer class="pg-statusbar"><span class="pg-status sr-only" id="pg-status" role="status" data-state="off"></span><span class="pg-shortcut">Ctrl / ⌘ Enter <span>to compile</span></span></footer>
 </div>
 <script type="application/json" id="pg-examples">${JSON.stringify(examples).replace(/</g, '\\u003c')}</script>
 <noscript><p style="padding:24px">The playground needs JavaScript.</p></noscript>`,
