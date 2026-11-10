@@ -12,3 +12,6 @@ promo-video/remotion/public/intro/
 # build output of guide tooling
 guide/tools/check/bin/
 guide/tools/check/obj/
+
+# Yotsuba Engine site: its own repository, cloned here
+/YotsubaEngine-Web/
