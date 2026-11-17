@@ -121,6 +121,19 @@ ${code('bash', `dotnet run --project YotsubaShader.CLI/YotsubaShader.CLI.csproj 
   add Game.Graphics.csproj --target spirv`, 'add.sh')}
 <p>The <code>add</code> command writes <code>YotsubaShader.g.cs</code> beside the project. It contains the public static <code>YotsubaShader_ShadersCompilations</code> extension class with <code>ToSpirV</code>, <code>ToHlsl(Stage)</code>, <code>ToGlsl(Stage)</code>, <code>ToGlslEs(Stage)</code>, and <code>ToMSL(Stage)</code>. SPIR-V is returned as <code>byte[]</code>; the other accessors return readable shader source strings embedded as raw C# literals.</p>
 <p>The generated class is marked <code>CompilerGenerated</code> and <code>EditorBrowsable(Never)</code>, so it stays out of normal IntelliSense lists while remaining available to the project. The current CLI requires one <code>--target</code> argument for <code>add</code>, but the helper set is generated for every discovered shader stage; use <code>compile</code> when you need target-specific files.</p>
+<h2>Engine plugins</h2>
+<p>MonoGame, KNI, and FNA effect files are produced by plugins, not by the CLI itself. A plugin is a NuGet package (<code>YotsubaShader.Extensions.MonoGame</code>, <code>.KNI</code>, <code>.FNA</code>). The first time you use its target, the CLI reads the plugin catalog (<code>plugins.json</code>), installs the latest version of the package, and updates it on later runs.</p>
+${code('bash', `yotsuba plugin list
+yotsuba plugin install monogame
+yotsuba compile Game.Graphics.csproj --target monogame --target kni --target fna
+yotsuba add Game.Graphics.csproj --target spirv --target monogame --target kni --target fna`, 'plugins.sh')}
+<p><code>compile</code> writes one file per shader (and one per platform for MonoGame, such as <code>.desktopgl.mgfx</code>). <code>add</code> embeds the bytes in <code>YotsubaShader.g.cs</code>, so the game does not need the plugin at run time:</p>
+${code('csharp', `byte[] mgfx = new TriangleShader().ToMGFX(MonoGamePlatform.DesktopGL);
+byte[] knifx = new TriangleShader().ToKNIWebGL_FX();
+byte[] fxb = new TriangleShader().ToFNA_FX();
+
+var effect = new Effect(GraphicsDevice, mgfx);`, 'LoadEffect.cs')}
+<p>Only the plugins named with <code>--target</code> are generated into <code>YotsubaShader.g.cs</code>.</p>
 <p>The existing source generator builds the compiler instruction table internally. It is separate from the application-project <code>add</code> command.</p>
 <p><a href="/technologies/compilation/">See the illustrated compilation process.</a></p>
 `,

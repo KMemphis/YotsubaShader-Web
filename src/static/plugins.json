@@ -1,0 +1,34 @@
+[
+  {
+    "name": "monogame",
+    "description": "MonoGame backend. Compiles shaders to MGFX effects for every MonoGame platform.",
+    "package": "YotsubaShader.Extensions.MonoGame",
+    "extension": ".mgfx",
+    "method": "ToMGFX",
+    "optionsEnum": "MonoGamePlatform",
+    "optionsParameter": "platform",
+    "options": [
+      { "name": "DesktopGL", "value": 0 },
+      { "name": "WindowsDX11", "value": 1 },
+      { "name": "WindowsDirectX12", "value": 2 },
+      { "name": "DesktopVulkan", "value": 3 },
+      { "name": "iOS", "value": 4 },
+      { "name": "Android", "value": 5 },
+      { "name": "GL4", "value": 6 }
+    ]
+  },
+  {
+    "name": "kni",
+    "description": "KNI backend. Compiles shaders to WebGL effects (.knifx).",
+    "package": "YotsubaShader.Extensions.KNI",
+    "extension": ".knifx",
+    "method": "ToKNIWebGL_FX"
+  },
+  {
+    "name": "fna",
+    "description": "FNA backend. Compiles shaders to FNA effects (.fxb).",
+    "package": "YotsubaShader.Extensions.FNA",
+    "extension": ".fxb",
+    "method": "ToFNA_FX"
+  }
+]
