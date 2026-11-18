@@ -42,8 +42,9 @@ jobs:
             YotsubaShader.SpirvSyntax
             YotsubaShader.WgslSyntax
             YotsubaShader.IR
-            YotsubaShader.Compiler
+            YotsubaShader.Compiler.Library
             YotsubaShader.Compiler.SpirV
+            YotsubaShader.Extensions
             YotsubaShader.Generator
             YotsubaShader.Roslyn
             YotsubaShaderCross

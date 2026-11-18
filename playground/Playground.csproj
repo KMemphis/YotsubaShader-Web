@@ -19,7 +19,7 @@
     <ProjectReference Include="..\..\YotsubaShader.SpirvSyntax\YotsubaShader.SpirvSyntax.csproj" />
     <ProjectReference Include="..\..\YotsubaShader.WgslSyntax\YotsubaShader.WgslSyntax.csproj" />
     <ProjectReference Include="..\..\YotsubaShader.IR\YotsubaShader.IR.csproj" />
-    <ProjectReference Include="..\..\YotsubaShader.Compiler\YotsubaShader.Compiler.csproj" />
+    <ProjectReference Include="..\..\YotsubaShader.Compiler.Library\YotsubaShader.Compiler.Library.csproj" />
     <ProjectReference Include="..\..\YotsubaShader.Roslyn\YotsubaShader.Roslyn.csproj" />
   </ItemGroup>
 
