@@ -1,0 +1,128 @@
+{
+  "title": "How a shader is built",
+  "series": "Yotsuba Shader · Get Started · 2",
+  "voice": "Orus",
+  "model": "gemini-3.8-flash-tts",
+  "captionReplace": [
+    [
+      "nineteen twenty",
+      "1920"
+    ],
+    [
+      "G L Position",
+      "gl_Position"
+    ],
+    [
+      "S V Position",
+      "SV_Position"
+    ],
+    [
+      "S V Target",
+      "SV_Target0"
+    ],
+    [
+      "TEXCOORD zero",
+      "TEXCOORD0"
+    ],
+    [
+      "TEXCOORD one",
+      "TEXCOORD1"
+    ],
+    [
+      "C plus plus",
+      "C++"
+    ]
+  ],
+  "scenes": [
+    {
+      "id": "v2-s01-hook",
+      "narration": "This is a triangle. It has three corners, and each corner has a color: red, green and blue. The GPU turns those three points into thousands of colored pixels. In this video we follow that path from start to finish, and we build the shader for this triangle piece by piece. On the left you will see it in C#, and on the right the same shader in GLSL and HLSL, the languages that GPUs understand. You will not write any code yet. The goal is to see how each idea becomes lines of code.",
+      "voice": "Orus",
+      "visual": ""
+    },
+    {
+      "id": "v2-s02-triangles",
+      "narration": "Everything on screen is drawn with triangles. The GPU knows very few shapes, and the triangle is the one used for almost everything. A rectangle is two triangles. A round shape is many small triangles. A character in a 3D game is thousands. Each corner of a triangle is called a vertex. It is a word you will read all the time, and it only means that: a point, a corner. Look at the rectangle. It has four vertices, not six, because its two triangles share two corners. Why triangles, and not squares or circles? Because the triangle is the simplest shape that has a filling. Three points make a flat surface, without folds. So the GPU can fill it fast, and any other shape can be built from triangles.",
+      "voice": "Fola",
+      "visual": ""
+    },
+    {
+      "id": "v2-s03-struct",
+      "narration": "To draw our triangle, the game sends the GPU a list with its three vertices, and with each vertex it sends some data. In this shader that data is two things: where the vertex is, and what color it is. This is the first piece of code. A packet of data is a struct in C#, and here it is on the left, with the same thing in GLSL on the right. We call it Corner, because each vertex is a corner of the triangle. It has a position, with two numbers, and a color, with four: red, green, blue and opacity. The struct does not hold the values. It only describes what each vertex looks like. The values come from the game: the top vertex is at zero, point eight, and it is red. The bottom left one is green, and the bottom right one is blue.",
+      "voice": "Orus",
+      "visual": ""
+    },
+    {
+      "id": "v2-s04-carry",
+      "narration": "The position and the color are what this triangle needs, but a vertex can carry other data, and you decide which. A common one is the UV, two numbers that say which point of a texture belongs to this vertex. Another is the normal, three numbers that say where the surface points, and it is used for lighting. There is also the tangent, and the bone indices and weights that animate a character. And you can invent your own, such as a temperature, as a single number. Each piece of data is a float, an int or a uint, alone or in groups of two, three or four. In C# those are float, vec2, vec3 and vec4, plus the int and uint versions. So a color can be a vec4, with opacity, or a vec3 if you do not need it. A position can be a vec2, a vec3 or a vec4. Something bigger, like a matrix, takes several slots, and we are about to see what a slot is. One thing to keep in mind: the GPU does not know what the data means. A vec4 is four numbers, whether you put a color in it or a position. The meaning is only in how you use it inside the shader.",
+      "voice": "Fola",
+      "visual": ""
+    },
+    {
+      "id": "v2-s05-slots",
+      "narration": "Look at the number between brackets in each field. It is called location, and it is the slot where that data travels. The game says: position in slot zero, color in slot one. And the Corner struct says: I read the position from slot zero and the color from slot one. They understand each other by the number. In HLSL the slot is written as a semantic, TEXCOORD zero and TEXCOORD one. Which number goes with which data is up to you. Slot zero is not the position by rule. You could put the color in slot zero and the position in slot one, as long as the game does the same. The GPU only sees the number and the type: slot zero, two floats, and slot one, four floats. Each slot holds up to four numbers, and every GPU offers at least sixteen of them for the vertex data. If you get a number wrong, no error appears. The shader reads the wrong data and the drawing comes out wrong.",
+      "voice": "Orus",
+      "visual": ""
+    },
+    {
+      "id": "v2-s05b-languages",
+      "narration": "A question may have come up. The number between brackets is called location, and that is GLSL, the language of OpenGL and Vulkan. HLSL, the language of DirectX, names the same thing with a word and an index, like TEXCOORD zero. So which one do you use? Whichever you already know. Yotsuba Shader understands the attributes of both languages. Here is our Corner written the GLSL way, and next to it the real GLSL that the compiler generates. And here it is written the HLSL way, with its real HLSL on the right. They look different, but the compiler knows they say the same thing: a channel of data between two stages. Each language has its own words for the same concepts, and Yotsuba Shader knows the concept behind each word. There is one difference worth knowing. With location, you choose the number. With a semantic like TEXCOORD, the compiler chooses the number for you, and it connects the two stages by the name. You can also mix them in the same shader. Here the position uses the HLSL word POSITION, and the color uses location one. The compiler gives the position the free number, zero, and the shader works. Whichever style you choose, Yotsuba Shader generates the same outputs: GLSL and GLSL ES, HLSL, Metal, SPIR-V and C plus plus. We compiled these three versions with the real compiler. The GLSL, GLSL ES, Metal and C plus plus files came out identical, character by character. HLSL and SPIR-V only keep the names you wrote. From here on we keep building the shader with the HLSL attributes, so you can read each line next to real HLSL. Everything we see also works with location.",
+      "voice": "Fola",
+      "visual": "Four-pane comparison of GLSL-style and HLSL-style C# against real compiler output, mixed example, identical outputs."
+    },
+    {
+      "id": "v2-s06-coordinates",
+      "narration": "Let us look at the position, two numbers. What do they mean? A screen can be nineteen twenty pixels wide, or eight hundred, or four thousand. So the same drawing works on all of them, the GPU does not measure in pixels. It uses one ruler. The center of the screen is zero, zero. The left edge is minus one, and the right edge is one. The bottom edge is minus one, and the top edge is one. So the top vertex, at zero and zero point eight, is centered and close to the top edge. One warning. If you have programmed in 2D, you are used to Y growing downward. Here it is the other way around. Y grows upward.",
+      "voice": "Orus",
+      "visual": ""
+    },
+    {
+      "id": "v2-s07-vertex",
+      "narration": "Now the first function you write. The GPU takes the list and calls your Vertex function once for each vertex. Three vertices, three calls. Each call receives a single Corner and does not see the other two. In the code, the attribute ShaderStage Vertex is what turns this method into the Vertex stage, and the Pixel struct is what it returns. The function has two jobs. First, say where that vertex ends up on the screen. It is mandatory, and it goes in a special field, called G L Position in the GLSL style and S V Position in the HLSL style. The GPU keeps that one for itself, so it has no slot. Second, pass on the data the next stage will need. It is optional, and you choose which. Here it is the color, and this one does travel in a slot.",
+      "voice": "Fola",
+      "visual": ""
+    },
+    {
+      "id": "v2-s08-position",
+      "narration": "If the game already sent the position, why return it again? Because in a real game the vertices are rarely sent already in place. The shape of a character is sent once, and the Vertex stage is what moves it around the map, rotates it, or makes it small when it is far away. In our triangle it changes nothing, but the function still has to answer. Now look at this line. The game sent two numbers, X and Y, but the GPU asks for the final position with four. The first two are your X and your Y. The third is the depth, and the fourth is used for perspective in 3D. While you draw in 2D, those two are zero and one. The second job is the next line: the color goes through unchanged.",
+      "voice": "Orus",
+      "visual": ""
+    },
+    {
+      "id": "v2-s09-pixels",
+      "narration": "With the three final positions, the GPU knows where the triangle is on the screen. There is no code for this step, you do not write it. The GPU works out which pixels fall inside. A small triangle may cover a few hundred. A rectangle that covers a Full HD screen covers more than two million. All of those pixels are about to receive a color, and the question is where each one comes from.",
+      "voice": "Fola",
+      "visual": ""
+    },
+    {
+      "id": "v2-s10-spread",
+      "narration": "Here is something that is rarely explained, and it is the key to what follows. The Vertex function returned three colors, one per vertex. But the triangle has thousands of pixels. Which color does each one get? The GPU spreads them. Each pixel receives a mix of the three, depending on how close it is to each vertex. A pixel next to the red vertex gets mostly red. A pixel halfway between red and green gets half of each. A pixel in the center gets a third of each. This is not special to colors. The GPU does not know they are colors, so it spreads any number that Vertex passes through, the Color field of Pixel in our case. Remember this: what the Vertex function returns is not what the Fragment function receives. Vertex returns three values. Fragment receives thousands, one per pixel, each a different mix. The technical name is interpolation. Here we call it spreading.",
+      "voice": "Orus",
+      "visual": ""
+    },
+    {
+      "id": "v2-s11-fragment",
+      "narration": "The second function you write is Fragment. The GPU calls it once for each pixel inside the triangle, and it hands over the spread data for that pixel, in a Pixel struct. It has one job: return the color of that pixel, as a vec4. A color is four numbers, and each one goes from zero to one, not from zero to 255. Red is one, zero, zero. White is one, one, one. Black is zero, zero, zero. Gray is point five, point five, point five. The fourth number is the opacity: one is solid, and zero is fully transparent. In our triangle Fragment does the simplest thing: it returns the color it receives. The whole gradient came from the spreading. It could do more with it: darken it, ignore it and return red, or compute another color with a formula. That is what writing shaders is. One limit: each call lives alone. It knows nothing about the other pixels, remembers nothing, and there is no loop over the pixels. The loop is the GPU. You write what happens with one.",
+      "voice": "Fola",
+      "visual": ""
+    },
+    {
+      "id": "v2-s12-doors",
+      "narration": "Back to the slots, because there is something that confuses almost everyone. There is not one row of slots. There are three, one for each door the data crosses. Door A is what the game sends to Vertex: the Corner struct. Door B is what Vertex passes to Fragment: the Pixel struct. Door C is what Fragment returns, In the GLSL style it is marked with return location zero, and in the HLSL style with S V Target. Each door counts from zero on its own. That is why slot zero appears three times in the code, and each time it carries something different: the position at door A, the color at door B, and the final pixel color at door C. It is like three buildings on the same street. All of them have an apartment one, and none has anything to do with the others. Three rules. Inside one door, a number is not repeated. Both sides of a door agree on the number and the type of data. The name does not matter. And between different doors, the numbers have no relation. One more thing: the final position has no slot, because it is not for your Fragment function. It is for the GPU itself, which needs it to assemble the triangle.",
+      "voice": "Orus",
+      "visual": ""
+    },
+    {
+      "id": "v2-s13-blueprint",
+      "narration": "That is the whole shader. To build any shader, not only this triangle, you decide five things. What data each vertex carries. What Vertex passes to Fragment. What the Vertex function does. What the Fragment function does. And where the color goes. Each decision is marked in the code. Your game sends the vertices. You write the two functions and declare the three doors. The GPU calls your functions, assembles the triangles, finds the pixels and spreads the data. Notice what you do not write: the loop over the vertices, the loop over the pixels, and the spreading. The GPU does all of that.",
+      "voice": "Fola",
+      "visual": ""
+    },
+    {
+      "id": "v2-s14-recap",
+      "narration": "To sum up. Everything is drawn with triangles, and each corner is a vertex. A vertex carries the data you choose, in numbered slots. Vertex runs once per vertex and returns the final position. The GPU spreads the data among the pixels. Fragment runs once per pixel and returns its color. And each door has its own slots, counting from zero. And you can write it with GLSL or HLSL attributes, whichever you know best. In the next video, we get your project ready. See you there.",
+      "voice": "Orus",
+      "visual": ""
+    }
+  ]
+}

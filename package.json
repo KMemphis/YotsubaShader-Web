@@ -8,7 +8,7 @@
     "build": "node build.mjs",
     "dev": "node build.mjs --serve",
     "serve": "node build.mjs --serve --no-build",
-    "playground": "dotnet publish playground -c Release -o .playground-out && rm -rf src/static/playground-app && cp -R .playground-out/wwwroot src/static/playground-app"
+    "playground": "dotnet publish playground -c Release -o .local/playground-out && rm -rf src/static/playground-app && cp -R .local/playground-out/wwwroot src/static/playground-app"
   },
   "engines": {
     "node": ">=18"

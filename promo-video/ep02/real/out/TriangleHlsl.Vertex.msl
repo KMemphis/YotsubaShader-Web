@@ -1,0 +1,47 @@
+#pragma clang diagnostic ignored "-Wmissing-prototypes"
+
+#include <metal_stdlib>
+#include <simd/simd.h>
+
+using namespace metal;
+
+struct Pixel
+{
+    float4 Position;
+    float4 Color;
+};
+
+struct Vertex_out
+{
+    float4 _return_Color [[user(locn0)]];
+    float4 gl_Position [[position]];
+};
+
+struct Vertex_in
+{
+    float2 corner_Position [[attribute(0)]];
+    float4 corner_Color [[attribute(1)]];
+};
+
+static inline __attribute__((always_inline))
+float4 Vec4(float x, float y, float z, float w)
+{
+    float4 v;
+    v.x = x;
+    v.y = y;
+    v.z = z;
+    v.w = w;
+    return v;
+}
+
+vertex Vertex_out Vertex(Vertex_in in [[stage_in]])
+{
+    Vertex_out out = {};
+    Pixel pixel;
+    pixel.Position = Vec4(in.corner_Position.x, in.corner_Position.y, 0.0, 1.0);
+    pixel.Color = in.corner_Color;
+    out.gl_Position = pixel.Position;
+    out._return_Color = pixel.Color;
+    return out;
+}
+

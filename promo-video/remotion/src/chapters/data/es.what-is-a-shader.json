@@ -1,0 +1,1158 @@
+{
+ "lang": "es",
+ "page": "get-started/what-is-a-shader",
+ "title": "¿Qué es un Shader?",
+ "duration": 601.55,
+ "items": [
+  {
+   "kind": "p",
+   "block": null,
+   "text": "9 min de lectura"
+  },
+  {
+   "kind": "p",
+   "block": 1,
+   "text": "Aprende desde cero qué es un Shader.",
+   "sentences": [
+    {
+     "start": 1.98,
+     "end": 4.68,
+     "text": "Aprende desde cero qué es un Shader."
+    }
+   ],
+   "start": 1.98,
+   "end": 4.68
+  },
+  {
+   "kind": "p",
+   "block": 2,
+   "text": "Un Shader es, para que lo entiendas, una función (o método) que podemos llamar para que se ejecute en la GPU.",
+   "sentences": [
+    {
+     "start": 5.5,
+     "end": 12.16,
+     "text": "Un Shader es, para que lo entiendas, una función (o método) que podemos llamar para que se ejecute en la GPU."
+    }
+   ],
+   "start": 5.5,
+   "end": 12.16
+  },
+  {
+   "kind": "p",
+   "block": 3,
+   "text": "La GPU es la tarjeta gráfica de tu computadora. Puede ser una pieza aparte, como la de la foto, o venir dentro del mismo procesador, como en los portátiles y los teléfonos.",
+   "sentences": [
+    {
+     "start": 13.16,
+     "end": 15.68,
+     "text": "La GPU es la tarjeta gráfica de tu computadora."
+    },
+    {
+     "start": 16.22,
+     "end": 22.28,
+     "text": "Puede ser una pieza aparte, como la de la foto, o venir dentro del mismo procesador, como en los portátiles y los teléfonos."
+    }
+   ],
+   "start": 13.16,
+   "end": 22.28
+  },
+  {
+   "kind": "img",
+   "src": "/assets/get-started/gpu.jpg",
+   "alt": "Una tarjeta gráfica GeForce RTX 5090, con sus tres ventiladores"
+  },
+  {
+   "kind": "say",
+   "block": 5,
+   "text": "En la foto se ve una tarjeta gráfica vista desde arriba. Es un bloque largo y oscuro, con tres ventiladores redondos en fila y un borde de metal con los conectores. Eso es lo que mucha gente imagina cuando oye la palabra GPU: una pieza que podrías tomar con la mano y conectar al computador.",
+   "sentences": [
+    {
+     "start": 23.28,
+     "end": 26.06,
+     "text": "En la foto se ve una tarjeta gráfica vista desde arriba."
+    },
+    {
+     "start": 26.72,
+     "end": 32.6,
+     "text": "Es un bloque largo y oscuro, con tres ventiladores redondos en fila y un borde de metal con los conectores."
+    },
+    {
+     "start": 33.36,
+     "end": 36.22,
+     "text": "Eso es lo que mucha gente imagina cuando oye la palabra GPU:"
+    },
+    {
+     "start": 36.82,
+     "end": 39.98,
+     "text": "una pieza que podrías tomar con la mano y conectar al computador."
+    }
+   ],
+   "start": 23.28,
+   "end": 39.98
+  },
+  {
+   "kind": "p",
+   "block": 6,
+   "text": "Como sabes, si programas para Windows puedes usar un lenguaje como JavaScript con Node, pero no puedes usar Node para programar un sistema operativo, porque Node depende de funciones del propio sistema operativo que no existen en un entorno \"limpio\", sin sistema operativo. Algo muy parecido pasaba con C# y la GPU (antes de Yotsuba Shader).",
+   "sentences": [
+    {
+     "start": 41.25,
+     "end": 55.03,
+     "text": "Como sabes, si programas para Windows puedes usar un lenguaje como JavaScript con Node, pero no puedes usar Node para programar un sistema operativo, porque Node depende de funciones del propio sistema operativo que no existen en un entorno \"limpio\", sin sistema operativo."
+    },
+    {
+     "start": 55.77,
+     "end": 59.71,
+     "text": "Algo muy parecido pasaba con C# y la GPU (antes de Yotsuba Shader)."
+    }
+   ],
+   "start": 41.25,
+   "end": 59.71
+  },
+  {
+   "kind": "p",
+   "block": 7,
+   "text": "Hasta ahora, ninguno de los lenguajes de programación que conocemos (C#, JavaScript, Java, Rust, ...) podía ejecutarse directamente en la GPU, por una razón sencilla: tienen cosas muy difíciles de traducir, y otras que la GPU simplemente no puede hacer.",
+   "sentences": [
+    {
+     "start": 60.57,
+     "end": 69.85,
+     "text": "Hasta ahora, ninguno de los lenguajes de programación que conocemos (C#, JavaScript, Java, Rust, ...) podía ejecutarse directamente en la GPU, por una razón sencilla:"
+    },
+    {
+     "start": 70.31,
+     "end": 77.21,
+     "text": "tienen cosas muy difíciles de traducir, y otras que la GPU simplemente no puede hacer."
+    }
+   ],
+   "start": 60.57,
+   "end": 77.21
+  },
+  {
+   "kind": "h2",
+   "block": 8,
+   "text": "Ejemplos de cosas que la GPU no puede hacer",
+   "sentences": [
+    {
+     "start": 78.17,
+     "end": 81.31,
+     "text": "Ejemplos de cosas que la GPU no puede hacer"
+    }
+   ],
+   "start": 78.17,
+   "end": 81.31
+  },
+  {
+   "kind": "p",
+   "block": 9,
+   "text": "Desde la GPU no podemos acceder al sistema de archivos (Filesystem).",
+   "sentences": [
+    {
+     "start": 81.99,
+     "end": 84.81,
+     "text": "Desde la GPU no podemos acceder al sistema de archivos (Filesystem)."
+    }
+   ],
+   "start": 81.99,
+   "end": 84.81
+  },
+  {
+   "kind": "p",
+   "block": 10,
+   "text": "Es decir, algo como esta línea simplemente no funcionará:",
+   "sentences": [
+    {
+     "start": 85.81,
+     "end": 88.63,
+     "text": "Es decir, algo como esta línea simplemente no funcionará:"
+    }
+   ],
+   "start": 85.81,
+   "end": 88.63
+  },
+  {
+   "kind": "code",
+   "title": "",
+   "code": "File.WriteAllText(\"file.txt\", \"hola\"); // No existe un sistema de archivos en la GPU (al menos no como en la CPU)"
+  },
+  {
+   "kind": "say",
+   "block": 11,
+   "text": "Aquí hay una línea que escribirías sin pensarlo en un programa normal. Llamamos a File punto WriteAllText, le damos el nombre de un archivo y la palabra hola, y el computador lo guarda. En la GPU esta línea no tiene a dónde ir, porque no hay un disco donde escribir. Eso es lo que dice el comentario del final.",
+   "sentences": [
+    {
+     "start": 89.54,
+     "end": 93.02,
+     "text": "Aquí hay una línea que escribirías sin pensarlo en un programa normal."
+    },
+    {
+     "start": 93.74,
+     "end": 100.3,
+     "text": "Llamamos a File punto WriteAllText, le damos el nombre de un archivo y la palabra hola, y el computador lo guarda."
+    },
+    {
+     "start": 101.14,
+     "end": 105.98,
+     "text": "En la GPU esta línea no tiene a dónde ir, porque no hay un disco donde escribir."
+    },
+    {
+     "start": 106.72,
+     "end": 108.44,
+     "text": "Eso es lo que dice el comentario del final."
+    }
+   ],
+   "start": 89.54,
+   "end": 108.44
+  },
+  {
+   "kind": "p",
+   "block": 12,
+   "text": "Tampoco existen los string, las listas, las clases con herencia ni las excepciones.",
+   "sentences": [
+    {
+     "start": 109.56,
+     "end": 114.68,
+     "text": "Tampoco existen los string, las listas, las clases con herencia ni las excepciones."
+    }
+   ],
+   "start": 109.56,
+   "end": 114.68
+  },
+  {
+   "kind": "p",
+   "block": 13,
+   "text": "Así que puedes pensar en la GPU como una máquina sin sistema operativo. Lo que puedes ejecutar allí son, sobre todo, cuentas: sumar, multiplicar, comparar. No las cosas que normalmente haces con lenguajes pensados para la CPU, como Rust, JS, Java, Python o GDScript.",
+   "sentences": [
+    {
+     "start": 115.36,
+     "end": 118.54,
+     "text": "Así que puedes pensar en la GPU como una máquina sin sistema operativo."
+    },
+    {
+     "start": 119.28,
+     "end": 121.76,
+     "text": "Lo que puedes ejecutar allí son, sobre todo, cuentas:"
+    },
+    {
+     "start": 122.24,
+     "end": 123.96,
+     "text": "sumar, multiplicar, comparar."
+    },
+    {
+     "start": 124.76,
+     "end": 131.46,
+     "text": "No las cosas que normalmente haces con lenguajes pensados para la CPU, como Rust, JS, Java, Python o GDScript."
+    }
+   ],
+   "start": 115.36,
+   "end": 131.46
+  },
+  {
+   "kind": "h2",
+   "block": 14,
+   "text": "¿Por qué queremos ejecutar código en la GPU entonces?",
+   "sentences": [
+    {
+     "start": 132.6,
+     "end": 134.72,
+     "text": "¿Por qué queremos ejecutar código en la GPU entonces?"
+    }
+   ],
+   "start": 132.6,
+   "end": 134.72
+  },
+  {
+   "kind": "p",
+   "block": 15,
+   "text": "Aunque en la GPU no se puede hacer de todo, hay buenas razones para escribir código que se ejecute allí.",
+   "sentences": [
+    {
+     "start": 135.79,
+     "end": 141.17,
+     "text": "Aunque en la GPU no se puede hacer de todo, hay buenas razones para escribir código que se ejecute allí."
+    }
+   ],
+   "start": 135.79,
+   "end": 141.17
+  },
+  {
+   "kind": "h3",
+   "block": 16,
+   "text": "1. Para hacer muchas cuentas a la vez",
+   "sentences": [
+    {
+     "start": 142.13,
+     "end": 144.63,
+     "text": "1. Para hacer muchas cuentas a la vez"
+    }
+   ],
+   "start": 142.13,
+   "end": 144.63
+  },
+  {
+   "kind": "p",
+   "block": 17,
+   "text": "Una MacBook Air M5 suele tener 10 núcleos en su CPU. Eso quiere decir que puede hacer, como máximo, 10 cosas a la vez de verdad. A cada una de esas cosas que corren a la vez se le llama hilo.",
+   "sentences": [
+    {
+     "start": 145.53,
+     "end": 148.77,
+     "text": "Una MacBook Air M5 suele tener 10 núcleos en su CPU."
+    },
+    {
+     "start": 149.41,
+     "end": 152.93,
+     "text": "Eso quiere decir que puede hacer, como máximo, 10 cosas a la vez de verdad."
+    },
+    {
+     "start": 153.65,
+     "end": 156.61,
+     "text": "A cada una de esas cosas que corren a la vez se le llama hilo."
+    }
+   ],
+   "start": 145.53,
+   "end": 156.61
+  },
+  {
+   "kind": "p",
+   "block": 18,
+   "text": "Una GPU, en cambio, no funciona igual: por dentro tiene miles de trabajadores pequeños, y cada uno puede hacer una cuenta al mismo tiempo que los demás, sin esperar a nadie. Mientras la CPU lleva 10 hilos a la vez, la GPU lleva miles. Por eso un juego, una IA o un programa de dibujo no van lentos: la GPU puede hacer muchísimas más cuentas a la vez que la CPU.",
+   "sentences": [
+    {
+     "start": 157.19,
+     "end": 159.13,
+     "text": "Una GPU, en cambio, no funciona igual:"
+    },
+    {
+     "start": 159.57,
+     "end": 169.95,
+     "text": "por dentro tiene miles de trabajadores pequeños, y cada uno puede hacer una cuenta al mismo tiempo que los demás, sin esperar a nadie."
+    },
+    {
+     "start": 170.55,
+     "end": 173.77,
+     "text": "Mientras la CPU lleva 10 hilos a la vez, la GPU lleva miles."
+    },
+    {
+     "start": 174.19,
+     "end": 177.15,
+     "text": "Por eso un juego, una IA o un programa de dibujo no van lentos:"
+    },
+    {
+     "start": 178.05,
+     "end": 180.17,
+     "text": "la GPU puede hacer muchísimas más cuentas a la vez que la CPU."
+    }
+   ],
+   "start": 157.19,
+   "end": 180.17
+  },
+  {
+   "kind": "img",
+   "src": "/assets/get-started/cpu-vs-gpu.svg",
+   "alt": "A la izquierda la CPU con 10 cuadros grandes; a la derecha la GPU con cientos de cuadros pequeños"
+  },
+  {
+   "kind": "say",
+   "block": 20,
+   "text": "En esta imagen podemos comparar dos chips. A la izquierda, la CPU: diez cuadros grandes, cada uno un núcleo potente. A la derecha, la GPU: cientos y cientos de cuadros pequeños, apretados unos junto a otros. Diez trabajadores fuertes contra una multitud de pequeños, y esa multitud es lo que le permite a la GPU hacer tantos cálculos al mismo tiempo.",
+   "sentences": [
+    {
+     "start": 181,
+     "end": 183.18,
+     "text": "En esta imagen podemos comparar dos chips."
+    },
+    {
+     "start": 183.62,
+     "end": 185.12,
+     "text": "A la izquierda, la CPU:"
+    },
+    {
+     "start": 185.62,
+     "end": 188.36,
+     "text": "diez cuadros grandes, cada uno un núcleo potente."
+    },
+    {
+     "start": 188.96,
+     "end": 190.44,
+     "text": "A la derecha, la GPU:"
+    },
+    {
+     "start": 190.92,
+     "end": 194.24,
+     "text": "cientos y cientos de cuadros pequeños, apretados unos junto a otros."
+    },
+    {
+     "start": 195.12,
+     "end": 202.64,
+     "text": "Diez trabajadores fuertes contra una multitud de pequeños, y esa multitud es lo que le permite a la GPU hacer tantos cálculos al mismo tiempo."
+    }
+   ],
+   "start": 181,
+   "end": 202.64
+  },
+  {
+   "kind": "p",
+   "block": 21,
+   "text": "Porque la GPU solo gana cuando el trabajo se puede repartir de una forma muy concreta. Por ejemplo:",
+   "sentences": [
+    {
+     "start": 203.94,
+     "end": 207.94,
+     "text": "Porque la GPU solo gana cuando el trabajo se puede repartir de una forma muy concreta."
+    },
+    {
+     "start": 208.48,
+     "end": 208.88,
+     "text": "Por ejemplo:"
+    }
+   ],
+   "start": 203.94,
+   "end": 208.88
+  },
+  {
+   "kind": "code",
+   "title": "",
+   "code": "int[] entidades = [1, 2, 3, 4, 5];\n\nfor (int indice = 0; indice < entidades.Length; indice++)\n{\n    entidades[indice] = entidades[indice] * 2; // lógica de ejemplo\n}"
+  },
+  {
+   "kind": "say",
+   "block": 22,
+   "text": "Vamos a leer este código. Creamos un arreglo llamado entidades con cinco números, del uno al cinco. Luego un for lo recorre un índice a la vez, empezando en cero, y en cada paso reemplaza el número por su doble. Un índice después de otro, siempre en orden.",
+   "sentences": [
+    {
+     "start": 209.72,
+     "end": 210.6,
+     "text": "Vamos a leer este código."
+    },
+    {
+     "start": 211.4,
+     "end": 216,
+     "text": "Creamos un arreglo llamado entidades con cinco números, del uno al cinco."
+    },
+    {
+     "start": 216.7,
+     "end": 223.28,
+     "text": "Luego un for lo recorre un índice a la vez, empezando en cero, y en cada paso reemplaza el número por su doble."
+    },
+    {
+     "start": 223.9,
+     "end": 226.14,
+     "text": "Un índice después de otro, siempre en orden."
+    }
+   ],
+   "start": 209.72,
+   "end": 226.14
+  },
+  {
+   "kind": "p",
+   "block": 23,
+   "text": "Si ejecutáramos esto tanto en la CPU como en la GPU, tal cual, un índice detrás de otro, y midiéramos cuánto tarda cada una en recorrer el for, la CPU ganaría.",
+   "sentences": [
+    {
+     "start": 227.23,
+     "end": 237.41,
+     "text": "Si ejecutáramos esto tanto en la CPU como en la GPU, tal cual, un índice detrás de otro, y midiéramos cuánto tarda cada una en recorrer el for, la CPU ganaría."
+    }
+   ],
+   "start": 227.23,
+   "end": 237.41
+  },
+  {
+   "kind": "p",
+   "block": 24,
+   "text": "Ya sé que te estás preguntando: ¿por qué, si te dije que la GPU es más rápida? La respuesta es que depende. La GPU no es más rápida en todo: lo que hace bien es muchas cuentas a la vez. Cada uno de sus hilos, por separado, es más lento que un núcleo de la CPU. Para que la GPU le gane a la CPU, en lugar de recorrer el for un índice detrás de otro, cada hilo de la GPU tiene que encargarse de un índice distinto del arreglo.",
+   "sentences": [
+    {
+     "start": 238.33,
+     "end": 239.63,
+     "text": "Ya sé que te estás preguntando:"
+    },
+    {
+     "start": 240.15,
+     "end": 242.39,
+     "text": "¿por qué, si te dije que la GPU es más rápida?"
+    },
+    {
+     "start": 243.17,
+     "end": 244.49,
+     "text": "La respuesta es que depende."
+    },
+    {
+     "start": 245.23,
+     "end": 246.83,
+     "text": "La GPU no es más rápida en todo:"
+    },
+    {
+     "start": 247.31,
+     "end": 249.53,
+     "text": "lo que hace bien es muchas cuentas a la vez."
+    },
+    {
+     "start": 250.45,
+     "end": 254.19,
+     "text": "Cada uno de sus hilos, por separado, es más lento que un núcleo de la CPU."
+    },
+    {
+     "start": 255.09,
+     "end": 263.69,
+     "text": "Para que la GPU le gane a la CPU, en lugar de recorrer el for un índice detrás de otro, cada hilo de la GPU tiene que encargarse de un índice distinto del arreglo."
+    }
+   ],
+   "start": 238.33,
+   "end": 263.69
+  },
+  {
+   "kind": "p",
+   "block": 25,
+   "text": "En C# ya tienes algo que funciona con esa misma idea. Se llama Parallel, y te permite ejecutar un for repartiendo los índices entre todos los núcleos de la CPU:",
+   "sentences": [
+    {
+     "start": 264.57,
+     "end": 267.11,
+     "text": "En C# ya tienes algo que funciona con esa misma idea."
+    },
+    {
+     "start": 267.65,
+     "end": 273.55,
+     "text": "Se llama Parallel, y te permite ejecutar un for repartiendo los índices entre todos los núcleos de la CPU:"
+    }
+   ],
+   "start": 264.57,
+   "end": 273.55
+  },
+  {
+   "kind": "code",
+   "title": "",
+   "code": "int[] entidades = [1, 2, 3, 4, 5];\n\n// Cada índice lo puede procesar un núcleo distinto, y todos corren al mismo tiempo\nParallel.For(0, entidades.Length, indice =>\n{\n    RandomOperation(indice);\n});\n\n// Función RandomOperation\nvoid RandomOperation(int indice)\n{\n    entidades[indice] = entidades[indice] * 2; // lógica de ejemplo\n}"
+  },
+  {
+   "kind": "say",
+   "block": 26,
+   "text": "Este es el mismo arreglo, pero ahora con Parallel punto For. Fíjate en que ya no escribimos el bucle. Decimos: desde cero hasta el largo del arreglo, y para cada índice llama a la función RandomOperation. Más abajo, la función RandomOperation recibe un índice y duplica el número que vive ahí. El bucle desapareció y solo queda el trabajo sobre un índice.",
+   "sentences": [
+    {
+     "start": 274.6,
+     "end": 277.9,
+     "text": "Este es el mismo arreglo, pero ahora con Parallel punto For."
+    },
+    {
+     "start": 278.74,
+     "end": 280.72,
+     "text": "Fíjate en que ya no escribimos el bucle."
+    },
+    {
+     "start": 281.16,
+     "end": 281.6,
+     "text": "Decimos:"
+    },
+    {
+     "start": 281.92,
+     "end": 287.26,
+     "text": "desde cero hasta el largo del arreglo, y para cada índice llama a la función RandomOperation."
+    },
+    {
+     "start": 287.88,
+     "end": 292.3,
+     "text": "Más abajo, la función RandomOperation recibe un índice y duplica el número que vive ahí."
+    },
+    {
+     "start": 293.02,
+     "end": 296.4,
+     "text": "El bucle desapareció y solo queda el trabajo sobre un índice."
+    }
+   ],
+   "start": 274.6,
+   "end": 296.4
+  },
+  {
+   "kind": "p",
+   "block": 27,
+   "text": "Fíjate en una cosa: aquí ya no escribes el bucle. Solo escribes la función RandomOperation, que trabaja sobre un índice, y Parallel.For se encarga de llamarla para todos.",
+   "sentences": [
+    {
+     "start": 297.26,
+     "end": 297.94,
+     "text": "Fíjate en una cosa:"
+    },
+    {
+     "start": 298.52,
+     "end": 299.8,
+     "text": "aquí ya no escribes el bucle."
+    },
+    {
+     "start": 300.18,
+     "end": 307.18,
+     "text": "Solo escribes la función RandomOperation, que trabaja sobre un índice, y Parallel.For se encarga de llamarla para todos."
+    }
+   ],
+   "start": 297.26,
+   "end": 307.18
+  },
+  {
+   "kind": "p",
+   "block": 28,
+   "text": "La GPU hace exactamente lo mismo, pero con muchísimos más hilos. Ejecuta la función RandomOperation para todos los índices del arreglo que pueda al mismo tiempo, en lugar de recorrerlos uno por uno como un for o un foreach. Probablemente ejecute alrededor de 1000 índices a la vez, así que si el arreglo tiene 1000 elementos, es muy posible que termine todo de una sola vez.",
+   "sentences": [
+    {
+     "start": 308.07,
+     "end": 312.19,
+     "text": "La GPU hace exactamente lo mismo, pero con muchísimos más hilos."
+    },
+    {
+     "start": 312.99,
+     "end": 321.97,
+     "text": "Ejecuta la función RandomOperation para todos los índices del arreglo que pueda al mismo tiempo, en lugar de recorrerlos uno por uno como un for o un foreach."
+    },
+    {
+     "start": 322.61,
+     "end": 330.39,
+     "text": "Probablemente ejecute alrededor de 1000 índices a la vez, así que si el arreglo tiene 1000 elementos, es muy posible que termine todo de una sola vez."
+    }
+   ],
+   "start": 308.07,
+   "end": 330.39
+  },
+  {
+   "kind": "p",
+   "block": 29,
+   "text": "Cuántas cuentas puede hacer la GPU a la vez depende del modelo que tengas. Pero para que te hagas una idea: la CPU trabaja sobre un solo índice del arreglo cada vez, mientras que la GPU puede hacer lo mismo sobre unos 1000 índices distintos de una sola vez.",
+   "sentences": [
+    {
+     "start": 331.27,
+     "end": 334.67,
+     "text": "Cuántas cuentas puede hacer la GPU a la vez depende del modelo que tengas."
+    },
+    {
+     "start": 335.27,
+     "end": 336.29,
+     "text": "Pero para que te hagas una idea:"
+    },
+    {
+     "start": 336.79,
+     "end": 345.07,
+     "text": "la CPU trabaja sobre un solo índice del arreglo cada vez, mientras que la GPU puede hacer lo mismo sobre unos 1000 índices distintos de una sola vez."
+    }
+   ],
+   "start": 331.27,
+   "end": 345.07
+  },
+  {
+   "kind": "p",
+   "block": 30,
+   "text": "Y esa función que trabaja sobre un solo índice, la que en el ejemplo se llama RandomOperation, es justo lo que llamamos Shader.",
+   "sentences": [
+    {
+     "start": 345.87,
+     "end": 352.29,
+     "text": "Y esa función que trabaja sobre un solo índice, la que en el ejemplo se llama RandomOperation, es justo lo que llamamos Shader."
+    }
+   ],
+   "start": 345.87,
+   "end": 352.29
+  },
+  {
+   "kind": "h3",
+   "block": 31,
+   "text": "2. Para decidir el color de cada píxel de la pantalla",
+   "sentences": [
+    {
+     "start": 353.04,
+     "end": 356.12,
+     "text": "2. Para decidir el color de cada píxel de la pantalla"
+    }
+   ],
+   "start": 353.04,
+   "end": 356.12
+  },
+  {
+   "kind": "p",
+   "block": 32,
+   "text": "Tu pantalla es una cuadrícula de puntos de colores. Cada punto es un píxel. Una pantalla Full HD tiene 1920 píxeles de ancho por 1080 de alto, es decir, algo más de 2 millones de píxeles.",
+   "sentences": [
+    {
+     "start": 357.08,
+     "end": 359.14,
+     "text": "Tu pantalla es una cuadrícula de puntos de colores."
+    },
+    {
+     "start": 359.64,
+     "end": 360.8,
+     "text": "Cada punto es un píxel."
+    },
+    {
+     "start": 361.46,
+     "end": 369.22,
+     "text": "Una pantalla Full HD tiene 1920 píxeles de ancho por 1080 de alto, es decir, algo más de 2 millones de píxeles."
+    }
+   ],
+   "start": 357.08,
+   "end": 369.22
+  },
+  {
+   "kind": "p",
+   "block": 33,
+   "text": "Para que un juego se vea fluido hay que decidir el color de todos esos píxeles unas 60 veces por segundo. Son más de 120 millones de colores calculados cada segundo. Con un for en la CPU no llegas. Pero mira bien el problema: es el mismo del arreglo de antes, solo que ahora el arreglo son los píxeles de la pantalla.",
+   "sentences": [
+    {
+     "start": 370.22,
+     "end": 375.8,
+     "text": "Para que un juego se vea fluido hay que decidir el color de todos esos píxeles unas 60 veces por segundo."
+    },
+    {
+     "start": 376.6,
+     "end": 380.32,
+     "text": "Son más de 120 millones de colores calculados cada segundo."
+    },
+    {
+     "start": 381,
+     "end": 383.62,
+     "text": "Con un for en la CPU no llegas."
+    },
+    {
+     "start": 384.52,
+     "end": 385.66,
+     "text": "Pero mira bien el problema:"
+    },
+    {
+     "start": 386.22,
+     "end": 390.9,
+     "text": "es el mismo del arreglo de antes, solo que ahora el arreglo son los píxeles de la pantalla."
+    }
+   ],
+   "start": 370.22,
+   "end": 390.9
+  },
+  {
+   "kind": "p",
+   "block": 34,
+   "text": "Así que la GPU te deja escribir una función que recibe un píxel y devuelve su color. Ella la llama una vez por cada píxel, y a todos al mismo tiempo.",
+   "sentences": [
+    {
+     "start": 391.82,
+     "end": 396.08,
+     "text": "Así que la GPU te deja escribir una función que recibe un píxel y devuelve su color."
+    },
+    {
+     "start": 396.9,
+     "end": 400.42,
+     "text": "Ella la llama una vez por cada píxel, y a todos al mismo tiempo."
+    }
+   ],
+   "start": 391.82,
+   "end": 400.42
+  },
+  {
+   "kind": "img",
+   "src": "/assets/get-started/pixeles.svg",
+   "alt": "Una cuadrícula de píxeles; uno está marcado y de él sale una flecha hacia la función Fragment"
+  },
+  {
+   "kind": "say",
+   "block": 36,
+   "text": "En esta imagen hay una cuadrícula de cuadritos, que son los píxeles. Uno de ellos está marcado, y de él sale una flecha hacia una caja que dice Fragment. La idea es que cada píxel de la pantalla se manda, uno por uno, a la misma función, y la función responde con un color.",
+   "sentences": [
+    {
+     "start": 401.29,
+     "end": 405.05,
+     "text": "En esta imagen hay una cuadrícula de cuadritos, que son los píxeles."
+    },
+    {
+     "start": 405.89,
+     "end": 410.39,
+     "text": "Uno de ellos está marcado, y de él sale una flecha hacia una caja que dice Fragment."
+    },
+    {
+     "start": 411.49,
+     "end": 418.21,
+     "text": "La idea es que cada píxel de la pantalla se manda, uno por uno, a la misma función, y la función responde con un color."
+    }
+   ],
+   "start": 401.29,
+   "end": 418.21
+  },
+  {
+   "kind": "p",
+   "block": 37,
+   "text": "Lo interesante es que dentro de esa función tú decides el color con la lógica que quieras. Si devuelves siempre rojo, la pantalla se ve roja. Si el color depende de la posición del píxel, tienes un degradado. Si depende de una imagen y del tiempo, puedes hacer que una foto se mueva como si estuviera bajo el agua. Agua, fuego, sombras, luces, el efecto de cuando te golpean en un juego: todo eso son funciones que deciden el color de un píxel.",
+   "sentences": [
+    {
+     "start": 419.45,
+     "end": 423.69,
+     "text": "Lo interesante es que dentro de esa función tú decides el color con la lógica que quieras."
+    },
+    {
+     "start": 424.55,
+     "end": 426.83,
+     "text": "Si devuelves siempre rojo, la pantalla se ve roja."
+    },
+    {
+     "start": 427.71,
+     "end": 430.65,
+     "text": "Si el color depende de la posición del píxel, tienes un degradado."
+    },
+    {
+     "start": 431.71,
+     "end": 436.07,
+     "text": "Si depende de una imagen y del tiempo, puedes hacer que una foto se mueva como si estuviera bajo el agua."
+    },
+    {
+     "start": 437.29,
+     "end": 441.93,
+     "text": "Agua, fuego, sombras, luces, el efecto de cuando te golpean en un juego:"
+    },
+    {
+     "start": 442.75,
+     "end": 447.39,
+     "text": "todo eso son funciones que deciden el color de un píxel."
+    }
+   ],
+   "start": 419.45,
+   "end": 447.39
+  },
+  {
+   "kind": "h2",
+   "block": 38,
+   "text": "Las etapas de un Shader",
+   "sentences": [
+    {
+     "start": 448.89,
+     "end": 449.85,
+     "text": "Las etapas de un Shader"
+    }
+   ],
+   "start": 448.89,
+   "end": 449.85
+  },
+  {
+   "kind": "p",
+   "block": 39,
+   "text": "Hasta ahora hablamos de \"una función\". En realidad hay varios tipos, y a cada tipo se le llama etapa (en inglés, Stage). La diferencia entre una etapa y otra es sobre qué se ejecuta la función:",
+   "sentences": [
+    {
+     "start": 450.7,
+     "end": 452.84,
+     "text": "Hasta ahora hablamos de \"una función\"."
+    },
+    {
+     "start": 453.32,
+     "end": 457.88,
+     "text": "En realidad hay varios tipos, y a cada tipo se le llama etapa (en inglés, Stage)."
+    },
+    {
+     "start": 458.56,
+     "end": 462.14,
+     "text": "La diferencia entre una etapa y otra es sobre qué se ejecuta la función:"
+    }
+   ],
+   "start": 450.7,
+   "end": 462.14
+  },
+  {
+   "kind": "table",
+   "rows": [
+    [
+     "Etapa",
+     "Se ejecuta una vez por cada...",
+     "Lo que decide"
+    ],
+    [
+     "Vertex",
+     "punto (vértice) de la figura que mandas a dibujar",
+     "En qué lugar de la pantalla cae ese punto."
+    ],
+    [
+     "Fragment",
+     "píxel que ocupa la figura",
+     "De qué color se pinta ese píxel."
+    ],
+    [
+     "Compute",
+     "índice que tú le pidas",
+     "Lo que tú quieras: es el caso del arreglo entidades. No dibuja nada."
+    ]
+   ]
+  },
+  {
+   "kind": "say",
+   "block": 40,
+   "text": "Esta tabla tiene tres filas, una por cada etapa. Vertex se ejecuta una vez por cada punto de la figura y decide en qué lugar de la pantalla cae ese punto. Fragment se ejecuta una vez por cada píxel que ocupa la figura y decide su color. Y Compute se ejecuta una vez por cada índice que le pidas, no dibuja nada, y es el caso de nuestro arreglo de entidades.",
+   "sentences": [
+    {
+     "start": 463.12,
+     "end": 465.52,
+     "text": "Esta tabla tiene tres filas, una por cada etapa."
+    },
+    {
+     "start": 466.28,
+     "end": 472.3,
+     "text": "Vertex se ejecuta una vez por cada punto de la figura y decide en qué lugar de la pantalla cae ese punto."
+    },
+    {
+     "start": 473.14,
+     "end": 477.8,
+     "text": "Fragment se ejecuta una vez por cada píxel que ocupa la figura y decide su color."
+    },
+    {
+     "start": 478.38,
+     "end": 484.94,
+     "text": "Y Compute se ejecuta una vez por cada índice que le pidas, no dibuja nada, y es el caso de nuestro arreglo de entidades."
+    }
+   ],
+   "start": 463.12,
+   "end": 484.94
+  },
+  {
+   "kind": "p",
+   "block": 41,
+   "text": "Para dibujar algo siempre trabajan juntas las dos primeras. Tú mandas una figura hecha de puntos, la etapa Vertex coloca cada punto, la GPU averigua qué píxeles quedan dentro de la figura, y la etapa Fragment le pone color a cada uno:",
+   "sentences": [
+    {
+     "start": 485.8,
+     "end": 488.36,
+     "text": "Para dibujar algo siempre trabajan juntas las dos primeras."
+    },
+    {
+     "start": 488.96,
+     "end": 498.94,
+     "text": "Tú mandas una figura hecha de puntos, la etapa Vertex coloca cada punto, la GPU averigua qué píxeles quedan dentro de la figura, y la etapa Fragment le pone color a cada uno:"
+    }
+   ],
+   "start": 485.8,
+   "end": 498.94
+  },
+  {
+   "kind": "img",
+   "src": "/assets/get-started/etapas.svg",
+   "alt": "Tres puntos pasan por Vertex, forman un triángulo, la GPU marca los píxeles que toca y Fragment los colorea"
+  },
+  {
+   "kind": "say",
+   "block": 43,
+   "text": "En esta última imagen seguimos un dibujo de principio a fin. A la izquierda hay tres puntos. Pasan por Vertex, que los coloca, y se convierten en un triángulo. Luego la GPU marca qué píxeles toca el triángulo, y por último Fragment le da su color a cada uno de esos píxeles.",
+   "sentences": [
+    {
+     "start": 500.03,
+     "end": 503.15,
+     "text": "En esta última imagen seguimos un dibujo de principio a fin."
+    },
+    {
+     "start": 503.81,
+     "end": 505.31,
+     "text": "A la izquierda hay tres puntos."
+    },
+    {
+     "start": 506.07,
+     "end": 509.27,
+     "text": "Pasan por Vertex, que los coloca, y se convierten en un triángulo."
+    },
+    {
+     "start": 510.15,
+     "end": 516.59,
+     "text": "Luego la GPU marca qué píxeles toca el triángulo, y por último Fragment le da su color a cada uno de esos píxeles."
+    }
+   ],
+   "start": 500.03,
+   "end": 516.59
+  },
+  {
+   "kind": "p",
+   "block": 44,
+   "text": "No te preocupes si todavía no lo ves claro. El siguiente capítulo recorre ese dibujo paso a paso, y cuando lo termines vas a saber qué hace cada etapa y por qué.",
+   "sentences": [
+    {
+     "start": 517.79,
+     "end": 519.29,
+     "text": "No te preocupes si todavía no lo ves claro."
+    },
+    {
+     "start": 519.61,
+     "end": 527.97,
+     "text": "El siguiente capítulo recorre ese dibujo paso a paso, y cuando lo termines vas a saber qué hace cada etapa y por qué."
+    }
+   ],
+   "start": 517.79,
+   "end": 527.97
+  },
+  {
+   "kind": "h2",
+   "block": 45,
+   "text": "¿Y dónde entra Yotsuba Shader?",
+   "sentences": [
+    {
+     "start": 528.83,
+     "end": 530.33,
+     "text": "¿Y dónde entra Yotsuba Shader?"
+    }
+   ],
+   "start": 528.83,
+   "end": 530.33
+  },
+  {
+   "kind": "p",
+   "block": 46,
+   "text": "Como la GPU no entiende C#, los shaders se han escrito siempre en lenguajes hechos solo para eso: HLSL, GLSL, Metal... Cada API gráfica tiene el suyo, y ninguno conoce las clases ni los tipos de tu proyecto.",
+   "sentences": [
+    {
+     "start": 530.63,
+     "end": 538.65,
+     "text": "Como la GPU no entiende C#, los shaders se han escrito siempre en lenguajes hechos solo para eso:"
+    },
+    {
+     "start": 539.21,
+     "end": 541.73,
+     "text": "HLSL, GLSL, Metal..."
+    },
+    {
+     "start": 542.63,
+     "end": 549.65,
+     "text": "Cada API gráfica tiene el suyo, y ninguno conoce las clases ni los tipos de tu proyecto."
+    }
+   ],
+   "start": 530.63,
+   "end": 549.65
+  },
+  {
+   "kind": "p",
+   "block": 47,
+   "text": "Con Yotsuba Shader escribes el shader en C#, en tu mismo proyecto y con tu mismo editor. El compilador revisa que solo uses cosas que la GPU puede hacer, y lo traduce al lenguaje que necesites.",
+   "sentences": [
+    {
+     "start": 550.52,
+     "end": 556.16,
+     "text": "Con Yotsuba Shader escribes el shader en C#, en tu mismo proyecto y con tu mismo editor."
+    },
+    {
+     "start": 557.04,
+     "end": 562.54,
+     "text": "El compilador revisa que solo uses cosas que la GPU puede hacer, y lo traduce al lenguaje que necesites."
+    }
+   ],
+   "start": 550.52,
+   "end": 562.54
+  },
+  {
+   "kind": "p",
+   "block": 48,
+   "text": "En resumen:",
+   "sentences": [
+    {
+     "start": 563.78,
+     "end": 564.26,
+     "text": "En resumen:"
+    }
+   ],
+   "start": 563.78,
+   "end": 564.26
+  },
+  {
+   "kind": "li",
+   "block": 49,
+   "text": "Un Shader es una función que se ejecuta en la GPU.",
+   "sentences": [
+    {
+     "start": 565.18,
+     "end": 567.78,
+     "text": "Un Shader es una función que se ejecuta en la GPU."
+    }
+   ],
+   "start": 565.18,
+   "end": 567.78
+  },
+  {
+   "kind": "li",
+   "block": 50,
+   "text": "La GPU la llama muchísimas veces a la vez: una por cada vértice, por cada píxel o por cada índice.",
+   "sentences": [
+    {
+     "start": 568.7,
+     "end": 570.74,
+     "text": "La GPU la llama muchísimas veces a la vez:"
+    },
+    {
+     "start": 571.18,
+     "end": 574.38,
+     "text": "una por cada vértice, por cada píxel o por cada índice."
+    }
+   ],
+   "start": 568.7,
+   "end": 574.38
+  },
+  {
+   "kind": "li",
+   "block": 51,
+   "text": "Dentro solo puedes hacer cálculos. Nada de archivos, textos ni listas.",
+   "sentences": [
+    {
+     "start": 575.44,
+     "end": 576.98,
+     "text": "Dentro solo puedes hacer cálculos."
+    },
+    {
+     "start": 577.48,
+     "end": 579.64,
+     "text": "Nada de archivos, textos ni listas."
+    }
+   ],
+   "start": 575.44,
+   "end": 579.64
+  },
+  {
+   "kind": "li",
+   "block": 52,
+   "text": "Con Yotsuba Shader esa función la escribes en C#.",
+   "sentences": [
+    {
+     "start": 580.62,
+     "end": 583.24,
+     "text": "Con Yotsuba Shader esa función la escribes en C#."
+    }
+   ],
+   "start": 580.62,
+   "end": 583.24
+  },
+  {
+   "kind": "p",
+   "block": 53,
+   "text": "Siguiente: Cómo se construye un shader.",
+   "sentences": [
+    {
+     "start": 584.48,
+     "end": 584.86,
+     "text": "Siguiente:"
+    },
+    {
+     "start": 585.56,
+     "end": 586.86,
+     "text": "Cómo se construye un shader."
+    }
+   ],
+   "start": 584.48,
+   "end": 586.86
+  },
+  {
+   "kind": "p",
+   "block": 54,
+   "text": "Foto de la tarjeta gráfica (una Palit GeForce RTX 5090 GameRock): PantheraLeo1359531, Wikimedia Commons, licencia CC BY 4.0. Se redujo de tamaño y se le añadió margen blanco.",
+   "sentences": [
+    {
+     "start": 587.98,
+     "end": 592.16,
+     "text": "Foto de la tarjeta gráfica (una Palit GeForce RTX 5090 GameRock):"
+    },
+    {
+     "start": 592.82,
+     "end": 598.08,
+     "text": "PantheraLeo1359531, Wikimedia Commons, licencia CC BY 4.0."
+    },
+    {
+     "start": 598.76,
+     "end": 600.9,
+     "text": "Se redujo de tamaño y se le añadió margen blanco."
+    }
+   ],
+   "start": 587.98,
+   "end": 600.9
+  }
+ ]
+}

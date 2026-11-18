@@ -1,0 +1,9 @@
+{
+  "name": "yotsuba-shader-learn",
+  "version": "0.1.0",
+  "private": true,
+  "description": "learn.yotsubashader.com: guides, tutorials and reference generated from Markdown.",
+  "type": "module",
+  "scripts": { "build": "node build.mjs", "dev": "node build.mjs --serve" },
+  "engines": { "node": ">=18" }
+}

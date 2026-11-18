@@ -1,0 +1,28 @@
+#include <metal_stdlib>
+#include <simd/simd.h>
+
+using namespace metal;
+
+struct Pixel
+{
+    float4 Position;
+    float4 Color;
+};
+
+struct Fragment_out
+{
+    float4 _return [[color(0)]];
+};
+
+struct Fragment_in
+{
+    float4 pixel_Color [[user(locn0)]];
+};
+
+fragment Fragment_out Fragment(Fragment_in in [[stage_in]])
+{
+    Fragment_out out = {};
+    out._return = in.pixel_Color;
+    return out;
+}
+

@@ -7,7 +7,7 @@ import { execFileSync } from 'node:child_process';
 import { chromium } from 'playwright';
 
 const BASE = (process.env.BASE || 'http://localhost:4173');
-const OUT = new URL('../recordings/', import.meta.url).pathname;
+const OUT = new URL('../../.local/promo-video/recordings/', import.meta.url).pathname;
 const PUBLIC = new URL('../remotion/public/', import.meta.url).pathname;
 fs.mkdirSync(PUBLIC, { recursive: true });
 const only = process.argv[2];

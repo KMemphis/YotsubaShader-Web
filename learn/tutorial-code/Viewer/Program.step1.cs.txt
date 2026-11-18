@@ -1,0 +1,40 @@
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
+
+string name = args.Length > 0 ? args[0] : "Gradient";
+
+using var viewer = new Viewer(name);
+viewer.Run();
+
+public class Viewer : Game
+{
+    private readonly string _name;
+
+    public Viewer(string name)
+    {
+        _name = name;
+        var graphics = new GraphicsDeviceManager(this)
+        {
+            PreferredBackBufferWidth = 800,
+            PreferredBackBufferHeight = 450,
+        };
+        Window.AllowUserResizing = true;
+        Window.Title = name;
+    }
+
+    protected override void Update(GameTime gameTime)
+    {
+        if (Keyboard.GetState().IsKeyDown(Keys.Escape))
+        {
+            Exit();
+        }
+        base.Update(gameTime);
+    }
+
+    protected override void Draw(GameTime gameTime)
+    {
+        GraphicsDevice.Clear(Color.CornflowerBlue);
+        base.Draw(gameTime);
+    }
+}

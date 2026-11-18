@@ -22,9 +22,10 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      # El build lee ../YotsubaShader.Language y las carpetas ../YotsubaShader.*Syntax (referencia de
-      # atributos) y el playground compila los proyectos del compilador, así que se necesitan al lado
-      # de Web/ (como en tu máquina).
+      # El build lee los proyectos YotsubaShader.*Syntax (referencia de atributos) y algunos archivos de
+      # Core/ (src/repo-paths.mjs dice dónde está cada proyecto), y el playground compila los proyectos del
+      # compilador, así que se necesitan al lado de Web/ (como en tu máquina). Las carpetas siguen las de
+      # YotsubaShader.sln: Core/ incluye el submódulo Core/ShaderCross/YotsubaShaderCross.
       - name: Código del compilador
         uses: actions/checkout@v7
         with:
@@ -34,20 +35,9 @@ jobs:
           submodules: recursive
           sparse-checkout: |
             build
-            YotsubaShader.Language
-            YotsubaShader.Concepts
-            YotsubaShader.GlslSyntax
-            YotsubaShader.HlslSyntax
-            YotsubaShader.MslSyntax
-            YotsubaShader.SpirvSyntax
-            YotsubaShader.WgslSyntax
-            YotsubaShader.IR
-            YotsubaShader.Compiler.Library
-            YotsubaShader.Compiler.SpirV
-            YotsubaShader.Extensions
-            YotsubaShader.Generator
-            YotsubaShader.Roslyn
-            YotsubaShaderCross
+            Core
+            Plugins/YotsubaShader.Extensions
+            Tools/YotsubaShader.Generator
 
       - name: Esta web
         uses: actions/checkout@v7

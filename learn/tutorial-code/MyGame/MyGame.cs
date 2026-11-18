@@ -1,0 +1,46 @@
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using MyShaders;
+using YotsubaShader;
+
+public class MyGame : Game
+{
+    private readonly GraphicsDeviceManager _graphics;
+    private Effect _shader = null!;
+
+    private readonly ScreenCorner[] _screen =
+    [
+        new(new Vector2(-1f,  1f), new Vector2(0f, 0f)),
+        new(new Vector2( 1f,  1f), new Vector2(1f, 0f)),
+        new(new Vector2(-1f, -1f), new Vector2(0f, 1f)),
+        new(new Vector2( 1f, -1f), new Vector2(1f, 1f)),
+    ];
+
+    public MyGame()
+    {
+        _graphics = new GraphicsDeviceManager(this)
+        {
+            PreferredBackBufferWidth = 800,
+            PreferredBackBufferHeight = 800,
+        };
+    }
+
+    protected override void LoadContent()
+    {
+        byte[] compiled = new Sweep().ToMGFX(MonoGamePlatform.DesktopGL);
+        _shader = new Effect(GraphicsDevice, compiled);
+    }
+
+    protected override void Draw(GameTime gameTime)
+    {
+        GraphicsDevice.RasterizerState = RasterizerState.CullNone;
+
+        float seconds = (float)(gameTime.TotalGameTime.TotalSeconds % 2.0);
+        _shader.Parameters["Time_Seconds"].SetValue(seconds);
+
+        _shader.CurrentTechnique.Passes[0].Apply();
+        GraphicsDevice.DrawUserPrimitives(PrimitiveType.TriangleStrip, _screen, 0, 2);
+
+        base.Draw(gameTime);
+    }
+}

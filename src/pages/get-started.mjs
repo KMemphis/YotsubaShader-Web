@@ -115,20 +115,20 @@ const build = {
     ${code('bash', 'dotnet build YotsubaShader.sln')}
     <h2>Compile the example shader</h2>
     <p><code>BasicColorShader</code> contains vertex, fragment, and compute entry points. The CLI discovers those methods and writes the selected backend artifacts to the output directory.</p>
-    ${code('bash', `dotnet run --project YotsubaShader.CLI/YotsubaShader.CLI.csproj -- \\
-  compile YotsubaShader.Example/YotsubaShader.Example.csproj \\
+    ${code('bash', `dotnet run --project Core/YotsubaShader.Compiler.CLI/YotsubaShader.Compiler.CLI.csproj -- \\
+  compile Examples/YotsubaShader.Example/YotsubaShader.Example.csproj \\
   --target spirv --target hlsl --target glsl --target gles --target msl --target cpp \\
   --output artifacts/`)}
     <p>To generate project-local C# accessors instead, use <code>add</code>. It writes <code>YotsubaShader.g.cs</code> beside the project and exposes <code>ToSpirV</code>, <code>ToHlsl</code>, <code>ToGlsl</code>, <code>ToGlslEs</code>, and <code>ToMSL</code> extension methods.</p>
-    ${code('bash', `dotnet run --project YotsubaShader.CLI/YotsubaShader.CLI.csproj -- \\
-  add YotsubaShader.Example/YotsubaShader.Example.csproj --target spirv`)}
+    ${code('bash', `dotnet run --project Core/YotsubaShader.Compiler.CLI/YotsubaShader.Compiler.CLI.csproj -- \\
+  add Examples/YotsubaShader.Example/YotsubaShader.Example.csproj --target spirv`)}
     <h2>Validate SPIR-V</h2>
     <p>If you have SPIRV-Tools installed, validate and disassemble a generated <code>.spv</code> file from <code>artifacts/</code>:</p>
     ${code('bash', `spirv-val artifacts/YotsubaShader/Example/BasicColorShader.spv
 spirv-dis artifacts/YotsubaShader/Example/BasicColorShader.spv`)}
     <h2>Run the tests</h2>
     <p>The example project covers shader discovery and analysis alongside representative compilation behavior.</p>
-    ${code('bash', 'dotnet test YotsubaShader.Example/YotsubaShader.Example.csproj')}
+    ${code('bash', 'dotnet test Examples/YotsubaShader.Example/YotsubaShader.Example.csproj')}
     <h2>Repository architecture</h2>
     ${table(
       ['Project', 'Role'],

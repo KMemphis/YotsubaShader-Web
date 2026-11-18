@@ -1,0 +1,6 @@
+dist/
+.DS_Store
+.env
+.tts/
+audio-cache/
+videos/*/*.mp4 # too big for git: publish them with the site (or host on YouTube)

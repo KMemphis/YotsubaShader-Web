@@ -378,7 +378,7 @@ ${table(
   <li>macOS, Linux or Windows with a compatible SDK.</li>
 </ul>
 ${code('bash', `dotnet build YotsubaShader.sln
-dotnet run --project YotsubaShader.Example/YotsubaShader.Example.csproj`)}`,
+dotnet run --project Examples/YotsubaShader.Example/YotsubaShader.Example.csproj`)}`,
     },
     {
       slug: 'licensing',

@@ -1,0 +1,128 @@
+{
+  "title": "Cómo se construye un shader",
+  "series": "Yotsuba Shader · Primeros pasos · 2",
+  "voice": "Orus",
+  "model": "gemini-3.8-flash-tts",
+  "captionReplace": [
+    [
+      "mil novecientos veinte",
+      "1920"
+    ],
+    [
+      "G L Position",
+      "gl_Position"
+    ],
+    [
+      "S V Position",
+      "SV_Position"
+    ],
+    [
+      "S V Target",
+      "SV_Target0"
+    ],
+    [
+      "TEXCOORD cero",
+      "TEXCOORD0"
+    ],
+    [
+      "TEXCOORD uno",
+      "TEXCOORD1"
+    ],
+    [
+      "C más más",
+      "C++"
+    ]
+  ],
+  "scenes": [
+    {
+      "id": "v2-s01-hook",
+      "narration": "Este es un triángulo. Tiene tres esquinas, y cada esquina tiene un color: rojo, verde y azul. La GPU convierte esos tres puntos en miles de píxeles de colores. En este video seguimos ese recorrido de principio a fin, y construimos el shader de este triángulo pieza por pieza. A la izquierda lo verás en C#, y a la derecha el mismo shader en GLSL y en HLSL, los lenguajes que entienden las GPUs. Todavía no vas a escribir código. La idea es ver cómo cada concepto se convierte en líneas de código.",
+      "voice": "Orus",
+      "visual": ""
+    },
+    {
+      "id": "v2-s02-triangles",
+      "narration": "Todo lo que ves en pantalla se dibuja con triángulos. La GPU conoce muy pocas formas, y el triángulo es la que se usa para casi todo. Un rectángulo son dos triángulos. Una forma redonda son muchos triángulos pequeños. Un personaje de un juego en 3D son miles. Cada esquina de un triángulo se llama vértice. Es una palabra que leerás todo el tiempo, y significa solo eso: un punto, una esquina. Mira el rectángulo. Tiene cuatro vértices y no seis, porque sus dos triángulos comparten dos esquinas. ¿Por qué triángulos, y no cuadrados o círculos? Porque el triángulo es la forma más simple que tiene relleno. Tres puntos forman una superficie plana, sin dobleces. Por eso la GPU puede rellenarlo rápido, y cualquier otra forma se puede construir con triángulos.",
+      "voice": "Kore",
+      "visual": ""
+    },
+    {
+      "id": "v2-s03-struct",
+      "narration": "Para dibujar nuestro triángulo, el juego le envía a la GPU una lista con sus tres vértices, y con cada vértice envía algunos datos. En este shader son dos cosas: dónde está el vértice, y de qué color es. Esta es la primera pieza de código. Un paquete de datos en C# es un struct, y aquí está a la izquierda, con lo mismo en GLSL a la derecha. Lo llamamos Corner, porque cada vértice es una esquina del triángulo. Tiene una posición, con dos números, y un color, con cuatro: rojo, verde, azul y opacidad. El struct no guarda los valores. Solo describe cómo es cada vértice. Los valores vienen del juego: el vértice de arriba está en cero, cero coma ocho, y es rojo. El de abajo a la izquierda es verde, y el de abajo a la derecha es azul.",
+      "voice": "Orus",
+      "visual": ""
+    },
+    {
+      "id": "v2-s04-carry",
+      "narration": "La posición y el color son lo que necesita este triángulo, pero un vértice puede llevar otros datos, y tú decides cuáles. Uno común es el UV, dos números que dicen qué punto de una textura le corresponde a este vértice. Otro es la normal, tres números que indican hacia dónde apunta la superficie, y sirve para la iluminación. También está la tangente, y los índices y pesos de huesos que animan a un personaje. Y puedes inventar los tuyos, como una temperatura, en un solo número. Cada dato es un float, un int o un uint, solo o en grupos de dos, tres o cuatro. En C# son float, vec2, vec3 y vec4, más las versiones int y uint. Así que un color puede ser un vec4, con opacidad, o un vec3 si no la necesitas. Una posición puede ser un vec2, un vec3 o un vec4. Algo más grande, como una matriz, ocupa varias casillas, y ahora vemos qué es una casilla. Algo importante: la GPU no sabe qué significan los datos. Un vec4 son cuatro números, ya pongas un color o una posición. El significado solo existe en cómo lo usas dentro del shader.",
+      "voice": "Kore",
+      "visual": ""
+    },
+    {
+      "id": "v2-s05-slots",
+      "narration": "Mira el número entre corchetes en cada campo. Se llama location, y es la casilla por la que viaja ese dato. El juego dice: posición en la casilla cero, color en la casilla uno. Y el struct Corner dice: leo la posición de la casilla cero y el color de la casilla uno. Se entienden por el número. En HLSL la casilla se escribe como una semántica, TEXCOORD cero y TEXCOORD uno. Qué número lleva cada dato lo decides tú. La casilla cero no es la posición por regla. Podrías poner el color en la casilla cero y la posición en la uno, siempre que el juego haga lo mismo. La GPU solo ve el número y el tipo: casilla cero, dos float, y casilla uno, cuatro float. Cada casilla guarda hasta cuatro números, y toda GPU ofrece al menos dieciséis para los datos de vértice. Si te equivocas de número, no aparece ningún error. El shader lee los datos equivocados y el dibujo sale mal.",
+      "voice": "Orus",
+      "visual": ""
+    },
+    {
+      "id": "v2-s05b-languages",
+      "narration": "Quizá te surgió una duda. El número entre corchetes se llama location, y eso es GLSL, el lenguaje de OpenGL y Vulkan. HLSL, el lenguaje de DirectX, nombra lo mismo con una palabra y un índice, como TEXCOORD cero. Entonces, ¿cuál usas? El que ya conozcas. Yotsuba Shader entiende los atributos de los dos lenguajes. Aquí está nuestro Corner escrito a la manera de GLSL, y al lado el GLSL real que genera el compilador. Y aquí está escrito a la manera de HLSL, con su HLSL real a la derecha. Se ven distintos, pero el compilador sabe que dicen lo mismo: un canal de datos entre dos etapas. Cada lenguaje tiene sus propias palabras para los mismos conceptos, y Yotsuba Shader conoce el concepto que hay detrás de cada palabra. Hay una diferencia que conviene saber. Con location, tú eliges el número. Con una semántica como TEXCOORD, el compilador elige el número por ti, y conecta las dos etapas por el nombre. También puedes mezclarlos en el mismo shader. Aquí la posición usa la palabra POSITION de HLSL, y el color usa location uno. El compilador le da a la posición el número libre, el cero, y el shader funciona. Elijas el estilo que elijas, Yotsuba Shader genera las mismas salidas: GLSL y GLSL ES, HLSL, Metal, SPIR-V y C más más. Compilamos estas tres versiones con el compilador real. Los archivos de GLSL, GLSL ES, Metal y C más más salieron idénticos, carácter por carácter. HLSL y SPIR-V solo conservan los nombres que escribiste. De aquí en adelante seguimos construyendo el shader con atributos de HLSL, para que leas cada línea junto a HLSL real. Todo lo que veremos también funciona con location.",
+      "voice": "Kore",
+      "visual": "Four-pane comparison of GLSL-style and HLSL-style C# against real compiler output, mixed example, identical outputs."
+    },
+    {
+      "id": "v2-s06-coordinates",
+      "narration": "Veamos la posición, dos números. ¿Qué significan? Una pantalla puede tener mil novecientos veinte píxeles de ancho, u ochocientos, o cuatro mil. Para que el mismo dibujo funcione en todas, la GPU no mide en píxeles. Usa una sola regla. El centro de la pantalla es cero, cero. El borde izquierdo es menos uno, y el derecho es uno. El borde de abajo es menos uno, y el de arriba es uno. Así que el vértice de arriba, en cero y cero coma ocho, está centrado y cerca del borde superior. Una advertencia. Si ya programaste en 2D, estás acostumbrado a que Y crezca hacia abajo. Aquí es al revés. Y crece hacia arriba.",
+      "voice": "Orus",
+      "visual": ""
+    },
+    {
+      "id": "v2-s07-vertex",
+      "narration": "Ahora, la primera función que escribes. La GPU toma la lista y llama a tu función Vertex una vez por cada vértice. Tres vértices, tres llamadas. Cada llamada recibe un solo Corner y no ve los otros dos. En el código, el atributo ShaderStage Vertex es lo que convierte este método en la etapa Vertex, y el struct Pixel es lo que devuelve. La función tiene dos trabajos. Primero, decir dónde termina ese vértice en la pantalla. Es obligatorio, y va en un campo especial, que se llama G L Position en el estilo GLSL y S V Position en el estilo HLSL. La GPU se queda con ese para ella, por eso no tiene casilla. Segundo, dejar pasar los datos que necesitará la siguiente etapa. Es opcional, y tú eliges cuáles. Aquí es el color, y este sí viaja en una casilla.",
+      "voice": "Kore",
+      "visual": ""
+    },
+    {
+      "id": "v2-s08-position",
+      "narration": "Si el juego ya envió la posición, ¿para qué devolverla otra vez? Porque en un juego real los vértices rara vez se envían ya colocados. La forma de un personaje se envía una sola vez, y la etapa Vertex es la que lo mueve por el mapa, lo rota, o lo hace pequeño cuando está lejos. En nuestro triángulo no cambia nada, pero la función igual tiene que responder. Ahora mira esta línea. El juego envió dos números, X e Y, pero la GPU pide la posición final con cuatro. Los dos primeros son tu X y tu Y. El tercero es la profundidad, y el cuarto se usa para la perspectiva en 3D. Mientras dibujes en 2D, esos dos son cero y uno. El segundo trabajo es la línea siguiente: el color pasa sin cambios.",
+      "voice": "Orus",
+      "visual": ""
+    },
+    {
+      "id": "v2-s09-pixels",
+      "narration": "Con las tres posiciones finales, la GPU sabe dónde está el triángulo en la pantalla. Para este paso no hay código, tú no lo escribes. La GPU calcula qué píxeles caen dentro. Un triángulo pequeño puede cubrir unos cientos. Un rectángulo que cubre una pantalla Full HD cubre más de dos millones. Todos esos píxeles van a recibir un color, y la pregunta es de dónde sale cada uno.",
+      "voice": "Kore",
+      "visual": ""
+    },
+    {
+      "id": "v2-s10-spread",
+      "narration": "Ahora, algo que casi nunca se explica, y es la clave de lo que sigue. La función Vertex devolvió tres colores, uno por vértice. Pero el triángulo tiene miles de píxeles. ¿Qué color recibe cada uno? La GPU los reparte. Cada píxel recibe una mezcla de los tres, según qué tan cerca esté de cada vértice. Un píxel junto al vértice rojo recibe sobre todo rojo. Un píxel a mitad de camino entre el rojo y el verde recibe la mitad de cada uno. Un píxel en el centro recibe un tercio de cada uno. Esto no es algo especial de los colores. La GPU no sabe que son colores, así que reparte cualquier número que Vertex deje pasar, en nuestro caso el campo Color de Pixel. Recuerda esto: lo que devuelve la función Vertex no es lo que recibe la función Fragment. Vertex devuelve tres valores. Fragment recibe miles, uno por píxel, cada uno con una mezcla distinta. El nombre técnico es interpolación. Aquí lo llamamos reparto.",
+      "voice": "Orus",
+      "visual": ""
+    },
+    {
+      "id": "v2-s11-fragment",
+      "narration": "La segunda función que escribes es Fragment. La GPU la llama una vez por cada píxel dentro del triángulo, y le entrega los datos repartidos para ese píxel, en un struct Pixel. Tiene un solo trabajo: devolver el color de ese píxel, como un vec4. Un color son cuatro números, y cada uno va de cero a uno, no de cero a doscientos cincuenta y cinco. El rojo es uno, cero, cero. El blanco es uno, uno, uno. El negro es cero, cero, cero. El gris es cero coma cinco, cero coma cinco, cero coma cinco. El cuarto número es la opacidad: uno es sólido, y cero es totalmente transparente. En nuestro triángulo, Fragment hace lo más simple: devuelve el color que recibe. Todo el degradado salió del reparto. Podría hacer más con él: oscurecerlo, ignorarlo y devolver rojo, o calcular otro color con una fórmula. Eso es escribir shaders. Un límite: cada llamada vive sola. No sabe nada de los otros píxeles, no recuerda nada, y no hay un bucle sobre los píxeles. El bucle es la GPU. Tú escribes lo que pasa con uno.",
+      "voice": "Kore",
+      "visual": ""
+    },
+    {
+      "id": "v2-s12-doors",
+      "narration": "Volvamos a las casillas, porque hay algo que confunde a casi todos. No hay una sola fila de casillas. Hay tres, una por cada puerta que atraviesan los datos. La puerta A es lo que el juego envía a Vertex: el struct Corner. La puerta B es lo que Vertex deja pasar a Fragment: el struct Pixel. La puerta C es lo que Fragment devuelve, En el estilo GLSL se marca con return location cero, y en el estilo HLSL con S V Target. Cada puerta cuenta desde cero por su cuenta. Por eso la casilla cero aparece tres veces en el código, y cada vez lleva algo distinto: la posición en la puerta A, el color en la puerta B, y el color final del píxel en la puerta C. Es como tres edificios en la misma calle. Todos tienen un apartamento uno, y ninguno tiene que ver con los otros. Tres reglas. Dentro de una puerta, un número no se repite. Los dos lados de una puerta se ponen de acuerdo en el número y en el tipo de dato. El nombre no importa. Y entre puertas distintas, los números no tienen relación. Una cosa más: la posición final no tiene casilla, porque no es para tu función Fragment. Es para la propia GPU, que la necesita para armar el triángulo.",
+      "voice": "Orus",
+      "visual": ""
+    },
+    {
+      "id": "v2-s13-blueprint",
+      "narration": "Ese es todo el shader. Para construir cualquier shader, no solo este triángulo, decides cinco cosas. Qué datos lleva cada vértice. Qué deja pasar Vertex a Fragment. Qué hace la función Vertex. Qué hace la función Fragment. Y a dónde va el color. Cada decisión está marcada en el código. Tu juego envía los vértices. Tú escribes las dos funciones y declaras las tres puertas. La GPU llama a tus funciones, arma los triángulos, encuentra los píxeles y reparte los datos. Fíjate en lo que no escribes: el bucle sobre los vértices, el bucle sobre los píxeles, y el reparto. La GPU hace todo eso.",
+      "voice": "Kore",
+      "visual": ""
+    },
+    {
+      "id": "v2-s14-recap",
+      "narration": "Para resumir. Todo se dibuja con triángulos, y cada esquina es un vértice. Un vértice lleva los datos que tú eliges, en casillas numeradas. Vertex se ejecuta una vez por vértice y devuelve la posición final. La GPU reparte los datos entre los píxeles. Fragment se ejecuta una vez por píxel y devuelve su color. Y cada puerta tiene sus propias casillas, contando desde cero. Y puedes escribirlo con atributos de GLSL o de HLSL, el que mejor conozcas. En el próximo video dejamos listo tu proyecto. Nos vemos allí.",
+      "voice": "Orus",
+      "visual": ""
+    }
+  ]
+}

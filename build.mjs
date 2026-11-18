@@ -16,6 +16,7 @@ import { spawnSync } from 'node:child_process';
 
 import { renderPage, renderDoc, relativize } from './src/layout.mjs';
 import { scanSyntaxes, SYNTAX_META } from './src/reference.mjs';
+import { repoPath } from './src/repo-paths.mjs';
 import { SECTIONS, SITE } from './src/site.mjs';
 import { LOCALES, localePath, localizeHtml, translateText, i18nReport } from './src/i18n/index.mjs';
 import buildDocs from './src/docs/docs.mjs';
@@ -140,8 +141,8 @@ function build() {
   fs.rmSync(DIST, { recursive: true, force: true });
   copyDir(STATIC, DIST);
 
-  const missing = Object.values(SYNTAX_META).filter((m) => !fs.existsSync(path.join(REPO_DIR, m.project)));
-  if (missing.length) console.warn(`! ${missing.map((m) => m.project).join(', ')} not found next to Web/: their attribute reference pages will be empty.`);
+  const missing = Object.values(SYNTAX_META).filter((m) => !fs.existsSync(path.join(REPO_DIR, repoPath(m.project))));
+  if (missing.length) console.warn(`! ${missing.map((m) => m.project).join(', ')} not found in the compiler repository (next to Web/): their attribute reference pages will be empty.`);
   const ctx = { syntaxes: scanSyntaxes(REPO_DIR) };
 
   const resolve = (mod) => (typeof mod === 'function' ? mod(ctx) : mod);

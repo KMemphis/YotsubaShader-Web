@@ -1,0 +1,72 @@
+{
+ "title": "What is a shader?",
+ "series": "Yotsuba Shader · Get Started · 1",
+ "voice": "Orus",
+ "model": "gemini-2.5-flash-preview-tts",
+ "captionReplace": [
+  [
+   "Parallel dot For",
+   "Parallel.For"
+  ],
+  [
+   "nineteen twenty by one thousand eighty",
+   "1920 × 1080"
+  ],
+  [
+   "a hundred and twenty million",
+   "120 million"
+  ]
+ ],
+ "scenes": [
+  {
+   "id": "s01-hook",
+   "narration": "Every pixel on your screen right now was colored by a tiny function. Not one function. The same function, running over two million times, all at once, sixty times every second. That function is called a shader. And in this series, you're going to write them in C#.",
+   "visual": "A pixel grid lights up with a gradient, each cell evaluated by the same function. Title card with wordmark."
+  },
+  {
+   "id": "s02-welcome",
+   "narration": "Welcome to Yotsuba Shader: an SDK for writing shaders in C#, for many graphics APIs and game engines. In this first video you'll learn what a shader is, and why it runs on the GPU. You don't need to know anything about shaders. You only need to know C#. And this isn't a list of functions to memorize. In every video you'll write code, run it, and watch something appear on your screen. If something doesn't look the way it should, the tutorial tells you exactly what to check. We start with the fundamentals, for someone who has never seen a shader. Then a workshop, one tool at a time: colors, coordinates, conditions, loops and time. And finally the shaders themselves: a fractal, a neon ring, a moving plasma, and a photo that looks like it's underwater.",
+   "visual": "Three-stretch path (Fundamentals, Workshop, Shaders) with the real result images."
+  },
+  {
+   "id": "s03-function",
+   "narration": "So, what is a shader? A shader is a function that runs on the GPU. The GPU is your computer's graphics card. It can be a separate card, like this one, or it can live inside the processor, as in laptops and phones. But why do we need a special kind of function? Why can't the C# we already write just run there?",
+   "visual": "Graphics card photo (credit on screen), a C# method that moves onto the card."
+  },
+  {
+   "id": "s04-no-os",
+   "narration": "Think about Node. You can use JavaScript with Node to write programs for Windows, but you can't write an operating system with it. Node depends on functions from the operating system itself, and in a clean environment, those don't exist. A language needs the machine underneath to offer certain things, and when they aren't there, it can't run. The GPU is the same. Languages like C#, Java or Rust have things that are very hard to translate, and things the GPU simply cannot do. It can't reach the file system. A line that writes a file just won't work. There are no strings. No lists. No inheritance. No exceptions. Think of the GPU as a machine with no operating system. What you can run there is, above all, math. Adding, multiplying, comparing. That sounds limiting, and it is. But it's also why the GPU is so fast: it doesn't carry any of that weight.",
+   "visual": "Node/OS layers; File.WriteAllText typed then struck out; features switch off one by one; only math remains."
+  },
+  {
+   "id": "s05-parallel",
+   "narration": "So why run code there at all? The first reason: many calculations at once. A laptop CPU has around ten cores. That's ten things truly happening at the same time, and each one is called a thread. A GPU has thousands of small workers, and each one calculates at the same time as the others, without waiting for anyone. Imagine ten very fast cashiers in a supermarket. Now imagine a thousand cashiers, each one a little slower. With one huge customer, the fast ones win. With a thousand small customers, the thousand cashiers finish first. That's why a game, or an AI model, doesn't crawl. But then, why not run everything on the GPU? Because it only wins when the work can be split in a very particular way.",
+   "visual": "Ten large squares versus a field of thousands of small ones lighting up together."
+  },
+  {
+   "id": "s06-for",
+   "narration": "Here's an array with five numbers, and a loop that doubles each one. If we ran this as it is, one index after another, the CPU would win. And that's surprising, if I told you the GPU is faster. The answer is: it depends. Each GPU thread, on its own, is slower than a CPU core. What the GPU does well is many calculations at once. So for it to win, we can't walk through the loop. Each thread has to take care of a different index. C# already has something built on that idea: Parallel dot For. It spreads the indexes across the CPU cores. You give it a start, an end, and a function that receives the index. Look at what changed. We no longer write the loop. We only write a function that works on one index, and Parallel dot For calls it for all of them. Each core can process a different index, and they all run at the same time. The GPU does exactly the same, with many, many more threads. And that function, the one that works on a single index, is exactly what we call a shader. Remember this idea, because everything else in the series is built on it.",
+   "visual": "Real chapter code typed in a window; a cursor walks the for loop; Parallel.For splits across cores; RandomOperation highlighted."
+  },
+  {
+   "id": "s07-pixels",
+   "narration": "The second reason is color. Your screen is a grid of colored dots, and each dot is a pixel. A Full HD screen is nineteen twenty by one thousand eighty. A little over two million pixels. For a game to look smooth, all of their colors have to be decided about sixty times every second. That's over a hundred and twenty million colors, every second. Do the math. If each color took just one microsecond on a single core, one frame alone would take two seconds. A loop on the CPU won't make it. But it's the same problem as the array. Only now, the array is the pixels of the screen. So the GPU lets you write a function that receives a pixel, and returns its color, once for every pixel, all at the same time. Always return red, and the screen is red. Make the color depend on the position, and you get a gradient. Make it depend on an image and on time, and a photo can move as if it were underwater. Water, fire, shadows, lights. All of them are functions that decide the color of a pixel.",
+   "visual": "Zoom from screen to pixels; counters 1920x1080 and 124,416,000; one pixel feeds a Fragment function; red, gradient, photo."
+  },
+  {
+   "id": "s08-stages",
+   "narration": "So far we've said \"a function\". There are actually several kinds, and each is called a stage. What changes is what the function runs over. The Vertex stage runs once for each point of the shape you want to draw, and decides where that point lands on the screen. A triangle has three points, so that's three calls. The Fragment stage runs once for each pixel the shape covers, and decides its color. If the triangle covers a hundred thousand pixels, that's a hundred thousand calls. And Compute runs once for each index you ask for. It's our array, and it draws nothing. To draw something, the first two work together. You send three points. Vertex places each one. The GPU works out which pixels fall inside the triangle. And Fragment gives each one a color. It doesn't have to be clear yet. The next video goes through it one step at a time.",
+   "visual": "Three stages as a table that builds; three points become a triangle, covered pixels are marked, Fragment colors them."
+  },
+  {
+   "id": "s09-yotsuba",
+   "narration": "Since the GPU doesn't understand C#, shaders have always been written in languages made just for that: HLSL, GLSL, Metal. Each graphics API has its own, and none of them knows about the classes in your project. With Yotsuba Shader, you write the shader in C#. In your own project, with your own editor. The compiler checks that you only use things the GPU can do, and translates the result into the language you need. Here's what that looks like. This is a complete shader, written in C#. You don't need the details yet. In a few videos, you'll write it yourself, line by line.",
+   "visual": "C# source on the left; compiler check; outputs HLSL, GLSL, Metal, WGSL, SPIR-V on the right."
+  },
+  {
+   "id": "s10-recap",
+   "narration": "To sum up. A shader is a function that runs on the GPU. The GPU calls it a huge number of times at once: once per vertex, per pixel, or per index. Inside it you can only do calculations. No files, no text, no lists. And with Yotsuba Shader, you write that function in C#. In the next video, we'll look at how a shader is built. See you there.",
+   "visual": "Four recap lines; end card with next-video title."
+  }
+ ]
+}
