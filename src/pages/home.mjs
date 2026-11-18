@@ -150,7 +150,7 @@ public VertexOutput Vertex(
     </div>
     <div>${code('xml', `<Target Name="GenerateYotsubaShaderAccessors"
         AfterTargets="Build">
-  <Exec Command="dotnet run --project YotsubaShader.CLI/YotsubaShader.CLI.csproj -- add $(MSBuildProjectFullPath) --target spirv" />
+  <Exec Command="dotnet run --project Core/YotsubaShader.Compiler.CLI/YotsubaShader.Compiler.CLI.csproj -- add $(MSBuildProjectFullPath) --target spirv" />
 </Target>`, 'YourProject.csproj')}</div>
   </div>
 </section>

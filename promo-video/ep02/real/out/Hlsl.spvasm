@@ -1,0 +1,113 @@
+; SPIR-V
+; Version: 1.6
+; Generator: Khronos; 0
+; Bound: 57
+; Schema: 0
+               OpCapability Shader
+               OpExtension "SPV_GOOGLE_decorate_string"
+               OpExtension "SPV_GOOGLE_hlsl_functionality1"
+               OpMemoryModel Logical GLSL450
+               OpEntryPoint Vertex %Vertex "Vertex" %corner_Position %corner_Color %__return_Position %__return_Color
+               OpEntryPoint Fragment %Fragment "Fragment" %pixel_Position %pixel_Color %__return
+               OpExecutionMode %Fragment OriginUpperLeft
+               OpName %Vertex "Vertex"
+               OpName %corner_Position "corner_Position"
+               OpName %corner_Color "corner_Color"
+               OpName %__return_Position "__return_Position"
+               OpName %__return_Color "__return_Color"
+               OpName %Fragment "Fragment"
+               OpName %pixel_Position "pixel_Position"
+               OpName %pixel_Color "pixel_Color"
+               OpName %__return "__return"
+               OpName %Vec4 "Vec4"
+               OpName %Pixel "Pixel"
+               OpMemberName %Pixel 0 "Position"
+               OpMemberName %Pixel 1 "Color"
+               OpName %pixel "pixel"
+               OpName %x "x"
+               OpName %y "y"
+               OpName %z "z"
+               OpName %w "w"
+               OpName %v "v"
+               OpDecorate %corner_Position Location 0
+               OpDecorateString %corner_Position UserSemantic "POSITION"
+               OpDecorate %corner_Color Location 1
+               OpDecorateString %corner_Color UserSemantic "COLOR0"
+               OpDecorate %__return_Position BuiltIn Position
+               OpDecorate %__return_Color Location 0
+               OpDecorateString %__return_Color UserSemantic "TEXCOORD0"
+               OpDecorate %pixel_Position BuiltIn FragCoord
+               OpDecorate %pixel_Color Location 0
+               OpDecorateString %pixel_Color UserSemantic "TEXCOORD0"
+               OpDecorate %__return Location 0
+       %void = OpTypeVoid
+      %float = OpTypeFloat 32
+    %v2float = OpTypeVector %float 2
+%_ptr_Input_v2float = OpTypePointer Input %v2float
+    %v4float = OpTypeVector %float 4
+%_ptr_Input_v4float = OpTypePointer Input %v4float
+%_ptr_Output_v4float = OpTypePointer Output %v4float
+    %float_0 = OpConstant %float 0
+    %float_1 = OpConstant %float 1
+         %27 = OpTypeFunction %void
+      %Pixel = OpTypeStruct %v4float %v4float
+%_ptr_Function_Pixel = OpTypePointer Function %Pixel
+%_ptr_Function_v4float = OpTypePointer Function %v4float
+       %uint = OpTypeInt 32 0
+     %uint_0 = OpConstant %uint 0
+     %uint_1 = OpConstant %uint 1
+         %33 = OpTypeFunction %v4float %float %float %float %float
+%_ptr_Function_float = OpTypePointer Function %float
+     %uint_2 = OpConstant %uint 2
+     %uint_3 = OpConstant %uint 3
+%corner_Position = OpVariable %_ptr_Input_v2float Input
+%corner_Color = OpVariable %_ptr_Input_v4float Input
+%__return_Position = OpVariable %_ptr_Output_v4float Output
+%__return_Color = OpVariable %_ptr_Output_v4float Output
+%pixel_Position = OpVariable %_ptr_Input_v4float Input
+%pixel_Color = OpVariable %_ptr_Input_v4float Input
+   %__return = OpVariable %_ptr_Output_v4float Output
+     %Vertex = OpFunction %void None %27
+         %37 = OpLabel
+      %pixel = OpVariable %_ptr_Function_Pixel Function
+         %38 = OpAccessChain %_ptr_Function_v4float %pixel %uint_0
+         %39 = OpLoad %v2float %corner_Position
+         %40 = OpCompositeExtract %float %39 0
+         %41 = OpLoad %v2float %corner_Position
+         %42 = OpCompositeExtract %float %41 1
+         %43 = OpFunctionCall %v4float %Vec4 %40 %42 %float_0 %float_1
+               OpStore %38 %43
+         %44 = OpAccessChain %_ptr_Function_v4float %pixel %uint_1
+         %45 = OpLoad %v4float %corner_Color
+               OpStore %44 %45
+         %46 = OpLoad %Pixel %pixel
+         %47 = OpCompositeExtract %v4float %46 0
+               OpStore %__return_Position %47
+         %48 = OpCompositeExtract %v4float %46 1
+               OpStore %__return_Color %48
+               OpReturn
+               OpFunctionEnd
+   %Fragment = OpFunction %void None %27
+         %49 = OpLabel
+         %50 = OpLoad %v4float %pixel_Color
+               OpStore %__return %50
+               OpReturn
+               OpFunctionEnd
+       %Vec4 = OpFunction %v4float None %33
+          %x = OpFunctionParameter %float
+          %y = OpFunctionParameter %float
+          %z = OpFunctionParameter %float
+          %w = OpFunctionParameter %float
+         %51 = OpLabel
+          %v = OpVariable %_ptr_Function_v4float Function
+         %52 = OpAccessChain %_ptr_Function_float %v %uint_0
+               OpStore %52 %x
+         %53 = OpAccessChain %_ptr_Function_float %v %uint_1
+               OpStore %53 %y
+         %54 = OpAccessChain %_ptr_Function_float %v %uint_2
+               OpStore %54 %z
+         %55 = OpAccessChain %_ptr_Function_float %v %uint_3
+               OpStore %55 %w
+         %56 = OpLoad %v4float %v
+               OpReturnValue %56
+               OpFunctionEnd

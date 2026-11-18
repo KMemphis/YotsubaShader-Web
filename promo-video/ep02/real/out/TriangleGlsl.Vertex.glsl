@@ -1,0 +1,31 @@
+#version 450
+
+struct Pixel
+{
+    vec4 Position;
+    vec4 Color;
+};
+
+layout(location = 0) in vec2 corner_Position;
+layout(location = 1) in vec4 corner_Color;
+layout(location = 0) out vec4 _return_Color;
+
+vec4 Vec4(float x, float y, float z, float w)
+{
+    vec4 v;
+    v.x = x;
+    v.y = y;
+    v.z = z;
+    v.w = w;
+    return v;
+}
+
+void main()
+{
+    Pixel pixel;
+    pixel.Position = Vec4(corner_Position.x, corner_Position.y, 0.0, 1.0);
+    pixel.Color = corner_Color;
+    gl_Position = pixel.Position;
+    _return_Color = pixel.Color;
+}
+

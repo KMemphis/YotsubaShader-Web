@@ -1,0 +1,7260 @@
+{
+ "duration": 506.84,
+ "leadIn": 0.6,
+ "scenes": [
+  {
+   "id": "s01-hook",
+   "start": 0.6,
+   "end": 20.36,
+   "sentences": [
+    {
+     "text": "Cada píxel que ves ahora mismo en tu pantalla fue coloreado por una pequeña función.",
+     "start": 0.66,
+     "end": 5.36,
+     "words": [
+      {
+       "w": "Cada",
+       "start": 0.66,
+       "end": 0.936
+      },
+      {
+       "w": "píxel",
+       "start": 0.936,
+       "end": 1.268
+      },
+      {
+       "w": "que",
+       "start": 1.268,
+       "end": 1.489
+      },
+      {
+       "w": "ves",
+       "start": 1.489,
+       "end": 1.711
+      },
+      {
+       "w": "ahora",
+       "start": 1.711,
+       "end": 2.042
+      },
+      {
+       "w": "mismo",
+       "start": 2.042,
+       "end": 2.374
+      },
+      {
+       "w": "en",
+       "start": 2.374,
+       "end": 2.54
+      },
+      {
+       "w": "tu",
+       "start": 2.54,
+       "end": 2.706
+      },
+      {
+       "w": "pantalla",
+       "start": 2.706,
+       "end": 3.204
+      },
+      {
+       "w": "fue",
+       "start": 3.204,
+       "end": 3.425
+      },
+      {
+       "w": "coloreado",
+       "start": 3.425,
+       "end": 3.978
+      },
+      {
+       "w": "por",
+       "start": 3.978,
+       "end": 4.199
+      },
+      {
+       "w": "una",
+       "start": 4.199,
+       "end": 4.42
+      },
+      {
+       "w": "pequeña",
+       "start": 4.42,
+       "end": 4.862
+      },
+      {
+       "w": "función.",
+       "start": 4.862,
+       "end": 5.36
+      }
+     ]
+    },
+    {
+     "text": "No una sola función.",
+     "start": 5.92,
+     "end": 7.18,
+     "words": [
+      {
+       "w": "No",
+       "start": 5.92,
+       "end": 6.1
+      },
+      {
+       "w": "una",
+       "start": 6.1,
+       "end": 6.34
+      },
+      {
+       "w": "sola",
+       "start": 6.34,
+       "end": 6.64
+      },
+      {
+       "w": "función.",
+       "start": 6.64,
+       "end": 7.18
+      }
+     ]
+    },
+    {
+     "text": "La misma función, ejecutándose más de dos millones de veces, todas a la vez, sesenta veces por segundo.",
+     "start": 7.6,
+     "end": 14.54,
+     "words": [
+      {
+       "w": "La",
+       "start": 7.6,
+       "end": 7.8
+      },
+      {
+       "w": "misma",
+       "start": 7.8,
+       "end": 8.201
+      },
+      {
+       "w": "función,",
+       "start": 8.201,
+       "end": 8.801
+      },
+      {
+       "w": "ejecutándose",
+       "start": 8.801,
+       "end": 9.669
+      },
+      {
+       "w": "más",
+       "start": 9.669,
+       "end": 9.936
+      },
+      {
+       "w": "de",
+       "start": 9.936,
+       "end": 10.136
+      },
+      {
+       "w": "dos",
+       "start": 10.136,
+       "end": 10.403
+      },
+      {
+       "w": "millones",
+       "start": 10.403,
+       "end": 11.003
+      },
+      {
+       "w": "de",
+       "start": 11.003,
+       "end": 11.203
+      },
+      {
+       "w": "veces,",
+       "start": 11.203,
+       "end": 11.671
+      },
+      {
+       "w": "todas",
+       "start": 11.671,
+       "end": 12.071
+      },
+      {
+       "w": "a",
+       "start": 12.071,
+       "end": 12.204
+      },
+      {
+       "w": "la",
+       "start": 12.204,
+       "end": 12.405
+      },
+      {
+       "w": "vez,",
+       "start": 12.405,
+       "end": 12.738
+      },
+      {
+       "w": "sesenta",
+       "start": 12.738,
+       "end": 13.272
+      },
+      {
+       "w": "veces",
+       "start": 13.272,
+       "end": 13.672
+      },
+      {
+       "w": "por",
+       "start": 13.672,
+       "end": 13.939
+      },
+      {
+       "w": "segundo.",
+       "start": 13.939,
+       "end": 14.54
+      }
+     ]
+    },
+    {
+     "text": "Esa función se llama shader.",
+     "start": 15.24,
+     "end": 16.88,
+     "words": [
+      {
+       "w": "Esa",
+       "start": 15.24,
+       "end": 15.466
+      },
+      {
+       "w": "función",
+       "start": 15.466,
+       "end": 15.919
+      },
+      {
+       "w": "se",
+       "start": 15.919,
+       "end": 16.088
+      },
+      {
+       "w": "llama",
+       "start": 16.088,
+       "end": 16.428
+      },
+      {
+       "w": "shader.",
+       "start": 16.428,
+       "end": 16.88
+      }
+     ]
+    },
+    {
+     "text": "Y en esta serie, vas a escribirlos en C#.",
+     "start": 17.42,
+     "end": 20.22,
+     "words": [
+      {
+       "w": "Y",
+       "start": 17.42,
+       "end": 17.553
+      },
+      {
+       "w": "en",
+       "start": 17.553,
+       "end": 17.753
+      },
+      {
+       "w": "esta",
+       "start": 17.753,
+       "end": 18.087
+      },
+      {
+       "w": "serie,",
+       "start": 18.087,
+       "end": 18.553
+      },
+      {
+       "w": "vas",
+       "start": 18.553,
+       "end": 18.82
+      },
+      {
+       "w": "a",
+       "start": 18.82,
+       "end": 18.953
+      },
+      {
+       "w": "escribirlos",
+       "start": 18.953,
+       "end": 19.753
+      },
+      {
+       "w": "en",
+       "start": 19.753,
+       "end": 19.953
+      },
+      {
+       "w": "C#.",
+       "start": 19.953,
+       "end": 20.22
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "s02-welcome",
+   "start": 21.76,
+   "end": 74.84,
+   "sentences": [
+    {
+     "text": "Te damos la bienvenida a Yotsuba Shader:",
+     "start": 21.82,
+     "end": 24.38,
+     "words": [
+      {
+       "w": "Te",
+       "start": 21.82,
+       "end": 22.007
+      },
+      {
+       "w": "damos",
+       "start": 22.007,
+       "end": 22.382
+      },
+      {
+       "w": "la",
+       "start": 22.382,
+       "end": 22.569
+      },
+      {
+       "w": "bienvenida",
+       "start": 22.569,
+       "end": 23.256
+      },
+      {
+       "w": "a",
+       "start": 23.256,
+       "end": 23.381
+      },
+      {
+       "w": "Yotsuba",
+       "start": 23.381,
+       "end": 23.88
+      },
+      {
+       "w": "Shader:",
+       "start": 23.88,
+       "end": 24.38
+      }
+     ]
+    },
+    {
+     "text": "un SDK para escribir shaders en C#, para muchas APIs gráficas y motores de juego.",
+     "start": 24.66,
+     "end": 29.96,
+     "words": [
+      {
+       "w": "un",
+       "start": 24.66,
+       "end": 24.854
+      },
+      {
+       "w": "SDK",
+       "start": 24.854,
+       "end": 25.112
+      },
+      {
+       "w": "para",
+       "start": 25.112,
+       "end": 25.436
+      },
+      {
+       "w": "escribir",
+       "start": 25.436,
+       "end": 26.017
+      },
+      {
+       "w": "shaders",
+       "start": 26.017,
+       "end": 26.534
+      },
+      {
+       "w": "en",
+       "start": 26.534,
+       "end": 26.728
+      },
+      {
+       "w": "C#,",
+       "start": 26.728,
+       "end": 26.987
+      },
+      {
+       "w": "para",
+       "start": 26.987,
+       "end": 27.31
+      },
+      {
+       "w": "muchas",
+       "start": 27.31,
+       "end": 27.762
+      },
+      {
+       "w": "APIs",
+       "start": 27.762,
+       "end": 28.086
+      },
+      {
+       "w": "gráficas",
+       "start": 28.086,
+       "end": 28.667
+      },
+      {
+       "w": "y",
+       "start": 28.667,
+       "end": 28.797
+      },
+      {
+       "w": "motores",
+       "start": 28.797,
+       "end": 29.314
+      },
+      {
+       "w": "de",
+       "start": 29.314,
+       "end": 29.508
+      },
+      {
+       "w": "juego.",
+       "start": 29.508,
+       "end": 29.96
+      }
+     ]
+    },
+    {
+     "text": "En este primer video aprenderás qué es un shader, y por qué se ejecuta en la GPU.",
+     "start": 30.38,
+     "end": 35.46,
+     "words": [
+      {
+       "w": "En",
+       "start": 30.38,
+       "end": 30.566
+      },
+      {
+       "w": "este",
+       "start": 30.566,
+       "end": 30.876
+      },
+      {
+       "w": "primer",
+       "start": 30.876,
+       "end": 31.309
+      },
+      {
+       "w": "video",
+       "start": 31.309,
+       "end": 31.681
+      },
+      {
+       "w": "aprenderás",
+       "start": 31.681,
+       "end": 32.362
+      },
+      {
+       "w": "qué",
+       "start": 32.362,
+       "end": 32.61
+      },
+      {
+       "w": "es",
+       "start": 32.61,
+       "end": 32.796
+      },
+      {
+       "w": "un",
+       "start": 32.796,
+       "end": 32.982
+      },
+      {
+       "w": "shader,",
+       "start": 32.982,
+       "end": 33.478
+      },
+      {
+       "w": "y",
+       "start": 33.478,
+       "end": 33.601
+      },
+      {
+       "w": "por",
+       "start": 33.601,
+       "end": 33.849
+      },
+      {
+       "w": "qué",
+       "start": 33.849,
+       "end": 34.097
+      },
+      {
+       "w": "se",
+       "start": 34.097,
+       "end": 34.283
+      },
+      {
+       "w": "ejecuta",
+       "start": 34.283,
+       "end": 34.779
+      },
+      {
+       "w": "en",
+       "start": 34.779,
+       "end": 34.964
+      },
+      {
+       "w": "la",
+       "start": 34.964,
+       "end": 35.15
+      },
+      {
+       "w": "GPU.",
+       "start": 35.15,
+       "end": 35.46
+      }
+     ]
+    },
+    {
+     "text": "No necesitas saber nada de shaders.",
+     "start": 35.98,
+     "end": 38.12,
+     "words": [
+      {
+       "w": "No",
+       "start": 35.98,
+       "end": 36.158
+      },
+      {
+       "w": "necesitas",
+       "start": 36.158,
+       "end": 36.753
+      },
+      {
+       "w": "saber",
+       "start": 36.753,
+       "end": 37.109
+      },
+      {
+       "w": "nada",
+       "start": 37.109,
+       "end": 37.407
+      },
+      {
+       "w": "de",
+       "start": 37.407,
+       "end": 37.585
+      },
+      {
+       "w": "shaders.",
+       "start": 37.585,
+       "end": 38.12
+      }
+     ]
+    },
+    {
+     "text": "Solo necesitas saber C#.",
+     "start": 38.38,
+     "end": 40.14,
+     "words": [
+      {
+       "w": "Solo",
+       "start": 38.38,
+       "end": 38.732
+      },
+      {
+       "w": "necesitas",
+       "start": 38.732,
+       "end": 39.436
+      },
+      {
+       "w": "saber",
+       "start": 39.436,
+       "end": 39.858
+      },
+      {
+       "w": "C#.",
+       "start": 39.858,
+       "end": 40.14
+      }
+     ]
+    },
+    {
+     "text": "Y esto no es una lista de funciones para memorizar.",
+     "start": 40.64,
+     "end": 43.4,
+     "words": [
+      {
+       "w": "Y",
+       "start": 40.64,
+       "end": 40.746
+      },
+      {
+       "w": "esto",
+       "start": 40.746,
+       "end": 41.012
+      },
+      {
+       "w": "no",
+       "start": 41.012,
+       "end": 41.171
+      },
+      {
+       "w": "es",
+       "start": 41.171,
+       "end": 41.33
+      },
+      {
+       "w": "una",
+       "start": 41.33,
+       "end": 41.542
+      },
+      {
+       "w": "lista",
+       "start": 41.542,
+       "end": 41.861
+      },
+      {
+       "w": "de",
+       "start": 41.861,
+       "end": 42.02
+      },
+      {
+       "w": "funciones",
+       "start": 42.02,
+       "end": 42.551
+      },
+      {
+       "w": "para",
+       "start": 42.551,
+       "end": 42.816
+      },
+      {
+       "w": "memorizar.",
+       "start": 42.816,
+       "end": 43.4
+      }
+     ]
+    },
+    {
+     "text": "En cada video escribirás código, lo ejecutarás, y verás aparecer algo en tu pantalla.",
+     "start": 43.78,
+     "end": 49.1,
+     "words": [
+      {
+       "w": "En",
+       "start": 43.78,
+       "end": 43.966
+      },
+      {
+       "w": "cada",
+       "start": 43.966,
+       "end": 44.275
+      },
+      {
+       "w": "video",
+       "start": 44.275,
+       "end": 44.646
+      },
+      {
+       "w": "escribirás",
+       "start": 44.646,
+       "end": 45.327
+      },
+      {
+       "w": "código,",
+       "start": 45.327,
+       "end": 45.821
+      },
+      {
+       "w": "lo",
+       "start": 45.821,
+       "end": 46.007
+      },
+      {
+       "w": "ejecutarás,",
+       "start": 46.007,
+       "end": 46.749
+      },
+      {
+       "w": "y",
+       "start": 46.749,
+       "end": 46.873
+      },
+      {
+       "w": "verás",
+       "start": 46.873,
+       "end": 47.244
+      },
+      {
+       "w": "aparecer",
+       "start": 47.244,
+       "end": 47.801
+      },
+      {
+       "w": "algo",
+       "start": 47.801,
+       "end": 48.11
+      },
+      {
+       "w": "en",
+       "start": 48.11,
+       "end": 48.296
+      },
+      {
+       "w": "tu",
+       "start": 48.296,
+       "end": 48.481
+      },
+      {
+       "w": "pantalla.",
+       "start": 48.481,
+       "end": 49.1
+      }
+     ]
+    },
+    {
+     "text": "Si algo no se ve como debería, el tutorial te dice exactamente qué revisar.",
+     "start": 49.48,
+     "end": 54.18,
+     "words": [
+      {
+       "w": "Si",
+       "start": 49.48,
+       "end": 49.666
+      },
+      {
+       "w": "algo",
+       "start": 49.666,
+       "end": 49.975
+      },
+      {
+       "w": "no",
+       "start": 49.975,
+       "end": 50.16
+      },
+      {
+       "w": "se",
+       "start": 50.16,
+       "end": 50.346
+      },
+      {
+       "w": "ve",
+       "start": 50.346,
+       "end": 50.531
+      },
+      {
+       "w": "como",
+       "start": 50.531,
+       "end": 50.841
+      },
+      {
+       "w": "debería,",
+       "start": 50.841,
+       "end": 51.397
+      },
+      {
+       "w": "el",
+       "start": 51.397,
+       "end": 51.583
+      },
+      {
+       "w": "tutorial",
+       "start": 51.583,
+       "end": 52.139
+      },
+      {
+       "w": "te",
+       "start": 52.139,
+       "end": 52.325
+      },
+      {
+       "w": "dice",
+       "start": 52.325,
+       "end": 52.634
+      },
+      {
+       "w": "exactamente",
+       "start": 52.634,
+       "end": 53.376
+      },
+      {
+       "w": "qué",
+       "start": 53.376,
+       "end": 53.623
+      },
+      {
+       "w": "revisar.",
+       "start": 53.623,
+       "end": 54.18
+      }
+     ]
+    },
+    {
+     "text": "Empezamos por los fundamentos, para alguien que nunca ha visto un shader.",
+     "start": 54.6,
+     "end": 58.44,
+     "words": [
+      {
+       "w": "Empezamos",
+       "start": 54.6,
+       "end": 55.119
+      },
+      {
+       "w": "por",
+       "start": 55.119,
+       "end": 55.326
+      },
+      {
+       "w": "los",
+       "start": 55.326,
+       "end": 55.534
+      },
+      {
+       "w": "fundamentos,",
+       "start": 55.534,
+       "end": 56.209
+      },
+      {
+       "w": "para",
+       "start": 56.209,
+       "end": 56.468
+      },
+      {
+       "w": "alguien",
+       "start": 56.468,
+       "end": 56.883
+      },
+      {
+       "w": "que",
+       "start": 56.883,
+       "end": 57.091
+      },
+      {
+       "w": "nunca",
+       "start": 57.091,
+       "end": 57.402
+      },
+      {
+       "w": "ha",
+       "start": 57.402,
+       "end": 57.558
+      },
+      {
+       "w": "visto",
+       "start": 57.558,
+       "end": 57.869
+      },
+      {
+       "w": "un",
+       "start": 57.869,
+       "end": 58.025
+      },
+      {
+       "w": "shader.",
+       "start": 58.025,
+       "end": 58.44
+      }
+     ]
+    },
+    {
+     "text": "Después, un taller, una herramienta a la vez:",
+     "start": 58.86,
+     "end": 61.84,
+     "words": [
+      {
+       "w": "Después,",
+       "start": 58.86,
+       "end": 59.443
+      },
+      {
+       "w": "un",
+       "start": 59.443,
+       "end": 59.637
+      },
+      {
+       "w": "taller,",
+       "start": 59.637,
+       "end": 60.156
+      },
+      {
+       "w": "una",
+       "start": 60.156,
+       "end": 60.415
+      },
+      {
+       "w": "herramienta",
+       "start": 60.415,
+       "end": 61.192
+      },
+      {
+       "w": "a",
+       "start": 61.192,
+       "end": 61.322
+      },
+      {
+       "w": "la",
+       "start": 61.322,
+       "end": 61.516
+      },
+      {
+       "w": "vez:",
+       "start": 61.516,
+       "end": 61.84
+      }
+     ]
+    },
+    {
+     "text": "colores, coordenadas, condiciones, bucles y tiempo.",
+     "start": 62.18,
+     "end": 66.06,
+     "words": [
+      {
+       "w": "colores,",
+       "start": 62.18,
+       "end": 62.852
+      },
+      {
+       "w": "coordenadas,",
+       "start": 62.852,
+       "end": 63.822
+      },
+      {
+       "w": "condiciones,",
+       "start": 63.822,
+       "end": 64.792
+      },
+      {
+       "w": "bucles",
+       "start": 64.792,
+       "end": 65.314
+      },
+      {
+       "w": "y",
+       "start": 65.314,
+       "end": 65.463
+      },
+      {
+       "w": "tiempo.",
+       "start": 65.463,
+       "end": 66.06
+      }
+     ]
+    },
+    {
+     "text": "Y por último, los shaders mismos:",
+     "start": 66.48,
+     "end": 68.18,
+     "words": [
+      {
+       "w": "Y",
+       "start": 66.48,
+       "end": 66.58
+      },
+      {
+       "w": "por",
+       "start": 66.58,
+       "end": 66.78
+      },
+      {
+       "w": "último,",
+       "start": 66.78,
+       "end": 67.18
+      },
+      {
+       "w": "los",
+       "start": 67.18,
+       "end": 67.38
+      },
+      {
+       "w": "shaders",
+       "start": 67.38,
+       "end": 67.78
+      },
+      {
+       "w": "mismos:",
+       "start": 67.78,
+       "end": 68.18
+      }
+     ]
+    },
+    {
+     "text": "un fractal, un anillo de neón, un plasma en movimiento, y una foto que parece estar bajo el agua.",
+     "start": 68.48,
+     "end": 74.7,
+     "words": [
+      {
+       "w": "un",
+       "start": 68.48,
+       "end": 68.67
+      },
+      {
+       "w": "fractal,",
+       "start": 68.67,
+       "end": 69.242
+      },
+      {
+       "w": "un",
+       "start": 69.242,
+       "end": 69.432
+      },
+      {
+       "w": "anillo",
+       "start": 69.432,
+       "end": 69.876
+      },
+      {
+       "w": "de",
+       "start": 69.876,
+       "end": 70.067
+      },
+      {
+       "w": "neón,",
+       "start": 70.067,
+       "end": 70.448
+      },
+      {
+       "w": "un",
+       "start": 70.448,
+       "end": 70.638
+      },
+      {
+       "w": "plasma",
+       "start": 70.638,
+       "end": 71.082
+      },
+      {
+       "w": "en",
+       "start": 71.082,
+       "end": 71.273
+      },
+      {
+       "w": "movimiento,",
+       "start": 71.273,
+       "end": 72.034
+      },
+      {
+       "w": "y",
+       "start": 72.034,
+       "end": 72.161
+      },
+      {
+       "w": "una",
+       "start": 72.161,
+       "end": 72.415
+      },
+      {
+       "w": "foto",
+       "start": 72.415,
+       "end": 72.732
+      },
+      {
+       "w": "que",
+       "start": 72.732,
+       "end": 72.986
+      },
+      {
+       "w": "parece",
+       "start": 72.986,
+       "end": 73.431
+      },
+      {
+       "w": "estar",
+       "start": 73.431,
+       "end": 73.811
+      },
+      {
+       "w": "bajo",
+       "start": 73.811,
+       "end": 74.129
+      },
+      {
+       "w": "el",
+       "start": 74.129,
+       "end": 74.319
+      },
+      {
+       "w": "agua.",
+       "start": 74.319,
+       "end": 74.7
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "s03-function",
+   "start": 75.64,
+   "end": 99.28,
+   "sentences": [
+    {
+     "text": "Entonces, ¿qué es un shader?",
+     "start": 75.7,
+     "end": 77.4,
+     "words": [
+      {
+       "w": "Entonces,",
+       "start": 75.7,
+       "end": 76.286
+      },
+      {
+       "w": "¿qué",
+       "start": 76.286,
+       "end": 76.579
+      },
+      {
+       "w": "es",
+       "start": 76.579,
+       "end": 76.755
+      },
+      {
+       "w": "un",
+       "start": 76.755,
+       "end": 76.931
+      },
+      {
+       "w": "shader?",
+       "start": 76.931,
+       "end": 77.4
+      }
+     ]
+    },
+    {
+     "text": "Un shader es una función que se ejecuta en la GPU.",
+     "start": 78.12,
+     "end": 81.2,
+     "words": [
+      {
+       "w": "Un",
+       "start": 78.12,
+       "end": 78.301
+      },
+      {
+       "w": "shader",
+       "start": 78.301,
+       "end": 78.724
+      },
+      {
+       "w": "es",
+       "start": 78.724,
+       "end": 78.905
+      },
+      {
+       "w": "una",
+       "start": 78.905,
+       "end": 79.147
+      },
+      {
+       "w": "función",
+       "start": 79.147,
+       "end": 79.63
+      },
+      {
+       "w": "que",
+       "start": 79.63,
+       "end": 79.871
+      },
+      {
+       "w": "se",
+       "start": 79.871,
+       "end": 80.053
+      },
+      {
+       "w": "ejecuta",
+       "start": 80.053,
+       "end": 80.536
+      },
+      {
+       "w": "en",
+       "start": 80.536,
+       "end": 80.717
+      },
+      {
+       "w": "la",
+       "start": 80.717,
+       "end": 80.898
+      },
+      {
+       "w": "GPU.",
+       "start": 80.898,
+       "end": 81.2
+      }
+     ]
+    },
+    {
+     "text": "La GPU es la tarjeta gráfica de tu computadora.",
+     "start": 81.68,
+     "end": 84.42,
+     "words": [
+      {
+       "w": "La",
+       "start": 81.68,
+       "end": 81.851
+      },
+      {
+       "w": "GPU",
+       "start": 81.851,
+       "end": 82.08
+      },
+      {
+       "w": "es",
+       "start": 82.08,
+       "end": 82.251
+      },
+      {
+       "w": "la",
+       "start": 82.251,
+       "end": 82.422
+      },
+      {
+       "w": "tarjeta",
+       "start": 82.422,
+       "end": 82.879
+      },
+      {
+       "w": "gráfica",
+       "start": 82.879,
+       "end": 83.335
+      },
+      {
+       "w": "de",
+       "start": 83.335,
+       "end": 83.507
+      },
+      {
+       "w": "tu",
+       "start": 83.507,
+       "end": 83.678
+      },
+      {
+       "w": "computadora.",
+       "start": 83.678,
+       "end": 84.42
+      }
+     ]
+    },
+    {
+     "text": "Puede ser una tarjeta aparte, como esta, o puede vivir dentro del procesador, como en las laptops y los teléfonos.",
+     "start": 85.14,
+     "end": 92.08,
+     "words": [
+      {
+       "w": "Puede",
+       "start": 85.14,
+       "end": 85.502
+      },
+      {
+       "w": "ser",
+       "start": 85.502,
+       "end": 85.743
+      },
+      {
+       "w": "una",
+       "start": 85.743,
+       "end": 85.985
+      },
+      {
+       "w": "tarjeta",
+       "start": 85.985,
+       "end": 86.468
+      },
+      {
+       "w": "aparte,",
+       "start": 86.468,
+       "end": 86.95
+      },
+      {
+       "w": "como",
+       "start": 86.95,
+       "end": 87.252
+      },
+      {
+       "w": "esta,",
+       "start": 87.252,
+       "end": 87.614
+      },
+      {
+       "w": "o",
+       "start": 87.614,
+       "end": 87.735
+      },
+      {
+       "w": "puede",
+       "start": 87.735,
+       "end": 88.097
+      },
+      {
+       "w": "vivir",
+       "start": 88.097,
+       "end": 88.459
+      },
+      {
+       "w": "dentro",
+       "start": 88.459,
+       "end": 88.882
+      },
+      {
+       "w": "del",
+       "start": 88.882,
+       "end": 89.123
+      },
+      {
+       "w": "procesador,",
+       "start": 89.123,
+       "end": 89.847
+      },
+      {
+       "w": "como",
+       "start": 89.847,
+       "end": 90.149
+      },
+      {
+       "w": "en",
+       "start": 90.149,
+       "end": 90.33
+      },
+      {
+       "w": "las",
+       "start": 90.33,
+       "end": 90.571
+      },
+      {
+       "w": "laptops",
+       "start": 90.571,
+       "end": 91.054
+      },
+      {
+       "w": "y",
+       "start": 91.054,
+       "end": 91.175
+      },
+      {
+       "w": "los",
+       "start": 91.175,
+       "end": 91.416
+      },
+      {
+       "w": "teléfonos.",
+       "start": 91.416,
+       "end": 92.08
+      }
+     ]
+    },
+    {
+     "text": "Pero, ¿por qué hace falta un tipo especial de función?",
+     "start": 92.68,
+     "end": 95.3,
+     "words": [
+      {
+       "w": "Pero,",
+       "start": 92.68,
+       "end": 92.966
+      },
+      {
+       "w": "¿por",
+       "start": 92.966,
+       "end": 93.204
+      },
+      {
+       "w": "qué",
+       "start": 93.204,
+       "end": 93.395
+      },
+      {
+       "w": "hace",
+       "start": 93.395,
+       "end": 93.633
+      },
+      {
+       "w": "falta",
+       "start": 93.633,
+       "end": 93.919
+      },
+      {
+       "w": "un",
+       "start": 93.919,
+       "end": 94.061
+      },
+      {
+       "w": "tipo",
+       "start": 94.061,
+       "end": 94.3
+      },
+      {
+       "w": "especial",
+       "start": 94.3,
+       "end": 94.728
+      },
+      {
+       "w": "de",
+       "start": 94.728,
+       "end": 94.871
+      },
+      {
+       "w": "función?",
+       "start": 94.871,
+       "end": 95.3
+      }
+     ]
+    },
+    {
+     "text": "¿Por qué no puede ejecutarse allí el C# que ya escribimos?",
+     "start": 95.86,
+     "end": 99.14,
+     "words": [
+      {
+       "w": "¿Por",
+       "start": 95.86,
+       "end": 96.138
+      },
+      {
+       "w": "qué",
+       "start": 96.138,
+       "end": 96.36
+      },
+      {
+       "w": "no",
+       "start": 96.36,
+       "end": 96.527
+      },
+      {
+       "w": "puede",
+       "start": 96.527,
+       "end": 96.861
+      },
+      {
+       "w": "ejecutarse",
+       "start": 96.861,
+       "end": 97.472
+      },
+      {
+       "w": "allí",
+       "start": 97.472,
+       "end": 97.75
+      },
+      {
+       "w": "el",
+       "start": 97.75,
+       "end": 97.917
+      },
+      {
+       "w": "C#",
+       "start": 97.917,
+       "end": 98.084
+      },
+      {
+       "w": "que",
+       "start": 98.084,
+       "end": 98.306
+      },
+      {
+       "w": "ya",
+       "start": 98.306,
+       "end": 98.473
+      },
+      {
+       "w": "escribimos?",
+       "start": 98.473,
+       "end": 99.14
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "s04-no-os",
+   "start": 100.08,
+   "end": 166.4,
+   "sentences": [
+    {
+     "text": "Piensa en Node.",
+     "start": 100.14,
+     "end": 101.3,
+     "words": [
+      {
+       "w": "Piensa",
+       "start": 100.14,
+       "end": 100.647
+      },
+      {
+       "w": "en",
+       "start": 100.647,
+       "end": 100.865
+      },
+      {
+       "w": "Node.",
+       "start": 100.865,
+       "end": 101.3
+      }
+     ]
+    },
+    {
+     "text": "Con JavaScript y Node puedes escribir programas para Windows, pero no puedes escribir un sistema operativo.",
+     "start": 101.88,
+     "end": 108.42,
+     "words": [
+      {
+       "w": "Con",
+       "start": 101.88,
+       "end": 102.122
+      },
+      {
+       "w": "JavaScript",
+       "start": 102.122,
+       "end": 102.788
+      },
+      {
+       "w": "y",
+       "start": 102.788,
+       "end": 102.909
+      },
+      {
+       "w": "Node",
+       "start": 102.909,
+       "end": 103.212
+      },
+      {
+       "w": "puedes",
+       "start": 103.212,
+       "end": 103.636
+      },
+      {
+       "w": "escribir",
+       "start": 103.636,
+       "end": 104.181
+      },
+      {
+       "w": "programas",
+       "start": 104.181,
+       "end": 104.787
+      },
+      {
+       "w": "para",
+       "start": 104.787,
+       "end": 105.089
+      },
+      {
+       "w": "Windows,",
+       "start": 105.089,
+       "end": 105.634
+      },
+      {
+       "w": "pero",
+       "start": 105.634,
+       "end": 105.937
+      },
+      {
+       "w": "no",
+       "start": 105.937,
+       "end": 106.119
+      },
+      {
+       "w": "puedes",
+       "start": 106.119,
+       "end": 106.543
+      },
+      {
+       "w": "escribir",
+       "start": 106.543,
+       "end": 107.088
+      },
+      {
+       "w": "un",
+       "start": 107.088,
+       "end": 107.269
+      },
+      {
+       "w": "sistema",
+       "start": 107.269,
+       "end": 107.754
+      },
+      {
+       "w": "operativo.",
+       "start": 107.754,
+       "end": 108.42
+      }
+     ]
+    },
+    {
+     "text": "Node depende de funciones del propio sistema operativo, y en un entorno limpio, esas funciones no existen.",
+     "start": 108.94,
+     "end": 116,
+     "words": [
+      {
+       "w": "Node",
+       "start": 108.94,
+       "end": 109.27
+      },
+      {
+       "w": "depende",
+       "start": 109.27,
+       "end": 109.798
+      },
+      {
+       "w": "de",
+       "start": 109.798,
+       "end": 109.996
+      },
+      {
+       "w": "funciones",
+       "start": 109.996,
+       "end": 110.656
+      },
+      {
+       "w": "del",
+       "start": 110.656,
+       "end": 110.919
+      },
+      {
+       "w": "propio",
+       "start": 110.919,
+       "end": 111.381
+      },
+      {
+       "w": "sistema",
+       "start": 111.381,
+       "end": 111.909
+      },
+      {
+       "w": "operativo,",
+       "start": 111.909,
+       "end": 112.635
+      },
+      {
+       "w": "y",
+       "start": 112.635,
+       "end": 112.767
+      },
+      {
+       "w": "en",
+       "start": 112.767,
+       "end": 112.965
+      },
+      {
+       "w": "un",
+       "start": 112.965,
+       "end": 113.163
+      },
+      {
+       "w": "entorno",
+       "start": 113.163,
+       "end": 113.691
+      },
+      {
+       "w": "limpio,",
+       "start": 113.691,
+       "end": 114.219
+      },
+      {
+       "w": "esas",
+       "start": 114.219,
+       "end": 114.548
+      },
+      {
+       "w": "funciones",
+       "start": 114.548,
+       "end": 115.208
+      },
+      {
+       "w": "no",
+       "start": 115.208,
+       "end": 115.406
+      },
+      {
+       "w": "existen.",
+       "start": 115.406,
+       "end": 116
+      }
+     ]
+    },
+    {
+     "text": "Un lenguaje necesita que la máquina de abajo ofrezca ciertas cosas, y cuando no están, no puede ejecutarse.",
+     "start": 116.54,
+     "end": 123.54,
+     "words": [
+      {
+       "w": "Un",
+       "start": 116.54,
+       "end": 116.734
+      },
+      {
+       "w": "lenguaje",
+       "start": 116.734,
+       "end": 117.318
+      },
+      {
+       "w": "necesita",
+       "start": 117.318,
+       "end": 117.901
+      },
+      {
+       "w": "que",
+       "start": 117.901,
+       "end": 118.16
+      },
+      {
+       "w": "la",
+       "start": 118.16,
+       "end": 118.355
+      },
+      {
+       "w": "máquina",
+       "start": 118.355,
+       "end": 118.873
+      },
+      {
+       "w": "de",
+       "start": 118.873,
+       "end": 119.068
+      },
+      {
+       "w": "abajo",
+       "start": 119.068,
+       "end": 119.457
+      },
+      {
+       "w": "ofrezca",
+       "start": 119.457,
+       "end": 119.975
+      },
+      {
+       "w": "ciertas",
+       "start": 119.975,
+       "end": 120.494
+      },
+      {
+       "w": "cosas,",
+       "start": 120.494,
+       "end": 120.947
+      },
+      {
+       "w": "y",
+       "start": 120.947,
+       "end": 121.077
+      },
+      {
+       "w": "cuando",
+       "start": 121.077,
+       "end": 121.531
+      },
+      {
+       "w": "no",
+       "start": 121.531,
+       "end": 121.725
+      },
+      {
+       "w": "están,",
+       "start": 121.725,
+       "end": 122.179
+      },
+      {
+       "w": "no",
+       "start": 122.179,
+       "end": 122.373
+      },
+      {
+       "w": "puede",
+       "start": 122.373,
+       "end": 122.762
+      },
+      {
+       "w": "ejecutarse.",
+       "start": 122.762,
+       "end": 123.54
+      }
+     ]
+    },
+    {
+     "text": "La GPU es igual.",
+     "start": 124.06,
+     "end": 125.26,
+     "words": [
+      {
+       "w": "La",
+       "start": 124.06,
+       "end": 124.272
+      },
+      {
+       "w": "GPU",
+       "start": 124.272,
+       "end": 124.554
+      },
+      {
+       "w": "es",
+       "start": 124.554,
+       "end": 124.766
+      },
+      {
+       "w": "igual.",
+       "start": 124.766,
+       "end": 125.26
+      }
+     ]
+    },
+    {
+     "text": "Lenguajes como C#, Java o Rust tienen cosas muy difíciles de traducir, y cosas que la GPU simplemente no puede hacer.",
+     "start": 125.78,
+     "end": 134.38,
+     "words": [
+      {
+       "w": "Lenguajes",
+       "start": 125.78,
+       "end": 126.509
+      },
+      {
+       "w": "como",
+       "start": 126.509,
+       "end": 126.873
+      },
+      {
+       "w": "C#,",
+       "start": 126.873,
+       "end": 127.165
+      },
+      {
+       "w": "Java",
+       "start": 127.165,
+       "end": 127.529
+      },
+      {
+       "w": "o",
+       "start": 127.529,
+       "end": 127.675
+      },
+      {
+       "w": "Rust",
+       "start": 127.675,
+       "end": 128.039
+      },
+      {
+       "w": "tienen",
+       "start": 128.039,
+       "end": 128.549
+      },
+      {
+       "w": "cosas",
+       "start": 128.549,
+       "end": 128.987
+      },
+      {
+       "w": "muy",
+       "start": 128.987,
+       "end": 129.278
+      },
+      {
+       "w": "difíciles",
+       "start": 129.278,
+       "end": 130.007
+      },
+      {
+       "w": "de",
+       "start": 130.007,
+       "end": 130.226
+      },
+      {
+       "w": "traducir,",
+       "start": 130.226,
+       "end": 130.955
+      },
+      {
+       "w": "y",
+       "start": 130.955,
+       "end": 131.1
+      },
+      {
+       "w": "cosas",
+       "start": 131.1,
+       "end": 131.538
+      },
+      {
+       "w": "que",
+       "start": 131.538,
+       "end": 131.829
+      },
+      {
+       "w": "la",
+       "start": 131.829,
+       "end": 132.048
+      },
+      {
+       "w": "GPU",
+       "start": 132.048,
+       "end": 132.339
+      },
+      {
+       "w": "simplemente",
+       "start": 132.339,
+       "end": 133.214
+      },
+      {
+       "w": "no",
+       "start": 133.214,
+       "end": 133.433
+      },
+      {
+       "w": "puede",
+       "start": 133.433,
+       "end": 133.87
+      },
+      {
+       "w": "hacer.",
+       "start": 133.87,
+       "end": 134.38
+      }
+     ]
+    },
+    {
+     "text": "No puede acceder al sistema de archivos.",
+     "start": 134.88,
+     "end": 136.9,
+     "words": [
+      {
+       "w": "No",
+       "start": 134.88,
+       "end": 135.028
+      },
+      {
+       "w": "puede",
+       "start": 135.028,
+       "end": 135.323
+      },
+      {
+       "w": "acceder",
+       "start": 135.323,
+       "end": 135.718
+      },
+      {
+       "w": "al",
+       "start": 135.718,
+       "end": 135.865
+      },
+      {
+       "w": "sistema",
+       "start": 135.865,
+       "end": 136.26
+      },
+      {
+       "w": "de",
+       "start": 136.26,
+       "end": 136.407
+      },
+      {
+       "w": "archivos.",
+       "start": 136.407,
+       "end": 136.9
+      }
+     ]
+    },
+    {
+     "text": "Una línea que escribe un archivo simplemente no funcionará.",
+     "start": 137.4,
+     "end": 140.96,
+     "words": [
+      {
+       "w": "Una",
+       "start": 137.4,
+       "end": 137.637
+      },
+      {
+       "w": "línea",
+       "start": 137.637,
+       "end": 137.993
+      },
+      {
+       "w": "que",
+       "start": 137.993,
+       "end": 138.231
+      },
+      {
+       "w": "escribe",
+       "start": 138.231,
+       "end": 138.705
+      },
+      {
+       "w": "un",
+       "start": 138.705,
+       "end": 138.883
+      },
+      {
+       "w": "archivo",
+       "start": 138.883,
+       "end": 139.358
+      },
+      {
+       "w": "simplemente",
+       "start": 139.358,
+       "end": 140.07
+      },
+      {
+       "w": "no",
+       "start": 140.07,
+       "end": 140.248
+      },
+      {
+       "w": "funcionará.",
+       "start": 140.248,
+       "end": 140.96
+      }
+     ]
+    },
+    {
+     "text": "No hay cadenas de texto.",
+     "start": 141.44,
+     "end": 142.8,
+     "words": [
+      {
+       "w": "No",
+       "start": 141.44,
+       "end": 141.603
+      },
+      {
+       "w": "hay",
+       "start": 141.603,
+       "end": 141.821
+      },
+      {
+       "w": "cadenas",
+       "start": 141.821,
+       "end": 142.256
+      },
+      {
+       "w": "de",
+       "start": 142.256,
+       "end": 142.419
+      },
+      {
+       "w": "texto.",
+       "start": 142.419,
+       "end": 142.8
+      }
+     ]
+    },
+    {
+     "text": "No hay listas.",
+     "start": 143.3,
+     "end": 144.2,
+     "words": [
+      {
+       "w": "No",
+       "start": 143.3,
+       "end": 143.48
+      },
+      {
+       "w": "hay",
+       "start": 143.48,
+       "end": 143.72
+      },
+      {
+       "w": "listas.",
+       "start": 143.72,
+       "end": 144.2
+      }
+     ]
+    },
+    {
+     "text": "No hay herencia.",
+     "start": 144.6,
+     "end": 145.56,
+     "words": [
+      {
+       "w": "No",
+       "start": 144.6,
+       "end": 144.769
+      },
+      {
+       "w": "hay",
+       "start": 144.769,
+       "end": 144.995
+      },
+      {
+       "w": "herencia.",
+       "start": 144.995,
+       "end": 145.56
+      }
+     ]
+    },
+    {
+     "text": "No hay excepciones.",
+     "start": 145.9,
+     "end": 147.1,
+     "words": [
+      {
+       "w": "No",
+       "start": 145.9,
+       "end": 146.08
+      },
+      {
+       "w": "hay",
+       "start": 146.08,
+       "end": 146.32
+      },
+      {
+       "w": "excepciones.",
+       "start": 146.32,
+       "end": 147.1
+      }
+     ]
+    },
+    {
+     "text": "Piensa en la GPU como una máquina sin sistema operativo.",
+     "start": 147.56,
+     "end": 150.92,
+     "words": [
+      {
+       "w": "Piensa",
+       "start": 147.56,
+       "end": 147.973
+      },
+      {
+       "w": "en",
+       "start": 147.973,
+       "end": 148.149
+      },
+      {
+       "w": "la",
+       "start": 148.149,
+       "end": 148.326
+      },
+      {
+       "w": "GPU",
+       "start": 148.326,
+       "end": 148.562
+      },
+      {
+       "w": "como",
+       "start": 148.562,
+       "end": 148.857
+      },
+      {
+       "w": "una",
+       "start": 148.857,
+       "end": 149.093
+      },
+      {
+       "w": "máquina",
+       "start": 149.093,
+       "end": 149.564
+      },
+      {
+       "w": "sin",
+       "start": 149.564,
+       "end": 149.8
+      },
+      {
+       "w": "sistema",
+       "start": 149.8,
+       "end": 150.272
+      },
+      {
+       "w": "operativo.",
+       "start": 150.272,
+       "end": 150.92
+      }
+     ]
+    },
+    {
+     "text": "Lo que puedes ejecutar ahí es, sobre todo, matemáticas.",
+     "start": 151.44,
+     "end": 154.68,
+     "words": [
+      {
+       "w": "Lo",
+       "start": 151.44,
+       "end": 151.614
+      },
+      {
+       "w": "que",
+       "start": 151.614,
+       "end": 151.845
+      },
+      {
+       "w": "puedes",
+       "start": 151.845,
+       "end": 152.25
+      },
+      {
+       "w": "ejecutar",
+       "start": 152.25,
+       "end": 152.771
+      },
+      {
+       "w": "ahí",
+       "start": 152.771,
+       "end": 153.002
+      },
+      {
+       "w": "es,",
+       "start": 153.002,
+       "end": 153.234
+      },
+      {
+       "w": "sobre",
+       "start": 153.234,
+       "end": 153.581
+      },
+      {
+       "w": "todo,",
+       "start": 153.581,
+       "end": 153.928
+      },
+      {
+       "w": "matemáticas.",
+       "start": 153.928,
+       "end": 154.68
+      }
+     ]
+    },
+    {
+     "text": "Sumar, multiplicar, comparar.",
+     "start": 155.18,
+     "end": 157.68,
+     "words": [
+      {
+       "w": "Sumar,",
+       "start": 155.18,
+       "end": 155.763
+      },
+      {
+       "w": "multiplicar,",
+       "start": 155.763,
+       "end": 156.847
+      },
+      {
+       "w": "comparar.",
+       "start": 156.847,
+       "end": 157.68
+      }
+     ]
+    },
+    {
+     "text": "Eso suena limitado, y lo es.",
+     "start": 158.08,
+     "end": 160.04,
+     "words": [
+      {
+       "w": "Eso",
+       "start": 158.08,
+       "end": 158.35
+      },
+      {
+       "w": "suena",
+       "start": 158.35,
+       "end": 158.756
+      },
+      {
+       "w": "limitado,",
+       "start": 158.756,
+       "end": 159.432
+      },
+      {
+       "w": "y",
+       "start": 159.432,
+       "end": 159.567
+      },
+      {
+       "w": "lo",
+       "start": 159.567,
+       "end": 159.77
+      },
+      {
+       "w": "es.",
+       "start": 159.77,
+       "end": 160.04
+      }
+     ]
+    },
+    {
+     "text": "Pero también es la razón por la que la GPU es tan rápida:",
+     "start": 160.54,
+     "end": 163.82,
+     "words": [
+      {
+       "w": "Pero",
+       "start": 160.54,
+       "end": 160.823
+      },
+      {
+       "w": "también",
+       "start": 160.823,
+       "end": 161.275
+      },
+      {
+       "w": "es",
+       "start": 161.275,
+       "end": 161.445
+      },
+      {
+       "w": "la",
+       "start": 161.445,
+       "end": 161.614
+      },
+      {
+       "w": "razón",
+       "start": 161.614,
+       "end": 161.954
+      },
+      {
+       "w": "por",
+       "start": 161.954,
+       "end": 162.18
+      },
+      {
+       "w": "la",
+       "start": 162.18,
+       "end": 162.35
+      },
+      {
+       "w": "que",
+       "start": 162.35,
+       "end": 162.576
+      },
+      {
+       "w": "la",
+       "start": 162.576,
+       "end": 162.746
+      },
+      {
+       "w": "GPU",
+       "start": 162.746,
+       "end": 162.972
+      },
+      {
+       "w": "es",
+       "start": 162.972,
+       "end": 163.141
+      },
+      {
+       "w": "tan",
+       "start": 163.141,
+       "end": 163.368
+      },
+      {
+       "w": "rápida:",
+       "start": 163.368,
+       "end": 163.82
+      }
+     ]
+    },
+    {
+     "text": "no carga con nada de ese peso.",
+     "start": 164.14,
+     "end": 166.28,
+     "words": [
+      {
+       "w": "no",
+       "start": 164.14,
+       "end": 164.347
+      },
+      {
+       "w": "carga",
+       "start": 164.347,
+       "end": 164.761
+      },
+      {
+       "w": "con",
+       "start": 164.761,
+       "end": 165.037
+      },
+      {
+       "w": "nada",
+       "start": 165.037,
+       "end": 165.383
+      },
+      {
+       "w": "de",
+       "start": 165.383,
+       "end": 165.59
+      },
+      {
+       "w": "ese",
+       "start": 165.59,
+       "end": 165.866
+      },
+      {
+       "w": "peso.",
+       "start": 165.866,
+       "end": 166.28
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "s05-parallel",
+   "start": 167.2,
+   "end": 215.56,
+   "sentences": [
+    {
+     "text": "Entonces, ¿por qué ejecutar código allí?",
+     "start": 167.26,
+     "end": 169.52,
+     "words": [
+      {
+       "w": "Entonces,",
+       "start": 167.26,
+       "end": 167.811
+      },
+      {
+       "w": "¿por",
+       "start": 167.811,
+       "end": 168.087
+      },
+      {
+       "w": "qué",
+       "start": 168.087,
+       "end": 168.307
+      },
+      {
+       "w": "ejecutar",
+       "start": 168.307,
+       "end": 168.803
+      },
+      {
+       "w": "código",
+       "start": 168.803,
+       "end": 169.189
+      },
+      {
+       "w": "allí?",
+       "start": 169.189,
+       "end": 169.52
+      }
+     ]
+    },
+    {
+     "text": "La primera razón:",
+     "start": 170.26,
+     "end": 171.18,
+     "words": [
+      {
+       "w": "La",
+       "start": 170.26,
+       "end": 170.413
+      },
+      {
+       "w": "primera",
+       "start": 170.413,
+       "end": 170.822
+      },
+      {
+       "w": "razón:",
+       "start": 170.822,
+       "end": 171.18
+      }
+     ]
+    },
+    {
+     "text": "muchos cálculos a la vez.",
+     "start": 171.64,
+     "end": 173.12,
+     "words": [
+      {
+       "w": "muchos",
+       "start": 171.64,
+       "end": 172.038
+      },
+      {
+       "w": "cálculos",
+       "start": 172.038,
+       "end": 172.551
+      },
+      {
+       "w": "a",
+       "start": 172.551,
+       "end": 172.665
+      },
+      {
+       "w": "la",
+       "start": 172.665,
+       "end": 172.835
+      },
+      {
+       "w": "vez.",
+       "start": 172.835,
+       "end": 173.12
+      }
+     ]
+    },
+    {
+     "text": "La CPU de una laptop tiene unos diez núcleos.",
+     "start": 173.86,
+     "end": 176.8,
+     "words": [
+      {
+       "w": "La",
+       "start": 173.86,
+       "end": 174.052
+      },
+      {
+       "w": "CPU",
+       "start": 174.052,
+       "end": 174.307
+      },
+      {
+       "w": "de",
+       "start": 174.307,
+       "end": 174.499
+      },
+      {
+       "w": "una",
+       "start": 174.499,
+       "end": 174.755
+      },
+      {
+       "w": "laptop",
+       "start": 174.755,
+       "end": 175.202
+      },
+      {
+       "w": "tiene",
+       "start": 175.202,
+       "end": 175.586
+      },
+      {
+       "w": "unos",
+       "start": 175.586,
+       "end": 175.905
+      },
+      {
+       "w": "diez",
+       "start": 175.905,
+       "end": 176.225
+      },
+      {
+       "w": "núcleos.",
+       "start": 176.225,
+       "end": 176.8
+      }
+     ]
+    },
+    {
+     "text": "Son diez cosas ocurriendo de verdad al mismo tiempo, y cada una se llama hilo.",
+     "start": 177.3,
+     "end": 182.04,
+     "words": [
+      {
+       "w": "Son",
+       "start": 177.3,
+       "end": 177.54
+      },
+      {
+       "w": "diez",
+       "start": 177.54,
+       "end": 177.84
+      },
+      {
+       "w": "cosas",
+       "start": 177.84,
+       "end": 178.2
+      },
+      {
+       "w": "ocurriendo",
+       "start": 178.2,
+       "end": 178.86
+      },
+      {
+       "w": "de",
+       "start": 178.86,
+       "end": 179.04
+      },
+      {
+       "w": "verdad",
+       "start": 179.04,
+       "end": 179.46
+      },
+      {
+       "w": "al",
+       "start": 179.46,
+       "end": 179.64
+      },
+      {
+       "w": "mismo",
+       "start": 179.64,
+       "end": 180
+      },
+      {
+       "w": "tiempo,",
+       "start": 180,
+       "end": 180.48
+      },
+      {
+       "w": "y",
+       "start": 180.48,
+       "end": 180.6
+      },
+      {
+       "w": "cada",
+       "start": 180.6,
+       "end": 180.9
+      },
+      {
+       "w": "una",
+       "start": 180.9,
+       "end": 181.14
+      },
+      {
+       "w": "se",
+       "start": 181.14,
+       "end": 181.32
+      },
+      {
+       "w": "llama",
+       "start": 181.32,
+       "end": 181.68
+      },
+      {
+       "w": "hilo.",
+       "start": 181.68,
+       "end": 182.04
+      }
+     ]
+    },
+    {
+     "text": "Una GPU tiene miles de pequeños trabajadores, y cada uno calcula al mismo tiempo que los demás, sin esperar a nadie.",
+     "start": 182.78,
+     "end": 189.76,
+     "words": [
+      {
+       "w": "Una",
+       "start": 182.78,
+       "end": 183.019
+      },
+      {
+       "w": "GPU",
+       "start": 183.019,
+       "end": 183.257
+      },
+      {
+       "w": "tiene",
+       "start": 183.257,
+       "end": 183.615
+      },
+      {
+       "w": "miles",
+       "start": 183.615,
+       "end": 183.973
+      },
+      {
+       "w": "de",
+       "start": 183.973,
+       "end": 184.152
+      },
+      {
+       "w": "pequeños",
+       "start": 184.152,
+       "end": 184.689
+      },
+      {
+       "w": "trabajadores,",
+       "start": 184.689,
+       "end": 185.524
+      },
+      {
+       "w": "y",
+       "start": 185.524,
+       "end": 185.644
+      },
+      {
+       "w": "cada",
+       "start": 185.644,
+       "end": 185.942
+      },
+      {
+       "w": "uno",
+       "start": 185.942,
+       "end": 186.181
+      },
+      {
+       "w": "calcula",
+       "start": 186.181,
+       "end": 186.658
+      },
+      {
+       "w": "al",
+       "start": 186.658,
+       "end": 186.837
+      },
+      {
+       "w": "mismo",
+       "start": 186.837,
+       "end": 187.195
+      },
+      {
+       "w": "tiempo",
+       "start": 187.195,
+       "end": 187.612
+      },
+      {
+       "w": "que",
+       "start": 187.612,
+       "end": 187.851
+      },
+      {
+       "w": "los",
+       "start": 187.851,
+       "end": 188.09
+      },
+      {
+       "w": "demás,",
+       "start": 188.09,
+       "end": 188.507
+      },
+      {
+       "w": "sin",
+       "start": 188.507,
+       "end": 188.746
+      },
+      {
+       "w": "esperar",
+       "start": 188.746,
+       "end": 189.223
+      },
+      {
+       "w": "a",
+       "start": 189.223,
+       "end": 189.342
+      },
+      {
+       "w": "nadie.",
+       "start": 189.342,
+       "end": 189.76
+      }
+     ]
+    },
+    {
+     "text": "Imagina diez cajeros muy rápidos en un supermercado.",
+     "start": 190.54,
+     "end": 193.44,
+     "words": [
+      {
+       "w": "Imagina",
+       "start": 190.54,
+       "end": 190.978
+      },
+      {
+       "w": "diez",
+       "start": 190.978,
+       "end": 191.251
+      },
+      {
+       "w": "cajeros",
+       "start": 191.251,
+       "end": 191.689
+      },
+      {
+       "w": "muy",
+       "start": 191.689,
+       "end": 191.908
+      },
+      {
+       "w": "rápidos",
+       "start": 191.908,
+       "end": 192.346
+      },
+      {
+       "w": "en",
+       "start": 192.346,
+       "end": 192.51
+      },
+      {
+       "w": "un",
+       "start": 192.51,
+       "end": 192.674
+      },
+      {
+       "w": "supermercado.",
+       "start": 192.674,
+       "end": 193.44
+      }
+     ]
+    },
+    {
+     "text": "Ahora imagina mil cajeros, cada uno un poco más lento.",
+     "start": 194.12,
+     "end": 197.4,
+     "words": [
+      {
+       "w": "Ahora",
+       "start": 194.12,
+       "end": 194.478
+      },
+      {
+       "w": "imagina",
+       "start": 194.478,
+       "end": 194.955
+      },
+      {
+       "w": "mil",
+       "start": 194.955,
+       "end": 195.193
+      },
+      {
+       "w": "cajeros,",
+       "start": 195.193,
+       "end": 195.73
+      },
+      {
+       "w": "cada",
+       "start": 195.73,
+       "end": 196.028
+      },
+      {
+       "w": "uno",
+       "start": 196.028,
+       "end": 196.267
+      },
+      {
+       "w": "un",
+       "start": 196.267,
+       "end": 196.446
+      },
+      {
+       "w": "poco",
+       "start": 196.446,
+       "end": 196.744
+      },
+      {
+       "w": "más",
+       "start": 196.744,
+       "end": 196.983
+      },
+      {
+       "w": "lento.",
+       "start": 196.983,
+       "end": 197.4
+      }
+     ]
+    },
+    {
+     "text": "Con un solo cliente enorme, ganan los rápidos.",
+     "start": 198.02,
+     "end": 200.56,
+     "words": [
+      {
+       "w": "Con",
+       "start": 198.02,
+       "end": 198.236
+      },
+      {
+       "w": "un",
+       "start": 198.236,
+       "end": 198.398
+      },
+      {
+       "w": "solo",
+       "start": 198.398,
+       "end": 198.669
+      },
+      {
+       "w": "cliente",
+       "start": 198.669,
+       "end": 199.101
+      },
+      {
+       "w": "enorme,",
+       "start": 199.101,
+       "end": 199.533
+      },
+      {
+       "w": "ganan",
+       "start": 199.533,
+       "end": 199.857
+      },
+      {
+       "w": "los",
+       "start": 199.857,
+       "end": 200.074
+      },
+      {
+       "w": "rápidos.",
+       "start": 200.074,
+       "end": 200.56
+      }
+     ]
+    },
+    {
+     "text": "Con mil clientes pequeños, terminan primero los mil cajeros.",
+     "start": 201.02,
+     "end": 204.08,
+     "words": [
+      {
+       "w": "Con",
+       "start": 201.02,
+       "end": 201.221
+      },
+      {
+       "w": "mil",
+       "start": 201.221,
+       "end": 201.421
+      },
+      {
+       "w": "clientes",
+       "start": 201.421,
+       "end": 201.873
+      },
+      {
+       "w": "pequeños,",
+       "start": 201.873,
+       "end": 202.374
+      },
+      {
+       "w": "terminan",
+       "start": 202.374,
+       "end": 202.826
+      },
+      {
+       "w": "primero",
+       "start": 202.826,
+       "end": 203.227
+      },
+      {
+       "w": "los",
+       "start": 203.227,
+       "end": 203.428
+      },
+      {
+       "w": "mil",
+       "start": 203.428,
+       "end": 203.629
+      },
+      {
+       "w": "cajeros.",
+       "start": 203.629,
+       "end": 204.08
+      }
+     ]
+    },
+    {
+     "text": "Por eso un juego, o un modelo de IA, no se arrastra.",
+     "start": 204.72,
+     "end": 207.82,
+     "words": [
+      {
+       "w": "Por",
+       "start": 204.72,
+       "end": 204.954
+      },
+      {
+       "w": "eso",
+       "start": 204.954,
+       "end": 205.188
+      },
+      {
+       "w": "un",
+       "start": 205.188,
+       "end": 205.363
+      },
+      {
+       "w": "juego,",
+       "start": 205.363,
+       "end": 205.773
+      },
+      {
+       "w": "o",
+       "start": 205.773,
+       "end": 205.89
+      },
+      {
+       "w": "un",
+       "start": 205.89,
+       "end": 206.065
+      },
+      {
+       "w": "modelo",
+       "start": 206.065,
+       "end": 206.475
+      },
+      {
+       "w": "de",
+       "start": 206.475,
+       "end": 206.65
+      },
+      {
+       "w": "IA,",
+       "start": 206.65,
+       "end": 206.884
+      },
+      {
+       "w": "no",
+       "start": 206.884,
+       "end": 207.06
+      },
+      {
+       "w": "se",
+       "start": 207.06,
+       "end": 207.235
+      },
+      {
+       "w": "arrastra.",
+       "start": 207.235,
+       "end": 207.82
+      }
+     ]
+    },
+    {
+     "text": "Pero entonces, ¿por qué no ejecutar todo en la GPU?",
+     "start": 208.5,
+     "end": 210.92,
+     "words": [
+      {
+       "w": "Pero",
+       "start": 208.5,
+       "end": 208.733
+      },
+      {
+       "w": "entonces,",
+       "start": 208.733,
+       "end": 209.198
+      },
+      {
+       "w": "¿por",
+       "start": 209.198,
+       "end": 209.431
+      },
+      {
+       "w": "qué",
+       "start": 209.431,
+       "end": 209.617
+      },
+      {
+       "w": "no",
+       "start": 209.617,
+       "end": 209.757
+      },
+      {
+       "w": "ejecutar",
+       "start": 209.757,
+       "end": 210.175
+      },
+      {
+       "w": "todo",
+       "start": 210.175,
+       "end": 210.408
+      },
+      {
+       "w": "en",
+       "start": 210.408,
+       "end": 210.548
+      },
+      {
+       "w": "la",
+       "start": 210.548,
+       "end": 210.687
+      },
+      {
+       "w": "GPU?",
+       "start": 210.687,
+       "end": 210.92
+      }
+     ]
+    },
+    {
+     "text": "Porque solo gana cuando el trabajo se puede dividir de una forma muy particular.",
+     "start": 211.5,
+     "end": 215.42,
+     "words": [
+      {
+       "w": "Porque",
+       "start": 211.5,
+       "end": 211.839
+      },
+      {
+       "w": "solo",
+       "start": 211.839,
+       "end": 212.081
+      },
+      {
+       "w": "gana",
+       "start": 212.081,
+       "end": 212.323
+      },
+      {
+       "w": "cuando",
+       "start": 212.323,
+       "end": 212.661
+      },
+      {
+       "w": "el",
+       "start": 212.661,
+       "end": 212.807
+      },
+      {
+       "w": "trabajo",
+       "start": 212.807,
+       "end": 213.194
+      },
+      {
+       "w": "se",
+       "start": 213.194,
+       "end": 213.339
+      },
+      {
+       "w": "puede",
+       "start": 213.339,
+       "end": 213.629
+      },
+      {
+       "w": "dividir",
+       "start": 213.629,
+       "end": 214.017
+      },
+      {
+       "w": "de",
+       "start": 214.017,
+       "end": 214.162
+      },
+      {
+       "w": "una",
+       "start": 214.162,
+       "end": 214.355
+      },
+      {
+       "w": "forma",
+       "start": 214.355,
+       "end": 214.646
+      },
+      {
+       "w": "muy",
+       "start": 214.646,
+       "end": 214.839
+      },
+      {
+       "w": "particular.",
+       "start": 214.839,
+       "end": 215.42
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "s06-for",
+   "start": 216.36,
+   "end": 292,
+   "sentences": [
+    {
+     "text": "Aquí hay un arreglo con cinco números, y un bucle que duplica cada uno.",
+     "start": 216.42,
+     "end": 220.84,
+     "words": [
+      {
+       "w": "Aquí",
+       "start": 216.42,
+       "end": 216.727
+      },
+      {
+       "w": "hay",
+       "start": 216.727,
+       "end": 216.972
+      },
+      {
+       "w": "un",
+       "start": 216.972,
+       "end": 217.157
+      },
+      {
+       "w": "arreglo",
+       "start": 217.157,
+       "end": 217.648
+      },
+      {
+       "w": "con",
+       "start": 217.648,
+       "end": 217.893
+      },
+      {
+       "w": "cinco",
+       "start": 217.893,
+       "end": 218.262
+      },
+      {
+       "w": "números,",
+       "start": 218.262,
+       "end": 218.814
+      },
+      {
+       "w": "y",
+       "start": 218.814,
+       "end": 218.937
+      },
+      {
+       "w": "un",
+       "start": 218.937,
+       "end": 219.121
+      },
+      {
+       "w": "bucle",
+       "start": 219.121,
+       "end": 219.489
+      },
+      {
+       "w": "que",
+       "start": 219.489,
+       "end": 219.735
+      },
+      {
+       "w": "duplica",
+       "start": 219.735,
+       "end": 220.226
+      },
+      {
+       "w": "cada",
+       "start": 220.226,
+       "end": 220.533
+      },
+      {
+       "w": "uno.",
+       "start": 220.533,
+       "end": 220.84
+      }
+     ]
+    },
+    {
+     "text": "Si lo ejecutáramos tal cual, un índice tras otro, la CPU ganaría.",
+     "start": 221.26,
+     "end": 226,
+     "words": [
+      {
+       "w": "Si",
+       "start": 221.26,
+       "end": 221.475
+      },
+      {
+       "w": "lo",
+       "start": 221.475,
+       "end": 221.691
+      },
+      {
+       "w": "ejecutáramos",
+       "start": 221.691,
+       "end": 222.625
+      },
+      {
+       "w": "tal",
+       "start": 222.625,
+       "end": 222.912
+      },
+      {
+       "w": "cual,",
+       "start": 222.912,
+       "end": 223.343
+      },
+      {
+       "w": "un",
+       "start": 223.343,
+       "end": 223.558
+      },
+      {
+       "w": "índice",
+       "start": 223.558,
+       "end": 224.061
+      },
+      {
+       "w": "tras",
+       "start": 224.061,
+       "end": 224.42
+      },
+      {
+       "w": "otro,",
+       "start": 224.42,
+       "end": 224.851
+      },
+      {
+       "w": "la",
+       "start": 224.851,
+       "end": 225.066
+      },
+      {
+       "w": "CPU",
+       "start": 225.066,
+       "end": 225.354
+      },
+      {
+       "w": "ganaría.",
+       "start": 225.354,
+       "end": 226
+      }
+     ]
+    },
+    {
+     "text": "Y eso sorprende, si te dije que la GPU es más rápida.",
+     "start": 226.38,
+     "end": 229.76,
+     "words": [
+      {
+       "w": "Y",
+       "start": 226.38,
+       "end": 226.505
+      },
+      {
+       "w": "eso",
+       "start": 226.505,
+       "end": 226.756
+      },
+      {
+       "w": "sorprende,",
+       "start": 226.756,
+       "end": 227.444
+      },
+      {
+       "w": "si",
+       "start": 227.444,
+       "end": 227.632
+      },
+      {
+       "w": "te",
+       "start": 227.632,
+       "end": 227.82
+      },
+      {
+       "w": "dije",
+       "start": 227.82,
+       "end": 228.133
+      },
+      {
+       "w": "que",
+       "start": 228.133,
+       "end": 228.383
+      },
+      {
+       "w": "la",
+       "start": 228.383,
+       "end": 228.571
+      },
+      {
+       "w": "GPU",
+       "start": 228.571,
+       "end": 228.821
+      },
+      {
+       "w": "es",
+       "start": 228.821,
+       "end": 229.009
+      },
+      {
+       "w": "más",
+       "start": 229.009,
+       "end": 229.259
+      },
+      {
+       "w": "rápida.",
+       "start": 229.259,
+       "end": 229.76
+      }
+     ]
+    },
+    {
+     "text": "La respuesta es:",
+     "start": 230.26,
+     "end": 231.24,
+     "words": [
+      {
+       "w": "La",
+       "start": 230.26,
+       "end": 230.433
+      },
+      {
+       "w": "respuesta",
+       "start": 230.433,
+       "end": 231.009
+      },
+      {
+       "w": "es:",
+       "start": 231.009,
+       "end": 231.24
+      }
+     ]
+    },
+    {
+     "text": "depende.",
+     "start": 231.5,
+     "end": 232.1,
+     "words": [
+      {
+       "w": "depende.",
+       "start": 231.5,
+       "end": 232.1
+      }
+     ]
+    },
+    {
+     "text": "Cada hilo de la GPU, por sí solo, es más lento que un núcleo de CPU.",
+     "start": 232.76,
+     "end": 237.4,
+     "words": [
+      {
+       "w": "Cada",
+       "start": 232.76,
+       "end": 233.096
+      },
+      {
+       "w": "hilo",
+       "start": 233.096,
+       "end": 233.432
+      },
+      {
+       "w": "de",
+       "start": 233.432,
+       "end": 233.634
+      },
+      {
+       "w": "la",
+       "start": 233.634,
+       "end": 233.836
+      },
+      {
+       "w": "GPU,",
+       "start": 233.836,
+       "end": 234.172
+      },
+      {
+       "w": "por",
+       "start": 234.172,
+       "end": 234.441
+      },
+      {
+       "w": "sí",
+       "start": 234.441,
+       "end": 234.643
+      },
+      {
+       "w": "solo,",
+       "start": 234.643,
+       "end": 235.046
+      },
+      {
+       "w": "es",
+       "start": 235.046,
+       "end": 235.248
+      },
+      {
+       "w": "más",
+       "start": 235.248,
+       "end": 235.517
+      },
+      {
+       "w": "lento",
+       "start": 235.517,
+       "end": 235.921
+      },
+      {
+       "w": "que",
+       "start": 235.921,
+       "end": 236.19
+      },
+      {
+       "w": "un",
+       "start": 236.19,
+       "end": 236.391
+      },
+      {
+       "w": "núcleo",
+       "start": 236.391,
+       "end": 236.862
+      },
+      {
+       "w": "de",
+       "start": 236.862,
+       "end": 237.064
+      },
+      {
+       "w": "CPU.",
+       "start": 237.064,
+       "end": 237.4
+      }
+     ]
+    },
+    {
+     "text": "Lo que la GPU hace bien son muchos cálculos a la vez.",
+     "start": 237.88,
+     "end": 241.36,
+     "words": [
+      {
+       "w": "Lo",
+       "start": 237.88,
+       "end": 238.073
+      },
+      {
+       "w": "que",
+       "start": 238.073,
+       "end": 238.331
+      },
+      {
+       "w": "la",
+       "start": 238.331,
+       "end": 238.524
+      },
+      {
+       "w": "GPU",
+       "start": 238.524,
+       "end": 238.782
+      },
+      {
+       "w": "hace",
+       "start": 238.782,
+       "end": 239.104
+      },
+      {
+       "w": "bien",
+       "start": 239.104,
+       "end": 239.427
+      },
+      {
+       "w": "son",
+       "start": 239.427,
+       "end": 239.684
+      },
+      {
+       "w": "muchos",
+       "start": 239.684,
+       "end": 240.136
+      },
+      {
+       "w": "cálculos",
+       "start": 240.136,
+       "end": 240.716
+      },
+      {
+       "w": "a",
+       "start": 240.716,
+       "end": 240.844
+      },
+      {
+       "w": "la",
+       "start": 240.844,
+       "end": 241.038
+      },
+      {
+       "w": "vez.",
+       "start": 241.038,
+       "end": 241.36
+      }
+     ]
+    },
+    {
+     "text": "Así que para que gane, no podemos recorrer el bucle.",
+     "start": 242.12,
+     "end": 245.06,
+     "words": [
+      {
+       "w": "Así",
+       "start": 242.12,
+       "end": 242.342
+      },
+      {
+       "w": "que",
+       "start": 242.342,
+       "end": 242.564
+      },
+      {
+       "w": "para",
+       "start": 242.564,
+       "end": 242.841
+      },
+      {
+       "w": "que",
+       "start": 242.841,
+       "end": 243.063
+      },
+      {
+       "w": "gane,",
+       "start": 243.063,
+       "end": 243.396
+      },
+      {
+       "w": "no",
+       "start": 243.396,
+       "end": 243.562
+      },
+      {
+       "w": "podemos",
+       "start": 243.562,
+       "end": 244.006
+      },
+      {
+       "w": "recorrer",
+       "start": 244.006,
+       "end": 244.505
+      },
+      {
+       "w": "el",
+       "start": 244.505,
+       "end": 244.672
+      },
+      {
+       "w": "bucle.",
+       "start": 244.672,
+       "end": 245.06
+      }
+     ]
+    },
+    {
+     "text": "Cada hilo tiene que encargarse de un índice distinto.",
+     "start": 245.48,
+     "end": 248.48,
+     "words": [
+      {
+       "w": "Cada",
+       "start": 245.48,
+       "end": 245.758
+      },
+      {
+       "w": "hilo",
+       "start": 245.758,
+       "end": 246.036
+      },
+      {
+       "w": "tiene",
+       "start": 246.036,
+       "end": 246.369
+      },
+      {
+       "w": "que",
+       "start": 246.369,
+       "end": 246.591
+      },
+      {
+       "w": "encargarse",
+       "start": 246.591,
+       "end": 247.202
+      },
+      {
+       "w": "de",
+       "start": 247.202,
+       "end": 247.369
+      },
+      {
+       "w": "un",
+       "start": 247.369,
+       "end": 247.536
+      },
+      {
+       "w": "índice",
+       "start": 247.536,
+       "end": 247.924
+      },
+      {
+       "w": "distinto.",
+       "start": 247.924,
+       "end": 248.48
+      }
+     ]
+    },
+    {
+     "text": "C# ya tiene algo construido sobre esa idea:",
+     "start": 249.24,
+     "end": 252.14,
+     "words": [
+      {
+       "w": "C#",
+       "start": 249.24,
+       "end": 249.438
+      },
+      {
+       "w": "ya",
+       "start": 249.438,
+       "end": 249.635
+      },
+      {
+       "w": "tiene",
+       "start": 249.635,
+       "end": 250.031
+      },
+      {
+       "w": "algo",
+       "start": 250.031,
+       "end": 250.36
+      },
+      {
+       "w": "construido",
+       "start": 250.36,
+       "end": 251.085
+      },
+      {
+       "w": "sobre",
+       "start": 251.085,
+       "end": 251.481
+      },
+      {
+       "w": "esa",
+       "start": 251.481,
+       "end": 251.745
+      },
+      {
+       "w": "idea:",
+       "start": 251.745,
+       "end": 252.14
+      }
+     ]
+    },
+    {
+     "text": "Parallel.For.",
+     "start": 252.5,
+     "end": 253.7,
+     "words": [
+      {
+       "w": "Parallel.For.",
+       "start": 252.5,
+       "end": 253.7
+      }
+     ]
+    },
+    {
+     "text": "Reparte los índices entre los núcleos de la CPU.",
+     "start": 254.36,
+     "end": 257.14,
+     "words": [
+      {
+       "w": "Reparte",
+       "start": 254.36,
+       "end": 254.814
+      },
+      {
+       "w": "los",
+       "start": 254.814,
+       "end": 255.041
+      },
+      {
+       "w": "índices",
+       "start": 255.041,
+       "end": 255.495
+      },
+      {
+       "w": "entre",
+       "start": 255.495,
+       "end": 255.835
+      },
+      {
+       "w": "los",
+       "start": 255.835,
+       "end": 256.062
+      },
+      {
+       "w": "núcleos",
+       "start": 256.062,
+       "end": 256.516
+      },
+      {
+       "w": "de",
+       "start": 256.516,
+       "end": 256.686
+      },
+      {
+       "w": "la",
+       "start": 256.686,
+       "end": 256.856
+      },
+      {
+       "w": "CPU.",
+       "start": 256.856,
+       "end": 257.14
+      }
+     ]
+    },
+    {
+     "text": "Le das un inicio, un final, y una función que recibe el índice.",
+     "start": 257.7,
+     "end": 261.52,
+     "words": [
+      {
+       "w": "Le",
+       "start": 257.7,
+       "end": 257.879
+      },
+      {
+       "w": "das",
+       "start": 257.879,
+       "end": 258.118
+      },
+      {
+       "w": "un",
+       "start": 258.118,
+       "end": 258.297
+      },
+      {
+       "w": "inicio,",
+       "start": 258.297,
+       "end": 258.774
+      },
+      {
+       "w": "un",
+       "start": 258.774,
+       "end": 258.953
+      },
+      {
+       "w": "final,",
+       "start": 258.953,
+       "end": 259.371
+      },
+      {
+       "w": "y",
+       "start": 259.371,
+       "end": 259.491
+      },
+      {
+       "w": "una",
+       "start": 259.491,
+       "end": 259.729
+      },
+      {
+       "w": "función",
+       "start": 259.729,
+       "end": 260.207
+      },
+      {
+       "w": "que",
+       "start": 260.207,
+       "end": 260.446
+      },
+      {
+       "w": "recibe",
+       "start": 260.446,
+       "end": 260.863
+      },
+      {
+       "w": "el",
+       "start": 260.863,
+       "end": 261.042
+      },
+      {
+       "w": "índice.",
+       "start": 261.042,
+       "end": 261.52
+      }
+     ]
+    },
+    {
+     "text": "Mira lo que cambió.",
+     "start": 262.14,
+     "end": 262.96,
+     "words": [
+      {
+       "w": "Mira",
+       "start": 262.14,
+       "end": 262.345
+      },
+      {
+       "w": "lo",
+       "start": 262.345,
+       "end": 262.468
+      },
+      {
+       "w": "que",
+       "start": 262.468,
+       "end": 262.632
+      },
+      {
+       "w": "cambió.",
+       "start": 262.632,
+       "end": 262.96
+      }
+     ]
+    },
+    {
+     "text": "Ya no escribimos el bucle.",
+     "start": 263.44,
+     "end": 264.84,
+     "words": [
+      {
+       "w": "Ya",
+       "start": 263.44,
+       "end": 263.596
+      },
+      {
+       "w": "no",
+       "start": 263.596,
+       "end": 263.751
+      },
+      {
+       "w": "escribimos",
+       "start": 263.751,
+       "end": 264.321
+      },
+      {
+       "w": "el",
+       "start": 264.321,
+       "end": 264.477
+      },
+      {
+       "w": "bucle.",
+       "start": 264.477,
+       "end": 264.84
+      }
+     ]
+    },
+    {
+     "text": "Solo escribimos una función que trabaja sobre un índice, y Parallel.For la llama para todos.",
+     "start": 265.36,
+     "end": 271.18,
+     "words": [
+      {
+       "w": "Solo",
+       "start": 265.36,
+       "end": 265.673
+      },
+      {
+       "w": "escribimos",
+       "start": 265.673,
+       "end": 266.361
+      },
+      {
+       "w": "una",
+       "start": 266.361,
+       "end": 266.612
+      },
+      {
+       "w": "función",
+       "start": 266.612,
+       "end": 267.112
+      },
+      {
+       "w": "que",
+       "start": 267.112,
+       "end": 267.363
+      },
+      {
+       "w": "trabaja",
+       "start": 267.363,
+       "end": 267.863
+      },
+      {
+       "w": "sobre",
+       "start": 267.863,
+       "end": 268.239
+      },
+      {
+       "w": "un",
+       "start": 268.239,
+       "end": 268.426
+      },
+      {
+       "w": "índice,",
+       "start": 268.426,
+       "end": 268.927
+      },
+      {
+       "w": "y",
+       "start": 268.927,
+       "end": 269.052
+      },
+      {
+       "w": "Parallel.For",
+       "start": 269.052,
+       "end": 269.866
+      },
+      {
+       "w": "la",
+       "start": 269.866,
+       "end": 270.054
+      },
+      {
+       "w": "llama",
+       "start": 270.054,
+       "end": 270.429
+      },
+      {
+       "w": "para",
+       "start": 270.429,
+       "end": 270.742
+      },
+      {
+       "w": "todos.",
+       "start": 270.742,
+       "end": 271.18
+      }
+     ]
+    },
+    {
+     "text": "Cada núcleo puede procesar un índice distinto, y todos corren al mismo tiempo.",
+     "start": 271.8,
+     "end": 276.2,
+     "words": [
+      {
+       "w": "Cada",
+       "start": 271.8,
+       "end": 272.078
+      },
+      {
+       "w": "núcleo",
+       "start": 272.078,
+       "end": 272.468
+      },
+      {
+       "w": "puede",
+       "start": 272.468,
+       "end": 272.803
+      },
+      {
+       "w": "procesar",
+       "start": 272.803,
+       "end": 273.304
+      },
+      {
+       "w": "un",
+       "start": 273.304,
+       "end": 273.471
+      },
+      {
+       "w": "índice",
+       "start": 273.471,
+       "end": 273.861
+      },
+      {
+       "w": "distinto,",
+       "start": 273.861,
+       "end": 274.418
+      },
+      {
+       "w": "y",
+       "start": 274.418,
+       "end": 274.529
+      },
+      {
+       "w": "todos",
+       "start": 274.529,
+       "end": 274.863
+      },
+      {
+       "w": "corren",
+       "start": 274.863,
+       "end": 275.253
+      },
+      {
+       "w": "al",
+       "start": 275.253,
+       "end": 275.42
+      },
+      {
+       "w": "mismo",
+       "start": 275.42,
+       "end": 275.754
+      },
+      {
+       "w": "tiempo.",
+       "start": 275.754,
+       "end": 276.2
+      }
+     ]
+    },
+    {
+     "text": "La GPU hace exactamente lo mismo, con muchísimos más hilos.",
+     "start": 276.9,
+     "end": 280.76,
+     "words": [
+      {
+       "w": "La",
+       "start": 276.9,
+       "end": 277.093
+      },
+      {
+       "w": "GPU",
+       "start": 277.093,
+       "end": 277.35
+      },
+      {
+       "w": "hace",
+       "start": 277.35,
+       "end": 277.672
+      },
+      {
+       "w": "exactamente",
+       "start": 277.672,
+       "end": 278.444
+      },
+      {
+       "w": "lo",
+       "start": 278.444,
+       "end": 278.637
+      },
+      {
+       "w": "mismo,",
+       "start": 278.637,
+       "end": 279.087
+      },
+      {
+       "w": "con",
+       "start": 279.087,
+       "end": 279.345
+      },
+      {
+       "w": "muchísimos",
+       "start": 279.345,
+       "end": 280.052
+      },
+      {
+       "w": "más",
+       "start": 280.052,
+       "end": 280.31
+      },
+      {
+       "w": "hilos.",
+       "start": 280.31,
+       "end": 280.76
+      }
+     ]
+    },
+    {
+     "text": "Y esa función, la que trabaja sobre un solo índice, es exactamente lo que llamamos un shader.",
+     "start": 281.36,
+     "end": 287.1,
+     "words": [
+      {
+       "w": "Y",
+       "start": 281.36,
+       "end": 281.482
+      },
+      {
+       "w": "esa",
+       "start": 281.482,
+       "end": 281.726
+      },
+      {
+       "w": "función,",
+       "start": 281.726,
+       "end": 282.276
+      },
+      {
+       "w": "la",
+       "start": 282.276,
+       "end": 282.459
+      },
+      {
+       "w": "que",
+       "start": 282.459,
+       "end": 282.703
+      },
+      {
+       "w": "trabaja",
+       "start": 282.703,
+       "end": 283.192
+      },
+      {
+       "w": "sobre",
+       "start": 283.192,
+       "end": 283.558
+      },
+      {
+       "w": "un",
+       "start": 283.558,
+       "end": 283.741
+      },
+      {
+       "w": "solo",
+       "start": 283.741,
+       "end": 284.047
+      },
+      {
+       "w": "índice,",
+       "start": 284.047,
+       "end": 284.535
+      },
+      {
+       "w": "es",
+       "start": 284.535,
+       "end": 284.719
+      },
+      {
+       "w": "exactamente",
+       "start": 284.719,
+       "end": 285.451
+      },
+      {
+       "w": "lo",
+       "start": 285.451,
+       "end": 285.634
+      },
+      {
+       "w": "que",
+       "start": 285.634,
+       "end": 285.879
+      },
+      {
+       "w": "llamamos",
+       "start": 285.879,
+       "end": 286.428
+      },
+      {
+       "w": "un",
+       "start": 286.428,
+       "end": 286.611
+      },
+      {
+       "w": "shader.",
+       "start": 286.611,
+       "end": 287.1
+      }
+     ]
+    },
+    {
+     "text": "Recuerda esta idea, porque todo lo demás en la serie se construye sobre ella.",
+     "start": 287.74,
+     "end": 291.86,
+     "words": [
+      {
+       "w": "Recuerda",
+       "start": 287.74,
+       "end": 288.215
+      },
+      {
+       "w": "esta",
+       "start": 288.215,
+       "end": 288.479
+      },
+      {
+       "w": "idea,",
+       "start": 288.479,
+       "end": 288.796
+      },
+      {
+       "w": "porque",
+       "start": 288.796,
+       "end": 289.166
+      },
+      {
+       "w": "todo",
+       "start": 289.166,
+       "end": 289.43
+      },
+      {
+       "w": "lo",
+       "start": 289.43,
+       "end": 289.589
+      },
+      {
+       "w": "demás",
+       "start": 289.589,
+       "end": 289.906
+      },
+      {
+       "w": "en",
+       "start": 289.906,
+       "end": 290.064
+      },
+      {
+       "w": "la",
+       "start": 290.064,
+       "end": 290.223
+      },
+      {
+       "w": "serie",
+       "start": 290.223,
+       "end": 290.539
+      },
+      {
+       "w": "se",
+       "start": 290.539,
+       "end": 290.698
+      },
+      {
+       "w": "construye",
+       "start": 290.698,
+       "end": 291.226
+      },
+      {
+       "w": "sobre",
+       "start": 291.226,
+       "end": 291.543
+      },
+      {
+       "w": "ella.",
+       "start": 291.543,
+       "end": 291.86
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "s07-pixels",
+   "start": 292.8,
+   "end": 367.02,
+   "sentences": [
+    {
+     "text": "La segunda razón es el color.",
+     "start": 292.86,
+     "end": 294.46,
+     "words": [
+      {
+       "w": "La",
+       "start": 292.86,
+       "end": 293.02
+      },
+      {
+       "w": "segunda",
+       "start": 293.02,
+       "end": 293.447
+      },
+      {
+       "w": "razón",
+       "start": 293.447,
+       "end": 293.767
+      },
+      {
+       "w": "es",
+       "start": 293.767,
+       "end": 293.927
+      },
+      {
+       "w": "el",
+       "start": 293.927,
+       "end": 294.087
+      },
+      {
+       "w": "color.",
+       "start": 294.087,
+       "end": 294.46
+      }
+     ]
+    },
+    {
+     "text": "Tu pantalla es una cuadrícula de puntos de colores, y cada punto es un píxel.",
+     "start": 294.88,
+     "end": 299.54,
+     "words": [
+      {
+       "w": "Tu",
+       "start": 294.88,
+       "end": 295.059
+      },
+      {
+       "w": "pantalla",
+       "start": 295.059,
+       "end": 295.597
+      },
+      {
+       "w": "es",
+       "start": 295.597,
+       "end": 295.776
+      },
+      {
+       "w": "una",
+       "start": 295.776,
+       "end": 296.015
+      },
+      {
+       "w": "cuadrícula",
+       "start": 296.015,
+       "end": 296.672
+      },
+      {
+       "w": "de",
+       "start": 296.672,
+       "end": 296.852
+      },
+      {
+       "w": "puntos",
+       "start": 296.852,
+       "end": 297.27
+      },
+      {
+       "w": "de",
+       "start": 297.27,
+       "end": 297.449
+      },
+      {
+       "w": "colores,",
+       "start": 297.449,
+       "end": 297.987
+      },
+      {
+       "w": "y",
+       "start": 297.987,
+       "end": 298.106
+      },
+      {
+       "w": "cada",
+       "start": 298.106,
+       "end": 298.405
+      },
+      {
+       "w": "punto",
+       "start": 298.405,
+       "end": 298.763
+      },
+      {
+       "w": "es",
+       "start": 298.763,
+       "end": 298.943
+      },
+      {
+       "w": "un",
+       "start": 298.943,
+       "end": 299.122
+      },
+      {
+       "w": "píxel.",
+       "start": 299.122,
+       "end": 299.54
+      }
+     ]
+    },
+    {
+     "text": "Una pantalla Full HD es de 1920 × 1080.",
+     "start": 300.06,
+     "end": 304.36,
+     "words": [
+      {
+       "w": "Una",
+       "start": 300.06,
+       "end": 300.49
+      },
+      {
+       "w": "pantalla",
+       "start": 300.49,
+       "end": 301.457
+      },
+      {
+       "w": "Full",
+       "start": 301.457,
+       "end": 301.995
+      },
+      {
+       "w": "HD",
+       "start": 301.995,
+       "end": 302.317
+      },
+      {
+       "w": "es",
+       "start": 302.317,
+       "end": 302.64
+      },
+      {
+       "w": "de",
+       "start": 302.64,
+       "end": 302.962
+      },
+      {
+       "w": "1920",
+       "start": 302.962,
+       "end": 303.5
+      },
+      {
+       "w": "×",
+       "start": 303.5,
+       "end": 303.715
+      },
+      {
+       "w": "1080.",
+       "start": 303.715,
+       "end": 304.36
+      }
+     ]
+    },
+    {
+     "text": "Un poco más de dos millones de píxeles.",
+     "start": 304.76,
+     "end": 307.04,
+     "words": [
+      {
+       "w": "Un",
+       "start": 304.76,
+       "end": 304.931
+      },
+      {
+       "w": "poco",
+       "start": 304.931,
+       "end": 305.216
+      },
+      {
+       "w": "más",
+       "start": 305.216,
+       "end": 305.444
+      },
+      {
+       "w": "de",
+       "start": 305.444,
+       "end": 305.615
+      },
+      {
+       "w": "dos",
+       "start": 305.615,
+       "end": 305.843
+      },
+      {
+       "w": "millones",
+       "start": 305.843,
+       "end": 306.356
+      },
+      {
+       "w": "de",
+       "start": 306.356,
+       "end": 306.527
+      },
+      {
+       "w": "píxeles.",
+       "start": 306.527,
+       "end": 307.04
+      }
+     ]
+    },
+    {
+     "text": "Para que un juego se vea fluido, todos sus colores se tienen que decidir unas sesenta veces por segundo.",
+     "start": 307.58,
+     "end": 313.64,
+     "words": [
+      {
+       "w": "Para",
+       "start": 307.58,
+       "end": 307.869
+      },
+      {
+       "w": "que",
+       "start": 307.869,
+       "end": 308.099
+      },
+      {
+       "w": "un",
+       "start": 308.099,
+       "end": 308.273
+      },
+      {
+       "w": "juego",
+       "start": 308.273,
+       "end": 308.619
+      },
+      {
+       "w": "se",
+       "start": 308.619,
+       "end": 308.792
+      },
+      {
+       "w": "vea",
+       "start": 308.792,
+       "end": 309.023
+      },
+      {
+       "w": "fluido,",
+       "start": 309.023,
+       "end": 309.485
+      },
+      {
+       "w": "todos",
+       "start": 309.485,
+       "end": 309.831
+      },
+      {
+       "w": "sus",
+       "start": 309.831,
+       "end": 310.062
+      },
+      {
+       "w": "colores",
+       "start": 310.062,
+       "end": 310.523
+      },
+      {
+       "w": "se",
+       "start": 310.523,
+       "end": 310.697
+      },
+      {
+       "w": "tienen",
+       "start": 310.697,
+       "end": 311.101
+      },
+      {
+       "w": "que",
+       "start": 311.101,
+       "end": 311.331
+      },
+      {
+       "w": "decidir",
+       "start": 311.331,
+       "end": 311.793
+      },
+      {
+       "w": "unas",
+       "start": 311.793,
+       "end": 312.082
+      },
+      {
+       "w": "sesenta",
+       "start": 312.082,
+       "end": 312.543
+      },
+      {
+       "w": "veces",
+       "start": 312.543,
+       "end": 312.89
+      },
+      {
+       "w": "por",
+       "start": 312.89,
+       "end": 313.121
+      },
+      {
+       "w": "segundo.",
+       "start": 313.121,
+       "end": 313.64
+      }
+     ]
+    },
+    {
+     "text": "Son más de 120 millones de colores, cada segundo.",
+     "start": 314.16,
+     "end": 317.86,
+     "words": [
+      {
+       "w": "Son",
+       "start": 314.16,
+       "end": 314.456
+      },
+      {
+       "w": "más",
+       "start": 314.456,
+       "end": 314.752
+      },
+      {
+       "w": "de",
+       "start": 314.752,
+       "end": 314.974
+      },
+      {
+       "w": "120",
+       "start": 314.974,
+       "end": 315.27
+      },
+      {
+       "w": "millones",
+       "start": 315.27,
+       "end": 315.936
+      },
+      {
+       "w": "de",
+       "start": 315.936,
+       "end": 316.158
+      },
+      {
+       "w": "colores,",
+       "start": 316.158,
+       "end": 316.824
+      },
+      {
+       "w": "cada",
+       "start": 316.824,
+       "end": 317.194
+      },
+      {
+       "w": "segundo.",
+       "start": 317.194,
+       "end": 317.86
+      }
+     ]
+    },
+    {
+     "text": "Hagamos la cuenta.",
+     "start": 318.46,
+     "end": 319.3,
+     "words": [
+      {
+       "w": "Hagamos",
+       "start": 318.46,
+       "end": 318.814
+      },
+      {
+       "w": "la",
+       "start": 318.814,
+       "end": 318.946
+      },
+      {
+       "w": "cuenta.",
+       "start": 318.946,
+       "end": 319.3
+      }
+     ]
+    },
+    {
+     "text": "Si cada color tardara solo un microsegundo en un solo núcleo, un solo cuadro tardaría dos segundos.",
+     "start": 319.74,
+     "end": 326.04,
+     "words": [
+      {
+       "w": "Si",
+       "start": 319.74,
+       "end": 319.929
+      },
+      {
+       "w": "cada",
+       "start": 319.929,
+       "end": 320.244
+      },
+      {
+       "w": "color",
+       "start": 320.244,
+       "end": 320.622
+      },
+      {
+       "w": "tardara",
+       "start": 320.622,
+       "end": 321.126
+      },
+      {
+       "w": "solo",
+       "start": 321.126,
+       "end": 321.441
+      },
+      {
+       "w": "un",
+       "start": 321.441,
+       "end": 321.63
+      },
+      {
+       "w": "microsegundo",
+       "start": 321.63,
+       "end": 322.449
+      },
+      {
+       "w": "en",
+       "start": 322.449,
+       "end": 322.638
+      },
+      {
+       "w": "un",
+       "start": 322.638,
+       "end": 322.827
+      },
+      {
+       "w": "solo",
+       "start": 322.827,
+       "end": 323.142
+      },
+      {
+       "w": "núcleo,",
+       "start": 323.142,
+       "end": 323.646
+      },
+      {
+       "w": "un",
+       "start": 323.646,
+       "end": 323.835
+      },
+      {
+       "w": "solo",
+       "start": 323.835,
+       "end": 324.15
+      },
+      {
+       "w": "cuadro",
+       "start": 324.15,
+       "end": 324.591
+      },
+      {
+       "w": "tardaría",
+       "start": 324.591,
+       "end": 325.158
+      },
+      {
+       "w": "dos",
+       "start": 325.158,
+       "end": 325.41
+      },
+      {
+       "w": "segundos.",
+       "start": 325.41,
+       "end": 326.04
+      }
+     ]
+    },
+    {
+     "text": "Un bucle en la CPU no lo logra.",
+     "start": 326.52,
+     "end": 328.56,
+     "words": [
+      {
+       "w": "Un",
+       "start": 326.52,
+       "end": 326.711
+      },
+      {
+       "w": "bucle",
+       "start": 326.711,
+       "end": 327.094
+      },
+      {
+       "w": "en",
+       "start": 327.094,
+       "end": 327.285
+      },
+      {
+       "w": "la",
+       "start": 327.285,
+       "end": 327.476
+      },
+      {
+       "w": "CPU",
+       "start": 327.476,
+       "end": 327.731
+      },
+      {
+       "w": "no",
+       "start": 327.731,
+       "end": 327.922
+      },
+      {
+       "w": "lo",
+       "start": 327.922,
+       "end": 328.114
+      },
+      {
+       "w": "logra.",
+       "start": 328.114,
+       "end": 328.56
+      }
+     ]
+    },
+    {
+     "text": "Pero es el mismo problema que el arreglo.",
+     "start": 329.16,
+     "end": 331.12,
+     "words": [
+      {
+       "w": "Pero",
+       "start": 329.16,
+       "end": 329.393
+      },
+      {
+       "w": "es",
+       "start": 329.393,
+       "end": 329.533
+      },
+      {
+       "w": "el",
+       "start": 329.533,
+       "end": 329.673
+      },
+      {
+       "w": "mismo",
+       "start": 329.673,
+       "end": 329.953
+      },
+      {
+       "w": "problema",
+       "start": 329.953,
+       "end": 330.373
+      },
+      {
+       "w": "que",
+       "start": 330.373,
+       "end": 330.56
+      },
+      {
+       "w": "el",
+       "start": 330.56,
+       "end": 330.7
+      },
+      {
+       "w": "arreglo.",
+       "start": 330.7,
+       "end": 331.12
+      }
+     ]
+    },
+    {
+     "text": "Solo que ahora, el arreglo son los píxeles de la pantalla.",
+     "start": 331.56,
+     "end": 335,
+     "words": [
+      {
+       "w": "Solo",
+       "start": 331.56,
+       "end": 331.852
+      },
+      {
+       "w": "que",
+       "start": 331.852,
+       "end": 332.085
+      },
+      {
+       "w": "ahora,",
+       "start": 332.085,
+       "end": 332.493
+      },
+      {
+       "w": "el",
+       "start": 332.493,
+       "end": 332.668
+      },
+      {
+       "w": "arreglo",
+       "start": 332.668,
+       "end": 333.134
+      },
+      {
+       "w": "son",
+       "start": 333.134,
+       "end": 333.367
+      },
+      {
+       "w": "los",
+       "start": 333.367,
+       "end": 333.601
+      },
+      {
+       "w": "píxeles",
+       "start": 333.601,
+       "end": 334.067
+      },
+      {
+       "w": "de",
+       "start": 334.067,
+       "end": 334.242
+      },
+      {
+       "w": "la",
+       "start": 334.242,
+       "end": 334.417
+      },
+      {
+       "w": "pantalla.",
+       "start": 334.417,
+       "end": 335
+      }
+     ]
+    },
+    {
+     "text": "Así que la GPU te permite escribir una función que recibe un píxel, y devuelve su color, una vez por cada píxel, todos al mismo tiempo.",
+     "start": 335.6,
+     "end": 344.94,
+     "words": [
+      {
+       "w": "Así",
+       "start": 335.6,
+       "end": 335.875
+      },
+      {
+       "w": "que",
+       "start": 335.875,
+       "end": 336.149
+      },
+      {
+       "w": "la",
+       "start": 336.149,
+       "end": 336.355
+      },
+      {
+       "w": "GPU",
+       "start": 336.355,
+       "end": 336.63
+      },
+      {
+       "w": "te",
+       "start": 336.63,
+       "end": 336.836
+      },
+      {
+       "w": "permite",
+       "start": 336.836,
+       "end": 337.386
+      },
+      {
+       "w": "escribir",
+       "start": 337.386,
+       "end": 338.004
+      },
+      {
+       "w": "una",
+       "start": 338.004,
+       "end": 338.278
+      },
+      {
+       "w": "función",
+       "start": 338.278,
+       "end": 338.828
+      },
+      {
+       "w": "que",
+       "start": 338.828,
+       "end": 339.102
+      },
+      {
+       "w": "recibe",
+       "start": 339.102,
+       "end": 339.583
+      },
+      {
+       "w": "un",
+       "start": 339.583,
+       "end": 339.789
+      },
+      {
+       "w": "píxel,",
+       "start": 339.789,
+       "end": 340.27
+      },
+      {
+       "w": "y",
+       "start": 340.27,
+       "end": 340.407
+      },
+      {
+       "w": "devuelve",
+       "start": 340.407,
+       "end": 341.025
+      },
+      {
+       "w": "su",
+       "start": 341.025,
+       "end": 341.231
+      },
+      {
+       "w": "color,",
+       "start": 341.231,
+       "end": 341.712
+      },
+      {
+       "w": "una",
+       "start": 341.712,
+       "end": 341.987
+      },
+      {
+       "w": "vez",
+       "start": 341.987,
+       "end": 342.262
+      },
+      {
+       "w": "por",
+       "start": 342.262,
+       "end": 342.536
+      },
+      {
+       "w": "cada",
+       "start": 342.536,
+       "end": 342.88
+      },
+      {
+       "w": "píxel,",
+       "start": 342.88,
+       "end": 343.36
+      },
+      {
+       "w": "todos",
+       "start": 343.36,
+       "end": 343.772
+      },
+      {
+       "w": "al",
+       "start": 343.772,
+       "end": 343.979
+      },
+      {
+       "w": "mismo",
+       "start": 343.979,
+       "end": 344.391
+      },
+      {
+       "w": "tiempo.",
+       "start": 344.391,
+       "end": 344.94
+      }
+     ]
+    },
+    {
+     "text": "Devuelve siempre rojo, y la pantalla es roja.",
+     "start": 345.58,
+     "end": 348.38,
+     "words": [
+      {
+       "w": "Devuelve",
+       "start": 345.58,
+       "end": 346.128
+      },
+      {
+       "w": "siempre",
+       "start": 346.128,
+       "end": 346.615
+      },
+      {
+       "w": "rojo,",
+       "start": 346.615,
+       "end": 346.98
+      },
+      {
+       "w": "y",
+       "start": 346.98,
+       "end": 347.102
+      },
+      {
+       "w": "la",
+       "start": 347.102,
+       "end": 347.284
+      },
+      {
+       "w": "pantalla",
+       "start": 347.284,
+       "end": 347.832
+      },
+      {
+       "w": "es",
+       "start": 347.832,
+       "end": 348.015
+      },
+      {
+       "w": "roja.",
+       "start": 348.015,
+       "end": 348.38
+      }
+     ]
+    },
+    {
+     "text": "Haz que el color dependa de la posición, y obtienes un degradado.",
+     "start": 348.98,
+     "end": 352.88,
+     "words": [
+      {
+       "w": "Haz",
+       "start": 348.98,
+       "end": 349.216
+      },
+      {
+       "w": "que",
+       "start": 349.216,
+       "end": 349.453
+      },
+      {
+       "w": "el",
+       "start": 349.453,
+       "end": 349.63
+      },
+      {
+       "w": "color",
+       "start": 349.63,
+       "end": 349.985
+      },
+      {
+       "w": "dependa",
+       "start": 349.985,
+       "end": 350.457
+      },
+      {
+       "w": "de",
+       "start": 350.457,
+       "end": 350.635
+      },
+      {
+       "w": "la",
+       "start": 350.635,
+       "end": 350.812
+      },
+      {
+       "w": "posición,",
+       "start": 350.812,
+       "end": 351.403
+      },
+      {
+       "w": "y",
+       "start": 351.403,
+       "end": 351.521
+      },
+      {
+       "w": "obtienes",
+       "start": 351.521,
+       "end": 352.053
+      },
+      {
+       "w": "un",
+       "start": 352.053,
+       "end": 352.23
+      },
+      {
+       "w": "degradado.",
+       "start": 352.23,
+       "end": 352.88
+      }
+     ]
+    },
+    {
+     "text": "Haz que dependa de una imagen y del tiempo, y una foto puede moverse como si estuviera bajo el agua.",
+     "start": 353.56,
+     "end": 359.62,
+     "words": [
+      {
+       "w": "Haz",
+       "start": 353.56,
+       "end": 353.8
+      },
+      {
+       "w": "que",
+       "start": 353.8,
+       "end": 354.04
+      },
+      {
+       "w": "dependa",
+       "start": 354.04,
+       "end": 354.52
+      },
+      {
+       "w": "de",
+       "start": 354.52,
+       "end": 354.7
+      },
+      {
+       "w": "una",
+       "start": 354.7,
+       "end": 354.94
+      },
+      {
+       "w": "imagen",
+       "start": 354.94,
+       "end": 355.36
+      },
+      {
+       "w": "y",
+       "start": 355.36,
+       "end": 355.48
+      },
+      {
+       "w": "del",
+       "start": 355.48,
+       "end": 355.72
+      },
+      {
+       "w": "tiempo,",
+       "start": 355.72,
+       "end": 356.2
+      },
+      {
+       "w": "y",
+       "start": 356.2,
+       "end": 356.32
+      },
+      {
+       "w": "una",
+       "start": 356.32,
+       "end": 356.56
+      },
+      {
+       "w": "foto",
+       "start": 356.56,
+       "end": 356.86
+      },
+      {
+       "w": "puede",
+       "start": 356.86,
+       "end": 357.22
+      },
+      {
+       "w": "moverse",
+       "start": 357.22,
+       "end": 357.7
+      },
+      {
+       "w": "como",
+       "start": 357.7,
+       "end": 358
+      },
+      {
+       "w": "si",
+       "start": 358,
+       "end": 358.18
+      },
+      {
+       "w": "estuviera",
+       "start": 358.18,
+       "end": 358.78
+      },
+      {
+       "w": "bajo",
+       "start": 358.78,
+       "end": 359.08
+      },
+      {
+       "w": "el",
+       "start": 359.08,
+       "end": 359.26
+      },
+      {
+       "w": "agua.",
+       "start": 359.26,
+       "end": 359.62
+      }
+     ]
+    },
+    {
+     "text": "Agua, fuego, sombras, luces.",
+     "start": 360.32,
+     "end": 363.28,
+     "words": [
+      {
+       "w": "Agua,",
+       "start": 360.32,
+       "end": 360.932
+      },
+      {
+       "w": "fuego,",
+       "start": 360.932,
+       "end": 361.647
+      },
+      {
+       "w": "sombras,",
+       "start": 361.647,
+       "end": 362.566
+      },
+      {
+       "w": "luces.",
+       "start": 362.566,
+       "end": 363.28
+      }
+     ]
+    },
+    {
+     "text": "Todos son funciones que deciden el color de un píxel.",
+     "start": 363.92,
+     "end": 366.88,
+     "words": [
+      {
+       "w": "Todos",
+       "start": 363.92,
+       "end": 364.249
+      },
+      {
+       "w": "son",
+       "start": 364.249,
+       "end": 364.468
+      },
+      {
+       "w": "funciones",
+       "start": 364.468,
+       "end": 365.016
+      },
+      {
+       "w": "que",
+       "start": 365.016,
+       "end": 365.236
+      },
+      {
+       "w": "deciden",
+       "start": 365.236,
+       "end": 365.674
+      },
+      {
+       "w": "el",
+       "start": 365.674,
+       "end": 365.839
+      },
+      {
+       "w": "color",
+       "start": 365.839,
+       "end": 366.167
+      },
+      {
+       "w": "de",
+       "start": 366.167,
+       "end": 366.332
+      },
+      {
+       "w": "un",
+       "start": 366.332,
+       "end": 366.496
+      },
+      {
+       "w": "píxel.",
+       "start": 366.496,
+       "end": 366.88
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "s08-stages",
+   "start": 367.82,
+   "end": 427.84,
+   "sentences": [
+    {
+     "text": "Hasta ahora hemos dicho \"una función\".",
+     "start": 367.88,
+     "end": 369.98,
+     "words": [
+      {
+       "w": "Hasta",
+       "start": 367.88,
+       "end": 368.203
+      },
+      {
+       "w": "ahora",
+       "start": 368.203,
+       "end": 368.526
+      },
+      {
+       "w": "hemos",
+       "start": 368.526,
+       "end": 368.849
+      },
+      {
+       "w": "dicho",
+       "start": 368.849,
+       "end": 369.172
+      },
+      {
+       "w": "\"una",
+       "start": 369.172,
+       "end": 369.442
+      },
+      {
+       "w": "función\".",
+       "start": 369.442,
+       "end": 369.98
+      }
+     ]
+    },
+    {
+     "text": "En realidad hay varios tipos, y cada uno se llama etapa.",
+     "start": 370.38,
+     "end": 373.86,
+     "words": [
+      {
+       "w": "En",
+       "start": 370.38,
+       "end": 370.563
+      },
+      {
+       "w": "realidad",
+       "start": 370.563,
+       "end": 371.113
+      },
+      {
+       "w": "hay",
+       "start": 371.113,
+       "end": 371.357
+      },
+      {
+       "w": "varios",
+       "start": 371.357,
+       "end": 371.784
+      },
+      {
+       "w": "tipos,",
+       "start": 371.784,
+       "end": 372.212
+      },
+      {
+       "w": "y",
+       "start": 372.212,
+       "end": 372.334
+      },
+      {
+       "w": "cada",
+       "start": 372.334,
+       "end": 372.639
+      },
+      {
+       "w": "uno",
+       "start": 372.639,
+       "end": 372.883
+      },
+      {
+       "w": "se",
+       "start": 372.883,
+       "end": 373.066
+      },
+      {
+       "w": "llama",
+       "start": 373.066,
+       "end": 373.433
+      },
+      {
+       "w": "etapa.",
+       "start": 373.433,
+       "end": 373.86
+      }
+     ]
+    },
+    {
+     "text": "Lo que cambia es sobre qué se ejecuta la función.",
+     "start": 374.72,
+     "end": 377.54,
+     "words": [
+      {
+       "w": "Lo",
+       "start": 374.72,
+       "end": 374.889
+      },
+      {
+       "w": "que",
+       "start": 374.889,
+       "end": 375.115
+      },
+      {
+       "w": "cambia",
+       "start": 375.115,
+       "end": 375.51
+      },
+      {
+       "w": "es",
+       "start": 375.51,
+       "end": 375.679
+      },
+      {
+       "w": "sobre",
+       "start": 375.679,
+       "end": 376.017
+      },
+      {
+       "w": "qué",
+       "start": 376.017,
+       "end": 376.243
+      },
+      {
+       "w": "se",
+       "start": 376.243,
+       "end": 376.412
+      },
+      {
+       "w": "ejecuta",
+       "start": 376.412,
+       "end": 376.863
+      },
+      {
+       "w": "la",
+       "start": 376.863,
+       "end": 377.032
+      },
+      {
+       "w": "función.",
+       "start": 377.032,
+       "end": 377.54
+      }
+     ]
+    },
+    {
+     "text": "La etapa Vertex se ejecuta una vez por cada punto de la forma que quieres dibujar, y decide dónde cae ese punto en la pantalla.",
+     "start": 378.34,
+     "end": 386.32,
+     "words": [
+      {
+       "w": "La",
+       "start": 378.34,
+       "end": 378.527
+      },
+      {
+       "w": "etapa",
+       "start": 378.527,
+       "end": 378.901
+      },
+      {
+       "w": "Vertex",
+       "start": 378.901,
+       "end": 379.337
+      },
+      {
+       "w": "se",
+       "start": 379.337,
+       "end": 379.525
+      },
+      {
+       "w": "ejecuta",
+       "start": 379.525,
+       "end": 380.023
+      },
+      {
+       "w": "una",
+       "start": 380.023,
+       "end": 380.273
+      },
+      {
+       "w": "vez",
+       "start": 380.273,
+       "end": 380.522
+      },
+      {
+       "w": "por",
+       "start": 380.522,
+       "end": 380.771
+      },
+      {
+       "w": "cada",
+       "start": 380.771,
+       "end": 381.083
+      },
+      {
+       "w": "punto",
+       "start": 381.083,
+       "end": 381.457
+      },
+      {
+       "w": "de",
+       "start": 381.457,
+       "end": 381.644
+      },
+      {
+       "w": "la",
+       "start": 381.644,
+       "end": 381.831
+      },
+      {
+       "w": "forma",
+       "start": 381.831,
+       "end": 382.205
+      },
+      {
+       "w": "que",
+       "start": 382.205,
+       "end": 382.455
+      },
+      {
+       "w": "quieres",
+       "start": 382.455,
+       "end": 382.953
+      },
+      {
+       "w": "dibujar,",
+       "start": 382.953,
+       "end": 383.515
+      },
+      {
+       "w": "y",
+       "start": 383.515,
+       "end": 383.639
+      },
+      {
+       "w": "decide",
+       "start": 383.639,
+       "end": 384.076
+      },
+      {
+       "w": "dónde",
+       "start": 384.076,
+       "end": 384.45
+      },
+      {
+       "w": "cae",
+       "start": 384.45,
+       "end": 384.699
+      },
+      {
+       "w": "ese",
+       "start": 384.699,
+       "end": 384.948
+      },
+      {
+       "w": "punto",
+       "start": 384.948,
+       "end": 385.322
+      },
+      {
+       "w": "en",
+       "start": 385.322,
+       "end": 385.51
+      },
+      {
+       "w": "la",
+       "start": 385.51,
+       "end": 385.697
+      },
+      {
+       "w": "pantalla.",
+       "start": 385.697,
+       "end": 386.32
+      }
+     ]
+    },
+    {
+     "text": "Un triángulo tiene tres puntos, así que son tres llamadas.",
+     "start": 387.12,
+     "end": 390.84,
+     "words": [
+      {
+       "w": "Un",
+       "start": 387.12,
+       "end": 387.309
+      },
+      {
+       "w": "triángulo",
+       "start": 387.309,
+       "end": 387.94
+      },
+      {
+       "w": "tiene",
+       "start": 387.94,
+       "end": 388.318
+      },
+      {
+       "w": "tres",
+       "start": 388.318,
+       "end": 388.633
+      },
+      {
+       "w": "puntos,",
+       "start": 388.633,
+       "end": 389.138
+      },
+      {
+       "w": "así",
+       "start": 389.138,
+       "end": 389.39
+      },
+      {
+       "w": "que",
+       "start": 389.39,
+       "end": 389.642
+      },
+      {
+       "w": "son",
+       "start": 389.642,
+       "end": 389.894
+      },
+      {
+       "w": "tres",
+       "start": 389.894,
+       "end": 390.209
+      },
+      {
+       "w": "llamadas.",
+       "start": 390.209,
+       "end": 390.84
+      }
+     ]
+    },
+    {
+     "text": "La etapa Fragment se ejecuta una vez por cada píxel que cubre la forma, y decide su color.",
+     "start": 391.56,
+     "end": 397.34,
+     "words": [
+      {
+       "w": "La",
+       "start": 391.56,
+       "end": 391.751
+      },
+      {
+       "w": "etapa",
+       "start": 391.751,
+       "end": 392.132
+      },
+      {
+       "w": "Fragment",
+       "start": 392.132,
+       "end": 392.703
+      },
+      {
+       "w": "se",
+       "start": 392.703,
+       "end": 392.894
+      },
+      {
+       "w": "ejecuta",
+       "start": 392.894,
+       "end": 393.402
+      },
+      {
+       "w": "una",
+       "start": 393.402,
+       "end": 393.656
+      },
+      {
+       "w": "vez",
+       "start": 393.656,
+       "end": 393.91
+      },
+      {
+       "w": "por",
+       "start": 393.91,
+       "end": 394.164
+      },
+      {
+       "w": "cada",
+       "start": 394.164,
+       "end": 394.482
+      },
+      {
+       "w": "píxel",
+       "start": 394.482,
+       "end": 394.863
+      },
+      {
+       "w": "que",
+       "start": 394.863,
+       "end": 395.117
+      },
+      {
+       "w": "cubre",
+       "start": 395.117,
+       "end": 395.498
+      },
+      {
+       "w": "la",
+       "start": 395.498,
+       "end": 395.689
+      },
+      {
+       "w": "forma,",
+       "start": 395.689,
+       "end": 396.133
+      },
+      {
+       "w": "y",
+       "start": 396.133,
+       "end": 396.26
+      },
+      {
+       "w": "decide",
+       "start": 396.26,
+       "end": 396.705
+      },
+      {
+       "w": "su",
+       "start": 396.705,
+       "end": 396.895
+      },
+      {
+       "w": "color.",
+       "start": 396.895,
+       "end": 397.34
+      }
+     ]
+    },
+    {
+     "text": "Si el triángulo cubre cien mil píxeles, son cien mil llamadas.",
+     "start": 398.06,
+     "end": 401.74,
+     "words": [
+      {
+       "w": "Si",
+       "start": 398.06,
+       "end": 398.235
+      },
+      {
+       "w": "el",
+       "start": 398.235,
+       "end": 398.41
+      },
+      {
+       "w": "triángulo",
+       "start": 398.41,
+       "end": 398.995
+      },
+      {
+       "w": "cubre",
+       "start": 398.995,
+       "end": 399.345
+      },
+      {
+       "w": "cien",
+       "start": 399.345,
+       "end": 399.637
+      },
+      {
+       "w": "mil",
+       "start": 399.637,
+       "end": 399.871
+      },
+      {
+       "w": "píxeles,",
+       "start": 399.871,
+       "end": 400.397
+      },
+      {
+       "w": "son",
+       "start": 400.397,
+       "end": 400.63
+      },
+      {
+       "w": "cien",
+       "start": 400.63,
+       "end": 400.922
+      },
+      {
+       "w": "mil",
+       "start": 400.922,
+       "end": 401.156
+      },
+      {
+       "w": "llamadas.",
+       "start": 401.156,
+       "end": 401.74
+      }
+     ]
+    },
+    {
+     "text": "Y Compute se ejecuta una vez por cada índice que pides.",
+     "start": 402.48,
+     "end": 406.1,
+     "words": [
+      {
+       "w": "Y",
+       "start": 402.48,
+       "end": 402.609
+      },
+      {
+       "w": "Compute",
+       "start": 402.609,
+       "end": 403.126
+      },
+      {
+       "w": "se",
+       "start": 403.126,
+       "end": 403.32
+      },
+      {
+       "w": "ejecuta",
+       "start": 403.32,
+       "end": 403.837
+      },
+      {
+       "w": "una",
+       "start": 403.837,
+       "end": 404.096
+      },
+      {
+       "w": "vez",
+       "start": 404.096,
+       "end": 404.355
+      },
+      {
+       "w": "por",
+       "start": 404.355,
+       "end": 404.613
+      },
+      {
+       "w": "cada",
+       "start": 404.613,
+       "end": 404.936
+      },
+      {
+       "w": "índice",
+       "start": 404.936,
+       "end": 405.389
+      },
+      {
+       "w": "que",
+       "start": 405.389,
+       "end": 405.647
+      },
+      {
+       "w": "pides.",
+       "start": 405.647,
+       "end": 406.1
+      }
+     ]
+    },
+    {
+     "text": "Es nuestro arreglo, y no dibuja nada.",
+     "start": 406.6,
+     "end": 408.76,
+     "words": [
+      {
+       "w": "Es",
+       "start": 406.6,
+       "end": 406.771
+      },
+      {
+       "w": "nuestro",
+       "start": 406.771,
+       "end": 407.225
+      },
+      {
+       "w": "arreglo,",
+       "start": 407.225,
+       "end": 407.737
+      },
+      {
+       "w": "y",
+       "start": 407.737,
+       "end": 407.851
+      },
+      {
+       "w": "no",
+       "start": 407.851,
+       "end": 408.021
+      },
+      {
+       "w": "dibuja",
+       "start": 408.021,
+       "end": 408.419
+      },
+      {
+       "w": "nada.",
+       "start": 408.419,
+       "end": 408.76
+      }
+     ]
+    },
+    {
+     "text": "Para dibujar algo, las dos primeras trabajan juntas.",
+     "start": 409.54,
+     "end": 412.24,
+     "words": [
+      {
+       "w": "Para",
+       "start": 409.54,
+       "end": 409.795
+      },
+      {
+       "w": "dibujar",
+       "start": 409.795,
+       "end": 410.202
+      },
+      {
+       "w": "algo,",
+       "start": 410.202,
+       "end": 410.508
+      },
+      {
+       "w": "las",
+       "start": 410.508,
+       "end": 410.712
+      },
+      {
+       "w": "dos",
+       "start": 410.712,
+       "end": 410.915
+      },
+      {
+       "w": "primeras",
+       "start": 410.915,
+       "end": 411.374
+      },
+      {
+       "w": "trabajan",
+       "start": 411.374,
+       "end": 411.832
+      },
+      {
+       "w": "juntas.",
+       "start": 411.832,
+       "end": 412.24
+      }
+     ]
+    },
+    {
+     "text": "Envías tres puntos.",
+     "start": 412.76,
+     "end": 414.02,
+     "words": [
+      {
+       "w": "Envías",
+       "start": 412.76,
+       "end": 413.201
+      },
+      {
+       "w": "tres",
+       "start": 413.201,
+       "end": 413.516
+      },
+      {
+       "w": "puntos.",
+       "start": 413.516,
+       "end": 414.02
+      }
+     ]
+    },
+    {
+     "text": "Vertex coloca cada uno.",
+     "start": 414.52,
+     "end": 416.06,
+     "words": [
+      {
+       "w": "Vertex",
+       "start": 414.52,
+       "end": 414.969
+      },
+      {
+       "w": "coloca",
+       "start": 414.969,
+       "end": 415.418
+      },
+      {
+       "w": "cada",
+       "start": 415.418,
+       "end": 415.739
+      },
+      {
+       "w": "uno.",
+       "start": 415.739,
+       "end": 416.06
+      }
+     ]
+    },
+    {
+     "text": "La GPU calcula qué píxeles caen dentro del triángulo.",
+     "start": 416.66,
+     "end": 419.86,
+     "words": [
+      {
+       "w": "La",
+       "start": 416.66,
+       "end": 416.838
+      },
+      {
+       "w": "GPU",
+       "start": 416.838,
+       "end": 417.075
+      },
+      {
+       "w": "calcula",
+       "start": 417.075,
+       "end": 417.549
+      },
+      {
+       "w": "qué",
+       "start": 417.549,
+       "end": 417.786
+      },
+      {
+       "w": "píxeles",
+       "start": 417.786,
+       "end": 418.26
+      },
+      {
+       "w": "caen",
+       "start": 418.26,
+       "end": 418.556
+      },
+      {
+       "w": "dentro",
+       "start": 418.556,
+       "end": 418.971
+      },
+      {
+       "w": "del",
+       "start": 418.971,
+       "end": 419.208
+      },
+      {
+       "w": "triángulo.",
+       "start": 419.208,
+       "end": 419.86
+      }
+     ]
+    },
+    {
+     "text": "Y Fragment le da un color a cada uno.",
+     "start": 420.44,
+     "end": 422.52,
+     "words": [
+      {
+       "w": "Y",
+       "start": 420.44,
+       "end": 420.549
+      },
+      {
+       "w": "Fragment",
+       "start": 420.549,
+       "end": 421.042
+      },
+      {
+       "w": "le",
+       "start": 421.042,
+       "end": 421.206
+      },
+      {
+       "w": "da",
+       "start": 421.206,
+       "end": 421.371
+      },
+      {
+       "w": "un",
+       "start": 421.371,
+       "end": 421.535
+      },
+      {
+       "w": "color",
+       "start": 421.535,
+       "end": 421.863
+      },
+      {
+       "w": "a",
+       "start": 421.863,
+       "end": 421.973
+      },
+      {
+       "w": "cada",
+       "start": 421.973,
+       "end": 422.246
+      },
+      {
+       "w": "uno.",
+       "start": 422.246,
+       "end": 422.52
+      }
+     ]
+    },
+    {
+     "text": "No hace falta que quede claro todavía.",
+     "start": 423.2,
+     "end": 424.94,
+     "words": [
+      {
+       "w": "No",
+       "start": 423.2,
+       "end": 423.334
+      },
+      {
+       "w": "hace",
+       "start": 423.334,
+       "end": 423.557
+      },
+      {
+       "w": "falta",
+       "start": 423.557,
+       "end": 423.825
+      },
+      {
+       "w": "que",
+       "start": 423.825,
+       "end": 424.003
+      },
+      {
+       "w": "quede",
+       "start": 424.003,
+       "end": 424.271
+      },
+      {
+       "w": "claro",
+       "start": 424.271,
+       "end": 424.538
+      },
+      {
+       "w": "todavía.",
+       "start": 424.538,
+       "end": 424.94
+      }
+     ]
+    },
+    {
+     "text": "El siguiente video lo recorre paso a paso.",
+     "start": 425.4,
+     "end": 427.74,
+     "words": [
+      {
+       "w": "El",
+       "start": 425.4,
+       "end": 425.563
+      },
+      {
+       "w": "siguiente",
+       "start": 425.563,
+       "end": 426.107
+      },
+      {
+       "w": "video",
+       "start": 426.107,
+       "end": 426.434
+      },
+      {
+       "w": "lo",
+       "start": 426.434,
+       "end": 426.597
+      },
+      {
+       "w": "recorre",
+       "start": 426.597,
+       "end": 427.033
+      },
+      {
+       "w": "paso",
+       "start": 427.033,
+       "end": 427.305
+      },
+      {
+       "w": "a",
+       "start": 427.305,
+       "end": 427.413
+      },
+      {
+       "w": "paso.",
+       "start": 427.413,
+       "end": 427.74
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "s09-yotsuba",
+   "start": 428.64,
+   "end": 476.02,
+   "sentences": [
+    {
+     "text": "Como la GPU no entiende C#, los shaders siempre se han escrito en lenguajes hechos solo para eso:",
+     "start": 428.7,
+     "end": 437.64,
+     "words": [
+      {
+       "w": "Como",
+       "start": 428.7,
+       "end": 429.156
+      },
+      {
+       "w": "la",
+       "start": 429.156,
+       "end": 429.43
+      },
+      {
+       "w": "GPU",
+       "start": 429.43,
+       "end": 429.795
+      },
+      {
+       "w": "no",
+       "start": 429.795,
+       "end": 430.068
+      },
+      {
+       "w": "entiende",
+       "start": 430.068,
+       "end": 430.889
+      },
+      {
+       "w": "C#,",
+       "start": 430.889,
+       "end": 431.254
+      },
+      {
+       "w": "los",
+       "start": 431.254,
+       "end": 431.619
+      },
+      {
+       "w": "shaders",
+       "start": 431.619,
+       "end": 432.349
+      },
+      {
+       "w": "siempre",
+       "start": 432.349,
+       "end": 433.079
+      },
+      {
+       "w": "se",
+       "start": 433.079,
+       "end": 433.352
+      },
+      {
+       "w": "han",
+       "start": 433.352,
+       "end": 433.717
+      },
+      {
+       "w": "escrito",
+       "start": 433.717,
+       "end": 434.447
+      },
+      {
+       "w": "en",
+       "start": 434.447,
+       "end": 434.721
+      },
+      {
+       "w": "lenguajes",
+       "start": 434.721,
+       "end": 435.633
+      },
+      {
+       "w": "hechos",
+       "start": 435.633,
+       "end": 436.272
+      },
+      {
+       "w": "solo",
+       "start": 436.272,
+       "end": 436.728
+      },
+      {
+       "w": "para",
+       "start": 436.728,
+       "end": 437.184
+      },
+      {
+       "w": "eso:",
+       "start": 437.184,
+       "end": 437.64
+      }
+     ]
+    },
+    {
+     "text": "HLSL, GLSL, Metal.",
+     "start": 437.88,
+     "end": 439.78,
+     "words": [
+      {
+       "w": "HLSL,",
+       "start": 437.88,
+       "end": 438.48
+      },
+      {
+       "w": "GLSL,",
+       "start": 438.48,
+       "end": 439.08
+      },
+      {
+       "w": "Metal.",
+       "start": 439.08,
+       "end": 439.78
+      }
+     ]
+    },
+    {
+     "text": "Cada API gráfica tiene el suyo, y ninguno conoce las clases de tu proyecto.",
+     "start": 440.72,
+     "end": 445.62,
+     "words": [
+      {
+       "w": "Cada",
+       "start": 440.72,
+       "end": 441.042
+      },
+      {
+       "w": "API",
+       "start": 441.042,
+       "end": 441.3
+      },
+      {
+       "w": "gráfica",
+       "start": 441.3,
+       "end": 441.816
+      },
+      {
+       "w": "tiene",
+       "start": 441.816,
+       "end": 442.203
+      },
+      {
+       "w": "el",
+       "start": 442.203,
+       "end": 442.396
+      },
+      {
+       "w": "suyo,",
+       "start": 442.396,
+       "end": 442.783
+      },
+      {
+       "w": "y",
+       "start": 442.783,
+       "end": 442.912
+      },
+      {
+       "w": "ninguno",
+       "start": 442.912,
+       "end": 443.428
+      },
+      {
+       "w": "conoce",
+       "start": 443.428,
+       "end": 443.879
+      },
+      {
+       "w": "las",
+       "start": 443.879,
+       "end": 444.137
+      },
+      {
+       "w": "clases",
+       "start": 444.137,
+       "end": 444.588
+      },
+      {
+       "w": "de",
+       "start": 444.588,
+       "end": 444.782
+      },
+      {
+       "w": "tu",
+       "start": 444.782,
+       "end": 444.975
+      },
+      {
+       "w": "proyecto.",
+       "start": 444.975,
+       "end": 445.62
+      }
+     ]
+    },
+    {
+     "text": "Con Yotsuba Shader, escribes el shader en C#.",
+     "start": 446.6,
+     "end": 450.3,
+     "words": [
+      {
+       "w": "Con",
+       "start": 446.6,
+       "end": 446.922
+      },
+      {
+       "w": "Yotsuba",
+       "start": 446.922,
+       "end": 447.565
+      },
+      {
+       "w": "Shader,",
+       "start": 447.565,
+       "end": 448.209
+      },
+      {
+       "w": "escribes",
+       "start": 448.209,
+       "end": 448.933
+      },
+      {
+       "w": "el",
+       "start": 448.933,
+       "end": 449.174
+      },
+      {
+       "w": "shader",
+       "start": 449.174,
+       "end": 449.737
+      },
+      {
+       "w": "en",
+       "start": 449.737,
+       "end": 449.978
+      },
+      {
+       "w": "C#.",
+       "start": 449.978,
+       "end": 450.3
+      }
+     ]
+    },
+    {
+     "text": "En tu propio proyecto, con tu propio editor.",
+     "start": 450.76,
+     "end": 453.24,
+     "words": [
+      {
+       "w": "En",
+       "start": 450.76,
+       "end": 450.925
+      },
+      {
+       "w": "tu",
+       "start": 450.925,
+       "end": 451.091
+      },
+      {
+       "w": "propio",
+       "start": 451.091,
+       "end": 451.476
+      },
+      {
+       "w": "proyecto,",
+       "start": 451.476,
+       "end": 452.028
+      },
+      {
+       "w": "con",
+       "start": 452.028,
+       "end": 452.248
+      },
+      {
+       "w": "tu",
+       "start": 452.248,
+       "end": 452.413
+      },
+      {
+       "w": "propio",
+       "start": 452.413,
+       "end": 452.799
+      },
+      {
+       "w": "editor.",
+       "start": 452.799,
+       "end": 453.24
+      }
+     ]
+    },
+    {
+     "text": "El compilador comprueba que solo uses cosas que la GPU puede hacer, y traduce el resultado al lenguaje que necesites.",
+     "start": 454.12,
+     "end": 462.02,
+     "words": [
+      {
+       "w": "El",
+       "start": 454.12,
+       "end": 454.321
+      },
+      {
+       "w": "compilador",
+       "start": 454.321,
+       "end": 455.057
+      },
+      {
+       "w": "comprueba",
+       "start": 455.057,
+       "end": 455.727
+      },
+      {
+       "w": "que",
+       "start": 455.727,
+       "end": 455.995
+      },
+      {
+       "w": "solo",
+       "start": 455.995,
+       "end": 456.329
+      },
+      {
+       "w": "uses",
+       "start": 456.329,
+       "end": 456.664
+      },
+      {
+       "w": "cosas",
+       "start": 456.664,
+       "end": 457.066
+      },
+      {
+       "w": "que",
+       "start": 457.066,
+       "end": 457.334
+      },
+      {
+       "w": "la",
+       "start": 457.334,
+       "end": 457.534
+      },
+      {
+       "w": "GPU",
+       "start": 457.534,
+       "end": 457.802
+      },
+      {
+       "w": "puede",
+       "start": 457.802,
+       "end": 458.204
+      },
+      {
+       "w": "hacer,",
+       "start": 458.204,
+       "end": 458.673
+      },
+      {
+       "w": "y",
+       "start": 458.673,
+       "end": 458.806
+      },
+      {
+       "w": "traduce",
+       "start": 458.806,
+       "end": 459.342
+      },
+      {
+       "w": "el",
+       "start": 459.342,
+       "end": 459.543
+      },
+      {
+       "w": "resultado",
+       "start": 459.543,
+       "end": 460.212
+      },
+      {
+       "w": "al",
+       "start": 460.212,
+       "end": 460.413
+      },
+      {
+       "w": "lenguaje",
+       "start": 460.413,
+       "end": 461.016
+      },
+      {
+       "w": "que",
+       "start": 461.016,
+       "end": 461.284
+      },
+      {
+       "w": "necesites.",
+       "start": 461.284,
+       "end": 462.02
+      }
+     ]
+    },
+    {
+     "text": "Veamos cómo se ve eso.",
+     "start": 462.86,
+     "end": 464.46,
+     "words": [
+      {
+       "w": "Veamos",
+       "start": 462.86,
+       "end": 463.347
+      },
+      {
+       "w": "cómo",
+       "start": 463.347,
+       "end": 463.695
+      },
+      {
+       "w": "se",
+       "start": 463.695,
+       "end": 463.903
+      },
+      {
+       "w": "ve",
+       "start": 463.903,
+       "end": 464.112
+      },
+      {
+       "w": "eso.",
+       "start": 464.112,
+       "end": 464.46
+      }
+     ]
+    },
+    {
+     "text": "Este es un shader completo, escrito en C#.",
+     "start": 465.38,
+     "end": 468.68,
+     "words": [
+      {
+       "w": "Este",
+       "start": 465.38,
+       "end": 465.764
+      },
+      {
+       "w": "es",
+       "start": 465.764,
+       "end": 465.994
+      },
+      {
+       "w": "un",
+       "start": 465.994,
+       "end": 466.224
+      },
+      {
+       "w": "shader",
+       "start": 466.224,
+       "end": 466.761
+      },
+      {
+       "w": "completo,",
+       "start": 466.761,
+       "end": 467.529
+      },
+      {
+       "w": "escrito",
+       "start": 467.529,
+       "end": 468.143
+      },
+      {
+       "w": "en",
+       "start": 468.143,
+       "end": 468.373
+      },
+      {
+       "w": "C#.",
+       "start": 468.373,
+       "end": 468.68
+      }
+     ]
+    },
+    {
+     "text": "Los detalles no hacen falta todavía.",
+     "start": 469.24,
+     "end": 471.4,
+     "words": [
+      {
+       "w": "Los",
+       "start": 469.24,
+       "end": 469.474
+      },
+      {
+       "w": "detalles",
+       "start": 469.474,
+       "end": 469.999
+      },
+      {
+       "w": "no",
+       "start": 469.999,
+       "end": 470.174
+      },
+      {
+       "w": "hacen",
+       "start": 470.174,
+       "end": 470.524
+      },
+      {
+       "w": "falta",
+       "start": 470.524,
+       "end": 470.875
+      },
+      {
+       "w": "todavía.",
+       "start": 470.875,
+       "end": 471.4
+      }
+     ]
+    },
+    {
+     "text": "En unos videos, lo escribirás tú mismo, línea por línea.",
+     "start": 472.18,
+     "end": 475.88,
+     "words": [
+      {
+       "w": "En",
+       "start": 472.18,
+       "end": 472.375
+      },
+      {
+       "w": "unos",
+       "start": 472.375,
+       "end": 472.699
+      },
+      {
+       "w": "videos,",
+       "start": 472.699,
+       "end": 473.219
+      },
+      {
+       "w": "lo",
+       "start": 473.219,
+       "end": 473.413
+      },
+      {
+       "w": "escribirás",
+       "start": 473.413,
+       "end": 474.127
+      },
+      {
+       "w": "tú",
+       "start": 474.127,
+       "end": 474.322
+      },
+      {
+       "w": "mismo,",
+       "start": 474.322,
+       "end": 474.776
+      },
+      {
+       "w": "línea",
+       "start": 474.776,
+       "end": 475.166
+      },
+      {
+       "w": "por",
+       "start": 475.166,
+       "end": 475.426
+      },
+      {
+       "w": "línea.",
+       "start": 475.426,
+       "end": 475.88
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "s10-recap",
+   "start": 476.82,
+   "end": 506.04,
+   "sentences": [
+    {
+     "text": "Para resumir.",
+     "start": 476.88,
+     "end": 477.62,
+     "words": [
+      {
+       "w": "Para",
+       "start": 476.88,
+       "end": 477.144
+      },
+      {
+       "w": "resumir.",
+       "start": 477.144,
+       "end": 477.62
+      }
+     ]
+    },
+    {
+     "text": "Un shader es una función que se ejecuta en la GPU.",
+     "start": 478.16,
+     "end": 481.4,
+     "words": [
+      {
+       "w": "Un",
+       "start": 478.16,
+       "end": 478.351
+      },
+      {
+       "w": "shader",
+       "start": 478.351,
+       "end": 478.795
+      },
+      {
+       "w": "es",
+       "start": 478.795,
+       "end": 478.986
+      },
+      {
+       "w": "una",
+       "start": 478.986,
+       "end": 479.24
+      },
+      {
+       "w": "función",
+       "start": 479.24,
+       "end": 479.748
+      },
+      {
+       "w": "que",
+       "start": 479.748,
+       "end": 480.002
+      },
+      {
+       "w": "se",
+       "start": 480.002,
+       "end": 480.193
+      },
+      {
+       "w": "ejecuta",
+       "start": 480.193,
+       "end": 480.701
+      },
+      {
+       "w": "en",
+       "start": 480.701,
+       "end": 480.892
+      },
+      {
+       "w": "la",
+       "start": 480.892,
+       "end": 481.082
+      },
+      {
+       "w": "GPU.",
+       "start": 481.082,
+       "end": 481.4
+      }
+     ]
+    },
+    {
+     "text": "La GPU la llama una enorme cantidad de veces a la vez:",
+     "start": 481.9,
+     "end": 485.8,
+     "words": [
+      {
+       "w": "La",
+       "start": 481.9,
+       "end": 482.113
+      },
+      {
+       "w": "GPU",
+       "start": 482.113,
+       "end": 482.396
+      },
+      {
+       "w": "la",
+       "start": 482.396,
+       "end": 482.609
+      },
+      {
+       "w": "llama",
+       "start": 482.609,
+       "end": 483.035
+      },
+      {
+       "w": "una",
+       "start": 483.035,
+       "end": 483.318
+      },
+      {
+       "w": "enorme",
+       "start": 483.318,
+       "end": 483.815
+      },
+      {
+       "w": "cantidad",
+       "start": 483.815,
+       "end": 484.453
+      },
+      {
+       "w": "de",
+       "start": 484.453,
+       "end": 484.665
+      },
+      {
+       "w": "veces",
+       "start": 484.665,
+       "end": 485.091
+      },
+      {
+       "w": "a",
+       "start": 485.091,
+       "end": 485.233
+      },
+      {
+       "w": "la",
+       "start": 485.233,
+       "end": 485.445
+      },
+      {
+       "w": "vez:",
+       "start": 485.445,
+       "end": 485.8
+      }
+     ]
+    },
+    {
+     "text": "una vez por vértice, por píxel o por índice.",
+     "start": 486.3,
+     "end": 489.46,
+     "words": [
+      {
+       "w": "una",
+       "start": 486.3,
+       "end": 486.581
+      },
+      {
+       "w": "vez",
+       "start": 486.581,
+       "end": 486.862
+      },
+      {
+       "w": "por",
+       "start": 486.862,
+       "end": 487.143
+      },
+      {
+       "w": "vértice,",
+       "start": 487.143,
+       "end": 487.775
+      },
+      {
+       "w": "por",
+       "start": 487.775,
+       "end": 488.056
+      },
+      {
+       "w": "píxel",
+       "start": 488.056,
+       "end": 488.477
+      },
+      {
+       "w": "o",
+       "start": 488.477,
+       "end": 488.617
+      },
+      {
+       "w": "por",
+       "start": 488.617,
+       "end": 488.898
+      },
+      {
+       "w": "índice.",
+       "start": 488.898,
+       "end": 489.46
+      }
+     ]
+    },
+    {
+     "text": "Dentro de ella solo puedes hacer cálculos.",
+     "start": 490.02,
+     "end": 492.64,
+     "words": [
+      {
+       "w": "Dentro",
+       "start": 490.02,
+       "end": 490.447
+      },
+      {
+       "w": "de",
+       "start": 490.447,
+       "end": 490.629
+      },
+      {
+       "w": "ella",
+       "start": 490.629,
+       "end": 490.934
+      },
+      {
+       "w": "solo",
+       "start": 490.934,
+       "end": 491.239
+      },
+      {
+       "w": "puedes",
+       "start": 491.239,
+       "end": 491.665
+      },
+      {
+       "w": "hacer",
+       "start": 491.665,
+       "end": 492.031
+      },
+      {
+       "w": "cálculos.",
+       "start": 492.031,
+       "end": 492.64
+      }
+     ]
+    },
+    {
+     "text": "Sin archivos, sin texto, sin listas.",
+     "start": 492.98,
+     "end": 495.84,
+     "words": [
+      {
+       "w": "Sin",
+       "start": 492.98,
+       "end": 493.289
+      },
+      {
+       "w": "archivos,",
+       "start": 493.289,
+       "end": 494.062
+      },
+      {
+       "w": "sin",
+       "start": 494.062,
+       "end": 494.371
+      },
+      {
+       "w": "texto,",
+       "start": 494.371,
+       "end": 494.912
+      },
+      {
+       "w": "sin",
+       "start": 494.912,
+       "end": 495.222
+      },
+      {
+       "w": "listas.",
+       "start": 495.222,
+       "end": 495.84
+      }
+     ]
+    },
+    {
+     "text": "Y con Yotsuba Shader, escribes esa función en C#.",
+     "start": 496.34,
+     "end": 500.58,
+     "words": [
+      {
+       "w": "Y",
+       "start": 496.34,
+       "end": 496.51
+      },
+      {
+       "w": "con",
+       "start": 496.51,
+       "end": 496.849
+      },
+      {
+       "w": "Yotsuba",
+       "start": 496.849,
+       "end": 497.527
+      },
+      {
+       "w": "Shader,",
+       "start": 497.527,
+       "end": 498.206
+      },
+      {
+       "w": "escribes",
+       "start": 498.206,
+       "end": 498.969
+      },
+      {
+       "w": "esa",
+       "start": 498.969,
+       "end": 499.308
+      },
+      {
+       "w": "función",
+       "start": 499.308,
+       "end": 499.986
+      },
+      {
+       "w": "en",
+       "start": 499.986,
+       "end": 500.241
+      },
+      {
+       "w": "C#.",
+       "start": 500.241,
+       "end": 500.58
+      }
+     ]
+    },
+    {
+     "text": "En el próximo video, veremos cómo se construye un shader.",
+     "start": 501.2,
+     "end": 504.66,
+     "words": [
+      {
+       "w": "En",
+       "start": 501.2,
+       "end": 501.379
+      },
+      {
+       "w": "el",
+       "start": 501.379,
+       "end": 501.558
+      },
+      {
+       "w": "próximo",
+       "start": 501.558,
+       "end": 502.035
+      },
+      {
+       "w": "video,",
+       "start": 502.035,
+       "end": 502.453
+      },
+      {
+       "w": "veremos",
+       "start": 502.453,
+       "end": 502.93
+      },
+      {
+       "w": "cómo",
+       "start": 502.93,
+       "end": 503.228
+      },
+      {
+       "w": "se",
+       "start": 503.228,
+       "end": 503.407
+      },
+      {
+       "w": "construye",
+       "start": 503.407,
+       "end": 504.004
+      },
+      {
+       "w": "un",
+       "start": 504.004,
+       "end": 504.183
+      },
+      {
+       "w": "shader.",
+       "start": 504.183,
+       "end": 504.66
+      }
+     ]
+    },
+    {
+     "text": "Nos vemos allí.",
+     "start": 505.16,
+     "end": 505.9,
+     "words": [
+      {
+       "w": "Nos",
+       "start": 505.16,
+       "end": 505.345
+      },
+      {
+       "w": "vemos",
+       "start": 505.345,
+       "end": 505.622
+      },
+      {
+       "w": "allí.",
+       "start": 505.622,
+       "end": 505.9
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}

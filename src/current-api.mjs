@@ -2,9 +2,10 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { repoPath } from './repo-paths.mjs';
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..');
 export function apiSource(file) {
-  const text = fs.readFileSync(path.join(ROOT, file), 'utf8');
+  const text = fs.readFileSync(path.join(ROOT, repoPath(file)), 'utf8');
   const marker = text.lastIndexOf('#endregion');
   return text.slice(marker < 0 ? 0 : marker + '#endregion'.length)
     .replace(/\/\/\/[^\n]*\n/g, '').trim();

@@ -1,13 +1,13 @@
 node_modules/
 .DS_Store
-.playground-out/
+dist/
 src/static/playground-app/
 playground/bin/
 playground/obj/
-dist/
-promo-video/*.mp4
-promo-video/recordings/
 promo-video/remotion/public/intro/
+
+# Everything that is not committed (renders, recordings, caches, big source files) goes here.
+/.local/
 
 # build output of guide tooling
 guide/tools/check/bin/
@@ -15,3 +15,10 @@ guide/tools/check/obj/
 
 # Yotsuba Engine site: its own repository, cloned here
 /YotsubaEngine-Web/
+
+# local secrets for learn/tts.mjs
+learn/.env
+
+# Generated from the narration cache by promo-video/automation/ep01-narration.mjs
+promo-video/remotion/public/ep01/
+promo-video/remotion/public/ep02/

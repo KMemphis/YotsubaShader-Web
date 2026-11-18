@@ -37,7 +37,7 @@ src/layout.mjs            global bar, sub-nav, footer, docs layout
 src/components.mjs        icons, code blocks, tabs, tables, callouts, cards
 src/highlight.mjs         build-time C# / bash / SPIR-V syntax highlighting
 src/snippets.mjs          code samples shared by several pages (mirror the README)
-src/reference.mjs         reads ../YotsubaShader.Language (read-only) to generate attribute reference
+src/reference.mjs         reads ../Core/Syntax/YotsubaShader.*Syntax (read-only; paths in src/repo-paths.mjs) to generate attribute reference
 src/pages/*.mjs           the marketing pages
 src/docs/*.mjs            documentation tree and articles
 src/i18n/                 translation engine (index.mjs) and dictionaries (es/*.json)
@@ -51,7 +51,7 @@ src/static/               css, js and images copied as-is
   `src/docs/essentials.mjs` or `src/docs/compiler.mjs`, then list its slug in the tree in
   `src/docs/docs.mjs`. `<h2>` headings get anchors and the outline automatically.
 - **Attribute reference pages** are generated from the attribute files in
-  `YotsubaShader.Language/StylesAttributes`, so they track the source. The cross-style tables in
+  `Core/Representations/YotsubaShader.Language/StylesAttributes`, so they track the source. The cross-style tables in
   `src/reference.mjs` are curated by hand; update them when attributes are added.
 - Visitors can pick an authoring style (HLSL, GLSL, Metal, Vulkan, WGSL) once; every code tab on
   the site follows it (stored in `localStorage`).

@@ -1,0 +1,7210 @@
+{
+ "duration": 463.86,
+ "leadIn": 0.6,
+ "scenes": [
+  {
+   "id": "s01-hook",
+   "start": 0.6,
+   "end": 20.64,
+   "sentences": [
+    {
+     "text": "Every pixel on your screen right now was colored by a tiny function.",
+     "start": 0.66,
+     "end": 5.14,
+     "words": [
+      {
+       "w": "Every",
+       "start": 0.66,
+       "end": 1.05
+      },
+      {
+       "w": "pixel",
+       "start": 1.05,
+       "end": 1.439
+      },
+      {
+       "w": "on",
+       "start": 1.439,
+       "end": 1.634
+      },
+      {
+       "w": "your",
+       "start": 1.634,
+       "end": 1.959
+      },
+      {
+       "w": "screen",
+       "start": 1.959,
+       "end": 2.413
+      },
+      {
+       "w": "right",
+       "start": 2.413,
+       "end": 2.803
+      },
+      {
+       "w": "now",
+       "start": 2.803,
+       "end": 3.062
+      },
+      {
+       "w": "was",
+       "start": 3.062,
+       "end": 3.322
+      },
+      {
+       "w": "colored",
+       "start": 3.322,
+       "end": 3.841
+      },
+      {
+       "w": "by",
+       "start": 3.841,
+       "end": 4.036
+      },
+      {
+       "w": "a",
+       "start": 4.036,
+       "end": 4.166
+      },
+      {
+       "w": "tiny",
+       "start": 4.166,
+       "end": 4.491
+      },
+      {
+       "w": "function.",
+       "start": 4.491,
+       "end": 5.14
+      }
+     ]
+    },
+    {
+     "text": "Not one function.",
+     "start": 5.7,
+     "end": 6.98,
+     "words": [
+      {
+       "w": "Not",
+       "start": 5.7,
+       "end": 5.984
+      },
+      {
+       "w": "one",
+       "start": 5.984,
+       "end": 6.269
+      },
+      {
+       "w": "function.",
+       "start": 6.269,
+       "end": 6.98
+      }
+     ]
+    },
+    {
+     "text": "The same function, running over two million times, all at once, sixty times every second.",
+     "start": 7.4,
+     "end": 14.36,
+     "words": [
+      {
+       "w": "The",
+       "start": 7.4,
+       "end": 7.709
+      },
+      {
+       "w": "same",
+       "start": 7.709,
+       "end": 8.096
+      },
+      {
+       "w": "function,",
+       "start": 8.096,
+       "end": 8.869
+      },
+      {
+       "w": "running",
+       "start": 8.869,
+       "end": 9.488
+      },
+      {
+       "w": "over",
+       "start": 9.488,
+       "end": 9.875
+      },
+      {
+       "w": "two",
+       "start": 9.875,
+       "end": 10.184
+      },
+      {
+       "w": "million",
+       "start": 10.184,
+       "end": 10.803
+      },
+      {
+       "w": "times,",
+       "start": 10.803,
+       "end": 11.344
+      },
+      {
+       "w": "all",
+       "start": 11.344,
+       "end": 11.653
+      },
+      {
+       "w": "at",
+       "start": 11.653,
+       "end": 11.885
+      },
+      {
+       "w": "once,",
+       "start": 11.885,
+       "end": 12.349
+      },
+      {
+       "w": "sixty",
+       "start": 12.349,
+       "end": 12.813
+      },
+      {
+       "w": "times",
+       "start": 12.813,
+       "end": 13.277
+      },
+      {
+       "w": "every",
+       "start": 13.277,
+       "end": 13.741
+      },
+      {
+       "w": "second.",
+       "start": 13.741,
+       "end": 14.36
+      }
+     ]
+    },
+    {
+     "text": "That function is called a shader.",
+     "start": 14.92,
+     "end": 17.06,
+     "words": [
+      {
+       "w": "That",
+       "start": 14.92,
+       "end": 15.235
+      },
+      {
+       "w": "function",
+       "start": 15.235,
+       "end": 15.801
+      },
+      {
+       "w": "is",
+       "start": 15.801,
+       "end": 15.99
+      },
+      {
+       "w": "called",
+       "start": 15.99,
+       "end": 16.431
+      },
+      {
+       "w": "a",
+       "start": 16.431,
+       "end": 16.556
+      },
+      {
+       "w": "shader.",
+       "start": 16.556,
+       "end": 17.06
+      }
+     ]
+    },
+    {
+     "text": "And in this series, you're going to write them in C#.",
+     "start": 17.62,
+     "end": 20.5,
+     "words": [
+      {
+       "w": "And",
+       "start": 17.62,
+       "end": 17.833
+      },
+      {
+       "w": "in",
+       "start": 17.833,
+       "end": 17.993
+      },
+      {
+       "w": "this",
+       "start": 17.993,
+       "end": 18.26
+      },
+      {
+       "w": "series,",
+       "start": 18.26,
+       "end": 18.687
+      },
+      {
+       "w": "you're",
+       "start": 18.687,
+       "end": 19.06
+      },
+      {
+       "w": "going",
+       "start": 19.06,
+       "end": 19.38
+      },
+      {
+       "w": "to",
+       "start": 19.38,
+       "end": 19.54
+      },
+      {
+       "w": "write",
+       "start": 19.54,
+       "end": 19.86
+      },
+      {
+       "w": "them",
+       "start": 19.86,
+       "end": 20.127
+      },
+      {
+       "w": "in",
+       "start": 20.127,
+       "end": 20.287
+      },
+      {
+       "w": "C#.",
+       "start": 20.287,
+       "end": 20.5
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "s02-welcome",
+   "start": 22.04,
+   "end": 73.76,
+   "sentences": [
+    {
+     "text": "Welcome to Yotsuba Shader:",
+     "start": 22.1,
+     "end": 24.04,
+     "words": [
+      {
+       "w": "Welcome",
+       "start": 22.1,
+       "end": 22.675
+      },
+      {
+       "w": "to",
+       "start": 22.675,
+       "end": 22.89
+      },
+      {
+       "w": "Yotsuba",
+       "start": 22.89,
+       "end": 23.465
+      },
+      {
+       "w": "Shader:",
+       "start": 23.465,
+       "end": 24.04
+      }
+     ]
+    },
+    {
+     "text": "an SDK for writing shaders in C#, for many graphics APIs and game engines.",
+     "start": 24.42,
+     "end": 29.88,
+     "words": [
+      {
+       "w": "an",
+       "start": 24.42,
+       "end": 24.638
+      },
+      {
+       "w": "SDK",
+       "start": 24.638,
+       "end": 24.93
+      },
+      {
+       "w": "for",
+       "start": 24.93,
+       "end": 25.221
+      },
+      {
+       "w": "writing",
+       "start": 25.221,
+       "end": 25.803
+      },
+      {
+       "w": "shaders",
+       "start": 25.803,
+       "end": 26.386
+      },
+      {
+       "w": "in",
+       "start": 26.386,
+       "end": 26.604
+      },
+      {
+       "w": "C#,",
+       "start": 26.604,
+       "end": 26.895
+      },
+      {
+       "w": "for",
+       "start": 26.895,
+       "end": 27.186
+      },
+      {
+       "w": "many",
+       "start": 27.186,
+       "end": 27.55
+      },
+      {
+       "w": "graphics",
+       "start": 27.55,
+       "end": 28.206
+      },
+      {
+       "w": "APIs",
+       "start": 28.206,
+       "end": 28.57
+      },
+      {
+       "w": "and",
+       "start": 28.57,
+       "end": 28.861
+      },
+      {
+       "w": "game",
+       "start": 28.861,
+       "end": 29.225
+      },
+      {
+       "w": "engines.",
+       "start": 29.225,
+       "end": 29.88
+      }
+     ]
+    },
+    {
+     "text": "In this first video you'll learn what a shader is, and why it runs on the GPU.",
+     "start": 30.26,
+     "end": 35.4,
+     "words": [
+      {
+       "w": "In",
+       "start": 30.26,
+       "end": 30.455
+      },
+      {
+       "w": "this",
+       "start": 30.455,
+       "end": 30.781
+      },
+      {
+       "w": "first",
+       "start": 30.781,
+       "end": 31.171
+      },
+      {
+       "w": "video",
+       "start": 31.171,
+       "end": 31.561
+      },
+      {
+       "w": "you'll",
+       "start": 31.561,
+       "end": 32.017
+      },
+      {
+       "w": "learn",
+       "start": 32.017,
+       "end": 32.407
+      },
+      {
+       "w": "what",
+       "start": 32.407,
+       "end": 32.732
+      },
+      {
+       "w": "a",
+       "start": 32.732,
+       "end": 32.863
+      },
+      {
+       "w": "shader",
+       "start": 32.863,
+       "end": 33.318
+      },
+      {
+       "w": "is,",
+       "start": 33.318,
+       "end": 33.578
+      },
+      {
+       "w": "and",
+       "start": 33.578,
+       "end": 33.838
+      },
+      {
+       "w": "why",
+       "start": 33.838,
+       "end": 34.099
+      },
+      {
+       "w": "it",
+       "start": 34.099,
+       "end": 34.294
+      },
+      {
+       "w": "runs",
+       "start": 34.294,
+       "end": 34.619
+      },
+      {
+       "w": "on",
+       "start": 34.619,
+       "end": 34.814
+      },
+      {
+       "w": "the",
+       "start": 34.814,
+       "end": 35.075
+      },
+      {
+       "w": "GPU.",
+       "start": 35.075,
+       "end": 35.4
+      }
+     ]
+    },
+    {
+     "text": "You don't need to know anything about shaders.",
+     "start": 36.08,
+     "end": 38.34,
+     "words": [
+      {
+       "w": "You",
+       "start": 36.08,
+       "end": 36.272
+      },
+      {
+       "w": "don't",
+       "start": 36.272,
+       "end": 36.561
+      },
+      {
+       "w": "need",
+       "start": 36.561,
+       "end": 36.801
+      },
+      {
+       "w": "to",
+       "start": 36.801,
+       "end": 36.946
+      },
+      {
+       "w": "know",
+       "start": 36.946,
+       "end": 37.186
+      },
+      {
+       "w": "anything",
+       "start": 37.186,
+       "end": 37.619
+      },
+      {
+       "w": "about",
+       "start": 37.619,
+       "end": 37.907
+      },
+      {
+       "w": "shaders.",
+       "start": 37.907,
+       "end": 38.34
+      }
+     ]
+    },
+    {
+     "text": "You only need to know C#.",
+     "start": 38.7,
+     "end": 40.2,
+     "words": [
+      {
+       "w": "You",
+       "start": 38.7,
+       "end": 38.931
+      },
+      {
+       "w": "only",
+       "start": 38.931,
+       "end": 39.219
+      },
+      {
+       "w": "need",
+       "start": 39.219,
+       "end": 39.508
+      },
+      {
+       "w": "to",
+       "start": 39.508,
+       "end": 39.681
+      },
+      {
+       "w": "know",
+       "start": 39.681,
+       "end": 39.969
+      },
+      {
+       "w": "C#.",
+       "start": 39.969,
+       "end": 40.2
+      }
+     ]
+    },
+    {
+     "text": "And this isn't a list of functions to memorize.",
+     "start": 40.8,
+     "end": 43.26,
+     "words": [
+      {
+       "w": "And",
+       "start": 40.8,
+       "end": 41.005
+      },
+      {
+       "w": "this",
+       "start": 41.005,
+       "end": 41.261
+      },
+      {
+       "w": "isn't",
+       "start": 41.261,
+       "end": 41.569
+      },
+      {
+       "w": "a",
+       "start": 41.569,
+       "end": 41.671
+      },
+      {
+       "w": "list",
+       "start": 41.671,
+       "end": 41.927
+      },
+      {
+       "w": "of",
+       "start": 41.927,
+       "end": 42.081
+      },
+      {
+       "w": "functions",
+       "start": 42.081,
+       "end": 42.594
+      },
+      {
+       "w": "to",
+       "start": 42.594,
+       "end": 42.747
+      },
+      {
+       "w": "memorize.",
+       "start": 42.747,
+       "end": 43.26
+      }
+     ]
+    },
+    {
+     "text": "In every video you'll write code, run it, and watch something appear on your screen.",
+     "start": 43.84,
+     "end": 48.56,
+     "words": [
+      {
+       "w": "In",
+       "start": 43.84,
+       "end": 44.007
+      },
+      {
+       "w": "every",
+       "start": 44.007,
+       "end": 44.34
+      },
+      {
+       "w": "video",
+       "start": 44.34,
+       "end": 44.673
+      },
+      {
+       "w": "you'll",
+       "start": 44.673,
+       "end": 45.062
+      },
+      {
+       "w": "write",
+       "start": 45.062,
+       "end": 45.395
+      },
+      {
+       "w": "code,",
+       "start": 45.395,
+       "end": 45.728
+      },
+      {
+       "w": "run",
+       "start": 45.728,
+       "end": 45.95
+      },
+      {
+       "w": "it,",
+       "start": 45.95,
+       "end": 46.172
+      },
+      {
+       "w": "and",
+       "start": 46.172,
+       "end": 46.394
+      },
+      {
+       "w": "watch",
+       "start": 46.394,
+       "end": 46.728
+      },
+      {
+       "w": "something",
+       "start": 46.728,
+       "end": 47.283
+      },
+      {
+       "w": "appear",
+       "start": 47.283,
+       "end": 47.672
+      },
+      {
+       "w": "on",
+       "start": 47.672,
+       "end": 47.838
+      },
+      {
+       "w": "your",
+       "start": 47.838,
+       "end": 48.116
+      },
+      {
+       "w": "screen.",
+       "start": 48.116,
+       "end": 48.56
+      }
+     ]
+    },
+    {
+     "text": "If something doesn't look the way it should, the tutorial tells you exactly what to check.",
+     "start": 49.24,
+     "end": 53.58,
+     "words": [
+      {
+       "w": "If",
+       "start": 49.24,
+       "end": 49.383
+      },
+      {
+       "w": "something",
+       "start": 49.383,
+       "end": 49.86
+      },
+      {
+       "w": "doesn't",
+       "start": 49.86,
+       "end": 50.242
+      },
+      {
+       "w": "look",
+       "start": 50.242,
+       "end": 50.48
+      },
+      {
+       "w": "the",
+       "start": 50.48,
+       "end": 50.671
+      },
+      {
+       "w": "way",
+       "start": 50.671,
+       "end": 50.862
+      },
+      {
+       "w": "it",
+       "start": 50.862,
+       "end": 51.005
+      },
+      {
+       "w": "should,",
+       "start": 51.005,
+       "end": 51.386
+      },
+      {
+       "w": "the",
+       "start": 51.386,
+       "end": 51.577
+      },
+      {
+       "w": "tutorial",
+       "start": 51.577,
+       "end": 52.006
+      },
+      {
+       "w": "tells",
+       "start": 52.006,
+       "end": 52.292
+      },
+      {
+       "w": "you",
+       "start": 52.292,
+       "end": 52.483
+      },
+      {
+       "w": "exactly",
+       "start": 52.483,
+       "end": 52.865
+      },
+      {
+       "w": "what",
+       "start": 52.865,
+       "end": 53.103
+      },
+      {
+       "w": "to",
+       "start": 53.103,
+       "end": 53.246
+      },
+      {
+       "w": "check.",
+       "start": 53.246,
+       "end": 53.58
+      }
+     ]
+    },
+    {
+     "text": "We start with the fundamentals, for someone who has never seen a shader.",
+     "start": 54.22,
+     "end": 57.76,
+     "words": [
+      {
+       "w": "We",
+       "start": 54.22,
+       "end": 54.365
+      },
+      {
+       "w": "start",
+       "start": 54.365,
+       "end": 54.656
+      },
+      {
+       "w": "with",
+       "start": 54.656,
+       "end": 54.899
+      },
+      {
+       "w": "the",
+       "start": 54.899,
+       "end": 55.093
+      },
+      {
+       "w": "fundamentals,",
+       "start": 55.093,
+       "end": 55.772
+      },
+      {
+       "w": "for",
+       "start": 55.772,
+       "end": 55.966
+      },
+      {
+       "w": "someone",
+       "start": 55.966,
+       "end": 56.354
+      },
+      {
+       "w": "who",
+       "start": 56.354,
+       "end": 56.548
+      },
+      {
+       "w": "has",
+       "start": 56.548,
+       "end": 56.742
+      },
+      {
+       "w": "never",
+       "start": 56.742,
+       "end": 57.033
+      },
+      {
+       "w": "seen",
+       "start": 57.033,
+       "end": 57.275
+      },
+      {
+       "w": "a",
+       "start": 57.275,
+       "end": 57.372
+      },
+      {
+       "w": "shader.",
+       "start": 57.372,
+       "end": 57.76
+      }
+     ]
+    },
+    {
+     "text": "Then a workshop, one tool at a time:",
+     "start": 58.38,
+     "end": 60.9,
+     "words": [
+      {
+       "w": "Then",
+       "start": 58.38,
+       "end": 58.721
+      },
+      {
+       "w": "a",
+       "start": 58.721,
+       "end": 58.857
+      },
+      {
+       "w": "workshop,",
+       "start": 58.857,
+       "end": 59.538
+      },
+      {
+       "w": "one",
+       "start": 59.538,
+       "end": 59.81
+      },
+      {
+       "w": "tool",
+       "start": 59.81,
+       "end": 60.151
+      },
+      {
+       "w": "at",
+       "start": 60.151,
+       "end": 60.355
+      },
+      {
+       "w": "a",
+       "start": 60.355,
+       "end": 60.491
+      },
+      {
+       "w": "time:",
+       "start": 60.491,
+       "end": 60.9
+      }
+     ]
+    },
+    {
+     "text": "colors, coordinates, conditions, loops and time.",
+     "start": 61.38,
+     "end": 65.52,
+     "words": [
+      {
+       "w": "colors,",
+       "start": 61.38,
+       "end": 62.056
+      },
+      {
+       "w": "coordinates,",
+       "start": 62.056,
+       "end": 63.154
+      },
+      {
+       "w": "conditions,",
+       "start": 63.154,
+       "end": 64.168
+      },
+      {
+       "w": "loops",
+       "start": 64.168,
+       "end": 64.675
+      },
+      {
+       "w": "and",
+       "start": 64.675,
+       "end": 65.013
+      },
+      {
+       "w": "time.",
+       "start": 65.013,
+       "end": 65.52
+      }
+     ]
+    },
+    {
+     "text": "And finally the shaders themselves:",
+     "start": 66.14,
+     "end": 67.88,
+     "words": [
+      {
+       "w": "And",
+       "start": 66.14,
+       "end": 66.333
+      },
+      {
+       "w": "finally",
+       "start": 66.333,
+       "end": 66.72
+      },
+      {
+       "w": "the",
+       "start": 66.72,
+       "end": 66.913
+      },
+      {
+       "w": "shaders",
+       "start": 66.913,
+       "end": 67.3
+      },
+      {
+       "w": "themselves:",
+       "start": 67.3,
+       "end": 67.88
+      }
+     ]
+    },
+    {
+     "text": "a fractal, a neon ring, a moving plasma, and a photo that looks like it's underwater.",
+     "start": 68.26,
+     "end": 73.62,
+     "words": [
+      {
+       "w": "a",
+       "start": 68.26,
+       "end": 68.385
+      },
+      {
+       "w": "fractal,",
+       "start": 68.385,
+       "end": 68.946
+      },
+      {
+       "w": "a",
+       "start": 68.946,
+       "end": 69.07
+      },
+      {
+       "w": "neon",
+       "start": 69.07,
+       "end": 69.382
+      },
+      {
+       "w": "ring,",
+       "start": 69.382,
+       "end": 69.756
+      },
+      {
+       "w": "a",
+       "start": 69.756,
+       "end": 69.88
+      },
+      {
+       "w": "moving",
+       "start": 69.88,
+       "end": 70.317
+      },
+      {
+       "w": "plasma,",
+       "start": 70.317,
+       "end": 70.815
+      },
+      {
+       "w": "and",
+       "start": 70.815,
+       "end": 71.065
+      },
+      {
+       "w": "a",
+       "start": 71.065,
+       "end": 71.189
+      },
+      {
+       "w": "photo",
+       "start": 71.189,
+       "end": 71.563
+      },
+      {
+       "w": "that",
+       "start": 71.563,
+       "end": 71.875
+      },
+      {
+       "w": "looks",
+       "start": 71.875,
+       "end": 72.249
+      },
+      {
+       "w": "like",
+       "start": 72.249,
+       "end": 72.56
+      },
+      {
+       "w": "it's",
+       "start": 72.56,
+       "end": 72.872
+      },
+      {
+       "w": "underwater.",
+       "start": 72.872,
+       "end": 73.62
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "s03-function",
+   "start": 74.56,
+   "end": 95.38,
+   "sentences": [
+    {
+     "text": "So, what is a shader?",
+     "start": 74.62,
+     "end": 76.2,
+     "words": [
+      {
+       "w": "So,",
+       "start": 74.62,
+       "end": 74.907
+      },
+      {
+       "w": "what",
+       "start": 74.907,
+       "end": 75.266
+      },
+      {
+       "w": "is",
+       "start": 75.266,
+       "end": 75.482
+      },
+      {
+       "w": "a",
+       "start": 75.482,
+       "end": 75.625
+      },
+      {
+       "w": "shader?",
+       "start": 75.625,
+       "end": 76.2
+      }
+     ]
+    },
+    {
+     "text": "A shader is a function that runs on the GPU.",
+     "start": 76.68,
+     "end": 79.4,
+     "words": [
+      {
+       "w": "A",
+       "start": 76.68,
+       "end": 76.801
+      },
+      {
+       "w": "shader",
+       "start": 76.801,
+       "end": 77.224
+      },
+      {
+       "w": "is",
+       "start": 77.224,
+       "end": 77.405
+      },
+      {
+       "w": "a",
+       "start": 77.405,
+       "end": 77.526
+      },
+      {
+       "w": "function",
+       "start": 77.526,
+       "end": 78.07
+      },
+      {
+       "w": "that",
+       "start": 78.07,
+       "end": 78.372
+      },
+      {
+       "w": "runs",
+       "start": 78.372,
+       "end": 78.675
+      },
+      {
+       "w": "on",
+       "start": 78.675,
+       "end": 78.856
+      },
+      {
+       "w": "the",
+       "start": 78.856,
+       "end": 79.098
+      },
+      {
+       "w": "GPU.",
+       "start": 79.098,
+       "end": 79.4
+      }
+     ]
+    },
+    {
+     "text": "The GPU is your computer's graphics card.",
+     "start": 79.84,
+     "end": 82.38,
+     "words": [
+      {
+       "w": "The",
+       "start": 79.84,
+       "end": 80.082
+      },
+      {
+       "w": "GPU",
+       "start": 80.082,
+       "end": 80.324
+      },
+      {
+       "w": "is",
+       "start": 80.324,
+       "end": 80.505
+      },
+      {
+       "w": "your",
+       "start": 80.505,
+       "end": 80.808
+      },
+      {
+       "w": "computer's",
+       "start": 80.808,
+       "end": 81.473
+      },
+      {
+       "w": "graphics",
+       "start": 81.473,
+       "end": 82.017
+      },
+      {
+       "w": "card.",
+       "start": 82.017,
+       "end": 82.38
+      }
+     ]
+    },
+    {
+     "text": "It can be a separate card, like this one, or it can live inside the processor, as in laptops and phones.",
+     "start": 82.8,
+     "end": 88.86,
+     "words": [
+      {
+       "w": "It",
+       "start": 82.8,
+       "end": 82.973
+      },
+      {
+       "w": "can",
+       "start": 82.973,
+       "end": 83.204
+      },
+      {
+       "w": "be",
+       "start": 83.204,
+       "end": 83.377
+      },
+      {
+       "w": "a",
+       "start": 83.377,
+       "end": 83.493
+      },
+      {
+       "w": "separate",
+       "start": 83.493,
+       "end": 84.012
+      },
+      {
+       "w": "card,",
+       "start": 84.012,
+       "end": 84.358
+      },
+      {
+       "w": "like",
+       "start": 84.358,
+       "end": 84.647
+      },
+      {
+       "w": "this",
+       "start": 84.647,
+       "end": 84.935
+      },
+      {
+       "w": "one,",
+       "start": 84.935,
+       "end": 85.224
+      },
+      {
+       "w": "or",
+       "start": 85.224,
+       "end": 85.397
+      },
+      {
+       "w": "it",
+       "start": 85.397,
+       "end": 85.57
+      },
+      {
+       "w": "can",
+       "start": 85.57,
+       "end": 85.801
+      },
+      {
+       "w": "live",
+       "start": 85.801,
+       "end": 86.09
+      },
+      {
+       "w": "inside",
+       "start": 86.09,
+       "end": 86.494
+      },
+      {
+       "w": "the",
+       "start": 86.494,
+       "end": 86.725
+      },
+      {
+       "w": "processor,",
+       "start": 86.725,
+       "end": 87.359
+      },
+      {
+       "w": "as",
+       "start": 87.359,
+       "end": 87.533
+      },
+      {
+       "w": "in",
+       "start": 87.533,
+       "end": 87.706
+      },
+      {
+       "w": "laptops",
+       "start": 87.706,
+       "end": 88.167
+      },
+      {
+       "w": "and",
+       "start": 88.167,
+       "end": 88.398
+      },
+      {
+       "w": "phones.",
+       "start": 88.398,
+       "end": 88.86
+      }
+     ]
+    },
+    {
+     "text": "But why do we need a special kind of function?",
+     "start": 89.28,
+     "end": 91.94,
+     "words": [
+      {
+       "w": "But",
+       "start": 89.28,
+       "end": 89.506
+      },
+      {
+       "w": "why",
+       "start": 89.506,
+       "end": 89.733
+      },
+      {
+       "w": "do",
+       "start": 89.733,
+       "end": 89.903
+      },
+      {
+       "w": "we",
+       "start": 89.903,
+       "end": 90.072
+      },
+      {
+       "w": "need",
+       "start": 90.072,
+       "end": 90.355
+      },
+      {
+       "w": "a",
+       "start": 90.355,
+       "end": 90.469
+      },
+      {
+       "w": "special",
+       "start": 90.469,
+       "end": 90.921
+      },
+      {
+       "w": "kind",
+       "start": 90.921,
+       "end": 91.204
+      },
+      {
+       "w": "of",
+       "start": 91.204,
+       "end": 91.374
+      },
+      {
+       "w": "function?",
+       "start": 91.374,
+       "end": 91.94
+      }
+     ]
+    },
+    {
+     "text": "Why can't the C# we already write just run there?",
+     "start": 92.28,
+     "end": 95.24,
+     "words": [
+      {
+       "w": "Why",
+       "start": 92.28,
+       "end": 92.517
+      },
+      {
+       "w": "can't",
+       "start": 92.517,
+       "end": 92.872
+      },
+      {
+       "w": "the",
+       "start": 92.872,
+       "end": 93.109
+      },
+      {
+       "w": "C#",
+       "start": 93.109,
+       "end": 93.286
+      },
+      {
+       "w": "we",
+       "start": 93.286,
+       "end": 93.464
+      },
+      {
+       "w": "already",
+       "start": 93.464,
+       "end": 93.938
+      },
+      {
+       "w": "write",
+       "start": 93.938,
+       "end": 94.293
+      },
+      {
+       "w": "just",
+       "start": 94.293,
+       "end": 94.589
+      },
+      {
+       "w": "run",
+       "start": 94.589,
+       "end": 94.826
+      },
+      {
+       "w": "there?",
+       "start": 94.826,
+       "end": 95.24
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "s04-no-os",
+   "start": 96.18,
+   "end": 150.66,
+   "sentences": [
+    {
+     "text": "Think about Node.",
+     "start": 96.24,
+     "end": 97.24,
+     "words": [
+      {
+       "w": "Think",
+       "start": 96.24,
+       "end": 96.573
+      },
+      {
+       "w": "about",
+       "start": 96.573,
+       "end": 96.907
+      },
+      {
+       "w": "Node.",
+       "start": 96.907,
+       "end": 97.24
+      }
+     ]
+    },
+    {
+     "text": "You can use JavaScript with Node to write programs for Windows, but you can't write an operating system with it.",
+     "start": 97.7,
+     "end": 103.64,
+     "words": [
+      {
+       "w": "You",
+       "start": 97.7,
+       "end": 97.91
+      },
+      {
+       "w": "can",
+       "start": 97.91,
+       "end": 98.121
+      },
+      {
+       "w": "use",
+       "start": 98.121,
+       "end": 98.331
+      },
+      {
+       "w": "JavaScript",
+       "start": 98.331,
+       "end": 98.909
+      },
+      {
+       "w": "with",
+       "start": 98.909,
+       "end": 99.172
+      },
+      {
+       "w": "Node",
+       "start": 99.172,
+       "end": 99.435
+      },
+      {
+       "w": "to",
+       "start": 99.435,
+       "end": 99.592
+      },
+      {
+       "w": "write",
+       "start": 99.592,
+       "end": 99.908
+      },
+      {
+       "w": "programs",
+       "start": 99.908,
+       "end": 100.381
+      },
+      {
+       "w": "for",
+       "start": 100.381,
+       "end": 100.591
+      },
+      {
+       "w": "Windows,",
+       "start": 100.591,
+       "end": 101.064
+      },
+      {
+       "w": "but",
+       "start": 101.064,
+       "end": 101.275
+      },
+      {
+       "w": "you",
+       "start": 101.275,
+       "end": 101.485
+      },
+      {
+       "w": "can't",
+       "start": 101.485,
+       "end": 101.8
+      },
+      {
+       "w": "write",
+       "start": 101.8,
+       "end": 102.116
+      },
+      {
+       "w": "an",
+       "start": 102.116,
+       "end": 102.273
+      },
+      {
+       "w": "operating",
+       "start": 102.273,
+       "end": 102.799
+      },
+      {
+       "w": "system",
+       "start": 102.799,
+       "end": 103.167
+      },
+      {
+       "w": "with",
+       "start": 103.167,
+       "end": 103.43
+      },
+      {
+       "w": "it.",
+       "start": 103.43,
+       "end": 103.64
+      }
+     ]
+    },
+    {
+     "text": "Node depends on functions from the operating system itself, and in a clean environment, those don't exist.",
+     "start": 104.26,
+     "end": 110.24,
+     "words": [
+      {
+       "w": "Node",
+       "start": 104.26,
+       "end": 104.539
+      },
+      {
+       "w": "depends",
+       "start": 104.539,
+       "end": 104.987
+      },
+      {
+       "w": "on",
+       "start": 104.987,
+       "end": 105.154
+      },
+      {
+       "w": "functions",
+       "start": 105.154,
+       "end": 105.713
+      },
+      {
+       "w": "from",
+       "start": 105.713,
+       "end": 105.993
+      },
+      {
+       "w": "the",
+       "start": 105.993,
+       "end": 106.216
+      },
+      {
+       "w": "operating",
+       "start": 106.216,
+       "end": 106.775
+      },
+      {
+       "w": "system",
+       "start": 106.775,
+       "end": 107.166
+      },
+      {
+       "w": "itself,",
+       "start": 107.166,
+       "end": 107.613
+      },
+      {
+       "w": "and",
+       "start": 107.613,
+       "end": 107.837
+      },
+      {
+       "w": "in",
+       "start": 107.837,
+       "end": 108.004
+      },
+      {
+       "w": "a",
+       "start": 108.004,
+       "end": 108.116
+      },
+      {
+       "w": "clean",
+       "start": 108.116,
+       "end": 108.452
+      },
+      {
+       "w": "environment,",
+       "start": 108.452,
+       "end": 109.178
+      },
+      {
+       "w": "those",
+       "start": 109.178,
+       "end": 109.513
+      },
+      {
+       "w": "don't",
+       "start": 109.513,
+       "end": 109.849
+      },
+      {
+       "w": "exist.",
+       "start": 109.849,
+       "end": 110.24
+      }
+     ]
+    },
+    {
+     "text": "A language needs the machine underneath to offer certain things, and when they aren't there, it can't run.",
+     "start": 110.86,
+     "end": 116.46,
+     "words": [
+      {
+       "w": "A",
+       "start": 110.86,
+       "end": 110.965
+      },
+      {
+       "w": "language",
+       "start": 110.965,
+       "end": 111.436
+      },
+      {
+       "w": "needs",
+       "start": 111.436,
+       "end": 111.75
+      },
+      {
+       "w": "the",
+       "start": 111.75,
+       "end": 111.959
+      },
+      {
+       "w": "machine",
+       "start": 111.959,
+       "end": 112.378
+      },
+      {
+       "w": "underneath",
+       "start": 112.378,
+       "end": 112.953
+      },
+      {
+       "w": "to",
+       "start": 112.953,
+       "end": 113.11
+      },
+      {
+       "w": "offer",
+       "start": 113.11,
+       "end": 113.424
+      },
+      {
+       "w": "certain",
+       "start": 113.424,
+       "end": 113.843
+      },
+      {
+       "w": "things,",
+       "start": 113.843,
+       "end": 114.262
+      },
+      {
+       "w": "and",
+       "start": 114.262,
+       "end": 114.471
+      },
+      {
+       "w": "when",
+       "start": 114.471,
+       "end": 114.733
+      },
+      {
+       "w": "they",
+       "start": 114.733,
+       "end": 114.995
+      },
+      {
+       "w": "aren't",
+       "start": 114.995,
+       "end": 115.361
+      },
+      {
+       "w": "there,",
+       "start": 115.361,
+       "end": 115.727
+      },
+      {
+       "w": "it",
+       "start": 115.727,
+       "end": 115.884
+      },
+      {
+       "w": "can't",
+       "start": 115.884,
+       "end": 116.198
+      },
+      {
+       "w": "run.",
+       "start": 116.198,
+       "end": 116.46
+      }
+     ]
+    },
+    {
+     "text": "The GPU is the same.",
+     "start": 117.08,
+     "end": 118.44,
+     "words": [
+      {
+       "w": "The",
+       "start": 117.08,
+       "end": 117.339
+      },
+      {
+       "w": "GPU",
+       "start": 117.339,
+       "end": 117.598
+      },
+      {
+       "w": "is",
+       "start": 117.598,
+       "end": 117.792
+      },
+      {
+       "w": "the",
+       "start": 117.792,
+       "end": 118.051
+      },
+      {
+       "w": "same.",
+       "start": 118.051,
+       "end": 118.44
+      }
+     ]
+    },
+    {
+     "text": "Languages like C#, Java or Rust have things that are very hard to translate, and things the GPU simply cannot do.",
+     "start": 119,
+     "end": 126.6,
+     "words": [
+      {
+       "w": "Languages",
+       "start": 119,
+       "end": 119.667
+      },
+      {
+       "w": "like",
+       "start": 119.667,
+       "end": 120
+      },
+      {
+       "w": "C#,",
+       "start": 120,
+       "end": 120.267
+      },
+      {
+       "w": "Java",
+       "start": 120.267,
+       "end": 120.6
+      },
+      {
+       "w": "or",
+       "start": 120.6,
+       "end": 120.8
+      },
+      {
+       "w": "Rust",
+       "start": 120.8,
+       "end": 121.133
+      },
+      {
+       "w": "have",
+       "start": 121.133,
+       "end": 121.467
+      },
+      {
+       "w": "things",
+       "start": 121.467,
+       "end": 121.933
+      },
+      {
+       "w": "that",
+       "start": 121.933,
+       "end": 122.267
+      },
+      {
+       "w": "are",
+       "start": 122.267,
+       "end": 122.533
+      },
+      {
+       "w": "very",
+       "start": 122.533,
+       "end": 122.867
+      },
+      {
+       "w": "hard",
+       "start": 122.867,
+       "end": 123.2
+      },
+      {
+       "w": "to",
+       "start": 123.2,
+       "end": 123.4
+      },
+      {
+       "w": "translate,",
+       "start": 123.4,
+       "end": 124.133
+      },
+      {
+       "w": "and",
+       "start": 124.133,
+       "end": 124.4
+      },
+      {
+       "w": "things",
+       "start": 124.4,
+       "end": 124.867
+      },
+      {
+       "w": "the",
+       "start": 124.867,
+       "end": 125.133
+      },
+      {
+       "w": "GPU",
+       "start": 125.133,
+       "end": 125.4
+      },
+      {
+       "w": "simply",
+       "start": 125.4,
+       "end": 125.867
+      },
+      {
+       "w": "cannot",
+       "start": 125.867,
+       "end": 126.333
+      },
+      {
+       "w": "do.",
+       "start": 126.333,
+       "end": 126.6
+      }
+     ]
+    },
+    {
+     "text": "It can't reach the file system.",
+     "start": 127.1,
+     "end": 128.56,
+     "words": [
+      {
+       "w": "It",
+       "start": 127.1,
+       "end": 127.237
+      },
+      {
+       "w": "can't",
+       "start": 127.237,
+       "end": 127.511
+      },
+      {
+       "w": "reach",
+       "start": 127.511,
+       "end": 127.784
+      },
+      {
+       "w": "the",
+       "start": 127.784,
+       "end": 127.967
+      },
+      {
+       "w": "file",
+       "start": 127.967,
+       "end": 128.195
+      },
+      {
+       "w": "system.",
+       "start": 128.195,
+       "end": 128.56
+      }
+     ]
+    },
+    {
+     "text": "A line that writes a file just won't work.",
+     "start": 128.98,
+     "end": 131.06,
+     "words": [
+      {
+       "w": "A",
+       "start": 128.98,
+       "end": 129.077
+      },
+      {
+       "w": "line",
+       "start": 129.077,
+       "end": 129.319
+      },
+      {
+       "w": "that",
+       "start": 129.319,
+       "end": 129.56
+      },
+      {
+       "w": "writes",
+       "start": 129.56,
+       "end": 129.899
+      },
+      {
+       "w": "a",
+       "start": 129.899,
+       "end": 129.996
+      },
+      {
+       "w": "file",
+       "start": 129.996,
+       "end": 130.238
+      },
+      {
+       "w": "just",
+       "start": 130.238,
+       "end": 130.48
+      },
+      {
+       "w": "won't",
+       "start": 130.48,
+       "end": 130.77
+      },
+      {
+       "w": "work.",
+       "start": 130.77,
+       "end": 131.06
+      }
+     ]
+    },
+    {
+     "text": "There are no strings.",
+     "start": 131.54,
+     "end": 132.786,
+     "words": [
+      {
+       "w": "There",
+       "start": 131.54,
+       "end": 131.88
+      },
+      {
+       "w": "are",
+       "start": 131.88,
+       "end": 132.106
+      },
+      {
+       "w": "no",
+       "start": 132.106,
+       "end": 132.276
+      },
+      {
+       "w": "strings.",
+       "start": 132.276,
+       "end": 132.786
+      }
+     ]
+    },
+    {
+     "text": "No lists.",
+     "start": 132.786,
+     "end": 133.32,
+     "words": [
+      {
+       "w": "No",
+       "start": 132.786,
+       "end": 132.946
+      },
+      {
+       "w": "lists.",
+       "start": 132.946,
+       "end": 133.32
+      }
+     ]
+    },
+    {
+     "text": "No inheritance.",
+     "start": 133.32,
+     "end": 134.209,
+     "words": [
+      {
+       "w": "No",
+       "start": 133.32,
+       "end": 133.487
+      },
+      {
+       "w": "inheritance.",
+       "start": 133.487,
+       "end": 134.209
+      }
+     ]
+    },
+    {
+     "text": "No exceptions.",
+     "start": 134.209,
+     "end": 135.04,
+     "words": [
+      {
+       "w": "No",
+       "start": 134.209,
+       "end": 134.376
+      },
+      {
+       "w": "exceptions.",
+       "start": 134.376,
+       "end": 135.04
+      }
+     ]
+    },
+    {
+     "text": "Think of the GPU as a machine with no operating system.",
+     "start": 135.54,
+     "end": 138.62,
+     "words": [
+      {
+       "w": "Think",
+       "start": 135.54,
+       "end": 135.87
+      },
+      {
+       "w": "of",
+       "start": 135.87,
+       "end": 136.035
+      },
+      {
+       "w": "the",
+       "start": 136.035,
+       "end": 136.255
+      },
+      {
+       "w": "GPU",
+       "start": 136.255,
+       "end": 136.475
+      },
+      {
+       "w": "as",
+       "start": 136.475,
+       "end": 136.64
+      },
+      {
+       "w": "a",
+       "start": 136.64,
+       "end": 136.75
+      },
+      {
+       "w": "machine",
+       "start": 136.75,
+       "end": 137.19
+      },
+      {
+       "w": "with",
+       "start": 137.19,
+       "end": 137.465
+      },
+      {
+       "w": "no",
+       "start": 137.465,
+       "end": 137.63
+      },
+      {
+       "w": "operating",
+       "start": 137.63,
+       "end": 138.18
+      },
+      {
+       "w": "system.",
+       "start": 138.18,
+       "end": 138.62
+      }
+     ]
+    },
+    {
+     "text": "What you can run there is, above all, math.",
+     "start": 139.24,
+     "end": 141.58,
+     "words": [
+      {
+       "w": "What",
+       "start": 139.24,
+       "end": 139.506
+      },
+      {
+       "w": "you",
+       "start": 139.506,
+       "end": 139.719
+      },
+      {
+       "w": "can",
+       "start": 139.719,
+       "end": 139.931
+      },
+      {
+       "w": "run",
+       "start": 139.931,
+       "end": 140.144
+      },
+      {
+       "w": "there",
+       "start": 140.144,
+       "end": 140.463
+      },
+      {
+       "w": "is,",
+       "start": 140.463,
+       "end": 140.676
+      },
+      {
+       "w": "above",
+       "start": 140.676,
+       "end": 140.995
+      },
+      {
+       "w": "all,",
+       "start": 140.995,
+       "end": 141.261
+      },
+      {
+       "w": "math.",
+       "start": 141.261,
+       "end": 141.58
+      }
+     ]
+    },
+    {
+     "text": "Adding, multiplying, comparing.",
+     "start": 142.06,
+     "end": 143.66,
+     "words": [
+      {
+       "w": "Adding,",
+       "start": 142.06,
+       "end": 142.46
+      },
+      {
+       "w": "multiplying,",
+       "start": 142.46,
+       "end": 143.11
+      },
+      {
+       "w": "comparing.",
+       "start": 143.11,
+       "end": 143.66
+      }
+     ]
+    },
+    {
+     "text": "That sounds limiting, and it is.",
+     "start": 144.16,
+     "end": 145.78,
+     "words": [
+      {
+       "w": "That",
+       "start": 144.16,
+       "end": 144.405
+      },
+      {
+       "w": "sounds",
+       "start": 144.405,
+       "end": 144.749
+      },
+      {
+       "w": "limiting,",
+       "start": 144.749,
+       "end": 145.24
+      },
+      {
+       "w": "and",
+       "start": 145.24,
+       "end": 145.436
+      },
+      {
+       "w": "it",
+       "start": 145.436,
+       "end": 145.584
+      },
+      {
+       "w": "is.",
+       "start": 145.584,
+       "end": 145.78
+      }
+     ]
+    },
+    {
+     "text": "But it's also why the GPU is so fast:",
+     "start": 146.26,
+     "end": 148.48,
+     "words": [
+      {
+       "w": "But",
+       "start": 146.26,
+       "end": 146.494
+      },
+      {
+       "w": "it's",
+       "start": 146.494,
+       "end": 146.786
+      },
+      {
+       "w": "also",
+       "start": 146.786,
+       "end": 147.078
+      },
+      {
+       "w": "why",
+       "start": 147.078,
+       "end": 147.312
+      },
+      {
+       "w": "the",
+       "start": 147.312,
+       "end": 147.545
+      },
+      {
+       "w": "GPU",
+       "start": 147.545,
+       "end": 147.779
+      },
+      {
+       "w": "is",
+       "start": 147.779,
+       "end": 147.954
+      },
+      {
+       "w": "so",
+       "start": 147.954,
+       "end": 148.129
+      },
+      {
+       "w": "fast:",
+       "start": 148.129,
+       "end": 148.48
+      }
+     ]
+    },
+    {
+     "text": "it doesn't carry any of that weight.",
+     "start": 148.82,
+     "end": 150.52,
+     "words": [
+      {
+       "w": "it",
+       "start": 148.82,
+       "end": 148.958
+      },
+      {
+       "w": "doesn't",
+       "start": 148.958,
+       "end": 149.325
+      },
+      {
+       "w": "carry",
+       "start": 149.325,
+       "end": 149.601
+      },
+      {
+       "w": "any",
+       "start": 149.601,
+       "end": 149.785
+      },
+      {
+       "w": "of",
+       "start": 149.785,
+       "end": 149.923
+      },
+      {
+       "w": "that",
+       "start": 149.923,
+       "end": 150.152
+      },
+      {
+       "w": "weight.",
+       "start": 150.152,
+       "end": 150.52
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "s05-parallel",
+   "start": 151.46,
+   "end": 200.4,
+   "sentences": [
+    {
+     "text": "So why run code there at all?",
+     "start": 151.52,
+     "end": 153.38,
+     "words": [
+      {
+       "w": "So",
+       "start": 151.52,
+       "end": 151.706
+      },
+      {
+       "w": "why",
+       "start": 151.706,
+       "end": 151.954
+      },
+      {
+       "w": "run",
+       "start": 151.954,
+       "end": 152.202
+      },
+      {
+       "w": "code",
+       "start": 152.202,
+       "end": 152.512
+      },
+      {
+       "w": "there",
+       "start": 152.512,
+       "end": 152.884
+      },
+      {
+       "w": "at",
+       "start": 152.884,
+       "end": 153.07
+      },
+      {
+       "w": "all?",
+       "start": 153.07,
+       "end": 153.38
+      }
+     ]
+    },
+    {
+     "text": "The first reason:",
+     "start": 153.98,
+     "end": 154.84,
+     "words": [
+      {
+       "w": "The",
+       "start": 153.98,
+       "end": 154.171
+      },
+      {
+       "w": "first",
+       "start": 154.171,
+       "end": 154.458
+      },
+      {
+       "w": "reason:",
+       "start": 154.458,
+       "end": 154.84
+      }
+     ]
+    },
+    {
+     "text": "many calculations at once.",
+     "start": 155.16,
+     "end": 156.94,
+     "words": [
+      {
+       "w": "many",
+       "start": 155.16,
+       "end": 155.49
+      },
+      {
+       "w": "calculations",
+       "start": 155.49,
+       "end": 156.347
+      },
+      {
+       "w": "at",
+       "start": 156.347,
+       "end": 156.544
+      },
+      {
+       "w": "once.",
+       "start": 156.544,
+       "end": 156.94
+      }
+     ]
+    },
+    {
+     "text": "A laptop CPU has around ten cores.",
+     "start": 157.54,
+     "end": 160.18,
+     "words": [
+      {
+       "w": "A",
+       "start": 157.54,
+       "end": 157.691
+      },
+      {
+       "w": "laptop",
+       "start": 157.691,
+       "end": 158.219
+      },
+      {
+       "w": "CPU",
+       "start": 158.219,
+       "end": 158.521
+      },
+      {
+       "w": "has",
+       "start": 158.521,
+       "end": 158.822
+      },
+      {
+       "w": "around",
+       "start": 158.822,
+       "end": 159.35
+      },
+      {
+       "w": "ten",
+       "start": 159.35,
+       "end": 159.652
+      },
+      {
+       "w": "cores.",
+       "start": 159.652,
+       "end": 160.18
+      }
+     ]
+    },
+    {
+     "text": "That's ten things truly happening at the same time, and each one is called a thread.",
+     "start": 160.74,
+     "end": 165.42,
+     "words": [
+      {
+       "w": "That's",
+       "start": 160.74,
+       "end": 161.125
+      },
+      {
+       "w": "ten",
+       "start": 161.125,
+       "end": 161.346
+      },
+      {
+       "w": "things",
+       "start": 161.346,
+       "end": 161.731
+      },
+      {
+       "w": "truly",
+       "start": 161.731,
+       "end": 162.061
+      },
+      {
+       "w": "happening",
+       "start": 162.061,
+       "end": 162.612
+      },
+      {
+       "w": "at",
+       "start": 162.612,
+       "end": 162.777
+      },
+      {
+       "w": "the",
+       "start": 162.777,
+       "end": 162.997
+      },
+      {
+       "w": "same",
+       "start": 162.997,
+       "end": 163.273
+      },
+      {
+       "w": "time,",
+       "start": 163.273,
+       "end": 163.603
+      },
+      {
+       "w": "and",
+       "start": 163.603,
+       "end": 163.823
+      },
+      {
+       "w": "each",
+       "start": 163.823,
+       "end": 164.099
+      },
+      {
+       "w": "one",
+       "start": 164.099,
+       "end": 164.319
+      },
+      {
+       "w": "is",
+       "start": 164.319,
+       "end": 164.484
+      },
+      {
+       "w": "called",
+       "start": 164.484,
+       "end": 164.869
+      },
+      {
+       "w": "a",
+       "start": 164.869,
+       "end": 164.98
+      },
+      {
+       "w": "thread.",
+       "start": 164.98,
+       "end": 165.42
+      }
+     ]
+    },
+    {
+     "text": "A GPU has thousands of small workers, and each one calculates at the same time as the others, without waiting for anyone.",
+     "start": 166.18,
+     "end": 173.22,
+     "words": [
+      {
+       "w": "A",
+       "start": 166.18,
+       "end": 166.295
+      },
+      {
+       "w": "GPU",
+       "start": 166.295,
+       "end": 166.526
+      },
+      {
+       "w": "has",
+       "start": 166.526,
+       "end": 166.757
+      },
+      {
+       "w": "thousands",
+       "start": 166.757,
+       "end": 167.334
+      },
+      {
+       "w": "of",
+       "start": 167.334,
+       "end": 167.507
+      },
+      {
+       "w": "small",
+       "start": 167.507,
+       "end": 167.853
+      },
+      {
+       "w": "workers,",
+       "start": 167.853,
+       "end": 168.373
+      },
+      {
+       "w": "and",
+       "start": 168.373,
+       "end": 168.604
+      },
+      {
+       "w": "each",
+       "start": 168.604,
+       "end": 168.892
+      },
+      {
+       "w": "one",
+       "start": 168.892,
+       "end": 169.123
+      },
+      {
+       "w": "calculates",
+       "start": 169.123,
+       "end": 169.758
+      },
+      {
+       "w": "at",
+       "start": 169.758,
+       "end": 169.931
+      },
+      {
+       "w": "the",
+       "start": 169.931,
+       "end": 170.162
+      },
+      {
+       "w": "same",
+       "start": 170.162,
+       "end": 170.45
+      },
+      {
+       "w": "time",
+       "start": 170.45,
+       "end": 170.739
+      },
+      {
+       "w": "as",
+       "start": 170.739,
+       "end": 170.912
+      },
+      {
+       "w": "the",
+       "start": 170.912,
+       "end": 171.143
+      },
+      {
+       "w": "others,",
+       "start": 171.143,
+       "end": 171.604
+      },
+      {
+       "w": "without",
+       "start": 171.604,
+       "end": 172.066
+      },
+      {
+       "w": "waiting",
+       "start": 172.066,
+       "end": 172.528
+      },
+      {
+       "w": "for",
+       "start": 172.528,
+       "end": 172.758
+      },
+      {
+       "w": "anyone.",
+       "start": 172.758,
+       "end": 173.22
+      }
+     ]
+    },
+    {
+     "text": "Imagine ten very fast cashiers in a supermarket.",
+     "start": 174.02,
+     "end": 177.04,
+     "words": [
+      {
+       "w": "Imagine",
+       "start": 174.02,
+       "end": 174.513
+      },
+      {
+       "w": "ten",
+       "start": 174.513,
+       "end": 174.76
+      },
+      {
+       "w": "very",
+       "start": 174.76,
+       "end": 175.068
+      },
+      {
+       "w": "fast",
+       "start": 175.068,
+       "end": 175.376
+      },
+      {
+       "w": "cashiers",
+       "start": 175.376,
+       "end": 175.931
+      },
+      {
+       "w": "in",
+       "start": 175.931,
+       "end": 176.116
+      },
+      {
+       "w": "a",
+       "start": 176.116,
+       "end": 176.239
+      },
+      {
+       "w": "supermarket.",
+       "start": 176.239,
+       "end": 177.04
+      }
+     ]
+    },
+    {
+     "text": "Now imagine a thousand cashiers, each one a little slower.",
+     "start": 177.62,
+     "end": 181.18,
+     "words": [
+      {
+       "w": "Now",
+       "start": 177.62,
+       "end": 177.861
+      },
+      {
+       "w": "imagine",
+       "start": 177.861,
+       "end": 178.344
+      },
+      {
+       "w": "a",
+       "start": 178.344,
+       "end": 178.465
+      },
+      {
+       "w": "thousand",
+       "start": 178.465,
+       "end": 179.008
+      },
+      {
+       "w": "cashiers,",
+       "start": 179.008,
+       "end": 179.611
+      },
+      {
+       "w": "each",
+       "start": 179.611,
+       "end": 179.913
+      },
+      {
+       "w": "one",
+       "start": 179.913,
+       "end": 180.154
+      },
+      {
+       "w": "a",
+       "start": 180.154,
+       "end": 180.275
+      },
+      {
+       "w": "little",
+       "start": 180.275,
+       "end": 180.697
+      },
+      {
+       "w": "slower.",
+       "start": 180.697,
+       "end": 181.18
+      }
+     ]
+    },
+    {
+     "text": "With one huge customer, the fast ones win.",
+     "start": 181.98,
+     "end": 184.6,
+     "words": [
+      {
+       "w": "With",
+       "start": 181.98,
+       "end": 182.285
+      },
+      {
+       "w": "one",
+       "start": 182.285,
+       "end": 182.528
+      },
+      {
+       "w": "huge",
+       "start": 182.528,
+       "end": 182.833
+      },
+      {
+       "w": "customer,",
+       "start": 182.833,
+       "end": 183.442
+      },
+      {
+       "w": "the",
+       "start": 183.442,
+       "end": 183.686
+      },
+      {
+       "w": "fast",
+       "start": 183.686,
+       "end": 183.991
+      },
+      {
+       "w": "ones",
+       "start": 183.991,
+       "end": 184.295
+      },
+      {
+       "w": "win.",
+       "start": 184.295,
+       "end": 184.6
+      }
+     ]
+    },
+    {
+     "text": "With a thousand small customers, the thousand cashiers finish first.",
+     "start": 185.22,
+     "end": 189,
+     "words": [
+      {
+       "w": "With",
+       "start": 185.22,
+       "end": 185.494
+      },
+      {
+       "w": "a",
+       "start": 185.494,
+       "end": 185.603
+      },
+      {
+       "w": "thousand",
+       "start": 185.603,
+       "end": 186.097
+      },
+      {
+       "w": "small",
+       "start": 186.097,
+       "end": 186.425
+      },
+      {
+       "w": "customers,",
+       "start": 186.425,
+       "end": 187.028
+      },
+      {
+       "w": "the",
+       "start": 187.028,
+       "end": 187.247
+      },
+      {
+       "w": "thousand",
+       "start": 187.247,
+       "end": 187.74
+      },
+      {
+       "w": "cashiers",
+       "start": 187.74,
+       "end": 188.233
+      },
+      {
+       "w": "finish",
+       "start": 188.233,
+       "end": 188.617
+      },
+      {
+       "w": "first.",
+       "start": 188.617,
+       "end": 189
+      }
+     ]
+    },
+    {
+     "text": "That's why a game, or an AI model, doesn't crawl.",
+     "start": 189.72,
+     "end": 192.56,
+     "words": [
+      {
+       "w": "That's",
+       "start": 189.72,
+       "end": 190.118
+      },
+      {
+       "w": "why",
+       "start": 190.118,
+       "end": 190.345
+      },
+      {
+       "w": "a",
+       "start": 190.345,
+       "end": 190.458
+      },
+      {
+       "w": "game,",
+       "start": 190.458,
+       "end": 190.799
+      },
+      {
+       "w": "or",
+       "start": 190.799,
+       "end": 190.97
+      },
+      {
+       "w": "an",
+       "start": 190.97,
+       "end": 191.14
+      },
+      {
+       "w": "AI",
+       "start": 191.14,
+       "end": 191.31
+      },
+      {
+       "w": "model,",
+       "start": 191.31,
+       "end": 191.708
+      },
+      {
+       "w": "doesn't",
+       "start": 191.708,
+       "end": 192.162
+      },
+      {
+       "w": "crawl.",
+       "start": 192.162,
+       "end": 192.56
+      }
+     ]
+    },
+    {
+     "text": "But then, why not run everything on the GPU?",
+     "start": 193.32,
+     "end": 195.66,
+     "words": [
+      {
+       "w": "But",
+       "start": 193.32,
+       "end": 193.528
+      },
+      {
+       "w": "then,",
+       "start": 193.528,
+       "end": 193.84
+      },
+      {
+       "w": "why",
+       "start": 193.84,
+       "end": 194.048
+      },
+      {
+       "w": "not",
+       "start": 194.048,
+       "end": 194.256
+      },
+      {
+       "w": "run",
+       "start": 194.256,
+       "end": 194.464
+      },
+      {
+       "w": "everything",
+       "start": 194.464,
+       "end": 195.036
+      },
+      {
+       "w": "on",
+       "start": 195.036,
+       "end": 195.192
+      },
+      {
+       "w": "the",
+       "start": 195.192,
+       "end": 195.4
+      },
+      {
+       "w": "GPU?",
+       "start": 195.4,
+       "end": 195.66
+      }
+     ]
+    },
+    {
+     "text": "Because it only wins when the work can be split in a very particular way.",
+     "start": 196.44,
+     "end": 200.26,
+     "words": [
+      {
+       "w": "Because",
+       "start": 196.44,
+       "end": 196.853
+      },
+      {
+       "w": "it",
+       "start": 196.853,
+       "end": 197.008
+      },
+      {
+       "w": "only",
+       "start": 197.008,
+       "end": 197.266
+      },
+      {
+       "w": "wins",
+       "start": 197.266,
+       "end": 197.524
+      },
+      {
+       "w": "when",
+       "start": 197.524,
+       "end": 197.782
+      },
+      {
+       "w": "the",
+       "start": 197.782,
+       "end": 197.989
+      },
+      {
+       "w": "work",
+       "start": 197.989,
+       "end": 198.247
+      },
+      {
+       "w": "can",
+       "start": 198.247,
+       "end": 198.453
+      },
+      {
+       "w": "be",
+       "start": 198.453,
+       "end": 198.608
+      },
+      {
+       "w": "split",
+       "start": 198.608,
+       "end": 198.918
+      },
+      {
+       "w": "in",
+       "start": 198.918,
+       "end": 199.073
+      },
+      {
+       "w": "a",
+       "start": 199.073,
+       "end": 199.176
+      },
+      {
+       "w": "very",
+       "start": 199.176,
+       "end": 199.434
+      },
+      {
+       "w": "particular",
+       "start": 199.434,
+       "end": 200.002
+      },
+      {
+       "w": "way.",
+       "start": 200.002,
+       "end": 200.26
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "s06-for",
+   "start": 201.2,
+   "end": 269.36,
+   "sentences": [
+    {
+     "text": "Here's an array with five numbers, and a loop that doubles each one.",
+     "start": 201.26,
+     "end": 204.66,
+     "words": [
+      {
+       "w": "Here's",
+       "start": 201.26,
+       "end": 201.605
+      },
+      {
+       "w": "an",
+       "start": 201.605,
+       "end": 201.753
+      },
+      {
+       "w": "array",
+       "start": 201.753,
+       "end": 202.048
+      },
+      {
+       "w": "with",
+       "start": 202.048,
+       "end": 202.295
+      },
+      {
+       "w": "five",
+       "start": 202.295,
+       "end": 202.541
+      },
+      {
+       "w": "numbers,",
+       "start": 202.541,
+       "end": 202.985
+      },
+      {
+       "w": "and",
+       "start": 202.985,
+       "end": 203.182
+      },
+      {
+       "w": "a",
+       "start": 203.182,
+       "end": 203.28
+      },
+      {
+       "w": "loop",
+       "start": 203.28,
+       "end": 203.527
+      },
+      {
+       "w": "that",
+       "start": 203.527,
+       "end": 203.773
+      },
+      {
+       "w": "doubles",
+       "start": 203.773,
+       "end": 204.167
+      },
+      {
+       "w": "each",
+       "start": 204.167,
+       "end": 204.414
+      },
+      {
+       "w": "one.",
+       "start": 204.414,
+       "end": 204.66
+      }
+     ]
+    },
+    {
+     "text": "If we ran this as it is, one index after another, the CPU would win.",
+     "start": 205.22,
+     "end": 209.68,
+     "words": [
+      {
+       "w": "If",
+       "start": 205.22,
+       "end": 205.414
+      },
+      {
+       "w": "we",
+       "start": 205.414,
+       "end": 205.608
+      },
+      {
+       "w": "ran",
+       "start": 205.608,
+       "end": 205.866
+      },
+      {
+       "w": "this",
+       "start": 205.866,
+       "end": 206.19
+      },
+      {
+       "w": "as",
+       "start": 206.19,
+       "end": 206.383
+      },
+      {
+       "w": "it",
+       "start": 206.383,
+       "end": 206.577
+      },
+      {
+       "w": "is,",
+       "start": 206.577,
+       "end": 206.836
+      },
+      {
+       "w": "one",
+       "start": 206.836,
+       "end": 207.094
+      },
+      {
+       "w": "index",
+       "start": 207.094,
+       "end": 207.482
+      },
+      {
+       "w": "after",
+       "start": 207.482,
+       "end": 207.87
+      },
+      {
+       "w": "another,",
+       "start": 207.87,
+       "end": 208.452
+      },
+      {
+       "w": "the",
+       "start": 208.452,
+       "end": 208.71
+      },
+      {
+       "w": "CPU",
+       "start": 208.71,
+       "end": 208.969
+      },
+      {
+       "w": "would",
+       "start": 208.969,
+       "end": 209.357
+      },
+      {
+       "w": "win.",
+       "start": 209.357,
+       "end": 209.68
+      }
+     ]
+    },
+    {
+     "text": "And that's surprising, if I told you the GPU is faster.",
+     "start": 210.12,
+     "end": 213.26,
+     "words": [
+      {
+       "w": "And",
+       "start": 210.12,
+       "end": 210.344
+      },
+      {
+       "w": "that's",
+       "start": 210.344,
+       "end": 210.737
+      },
+      {
+       "w": "surprising,",
+       "start": 210.737,
+       "end": 211.41
+      },
+      {
+       "w": "if",
+       "start": 211.41,
+       "end": 211.578
+      },
+      {
+       "w": "I",
+       "start": 211.578,
+       "end": 211.69
+      },
+      {
+       "w": "told",
+       "start": 211.69,
+       "end": 211.97
+      },
+      {
+       "w": "you",
+       "start": 211.97,
+       "end": 212.195
+      },
+      {
+       "w": "the",
+       "start": 212.195,
+       "end": 212.419
+      },
+      {
+       "w": "GPU",
+       "start": 212.419,
+       "end": 212.643
+      },
+      {
+       "w": "is",
+       "start": 212.643,
+       "end": 212.811
+      },
+      {
+       "w": "faster.",
+       "start": 212.811,
+       "end": 213.26
+      }
+     ]
+    },
+    {
+     "text": "The answer is:",
+     "start": 213.82,
+     "end": 214.54,
+     "words": [
+      {
+       "w": "The",
+       "start": 213.82,
+       "end": 214.012
+      },
+      {
+       "w": "answer",
+       "start": 214.012,
+       "end": 214.348
+      },
+      {
+       "w": "is:",
+       "start": 214.348,
+       "end": 214.54
+      }
+     ]
+    },
+    {
+     "text": "it depends.",
+     "start": 214.88,
+     "end": 215.58,
+     "words": [
+      {
+       "w": "it",
+       "start": 214.88,
+       "end": 215.055
+      },
+      {
+       "w": "depends.",
+       "start": 215.055,
+       "end": 215.58
+      }
+     ]
+    },
+    {
+     "text": "Each GPU thread, on its own, is slower than a CPU core.",
+     "start": 216.16,
+     "end": 220.02,
+     "words": [
+      {
+       "w": "Each",
+       "start": 216.16,
+       "end": 216.505
+      },
+      {
+       "w": "GPU",
+       "start": 216.505,
+       "end": 216.78
+      },
+      {
+       "w": "thread,",
+       "start": 216.78,
+       "end": 217.332
+      },
+      {
+       "w": "on",
+       "start": 217.332,
+       "end": 217.539
+      },
+      {
+       "w": "its",
+       "start": 217.539,
+       "end": 217.814
+      },
+      {
+       "w": "own,",
+       "start": 217.814,
+       "end": 218.159
+      },
+      {
+       "w": "is",
+       "start": 218.159,
+       "end": 218.366
+      },
+      {
+       "w": "slower",
+       "start": 218.366,
+       "end": 218.848
+      },
+      {
+       "w": "than",
+       "start": 218.848,
+       "end": 219.193
+      },
+      {
+       "w": "a",
+       "start": 219.193,
+       "end": 219.331
+      },
+      {
+       "w": "CPU",
+       "start": 219.331,
+       "end": 219.606
+      },
+      {
+       "w": "core.",
+       "start": 219.606,
+       "end": 220.02
+      }
+     ]
+    },
+    {
+     "text": "What the GPU does well is many calculations at once.",
+     "start": 220.62,
+     "end": 223.92,
+     "words": [
+      {
+       "w": "What",
+       "start": 220.62,
+       "end": 220.931
+      },
+      {
+       "w": "the",
+       "start": 220.931,
+       "end": 221.18
+      },
+      {
+       "w": "GPU",
+       "start": 221.18,
+       "end": 221.429
+      },
+      {
+       "w": "does",
+       "start": 221.429,
+       "end": 221.741
+      },
+      {
+       "w": "well",
+       "start": 221.741,
+       "end": 222.052
+      },
+      {
+       "w": "is",
+       "start": 222.052,
+       "end": 222.239
+      },
+      {
+       "w": "many",
+       "start": 222.239,
+       "end": 222.55
+      },
+      {
+       "w": "calculations",
+       "start": 222.55,
+       "end": 223.36
+      },
+      {
+       "w": "at",
+       "start": 223.36,
+       "end": 223.546
+      },
+      {
+       "w": "once.",
+       "start": 223.546,
+       "end": 223.92
+      }
+     ]
+    },
+    {
+     "text": "So for it to win, we can't walk through the loop.",
+     "start": 224.44,
+     "end": 227.18,
+     "words": [
+      {
+       "w": "So",
+       "start": 224.44,
+       "end": 224.604
+      },
+      {
+       "w": "for",
+       "start": 224.604,
+       "end": 224.824
+      },
+      {
+       "w": "it",
+       "start": 224.824,
+       "end": 224.988
+      },
+      {
+       "w": "to",
+       "start": 224.988,
+       "end": 225.152
+      },
+      {
+       "w": "win,",
+       "start": 225.152,
+       "end": 225.426
+      },
+      {
+       "w": "we",
+       "start": 225.426,
+       "end": 225.591
+      },
+      {
+       "w": "can't",
+       "start": 225.591,
+       "end": 225.92
+      },
+      {
+       "w": "walk",
+       "start": 225.92,
+       "end": 226.194
+      },
+      {
+       "w": "through",
+       "start": 226.194,
+       "end": 226.632
+      },
+      {
+       "w": "the",
+       "start": 226.632,
+       "end": 226.851
+      },
+      {
+       "w": "loop.",
+       "start": 226.851,
+       "end": 227.18
+      }
+     ]
+    },
+    {
+     "text": "Each thread has to take care of a different index.",
+     "start": 227.62,
+     "end": 230.2,
+     "words": [
+      {
+       "w": "Each",
+       "start": 227.62,
+       "end": 227.873
+      },
+      {
+       "w": "thread",
+       "start": 227.873,
+       "end": 228.227
+      },
+      {
+       "w": "has",
+       "start": 228.227,
+       "end": 228.429
+      },
+      {
+       "w": "to",
+       "start": 228.429,
+       "end": 228.581
+      },
+      {
+       "w": "take",
+       "start": 228.581,
+       "end": 228.834
+      },
+      {
+       "w": "care",
+       "start": 228.834,
+       "end": 229.087
+      },
+      {
+       "w": "of",
+       "start": 229.087,
+       "end": 229.239
+      },
+      {
+       "w": "a",
+       "start": 229.239,
+       "end": 229.34
+      },
+      {
+       "w": "different",
+       "start": 229.34,
+       "end": 229.846
+      },
+      {
+       "w": "index.",
+       "start": 229.846,
+       "end": 230.2
+      }
+     ]
+    },
+    {
+     "text": "C# already has something built on that idea:",
+     "start": 230.78,
+     "end": 233.22,
+     "words": [
+      {
+       "w": "C#",
+       "start": 230.78,
+       "end": 230.943
+      },
+      {
+       "w": "already",
+       "start": 230.943,
+       "end": 231.376
+      },
+      {
+       "w": "has",
+       "start": 231.376,
+       "end": 231.593
+      },
+      {
+       "w": "something",
+       "start": 231.593,
+       "end": 232.136
+      },
+      {
+       "w": "built",
+       "start": 232.136,
+       "end": 232.461
+      },
+      {
+       "w": "on",
+       "start": 232.461,
+       "end": 232.624
+      },
+      {
+       "w": "that",
+       "start": 232.624,
+       "end": 232.895
+      },
+      {
+       "w": "idea:",
+       "start": 232.895,
+       "end": 233.22
+      }
+     ]
+    },
+    {
+     "text": "Parallel.For.",
+     "start": 233.58,
+     "end": 234.8,
+     "words": [
+      {
+       "w": "Parallel.For.",
+       "start": 233.58,
+       "end": 234.8
+      }
+     ]
+    },
+    {
+     "text": "It spreads the indexes across the CPU cores.",
+     "start": 235.32,
+     "end": 237.92,
+     "words": [
+      {
+       "w": "It",
+       "start": 235.32,
+       "end": 235.493
+      },
+      {
+       "w": "spreads",
+       "start": 235.493,
+       "end": 235.956
+      },
+      {
+       "w": "the",
+       "start": 235.956,
+       "end": 236.187
+      },
+      {
+       "w": "indexes",
+       "start": 236.187,
+       "end": 236.649
+      },
+      {
+       "w": "across",
+       "start": 236.649,
+       "end": 237.053
+      },
+      {
+       "w": "the",
+       "start": 237.053,
+       "end": 237.284
+      },
+      {
+       "w": "CPU",
+       "start": 237.284,
+       "end": 237.516
+      },
+      {
+       "w": "cores.",
+       "start": 237.516,
+       "end": 237.92
+      }
+     ]
+    },
+    {
+     "text": "You give it a start, an end, and a function that receives the index.",
+     "start": 238.42,
+     "end": 242.14,
+     "words": [
+      {
+       "w": "You",
+       "start": 238.42,
+       "end": 238.636
+      },
+      {
+       "w": "give",
+       "start": 238.636,
+       "end": 238.905
+      },
+      {
+       "w": "it",
+       "start": 238.905,
+       "end": 239.067
+      },
+      {
+       "w": "a",
+       "start": 239.067,
+       "end": 239.175
+      },
+      {
+       "w": "start,",
+       "start": 239.175,
+       "end": 239.552
+      },
+      {
+       "w": "an",
+       "start": 239.552,
+       "end": 239.714
+      },
+      {
+       "w": "end,",
+       "start": 239.714,
+       "end": 239.983
+      },
+      {
+       "w": "and",
+       "start": 239.983,
+       "end": 240.199
+      },
+      {
+       "w": "a",
+       "start": 240.199,
+       "end": 240.307
+      },
+      {
+       "w": "function",
+       "start": 240.307,
+       "end": 240.792
+      },
+      {
+       "w": "that",
+       "start": 240.792,
+       "end": 241.062
+      },
+      {
+       "w": "receives",
+       "start": 241.062,
+       "end": 241.547
+      },
+      {
+       "w": "the",
+       "start": 241.547,
+       "end": 241.763
+      },
+      {
+       "w": "index.",
+       "start": 241.763,
+       "end": 242.14
+      }
+     ]
+    },
+    {
+     "text": "Look at what changed.",
+     "start": 242.78,
+     "end": 243.68,
+     "words": [
+      {
+       "w": "Look",
+       "start": 242.78,
+       "end": 242.985
+      },
+      {
+       "w": "at",
+       "start": 242.985,
+       "end": 243.107
+      },
+      {
+       "w": "what",
+       "start": 243.107,
+       "end": 243.312
+      },
+      {
+       "w": "changed.",
+       "start": 243.312,
+       "end": 243.68
+      }
+     ]
+    },
+    {
+     "text": "We no longer write the loop.",
+     "start": 244.16,
+     "end": 245.44,
+     "words": [
+      {
+       "w": "We",
+       "start": 244.16,
+       "end": 244.292
+      },
+      {
+       "w": "no",
+       "start": 244.292,
+       "end": 244.425
+      },
+      {
+       "w": "longer",
+       "start": 244.425,
+       "end": 244.734
+      },
+      {
+       "w": "write",
+       "start": 244.734,
+       "end": 244.999
+      },
+      {
+       "w": "the",
+       "start": 244.999,
+       "end": 245.175
+      },
+      {
+       "w": "loop.",
+       "start": 245.175,
+       "end": 245.44
+      }
+     ]
+    },
+    {
+     "text": "We only write a function that works on one index, and Parallel.For calls it for all of them.",
+     "start": 245.96,
+     "end": 251.04,
+     "words": [
+      {
+       "w": "We",
+       "start": 245.96,
+       "end": 246.124
+      },
+      {
+       "w": "only",
+       "start": 246.124,
+       "end": 246.397
+      },
+      {
+       "w": "write",
+       "start": 246.397,
+       "end": 246.725
+      },
+      {
+       "w": "a",
+       "start": 246.725,
+       "end": 246.834
+      },
+      {
+       "w": "function",
+       "start": 246.834,
+       "end": 247.326
+      },
+      {
+       "w": "that",
+       "start": 247.326,
+       "end": 247.599
+      },
+      {
+       "w": "works",
+       "start": 247.599,
+       "end": 247.926
+      },
+      {
+       "w": "on",
+       "start": 247.926,
+       "end": 248.09
+      },
+      {
+       "w": "one",
+       "start": 248.09,
+       "end": 248.309
+      },
+      {
+       "w": "index,",
+       "start": 248.309,
+       "end": 248.691
+      },
+      {
+       "w": "and",
+       "start": 248.691,
+       "end": 248.91
+      },
+      {
+       "w": "Parallel.For",
+       "start": 248.91,
+       "end": 249.62
+      },
+      {
+       "w": "calls",
+       "start": 249.62,
+       "end": 249.948
+      },
+      {
+       "w": "it",
+       "start": 249.948,
+       "end": 250.111
+      },
+      {
+       "w": "for",
+       "start": 250.111,
+       "end": 250.33
+      },
+      {
+       "w": "all",
+       "start": 250.33,
+       "end": 250.548
+      },
+      {
+       "w": "of",
+       "start": 250.548,
+       "end": 250.712
+      },
+      {
+       "w": "them.",
+       "start": 250.712,
+       "end": 251.04
+      }
+     ]
+    },
+    {
+     "text": "Each core can process a different index, and they all run at the same time.",
+     "start": 251.7,
+     "end": 255.36,
+     "words": [
+      {
+       "w": "Each",
+       "start": 251.7,
+       "end": 251.941
+      },
+      {
+       "w": "core",
+       "start": 251.941,
+       "end": 252.182
+      },
+      {
+       "w": "can",
+       "start": 252.182,
+       "end": 252.374
+      },
+      {
+       "w": "process",
+       "start": 252.374,
+       "end": 252.759
+      },
+      {
+       "w": "a",
+       "start": 252.759,
+       "end": 252.856
+      },
+      {
+       "w": "different",
+       "start": 252.856,
+       "end": 253.337
+      },
+      {
+       "w": "index,",
+       "start": 253.337,
+       "end": 253.674
+      },
+      {
+       "w": "and",
+       "start": 253.674,
+       "end": 253.867
+      },
+      {
+       "w": "they",
+       "start": 253.867,
+       "end": 254.108
+      },
+      {
+       "w": "all",
+       "start": 254.108,
+       "end": 254.301
+      },
+      {
+       "w": "run",
+       "start": 254.301,
+       "end": 254.493
+      },
+      {
+       "w": "at",
+       "start": 254.493,
+       "end": 254.638
+      },
+      {
+       "w": "the",
+       "start": 254.638,
+       "end": 254.83
+      },
+      {
+       "w": "same",
+       "start": 254.83,
+       "end": 255.071
+      },
+      {
+       "w": "time.",
+       "start": 255.071,
+       "end": 255.36
+      }
+     ]
+    },
+    {
+     "text": "The GPU does exactly the same, with many, many more threads.",
+     "start": 256.16,
+     "end": 259.9,
+     "words": [
+      {
+       "w": "The",
+       "start": 256.16,
+       "end": 256.405
+      },
+      {
+       "w": "GPU",
+       "start": 256.405,
+       "end": 256.65
+      },
+      {
+       "w": "does",
+       "start": 256.65,
+       "end": 256.957
+      },
+      {
+       "w": "exactly",
+       "start": 256.957,
+       "end": 257.448
+      },
+      {
+       "w": "the",
+       "start": 257.448,
+       "end": 257.693
+      },
+      {
+       "w": "same,",
+       "start": 257.693,
+       "end": 258.061
+      },
+      {
+       "w": "with",
+       "start": 258.061,
+       "end": 258.367
+      },
+      {
+       "w": "many,",
+       "start": 258.367,
+       "end": 258.735
+      },
+      {
+       "w": "many",
+       "start": 258.735,
+       "end": 259.042
+      },
+      {
+       "w": "more",
+       "start": 259.042,
+       "end": 259.348
+      },
+      {
+       "w": "threads.",
+       "start": 259.348,
+       "end": 259.9
+      }
+     ]
+    },
+    {
+     "text": "And that function, the one that works on a single index, is exactly what we call a shader.",
+     "start": 260.34,
+     "end": 265.12,
+     "words": [
+      {
+       "w": "And",
+       "start": 260.34,
+       "end": 260.55
+      },
+      {
+       "w": "that",
+       "start": 260.55,
+       "end": 260.813
+      },
+      {
+       "w": "function,",
+       "start": 260.813,
+       "end": 261.338
+      },
+      {
+       "w": "the",
+       "start": 261.338,
+       "end": 261.548
+      },
+      {
+       "w": "one",
+       "start": 261.548,
+       "end": 261.758
+      },
+      {
+       "w": "that",
+       "start": 261.758,
+       "end": 262.021
+      },
+      {
+       "w": "works",
+       "start": 262.021,
+       "end": 262.336
+      },
+      {
+       "w": "on",
+       "start": 262.336,
+       "end": 262.494
+      },
+      {
+       "w": "a",
+       "start": 262.494,
+       "end": 262.599
+      },
+      {
+       "w": "single",
+       "start": 262.599,
+       "end": 262.966
+      },
+      {
+       "w": "index,",
+       "start": 262.966,
+       "end": 263.334
+      },
+      {
+       "w": "is",
+       "start": 263.334,
+       "end": 263.492
+      },
+      {
+       "w": "exactly",
+       "start": 263.492,
+       "end": 263.912
+      },
+      {
+       "w": "what",
+       "start": 263.912,
+       "end": 264.175
+      },
+      {
+       "w": "we",
+       "start": 264.175,
+       "end": 264.332
+      },
+      {
+       "w": "call",
+       "start": 264.332,
+       "end": 264.595
+      },
+      {
+       "w": "a",
+       "start": 264.595,
+       "end": 264.7
+      },
+      {
+       "w": "shader.",
+       "start": 264.7,
+       "end": 265.12
+      }
+     ]
+    },
+    {
+     "text": "Remember this idea, because everything else in the series is built on it.",
+     "start": 265.8,
+     "end": 269.22,
+     "words": [
+      {
+       "w": "Remember",
+       "start": 265.8,
+       "end": 266.216
+      },
+      {
+       "w": "this",
+       "start": 266.216,
+       "end": 266.447
+      },
+      {
+       "w": "idea,",
+       "start": 266.447,
+       "end": 266.724
+      },
+      {
+       "w": "because",
+       "start": 266.724,
+       "end": 267.094
+      },
+      {
+       "w": "everything",
+       "start": 267.094,
+       "end": 267.602
+      },
+      {
+       "w": "else",
+       "start": 267.602,
+       "end": 267.834
+      },
+      {
+       "w": "in",
+       "start": 267.834,
+       "end": 267.972
+      },
+      {
+       "w": "the",
+       "start": 267.972,
+       "end": 268.157
+      },
+      {
+       "w": "series",
+       "start": 268.157,
+       "end": 268.481
+      },
+      {
+       "w": "is",
+       "start": 268.481,
+       "end": 268.619
+      },
+      {
+       "w": "built",
+       "start": 268.619,
+       "end": 268.896
+      },
+      {
+       "w": "on",
+       "start": 268.896,
+       "end": 269.035
+      },
+      {
+       "w": "it.",
+       "start": 269.035,
+       "end": 269.22
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "s07-pixels",
+   "start": 270.16,
+   "end": 340.8,
+   "sentences": [
+    {
+     "text": "The second reason is color.",
+     "start": 270.22,
+     "end": 271.88,
+     "words": [
+      {
+       "w": "The",
+       "start": 270.22,
+       "end": 270.457
+      },
+      {
+       "w": "second",
+       "start": 270.457,
+       "end": 270.872
+      },
+      {
+       "w": "reason",
+       "start": 270.872,
+       "end": 271.287
+      },
+      {
+       "w": "is",
+       "start": 271.287,
+       "end": 271.465
+      },
+      {
+       "w": "color.",
+       "start": 271.465,
+       "end": 271.88
+      }
+     ]
+    },
+    {
+     "text": "Your screen is a grid of colored dots, and each dot is a pixel.",
+     "start": 272.46,
+     "end": 276.48,
+     "words": [
+      {
+       "w": "Your",
+       "start": 272.46,
+       "end": 272.774
+      },
+      {
+       "w": "screen",
+       "start": 272.774,
+       "end": 273.214
+      },
+      {
+       "w": "is",
+       "start": 273.214,
+       "end": 273.402
+      },
+      {
+       "w": "a",
+       "start": 273.402,
+       "end": 273.528
+      },
+      {
+       "w": "grid",
+       "start": 273.528,
+       "end": 273.842
+      },
+      {
+       "w": "of",
+       "start": 273.842,
+       "end": 274.03
+      },
+      {
+       "w": "colored",
+       "start": 274.03,
+       "end": 274.533
+      },
+      {
+       "w": "dots,",
+       "start": 274.533,
+       "end": 274.91
+      },
+      {
+       "w": "and",
+       "start": 274.91,
+       "end": 275.161
+      },
+      {
+       "w": "each",
+       "start": 275.161,
+       "end": 275.475
+      },
+      {
+       "w": "dot",
+       "start": 275.475,
+       "end": 275.726
+      },
+      {
+       "w": "is",
+       "start": 275.726,
+       "end": 275.915
+      },
+      {
+       "w": "a",
+       "start": 275.915,
+       "end": 276.04
+      },
+      {
+       "w": "pixel.",
+       "start": 276.04,
+       "end": 276.48
+      }
+     ]
+    },
+    {
+     "text": "A Full HD screen is 1920 × 1080.",
+     "start": 277.06,
+     "end": 280.78,
+     "words": [
+      {
+       "w": "A",
+       "start": 277.06,
+       "end": 277.285
+      },
+      {
+       "w": "Full",
+       "start": 277.285,
+       "end": 277.849
+      },
+      {
+       "w": "HD",
+       "start": 277.849,
+       "end": 278.187
+      },
+      {
+       "w": "screen",
+       "start": 278.187,
+       "end": 278.976
+      },
+      {
+       "w": "is",
+       "start": 278.976,
+       "end": 279.315
+      },
+      {
+       "w": "1920",
+       "start": 279.315,
+       "end": 279.878
+      },
+      {
+       "w": "×",
+       "start": 279.878,
+       "end": 280.104
+      },
+      {
+       "w": "1080.",
+       "start": 280.104,
+       "end": 280.78
+      }
+     ]
+    },
+    {
+     "text": "A little over two million pixels.",
+     "start": 281.24,
+     "end": 283.04,
+     "words": [
+      {
+       "w": "A",
+       "start": 281.24,
+       "end": 281.346
+      },
+      {
+       "w": "little",
+       "start": 281.346,
+       "end": 281.716
+      },
+      {
+       "w": "over",
+       "start": 281.716,
+       "end": 281.981
+      },
+      {
+       "w": "two",
+       "start": 281.981,
+       "end": 282.193
+      },
+      {
+       "w": "million",
+       "start": 282.193,
+       "end": 282.616
+      },
+      {
+       "w": "pixels.",
+       "start": 282.616,
+       "end": 283.04
+      }
+     ]
+    },
+    {
+     "text": "For a game to look smooth, all of their colors have to be decided about sixty times every second.",
+     "start": 283.56,
+     "end": 289.52,
+     "words": [
+      {
+       "w": "For",
+       "start": 283.56,
+       "end": 283.803
+      },
+      {
+       "w": "a",
+       "start": 283.803,
+       "end": 283.925
+      },
+      {
+       "w": "game",
+       "start": 283.925,
+       "end": 284.229
+      },
+      {
+       "w": "to",
+       "start": 284.229,
+       "end": 284.411
+      },
+      {
+       "w": "look",
+       "start": 284.411,
+       "end": 284.716
+      },
+      {
+       "w": "smooth,",
+       "start": 284.716,
+       "end": 285.202
+      },
+      {
+       "w": "all",
+       "start": 285.202,
+       "end": 285.445
+      },
+      {
+       "w": "of",
+       "start": 285.445,
+       "end": 285.628
+      },
+      {
+       "w": "their",
+       "start": 285.628,
+       "end": 285.993
+      },
+      {
+       "w": "colors",
+       "start": 285.993,
+       "end": 286.418
+      },
+      {
+       "w": "have",
+       "start": 286.418,
+       "end": 286.722
+      },
+      {
+       "w": "to",
+       "start": 286.722,
+       "end": 286.905
+      },
+      {
+       "w": "be",
+       "start": 286.905,
+       "end": 287.087
+      },
+      {
+       "w": "decided",
+       "start": 287.087,
+       "end": 287.574
+      },
+      {
+       "w": "about",
+       "start": 287.574,
+       "end": 287.939
+      },
+      {
+       "w": "sixty",
+       "start": 287.939,
+       "end": 288.304
+      },
+      {
+       "w": "times",
+       "start": 288.304,
+       "end": 288.669
+      },
+      {
+       "w": "every",
+       "start": 288.669,
+       "end": 289.033
+      },
+      {
+       "w": "second.",
+       "start": 289.033,
+       "end": 289.52
+      }
+     ]
+    },
+    {
+     "text": "That's over 120 million colors, every second.",
+     "start": 290.04,
+     "end": 293.8,
+     "words": [
+      {
+       "w": "That's",
+       "start": 290.04,
+       "end": 290.612
+      },
+      {
+       "w": "over",
+       "start": 290.612,
+       "end": 291.021
+      },
+      {
+       "w": "120",
+       "start": 291.021,
+       "end": 291.348
+      },
+      {
+       "w": "million",
+       "start": 291.348,
+       "end": 292.002
+      },
+      {
+       "w": "colors,",
+       "start": 292.002,
+       "end": 292.656
+      },
+      {
+       "w": "every",
+       "start": 292.656,
+       "end": 293.146
+      },
+      {
+       "w": "second.",
+       "start": 293.146,
+       "end": 293.8
+      }
+     ]
+    },
+    {
+     "text": "Do the math.",
+     "start": 294.3,
+     "end": 294.92,
+     "words": [
+      {
+       "w": "Do",
+       "start": 294.3,
+       "end": 294.443
+      },
+      {
+       "w": "the",
+       "start": 294.443,
+       "end": 294.634
+      },
+      {
+       "w": "math.",
+       "start": 294.634,
+       "end": 294.92
+      }
+     ]
+    },
+    {
+     "text": "If each color took just one microsecond on a single core, one frame alone would take two seconds.",
+     "start": 295.42,
+     "end": 302,
+     "words": [
+      {
+       "w": "If",
+       "start": 295.42,
+       "end": 295.621
+      },
+      {
+       "w": "each",
+       "start": 295.621,
+       "end": 295.957
+      },
+      {
+       "w": "color",
+       "start": 295.957,
+       "end": 296.36
+      },
+      {
+       "w": "took",
+       "start": 296.36,
+       "end": 296.696
+      },
+      {
+       "w": "just",
+       "start": 296.696,
+       "end": 297.031
+      },
+      {
+       "w": "one",
+       "start": 297.031,
+       "end": 297.3
+      },
+      {
+       "w": "microsecond",
+       "start": 297.3,
+       "end": 298.106
+      },
+      {
+       "w": "on",
+       "start": 298.106,
+       "end": 298.307
+      },
+      {
+       "w": "a",
+       "start": 298.307,
+       "end": 298.441
+      },
+      {
+       "w": "single",
+       "start": 298.441,
+       "end": 298.911
+      },
+      {
+       "w": "core,",
+       "start": 298.911,
+       "end": 299.314
+      },
+      {
+       "w": "one",
+       "start": 299.314,
+       "end": 299.583
+      },
+      {
+       "w": "frame",
+       "start": 299.583,
+       "end": 299.986
+      },
+      {
+       "w": "alone",
+       "start": 299.986,
+       "end": 300.389
+      },
+      {
+       "w": "would",
+       "start": 300.389,
+       "end": 300.791
+      },
+      {
+       "w": "take",
+       "start": 300.791,
+       "end": 301.127
+      },
+      {
+       "w": "two",
+       "start": 301.127,
+       "end": 301.396
+      },
+      {
+       "w": "seconds.",
+       "start": 301.396,
+       "end": 302
+      }
+     ]
+    },
+    {
+     "text": "A loop on the CPU won't make it.",
+     "start": 302.5,
+     "end": 304.82,
+     "words": [
+      {
+       "w": "A",
+       "start": 302.5,
+       "end": 302.641
+      },
+      {
+       "w": "loop",
+       "start": 302.641,
+       "end": 302.992
+      },
+      {
+       "w": "on",
+       "start": 302.992,
+       "end": 303.203
+      },
+      {
+       "w": "the",
+       "start": 303.203,
+       "end": 303.484
+      },
+      {
+       "w": "CPU",
+       "start": 303.484,
+       "end": 303.765
+      },
+      {
+       "w": "won't",
+       "start": 303.765,
+       "end": 304.187
+      },
+      {
+       "w": "make",
+       "start": 304.187,
+       "end": 304.539
+      },
+      {
+       "w": "it.",
+       "start": 304.539,
+       "end": 304.82
+      }
+     ]
+    },
+    {
+     "text": "But it's the same problem as the array.",
+     "start": 305.34,
+     "end": 307.36,
+     "words": [
+      {
+       "w": "But",
+       "start": 305.34,
+       "end": 305.542
+      },
+      {
+       "w": "it's",
+       "start": 305.542,
+       "end": 305.794
+      },
+      {
+       "w": "the",
+       "start": 305.794,
+       "end": 305.996
+      },
+      {
+       "w": "same",
+       "start": 305.996,
+       "end": 306.249
+      },
+      {
+       "w": "problem",
+       "start": 306.249,
+       "end": 306.653
+      },
+      {
+       "w": "as",
+       "start": 306.653,
+       "end": 306.804
+      },
+      {
+       "w": "the",
+       "start": 306.804,
+       "end": 307.006
+      },
+      {
+       "w": "array.",
+       "start": 307.006,
+       "end": 307.36
+      }
+     ]
+    },
+    {
+     "text": "Only now, the array is the pixels of the screen.",
+     "start": 307.82,
+     "end": 311.16,
+     "words": [
+      {
+       "w": "Only",
+       "start": 307.82,
+       "end": 308.161
+      },
+      {
+       "w": "now,",
+       "start": 308.161,
+       "end": 308.502
+      },
+      {
+       "w": "the",
+       "start": 308.502,
+       "end": 308.774
+      },
+      {
+       "w": "array",
+       "start": 308.774,
+       "end": 309.183
+      },
+      {
+       "w": "is",
+       "start": 309.183,
+       "end": 309.388
+      },
+      {
+       "w": "the",
+       "start": 309.388,
+       "end": 309.66
+      },
+      {
+       "w": "pixels",
+       "start": 309.66,
+       "end": 310.138
+      },
+      {
+       "w": "of",
+       "start": 310.138,
+       "end": 310.342
+      },
+      {
+       "w": "the",
+       "start": 310.342,
+       "end": 310.615
+      },
+      {
+       "w": "screen.",
+       "start": 310.615,
+       "end": 311.16
+      }
+     ]
+    },
+    {
+     "text": "So the GPU lets you write a function that receives a pixel, and returns its color, once for every pixel, all at the same time.",
+     "start": 311.62,
+     "end": 320.1,
+     "words": [
+      {
+       "w": "So",
+       "start": 311.62,
+       "end": 311.82
+      },
+      {
+       "w": "the",
+       "start": 311.82,
+       "end": 312.087
+      },
+      {
+       "w": "GPU",
+       "start": 312.087,
+       "end": 312.354
+      },
+      {
+       "w": "lets",
+       "start": 312.354,
+       "end": 312.688
+      },
+      {
+       "w": "you",
+       "start": 312.688,
+       "end": 312.955
+      },
+      {
+       "w": "write",
+       "start": 312.955,
+       "end": 313.356
+      },
+      {
+       "w": "a",
+       "start": 313.356,
+       "end": 313.49
+      },
+      {
+       "w": "function",
+       "start": 313.49,
+       "end": 314.091
+      },
+      {
+       "w": "that",
+       "start": 314.091,
+       "end": 314.424
+      },
+      {
+       "w": "receives",
+       "start": 314.424,
+       "end": 315.025
+      },
+      {
+       "w": "a",
+       "start": 315.025,
+       "end": 315.159
+      },
+      {
+       "w": "pixel,",
+       "start": 315.159,
+       "end": 315.626
+      },
+      {
+       "w": "and",
+       "start": 315.626,
+       "end": 315.893
+      },
+      {
+       "w": "returns",
+       "start": 315.893,
+       "end": 316.428
+      },
+      {
+       "w": "its",
+       "start": 316.428,
+       "end": 316.695
+      },
+      {
+       "w": "color,",
+       "start": 316.695,
+       "end": 317.162
+      },
+      {
+       "w": "once",
+       "start": 317.162,
+       "end": 317.496
+      },
+      {
+       "w": "for",
+       "start": 317.496,
+       "end": 317.763
+      },
+      {
+       "w": "every",
+       "start": 317.763,
+       "end": 318.164
+      },
+      {
+       "w": "pixel,",
+       "start": 318.164,
+       "end": 318.631
+      },
+      {
+       "w": "all",
+       "start": 318.631,
+       "end": 318.898
+      },
+      {
+       "w": "at",
+       "start": 318.898,
+       "end": 319.098
+      },
+      {
+       "w": "the",
+       "start": 319.098,
+       "end": 319.366
+      },
+      {
+       "w": "same",
+       "start": 319.366,
+       "end": 319.699
+      },
+      {
+       "w": "time.",
+       "start": 319.699,
+       "end": 320.1
+      }
+     ]
+    },
+    {
+     "text": "Always return red, and the screen is red.",
+     "start": 320.84,
+     "end": 323.6,
+     "words": [
+      {
+       "w": "Always",
+       "start": 320.84,
+       "end": 321.3
+      },
+      {
+       "w": "return",
+       "start": 321.3,
+       "end": 321.76
+      },
+      {
+       "w": "red,",
+       "start": 321.76,
+       "end": 322.089
+      },
+      {
+       "w": "and",
+       "start": 322.089,
+       "end": 322.351
+      },
+      {
+       "w": "the",
+       "start": 322.351,
+       "end": 322.614
+      },
+      {
+       "w": "screen",
+       "start": 322.614,
+       "end": 323.074
+      },
+      {
+       "w": "is",
+       "start": 323.074,
+       "end": 323.271
+      },
+      {
+       "w": "red.",
+       "start": 323.271,
+       "end": 323.6
+      }
+     ]
+    },
+    {
+     "text": "Make the color depend on the position, and you get a gradient.",
+     "start": 324.08,
+     "end": 327.2,
+     "words": [
+      {
+       "w": "Make",
+       "start": 324.08,
+       "end": 324.328
+      },
+      {
+       "w": "the",
+       "start": 324.328,
+       "end": 324.526
+      },
+      {
+       "w": "color",
+       "start": 324.526,
+       "end": 324.823
+      },
+      {
+       "w": "depend",
+       "start": 324.823,
+       "end": 325.17
+      },
+      {
+       "w": "on",
+       "start": 325.17,
+       "end": 325.318
+      },
+      {
+       "w": "the",
+       "start": 325.318,
+       "end": 325.516
+      },
+      {
+       "w": "position,",
+       "start": 325.516,
+       "end": 326.011
+      },
+      {
+       "w": "and",
+       "start": 326.011,
+       "end": 326.21
+      },
+      {
+       "w": "you",
+       "start": 326.21,
+       "end": 326.408
+      },
+      {
+       "w": "get",
+       "start": 326.408,
+       "end": 326.606
+      },
+      {
+       "w": "a",
+       "start": 326.606,
+       "end": 326.705
+      },
+      {
+       "w": "gradient.",
+       "start": 326.705,
+       "end": 327.2
+      }
+     ]
+    },
+    {
+     "text": "Make it depend on an image and on time, and a photo can move as if it were underwater.",
+     "start": 327.62,
+     "end": 333.04,
+     "words": [
+      {
+       "w": "Make",
+       "start": 327.62,
+       "end": 327.931
+      },
+      {
+       "w": "it",
+       "start": 327.931,
+       "end": 328.118
+      },
+      {
+       "w": "depend",
+       "start": 328.118,
+       "end": 328.554
+      },
+      {
+       "w": "on",
+       "start": 328.554,
+       "end": 328.741
+      },
+      {
+       "w": "an",
+       "start": 328.741,
+       "end": 328.928
+      },
+      {
+       "w": "image",
+       "start": 328.928,
+       "end": 329.302
+      },
+      {
+       "w": "and",
+       "start": 329.302,
+       "end": 329.551
+      },
+      {
+       "w": "on",
+       "start": 329.551,
+       "end": 329.738
+      },
+      {
+       "w": "time,",
+       "start": 329.738,
+       "end": 330.112
+      },
+      {
+       "w": "and",
+       "start": 330.112,
+       "end": 330.361
+      },
+      {
+       "w": "a",
+       "start": 330.361,
+       "end": 330.486
+      },
+      {
+       "w": "photo",
+       "start": 330.486,
+       "end": 330.86
+      },
+      {
+       "w": "can",
+       "start": 330.86,
+       "end": 331.109
+      },
+      {
+       "w": "move",
+       "start": 331.109,
+       "end": 331.42
+      },
+      {
+       "w": "as",
+       "start": 331.42,
+       "end": 331.607
+      },
+      {
+       "w": "if",
+       "start": 331.607,
+       "end": 331.794
+      },
+      {
+       "w": "it",
+       "start": 331.794,
+       "end": 331.981
+      },
+      {
+       "w": "were",
+       "start": 331.981,
+       "end": 332.292
+      },
+      {
+       "w": "underwater.",
+       "start": 332.292,
+       "end": 333.04
+      }
+     ]
+    },
+    {
+     "text": "Water, fire, shadows, lights.",
+     "start": 333.62,
+     "end": 336.04,
+     "words": [
+      {
+       "w": "Water,",
+       "start": 333.62,
+       "end": 334.185
+      },
+      {
+       "w": "fire,",
+       "start": 334.185,
+       "end": 334.669
+      },
+      {
+       "w": "shadows,",
+       "start": 334.669,
+       "end": 335.395
+      },
+      {
+       "w": "lights.",
+       "start": 335.395,
+       "end": 336.04
+      }
+     ]
+    },
+    {
+     "text": "All of them are functions that decide the color of a pixel.",
+     "start": 336.38,
+     "end": 340.66,
+     "words": [
+      {
+       "w": "All",
+       "start": 336.38,
+       "end": 336.665
+      },
+      {
+       "w": "of",
+       "start": 336.665,
+       "end": 336.879
+      },
+      {
+       "w": "them",
+       "start": 336.879,
+       "end": 337.236
+      },
+      {
+       "w": "are",
+       "start": 337.236,
+       "end": 337.521
+      },
+      {
+       "w": "functions",
+       "start": 337.521,
+       "end": 338.235
+      },
+      {
+       "w": "that",
+       "start": 338.235,
+       "end": 338.591
+      },
+      {
+       "w": "decide",
+       "start": 338.591,
+       "end": 339.091
+      },
+      {
+       "w": "the",
+       "start": 339.091,
+       "end": 339.376
+      },
+      {
+       "w": "color",
+       "start": 339.376,
+       "end": 339.804
+      },
+      {
+       "w": "of",
+       "start": 339.804,
+       "end": 340.018
+      },
+      {
+       "w": "a",
+       "start": 340.018,
+       "end": 340.161
+      },
+      {
+       "w": "pixel.",
+       "start": 340.161,
+       "end": 340.66
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "s08-stages",
+   "start": 341.6,
+   "end": 395.72,
+   "sentences": [
+    {
+     "text": "So far we've said \"a function\".",
+     "start": 341.66,
+     "end": 343.74,
+     "words": [
+      {
+       "w": "So",
+       "start": 341.66,
+       "end": 341.855
+      },
+      {
+       "w": "far",
+       "start": 341.855,
+       "end": 342.115
+      },
+      {
+       "w": "we've",
+       "start": 342.115,
+       "end": 342.505
+      },
+      {
+       "w": "said",
+       "start": 342.505,
+       "end": 342.83
+      },
+      {
+       "w": "\"a",
+       "start": 342.83,
+       "end": 343.025
+      },
+      {
+       "w": "function\".",
+       "start": 343.025,
+       "end": 343.74
+      }
+     ]
+    },
+    {
+     "text": "There are actually several kinds, and each is called a stage.",
+     "start": 344.3,
+     "end": 347.88,
+     "words": [
+      {
+       "w": "There",
+       "start": 344.3,
+       "end": 344.646
+      },
+      {
+       "w": "are",
+       "start": 344.646,
+       "end": 344.877
+      },
+      {
+       "w": "actually",
+       "start": 344.877,
+       "end": 345.397
+      },
+      {
+       "w": "several",
+       "start": 345.397,
+       "end": 345.859
+      },
+      {
+       "w": "kinds,",
+       "start": 345.859,
+       "end": 346.263
+      },
+      {
+       "w": "and",
+       "start": 346.263,
+       "end": 346.494
+      },
+      {
+       "w": "each",
+       "start": 346.494,
+       "end": 346.783
+      },
+      {
+       "w": "is",
+       "start": 346.783,
+       "end": 346.956
+      },
+      {
+       "w": "called",
+       "start": 346.956,
+       "end": 347.36
+      },
+      {
+       "w": "a",
+       "start": 347.36,
+       "end": 347.476
+      },
+      {
+       "w": "stage.",
+       "start": 347.476,
+       "end": 347.88
+      }
+     ]
+    },
+    {
+     "text": "What changes is what the function runs over.",
+     "start": 348.4,
+     "end": 350.8,
+     "words": [
+      {
+       "w": "What",
+       "start": 348.4,
+       "end": 348.667
+      },
+      {
+       "w": "changes",
+       "start": 348.667,
+       "end": 349.093
+      },
+      {
+       "w": "is",
+       "start": 349.093,
+       "end": 349.253
+      },
+      {
+       "w": "what",
+       "start": 349.253,
+       "end": 349.52
+      },
+      {
+       "w": "the",
+       "start": 349.52,
+       "end": 349.733
+      },
+      {
+       "w": "function",
+       "start": 349.733,
+       "end": 350.213
+      },
+      {
+       "w": "runs",
+       "start": 350.213,
+       "end": 350.48
+      },
+      {
+       "w": "over.",
+       "start": 350.48,
+       "end": 350.8
+      }
+     ]
+    },
+    {
+     "text": "The Vertex stage runs once for each point of the shape you want to draw, and decides where that point lands on the screen.",
+     "start": 351.32,
+     "end": 358.1,
+     "words": [
+      {
+       "w": "The",
+       "start": 351.32,
+       "end": 351.54
+      },
+      {
+       "w": "Vertex",
+       "start": 351.54,
+       "end": 351.926
+      },
+      {
+       "w": "stage",
+       "start": 351.926,
+       "end": 352.257
+      },
+      {
+       "w": "runs",
+       "start": 352.257,
+       "end": 352.533
+      },
+      {
+       "w": "once",
+       "start": 352.533,
+       "end": 352.808
+      },
+      {
+       "w": "for",
+       "start": 352.808,
+       "end": 353.029
+      },
+      {
+       "w": "each",
+       "start": 353.029,
+       "end": 353.304
+      },
+      {
+       "w": "point",
+       "start": 353.304,
+       "end": 353.635
+      },
+      {
+       "w": "of",
+       "start": 353.635,
+       "end": 353.8
+      },
+      {
+       "w": "the",
+       "start": 353.8,
+       "end": 354.021
+      },
+      {
+       "w": "shape",
+       "start": 354.021,
+       "end": 354.352
+      },
+      {
+       "w": "you",
+       "start": 354.352,
+       "end": 354.572
+      },
+      {
+       "w": "want",
+       "start": 354.572,
+       "end": 354.848
+      },
+      {
+       "w": "to",
+       "start": 354.848,
+       "end": 355.013
+      },
+      {
+       "w": "draw,",
+       "start": 355.013,
+       "end": 355.344
+      },
+      {
+       "w": "and",
+       "start": 355.344,
+       "end": 355.564
+      },
+      {
+       "w": "decides",
+       "start": 355.564,
+       "end": 356.005
+      },
+      {
+       "w": "where",
+       "start": 356.005,
+       "end": 356.336
+      },
+      {
+       "w": "that",
+       "start": 356.336,
+       "end": 356.612
+      },
+      {
+       "w": "point",
+       "start": 356.612,
+       "end": 356.942
+      },
+      {
+       "w": "lands",
+       "start": 356.942,
+       "end": 357.273
+      },
+      {
+       "w": "on",
+       "start": 357.273,
+       "end": 357.439
+      },
+      {
+       "w": "the",
+       "start": 357.439,
+       "end": 357.659
+      },
+      {
+       "w": "screen.",
+       "start": 357.659,
+       "end": 358.1
+      }
+     ]
+    },
+    {
+     "text": "A triangle has three points, so that's three calls.",
+     "start": 358.68,
+     "end": 361.64,
+     "words": [
+      {
+       "w": "A",
+       "start": 358.68,
+       "end": 358.794
+      },
+      {
+       "w": "triangle",
+       "start": 358.794,
+       "end": 359.306
+      },
+      {
+       "w": "has",
+       "start": 359.306,
+       "end": 359.534
+      },
+      {
+       "w": "three",
+       "start": 359.534,
+       "end": 359.875
+      },
+      {
+       "w": "points,",
+       "start": 359.875,
+       "end": 360.331
+      },
+      {
+       "w": "so",
+       "start": 360.331,
+       "end": 360.502
+      },
+      {
+       "w": "that's",
+       "start": 360.502,
+       "end": 360.9
+      },
+      {
+       "w": "three",
+       "start": 360.9,
+       "end": 361.242
+      },
+      {
+       "w": "calls.",
+       "start": 361.242,
+       "end": 361.64
+      }
+     ]
+    },
+    {
+     "text": "The Fragment stage runs once for each pixel the shape covers, and decides its color.",
+     "start": 362.14,
+     "end": 366.98,
+     "words": [
+      {
+       "w": "The",
+       "start": 362.14,
+       "end": 362.368
+      },
+      {
+       "w": "Fragment",
+       "start": 362.368,
+       "end": 362.88
+      },
+      {
+       "w": "stage",
+       "start": 362.88,
+       "end": 363.222
+      },
+      {
+       "w": "runs",
+       "start": 363.222,
+       "end": 363.507
+      },
+      {
+       "w": "once",
+       "start": 363.507,
+       "end": 363.791
+      },
+      {
+       "w": "for",
+       "start": 363.791,
+       "end": 364.019
+      },
+      {
+       "w": "each",
+       "start": 364.019,
+       "end": 364.304
+      },
+      {
+       "w": "pixel",
+       "start": 364.304,
+       "end": 364.645
+      },
+      {
+       "w": "the",
+       "start": 364.645,
+       "end": 364.873
+      },
+      {
+       "w": "shape",
+       "start": 364.873,
+       "end": 365.215
+      },
+      {
+       "w": "covers,",
+       "start": 365.215,
+       "end": 365.67
+      },
+      {
+       "w": "and",
+       "start": 365.67,
+       "end": 365.898
+      },
+      {
+       "w": "decides",
+       "start": 365.898,
+       "end": 366.354
+      },
+      {
+       "w": "its",
+       "start": 366.354,
+       "end": 366.581
+      },
+      {
+       "w": "color.",
+       "start": 366.581,
+       "end": 366.98
+      }
+     ]
+    },
+    {
+     "text": "If the triangle covers a hundred thousand pixels, that's a hundred thousand calls.",
+     "start": 367.5,
+     "end": 371.6,
+     "words": [
+      {
+       "w": "If",
+       "start": 367.5,
+       "end": 367.648
+      },
+      {
+       "w": "the",
+       "start": 367.648,
+       "end": 367.846
+      },
+      {
+       "w": "triangle",
+       "start": 367.846,
+       "end": 368.29
+      },
+      {
+       "w": "covers",
+       "start": 368.29,
+       "end": 368.636
+      },
+      {
+       "w": "a",
+       "start": 368.636,
+       "end": 368.735
+      },
+      {
+       "w": "hundred",
+       "start": 368.735,
+       "end": 369.13
+      },
+      {
+       "w": "thousand",
+       "start": 369.13,
+       "end": 369.575
+      },
+      {
+       "w": "pixels,",
+       "start": 369.575,
+       "end": 369.97
+      },
+      {
+       "w": "that's",
+       "start": 369.97,
+       "end": 370.316
+      },
+      {
+       "w": "a",
+       "start": 370.316,
+       "end": 370.414
+      },
+      {
+       "w": "hundred",
+       "start": 370.414,
+       "end": 370.81
+      },
+      {
+       "w": "thousand",
+       "start": 370.81,
+       "end": 371.254
+      },
+      {
+       "w": "calls.",
+       "start": 371.254,
+       "end": 371.6
+      }
+     ]
+    },
+    {
+     "text": "And Compute runs once for each index you ask for.",
+     "start": 372.08,
+     "end": 375.18,
+     "words": [
+      {
+       "w": "And",
+       "start": 372.08,
+       "end": 372.328
+      },
+      {
+       "w": "Compute",
+       "start": 372.328,
+       "end": 372.824
+      },
+      {
+       "w": "runs",
+       "start": 372.824,
+       "end": 373.134
+      },
+      {
+       "w": "once",
+       "start": 373.134,
+       "end": 373.444
+      },
+      {
+       "w": "for",
+       "start": 373.444,
+       "end": 373.692
+      },
+      {
+       "w": "each",
+       "start": 373.692,
+       "end": 374.002
+      },
+      {
+       "w": "index",
+       "start": 374.002,
+       "end": 374.374
+      },
+      {
+       "w": "you",
+       "start": 374.374,
+       "end": 374.622
+      },
+      {
+       "w": "ask",
+       "start": 374.622,
+       "end": 374.87
+      },
+      {
+       "w": "for.",
+       "start": 374.87,
+       "end": 375.18
+      }
+     ]
+    },
+    {
+     "text": "It's our array, and it draws nothing.",
+     "start": 375.66,
+     "end": 377.82,
+     "words": [
+      {
+       "w": "It's",
+       "start": 375.66,
+       "end": 375.944
+      },
+      {
+       "w": "our",
+       "start": 375.944,
+       "end": 376.172
+      },
+      {
+       "w": "array,",
+       "start": 376.172,
+       "end": 376.569
+      },
+      {
+       "w": "and",
+       "start": 376.569,
+       "end": 376.797
+      },
+      {
+       "w": "it",
+       "start": 376.797,
+       "end": 376.967
+      },
+      {
+       "w": "draws",
+       "start": 376.967,
+       "end": 377.308
+      },
+      {
+       "w": "nothing.",
+       "start": 377.308,
+       "end": 377.82
+      }
+     ]
+    },
+    {
+     "text": "To draw something, the first two work together.",
+     "start": 378.48,
+     "end": 381.04,
+     "words": [
+      {
+       "w": "To",
+       "start": 378.48,
+       "end": 378.64
+      },
+      {
+       "w": "draw",
+       "start": 378.64,
+       "end": 378.907
+      },
+      {
+       "w": "something,",
+       "start": 378.907,
+       "end": 379.493
+      },
+      {
+       "w": "the",
+       "start": 379.493,
+       "end": 379.707
+      },
+      {
+       "w": "first",
+       "start": 379.707,
+       "end": 380.027
+      },
+      {
+       "w": "two",
+       "start": 380.027,
+       "end": 380.24
+      },
+      {
+       "w": "work",
+       "start": 380.24,
+       "end": 380.507
+      },
+      {
+       "w": "together.",
+       "start": 380.507,
+       "end": 381.04
+      }
+     ]
+    },
+    {
+     "text": "You send three points.",
+     "start": 381.52,
+     "end": 382.82,
+     "words": [
+      {
+       "w": "You",
+       "start": 381.52,
+       "end": 381.746
+      },
+      {
+       "w": "send",
+       "start": 381.746,
+       "end": 382.029
+      },
+      {
+       "w": "three",
+       "start": 382.029,
+       "end": 382.368
+      },
+      {
+       "w": "points.",
+       "start": 382.368,
+       "end": 382.82
+      }
+     ]
+    },
+    {
+     "text": "Vertex places each one.",
+     "start": 383.26,
+     "end": 384.7,
+     "words": [
+      {
+       "w": "Vertex",
+       "start": 383.26,
+       "end": 383.68
+      },
+      {
+       "w": "places",
+       "start": 383.68,
+       "end": 384.1
+      },
+      {
+       "w": "each",
+       "start": 384.1,
+       "end": 384.4
+      },
+      {
+       "w": "one.",
+       "start": 384.4,
+       "end": 384.7
+      }
+     ]
+    },
+    {
+     "text": "The GPU works out which pixels fall inside the triangle.",
+     "start": 385.14,
+     "end": 388.62,
+     "words": [
+      {
+       "w": "The",
+       "start": 385.14,
+       "end": 385.384
+      },
+      {
+       "w": "GPU",
+       "start": 385.384,
+       "end": 385.628
+      },
+      {
+       "w": "works",
+       "start": 385.628,
+       "end": 385.995
+      },
+      {
+       "w": "out",
+       "start": 385.995,
+       "end": 386.239
+      },
+      {
+       "w": "which",
+       "start": 386.239,
+       "end": 386.605
+      },
+      {
+       "w": "pixels",
+       "start": 386.605,
+       "end": 387.033
+      },
+      {
+       "w": "fall",
+       "start": 387.033,
+       "end": 387.338
+      },
+      {
+       "w": "inside",
+       "start": 387.338,
+       "end": 387.765
+      },
+      {
+       "w": "the",
+       "start": 387.765,
+       "end": 388.009
+      },
+      {
+       "w": "triangle.",
+       "start": 388.009,
+       "end": 388.62
+      }
+     ]
+    },
+    {
+     "text": "And Fragment gives each one a color.",
+     "start": 389.08,
+     "end": 390.94,
+     "words": [
+      {
+       "w": "And",
+       "start": 389.08,
+       "end": 389.281
+      },
+      {
+       "w": "Fragment",
+       "start": 389.281,
+       "end": 389.734
+      },
+      {
+       "w": "gives",
+       "start": 389.734,
+       "end": 390.035
+      },
+      {
+       "w": "each",
+       "start": 390.035,
+       "end": 390.286
+      },
+      {
+       "w": "one",
+       "start": 390.286,
+       "end": 390.488
+      },
+      {
+       "w": "a",
+       "start": 390.488,
+       "end": 390.588
+      },
+      {
+       "w": "color.",
+       "start": 390.588,
+       "end": 390.94
+      }
+     ]
+    },
+    {
+     "text": "It doesn't have to be clear yet.",
+     "start": 391.52,
+     "end": 392.94,
+     "words": [
+      {
+       "w": "It",
+       "start": 391.52,
+       "end": 391.649
+      },
+      {
+       "w": "doesn't",
+       "start": 391.649,
+       "end": 391.993
+      },
+      {
+       "w": "have",
+       "start": 391.993,
+       "end": 392.208
+      },
+      {
+       "w": "to",
+       "start": 392.208,
+       "end": 392.338
+      },
+      {
+       "w": "be",
+       "start": 392.338,
+       "end": 392.467
+      },
+      {
+       "w": "clear",
+       "start": 392.467,
+       "end": 392.725
+      },
+      {
+       "w": "yet.",
+       "start": 392.725,
+       "end": 392.94
+      }
+     ]
+    },
+    {
+     "text": "The next video goes through it one step at a time.",
+     "start": 393.3,
+     "end": 395.58,
+     "words": [
+      {
+       "w": "The",
+       "start": 393.3,
+       "end": 393.479
+      },
+      {
+       "w": "next",
+       "start": 393.479,
+       "end": 393.702
+      },
+      {
+       "w": "video",
+       "start": 393.702,
+       "end": 393.971
+      },
+      {
+       "w": "goes",
+       "start": 393.971,
+       "end": 394.194
+      },
+      {
+       "w": "through",
+       "start": 394.194,
+       "end": 394.552
+      },
+      {
+       "w": "it",
+       "start": 394.552,
+       "end": 394.686
+      },
+      {
+       "w": "one",
+       "start": 394.686,
+       "end": 394.865
+      },
+      {
+       "w": "step",
+       "start": 394.865,
+       "end": 395.088
+      },
+      {
+       "w": "at",
+       "start": 395.088,
+       "end": 395.222
+      },
+      {
+       "w": "a",
+       "start": 395.222,
+       "end": 395.312
+      },
+      {
+       "w": "time.",
+       "start": 395.312,
+       "end": 395.58
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "s09-yotsuba",
+   "start": 396.52,
+   "end": 436.26,
+   "sentences": [
+    {
+     "text": "Since the GPU doesn't understand C#, shaders have always been written in languages made just for that:",
+     "start": 396.58,
+     "end": 404.62,
+     "words": [
+      {
+       "w": "Since",
+       "start": 396.58,
+       "end": 397.048
+      },
+      {
+       "w": "the",
+       "start": 397.048,
+       "end": 397.361
+      },
+      {
+       "w": "GPU",
+       "start": 397.361,
+       "end": 397.673
+      },
+      {
+       "w": "doesn't",
+       "start": 397.673,
+       "end": 398.297
+      },
+      {
+       "w": "understand",
+       "start": 398.297,
+       "end": 399.156
+      },
+      {
+       "w": "C#,",
+       "start": 399.156,
+       "end": 399.468
+      },
+      {
+       "w": "shaders",
+       "start": 399.468,
+       "end": 400.093
+      },
+      {
+       "w": "have",
+       "start": 400.093,
+       "end": 400.483
+      },
+      {
+       "w": "always",
+       "start": 400.483,
+       "end": 401.029
+      },
+      {
+       "w": "been",
+       "start": 401.029,
+       "end": 401.42
+      },
+      {
+       "w": "written",
+       "start": 401.42,
+       "end": 402.044
+      },
+      {
+       "w": "in",
+       "start": 402.044,
+       "end": 402.278
+      },
+      {
+       "w": "languages",
+       "start": 402.278,
+       "end": 403.059
+      },
+      {
+       "w": "made",
+       "start": 403.059,
+       "end": 403.449
+      },
+      {
+       "w": "just",
+       "start": 403.449,
+       "end": 403.839
+      },
+      {
+       "w": "for",
+       "start": 403.839,
+       "end": 404.152
+      },
+      {
+       "w": "that:",
+       "start": 404.152,
+       "end": 404.62
+      }
+     ]
+    },
+    {
+     "text": "HLSL, GLSL, Metal.",
+     "start": 404.86,
+     "end": 406.52,
+     "words": [
+      {
+       "w": "HLSL,",
+       "start": 404.86,
+       "end": 405.384
+      },
+      {
+       "w": "GLSL,",
+       "start": 405.384,
+       "end": 405.908
+      },
+      {
+       "w": "Metal.",
+       "start": 405.908,
+       "end": 406.52
+      }
+     ]
+    },
+    {
+     "text": "Each graphics API has its own, and none of them knows about the classes in your project.",
+     "start": 407.24,
+     "end": 412.26,
+     "words": [
+      {
+       "w": "Each",
+       "start": 407.24,
+       "end": 407.522
+      },
+      {
+       "w": "graphics",
+       "start": 407.522,
+       "end": 408.03
+      },
+      {
+       "w": "API",
+       "start": 408.03,
+       "end": 408.255
+      },
+      {
+       "w": "has",
+       "start": 408.255,
+       "end": 408.481
+      },
+      {
+       "w": "its",
+       "start": 408.481,
+       "end": 408.707
+      },
+      {
+       "w": "own,",
+       "start": 408.707,
+       "end": 408.989
+      },
+      {
+       "w": "and",
+       "start": 408.989,
+       "end": 409.214
+      },
+      {
+       "w": "none",
+       "start": 409.214,
+       "end": 409.496
+      },
+      {
+       "w": "of",
+       "start": 409.496,
+       "end": 409.665
+      },
+      {
+       "w": "them",
+       "start": 409.665,
+       "end": 409.947
+      },
+      {
+       "w": "knows",
+       "start": 409.947,
+       "end": 410.286
+      },
+      {
+       "w": "about",
+       "start": 410.286,
+       "end": 410.624
+      },
+      {
+       "w": "the",
+       "start": 410.624,
+       "end": 410.85
+      },
+      {
+       "w": "classes",
+       "start": 410.85,
+       "end": 411.301
+      },
+      {
+       "w": "in",
+       "start": 411.301,
+       "end": 411.47
+      },
+      {
+       "w": "your",
+       "start": 411.47,
+       "end": 411.752
+      },
+      {
+       "w": "project.",
+       "start": 411.752,
+       "end": 412.26
+      }
+     ]
+    },
+    {
+     "text": "With Yotsuba Shader, you write the shader in C#.",
+     "start": 412.86,
+     "end": 416.34,
+     "words": [
+      {
+       "w": "With",
+       "start": 412.86,
+       "end": 413.215
+      },
+      {
+       "w": "Yotsuba",
+       "start": 413.215,
+       "end": 413.783
+      },
+      {
+       "w": "Shader,",
+       "start": 413.783,
+       "end": 414.351
+      },
+      {
+       "w": "you",
+       "start": 414.351,
+       "end": 414.636
+      },
+      {
+       "w": "write",
+       "start": 414.636,
+       "end": 415.062
+      },
+      {
+       "w": "the",
+       "start": 415.062,
+       "end": 415.346
+      },
+      {
+       "w": "shader",
+       "start": 415.346,
+       "end": 415.843
+      },
+      {
+       "w": "in",
+       "start": 415.843,
+       "end": 416.056
+      },
+      {
+       "w": "C#.",
+       "start": 416.056,
+       "end": 416.34
+      }
+     ]
+    },
+    {
+     "text": "In your own project, with your own editor.",
+     "start": 416.74,
+     "end": 418.94,
+     "words": [
+      {
+       "w": "In",
+       "start": 416.74,
+       "end": 416.893
+      },
+      {
+       "w": "your",
+       "start": 416.893,
+       "end": 417.149
+      },
+      {
+       "w": "own",
+       "start": 417.149,
+       "end": 417.354
+      },
+      {
+       "w": "project,",
+       "start": 417.354,
+       "end": 417.814
+      },
+      {
+       "w": "with",
+       "start": 417.814,
+       "end": 418.07
+      },
+      {
+       "w": "your",
+       "start": 418.07,
+       "end": 418.326
+      },
+      {
+       "w": "own",
+       "start": 418.326,
+       "end": 418.531
+      },
+      {
+       "w": "editor.",
+       "start": 418.531,
+       "end": 418.94
+      }
+     ]
+    },
+    {
+     "text": "The compiler checks that you only use things the GPU can do, and translates the result into the language you need.",
+     "start": 419.54,
+     "end": 425.86,
+     "words": [
+      {
+       "w": "The",
+       "start": 419.54,
+       "end": 419.76
+      },
+      {
+       "w": "compiler",
+       "start": 419.76,
+       "end": 420.254
+      },
+      {
+       "w": "checks",
+       "start": 420.254,
+       "end": 420.639
+      },
+      {
+       "w": "that",
+       "start": 420.639,
+       "end": 420.914
+      },
+      {
+       "w": "you",
+       "start": 420.914,
+       "end": 421.134
+      },
+      {
+       "w": "only",
+       "start": 421.134,
+       "end": 421.409
+      },
+      {
+       "w": "use",
+       "start": 421.409,
+       "end": 421.628
+      },
+      {
+       "w": "things",
+       "start": 421.628,
+       "end": 422.013
+      },
+      {
+       "w": "the",
+       "start": 422.013,
+       "end": 422.233
+      },
+      {
+       "w": "GPU",
+       "start": 422.233,
+       "end": 422.453
+      },
+      {
+       "w": "can",
+       "start": 422.453,
+       "end": 422.673
+      },
+      {
+       "w": "do,",
+       "start": 422.673,
+       "end": 422.892
+      },
+      {
+       "w": "and",
+       "start": 422.892,
+       "end": 423.112
+      },
+      {
+       "w": "translates",
+       "start": 423.112,
+       "end": 423.717
+      },
+      {
+       "w": "the",
+       "start": 423.717,
+       "end": 423.937
+      },
+      {
+       "w": "result",
+       "start": 423.937,
+       "end": 424.321
+      },
+      {
+       "w": "into",
+       "start": 424.321,
+       "end": 424.596
+      },
+      {
+       "w": "the",
+       "start": 424.596,
+       "end": 424.816
+      },
+      {
+       "w": "language",
+       "start": 424.816,
+       "end": 425.31
+      },
+      {
+       "w": "you",
+       "start": 425.31,
+       "end": 425.53
+      },
+      {
+       "w": "need.",
+       "start": 425.53,
+       "end": 425.86
+      }
+     ]
+    },
+    {
+     "text": "Here's what that looks like.",
+     "start": 426.44,
+     "end": 427.46,
+     "words": [
+      {
+       "w": "Here's",
+       "start": 426.44,
+       "end": 426.686
+      },
+      {
+       "w": "what",
+       "start": 426.686,
+       "end": 426.862
+      },
+      {
+       "w": "that",
+       "start": 426.862,
+       "end": 427.038
+      },
+      {
+       "w": "looks",
+       "start": 427.038,
+       "end": 427.249
+      },
+      {
+       "w": "like.",
+       "start": 427.249,
+       "end": 427.46
+      }
+     ]
+    },
+    {
+     "text": "This is a complete shader, written in C#.",
+     "start": 427.98,
+     "end": 430.82,
+     "words": [
+      {
+       "w": "This",
+       "start": 427.98,
+       "end": 428.318
+      },
+      {
+       "w": "is",
+       "start": 428.318,
+       "end": 428.521
+      },
+      {
+       "w": "a",
+       "start": 428.521,
+       "end": 428.656
+      },
+      {
+       "w": "complete",
+       "start": 428.656,
+       "end": 429.265
+      },
+      {
+       "w": "shader,",
+       "start": 429.265,
+       "end": 429.806
+      },
+      {
+       "w": "written",
+       "start": 429.806,
+       "end": 430.347
+      },
+      {
+       "w": "in",
+       "start": 430.347,
+       "end": 430.55
+      },
+      {
+       "w": "C#.",
+       "start": 430.55,
+       "end": 430.82
+      }
+     ]
+    },
+    {
+     "text": "You don't need the details yet.",
+     "start": 431.36,
+     "end": 432.66,
+     "words": [
+      {
+       "w": "You",
+       "start": 431.36,
+       "end": 431.522
+      },
+      {
+       "w": "don't",
+       "start": 431.522,
+       "end": 431.766
+      },
+      {
+       "w": "need",
+       "start": 431.766,
+       "end": 431.969
+      },
+      {
+       "w": "the",
+       "start": 431.969,
+       "end": 432.132
+      },
+      {
+       "w": "details",
+       "start": 432.132,
+       "end": 432.457
+      },
+      {
+       "w": "yet.",
+       "start": 432.457,
+       "end": 432.66
+      }
+     ]
+    },
+    {
+     "text": "In a few videos, you'll write it yourself, line by line.",
+     "start": 433.14,
+     "end": 436.12,
+     "words": [
+      {
+       "w": "In",
+       "start": 433.14,
+       "end": 433.297
+      },
+      {
+       "w": "a",
+       "start": 433.297,
+       "end": 433.401
+      },
+      {
+       "w": "few",
+       "start": 433.401,
+       "end": 433.611
+      },
+      {
+       "w": "videos,",
+       "start": 433.611,
+       "end": 434.029
+      },
+      {
+       "w": "you'll",
+       "start": 434.029,
+       "end": 434.395
+      },
+      {
+       "w": "write",
+       "start": 434.395,
+       "end": 434.708
+      },
+      {
+       "w": "it",
+       "start": 434.708,
+       "end": 434.865
+      },
+      {
+       "w": "yourself,",
+       "start": 434.865,
+       "end": 435.388
+      },
+      {
+       "w": "line",
+       "start": 435.388,
+       "end": 435.649
+      },
+      {
+       "w": "by",
+       "start": 435.649,
+       "end": 435.806
+      },
+      {
+       "w": "line.",
+       "start": 435.806,
+       "end": 436.12
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "s10-recap",
+   "start": 437.06,
+   "end": 463.06,
+   "sentences": [
+    {
+     "text": "To sum up.",
+     "start": 437.12,
+     "end": 437.66,
+     "words": [
+      {
+       "w": "To",
+       "start": 437.12,
+       "end": 437.267
+      },
+      {
+       "w": "sum",
+       "start": 437.267,
+       "end": 437.464
+      },
+      {
+       "w": "up.",
+       "start": 437.464,
+       "end": 437.66
+      }
+     ]
+    },
+    {
+     "text": "A shader is a function that runs on the GPU.",
+     "start": 438.3,
+     "end": 440.96,
+     "words": [
+      {
+       "w": "A",
+       "start": 438.3,
+       "end": 438.418
+      },
+      {
+       "w": "shader",
+       "start": 438.418,
+       "end": 438.832
+      },
+      {
+       "w": "is",
+       "start": 438.832,
+       "end": 439.009
+      },
+      {
+       "w": "a",
+       "start": 439.009,
+       "end": 439.128
+      },
+      {
+       "w": "function",
+       "start": 439.128,
+       "end": 439.66
+      },
+      {
+       "w": "that",
+       "start": 439.66,
+       "end": 439.955
+      },
+      {
+       "w": "runs",
+       "start": 439.955,
+       "end": 440.251
+      },
+      {
+       "w": "on",
+       "start": 440.251,
+       "end": 440.428
+      },
+      {
+       "w": "the",
+       "start": 440.428,
+       "end": 440.664
+      },
+      {
+       "w": "GPU.",
+       "start": 440.664,
+       "end": 440.96
+      }
+     ]
+    },
+    {
+     "text": "The GPU calls it a huge number of times at once:",
+     "start": 441.52,
+     "end": 444.44,
+     "words": [
+      {
+       "w": "The",
+       "start": 441.52,
+       "end": 441.758
+      },
+      {
+       "w": "GPU",
+       "start": 441.758,
+       "end": 441.997
+      },
+      {
+       "w": "calls",
+       "start": 441.997,
+       "end": 442.354
+      },
+      {
+       "w": "it",
+       "start": 442.354,
+       "end": 442.533
+      },
+      {
+       "w": "a",
+       "start": 442.533,
+       "end": 442.652
+      },
+      {
+       "w": "huge",
+       "start": 442.652,
+       "end": 442.95
+      },
+      {
+       "w": "number",
+       "start": 442.95,
+       "end": 443.367
+      },
+      {
+       "w": "of",
+       "start": 443.367,
+       "end": 443.546
+      },
+      {
+       "w": "times",
+       "start": 443.546,
+       "end": 443.904
+      },
+      {
+       "w": "at",
+       "start": 443.904,
+       "end": 444.082
+      },
+      {
+       "w": "once:",
+       "start": 444.082,
+       "end": 444.44
+      }
+     ]
+    },
+    {
+     "text": "once per vertex, per pixel, or per index.",
+     "start": 444.84,
+     "end": 447.76,
+     "words": [
+      {
+       "w": "once",
+       "start": 444.84,
+       "end": 445.188
+      },
+      {
+       "w": "per",
+       "start": 445.188,
+       "end": 445.466
+      },
+      {
+       "w": "vertex,",
+       "start": 445.466,
+       "end": 446.022
+      },
+      {
+       "w": "per",
+       "start": 446.022,
+       "end": 446.3
+      },
+      {
+       "w": "pixel,",
+       "start": 446.3,
+       "end": 446.787
+      },
+      {
+       "w": "or",
+       "start": 446.787,
+       "end": 446.995
+      },
+      {
+       "w": "per",
+       "start": 446.995,
+       "end": 447.273
+      },
+      {
+       "w": "index.",
+       "start": 447.273,
+       "end": 447.76
+      }
+     ]
+    },
+    {
+     "text": "Inside it you can only do calculations.",
+     "start": 448.4,
+     "end": 450.88,
+     "words": [
+      {
+       "w": "Inside",
+       "start": 448.4,
+       "end": 448.834
+      },
+      {
+       "w": "it",
+       "start": 448.834,
+       "end": 449.02
+      },
+      {
+       "w": "you",
+       "start": 449.02,
+       "end": 449.268
+      },
+      {
+       "w": "can",
+       "start": 449.268,
+       "end": 449.516
+      },
+      {
+       "w": "only",
+       "start": 449.516,
+       "end": 449.826
+      },
+      {
+       "w": "do",
+       "start": 449.826,
+       "end": 450.012
+      },
+      {
+       "w": "calculations.",
+       "start": 450.012,
+       "end": 450.88
+      }
+     ]
+    },
+    {
+     "text": "No files, no text, no lists.",
+     "start": 451.3,
+     "end": 453.88,
+     "words": [
+      {
+       "w": "No",
+       "start": 451.3,
+       "end": 451.567
+      },
+      {
+       "w": "files,",
+       "start": 451.567,
+       "end": 452.19
+      },
+      {
+       "w": "no",
+       "start": 452.19,
+       "end": 452.457
+      },
+      {
+       "w": "text,",
+       "start": 452.457,
+       "end": 452.99
+      },
+      {
+       "w": "no",
+       "start": 452.99,
+       "end": 453.257
+      },
+      {
+       "w": "lists.",
+       "start": 453.257,
+       "end": 453.88
+      }
+     ]
+    },
+    {
+     "text": "And with Yotsuba Shader, you write that function in C#.",
+     "start": 454.5,
+     "end": 458.38,
+     "words": [
+      {
+       "w": "And",
+       "start": 454.5,
+       "end": 454.777
+      },
+      {
+       "w": "with",
+       "start": 454.777,
+       "end": 455.124
+      },
+      {
+       "w": "Yotsuba",
+       "start": 455.124,
+       "end": 455.678
+      },
+      {
+       "w": "Shader,",
+       "start": 455.678,
+       "end": 456.232
+      },
+      {
+       "w": "you",
+       "start": 456.232,
+       "end": 456.509
+      },
+      {
+       "w": "write",
+       "start": 456.509,
+       "end": 456.925
+      },
+      {
+       "w": "that",
+       "start": 456.925,
+       "end": 457.271
+      },
+      {
+       "w": "function",
+       "start": 457.271,
+       "end": 457.895
+      },
+      {
+       "w": "in",
+       "start": 457.895,
+       "end": 458.103
+      },
+      {
+       "w": "C#.",
+       "start": 458.103,
+       "end": 458.38
+      }
+     ]
+    },
+    {
+     "text": "In the next video, we'll look at how a shader is built.",
+     "start": 459.06,
+     "end": 461.92,
+     "words": [
+      {
+       "w": "In",
+       "start": 459.06,
+       "end": 459.213
+      },
+      {
+       "w": "the",
+       "start": 459.213,
+       "end": 459.418
+      },
+      {
+       "w": "next",
+       "start": 459.418,
+       "end": 459.673
+      },
+      {
+       "w": "video,",
+       "start": 459.673,
+       "end": 460.03
+      },
+      {
+       "w": "we'll",
+       "start": 460.03,
+       "end": 460.337
+      },
+      {
+       "w": "look",
+       "start": 460.337,
+       "end": 460.592
+      },
+      {
+       "w": "at",
+       "start": 460.592,
+       "end": 460.745
+      },
+      {
+       "w": "how",
+       "start": 460.745,
+       "end": 460.95
+      },
+      {
+       "w": "a",
+       "start": 460.95,
+       "end": 461.052
+      },
+      {
+       "w": "shader",
+       "start": 461.052,
+       "end": 461.409
+      },
+      {
+       "w": "is",
+       "start": 461.409,
+       "end": 461.563
+      },
+      {
+       "w": "built.",
+       "start": 461.563,
+       "end": 461.92
+      }
+     ]
+    },
+    {
+     "text": "See you there.",
+     "start": 462.44,
+     "end": 462.92,
+     "words": [
+      {
+       "w": "See",
+       "start": 462.44,
+       "end": 462.568
+      },
+      {
+       "w": "you",
+       "start": 462.568,
+       "end": 462.696
+      },
+      {
+       "w": "there.",
+       "start": 462.696,
+       "end": 462.92
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}

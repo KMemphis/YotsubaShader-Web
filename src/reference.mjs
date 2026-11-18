@@ -4,6 +4,7 @@
 
 import fs from 'node:fs';
 import path from 'node:path';
+import { repoPath } from './repo-paths.mjs';
 
 /** The five syntax packages. Each one is a project and a namespace of the same name. */
 export const SYNTAX_META = {
@@ -93,7 +94,7 @@ function scanFile(file) {
 export function scanSyntaxes(repoDir) {
   const result = {};
   for (const [id, meta] of Object.entries(SYNTAX_META)) {
-    const root = path.join(repoDir, meta.project);
+    const root = path.join(repoDir, repoPath(meta.project));
     const items = [];
     if (fs.existsSync(root)) {
       const walk = (dir) => {

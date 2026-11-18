@@ -57,7 +57,7 @@ match the current source checkout.
 
 The parent solution build is the source-of-truth check for the compiler
 projects. The current working tree also contains uncommitted changes in
-`YotsubaShader.Example/TestCompilation.cs` and its project file; the example
+`Examples/YotsubaShader.Example/TestCompilation.cs` and its project file; the example
 test run currently reports failures caused by those dynamic compilation
 references, so this review does not describe the test suite as fully passing.
 

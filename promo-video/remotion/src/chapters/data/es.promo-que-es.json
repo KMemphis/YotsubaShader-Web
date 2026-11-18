@@ -1,0 +1,302 @@
+{
+ "lang": "es",
+ "page": "promo/que-es",
+ "title": "Qué es Yotsuba Shader",
+ "duration": 133.81,
+ "items": [
+  {
+   "kind": "p",
+   "block": 1,
+   "text": "Esto es Yotsuba Shader. Cada una de estas imágenes la dibuja un shader escrito en C#.",
+   "start": 0.16,
+   "end": 5.18,
+   "sentences": [
+    {
+     "start": 0.16,
+     "end": 1.48,
+     "text": "Esto es Yotsuba Shader."
+    },
+    {
+     "start": 2.16,
+     "end": 5.18,
+     "text": "Cada una de estas imágenes la dibuja un shader escrito en C#."
+    }
+   ]
+  },
+  {
+   "kind": "p",
+   "block": 2,
+   "text": "Un shader es el programa que decide el color de cada píxel. Y cada motor lo pide a su manera. MonoGame usa una variante de HLSL. Stride tiene la suya, también basada en HLSL. Unity escribe HLSL dentro de su propio formato. Unreal guarda sus shaders en archivos HLSL. Y Godot creó su propio lenguaje. Si cambias de motor o de plataforma, tienes que escribirlo de nuevo.",
+   "start": 6.1,
+   "end": 28.12,
+   "sentences": [
+    {
+     "start": 6.1,
+     "end": 8.54,
+     "text": "Un shader es el programa que decide el color de cada píxel."
+    },
+    {
+     "start": 9.22,
+     "end": 10.62,
+     "text": "Y cada motor lo pide a su manera."
+    },
+    {
+     "start": 11.3,
+     "end": 13.32,
+     "text": "MonoGame usa una variante de HLSL."
+    },
+    {
+     "start": 13.76,
+     "end": 16.34,
+     "text": "Stride tiene la suya, también basada en HLSL."
+    },
+    {
+     "start": 17.12,
+     "end": 19.8,
+     "text": "Unity escribe HLSL dentro de su propio formato."
+    },
+    {
+     "start": 20.32,
+     "end": 22.92,
+     "text": "Unreal guarda sus shaders en archivos HLSL."
+    },
+    {
+     "start": 23.44,
+     "end": 24.68,
+     "text": "Y Godot creó su propio lenguaje."
+    },
+    {
+     "start": 25.4,
+     "end": 28.12,
+     "text": "Si cambias de motor o de plataforma, tienes que escribirlo de nuevo."
+    }
+   ]
+  },
+  {
+   "kind": "p",
+   "block": 3,
+   "text": "Yotsuba Shader parte de otra idea. Escribes el shader en C#, igual que el resto de tu juego, con clases, structs y métodos. Y el compilador lo convierte al formato que necesite cada API.",
+   "start": 28.84,
+   "end": 38.74,
+   "sentences": [
+    {
+     "start": 28.84,
+     "end": 30.5,
+     "text": "Yotsuba Shader parte de otra idea."
+    },
+    {
+     "start": 31.1,
+     "end": 35.7,
+     "text": "Escribes el shader en C#, igual que el resto de tu juego, con clases, structs y métodos."
+    },
+    {
+     "start": 36.22,
+     "end": 38.74,
+     "text": "Y el compilador lo convierte al formato que necesite cada API."
+    }
+   ]
+  },
+  {
+   "kind": "p",
+   "block": 4,
+   "text": "Con un mismo código obtienes el shader en los lenguajes base: GLSL, HLSL, Metal y SPIR-V. También en GLSL ES y en C++. WGSL, para WebGPU, llegará más adelante.",
+   "start": 39.34,
+   "end": 52.52,
+   "sentences": [
+    {
+     "start": 39.34,
+     "end": 44.44,
+     "text": "Con un mismo código obtienes el shader en los lenguajes base:"
+    },
+    {
+     "start": 44.74,
+     "end": 46.52,
+     "text": "GLSL, HLSL, Metal y SPIR-V."
+    },
+    {
+     "start": 47.24,
+     "end": 49.7,
+     "text": "También en GLSL ES y en C++."
+    },
+    {
+     "start": 50.18,
+     "end": 52.52,
+     "text": "WGSL, para WebGPU, llegará más adelante."
+    }
+   ]
+  },
+  {
+   "kind": "p",
+   "block": 5,
+   "text": "Si vienes de HLSL, escribes con los nombres de HLSL. Si vienes de GLSL, con los de GLSL. También están Metal, WGSL y SPIR-V. Eliges el que ya conoces, y el resultado es el mismo.",
+   "start": 53.51,
+   "end": 65.87,
+   "sentences": [
+    {
+     "start": 53.51,
+     "end": 57.05,
+     "text": "Si vienes de HLSL, escribes con los nombres de HLSL."
+    },
+    {
+     "start": 57.41,
+     "end": 59.73,
+     "text": "Si vienes de GLSL, con los de GLSL."
+    },
+    {
+     "start": 60.23,
+     "end": 62.97,
+     "text": "También están Metal, WGSL y SPIR-V."
+    },
+    {
+     "start": 63.61,
+     "end": 65.87,
+     "text": "Eliges el que ya conoces, y el resultado es el mismo."
+    }
+   ]
+  },
+  {
+   "kind": "p",
+   "block": 6,
+   "text": "Veamos qué se puede hacer. Un degradado, con tres líneas de cálculo. Un fractal de Mandelbrot, con un bucle que se repite en cada píxel. Un anillo de neón, que brilla según la distancia al centro. Un plasma que se mueve, sumando ondas que cambian con el tiempo. Y una foto bajo el agua, que se ondula y se tiñe de azul. Todo el código es C# normal.",
+   "start": 66.53,
+   "end": 86.45,
+   "sentences": [
+    {
+     "start": 66.53,
+     "end": 67.49,
+     "text": "Veamos qué se puede hacer."
+    },
+    {
+     "start": 68.11,
+     "end": 70.15,
+     "text": "Un degradado, con tres líneas de cálculo."
+    },
+    {
+     "start": 70.85,
+     "end": 73.77,
+     "text": "Un fractal de Mandelbrot, con un bucle que se repite en cada píxel."
+    },
+    {
+     "start": 74.55,
+     "end": 77.03,
+     "text": "Un anillo de neón, que brilla según la distancia al centro."
+    },
+    {
+     "start": 77.79,
+     "end": 80.75,
+     "text": "Un plasma que se mueve, sumando ondas que cambian con el tiempo."
+    },
+    {
+     "start": 81.53,
+     "end": 84.19,
+     "text": "Y una foto bajo el agua, que se ondula y se tiñe de azul."
+    },
+    {
+     "start": 84.73,
+     "end": 86.45,
+     "text": "Todo el código es C# normal."
+    }
+   ]
+  },
+  {
+   "kind": "p",
+   "block": 7,
+   "text": "Empezar toma tres comandos. Creas el manifiesto de herramientas, instalas el compilador desde NuGet y agregas el paquete a tu proyecto.",
+   "start": 87.35,
+   "end": 93.83,
+   "sentences": [
+    {
+     "start": 87.35,
+     "end": 88.53,
+     "text": "Empezar toma tres comandos."
+    },
+    {
+     "start": 88.89,
+     "end": 93.83,
+     "text": "Creas el manifiesto de herramientas, instalas el compilador desde NuGet y agregas el paquete a tu proyecto."
+    }
+   ]
+  },
+  {
+   "kind": "p",
+   "block": 8,
+   "text": "Con add, el compilador escribe el resultado dentro de tu proyecto. Aparece una función nueva para cada formato, y la llamas como cualquier método de C#. También agrega métodos para MonoGame, KNI y FNA. Le pasas el resultado a tu motor, y el shader aparece en tu juego.",
+   "start": 94.66,
+   "end": 110.74,
+   "sentences": [
+    {
+     "start": 94.66,
+     "end": 98.1,
+     "text": "Con add, el compilador escribe el resultado dentro de tu proyecto."
+    },
+    {
+     "start": 98.54,
+     "end": 103,
+     "text": "Aparece una función nueva para cada formato, y la llamas como cualquier método de C#."
+    },
+    {
+     "start": 103.7,
+     "end": 107.24,
+     "text": "También agrega métodos para MonoGame, KNI y FNA."
+    },
+    {
+     "start": 107.82,
+     "end": 110.74,
+     "text": "Le pasas el resultado a tu motor, y el shader aparece en tu juego."
+    }
+   ]
+  },
+  {
+   "kind": "p",
+   "block": 9,
+   "text": "Con compile, eliges una carpeta. El compilador deja ahí un archivo por cada formato que pidas, también los de Stride, Unity y Godot.",
+   "start": 111.32,
+   "end": 118.74,
+   "sentences": [
+    {
+     "start": 111.32,
+     "end": 112.96,
+     "text": "Con compile, eliges una carpeta."
+    },
+    {
+     "start": 113.4,
+     "end": 118.74,
+     "text": "El compilador deja ahí un archivo por cada formato que pidas, también los de Stride, Unity y Godot."
+    }
+   ]
+  },
+  {
+   "kind": "p",
+   "block": 10,
+   "text": "Y si escribes algo que la GPU no puede hacer, como leer archivos del disco con Directory, el compilador te avisa mientras escribes, en el mismo editor. Así no pierdes tiempo compilando y probando para saber si funciona.",
+   "start": 119.34,
+   "end": 130.6,
+   "sentences": [
+    {
+     "start": 119.34,
+     "end": 127.2,
+     "text": "Y si escribes algo que la GPU no puede hacer, como leer archivos del disco con Directory, el compilador te avisa mientras escribes, en el mismo editor."
+    },
+    {
+     "start": 127.76,
+     "end": 130.6,
+     "text": "Así no pierdes tiempo compilando y probando para saber si funciona."
+    }
+   ]
+  },
+  {
+   "kind": "p",
+   "block": 11,
+   "text": "Prueba el tutorial en yotsubashader.com.",
+   "start": 131.14,
+   "end": 133.14,
+   "sentences": [
+    {
+     "start": 131.14,
+     "end": 133.14,
+     "text": "Prueba el tutorial en yotsubashader.com."
+    }
+   ]
+  }
+ ]
+}
