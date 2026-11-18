@@ -33,6 +33,7 @@ jobs:
           ref: main
           submodules: recursive
           sparse-checkout: |
+            build
             YotsubaShader.Language
             YotsubaShader.Concepts
             YotsubaShader.GlslSyntax
