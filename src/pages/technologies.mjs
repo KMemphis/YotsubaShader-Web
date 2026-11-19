@@ -19,14 +19,14 @@ export default function technologies(ctx) {
 </section>
 <section class="section">
   <div class="container"><div class="grid grid-2">
-    ${cardLink({ href: '/technologies/language/', icon: 'braces', title: 'Language', body: 'Declare shader stages, inputs, outputs, and resources in C#.' })}
-    ${cardLink({ href: '/technologies/compilation/', icon: 'layers', title: 'Compilation process', body: 'Follow C# through Yotsuba Shader, SPIR-V, and ShaderCross to the output formats.' })}
+    ${cardLink({ href: '__LEARN__/get-started/', icon: 'braces', title: 'Language', body: 'Declare shader stages, inputs, outputs, and resources in C#.' })}
+    ${cardLink({ href: '__LEARN__/reference/compile/', icon: 'layers', title: 'Compilation process', body: 'Follow C# through Yotsuba Shader, SPIR-V, and ShaderCross to the output formats.' })}
   </div></div>
 </section>`,
   };
 
   const language = {
-    path: '/technologies/language/',
+    path: '__LEARN__/get-started/',
     section: 'technologies',
     title: 'Language',
     description: 'Write C# shaders with HLSL-style stages, inputs, outputs, resources, and compatible project types.',
@@ -58,7 +58,7 @@ ${table(['Attribute', 'Purpose'], [
 </div></section>
 <section class="section"><div class="container"><div class="language-example">
 <div><h2 class="h-lg">Declare what your application provides.</h2><p>Use <code>cbuffer</code> for uniform data and <code>register</code> to identify resource slots. The register prefix distinguishes constant buffers (<code>b</code>), textures (<code>t</code>), samplers (<code>s</code>), and writable resources (<code>u</code>).</p><p>These are resource declarations. Your engine creates and binds the actual GPU resources. The current metadata types do not provide a texture sampling method or a complete runtime binding system, although the compiler can process the supported declarations and shader bodies.</p>
-<a class="compilation-text-link" href="/documentation/yotsuba-shader/uniforms-and-storage-buffers/">Read about resources and bindings →</a></div><div>${code('csharp', `using YotsubaShader.HlslSyntax.Resources;
+<a class="compilation-text-link" href="__LEARN__/get-started/">Read about resources and bindings →</a></div><div>${code('csharp', `using YotsubaShader.HlslSyntax.Resources;
 using YotsubaShader.HlslSyntax.Resources.Types;
 
 public struct MaterialData
@@ -80,7 +80,7 @@ public class SurfaceResources
 }`, 'SurfaceResources.cs')}</div></div></div></section>
 <section class="section language-surface"><div class="container"><div class="language-example">
 <div><h2 class="h-lg">Keep compatible types from your project.</h2><p>A C# struct can describe a native shader vector when its type and components carry the corresponding annotations. This makes the mapping explicit without relying on the type name.</p><p>Annotate types you own. Importing a third-party namespace does not add metadata to its types. You can share declarations as NuGet libraries, while GPU compilation of arbitrary library methods remains unfinished.</p>
-<a class="compilation-text-link" href="/documentation/yotsuba-shader/reusing-your-types-and-libraries/">Learn how to map your types →</a></div><div>${code('csharp', `using YotsubaShader.Language.Native.Types.Vector;
+<a class="compilation-text-link" href="__LEARN__/get-started/">Learn how to map your types →</a></div><div>${code('csharp', `using YotsubaShader.Language.Native.Types.Vector;
 
 [Vector]
 public struct Float2
@@ -109,9 +109,9 @@ public class ComputeShader
 <section class="section language-surface"><div class="container">
 <h2 class="h-lg">Start with HLSL. Explore other vocabularies when you need them.</h2><p>The syntax controls the attribute names you write. It does not select the output graphics API. WGSL-inspired authoring attributes already exist; generating WGSL output is planned for 2027.</p>
 <div class="language-vocabularies">${Object.entries(SYNTAX_META).map(([id, meta]) => `<a class="btn btn-secondary" href="/syntaxes/${id}/">${meta.label}</a>`).join('')}</div>
-<p class="mt-32"><a class="compilation-text-link" href="/technologies/compilation/">See how the shader is compiled →</a></p>
+<p class="mt-32"><a class="compilation-text-link" href="__LEARN__/reference/compile/">See how the shader is compiled →</a></p>
 </div></section>`,
   };
 
-  return [overview, language];
+  return [overview];
 }

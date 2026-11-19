@@ -27,7 +27,7 @@ El visor es un programa de unas 70 líneas que hace tres cosas:
 Fíjate en una cosa: el visor **no forma parte de tu shader**. Tus shaders siguen en `MisShaders`, sin saber nada de ventanas. El visor es solo una herramienta de trabajo, como un banco para probar piezas. Para abrir la ventana usamos {{engine}} porque es corto y funciona igual en Windows, Mac y Linux. Cuando quieras llevar tus shaders a tu juego, usarás la misma librería con el motor que prefieras.
 
 > [!NOTE]
-> No hace falta que entiendas cada línea del visor para seguir. Si te da curiosidad, la guía de [{{engine}}](../reference/{{plugin}}.md) explica una por una las partes que aquí solo mencionamos.
+> No hace falta que entiendas cada línea del visor para seguir. Si te da curiosidad, la guía de [{{engine}}](../engines/{{plugin}}-reference.md) explica una por una las partes que aquí solo mencionamos.
 
 ## Paso 1: crea el proyecto
 
@@ -313,7 +313,7 @@ Los dos últimos pasos caben en una línea, unidos por `&&` (que significa "y si
 dotnet yotsuba add MisShaders/MisShaders.csproj --target spirv --target {{plugin}} && dotnet run --project Visor -- Degradado
 ```
 
-Hay algo nuevo en el comando: `--target {{plugin}}`. El visor carga tu shader con `{{toMethod}}`, y ese método no lo genera la CLI sola: viene del **plugin de {{engine}}**. Con ese `--target` lo pides. La primera vez la CLI descarga el plugin (necesita internet solo esa vez) y desde entonces usa la copia que guardó. La [guía de {{engine}}](../reference/{{plugin}}.md) explica qué es el plugin y qué produce.
+Hay algo nuevo en el comando: `--target {{plugin}}`. El visor carga tu shader con `{{toMethod}}`, y ese método no lo genera la CLI sola: viene del **plugin de {{engine}}**. Con ese `--target` lo pides. La primera vez la CLI descarga el plugin (necesita internet solo esa vez) y desde entonces usa la copia que guardó. La [guía de {{engine}}](../engines/{{plugin}}-reference.md) explica qué es el plugin y qué produce.
 
 Pruébalo ahora con tu primer experimento. Abre `MisShaders/Degradado.cs` y busca esta línea en `Fragment`:
 

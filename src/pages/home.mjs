@@ -34,6 +34,19 @@ const home = {
   <hr class="hero-rule">
 </section>
 
+<section class="section engines-home" id="engines" aria-labelledby="engines-home-title">
+  <div class="container">
+    <div class="center">
+      <p class="eyebrow">ENGINES AND FRAMEWORKS</p>
+      <h2 class="h-lg" id="engines-home-title">Write the shader once. Use it in your engine.</h2>
+      <p class="lead">Guides and reference for MonoGame, KNI, FNA and Godot.</p>
+    </div>
+    <ul class="engine-strip">
+      ${[['monogame', 'MonoGame', 'png'], ['kni', 'KNI', 'png'], ['fna', 'FNA', 'png'], ['godot', 'Godot', 'svg']].map(([id, name, ext]) => `<li><a href="__LEARN__/engines/${id}-reference/"><img src="/img/engines/${id}.${ext}" alt="" width="48" height="48"><span>${name}</span></a></li>`).join('')}
+    </ul>
+  </div>
+</section>
+
 <section class="section stages-home" id="shader-stages" aria-labelledby="stages-home-title">
   <div class="container">
     <div class="center stages-home-header">
@@ -95,7 +108,7 @@ const home = {
       <p class="lead">Yotsuba Shader includes five C# libraries that reproduce the vocabulary of HLSL, GLSL, MSL, SPIR-V and WGSL. Use the familiar names for attributes, types and resources; the compiler resolves them to the same semantic model and lowers supported declarations to the available outputs. WGSL output remains planned.</p>
     </div>
     ${styleTabs(STYLE_TRIANGLE)}
-    <p class="center"><a class="link-more" href="/documentation/yotsuba-shader/choosing-a-syntax/">Choosing a syntax ${icon('chevron-right')}</a></p>
+    <p class="center"><a class="link-more" href="__LEARN__/reference/">Choosing a syntax ${icon('chevron-right')}</a></p>
   </div>
 </section>
 
@@ -110,7 +123,7 @@ const home = {
         <li>${icon('check')}<span>Build shaders on external libraries and NuGet packages</span></li>
         <li>${icon('check')}<span>One codebase for CPU and GPU: the same types on both sides</span></li>
       </ul>
-      <p class="mt-24"><a class="link-more" href="/documentation/yotsuba-shader/reusing-your-types-and-libraries/">Reusing your types and libraries ${icon('chevron-right')}</a></p>
+      <p class="mt-24"><a class="link-more" href="__LEARN__/get-started/">Reusing your types and libraries ${icon('chevron-right')}</a></p>
     </div>
     <div>${code('csharp', `// Your own type, as a GPU vector
 [Vector]
@@ -136,7 +149,7 @@ public VertexOutput Vertex(
       <p class="lead">The current CLI turns one supported C# shader into SPIR-V, HLSL, GLSL, GLSL ES, MSL and C++. The <code>compile</code> command writes target files to an output directory, while <code>add</code> writes a readable <code>YotsubaShader.g.cs</code> accessor file beside the project. WGSL remains on the roadmap.</p>
     </div>
     ${flowDiagram()}
-    <p class="center mt-24"><a class="link-more" href="/documentation/yotsuba-shader/generating-shader-binaries/">Explore the current compilation status ${icon('chevron-right')}</a></p>
+    <p class="center mt-24"><a class="link-more" href="__LEARN__/reference/compile/">Explore the current compilation status ${icon('chevron-right')}</a></p>
   </div>
 </section>
 
@@ -146,7 +159,7 @@ public VertexOutput Vertex(
       <p class="eyebrow"><span class="badge badge--plain">Available now</span></p>
       <h2 class="h-lg">Generate accessors from the <code>.csproj</code>.</h2>
       <p>A project build can invoke the CLI <code>add</code> command and generate <code>YotsubaShader.g.cs</code> beside the project. The file contains the compiled SPIR-V bytes and readable HLSL, GLSL, GLSL ES, and MSL accessors for each discovered shader stage.</p>
-      <p class="mt-24"><a class="link-more" href="/documentation/yotsuba-shader/generating-shader-binaries/">Read the current build workflow ${icon('chevron-right')}</a></p>
+      <p class="mt-24"><a class="link-more" href="__LEARN__/reference/compile/">Read the current build workflow ${icon('chevron-right')}</a></p>
     </div>
     <div>${code('xml', `<Target Name="GenerateYotsubaShaderAccessors"
         AfterTargets="Build">
@@ -167,7 +180,7 @@ public VertexOutput Vertex(
         <li>${icon('check')}<span>Uniforms, storage buffers, textures and samplers with explicit bindings</span></li>
         <li>${icon('check')}<span>Planned compatibility checks for each selected backend</span></li>
       </ul>
-      <p class="mt-24"><a class="link-more" href="/documentation/yotsuba-shader/shader-diagnostics-in-your-ide/">Read the current validation status ${icon('chevron-right')}</a></p>
+      <p class="mt-24"><a class="link-more" href="__LEARN__/reference/compile/">Read the current validation status ${icon('chevron-right')}</a></p>
     </div>
     <div>${code('csharp', `using Microsoft.Xna.Framework;
 using YotsubaShader.HlslSyntax;
@@ -196,10 +209,10 @@ public sealed class Material
       <h2 class="h-lg">Everything a shader needs, in C#.</h2>
     </div>
     <div class="grid grid-4">
-      ${cardLink({ href: '/documentation/yotsuba-shader/shader-stages/', icon: 'layers', title: 'Stages', body: 'Vertex, fragment and compute entry points with [ShaderStage].' })}
-      ${cardLink({ href: '/documentation/yotsuba-shader/interface-slots-and-locations/', icon: 'list', title: 'Interfaces', body: 'Locations and built-in values across stage boundaries.' })}
-      ${cardLink({ href: '/documentation/yotsuba-shader/uniforms-and-storage-buffers/', icon: 'box', title: 'Resources', body: 'Uniforms, storage buffers, textures and samplers.' })}
-      ${cardLink({ href: '/documentation/yotsuba-shader/vectors-matrices-and-arrays/', icon: 'code', title: 'Native types', body: 'Scalars, vectors, matrices, arrays and structs.' })}
+      ${cardLink({ href: '__LEARN__/get-started/', icon: 'layers', title: 'Stages', body: 'Vertex, fragment and compute entry points with [ShaderStage].' })}
+      ${cardLink({ href: '__LEARN__/get-started/', icon: 'list', title: 'Interfaces', body: 'Locations and built-in values across stage boundaries.' })}
+      ${cardLink({ href: '__LEARN__/get-started/', icon: 'box', title: 'Resources', body: 'Uniforms, storage buffers, textures and samplers.' })}
+      ${cardLink({ href: '__LEARN__/get-started/', icon: 'code', title: 'Native types', body: 'Scalars, vectors, matrices, arrays and structs.' })}
     </div>
   </div>
 </section>
@@ -320,56 +333,56 @@ ${entry(
   'Shader errors in your IDE',
   'Live shader diagnostics and per-backend checks are planned. Current C# diagnostics are available through the playground.',
   `<p>The repository does not yet implement <code>YotsubaTargets</code> or a backend compatibility analyzer. See the documentation for the current API and planned workflows.</p>`,
-  ['Shader diagnostics in your IDE', '/documentation/yotsuba-shader/shader-diagnostics-in-your-ide/'],
+  ['Shader diagnostics in your IDE', '__LEARN__/reference/compile/'],
 )}
 
 ${entry(
   'One package per syntax',
   'The HLSL, GLSL, MSL, SPIR-V and WGSL vocabularies are now separate packages: <code>YotsubaShader.HlslSyntax</code>, <code>YotsubaShader.GlslSyntax</code>, <code>YotsubaShader.MslSyntax</code>, <code>YotsubaShader.SpirvSyntax</code> and <code>YotsubaShader.WgslSyntax</code>.',
   `<p>Use <code>YotsubaShader.HlslSyntax</code> for HLSL attributes and <code>YotsubaShader.HlslSyntax.Resources</code> for resources. The numbered <code>Location</code> attribute belongs to <code>YotsubaShader.SpirvSyntax</code>. These are source projects; published NuGet availability is not established here.</p>`,
-  ['Choosing a syntax', '/documentation/yotsuba-shader/choosing-a-syntax/'],
+  ['Choosing a syntax', '__LEARN__/reference/'],
 )}
 
 ${entry(
   'Do more with five syntaxes',
   'The HLSL, GLSL, MSL, SPIR-V and WGSL syntaxes now share the same semantic model. Choose the names your team knows; the compiler resolves them to the same IR built-ins.',
   `<p>The frontend maps <code>SV_Position</code>, <code>gl_Position</code>, <code>position</code>, <code>BuiltIn_Position</code> and <code>@builtin_position</code> to the same position slot, and does the same for the vertex index. Interface slots declared with <code>[Location(n)]</code> work in every syntax.</p>`,
-  ['Choosing a syntax', '/documentation/yotsuba-shader/choosing-a-syntax/'],
+  ['Choosing a syntax', '__LEARN__/reference/'],
 )}
 
 ${entry(
   'Textures and samplers in the language',
   'Describe a texture precisely: dimension, component type, usage, depth, format, arrays and multisampling. Samplers get their own attribute.',
   `<p><code>TextureAttribute</code> takes a <code>TextureDimension</code> (<code>D1</code>, <code>D2</code>, <code>D3</code>, <code>Cube</code>) and <code>TextureComponentTypes</code> (<code>Float</code>, <code>Int</code>, <code>Uint</code>), with optional <code>Usage</code>, <code>Depth</code>, <code>Format</code>, <code>Arrayed</code> and <code>Multisampled</code> settings. The IR carries the same fields so each backend can lower them faithfully.</p>`,
-  ['Textures and samplers', '/documentation/yotsuba-shader/textures-and-samplers/'],
+  ['Textures and samplers', '__LEARN__/get-started/'],
 )}
 
 ${entry(
   'Roslyn-based shader discovery',
   'The frontend finds your shaders by symbol, not by text, so aliases, <code>using</code> directives and long or short attribute names all just work.',
   `<p><code>ShaderDiscovery.Find</code> walks the types of your project, returns each class with its entry points in declaration order, and exposes parameters and return types to the rest of the compiler. A test suite covers discovery and analysis.</p>`,
-  ['Compilation process', '/technologies/compilation/'],
+  ['Compilation process', '__LEARN__/reference/compile/'],
 )}
 
 ${entry(
   'Resource attributes for every syntax',
   'Uniform buffers, storage buffers, textures, samplers and binding slots are available in each syntax.',
   `<p>Each syntax has its own resource attributes. SPIR-V uses separate <code>DescriptorSet(n)</code> and <code>Binding(n)</code>; its <code>StorageBuffer</code> marker has no access-mode property.</p>`,
-  ['Uniforms and storage buffers', '/documentation/yotsuba-shader/uniforms-and-storage-buffers/'],
+  ['Uniforms and storage buffers', '__LEARN__/get-started/'],
 )}
 
 ${entry(
   'Stricter vector and matrix declarations',
   'Vector types declare their components with attributes, and invalid declarations fail with clear exceptions.',
   `<p>Mixing component types in one vector throws <code>InconsistentVectorComponentTypeException</code>; an unsupported component type throws <code>VectorComponentTypeNotValidException</code>. Matrices declare columns with <code>[MatrixColumn]</code>.</p>`,
-  ['Vectors, matrices and arrays', '/documentation/yotsuba-shader/vectors-matrices-and-arrays/'],
+  ['Vectors, matrices and arrays', '__LEARN__/get-started/'],
 )}
 
 ${entry(
   'SPIR-V 1.6 module construction',
   'SPIR-V is an intermediate format used inside the compilation pipeline; shader authors do not need to construct its modules manually.',
   `<p>The operation table is generated from the official Khronos grammar, so every instruction, capability, execution model and decoration is available as a typed value.</p>`,
-  ['Compilation process', '/technologies/compilation/'],
+  ['Compilation process', '__LEARN__/reference/compile/'],
 )}
 
 ${entry(
@@ -404,15 +417,15 @@ const resources = {
     <h2 class="h-md">Project</h2>
     <div class="grid grid-3 mt-24">
       ${res('GitHub repository', 'Source code, issues and the README with the full authoring examples.', SITE.repo)}
-      ${res('Documentation', 'Articles and reference for the language, the compiler and the intermediate representation.', '/documentation/')}
+      ${res('Documentation', 'Articles and reference for the language, the compiler and the intermediate representation.', '__LEARN__/reference/')}
       ${res('Get started', 'Install the SDK, build the solution and read your first shader.', '/get-started/')}
     </div>
 
     <h2 class="h-md" style="margin-top:56px">Guides</h2>
     <div class="grid grid-3 mt-24">
-      ${res('Types for engines and frameworks', 'Current type annotations and integration limits.', '/documentation/yotsuba-shader/types-for-engines-and-frameworks/')}
-      ${res('Current attribute reference', 'Attribute declarations read from the current source projects.', '/documentation/yotsuba-shader/builtin-values-across-syntaxes/')}
-      ${res('Current validation status', 'Implemented checks and planned backend diagnostics.', '/documentation/yotsuba-shader/shader-diagnostics-in-your-ide/')}
+      ${res('Types for engines and frameworks', 'Current type annotations and integration limits.', '__LEARN__/engines/')}
+      ${res('Current attribute reference', 'Attribute declarations read from the current source projects.', '__LEARN__/reference/')}
+      ${res('Current validation status', 'Implemented checks and planned backend diagnostics.', '__LEARN__/reference/compile/')}
     </div>
 
     <h2 class="h-md" style="margin-top:56px">Specifications</h2>

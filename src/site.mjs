@@ -1,6 +1,9 @@
 // Site-wide configuration: navigation, sections and sub-navigation.
 // Every entry below is a separate URL (no in-page "scroll to section" links).
 
+/** Documentation lives in its own site; pages write `__LEARN__/reference/…` and the build adds the language. */
+export const LEARN_URL = 'https://learn.yotsubashader.com';
+
 export const SITE = {
   name: 'Yotsuba Shader',
   tagline: 'Write shaders in C#. Compile for the backend you choose.',
@@ -25,7 +28,7 @@ export const NAV = [
   { id: 'syntaxes', label: 'Syntaxes', href: '/syntaxes/' },
   { id: 'playground', label: 'Playground', href: '/playground/' },
   { id: 'community', label: 'Community', href: '/community/' },
-  { id: 'documentation', label: 'Documentation', href: '/documentation/' },
+  { id: 'documentation', label: 'Documentation', href: '__LEARN__/reference/' },
 ];
 
 export const DONATIONS = { id: 'donations', label: 'Donations', href: '/donations/' };
@@ -71,8 +74,6 @@ export const SECTIONS = {
     href: '/technologies/',
     sub: [
       ['Overview', '/technologies/'],
-      ['Language', '/technologies/language/'],
-      ['Compilation process', '/technologies/compilation/'],
     ],
   },
   community: {

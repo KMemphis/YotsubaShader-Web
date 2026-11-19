@@ -179,7 +179,7 @@ export default function syntaxes(ctx) {
           }),
         )
         .join('')}
-      ${cardLink({ href: '/documentation/yotsuba-shader/builtin-values-across-syntaxes/', icon: 'list', title: 'Side-by-side reference', body: 'Every built-in value in all five syntaxes in one table.' })}
+      ${cardLink({ href: '__LEARN__/reference/', icon: 'list', title: 'Side-by-side reference', body: 'Every built-in value in all five syntaxes in one table.' })}
     </div>
   </div>
 </section>
@@ -188,7 +188,7 @@ export default function syntaxes(ctx) {
   <div class="container">
     <h2 class="h-lg center">The same concept, five spellings</h2>
     <div class="mt-48">${styleTabs(BUILTINS)}</div>
-    <p class="center"><a class="link-more" href="/documentation/yotsuba-shader/builtin-values-across-syntaxes/">Full built-in reference ${icon('chevron-right')}</a></p>
+    <p class="center"><a class="link-more" href="__LEARN__/reference/">Full built-in reference ${icon('chevron-right')}</a></p>
   </div>
 </section>`,
   };
@@ -223,7 +223,7 @@ export default function syntaxes(ctx) {
     <h2>Resources</h2>
     ${code('csharp', resourcesCode(id), 'Resources.cs')}
     ${note('note', 'The syntax never determines the output target. Every syntax resolves to the same IR slots.')}
-    <p><a class="link-more" href="/documentation/yotsuba-shader/${id}-syntax-attributes/">All ${m.name} attributes ${icon('chevron-right')}</a></p>
+    <p><a class="link-more" href="__LEARN__/reference/${id}/">All ${m.name} attributes ${icon('chevron-right')}</a></p>
     <p>Other syntaxes: ${Object.entries(SYNTAX_META)
       .filter(([o]) => o !== id)
       .map(([o, mm]) => `<a href="/syntaxes/${o}/">${mm.name}</a>`)

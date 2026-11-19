@@ -1,8 +1,8 @@
 # Yotsuba Shader website
 
 Static website for Yotsuba Shader, modelled on the Apple Developer site: a thin global bar, a
-sub-navigation strip per section, and a documentation viewer with a collapsible tree, filter and
-"On this page" outline. **Every navigation entry is its own URL**; nothing relies on in-page scrolling.
+sub-navigation strip per section. **Every navigation entry is its own URL**; nothing relies on in-page scrolling.
+The documentation is not part of this site: it lives at https://learn.yotsubashader.com (`learn/`).
 
 | Section | URL | Sub-pages |
 | --- | --- | --- |
@@ -11,7 +11,7 @@ sub-navigation strip per section, and a documentation viewer with a collapsible 
 | Styles | `/styles/` | `hlsl/`, `glsl/`, `metal/`, `vulkan/`, `wgsl/` |
 | Technologies | `/technologies/` | `language/`, `compiler/`, `intermediate-representation/`, `spir-v/` |
 | Community | `/community/` | `contributing/`, `licensing/` |
-| Documentation | `/documentation/` | `yotsuba-shader/` + 23 articles |
+| Documentation | https://learn.yotsubashader.com/en/reference/ | 8 pages (5 syntaxes, `compile`, `add`, plugins), in `learn/` |
 | Donations | `/donations/` | `sponsors/` |
 
 ## Run it
@@ -33,13 +33,12 @@ The build fails if any internal link is broken.
 ```
 build.mjs                 generator (pages -> dist, search index, link check, dev server)
 src/site.mjs              navigation and sub-navigation
-src/layout.mjs            global bar, sub-nav, footer, docs layout
+src/layout.mjs            global bar, sub-nav, footer
 src/components.mjs        icons, code blocks, tabs, tables, callouts, cards
 src/highlight.mjs         build-time C# / bash / SPIR-V syntax highlighting
 src/snippets.mjs          code samples shared by several pages (mirror the README)
 src/reference.mjs         reads ../Core/Syntax/YotsubaShader.*Syntax (read-only; paths in src/repo-paths.mjs) to generate attribute reference
 src/pages/*.mjs           the marketing pages
-src/docs/*.mjs            documentation tree and articles
 src/i18n/                 translation engine (index.mjs) and dictionaries (es/*.json)
 src/static/               css, js and images copied as-is
 ```
@@ -47,12 +46,12 @@ src/static/               css, js and images copied as-is
 - **Add a page:** add an object `{ path, section, title, description, body }` to a file in
   `src/pages/` (the path is the URL). Add it to `SECTIONS` in `src/site.mjs` if it should appear in a
   sub-navigation strip.
-- **Add a documentation article:** add `{ slug, title, kind, icon, summary, body }` to
-  `src/docs/essentials.mjs` or `src/docs/compiler.mjs`, then list its slug in the tree in
-  `src/docs/docs.mjs`. `<h2>` headings get anchors and the outline automatically.
-- **Attribute reference pages** are generated from the attribute files in
-  `Core/Representations/YotsubaShader.Language/StylesAttributes`, so they track the source. The cross-style tables in
-  `src/reference.mjs` are curated by hand; update them when attributes are added.
+- **Link to the documentation:** write `__LEARN__/reference/<page>/` in an `href`; the build turns it into
+  `https://learn.yotsubashader.com/<lang>/reference/<page>/` for each language. Old `/documentation/...` addresses are
+  redirect pages (`DOC_REDIRECTS` in `build.mjs`).
+- **Attribute reference:** `src/reference.mjs` still reads the `YotsubaShader.*Syntax` projects for the Syntaxes pages, and
+  `learn/tools/gen-syntax-reference.mjs` uses it to write the five syntax pages of the documentation. The cross-syntax
+  tables in `src/reference.mjs` are curated by hand; update them when attributes are added.
 - Visitors can pick an authoring style (HLSL, GLSL, Metal, Vulkan, WGSL) once; every code tab on
   the site follows it (stored in `localStorage`).
 - Search (`Ctrl/⌘ K`) uses `dist/search-index.js`, built from the page text.

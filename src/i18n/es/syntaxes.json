@@ -16,7 +16,6 @@
  "The same shader": "El mismo shader",
  "Common built-ins": "Valores integrados comunes",
  "Attribute": "Atributo",
- "Resource attributes": "Atributos de recursos",
  "Teams coming from OpenGL and Vulkan GLSL. Inspired by GLSL (OpenGL / Vulkan GLSL).": "Equipos que vienen de OpenGL y GLSL de Vulkan. Inspirado en GLSL (OpenGL / GLSL de Vulkan).",
  "The <code>gl_*</code> built-ins (<code>gl_Position</code>, <code>gl_VertexIndex</code>, <code>gl_GlobalInvocationID</code>) and <code>layout(set, binding)</code> carry over directly.": "Los valores integrados <code>gl_*</code> (<code>gl_Position</code>, <code>gl_VertexIndex</code>, <code>gl_GlobalInvocationID</code>) y <code>layout(set, binding)</code> se trasladan directamente.",
  "Workgroup size is <code>[layout_local_size(x, y, z)]</code>. Some attributes carry extension suffixes, such as <code>gl_BaryCoordEXT</code> and <code>gl_FragStencilRefARB</code>.": "El tamaño del workgroup es <code>[layout_local_size(x, y, z)]</code>. Algunos atributos llevan sufijos de extensión, como <code>gl_BaryCoordEXT</code> y <code>gl_FragStencilRefARB</code>.",
@@ -61,6 +60,5 @@
  "The attributes of the WGSL syntax in Yotsuba Shader, inspired by WGSL (WebGPU).": "Los atributos de la sintaxis WGSL en Yotsuba Shader, inspirada en WGSL (WebGPU).",
  "Package and namespace <code>YotsubaShader.WgslSyntax</code> · 24 attributes": "Paquete y namespace <code>YotsubaShader.WgslSyntax</code> · 24 atributos",
  "All WGSL syntax attributes": "Todos los atributos de la sintaxis WGSL",
- "Other syntaxes: <a href=\"/syntaxes/hlsl/\">HLSL syntax</a> · <a href=\"/syntaxes/glsl/\">GLSL syntax</a> · <a href=\"/syntaxes/msl/\">MSL syntax</a> · <a href=\"/syntaxes/spirv/\">SPIR-V syntax</a>": "Otras sintaxis: <a href=\"/syntaxes/hlsl/\">sintaxis HLSL</a> · <a href=\"/syntaxes/glsl/\">sintaxis GLSL</a> · <a href=\"/syntaxes/msl/\">sintaxis MSL</a> · <a href=\"/syntaxes/spirv/\">sintaxis SPIR-V</a>",
- "Syntax for code samples": "Sintaxis de los ejemplos de código"
+ "Other syntaxes: <a href=\"/syntaxes/hlsl/\">HLSL syntax</a> · <a href=\"/syntaxes/glsl/\">GLSL syntax</a> · <a href=\"/syntaxes/msl/\">MSL syntax</a> · <a href=\"/syntaxes/spirv/\">SPIR-V syntax</a>": "Otras sintaxis: <a href=\"/syntaxes/hlsl/\">sintaxis HLSL</a> · <a href=\"/syntaxes/glsl/\">sintaxis GLSL</a> · <a href=\"/syntaxes/msl/\">sintaxis MSL</a> · <a href=\"/syntaxes/spirv/\">sintaxis SPIR-V</a>"
 }

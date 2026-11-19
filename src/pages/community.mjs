@@ -165,7 +165,7 @@ const donations = {
         <span class="card-body">Keeping the output correct for SPIR-V, HLSL, MSL, WGSL, GLSL and GLSL ES as the tools and drivers around it change.</span>
         <span class="card-more">See the technologies ${icon('external')}</span>
       </a>
-      <a class="card card--link" href="/documentation/">
+      <a class="card card--link" href="__LEARN__/reference/">
         <span class="card-icon">${icon('book')}</span>
         <span class="card-title">Documentation that teaches</span>
         <span class="card-body">Tutorials with C# examples, in English and Spanish, kept in step with the code.</span>

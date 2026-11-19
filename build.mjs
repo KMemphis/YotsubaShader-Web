@@ -14,18 +14,16 @@ import http from 'node:http';
 import { fileURLToPath } from 'node:url';
 import { spawnSync } from 'node:child_process';
 
-import { renderPage, renderDoc, relativize } from './src/layout.mjs';
+import { renderPage, relativize } from './src/layout.mjs';
 import { scanSyntaxes, SYNTAX_META } from './src/reference.mjs';
 import { repoPath } from './src/repo-paths.mjs';
-import { SECTIONS, SITE } from './src/site.mjs';
+import { SECTIONS, SITE, LEARN_URL } from './src/site.mjs';
 import { LOCALES, localePath, localizeHtml, translateText, i18nReport } from './src/i18n/index.mjs';
-import buildDocs from './src/docs/docs.mjs';
 
 import homePages from './src/pages/home.mjs';
 import getStarted from './src/pages/get-started.mjs';
 import syntaxes from './src/pages/syntaxes.mjs';
 import technologies from './src/pages/technologies.mjs';
-import compilation from './src/pages/compilation.mjs';
 import community from './src/pages/community.mjs';
 import playground from './src/pages/playground.mjs';
 
@@ -89,32 +87,51 @@ function copyDir(src, dest) {
 
 /* --------------------------------------------------------------- redirects */
 // Pages renamed when the authoring "styles" became the YotsubaShader.<X>Syntax packages.
-const DOC = '/documentation/yotsuba-shader/';
 const REDIRECTS = {
-  '/technologies/spir-v/': '/technologies/compilation/',
-  '/technologies/compiler/': '/technologies/compilation/',
-  '/technologies/intermediate-representation/': '/technologies/compilation/',
-  [`${DOC}shader-discovery/`]: '/technologies/compilation/',
-  [`${DOC}intermediate-representation/`]: '/technologies/compilation/',
-  [`${DOC}building-spirv-modules/`]: '/technologies/compilation/',
-  [`${DOC}spirv-operation-generator/`]: '/technologies/compilation/',
-  [`${DOC}repository-architecture/`]: '/technologies/compilation/',
-
   '/styles/': '/syntaxes/',
   '/styles/hlsl/': '/syntaxes/hlsl/',
   '/styles/glsl/': '/syntaxes/glsl/',
   '/styles/metal/': '/syntaxes/msl/',
   '/styles/vulkan/': '/syntaxes/spirv/',
   '/styles/wgsl/': '/syntaxes/wgsl/',
-  [`${DOC}choosing-an-authoring-style/`]: `${DOC}choosing-a-syntax/`,
-  [`${DOC}builtin-values-across-styles/`]: `${DOC}builtin-values-across-syntaxes/`,
-  [`${DOC}resource-attributes-across-styles/`]: `${DOC}resource-attributes-across-syntaxes/`,
-  [`${DOC}hlsl-style-attributes/`]: `${DOC}hlsl-syntax-attributes/`,
-  [`${DOC}glsl-style-attributes/`]: `${DOC}glsl-syntax-attributes/`,
-  [`${DOC}metal-style-attributes/`]: `${DOC}msl-syntax-attributes/`,
-  [`${DOC}vulkan-style-attributes/`]: `${DOC}spirv-syntax-attributes/`,
-  [`${DOC}wgsl-style-attributes/`]: `${DOC}wgsl-syntax-attributes/`,
 };
+
+// The documentation now lives at learn.yotsubashader.com. Every old address sends the visitor to the closest page there.
+const DOC_REDIRECTS = { '/technologies/language/': 'get-started/', '/technologies/compilation/': 'reference/compile/', '/technologies/spir-v/': 'reference/compile/', '/technologies/compiler/': 'reference/compile/', '/technologies/intermediate-representation/': 'reference/compile/', '/documentation/': 'reference/', '/documentation/yotsuba-shader/': 'reference/', ...legacyDocRedirects() };
+
+function legacyDocRedirects() {
+  const where = {
+    'reference/compile/': ['generating-shader-binaries', 'shader-diagnostics-in-your-ide', 'compilation-pipeline', 'transpiling-spirv', 'shader-discovery', 'intermediate-representation', 'building-spirv-modules', 'spirv-operation-generator', 'repository-architecture'],
+    'engines/': ['types-for-engines-and-frameworks', 'shader-parameters-for-your-engine', 'using-shaders-in-your-game'],
+    'get-started/': ['understanding-yotsuba-shader', 'writing-your-first-shader', 'reusing-your-types-and-libraries', 'shader-stages', 'interface-slots-and-locations', 'uniforms-and-storage-buffers', 'textures-and-samplers', 'vectors-matrices-and-arrays'],
+    'reference/': ['choosing-a-syntax', 'choosing-an-authoring-style', 'builtin-values-across-syntaxes', 'builtin-values-across-styles', 'resource-attributes-across-syntaxes', 'resource-attributes-across-styles', 'licensing'],
+    'reference/hlsl/': ['hlsl-syntax-attributes', 'hlsl-style-attributes'],
+    'reference/glsl/': ['glsl-syntax-attributes', 'glsl-style-attributes'],
+    'reference/msl/': ['msl-syntax-attributes', 'metal-style-attributes'],
+    'reference/spirv/': ['spirv-syntax-attributes', 'vulkan-style-attributes'],
+    'reference/wgsl/': ['wgsl-syntax-attributes', 'wgsl-style-attributes'],
+  };
+  const out = {};
+  for (const [target, slugs] of Object.entries(where)) for (const slug of slugs) out[`/documentation/yotsuba-shader/${slug}/`] = target;
+  return out;
+}
+
+/** Redirect to another site (the documentation). */
+function externalRedirectPage(url) {
+  return `<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>${SITE.name}</title>
+<meta name="robots" content="noindex">
+<link rel="canonical" href="${url}">
+<meta http-equiv="refresh" content="0; url=${url}">
+<script>location.replace(${JSON.stringify(url)} + location.hash);</script>
+</head>
+<body><p><a href="${url}">${url}</a></p></body>
+</html>
+`;
+}
 
 function redirectPage(oldPath, newPath, locale) {
   const depth = oldPath.split('/').filter(Boolean).length;
@@ -146,17 +163,14 @@ function build() {
   const ctx = { syntaxes: scanSyntaxes(REPO_DIR) };
 
   const resolve = (mod) => (typeof mod === 'function' ? mod(ctx) : mod);
-  const docs = buildDocs(ctx);
 
   const pages = [
     ...resolve(homePages),
     ...resolve(getStarted),
     ...resolve(syntaxes),
     ...resolve(technologies),
-    ...resolve(compilation),
     ...resolve(community),
     ...resolve(playground),
-    docs.hub,
   ];
 
   const locales = Object.keys(LOCALES);
@@ -176,30 +190,9 @@ function build() {
       indexes[locale].push({
         t: translateText(page.title, locale),
         u: localePath(page.path, locale),
-        s: translateText(SECTIONS[page.section]?.title || (page.section === 'documentation' ? 'Documentation' : SITE.name), locale),
+        s: translateText(SECTIONS[page.section]?.title || SITE.name, locale),
         x: text(page.body),
       });
-    }
-
-    for (const article of docs.articles) {
-      const pagePath = article.slug === 'index' ? `/documentation/${docs.set.slug}/` : `/documentation/${docs.set.slug}/${article.slug}/`;
-      const { body, toc } = decorateHeadings(article.body);
-      emit(
-        localePath(pagePath, locale),
-        renderDoc({
-          set: docs.set,
-          article,
-          tree: docs.tree,
-          articlesBySlug: docs.bySlug,
-          prev: article.prev,
-          next: article.next,
-          toc,
-          body,
-          pagePath,
-          locale,
-        }),
-      );
-      indexes[locale].push({ t: translateText(article.title, locale), u: localePath(pagePath, locale), s: translateText('Documentation', locale), x: text(article.body) });
     }
   }
 
@@ -230,6 +223,9 @@ function build() {
       if (!seen.has(newPath)) throw new Error(`Redirect points to a missing page: ${oldPath} -> ${newPath}`);
       write(outFile(oldPath), redirectPage(oldPath, newPath, locale));
     }
+  }
+  for (const [from, to] of Object.entries(DOC_REDIRECTS)) {
+    for (const locale of locales) write(outFile(localePath(from, locale)), externalRedirectPage(`${LEARN_URL}/${locale}/${to}`));
   }
   write('.nojekyll', '');
 
