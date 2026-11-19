@@ -30,5 +30,19 @@
     "package": "YotsubaShader.Extensions.FNA",
     "extension": ".fxb",
     "method": "ToFNA_FX"
+  },
+  {
+    "name": "godot",
+    "description": "Godot backend. Compiles shaders to Godot Shading Language (.gdshader) for Spatial and CanvasItem materials.",
+    "package": "YotsubaShader.Extensions.Godot",
+    "extension": ".gdshader",
+    "method": "ToGodotShader",
+    "optionsEnum": "GodotShaderType",
+    "optionsParameter": "type",
+    "text": true,
+    "options": [
+      { "name": "Spatial", "value": 0 },
+      { "name": "CanvasItem", "value": 1 }
+    ]
   }
 ]
