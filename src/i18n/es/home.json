@@ -142,5 +142,8 @@
  "Uniform buffers, storage buffers, textures, samplers and binding slots are available in each syntax.": "Uniform buffers, storage buffers, texturas, samplers y slots de binding disponibles en cada sintaxis.",
  "The compile command": "El comando compile",
  "The add command": "El comando add",
- "Plugins": "Plugins"
+ "Plugins": "Plugins",
+ "ENGINES AND FRAMEWORKS": "ENGINES Y FRAMEWORKS",
+ "Write the shader once. Use it in your engine.": "Escribe el shader una vez. Úsalo en tu engine.",
+ "Guides and reference for MonoGame, KNI, FNA and Godot.": "Guías y referencia para MonoGame, KNI, FNA y Godot."
 }

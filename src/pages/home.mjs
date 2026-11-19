@@ -34,6 +34,19 @@ const home = {
   <hr class="hero-rule">
 </section>
 
+<section class="section engines-home" id="engines" aria-labelledby="engines-home-title">
+  <div class="container">
+    <div class="center">
+      <p class="eyebrow">ENGINES AND FRAMEWORKS</p>
+      <h2 class="h-lg" id="engines-home-title">Write the shader once. Use it in your engine.</h2>
+      <p class="lead">Guides and reference for MonoGame, KNI, FNA and Godot.</p>
+    </div>
+    <ul class="engine-strip">
+      ${[['monogame', 'MonoGame', 'png'], ['kni', 'KNI', 'png'], ['fna', 'FNA', 'png'], ['godot', 'Godot', 'svg']].map(([id, name, ext]) => `<li><a href="__LEARN__/engines/${id}-reference/"><img src="/img/engines/${id}.${ext}" alt="" width="48" height="48"><span>${name}</span></a></li>`).join('')}
+    </ul>
+  </div>
+</section>
+
 <section class="section stages-home" id="shader-stages" aria-labelledby="stages-home-title">
   <div class="container">
     <div class="center stages-home-header">
