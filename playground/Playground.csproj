@@ -31,15 +31,15 @@
                       LogicalName="YotsubaShader.Language.dll" Visible="false" />
     <EmbeddedResource Include="..\..\Core\Syntax\YotsubaShader.Concepts\bin\$(Configuration)\netstandard2.0\YotsubaShader.Concepts.dll"
                       LogicalName="YotsubaShader.Concepts.dll" Visible="false" />
-    <EmbeddedResource Include="..\..\Core\Syntax\YotsubaShader.GlslSyntax\bin\$(Configuration)\netstandard2.0\YotsubaShader.GlslSyntax.dll"
+    <EmbeddedResource Include="..\..\Core\Syntax\YotsubaShader.GlslSyntax\bin\$(Configuration)\net8.0\YotsubaShader.GlslSyntax.dll"
                       LogicalName="YotsubaShader.GlslSyntax.dll" Visible="false" />
-    <EmbeddedResource Include="..\..\Core\Syntax\YotsubaShader.HlslSyntax\bin\$(Configuration)\netstandard2.0\YotsubaShader.HlslSyntax.dll"
+    <EmbeddedResource Include="..\..\Core\Syntax\YotsubaShader.HlslSyntax\bin\$(Configuration)\net8.0\YotsubaShader.HlslSyntax.dll"
                       LogicalName="YotsubaShader.HlslSyntax.dll" Visible="false" />
-    <EmbeddedResource Include="..\..\Core\Syntax\YotsubaShader.MslSyntax\bin\$(Configuration)\netstandard2.0\YotsubaShader.MslSyntax.dll"
+    <EmbeddedResource Include="..\..\Core\Syntax\YotsubaShader.MslSyntax\bin\$(Configuration)\net8.0\YotsubaShader.MslSyntax.dll"
                       LogicalName="YotsubaShader.MslSyntax.dll" Visible="false" />
     <EmbeddedResource Include="..\..\Core\Syntax\YotsubaShader.SpirvSyntax\bin\$(Configuration)\netstandard2.0\YotsubaShader.SpirvSyntax.dll"
                       LogicalName="YotsubaShader.SpirvSyntax.dll" Visible="false" />
-    <EmbeddedResource Include="..\..\Core\Syntax\YotsubaShader.WgslSyntax\bin\$(Configuration)\netstandard2.0\YotsubaShader.WgslSyntax.dll"
+    <EmbeddedResource Include="..\..\Core\Syntax\YotsubaShader.WgslSyntax\bin\$(Configuration)\net8.0\YotsubaShader.WgslSyntax.dll"
                       LogicalName="YotsubaShader.WgslSyntax.dll" Visible="false" />
   </ItemGroup>
 
