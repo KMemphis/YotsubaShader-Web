@@ -140,7 +140,7 @@ public class Mandelbrot
 
     [ShaderStage(Stage.Fragment)]
     [return: location(0)]
-    public vec4 Fragment(Pixel pixel)
+    public vec4 Fragment(PixelIn pixel)
     {
         float cx = pixel.Uv.X * 3f - 2.2f;
         float cy = pixel.Uv.Y * 3f - 1.5f;
@@ -211,7 +211,7 @@ public class Mandelbrot
 
     [ShaderStage(Stage.Fragment)]
     [return: SV_Target]
-    public vec4 Fragment(Pixel pixel)
+    public vec4 Fragment(PixelIn pixel)
     {
         float cx = pixel.Uv.X * 3f - 2.2f;
         float cy = pixel.Uv.Y * 3f - 1.5f;
@@ -282,7 +282,7 @@ public class Mandelbrot
 
     [ShaderStage(Stage.Fragment)]
     [return: color(0)]
-    public vec4 Fragment(Pixel pixel)
+    public vec4 Fragment(PixelIn pixel)
     {
         float cx = pixel.Uv.X * 3f - 2.2f;
         float cy = pixel.Uv.Y * 3f - 1.5f;
@@ -353,7 +353,7 @@ public class Mandelbrot
 
     [ShaderStage(Stage.Fragment)]
     [return: location(0)]
-    public vec4 Fragment(Pixel pixel)
+    public vec4 Fragment(PixelIn pixel)
     {
         float cx = pixel.Uv.X * 3f - 2.2f;
         float cy = pixel.Uv.Y * 3f - 1.5f;
@@ -424,7 +424,7 @@ public class Mandelbrot
 
     [ShaderStage(Stage.Fragment)]
     [return: Location(0)]
-    public vec4 Fragment(Pixel pixel)
+    public vec4 Fragment(PixelIn pixel)
     {
         float cx = pixel.Uv.X * 3f - 2.2f;
         float cy = pixel.Uv.Y * 3f - 1.5f;
@@ -478,7 +478,7 @@ public class Mandelbrot
 Three things worth noticing:
 
 - **The `Vertex` method is the same as in the previous shader.** When what you draw is a rectangle that covers the screen, the Vertex stage does not change. The interesting part happens in `Fragment`.
-- **You did not write `Corner` and `Pixel` again.** They are in `Screen.cs` and all your shaders share them, like any `struct` in your project.
+- **You did not write `Corner`, `Pixel` and `PixelIn` again.** They are in `Screen.cs` and all your shaders share them, like any `struct` in your project.
 - **The `CountSteps` and `Palette` functions do not have `[ShaderStage]`.** Only stages have it. The rest are helper functions, and the compiler finds them on its own because `Fragment` calls them.
 
 ## Compile and look at the result

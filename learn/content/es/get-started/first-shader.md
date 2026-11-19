@@ -24,7 +24,7 @@ Es sencillo a propósito. Lo importante aquí no es el dibujo, sino que escribas
 
 > [!SAY] Vamos a leer esta tabla de izquierda a derecha. En la primera columna está cada una de las cinco decisiones que ya conoces, y en la segunda, cómo se escribe en C#. Los datos que lleva cada vértice, la puerta A, se escriben con un struct, y cada campo lleva su location. Lo que Vertex le deja pasar a Fragment, la puerta B, es otro struct. Las dos funciones, Vertex y Fragment, son simplemente dos métodos, cada uno marcado con su ShaderStage. Y a dónde va el color, la puerta C, se escribe con return location cero justo encima del método Fragment. Fíjate que no hay nada más: son cinco decisiones y cinco piezas de C# normal.
 
-No hay nada más. Un shader en C# son dos `struct` y una clase con dos métodos.
+No hay nada más. Un shader en C# son unos `struct` y una clase con dos métodos.
 
 ## La figura: un rectángulo que cubre toda la pantalla
 
@@ -243,6 +243,11 @@ public struct Pixel
     [gl_Position] public vec4 Posicion;
     [location(0)] public vec2 Uv;
 }
+
+public struct PixelIn
+{
+    [location(0)] public vec2 Uv;
+}
 ```
 
 ```csharp style=hlsl title="MisShaders/Pantalla.cs"
@@ -260,6 +265,11 @@ public struct Vertice
 public struct Pixel
 {
     [SV_Position] public vec4 Posicion;
+    [TEXCOORD(0)] public vec2 Uv;
+}
+
+public struct PixelIn
+{
     [TEXCOORD(0)] public vec2 Uv;
 }
 ```
@@ -281,6 +291,11 @@ public struct Pixel
     [position] public vec4 Posicion;
     [attribute(0)] public vec2 Uv;
 }
+
+public struct PixelIn
+{
+    [attribute(0)] public vec2 Uv;
+}
 ```
 
 ```csharp style=wgsl title="MisShaders/Pantalla.cs"
@@ -298,6 +313,11 @@ public struct Vertice
 public struct Pixel
 {
     [builtin_position] public vec4 Posicion;
+    [location(0)] public vec2 Uv;
+}
+
+public struct PixelIn
+{
     [location(0)] public vec2 Uv;
 }
 ```
@@ -319,9 +339,14 @@ public struct Pixel
     [BuiltIn_Position] public vec4 Posicion;
     [Location(0)] public vec2 Uv;
 }
+
+public struct PixelIn
+{
+    [Location(0)] public vec2 Uv;
+}
 ```
 
-`Pixel` es la puerta B. Tiene los dos tipos de datos que salen de Vertex, el especial y los tuyos:
+`Pixel` es la puerta B vista desde Vertex. Tiene los dos tipos de datos que salen de Vertex, el especial y los tuyos:
 
 - **`[gl_Position] public vec4 Posicion;`** es el dato especial, el de la estrella. `[gl_Position]` le dice a la GPU: "esta es la posición final del vértice, quédatela". Por eso no lleva número. Y es un `vec4` porque la posición final tiene cuatro números.
 - **`[location(0)] public vec2 Uv;`** es un dato tuyo: "en el casillero 0 de esta puerta viaja el `Uv`".
@@ -348,7 +373,9 @@ El `Uv` entró por el casillero 1 de la puerta A y sale por el casillero 0 de la
 
 Porque es lo que le llega a cada píxel. La función Vertex lo llena tres veces, una por vértice, la GPU lo reparte, y la función Fragment lo recibe una vez por píxel, ya mezclado.
 
-Usar **el mismo** `struct` para lo que devuelve Vertex y lo que recibe Fragment tiene una ventaja: los dos lados de la puerta B coinciden siempre, porque son literalmente el mismo código. No te puedes equivocar de número en un lado y no en el otro.
+Fragment no recibe el `Pixel` completo. La posición final sirve para que la GPU coloque el triángulo, y una función Fragment no la necesita (en GLSL, `gl_Position` ni siquiera existe en esa etapa, y el compilador te avisa si lo intentas). Por eso el archivo tiene un segundo `struct`, `PixelIn`, con solo los datos tuyos: lo que recibe Fragment.
+
+Los dos lados de la puerta B tienen que coincidir: el mismo número de `location` y el mismo tipo. Aquí `Uv` es `location(0)` y `vec2` en los dos. Si un lado dijera `vec3`, o el casillero 1, el shader no compilaría.
 
 ## Tercer archivo: las dos funciones
 
@@ -399,14 +426,14 @@ Copiamos el `Uv` tal cual. Si no lo hicieras, a la función Fragment no le llega
 ```csharp
 [ShaderStage(Stage.Fragment)]
 [return: location(0)]
-public vec4 Fragment(Pixel pixel)
+public vec4 Fragment(PixelIn pixel)
 {
     return Crear.Vec4(1f, 0f, 0f, 1f);
 }
 ```
 
 - **`[ShaderStage(Stage.Fragment)]`** convierte a este método en la etapa Fragment.
-- **`(Pixel pixel)`**: lo que recibe. Es el otro lado de la puerta B. Pero ojo con lo que aprendiste del reparto: este `pixel` no es ninguno de los cuatro que devolvió `Vertex`. Es una mezcla de ellos, distinta para cada píxel.
+- **`(PixelIn pixel)`**: lo que recibe. Es el otro lado de la puerta B: solo tus datos, sin la posición. Pero ojo con lo que aprendiste del reparto: este `pixel` no es ninguno de los cuatro que devolvió `Vertex`. Es una mezcla de ellos, distinta para cada píxel.
 - **`public vec4`**: lo que devuelve. Un color, o sea, cuatro números.
 - **`[return: location(0)]`** es la puerta C: "el color que devuelvo va al casillero 0". Y el casillero 0 de la puerta C es la pantalla.
 
@@ -421,7 +448,7 @@ Ya escribiste las tres puertas, y en las tres hay un `location(0)`. Ahora puedes
 | Dónde lo escribiste | Qué puerta es | Qué viaja en su casillero 0 |
 | --- | --- | --- |
 | `[location(0)]` en `Vertice` | A: del juego a Vertex | La posición del vértice. |
-| `[location(0)]` en `Pixel` | B: de Vertex a Fragment | El `Uv`. |
+| `[location(0)]` en `Pixel` y en `PixelIn` | B: de Vertex a Fragment | El `Uv`. |
 | `[return: location(0)]` en `Fragment` | C: de Fragment a la pantalla | El color del píxel. |
 
 Tres ceros, tres puertas, tres cosas distintas.
@@ -450,7 +477,7 @@ public class Degradado
 
     [ShaderStage(Stage.Fragment)]
     [return: location(0)]
-    public vec4 Fragment(Pixel pixel)
+    public vec4 Fragment(PixelIn pixel)
     {
         return Crear.Vec4(1f, 0f, 0f, 1f);
     }
@@ -477,7 +504,7 @@ public class Degradado
 
     [ShaderStage(Stage.Fragment)]
     [return: SV_Target]
-    public vec4 Fragment(Pixel pixel)
+    public vec4 Fragment(PixelIn pixel)
     {
         return Crear.Vec4(1f, 0f, 0f, 1f);
     }
@@ -504,7 +531,7 @@ public class Degradado
 
     [ShaderStage(Stage.Fragment)]
     [return: color(0)]
-    public vec4 Fragment(Pixel pixel)
+    public vec4 Fragment(PixelIn pixel)
     {
         return Crear.Vec4(1f, 0f, 0f, 1f);
     }
@@ -531,7 +558,7 @@ public class Degradado
 
     [ShaderStage(Stage.Fragment)]
     [return: location(0)]
-    public vec4 Fragment(Pixel pixel)
+    public vec4 Fragment(PixelIn pixel)
     {
         return Crear.Vec4(1f, 0f, 0f, 1f);
     }
@@ -558,7 +585,7 @@ public class Degradado
 
     [ShaderStage(Stage.Fragment)]
     [return: Location(0)]
-    public vec4 Fragment(Pixel pixel)
+    public vec4 Fragment(PixelIn pixel)
     {
         return Crear.Vec4(1f, 0f, 0f, 1f);
     }
@@ -747,7 +774,7 @@ public class Degradado
 
     [ShaderStage(Stage.Fragment)]
     [return: location(0)]
-    public vec4 Fragment(Pixel pixel)
+    public vec4 Fragment(PixelIn pixel)
     {
         float rojo = 1f;
         float verde = 0.25f + 0.6f * pixel.Uv.Y;
@@ -777,7 +804,7 @@ public class Degradado
 
     [ShaderStage(Stage.Fragment)]
     [return: SV_Target]
-    public vec4 Fragment(Pixel pixel)
+    public vec4 Fragment(PixelIn pixel)
     {
         float rojo = 1f;
         float verde = 0.25f + 0.6f * pixel.Uv.Y;
@@ -807,7 +834,7 @@ public class Degradado
 
     [ShaderStage(Stage.Fragment)]
     [return: color(0)]
-    public vec4 Fragment(Pixel pixel)
+    public vec4 Fragment(PixelIn pixel)
     {
         float rojo = 1f;
         float verde = 0.25f + 0.6f * pixel.Uv.Y;
@@ -837,7 +864,7 @@ public class Degradado
 
     [ShaderStage(Stage.Fragment)]
     [return: location(0)]
-    public vec4 Fragment(Pixel pixel)
+    public vec4 Fragment(PixelIn pixel)
     {
         float rojo = 1f;
         float verde = 0.25f + 0.6f * pixel.Uv.Y;
@@ -867,7 +894,7 @@ public class Degradado
 
     [ShaderStage(Stage.Fragment)]
     [return: Location(0)]
-    public vec4 Fragment(Pixel pixel)
+    public vec4 Fragment(PixelIn pixel)
     {
         float rojo = 1f;
         float verde = 0.25f + 0.6f * pixel.Uv.Y;
@@ -965,7 +992,7 @@ Por eso el siguiente capítulo te hace una ventana pequeña, un **visor**, que d
 
 ## Lo que aprendiste
 
-- Un shader en C# son dos `struct` y una clase con dos métodos.
+- Un shader en C# son unos `struct` y una clase con dos métodos.
 - La puerta A es un `struct` con `[location(n)]` en cada campo: lo que tu juego manda por cada vértice.
 - La puerta B es otro `struct`: la posición final marcada con `[gl_Position]`, y tus datos con `[location(n)]`.
 - La puerta C es `[return: location(0)]` encima del método Fragment.

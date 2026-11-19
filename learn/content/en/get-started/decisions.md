@@ -281,7 +281,7 @@ public class Decisions
 
     [ShaderStage(Stage.Fragment)]
     [return: location(0)]
-    public vec4 Fragment(Pixel pixel)
+    public vec4 Fragment(PixelIn pixel)
     {
         float aspect = Data.Width / Data.Height;
         float dx = (pixel.Uv.X - 0.5f) * aspect;
@@ -319,7 +319,7 @@ public class Decisions
 
     [ShaderStage(Stage.Fragment)]
     [return: SV_Target]
-    public vec4 Fragment(Pixel pixel)
+    public vec4 Fragment(PixelIn pixel)
     {
         float aspect = Data.Width / Data.Height;
         float dx = (pixel.Uv.X - 0.5f) * aspect;
@@ -357,7 +357,7 @@ public class Decisions
 
     [ShaderStage(Stage.Fragment)]
     [return: color(0)]
-    public vec4 Fragment(Pixel pixel)
+    public vec4 Fragment(PixelIn pixel)
     {
         float aspect = Data.Width / Data.Height;
         float dx = (pixel.Uv.X - 0.5f) * aspect;
@@ -395,7 +395,7 @@ public class Decisions
 
     [ShaderStage(Stage.Fragment)]
     [return: location(0)]
-    public vec4 Fragment(Pixel pixel)
+    public vec4 Fragment(PixelIn pixel)
     {
         float aspect = Data.Width / Data.Height;
         float dx = (pixel.Uv.X - 0.5f) * aspect;
@@ -433,7 +433,7 @@ public class Decisions
 
     [ShaderStage(Stage.Fragment)]
     [return: Location(0)]
-    public vec4 Fragment(Pixel pixel)
+    public vec4 Fragment(PixelIn pixel)
     {
         float aspect = Data.Width / Data.Height;
         float dx = (pixel.Uv.X - 0.5f) * aspect;

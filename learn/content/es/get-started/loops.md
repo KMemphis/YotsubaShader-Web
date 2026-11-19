@@ -300,7 +300,7 @@ public class Bucles
 
     [ShaderStage(Stage.Fragment)]
     [return: location(0)]
-    public vec4 Fragment(Pixel pixel)
+    public vec4 Fragment(PixelIn pixel)
     {
         float[] alturas = new float[5];
         alturas[0] = 0.3f;
@@ -344,7 +344,7 @@ public class Bucles
 
     [ShaderStage(Stage.Fragment)]
     [return: SV_Target]
-    public vec4 Fragment(Pixel pixel)
+    public vec4 Fragment(PixelIn pixel)
     {
         float[] alturas = new float[5];
         alturas[0] = 0.3f;
@@ -388,7 +388,7 @@ public class Bucles
 
     [ShaderStage(Stage.Fragment)]
     [return: color(0)]
-    public vec4 Fragment(Pixel pixel)
+    public vec4 Fragment(PixelIn pixel)
     {
         float[] alturas = new float[5];
         alturas[0] = 0.3f;
@@ -432,7 +432,7 @@ public class Bucles
 
     [ShaderStage(Stage.Fragment)]
     [return: location(0)]
-    public vec4 Fragment(Pixel pixel)
+    public vec4 Fragment(PixelIn pixel)
     {
         float[] alturas = new float[5];
         alturas[0] = 0.3f;
@@ -476,7 +476,7 @@ public class Bucles
 
     [ShaderStage(Stage.Fragment)]
     [return: Location(0)]
-    public vec4 Fragment(Pixel pixel)
+    public vec4 Fragment(PixelIn pixel)
     {
         float[] alturas = new float[5];
         alturas[0] = 0.3f;

@@ -285,7 +285,7 @@ public class Sweep
 
     [ShaderStage(Stage.Fragment)]
     [return: location(0)]
-    public vec4 Fragment(Pixel pixel)
+    public vec4 Fragment(PixelIn pixel)
     {
         float center = Time.Seconds * 0.5f;
 

@@ -371,6 +371,11 @@ public class Triangle
         [location(0)] public vec4 Color;
     }
 
+    public struct PixelIn
+    {
+        [location(0)] public vec4 Color;
+    }
+
     [ShaderStage(Stage.Vertex)]
     public Pixel Vertex(Corner corner)
     {
@@ -382,7 +387,7 @@ public class Triangle
 
     [ShaderStage(Stage.Fragment)]
     [return: location(0)]
-    public vec4 Fragment(Pixel pixel)
+    public vec4 Fragment(PixelIn pixel)
     {
         return pixel.Color;
     }
@@ -410,6 +415,11 @@ public class Triangle
         [TEXCOORD(0)] public vec4 Color;
     }
 
+    public struct PixelIn
+    {
+        [TEXCOORD(0)] public vec4 Color;
+    }
+
     [ShaderStage(Stage.Vertex)]
     public Pixel Vertex(Corner corner)
     {
@@ -421,7 +431,7 @@ public class Triangle
 
     [ShaderStage(Stage.Fragment)]
     [return: SV_Target]
-    public vec4 Fragment(Pixel pixel)
+    public vec4 Fragment(PixelIn pixel)
     {
         return pixel.Color;
     }
@@ -449,6 +459,11 @@ public class Triangle
         [attribute(0)] public vec4 Color;
     }
 
+    public struct PixelIn
+    {
+        [attribute(0)] public vec4 Color;
+    }
+
     [ShaderStage(Stage.Vertex)]
     public Pixel Vertex(Corner corner)
     {
@@ -460,7 +475,7 @@ public class Triangle
 
     [ShaderStage(Stage.Fragment)]
     [return: color(0)]
-    public vec4 Fragment(Pixel pixel)
+    public vec4 Fragment(PixelIn pixel)
     {
         return pixel.Color;
     }
@@ -488,6 +503,11 @@ public class Triangle
         [location(0)] public vec4 Color;
     }
 
+    public struct PixelIn
+    {
+        [location(0)] public vec4 Color;
+    }
+
     [ShaderStage(Stage.Vertex)]
     public Pixel Vertex(Corner corner)
     {
@@ -499,7 +519,7 @@ public class Triangle
 
     [ShaderStage(Stage.Fragment)]
     [return: location(0)]
-    public vec4 Fragment(Pixel pixel)
+    public vec4 Fragment(PixelIn pixel)
     {
         return pixel.Color;
     }
@@ -527,6 +547,11 @@ public class Triangle
         [Location(0)] public vec4 Color;
     }
 
+    public struct PixelIn
+    {
+        [Location(0)] public vec4 Color;
+    }
+
     [ShaderStage(Stage.Vertex)]
     public Pixel Vertex(Corner corner)
     {
@@ -538,7 +563,7 @@ public class Triangle
 
     [ShaderStage(Stage.Fragment)]
     [return: Location(0)]
-    public vec4 Fragment(Pixel pixel)
+    public vec4 Fragment(PixelIn pixel)
     {
         return pixel.Color;
     }
@@ -570,6 +595,11 @@ public class Triangle
         [location(0)] public vec4 Color;
     }
 
+    public struct PixelIn
+    {
+        [location(0)] public vec4 Color;
+    }
+
     [ShaderStage(Stage.Vertex)]
     public Pixel Vertex(Corner corner)
     {
@@ -581,7 +611,7 @@ public class Triangle
 
     [ShaderStage(Stage.Fragment)]
     [return: location(0)]
-    public vec4 Fragment(Pixel pixel)
+    public vec4 Fragment(PixelIn pixel)
     {
         return pixel.Color;
     }

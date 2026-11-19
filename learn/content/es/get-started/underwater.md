@@ -2,7 +2,6 @@
 title: "Shader 5: una foto bajo el agua"
 summary: Cómo leer una imagen desde el shader y modificarla.
 order: 16
-status: planned
 ---
 
 Los cuatro shaders anteriores inventaban el color de cada píxel con cuentas. En este último, el color sale de una imagen: una foto. Y como el color pasa por tu función antes de llegar a la pantalla, puedes hacerle lo que quieras.
@@ -16,9 +15,6 @@ y vas a hacer que se vea así, ondulando como si la miraras a través del agua:
 ![La misma foto con tono azulado, los bordes oscurecidos y las formas ligeramente onduladas](../../assets/get-started/agua-1.png)
 
 En este shader se junta todo lo que ya sabes: `Uv`, funciones propias, `sin`, `mix` y el uniform del tiempo. Lo único nuevo es leer la imagen.
-
-> [!WARNING]
-> Leer imágenes desde un shader todavía no está admitido por `add`. Como en los dos capítulos anteriores, el código compila en C# y la forma de escribirlo es la definitiva.
 
 ## Una imagen dentro de un shader: la textura
 
@@ -158,7 +154,7 @@ public class BajoElAgua
 
     [ShaderStage(Stage.Fragment)]
     [return: location(0)]
-    public vec4 Fragment(Pixel pixel)
+    public vec4 Fragment(PixelIn pixel)
     {
         float t = Tiempo.Segundos;
 

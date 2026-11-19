@@ -364,7 +364,7 @@ public class Template
 
     [ShaderStage(Stage.Fragment)]
     [return: location(0)]
-    public vec4 Fragment(Pixel pixel)
+    public vec4 Fragment(PixelIn pixel)
     {
         return Make.Vec4(0f, 0f, 0f, 1f);
     }
@@ -391,7 +391,7 @@ public class Template
 
     [ShaderStage(Stage.Fragment)]
     [return: SV_Target]
-    public vec4 Fragment(Pixel pixel)
+    public vec4 Fragment(PixelIn pixel)
     {
         return Make.Vec4(0f, 0f, 0f, 1f);
     }
@@ -418,7 +418,7 @@ public class Template
 
     [ShaderStage(Stage.Fragment)]
     [return: color(0)]
-    public vec4 Fragment(Pixel pixel)
+    public vec4 Fragment(PixelIn pixel)
     {
         return Make.Vec4(0f, 0f, 0f, 1f);
     }
@@ -445,7 +445,7 @@ public class Template
 
     [ShaderStage(Stage.Fragment)]
     [return: location(0)]
-    public vec4 Fragment(Pixel pixel)
+    public vec4 Fragment(PixelIn pixel)
     {
         return Make.Vec4(0f, 0f, 0f, 1f);
     }
@@ -472,7 +472,7 @@ public class Template
 
     [ShaderStage(Stage.Fragment)]
     [return: Location(0)]
-    public vec4 Fragment(Pixel pixel)
+    public vec4 Fragment(PixelIn pixel)
     {
         return Make.Vec4(0f, 0f, 0f, 1f);
     }

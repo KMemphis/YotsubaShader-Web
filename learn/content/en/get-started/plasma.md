@@ -2,7 +2,6 @@
 title: "Shader 4: a moving plasma"
 summary: How to send data to the shader from your program, using time to animate.
 order: 15
-status: planned
 ---
 
 The three previous shaders have something in common: they always draw the same image. That makes sense. The only thing each pixel knows is its `Uv`, and that never changes.
@@ -14,9 +13,6 @@ For something to move, the shader needs a piece of data that changes over time. 
 | ![Blobs in rainbow colors](../../assets/get-started/plasma-1.png) | ![The same blobs, shifted and with another shape](../../assets/get-started/plasma-2.png) | ![The blobs, again with another shape](../../assets/get-started/plasma-3.png) |
 
 They are three moments of the same shader. In motion, the blobs deform and melt into each other without stopping.
-
-> [!WARNING]
-> Sending data to the shader already works today with `add`. What does not work yet is `sin`, a function like the ones from the previous chapter, which this shader uses to make the waves. Just like with the neon ring, you can write it and compile it in C#, and the way it is written is not going to change.
 
 ## Data that comes from outside: the uniform
 
@@ -168,7 +164,7 @@ public class Plasma
 
     [ShaderStage(Stage.Fragment)]
     [return: location(0)]
-    public vec4 Fragment(Pixel pixel)
+    public vec4 Fragment(PixelIn pixel)
     {
         float x = pixel.Uv.X * 2f - 1f;
         float y = pixel.Uv.Y * 2f - 1f;
@@ -222,7 +218,7 @@ public class Plasma
 
     [ShaderStage(Stage.Fragment)]
     [return: SV_Target]
-    public vec4 Fragment(Pixel pixel)
+    public vec4 Fragment(PixelIn pixel)
     {
         float x = pixel.Uv.X * 2f - 1f;
         float y = pixel.Uv.Y * 2f - 1f;
@@ -276,7 +272,7 @@ public class Plasma
 
     [ShaderStage(Stage.Fragment)]
     [return: color(0)]
-    public vec4 Fragment(Pixel pixel)
+    public vec4 Fragment(PixelIn pixel)
     {
         float x = pixel.Uv.X * 2f - 1f;
         float y = pixel.Uv.Y * 2f - 1f;
@@ -330,7 +326,7 @@ public class Plasma
 
     [ShaderStage(Stage.Fragment)]
     [return: location(0)]
-    public vec4 Fragment(Pixel pixel)
+    public vec4 Fragment(PixelIn pixel)
     {
         float x = pixel.Uv.X * 2f - 1f;
         float y = pixel.Uv.Y * 2f - 1f;
@@ -384,7 +380,7 @@ public class Plasma
 
     [ShaderStage(Stage.Fragment)]
     [return: Location(0)]
-    public vec4 Fragment(Pixel pixel)
+    public vec4 Fragment(PixelIn pixel)
     {
         float x = pixel.Uv.X * 2f - 1f;
         float y = pixel.Uv.Y * 2f - 1f;

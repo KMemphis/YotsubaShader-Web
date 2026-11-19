@@ -237,7 +237,7 @@ public class Tiempo
 
     [ShaderStage(Stage.Fragment)]
     [return: location(0)]
-    public vec4 Fragment(Pixel pixel)
+    public vec4 Fragment(PixelIn pixel)
     {
         float aspecto = Datos.Ancho / Datos.Alto;
         float x = pixel.Uv.X * aspecto;
@@ -291,7 +291,7 @@ public class Tiempo
 
     [ShaderStage(Stage.Fragment)]
     [return: SV_Target]
-    public vec4 Fragment(Pixel pixel)
+    public vec4 Fragment(PixelIn pixel)
     {
         float aspecto = Datos.Ancho / Datos.Alto;
         float x = pixel.Uv.X * aspecto;
@@ -345,7 +345,7 @@ public class Tiempo
 
     [ShaderStage(Stage.Fragment)]
     [return: color(0)]
-    public vec4 Fragment(Pixel pixel)
+    public vec4 Fragment(PixelIn pixel)
     {
         float aspecto = Datos.Ancho / Datos.Alto;
         float x = pixel.Uv.X * aspecto;
@@ -399,7 +399,7 @@ public class Tiempo
 
     [ShaderStage(Stage.Fragment)]
     [return: location(0)]
-    public vec4 Fragment(Pixel pixel)
+    public vec4 Fragment(PixelIn pixel)
     {
         float aspecto = Datos.Ancho / Datos.Alto;
         float x = pixel.Uv.X * aspecto;
@@ -453,7 +453,7 @@ public class Tiempo
 
     [ShaderStage(Stage.Fragment)]
     [return: Location(0)]
-    public vec4 Fragment(Pixel pixel)
+    public vec4 Fragment(PixelIn pixel)
     {
         float aspecto = Datos.Ancho / Datos.Alto;
         float x = pixel.Uv.X * aspecto;

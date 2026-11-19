@@ -140,7 +140,7 @@ public class Mandelbrot
 
     [ShaderStage(Stage.Fragment)]
     [return: location(0)]
-    public vec4 Fragment(Pixel pixel)
+    public vec4 Fragment(PixelIn pixel)
     {
         float cx = pixel.Uv.X * 3f - 2.2f;
         float cy = pixel.Uv.Y * 3f - 1.5f;
@@ -211,7 +211,7 @@ public class Mandelbrot
 
     [ShaderStage(Stage.Fragment)]
     [return: SV_Target]
-    public vec4 Fragment(Pixel pixel)
+    public vec4 Fragment(PixelIn pixel)
     {
         float cx = pixel.Uv.X * 3f - 2.2f;
         float cy = pixel.Uv.Y * 3f - 1.5f;
@@ -282,7 +282,7 @@ public class Mandelbrot
 
     [ShaderStage(Stage.Fragment)]
     [return: color(0)]
-    public vec4 Fragment(Pixel pixel)
+    public vec4 Fragment(PixelIn pixel)
     {
         float cx = pixel.Uv.X * 3f - 2.2f;
         float cy = pixel.Uv.Y * 3f - 1.5f;
@@ -353,7 +353,7 @@ public class Mandelbrot
 
     [ShaderStage(Stage.Fragment)]
     [return: location(0)]
-    public vec4 Fragment(Pixel pixel)
+    public vec4 Fragment(PixelIn pixel)
     {
         float cx = pixel.Uv.X * 3f - 2.2f;
         float cy = pixel.Uv.Y * 3f - 1.5f;
@@ -424,7 +424,7 @@ public class Mandelbrot
 
     [ShaderStage(Stage.Fragment)]
     [return: Location(0)]
-    public vec4 Fragment(Pixel pixel)
+    public vec4 Fragment(PixelIn pixel)
     {
         float cx = pixel.Uv.X * 3f - 2.2f;
         float cy = pixel.Uv.Y * 3f - 1.5f;
@@ -478,7 +478,7 @@ public class Mandelbrot
 Tres cosas que conviene notar:
 
 - **El método `Vertex` es el mismo del shader anterior.** Cuando lo que dibujas es un rectángulo que cubre la pantalla, la etapa Vertex no cambia. Lo interesante pasa en `Fragment`.
-- **`Vertice` y `Pixel` no los volviste a escribir.** Están en `Pantalla.cs` y los comparten todos tus shaders, como cualquier `struct` de tu proyecto.
+- **`Vertice`, `Pixel` y `PixelIn` no los volviste a escribir.** Están en `Pantalla.cs` y los comparten todos tus shaders, como cualquier `struct` de tu proyecto.
 - **Las funciones `ContarPasos` y `Paleta` no llevan `[ShaderStage]`.** Solo las etapas lo llevan. Las demás son funciones de ayuda, y el compilador las encuentra solo porque `Fragment` las llama.
 
 ## Compila y mira el resultado

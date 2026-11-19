@@ -24,7 +24,7 @@ It is simple on purpose. What matters here is not the drawing, but that you writ
 
 > [!SAY] Let's read this table from left to right. The first column has each of the five decisions you already know, and the second shows how it is written in C#. The data each vertex carries, door A, is written as a struct, with a location on every field. What Vertex lets through to Fragment, door B, is another struct. The two functions, Vertex and Fragment, are just two methods, each one marked with its ShaderStage. And where the color goes, door C, is written as return location zero right above the Fragment method. Notice there is nothing else: five decisions, and five pieces of ordinary C#.
 
-There is nothing else. A shader in C# is two `struct`s and a class with two methods.
+There is nothing else. A shader in C# is a few `struct`s and a class with two methods.
 
 ## The shape: a rectangle that covers the whole screen
 
@@ -243,6 +243,11 @@ public struct Pixel
     [gl_Position] public vec4 Position;
     [location(0)] public vec2 Uv;
 }
+
+public struct PixelIn
+{
+    [location(0)] public vec2 Uv;
+}
 ```
 
 ```csharp style=hlsl title="MyShaders/Screen.cs"
@@ -260,6 +265,11 @@ public struct Corner
 public struct Pixel
 {
     [SV_Position] public vec4 Position;
+    [TEXCOORD(0)] public vec2 Uv;
+}
+
+public struct PixelIn
+{
     [TEXCOORD(0)] public vec2 Uv;
 }
 ```
@@ -281,6 +291,11 @@ public struct Pixel
     [position] public vec4 Position;
     [attribute(0)] public vec2 Uv;
 }
+
+public struct PixelIn
+{
+    [attribute(0)] public vec2 Uv;
+}
 ```
 
 ```csharp style=wgsl title="MyShaders/Screen.cs"
@@ -298,6 +313,11 @@ public struct Corner
 public struct Pixel
 {
     [builtin_position] public vec4 Position;
+    [location(0)] public vec2 Uv;
+}
+
+public struct PixelIn
+{
     [location(0)] public vec2 Uv;
 }
 ```
@@ -319,9 +339,14 @@ public struct Pixel
     [BuiltIn_Position] public vec4 Position;
     [Location(0)] public vec2 Uv;
 }
+
+public struct PixelIn
+{
+    [Location(0)] public vec2 Uv;
+}
 ```
 
-`Pixel` is door B. It has the two kinds of data that leave Vertex, the special one and yours:
+`Pixel` is door B as Vertex sees it. It has the two kinds of data that leave Vertex, the special one and yours:
 
 - **`[gl_Position] public vec4 Position;`** is the special data, the one with the star. `[gl_Position]` tells the GPU: "this is the final position of the vertex, keep it". That is why it has no number. And it is a `vec4` because the final position has four numbers.
 - **`[location(0)] public vec2 Uv;`** is data of yours: "in slot 0 of this door the `Uv` travels".
@@ -348,7 +373,9 @@ And why is the `Uv` in `Pixel` not slot 1, so it looks the same? You could put i
 
 Because it is what reaches each pixel. The Vertex function fills it once per vertex, the GPU spreads it, and the Fragment function receives it once per pixel, already blended.
 
-Using **the same** `struct` for what Vertex returns and what Fragment receives has an advantage: the two sides of door B always match, because they are literally the same code. You cannot get the number wrong on one side and not on the other.
+Fragment does not receive the whole `Pixel`. The final position is for the GPU to place the triangle, and a Fragment function has no use for it (in GLSL, `gl_Position` does not even exist in that stage, and the compiler warns you if you try). That is why the file has a second `struct`, `PixelIn`, with only the data of yours: what Fragment receives.
+
+The two sides of door B have to agree: the same `location` number and the same type. Here `Uv` is `location(0)` and `vec2` in both. If one side said `vec3`, or slot 1, the shader would not compile.
 
 ## Third file: the two functions
 
@@ -399,14 +426,14 @@ We copy the `Uv` as is. If you did not, nothing would reach the Fragment functio
 ```csharp
 [ShaderStage(Stage.Fragment)]
 [return: location(0)]
-public vec4 Fragment(Pixel pixel)
+public vec4 Fragment(PixelIn pixel)
 {
     return Make.Vec4(1f, 0f, 0f, 1f);
 }
 ```
 
 - **`[ShaderStage(Stage.Fragment)]`** turns this method into the Fragment stage.
-- **`(Pixel pixel)`**: what it receives. It is the other side of door B. But mind what you learned about the spreading: this `pixel` is none of the four that `Vertex` returned. It is a mix of them, different for each pixel.
+- **`(PixelIn pixel)`**: what it receives. It is the other side of door B: only your data, without the position. But mind what you learned about the spreading: this `pixel` is none of the four that `Vertex` returned. It is a mix of them, different for each pixel.
 - **`public vec4`**: what it returns. A color, that is, four numbers.
 - **`[return: location(0)]`** is door C: "the color I return goes to slot 0". And slot 0 of door C is the screen.
 
@@ -421,7 +448,7 @@ You have now written the three doors, and all three have a `location(0)`. Now yo
 | Where you wrote it | Which door it is | What travels in its slot 0 |
 | --- | --- | --- |
 | `[location(0)]` in `Corner` | A: from the game to Vertex | The position of the vertex. |
-| `[location(0)]` in `Pixel` | B: from Vertex to Fragment | The `Uv`. |
+| `[location(0)]` in `Pixel` and in `PixelIn` | B: from Vertex to Fragment | The `Uv`. |
 | `[return: location(0)]` on `Fragment` | C: from Fragment to the screen | The color of the pixel. |
 
 Three zeros, three doors, three different things.
@@ -450,7 +477,7 @@ public class Gradient
 
     [ShaderStage(Stage.Fragment)]
     [return: location(0)]
-    public vec4 Fragment(Pixel pixel)
+    public vec4 Fragment(PixelIn pixel)
     {
         return Make.Vec4(1f, 0f, 0f, 1f);
     }
@@ -477,7 +504,7 @@ public class Gradient
 
     [ShaderStage(Stage.Fragment)]
     [return: SV_Target]
-    public vec4 Fragment(Pixel pixel)
+    public vec4 Fragment(PixelIn pixel)
     {
         return Make.Vec4(1f, 0f, 0f, 1f);
     }
@@ -504,7 +531,7 @@ public class Gradient
 
     [ShaderStage(Stage.Fragment)]
     [return: color(0)]
-    public vec4 Fragment(Pixel pixel)
+    public vec4 Fragment(PixelIn pixel)
     {
         return Make.Vec4(1f, 0f, 0f, 1f);
     }
@@ -531,7 +558,7 @@ public class Gradient
 
     [ShaderStage(Stage.Fragment)]
     [return: location(0)]
-    public vec4 Fragment(Pixel pixel)
+    public vec4 Fragment(PixelIn pixel)
     {
         return Make.Vec4(1f, 0f, 0f, 1f);
     }
@@ -558,7 +585,7 @@ public class Gradient
 
     [ShaderStage(Stage.Fragment)]
     [return: Location(0)]
-    public vec4 Fragment(Pixel pixel)
+    public vec4 Fragment(PixelIn pixel)
     {
         return Make.Vec4(1f, 0f, 0f, 1f);
     }
@@ -747,7 +774,7 @@ public class Gradient
 
     [ShaderStage(Stage.Fragment)]
     [return: location(0)]
-    public vec4 Fragment(Pixel pixel)
+    public vec4 Fragment(PixelIn pixel)
     {
         float red = 1f;
         float green = 0.25f + 0.6f * pixel.Uv.Y;
@@ -777,7 +804,7 @@ public class Gradient
 
     [ShaderStage(Stage.Fragment)]
     [return: SV_Target]
-    public vec4 Fragment(Pixel pixel)
+    public vec4 Fragment(PixelIn pixel)
     {
         float red = 1f;
         float green = 0.25f + 0.6f * pixel.Uv.Y;
@@ -807,7 +834,7 @@ public class Gradient
 
     [ShaderStage(Stage.Fragment)]
     [return: color(0)]
-    public vec4 Fragment(Pixel pixel)
+    public vec4 Fragment(PixelIn pixel)
     {
         float red = 1f;
         float green = 0.25f + 0.6f * pixel.Uv.Y;
@@ -837,7 +864,7 @@ public class Gradient
 
     [ShaderStage(Stage.Fragment)]
     [return: location(0)]
-    public vec4 Fragment(Pixel pixel)
+    public vec4 Fragment(PixelIn pixel)
     {
         float red = 1f;
         float green = 0.25f + 0.6f * pixel.Uv.Y;
@@ -867,7 +894,7 @@ public class Gradient
 
     [ShaderStage(Stage.Fragment)]
     [return: Location(0)]
-    public vec4 Fragment(Pixel pixel)
+    public vec4 Fragment(PixelIn pixel)
     {
         float red = 1f;
         float green = 0.25f + 0.6f * pixel.Uv.Y;
@@ -965,7 +992,7 @@ That is why the next chapter has you make a small window, a **viewer**, that dra
 
 ## What you learned
 
-- A shader in C# is two `struct`s and a class with two methods.
+- A shader in C# is a few `struct`s and a class with two methods.
 - Door A is a `struct` with `[location(n)]` on each field: what your game sends for each vertex.
 - Door B is another `struct`: the final position marked with `[gl_Position]`, and your data with `[location(n)]`.
 - Door C is `[return: location(0)]` above the Fragment method.

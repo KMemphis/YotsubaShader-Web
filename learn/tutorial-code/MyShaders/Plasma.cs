@@ -27,7 +27,7 @@ public class Plasma
 
     [ShaderStage(Stage.Fragment)]
     [return: location(0)]
-    public vec4 Fragment(Pixel pixel)
+    public vec4 Fragment(PixelIn pixel)
     {
         float x = pixel.Uv.X * 2f - 1f;
         float y = pixel.Uv.Y * 2f - 1f;
