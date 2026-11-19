@@ -2,15 +2,11 @@
 title: "Shader 3: un anillo de neón"
 summary: Las funciones matemáticas que ya trae la GPU, usadas para dibujar un anillo que brilla.
 order: 14
-status: planned
 ---
 
 Hasta ahora todas las cuentas las hiciste con sumas, restas y multiplicaciones. Pero la GPU ya trae hechas muchas funciones matemáticas: raíz cuadrada, seno, valor absoluto, mezclar dos colores... En este capítulo las vas a usar para dibujar un tubo de neón:
 
 ![Un anillo de luz, rosa por la izquierda y celeste por la derecha, sobre un fondo casi negro](../../assets/get-started/neon.png)
-
-> [!WARNING]
-> Las funciones de este capítulo ya están en Yotsuba Shader y tu código compila en C#, pero el comando `add` todavía no sabe traducirlas a la GPU. Si hoy ejecutas `add` con este shader en el proyecto, verás un error que dice que `sqrt` "no tiene código disponible para compilarlo en GPU". Puedes leer el capítulo y escribir el shader igualmente: la forma de usarlas no va a cambiar.
 
 ## Cómo se usan las funciones de la GPU
 
@@ -133,17 +129,17 @@ namespace MisShaders;
 public class Neon
 {
     [ShaderStage(Stage.Vertex)]
-    public Pixel Vertex(Vertice vertice)
+    public Pixel Vertex({{vertexType}} vertice)
     {
         Pixel pixel;
-        pixel.Posicion = Crear.Vec4(vertice.Posicion.X, vertice.Posicion.Y, 0f, 1f);
-        pixel.Uv = vertice.Uv;
+        pixel.Posicion = Crear.Vec4(vertice.{{pos}}.X, vertice.{{pos}}.Y, 0f, 1f);
+        pixel.Uv = vertice.{{uv}};
         return pixel;
     }
 
     [ShaderStage(Stage.Fragment)]
     [return: location(0)]
-    public vec4 Fragment(Pixel pixel)
+    public vec4 Fragment(PixelIn pixel)
     {
         float x = pixel.Uv.X * 2f - 1f;
         float y = pixel.Uv.Y * 2f - 1f;
@@ -176,17 +172,17 @@ namespace MisShaders;
 public class Neon
 {
     [ShaderStage(Stage.Vertex)]
-    public Pixel Vertex(Vertice vertice)
+    public Pixel Vertex({{vertexType}} vertice)
     {
         Pixel pixel;
-        pixel.Posicion = Crear.Vec4(vertice.Posicion.X, vertice.Posicion.Y, 0f, 1f);
-        pixel.Uv = vertice.Uv;
+        pixel.Posicion = Crear.Vec4(vertice.{{pos}}.X, vertice.{{pos}}.Y, 0f, 1f);
+        pixel.Uv = vertice.{{uv}};
         return pixel;
     }
 
     [ShaderStage(Stage.Fragment)]
     [return: SV_Target]
-    public vec4 Fragment(Pixel pixel)
+    public vec4 Fragment(PixelIn pixel)
     {
         float x = pixel.Uv.X * 2f - 1f;
         float y = pixel.Uv.Y * 2f - 1f;
@@ -219,17 +215,17 @@ namespace MisShaders;
 public class Neon
 {
     [ShaderStage(Stage.Vertex)]
-    public Pixel Vertex(Vertice vertice)
+    public Pixel Vertex({{vertexType}} vertice)
     {
         Pixel pixel;
-        pixel.Posicion = Crear.Vec4(vertice.Posicion.X, vertice.Posicion.Y, 0f, 1f);
-        pixel.Uv = vertice.Uv;
+        pixel.Posicion = Crear.Vec4(vertice.{{pos}}.X, vertice.{{pos}}.Y, 0f, 1f);
+        pixel.Uv = vertice.{{uv}};
         return pixel;
     }
 
     [ShaderStage(Stage.Fragment)]
     [return: color(0)]
-    public vec4 Fragment(Pixel pixel)
+    public vec4 Fragment(PixelIn pixel)
     {
         float x = pixel.Uv.X * 2f - 1f;
         float y = pixel.Uv.Y * 2f - 1f;
@@ -262,17 +258,17 @@ namespace MisShaders;
 public class Neon
 {
     [ShaderStage(Stage.Vertex)]
-    public Pixel Vertex(Vertice vertice)
+    public Pixel Vertex({{vertexType}} vertice)
     {
         Pixel pixel;
-        pixel.Posicion = Crear.Vec4(vertice.Posicion.X, vertice.Posicion.Y, 0f, 1f);
-        pixel.Uv = vertice.Uv;
+        pixel.Posicion = Crear.Vec4(vertice.{{pos}}.X, vertice.{{pos}}.Y, 0f, 1f);
+        pixel.Uv = vertice.{{uv}};
         return pixel;
     }
 
     [ShaderStage(Stage.Fragment)]
     [return: location(0)]
-    public vec4 Fragment(Pixel pixel)
+    public vec4 Fragment(PixelIn pixel)
     {
         float x = pixel.Uv.X * 2f - 1f;
         float y = pixel.Uv.Y * 2f - 1f;
@@ -305,17 +301,17 @@ namespace MisShaders;
 public class Neon
 {
     [ShaderStage(Stage.Vertex)]
-    public Pixel Vertex(Vertice vertice)
+    public Pixel Vertex({{vertexType}} vertice)
     {
         Pixel pixel;
-        pixel.Posicion = Crear.Vec4(vertice.Posicion.X, vertice.Posicion.Y, 0f, 1f);
-        pixel.Uv = vertice.Uv;
+        pixel.Posicion = Crear.Vec4(vertice.{{pos}}.X, vertice.{{pos}}.Y, 0f, 1f);
+        pixel.Uv = vertice.{{uv}};
         return pixel;
     }
 
     [ShaderStage(Stage.Fragment)]
     [return: Location(0)]
-    public vec4 Fragment(Pixel pixel)
+    public vec4 Fragment(PixelIn pixel)
     {
         float x = pixel.Uv.X * 2f - 1f;
         float y = pixel.Uv.Y * 2f - 1f;

@@ -2,7 +2,6 @@
 title: "Shader 5: a photo underwater"
 summary: How to read an image from the shader and change it.
 order: 16
-status: planned
 ---
 
 The four previous shaders made up the color of each pixel with calculations. In this last one, the color comes from an image: a photo. And since the color goes through your function before it reaches the screen, you can do whatever you want to it.
@@ -16,9 +15,6 @@ and make it look like this, rippling as if you were looking at it through water:
 ![The same photo with a bluish tint, darkened edges and slightly wavy shapes](../../assets/get-started/agua-1.png)
 
 Everything you already know comes together in this shader: `Uv`, your own functions, `sin`, `mix` and the time uniform. The only new thing is reading the image.
-
-> [!WARNING]
-> Reading images from a shader is not supported by `add` yet. As in the two previous chapters, the code compiles in C# and the way it is written is final.
 
 ## An image inside a shader: the texture
 
@@ -148,17 +144,17 @@ public class Underwater
     public sampler2D Photo;
 
     [ShaderStage(Stage.Vertex)]
-    public Pixel Vertex(Corner corner)
+    public Pixel Vertex({{vertexType}} corner)
     {
         Pixel pixel;
-        pixel.Position = Make.Vec4(corner.Position.X, corner.Position.Y, 0f, 1f);
-        pixel.Uv = corner.Uv;
+        pixel.Position = Make.Vec4(corner.{{pos}}.X, corner.{{pos}}.Y, 0f, 1f);
+        pixel.Uv = corner.{{uv}};
         return pixel;
     }
 
     [ShaderStage(Stage.Fragment)]
     [return: location(0)]
-    public vec4 Fragment(Pixel pixel)
+    public vec4 Fragment(PixelIn pixel)
     {
         float t = Time.Seconds;
 
@@ -187,6 +183,56 @@ public class Underwater
 ```
 
 The `struct Clock` is not declared again: it is the one from `Plasma.cs`. Two shaders can share the same data `struct`, and your program can send the same clock to both.
+
+:::godot
+## Giving the photo to Godot
+
+A shader cannot open files by itself: your scene gives it the image. The viewer script already has a slot for that, the `photo` property (in C#, `Photo`). It sends the image to the shader's `Photo` texture right after loading it.
+
+1. Copy `pez.jpg` into `GodotGame/` and let Godot import it.
+2. Open `viewer.tscn`, select the root `Viewer` and write `Underwater` in **Shader Name**.
+3. Drag `pez.jpg` from the FileSystem dock to the **Photo** property of the Inspector.
+
+Press **Play Scene** (`Cmd/Ctrl+R`): the clownfish appears rippling, tinted blue and with dark edges, exactly as in the other routes.
+
+## A bonus for Godot: the whole 3D scene underwater
+
+The shader does not care where the image comes from. In Godot an image can also be **what a camera sees**. You are going to render a seabed in 3D and use that render as the `Photo`, so the water effect covers a full scene.
+
+> [!NOTE]
+> This is a **temporary** scene, only to show off. When you finish you give `Underwater` the clownfish again and the tutorial goes on as in every other route.
+
+The models are from the [Pirate Kit by Kenney](https://kenney.nl/assets/pirate-kit), license CC0 (public domain). Download it and copy these files from `Models/GLB format/` into `GodotGame/kenney/`: `ship-wreck.glb`, `patch-sand.glb`, `rocks-sand-a.glb`, `rocks-sand-b.glb`, `chest.glb`, `barrel.glb`, `crate-bottles.glb`, `cannon.glb`. Copy the `Textures/colormap.png` file too, next to them, because the models use it for their colors. Then use **Project → Reload Current Project** so Godot imports them.
+
+Open `viewer.tscn`, save it as `underwater.tscn` (**Scene → Save Scene As…**) and add these nodes as children of `Viewer`:
+
+- **`SubViewport`**: a small invisible screen where the 3D scene is drawn. In the Inspector set **Size** to `1152 × 648`, **Render Target → Update Mode** to `Always` and turn **Own World 3D** on. That last one is important: it gives the SubViewport its own world, so the camera of `Viewer` does not see its objects.
+
+Everything below goes inside `SubViewport`:
+
+| Node | Type | What you set |
+| --- | --- | --- |
+| `Camera3D` | `Camera3D` | Position `(0, 7.5, 15)`, Rotation X `-25°`, **FOV** `65` |
+| `Sun` | `DirectionalLight3D` | Rotation X `-60°`, **Energy** `0.7`, Shadow **Enabled** |
+| `Environment` | `WorldEnvironment` | New Environment: sky in dark teal, **Fog** enabled with a teal color and **Density** `0.006` |
+| `Floor` | `MeshInstance3D` | **Mesh → New PlaneMesh**, size `120 × 120`, Position Y `0.85`, sand-colored material |
+| `Sand0` … `Sand8` | `patch-sand.glb` | Drag the file from the FileSystem into the scene. Nine copies in a grid: X `-8, 0, 8` and Z `-4, 2, 8`, Y `-0.1` |
+| `Wreck` | `ship-wreck.glb` | Position `(0.5, 0.3, -1)`, Rotation Y `25°` |
+| `RocksA`, `RocksB` | `rocks-sand-a.glb`, `rocks-sand-b.glb` | Positions `(-5.5, 0, 3.5)` and `(6, 0, 4)` |
+| `Chest`, `Barrel`, `Crate`, `Cannon` | `chest.glb`, `barrel.glb`, `crate-bottles.glb`, `cannon.glb` | Spread them in front of the wreck, around Z `5` to `6.5` |
+
+![The Inspector of the SubViewport: preview of the seabed, size 1152 by 648, update mode Always and Own World 3D on](../../assets/get-started/godot/en/agua-escena.jpg)
+
+Now connect the two. Select the root `Viewer` and, in **Photo**, choose **New ViewportTexture**. Godot asks which viewport: pick `SubViewport`. The root keeps `Underwater` in **Shader Name**.
+
+Press **Play Scene**:
+
+![A seabed with a shipwreck, rocks, a chest and a barrel, tinted blue with dark edges and a slow ripple](../../assets/get-started/godot/en/agua-juego.gif)
+
+The wreck, the rocks and the sand are plain Godot models. Everything you see tinted, rippling and darkened at the edges is your `Underwater` shader, which received the camera image as if it were a photo.
+
+To go back to the standard chapter, open `viewer.tscn`: it still has `Underwater` and the clownfish in **Photo**.
+:::
 
 ## Look how far you have come
 

@@ -26,7 +26,7 @@ public class Barrido
 
     [ShaderStage(Stage.Fragment)]
     [return: location(0)]
-    public vec4 Fragment(Pixel pixel)
+    public vec4 Fragment(PixelIn pixel)
     {
         float centro = Tiempo.Segundos * 0.5f;
 

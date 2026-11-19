@@ -15,6 +15,7 @@ You finished the tutorial. You drew colors, shapes, a face, a sunset and a bounc
 - How to send data to a shader with a uniform, and how to read an image with a texture.
 - How to compile with `add` and ask your own class for the result.
 
+:::xna
 What is missing is the one thing this tutorial could not teach you in a single way: **drawing on screen**. Opening a window, sending the rectangle to the GPU, handing it the clock and the photo. That depends on what you work with.
 
 The good news is that the starting point is always the same and you already have it: `new Gradient()` and one of the methods `add` gave it.
@@ -22,13 +23,21 @@ The good news is that the starting point is always the same and you already have
 ## Pick your game engine
 
 ```buttons
-[MonoGame](../engines/monogame.md)
-[KNI](../engines/kni.md)
-[FNA](../engines/fna.md)
+[MonoGame](../reference/monogame.md)
+[KNI](../reference/kni.md)
+[FNA](../reference/fna.md)
+[Godot](../reference/godot.md)
 [Stride](../engines/stride.md)
 [Unity](../engines/unity.md)
 [Silk.NET](../engines/silknet.md)
 ```
+:::
+
+:::godot
+You already drew on screen: the viewer scene, your shaders running in Godot and even a 3D scene seen through them. What you did not see is everything Godot can do around that, and it is gathered in the [Godot reference](../reference/godot.md): the names of the 14 vertex attributes and what the translator supports.
+
+From here, the best way to learn is to take one of your shaders and use it on a real object, with `VERTEX` and `NORMAL` of a `MeshInstance3D`.
+:::
 
 ## Do you have your own engine?
 

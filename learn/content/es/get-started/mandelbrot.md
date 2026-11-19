@@ -130,17 +130,17 @@ namespace MisShaders;
 public class Mandelbrot
 {
     [ShaderStage(Stage.Vertex)]
-    public Pixel Vertex(Vertice vertice)
+    public Pixel Vertex({{vertexType}} vertice)
     {
         Pixel pixel;
-        pixel.Posicion = Crear.Vec4(vertice.Posicion.X, vertice.Posicion.Y, 0f, 1f);
-        pixel.Uv = vertice.Uv;
+        pixel.Posicion = Crear.Vec4(vertice.{{pos}}.X, vertice.{{pos}}.Y, 0f, 1f);
+        pixel.Uv = vertice.{{uv}};
         return pixel;
     }
 
     [ShaderStage(Stage.Fragment)]
     [return: location(0)]
-    public vec4 Fragment(Pixel pixel)
+    public vec4 Fragment(PixelIn pixel)
     {
         float cx = pixel.Uv.X * 3f - 2.2f;
         float cy = pixel.Uv.Y * 3f - 1.5f;
@@ -201,17 +201,17 @@ namespace MisShaders;
 public class Mandelbrot
 {
     [ShaderStage(Stage.Vertex)]
-    public Pixel Vertex(Vertice vertice)
+    public Pixel Vertex({{vertexType}} vertice)
     {
         Pixel pixel;
-        pixel.Posicion = Crear.Vec4(vertice.Posicion.X, vertice.Posicion.Y, 0f, 1f);
-        pixel.Uv = vertice.Uv;
+        pixel.Posicion = Crear.Vec4(vertice.{{pos}}.X, vertice.{{pos}}.Y, 0f, 1f);
+        pixel.Uv = vertice.{{uv}};
         return pixel;
     }
 
     [ShaderStage(Stage.Fragment)]
     [return: SV_Target]
-    public vec4 Fragment(Pixel pixel)
+    public vec4 Fragment(PixelIn pixel)
     {
         float cx = pixel.Uv.X * 3f - 2.2f;
         float cy = pixel.Uv.Y * 3f - 1.5f;
@@ -272,17 +272,17 @@ namespace MisShaders;
 public class Mandelbrot
 {
     [ShaderStage(Stage.Vertex)]
-    public Pixel Vertex(Vertice vertice)
+    public Pixel Vertex({{vertexType}} vertice)
     {
         Pixel pixel;
-        pixel.Posicion = Crear.Vec4(vertice.Posicion.X, vertice.Posicion.Y, 0f, 1f);
-        pixel.Uv = vertice.Uv;
+        pixel.Posicion = Crear.Vec4(vertice.{{pos}}.X, vertice.{{pos}}.Y, 0f, 1f);
+        pixel.Uv = vertice.{{uv}};
         return pixel;
     }
 
     [ShaderStage(Stage.Fragment)]
     [return: color(0)]
-    public vec4 Fragment(Pixel pixel)
+    public vec4 Fragment(PixelIn pixel)
     {
         float cx = pixel.Uv.X * 3f - 2.2f;
         float cy = pixel.Uv.Y * 3f - 1.5f;
@@ -343,17 +343,17 @@ namespace MisShaders;
 public class Mandelbrot
 {
     [ShaderStage(Stage.Vertex)]
-    public Pixel Vertex(Vertice vertice)
+    public Pixel Vertex({{vertexType}} vertice)
     {
         Pixel pixel;
-        pixel.Posicion = Crear.Vec4(vertice.Posicion.X, vertice.Posicion.Y, 0f, 1f);
-        pixel.Uv = vertice.Uv;
+        pixel.Posicion = Crear.Vec4(vertice.{{pos}}.X, vertice.{{pos}}.Y, 0f, 1f);
+        pixel.Uv = vertice.{{uv}};
         return pixel;
     }
 
     [ShaderStage(Stage.Fragment)]
     [return: location(0)]
-    public vec4 Fragment(Pixel pixel)
+    public vec4 Fragment(PixelIn pixel)
     {
         float cx = pixel.Uv.X * 3f - 2.2f;
         float cy = pixel.Uv.Y * 3f - 1.5f;
@@ -414,17 +414,17 @@ namespace MisShaders;
 public class Mandelbrot
 {
     [ShaderStage(Stage.Vertex)]
-    public Pixel Vertex(Vertice vertice)
+    public Pixel Vertex({{vertexType}} vertice)
     {
         Pixel pixel;
-        pixel.Posicion = Crear.Vec4(vertice.Posicion.X, vertice.Posicion.Y, 0f, 1f);
-        pixel.Uv = vertice.Uv;
+        pixel.Posicion = Crear.Vec4(vertice.{{pos}}.X, vertice.{{pos}}.Y, 0f, 1f);
+        pixel.Uv = vertice.{{uv}};
         return pixel;
     }
 
     [ShaderStage(Stage.Fragment)]
     [return: Location(0)]
-    public vec4 Fragment(Pixel pixel)
+    public vec4 Fragment(PixelIn pixel)
     {
         float cx = pixel.Uv.X * 3f - 2.2f;
         float cy = pixel.Uv.Y * 3f - 1.5f;
@@ -478,24 +478,14 @@ public class Mandelbrot
 Tres cosas que conviene notar:
 
 - **El método `Vertex` es el mismo del shader anterior.** Cuando lo que dibujas es un rectángulo que cubre la pantalla, la etapa Vertex no cambia. Lo interesante pasa en `Fragment`.
-- **`Vertice` y `Pixel` no los volviste a escribir.** Están en `Pantalla.cs` y los comparten todos tus shaders, como cualquier `struct` de tu proyecto.
+- **`Vertice`, `Pixel` y `PixelIn` no los volviste a escribir.** Están en `Pantalla.cs` y los comparten todos tus shaders, como cualquier `struct` de tu proyecto.
 - **Las funciones `ContarPasos` y `Paleta` no llevan `[ShaderStage]`.** Solo las etapas lo llevan. Las demás son funciones de ayuda, y el compilador las encuentra solo porque `Fragment` las llama.
 
 ## Compila y mira el resultado
 
 El mismo comando de siempre. Como `add` compila todos los shaders del proyecto, ahora procesa los dos:
 
-Pero primero, avisa al visor del nuevo shader. En `Visor/Program.cs`, agrega esta línea al `switch`, encima de la línea `_ =>`:
-
-```csharp
-            "Mandelbrot" => new Mandelbrot().ToMGFX(gl),
-```
-
-Ahora sí, ejecútalo:
-
-```bash
-dotnet yotsuba add MisShaders/MisShaders.csproj --target spirv && dotnet run --project Visor -- Mandelbrot
-```
+{{register Mandelbrot}}
 
 Se abre el visor con tu fractal. Probablemente lo veas **estirado a lo ancho**. No es un fallo del shader: es el mismo problema del óvalo del capítulo de las [coordenadas](coordinates.md). Este shader convierte el `Uv` en números sin tener en cuenta que la ventana es más ancha que alta. Para verlo bien, hazla cuadrada: en `Visor/Program.cs`, cambia `800` y `450` por `600` y `600`. Al final del capítulo tienes un reto para arreglarlo en el propio shader.
 
@@ -605,6 +595,123 @@ float cy = (pixel.Uv.Y - 0.5f) * 3f;
 ![El fractal de Mandelbrot con sus proporciones correctas en una ventana ancha](../../assets/get-started/taller/mandelbrot-ancho.png)
 
 Los números `3f` y `-0.7f` son los que antes salían del `3f` y el `-2.2f`: el `3` es cuánto de plano se ve de alto, y el `-0.7` es el centro de la vista en horizontal.
+
+:::godot
+## Un extra para Godot: un cielo apocalíptico
+
+En Godot el fractal no tiene por qué quedarse dentro de un rectángulo. Vas a usarlo como el **cielo de una escena 3D**, con una ondulación que hace que el aire parezca arder.
+
+> [!NOTE]
+> Este shader es **temporal**, solo para lucirte. No lo necesitarás después: al terminar vuelves a `Mandelbrot` y el resto del tutorial sigue igual que en las demás rutas.
+
+Crea `MisShaders/MandelbrotCielo.cs`:
+
+```csharp style=glsl title="MisShaders/MandelbrotCielo.cs"
+using YotsubaShader.GlslSyntax;
+using YotsubaShader.GlslSyntax.Resources;
+using YotsubaShader.GlslSyntax.Types;
+using YotsubaShader.Language;
+using static YotsubaShader.GlslSyntax.Methods.Math;
+
+namespace MisShaders;
+
+public struct RelojCielo
+{
+    public float Segundos;
+}
+
+public class MandelbrotCielo
+{
+    [uniform, layout(0, 0)]
+    public RelojCielo Sky;
+
+    [ShaderStage(Stage.Vertex)]
+    public Pixel Vertex(VerticeGodot vertice)
+    {
+        Pixel pixel;
+        // z casi 0: el rectángulo queda en el fondo de todo, detrás de cualquier objeto de la escena.
+        pixel.Posicion = Crear.Vec4(vertice.VERTEX.X, vertice.VERTEX.Y, 0.00001f, 1f);
+        pixel.Uv = vertice.UV;
+        return pixel;
+    }
+
+    [ShaderStage(Stage.Fragment)]
+    [return: location(0)]
+    public vec4 Fragment(PixelIn pixel)
+    {
+        float t = Cielo.Segundos;
+
+        // La ondulación: cada fila del cielo se empuja hacia un lado con una onda que sube.
+        float u = pixel.Uv.X + 0.012f * sin(pixel.Uv.Y * 38f - t * 2.5f);
+        float v = pixel.Uv.Y + 0.008f * sin(pixel.Uv.X * 29f + t * 1.7f);
+
+        // Un zoom lento que "respira" sobre el borde superior del fractal.
+        float zoom = 1.1f + 0.2f * sin(t * 0.15f);
+        float cx = -0.65f + (u - 0.5f) * 3f / zoom;
+        float cy = 0.45f + (v - 0.5f) * 1.7f / zoom;
+
+        int pasos = ContarPasos(cx, cy);
+        float k = pasos / 100f;
+        float red = clamp(k * 4f, 0f, 1f);
+        float green = clamp(k * 4f - 1.2f, 0f, 1f) * 0.55f;
+        float blue = clamp(k * 4f - 3f, 0f, 1f) * 0.25f;
+
+        // El interior del conjunto (los 100 pasos) es el núcleo oscuro del cielo.
+        float dentro = step(100f, pasos);
+        red = mix(red, 0.02f, dentro);
+        green = mix(green, 0f, dentro);
+        blue = mix(blue, 0f, dentro);
+        return Crear.Vec4(red, green, blue, 1f);
+    }
+
+    public static int ContarPasos(float cx, float cy)
+    {
+        float x = 0f;
+        float y = 0f;
+        int pasos = 0;
+
+        while (pasos < 100)
+        {
+            float nuevoX = x * x - y * y + cx;
+            float nuevoY = 2f * x * y + cy;
+            x = nuevoX;
+            y = nuevoY;
+
+            if (x * x + y * y > 4f)
+            {
+                break;
+            }
+
+            pasos++;
+        }
+
+        return pasos;
+    }
+}
+```
+
+Hay tres ideas nuevas:
+
+- **`0.00001f` en la posición.** Hasta ahora el tercer número de `Posicion` era `0f`. En Godot, ese número es la profundidad: qué tan lejos de la cámara está el punto. Con casi cero, el rectángulo se va al fondo de todo, detrás de todo lo demás. Los objetos que están delante lo tapan, igual que un cielo de verdad.
+- **La ondulación.** Antes de convertir el píxel en `cx` y `cy`, empujas un poco `Uv.X` con un `sin` de la altura, y `Uv.Y` con un `sin` del ancho. Los dos incluyen el tiempo, así que las ondas viajan. Cambia `0.012f` por `0.05f` y el cielo se derretirá.
+- **`step` y `mix` en lugar de un `if`.** El interior del conjunto se pinta con estas dos, que eligen un color sin ramificar. `step(100f, pasos)` vale `1` cuando el píxel nunca escapó y `0` en caso contrario; `mix` usa ese número para elegir entre el color del fuego y el núcleo oscuro.
+
+Ahora la escena. Abre `viewer.tscn` y guárdala con otro nombre (**Scene → Save Scene As…**): `sky.tscn`. Luego añade, como hijos de `Visor`:
+
+- **`Ground`**: un `MeshInstance3D`. En el Inspector, **Mesh → New PlaneMesh** y pon su **Size** en `80 × 80`.
+- **`TowerA`, `TowerB`, `TowerC`**: más `MeshInstance3D`, con **Mesh → New BoxMesh**, altas y delgadas (por ejemplo `1.6 × 7 × 1.6`). Colócalas entre `-4` y `-11` en Z, con alturas distintas.
+- **`Light`**: un `DirectionalLight3D` de color naranja.
+
+Selecciona la `Camera3D` y súbela y échala hacia atrás (`Position` Y `1.6`, Z `8`). Selecciona la raíz y escribe `MandelbrotCielo` en **Shader Name**.
+
+![El árbol de la escena del cielo: Viewer con Screen, Camera3D, Ground, cuatro torres y una Light](../../assets/get-started/godot/en/cielo-escena.jpg)
+
+Pulsa **Play Scene** (`Cmd/Ctrl+R`):
+
+![Un fractal de Mandelbrot rojo y naranja como cielo detrás de torres oscuras, sobre un suelo rojo oscuro](../../assets/get-started/godot/en/cielo-juego.jpg)
+
+El fractal es tu propio código, corriendo como fondo de una escena 3D. Para volver, abre `viewer.tscn`: sigue diciendo `Mandelbrot`.
+:::
 
 ## Qué puedes usar dentro de un shader y qué no
 

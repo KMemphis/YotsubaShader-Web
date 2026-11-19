@@ -1,6 +1,6 @@
 ---
 title: The CLI
-summary: The compiler's two commands, add and compile, and how to make add run on its own.
+summary: The compiler's commands (add, compile and plugin), the plugins for each engine, and how to make add run on its own.
 order: 18
 ---
 
@@ -40,16 +40,41 @@ For each shader class, that file adds these methods:
 | `ToGlslEs(Stage)` | `string` | OpenGL ES and WebGL |
 | `ToHlsl(Stage)` | `string` | DirectX |
 | `ToMSL(Stage)` | `string` | Metal |
-| `ToMGFX(MonoGamePlatform)` | `byte[]` | MonoGame |
-| `ToKNIWebGL_FX()` | `byte[]` | KNI on the web |
-| `ToFNA_FX()` | `byte[]` | FNA |
 
 The ones that ask for a `Stage` return one stage at a time: `Stage.Vertex` or `Stage.Fragment`.
 
 The good thing about `add` is that the C# compiler looks after you. If you rename the `Gradient` class, your program stops compiling until you fix it. With separate files, you only discover a misspelled name when you run.
 
+The first five come with the CLI. The engine methods come from **plugins**, and each one is requested with its own `--target`:
+
+| Method | Returns | For | Asked with |
+| --- | --- | --- | --- |
+| `ToMGFX(MonoGamePlatform)` | `byte[]` | MonoGame | `--target monogame` |
+| `ToKNIWebGL_FX()` | `byte[]` | KNI | `--target kni` |
+| `ToFNA_FX()` | `byte[]` | FNA | `--target fna` |
+| `ToGodotShader(GodotShaderType)` | `string` | Godot | `--target godot` |
+
+For example, to use your shaders in {{engine}}:
+
+```bash
+dotnet yotsuba add MyShaders/MyShaders.csproj --target spirv --target {{plugin}}
+```
+
 > [!NOTE]
-> Today the CLI requires at least one `--target` with `add` too, even though `add` always generates every format. That is why the command carries `--target spirv`.
+> The CLI requires at least one `--target` with `add` too. `spirv` is the one the tutorial uses, and the methods of the first table are generated no matter which one you choose.
+
+### Plugins
+
+A plugin is a small NuGet package that teaches the CLI one more format. The CLI downloads it the first time you ask for it with `--target`, and keeps it in a folder in your user account. These are the commands to manage them:
+
+| Command | What it does |
+| --- | --- |
+| `dotnet yotsuba plugin list` | Shows the plugins that exist and which ones you have installed. |
+| `dotnet yotsuba plugin install monogame` | Downloads a plugin before you need it. |
+| `dotnet yotsuba plugin update monogame` | Fetches its latest version. Without a name, it updates all the installed ones. |
+| `dotnet yotsuba plugin remove monogame` | Deletes it. |
+
+The plugin is used only by the CLI, when it compiles. Your game does not reference it. The [MonoGame, KNI and FNA guides](../engines/index.md) show the whole path, step by step.
 
 ## `compile`: the result in files
 
@@ -100,9 +125,10 @@ Two details about `--output`:
 | `hlsl` | HLSL, for DirectX | `.hlsl` |
 | `msl` (or `metal`) | Metal, for Apple | `.msl` |
 | `cpp` | C++ | `.cpp` |
-| `monogame` (or `mgfx`) | MonoGame effects, one per platform | `.mgfx` |
-| `kni` (or `kni-webgl`) | KNI effect for the web | `.knifx` |
-| `fna` | FNA effect | `.fxb` |
+| `monogame` (or `mgfx`) | MonoGame effects, one per platform. It needs the `monogame` plugin. | `.mgfx` |
+| `kni` (or `kni-webgl`) | KNI effect. It needs the `kni` plugin. | `.knifx` |
+| `fna` | FNA effect. It needs the `fna` plugin. | `.fxb` |
+| `godot` (or `gdshader`) | Godot shaders, one per type (`spatial`, `canvas_item`). It needs the `godot` plugin. | `.gdshader` |
 
 ## Make `add` run on its own
 
@@ -124,7 +150,7 @@ Open `MyShaders/MyShaders.csproj` and add the `<Target>` block. The complete fil
   </PropertyGroup>
 
   <Target Name="CompileShaders" BeforeTargets="CoreCompile" Condition="'$(DesignTimeBuild)' != 'true'">
-    <Exec Command="dotnet yotsuba add &quot;$(MSBuildProjectFullPath)&quot; --target spirv" />
+    <Exec Command="dotnet yotsuba add &quot;$(MSBuildProjectFullPath)&quot; --target spirv --target {{plugin}}" />
     <ItemGroup>
       <Compile Remove="YotsubaShader.g.cs" />
       <Compile Include="YotsubaShader.g.cs" />
@@ -158,7 +184,7 @@ The CLI prints its messages in Spanish. These are the ones you will see most, an
 | `Debes indicar al menos un --target.` | The format is missing. | Add `--target spirv`. |
 | `Falta el proyecto .csproj.` | You did not say which project to compile. | Put the path of the `.csproj` after the command. |
 | `Target desconocido 'x'.` | That format does not exist. | Use one from the formats table. |
-| `Comando desconocido 'x'.` | Only `add` and `compile` exist. | Check how you typed it. |
+| `Comando desconocido 'x'.` | Only `add`, `compile` and `plugin` exist. | Check how you typed it. |
 | An error starting with `CS`, such as `error CS0103` | It is a normal C# error: your project does not compile. | Fix it like any C# error. The CLI does not continue until the project compiles. |
 | `error CS0234` right after deleting or renaming a shader class | `YotsubaShader.g.cs` still names the old class, and `add` builds the project before rewriting it. | Delete `YotsubaShader.g.cs` and run `add` again. |
 | `... no hay código disponible para compilarlo en GPU.` | You called a function that is not yours and that the GPU does not know, for example `System.Math.Sqrt`. | Use the functions in `YotsubaShader.GlslSyntax.Methods.Math` or write your own. |
@@ -170,6 +196,7 @@ If the error shows up as soon as the project is opened, before any shader is com
 
 - `add` leaves the result inside your project, as methods of your classes. `compile` leaves it in files.
 - `--target` chooses the format and can be repeated. `--output` chooses the folder.
+- MonoGame, KNI, FNA and Godot are plugins: you ask for them with `--target monogame`, `kni`, `fna` or `godot`, and the CLI downloads them the first time.
 - With a `<Target>` in the `.csproj`, `add` runs on its own every time you build.
 
 Next: [Other writing styles](how-it-works.md).

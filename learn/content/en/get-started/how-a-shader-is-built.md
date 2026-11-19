@@ -262,45 +262,47 @@ Because a shader can paint on several images at once, and the number says which 
 
 The number between brackets, `location`, is how GLSL names a slot. GLSL is the language of OpenGL and Vulkan. HLSL, the language of DirectX, names the same thing with a word and an index, such as `TEXCOORD0`. Metal, WebGPU and SPIR-V have their own words too. So which one do you write? **The one you already know.** Yotsuba Shader has five styles: **GLSL, HLSL, MSL (Metal), WGSL (WebGPU) and SPIR-V**. Only the words of the interface change; the math and the C# stay exactly the same. Use the **Style** dropdown at the top right of this page to see every example in the style you prefer.
 
+:::godot
+> [!IMPORTANT]
+> **In the Godot route, door A works by name, not by number.** Godot hands every vertex its data with fixed names: `VERTEX` (the position), `NORMAL`, `UV`, `COLOR`... The plugin reads the **name of your field** to know which one you ask for. So in this route `{{vertexType}}` always has **all 14** attributes of Godot, written exactly as Godot writes them (capital letters included), and you will use that same struct from the first shader to the last one. The number between brackets is still written because the syntax asks for it, but for door A Godot ignores it. Doors B and C keep working with numbers, as explained here.
+>
+> You do not need to use the 14. A shader that only reads `VERTEX` and `UV` leaves the rest alone, and Godot fills them with default values.
+:::
+
 Our `Corner` in the five styles:
 
 ```csharp style=glsl
-public struct Corner
+public struct {{vertexType}}
 {
-    [location(0)] public vec2 Position;
-    [location(1)] public vec4 Color;
+    {{vertexFieldsColor glsl}}
 }
 ```
 
 ```csharp style=hlsl
-public struct Corner
+public struct {{vertexType}}
 {
-    [TEXCOORD(0)] public vec2 Position;
-    [TEXCOORD(1)] public vec4 Color;
+    {{vertexFieldsColor hlsl}}
 }
 ```
 
 ```csharp style=msl
-public struct Corner
+public struct {{vertexType}}
 {
-    [attribute(0)] public vec2 Position;
-    [attribute(1)] public vec4 Color;
+    {{vertexFieldsColor msl}}
 }
 ```
 
 ```csharp style=wgsl
-public struct Corner
+public struct {{vertexType}}
 {
-    [location(0)] public vec2 Position;
-    [location(1)] public vec4 Color;
+    {{vertexFieldsColor glsl}}
 }
 ```
 
 ```csharp style=spirv
-public struct Corner
+public struct {{vertexType}}
 {
-    [Location(0)] public vec2 Position;
-    [Location(1)] public vec4 Color;
+    {{vertexFieldsColor spirv}}
 }
 ```
 
@@ -359,10 +361,9 @@ namespace MyShaders;
 
 public class Triangle
 {
-    public struct Corner
+    public struct {{vertexType}}
     {
-        [location(0)] public vec2 Position;
-        [location(1)] public vec4 Color;
+        {{vertexFieldsColor glsl}}
     }
 
     public struct Pixel
@@ -371,18 +372,23 @@ public class Triangle
         [location(0)] public vec4 Color;
     }
 
+    public struct PixelIn
+    {
+        [location(0)] public vec4 Color;
+    }
+
     [ShaderStage(Stage.Vertex)]
-    public Pixel Vertex(Corner corner)
+    public Pixel Vertex({{vertexType}} corner)
     {
         Pixel pixel;
-        pixel.Position = Make.Vec4(corner.Position.X, corner.Position.Y, 0f, 1f);
-        pixel.Color = corner.Color;
+        pixel.Position = Make.Vec4(corner.{{pos}}.X, corner.{{pos}}.Y, 0f, 1f);
+        pixel.Color = corner.{{color}};
         return pixel;
     }
 
     [ShaderStage(Stage.Fragment)]
     [return: location(0)]
-    public vec4 Fragment(Pixel pixel)
+    public vec4 Fragment(PixelIn pixel)
     {
         return pixel.Color;
     }
@@ -398,10 +404,9 @@ namespace MyShaders;
 
 public class Triangle
 {
-    public struct Corner
+    public struct {{vertexType}}
     {
-        [TEXCOORD(0)] public vec2 Position;
-        [TEXCOORD(1)] public vec4 Color;
+        {{vertexFieldsColor hlsl}}
     }
 
     public struct Pixel
@@ -410,18 +415,23 @@ public class Triangle
         [TEXCOORD(0)] public vec4 Color;
     }
 
+    public struct PixelIn
+    {
+        [TEXCOORD(0)] public vec4 Color;
+    }
+
     [ShaderStage(Stage.Vertex)]
-    public Pixel Vertex(Corner corner)
+    public Pixel Vertex({{vertexType}} corner)
     {
         Pixel pixel;
-        pixel.Position = Make.Vec4(corner.Position.X, corner.Position.Y, 0f, 1f);
-        pixel.Color = corner.Color;
+        pixel.Position = Make.Vec4(corner.{{pos}}.X, corner.{{pos}}.Y, 0f, 1f);
+        pixel.Color = corner.{{color}};
         return pixel;
     }
 
     [ShaderStage(Stage.Fragment)]
     [return: SV_Target]
-    public vec4 Fragment(Pixel pixel)
+    public vec4 Fragment(PixelIn pixel)
     {
         return pixel.Color;
     }
@@ -437,10 +447,9 @@ namespace MyShaders;
 
 public class Triangle
 {
-    public struct Corner
+    public struct {{vertexType}}
     {
-        [attribute(0)] public vec2 Position;
-        [attribute(1)] public vec4 Color;
+        {{vertexFieldsColor msl}}
     }
 
     public struct Pixel
@@ -449,18 +458,23 @@ public class Triangle
         [attribute(0)] public vec4 Color;
     }
 
+    public struct PixelIn
+    {
+        [attribute(0)] public vec4 Color;
+    }
+
     [ShaderStage(Stage.Vertex)]
-    public Pixel Vertex(Corner corner)
+    public Pixel Vertex({{vertexType}} corner)
     {
         Pixel pixel;
-        pixel.Position = Make.Vec4(corner.Position.X, corner.Position.Y, 0f, 1f);
-        pixel.Color = corner.Color;
+        pixel.Position = Make.Vec4(corner.{{pos}}.X, corner.{{pos}}.Y, 0f, 1f);
+        pixel.Color = corner.{{color}};
         return pixel;
     }
 
     [ShaderStage(Stage.Fragment)]
     [return: color(0)]
-    public vec4 Fragment(Pixel pixel)
+    public vec4 Fragment(PixelIn pixel)
     {
         return pixel.Color;
     }
@@ -476,10 +490,9 @@ namespace MyShaders;
 
 public class Triangle
 {
-    public struct Corner
+    public struct {{vertexType}}
     {
-        [location(0)] public vec2 Position;
-        [location(1)] public vec4 Color;
+        {{vertexFieldsColor glsl}}
     }
 
     public struct Pixel
@@ -488,18 +501,23 @@ public class Triangle
         [location(0)] public vec4 Color;
     }
 
+    public struct PixelIn
+    {
+        [location(0)] public vec4 Color;
+    }
+
     [ShaderStage(Stage.Vertex)]
-    public Pixel Vertex(Corner corner)
+    public Pixel Vertex({{vertexType}} corner)
     {
         Pixel pixel;
-        pixel.Position = Make.Vec4(corner.Position.X, corner.Position.Y, 0f, 1f);
-        pixel.Color = corner.Color;
+        pixel.Position = Make.Vec4(corner.{{pos}}.X, corner.{{pos}}.Y, 0f, 1f);
+        pixel.Color = corner.{{color}};
         return pixel;
     }
 
     [ShaderStage(Stage.Fragment)]
     [return: location(0)]
-    public vec4 Fragment(Pixel pixel)
+    public vec4 Fragment(PixelIn pixel)
     {
         return pixel.Color;
     }
@@ -515,10 +533,9 @@ namespace MyShaders;
 
 public class Triangle
 {
-    public struct Corner
+    public struct {{vertexType}}
     {
-        [Location(0)] public vec2 Position;
-        [Location(1)] public vec4 Color;
+        {{vertexFieldsColor spirv}}
     }
 
     public struct Pixel
@@ -527,18 +544,23 @@ public class Triangle
         [Location(0)] public vec4 Color;
     }
 
+    public struct PixelIn
+    {
+        [Location(0)] public vec4 Color;
+    }
+
     [ShaderStage(Stage.Vertex)]
-    public Pixel Vertex(Corner corner)
+    public Pixel Vertex({{vertexType}} corner)
     {
         Pixel pixel;
-        pixel.Position = Make.Vec4(corner.Position.X, corner.Position.Y, 0f, 1f);
-        pixel.Color = corner.Color;
+        pixel.Position = Make.Vec4(corner.{{pos}}.X, corner.{{pos}}.Y, 0f, 1f);
+        pixel.Color = corner.{{color}};
         return pixel;
     }
 
     [ShaderStage(Stage.Fragment)]
     [return: Location(0)]
-    public vec4 Fragment(Pixel pixel)
+    public vec4 Fragment(PixelIn pixel)
     {
         return pixel.Color;
     }
@@ -558,10 +580,9 @@ namespace MyShaders;
 
 public class Triangle
 {
-    public struct Corner
+    public struct {{vertexType}}
     {
-        [location(0)] public vec2 Position;
-        [location(1)] public vec4 Color;
+        {{vertexFieldsColor glsl}}
     }
 
     public struct Pixel
@@ -570,18 +591,23 @@ public class Triangle
         [location(0)] public vec4 Color;
     }
 
+    public struct PixelIn
+    {
+        [location(0)] public vec4 Color;
+    }
+
     [ShaderStage(Stage.Vertex)]
-    public Pixel Vertex(Corner corner)
+    public Pixel Vertex({{vertexType}} corner)
     {
         Pixel pixel;
-        pixel.Position = Make.Vec4(corner.Position.X, corner.Position.Y, 0f, 1f);
-        pixel.Color = corner.Color;
+        pixel.Position = Make.Vec4(corner.{{pos}}.X, corner.{{pos}}.Y, 0f, 1f);
+        pixel.Color = corner.{{color}};
         return pixel;
     }
 
     [ShaderStage(Stage.Fragment)]
     [return: location(0)]
-    public vec4 Fragment(Pixel pixel)
+    public vec4 Fragment(PixelIn pixel)
     {
         return pixel.Color;
     }

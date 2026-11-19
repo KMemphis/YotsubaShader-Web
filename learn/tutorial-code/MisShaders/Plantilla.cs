@@ -17,7 +17,7 @@ public class Plantilla
 
     [ShaderStage(Stage.Fragment)]
     [return: location(0)]
-    public vec4 Fragment(Pixel pixel)
+    public vec4 Fragment(PixelIn pixel)
     {
         return Crear.Vec4(0f, 0f, 0f, 1f);
     }

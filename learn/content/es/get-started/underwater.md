@@ -2,7 +2,6 @@
 title: "Shader 5: una foto bajo el agua"
 summary: Cómo leer una imagen desde el shader y modificarla.
 order: 16
-status: planned
 ---
 
 Los cuatro shaders anteriores inventaban el color de cada píxel con cuentas. En este último, el color sale de una imagen: una foto. Y como el color pasa por tu función antes de llegar a la pantalla, puedes hacerle lo que quieras.
@@ -16,9 +15,6 @@ y vas a hacer que se vea así, ondulando como si la miraras a través del agua:
 ![La misma foto con tono azulado, los bordes oscurecidos y las formas ligeramente onduladas](../../assets/get-started/agua-1.png)
 
 En este shader se junta todo lo que ya sabes: `Uv`, funciones propias, `sin`, `mix` y el uniform del tiempo. Lo único nuevo es leer la imagen.
-
-> [!WARNING]
-> Leer imágenes desde un shader todavía no está admitido por `add`. Como en los dos capítulos anteriores, el código compila en C# y la forma de escribirlo es la definitiva.
 
 ## Una imagen dentro de un shader: la textura
 
@@ -148,17 +144,17 @@ public class BajoElAgua
     public sampler2D Foto;
 
     [ShaderStage(Stage.Vertex)]
-    public Pixel Vertex(Vertice vertice)
+    public Pixel Vertex({{vertexType}} vertice)
     {
         Pixel pixel;
-        pixel.Posicion = Crear.Vec4(vertice.Posicion.X, vertice.Posicion.Y, 0f, 1f);
-        pixel.Uv = vertice.Uv;
+        pixel.Posicion = Crear.Vec4(vertice.{{pos}}.X, vertice.{{pos}}.Y, 0f, 1f);
+        pixel.Uv = vertice.{{uv}};
         return pixel;
     }
 
     [ShaderStage(Stage.Fragment)]
     [return: location(0)]
-    public vec4 Fragment(Pixel pixel)
+    public vec4 Fragment(PixelIn pixel)
     {
         float t = Tiempo.Segundos;
 
@@ -187,6 +183,56 @@ public class BajoElAgua
 ```
 
 El `struct Reloj` no se vuelve a declarar: es el de `Plasma.cs`. Dos shaders pueden compartir el mismo `struct` de datos, y tu programa puede mandarles el mismo reloj a los dos.
+
+:::godot
+## Darle la foto a Godot
+
+Un shader no puede abrir archivos por sí solo: tu escena le entrega la imagen. El script del visor ya tiene un espacio para eso, la propiedad `foto` (en C#, `Foto`). Envía la imagen a la textura `Foto` del shader justo después de cargarlo.
+
+1. Copia `pez.jpg` en `GodotGame/` y deja que Godot lo importe.
+2. Abre `visor.tscn`, selecciona la raíz `Visor` y escribe `BajoElAgua` en **Nombre Shader**.
+3. Arrastra `pez.jpg` desde el panel FileSystem a la propiedad **Foto** del Inspector.
+
+Pulsa **Play Scene** (`Cmd/Ctrl+R`): aparece el pez payaso ondulando, con tono azul y bordes oscuros, igual que en las demás rutas.
+
+## Un extra para Godot: toda la escena 3D bajo el agua
+
+Al shader le da igual de dónde viene la imagen. En Godot una imagen también puede ser **lo que ve una cámara**. Vas a dibujar un fondo marino en 3D y a usar ese dibujo como `Foto`, de modo que el efecto de agua cubra una escena completa.
+
+> [!NOTE]
+> Esta escena es **temporal**, solo para lucirte. Cuando termines le vuelves a dar el pez payaso a `BajoElAgua` y el tutorial sigue como en las demás rutas.
+
+Los modelos son del [Pirate Kit de Kenney](https://kenney.nl/assets/pirate-kit), licencia CC0 (dominio público). Descárgalo y copia estos archivos de `Models/GLB format/` a `GodotGame/kenney/`: `ship-wreck.glb`, `patch-sand.glb`, `rocks-sand-a.glb`, `rocks-sand-b.glb`, `chest.glb`, `barrel.glb`, `crate-bottles.glb`, `cannon.glb`. Copia también `Textures/colormap.png`, junto a ellos, porque los modelos lo usan para sus colores. Después usa **Project → Reload Current Project** para que Godot los importe.
+
+Abre `visor.tscn`, guárdala como `bajo_el_agua.tscn` (**Scene → Save Scene As…**) y añade estos nodos como hijos de `Visor`:
+
+- **`SubViewport`**: una pantalla pequeña e invisible donde se dibuja la escena 3D. En el Inspector pon **Size** en `1152 × 648`, **Render Target → Update Mode** en `Always` y activa **Own World 3D**. Esto último es importante: le da su propio mundo al SubViewport, así la cámara de `Visor` no ve sus objetos.
+
+Todo lo siguiente va dentro de `SubViewport`:
+
+| Nodo | Tipo | Qué configuras |
+| --- | --- | --- |
+| `Camera3D` | `Camera3D` | Position `(0, 7.5, 15)`, Rotation X `-25°`, **FOV** `65` |
+| `Sun` | `DirectionalLight3D` | Rotation X `-60°`, **Energy** `0.7`, Shadow **Enabled** |
+| `Environment` | `WorldEnvironment` | New Environment: cielo verde azulado oscuro, **Fog** activada con color verde azulado y **Density** `0.006` |
+| `Floor` | `MeshInstance3D` | **Mesh → New PlaneMesh**, tamaño `120 × 120`, Position Y `0.85`, material color arena |
+| `Sand0` … `Sand8` | `patch-sand.glb` | Arrastra el archivo desde FileSystem a la escena. Nueve copias en cuadrícula: X `-8, 0, 8` y Z `-4, 2, 8`, Y `-0.1` |
+| `Wreck` | `ship-wreck.glb` | Position `(0.5, 0.3, -1)`, Rotation Y `25°` |
+| `RocksA`, `RocksB` | `rocks-sand-a.glb`, `rocks-sand-b.glb` | Posiciones `(-5.5, 0, 3.5)` y `(6, 0, 4)` |
+| `Chest`, `Barrel`, `Crate`, `Cannon` | `chest.glb`, `barrel.glb`, `crate-bottles.glb`, `cannon.glb` | Repártelos delante del naufragio, entre Z `5` y `6.5` |
+
+![El Inspector del SubViewport: vista previa del fondo marino, tamaño 1152 por 648, Update Mode Always y Own World 3D activado](../../assets/get-started/godot/en/agua-escena.jpg)
+
+Ahora une las dos partes. Selecciona la raíz `Visor` y, en **Foto**, elige **New ViewportTexture**. Godot pregunta qué viewport: elige `SubViewport`. La raíz conserva `BajoElAgua` en **Nombre Shader**.
+
+Pulsa **Play Scene**:
+
+![Un fondo marino con un barco hundido, rocas, un cofre y un barril, con tono azul, bordes oscuros y una ondulación lenta](../../assets/get-started/godot/en/agua-juego.gif)
+
+El naufragio, las rocas y la arena son modelos normales de Godot. Todo lo que ves teñido, ondulando y oscurecido en los bordes es tu shader `BajoElAgua`, que recibió la imagen de la cámara como si fuera una foto.
+
+Para volver al capítulo estándar, abre `visor.tscn`: sigue con `BajoElAgua` y el pez payaso en **Foto**.
+:::
 
 ## Mira lo lejos que llegaste
 

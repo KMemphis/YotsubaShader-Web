@@ -1,10 +1,25 @@
 ---
 title: Usar en engines existentes
-summary: Integración paso a paso para los engines que tu equipo ya usa.
+summary: Elige tu engine y ve directo a su Get Started.
 order: 0
 ---
 
-Elige tu engine en la fila de la página de inicio o en los capítulos de la izquierda. Cada guía cubre la instalación, el paso de compilación y cómo cargar los shaders compilados.
+Elige el engine con el que trabajas. Vas directo al Get Started de ese engine: los mismos capítulos y los mismos shaders, con el proyecto, la ventana y los comandos de tu engine.
+
+```routes
+monogame | MonoGame | Una ventana propia, solo con C#. La ruta por defecto.
+kni | KNI | La misma ventana con KNI (SDL2 y OpenGL).
+fna | FNA | La misma ventana con FNA (SDL3).
+godot | Godot | Godot 4, con GDScript o C#. Ves los shaders dentro del editor.
+```
 
 > [!NOTE]
-> Las guías marcadas como **Planificado** describen trabajo previsto y pueden cambiar. Los nombres y logotipos de los engines pertenecen a sus respectivos propietarios.
+> Los nombres y logos de los engines pertenecen a sus respectivos propietarios.
+
+## Otros engines
+
+[Stride](stride.md), [Unity](unity.md) y [Silk.NET](silknet.md) están planeados y pueden cambiar. Si usas otro engine o una API directamente, mira [Usar en tu propio engine](../custom-engine/index.md).
+
+## Referencia
+
+Cuando termines el tutorial, cada engine tiene una página para consultar: [MonoGame](../reference/monogame.md), [KNI](../reference/kni.md), [FNA](../reference/fna.md) y [Godot](../reference/godot.md).

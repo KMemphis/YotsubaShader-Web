@@ -2,7 +2,6 @@
 title: "Shader 4: un plasma que se mueve"
 summary: Cómo mandarle datos al shader desde tu programa, usando el tiempo para animar.
 order: 15
-status: planned
 ---
 
 Los tres shaders anteriores tienen algo en común: dibujan siempre la misma imagen. Es lógico. Lo único que sabe cada píxel es su `Uv`, y eso no cambia nunca.
@@ -14,9 +13,6 @@ Para que algo se mueva, el shader necesita un dato que cambie con el tiempo. Y e
 | ![Manchas de colores del arcoíris](../../assets/get-started/plasma-1.png) | ![Las mismas manchas, desplazadas y con otra forma](../../assets/get-started/plasma-2.png) | ![Las manchas, de nuevo con otra forma](../../assets/get-started/plasma-3.png) |
 
 Son tres momentos del mismo shader. En movimiento, las manchas se deforman y se funden unas con otras sin parar.
-
-> [!WARNING]
-> Mandar datos al shader ya funciona hoy con `add`. Lo que todavía no funciona es `sin`, una función como las del capítulo anterior, que este shader usa para hacer las ondas. Igual que con el anillo de neón, puedes escribirlo y compilarlo en C#, y la forma de escribirlo no va a cambiar.
 
 ## Un dato que viene de fuera: el uniform
 
@@ -158,17 +154,17 @@ public class Plasma
     public Reloj Tiempo;
 
     [ShaderStage(Stage.Vertex)]
-    public Pixel Vertex(Vertice vertice)
+    public Pixel Vertex({{vertexType}} vertice)
     {
         Pixel pixel;
-        pixel.Posicion = Crear.Vec4(vertice.Posicion.X, vertice.Posicion.Y, 0f, 1f);
-        pixel.Uv = vertice.Uv;
+        pixel.Posicion = Crear.Vec4(vertice.{{pos}}.X, vertice.{{pos}}.Y, 0f, 1f);
+        pixel.Uv = vertice.{{uv}};
         return pixel;
     }
 
     [ShaderStage(Stage.Fragment)]
     [return: location(0)]
-    public vec4 Fragment(Pixel pixel)
+    public vec4 Fragment(PixelIn pixel)
     {
         float x = pixel.Uv.X * 2f - 1f;
         float y = pixel.Uv.Y * 2f - 1f;
@@ -212,17 +208,17 @@ public class Plasma
     public Reloj Tiempo;
 
     [ShaderStage(Stage.Vertex)]
-    public Pixel Vertex(Vertice vertice)
+    public Pixel Vertex({{vertexType}} vertice)
     {
         Pixel pixel;
-        pixel.Posicion = Crear.Vec4(vertice.Posicion.X, vertice.Posicion.Y, 0f, 1f);
-        pixel.Uv = vertice.Uv;
+        pixel.Posicion = Crear.Vec4(vertice.{{pos}}.X, vertice.{{pos}}.Y, 0f, 1f);
+        pixel.Uv = vertice.{{uv}};
         return pixel;
     }
 
     [ShaderStage(Stage.Fragment)]
     [return: SV_Target]
-    public vec4 Fragment(Pixel pixel)
+    public vec4 Fragment(PixelIn pixel)
     {
         float x = pixel.Uv.X * 2f - 1f;
         float y = pixel.Uv.Y * 2f - 1f;
@@ -266,17 +262,17 @@ public class Plasma
     public Reloj Tiempo;
 
     [ShaderStage(Stage.Vertex)]
-    public Pixel Vertex(Vertice vertice)
+    public Pixel Vertex({{vertexType}} vertice)
     {
         Pixel pixel;
-        pixel.Posicion = Crear.Vec4(vertice.Posicion.X, vertice.Posicion.Y, 0f, 1f);
-        pixel.Uv = vertice.Uv;
+        pixel.Posicion = Crear.Vec4(vertice.{{pos}}.X, vertice.{{pos}}.Y, 0f, 1f);
+        pixel.Uv = vertice.{{uv}};
         return pixel;
     }
 
     [ShaderStage(Stage.Fragment)]
     [return: color(0)]
-    public vec4 Fragment(Pixel pixel)
+    public vec4 Fragment(PixelIn pixel)
     {
         float x = pixel.Uv.X * 2f - 1f;
         float y = pixel.Uv.Y * 2f - 1f;
@@ -320,17 +316,17 @@ public class Plasma
     public Reloj Tiempo;
 
     [ShaderStage(Stage.Vertex)]
-    public Pixel Vertex(Vertice vertice)
+    public Pixel Vertex({{vertexType}} vertice)
     {
         Pixel pixel;
-        pixel.Posicion = Crear.Vec4(vertice.Posicion.X, vertice.Posicion.Y, 0f, 1f);
-        pixel.Uv = vertice.Uv;
+        pixel.Posicion = Crear.Vec4(vertice.{{pos}}.X, vertice.{{pos}}.Y, 0f, 1f);
+        pixel.Uv = vertice.{{uv}};
         return pixel;
     }
 
     [ShaderStage(Stage.Fragment)]
     [return: location(0)]
-    public vec4 Fragment(Pixel pixel)
+    public vec4 Fragment(PixelIn pixel)
     {
         float x = pixel.Uv.X * 2f - 1f;
         float y = pixel.Uv.Y * 2f - 1f;
@@ -374,17 +370,17 @@ public class Plasma
     public Reloj Tiempo;
 
     [ShaderStage(Stage.Vertex)]
-    public Pixel Vertex(Vertice vertice)
+    public Pixel Vertex({{vertexType}} vertice)
     {
         Pixel pixel;
-        pixel.Posicion = Crear.Vec4(vertice.Posicion.X, vertice.Posicion.Y, 0f, 1f);
-        pixel.Uv = vertice.Uv;
+        pixel.Posicion = Crear.Vec4(vertice.{{pos}}.X, vertice.{{pos}}.Y, 0f, 1f);
+        pixel.Uv = vertice.{{uv}};
         return pixel;
     }
 
     [ShaderStage(Stage.Fragment)]
     [return: Location(0)]
-    public vec4 Fragment(Pixel pixel)
+    public vec4 Fragment(PixelIn pixel)
     {
         float x = pixel.Uv.X * 2f - 1f;
         float y = pixel.Uv.Y * 2f - 1f;
@@ -449,6 +445,20 @@ La salida es `El uniform ocupa 4 bytes.`, que es lo que ocupa un `float`.
 
 > [!NOTE]
 > En un uniform puedes poner `float`, `int`, `uint`, vectores y otros `struct`. No pongas `bool`: usa un `int` con `0` y `1`.
+
+:::godot
+## En Godot, el reloj ya está conectado
+
+El shader de Godot generado declara tu uniform como un valor simple con el nombre del campo y del miembro:
+
+```glsl
+uniform float Tiempo_Segundos;
+```
+
+El script del visor del [capítulo del visor](visor.md) ya se encarga: en cada cuadro busca los uniforms que terminan en `_Segundos` y escribe los segundos desde que empezó el juego. Por eso `Plasma` se mueve con solo escribir `Plasma` en **Nombre Shader** y pulsar **Play**; no escribes código extra.
+
+Si cambias el nombre del campo (por ejemplo, un campo `Pared`), el uniform pasa a ser `Pared_Segundos` y el visor lo sigue encontrando, porque solo mira el final del nombre.
+:::
 
 ## Juega con él
 

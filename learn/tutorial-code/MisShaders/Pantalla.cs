@@ -14,3 +14,8 @@ public struct Pixel
     [gl_Position] public vec4 Posicion;
     [location(0)] public vec2 Uv;
 }
+
+public struct PixelIn
+{
+    [location(0)] public vec2 Uv;
+}

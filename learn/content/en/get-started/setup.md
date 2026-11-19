@@ -16,6 +16,9 @@ When you finish the tutorial, you will be able to use that same library in your 
 
   One detail: the SDK is the program that compiles, and it does not have to be the same version as your project. That is why further down we create the projects with `-f net8.0`: SDK 10 knows how to build them just the same. If your game uses another version, that is fine.
 - **A C# editor.** The one you already use: Rider, Visual Studio or Visual Studio Code.
+:::godot
+- **Godot 4.** Download it from [godotengine.org](https://godotengine.org/download). Both versions work: the standard one (GDScript) and the **.NET** one (C#). You will install it in the chapter about the viewer; for now it is enough to have it downloaded.
+:::
 
 That is why you do not need to install any game engine to follow the tutorial.
 
@@ -101,6 +104,18 @@ dotnet build TryIt
 
 If you see `Build succeeded` at the end, everything is ready. There is no shader yet, but the references are in place.
 
+:::godot
+## Open it in your editor
+
+Open `MyShaders/MyShaders.csproj` with the editor you like (Rider, Visual Studio, VS Code). This is how it looks in Rider:
+
+![Rider with the MyShaders project open: Dependencies and the files Gradient.cs, Make.cs, Mandelbrot.cs, Plasma.cs, Screen.cs, Template.cs and Underwater.cs](../../assets/get-started/godot/en/rider-solucion.jpg)
+
+Godot and your editor are two separate programs: the editor is for the C# of `MyShaders`, and Godot is only for looking at the result.
+
+You can also do the same from the terminal: `dotnet build MyShaders` from the `Tutorial` folder.
+:::
+
 ## A shortcut for calling the compiler
 
 The Yotsuba Shader compiler is a terminal program (a CLI). You will run it like this, from the `Tutorial` folder:
@@ -116,7 +131,7 @@ Do not run it yet. Just look at its parts:
 | `dotnet yotsuba` | "Run the compiler". `yotsuba` is the name of the tool you just installed. Everything after it is the orders for it. |
 | `add` | The command. `add` means: "compile my shaders and **add** the result to my project". |
 | `MyShaders/MyShaders.csproj` | The project where the shaders are. |
-| `--target spirv` | An output format. Today the CLI always asks for at least one, even though `add` gives you every format. |
+| `--target spirv` | An output format. The CLI asks for at least one. `spirv` is built into the CLI; the engines (MonoGame, KNI, FNA, Godot) are plugins that you add later as one more `--target`. |
 
 In the next chapter you will use it for real.
 

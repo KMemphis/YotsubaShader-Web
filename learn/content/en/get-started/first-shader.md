@@ -24,7 +24,7 @@ It is simple on purpose. What matters here is not the drawing, but that you writ
 
 > [!SAY] Let's read this table from left to right. The first column has each of the five decisions you already know, and the second shows how it is written in C#. The data each vertex carries, door A, is written as a struct, with a location on every field. What Vertex lets through to Fragment, door B, is another struct. The two functions, Vertex and Fragment, are just two methods, each one marked with its ShaderStage. And where the color goes, door C, is written as return location zero right above the Fragment method. Notice there is nothing else: five decisions, and five pieces of ordinary C#.
 
-There is nothing else. A shader in C# is two `struct`s and a class with two methods.
+There is nothing else. A shader in C# is a few `struct`s and a class with two methods.
 
 ## The shape: a rectangle that covers the whole screen
 
@@ -145,10 +145,9 @@ using YotsubaShader.GlslSyntax.Types;
 
 namespace MyShaders;
 
-public struct Corner
+public struct {{vertexType}}
 {
-    [location(0)] public vec2 Position;
-    [location(1)] public vec2 Uv;
+    {{vertexFields glsl}}
 }
 ```
 
@@ -158,10 +157,9 @@ using YotsubaShader.GlslSyntax.Types;
 
 namespace MyShaders;
 
-public struct Corner
+public struct {{vertexType}}
 {
-    [TEXCOORD(0)] public vec2 Position;
-    [TEXCOORD(1)] public vec2 Uv;
+    {{vertexFields hlsl}}
 }
 ```
 
@@ -171,10 +169,9 @@ using YotsubaShader.GlslSyntax.Types;
 
 namespace MyShaders;
 
-public struct Corner
+public struct {{vertexType}}
 {
-    [attribute(0)] public vec2 Position;
-    [attribute(1)] public vec2 Uv;
+    {{vertexFields msl}}
 }
 ```
 
@@ -184,10 +181,9 @@ using YotsubaShader.GlslSyntax.Types;
 
 namespace MyShaders;
 
-public struct Corner
+public struct {{vertexType}}
 {
-    [location(0)] public vec2 Position;
-    [location(1)] public vec2 Uv;
+    {{vertexFields glsl}}
 }
 ```
 
@@ -197,13 +193,13 @@ using YotsubaShader.GlslSyntax.Types;
 
 namespace MyShaders;
 
-public struct Corner
+public struct {{vertexType}}
 {
-    [Location(0)] public vec2 Position;
-    [Location(1)] public vec2 Uv;
+    {{vertexFields spirv}}
 }
 ```
 
+:::xna
 This is door A, written in C#. Line by line:
 
 - **`public struct Corner`**: a vertex is a packet of data, and in C# a packet of data is a `struct`. I chose the name `Corner`, because each vertex of our rectangle is one of its corners. You can call it whatever you want.
@@ -221,6 +217,31 @@ Three questions it is normal to ask here:
 **Do the names `Position` and `Uv` matter?** Not to the GPU. It only sees the slot number and the type. The names are for you, so the code can be read.
 
 **What happens if I get the number wrong?** The shader reads the wrong data. If you put `Uv` in slot 0 here, you would receive the position believing it is the `Uv`. No error comes up: the drawing simply comes out wrong. That is why it is worth being clear about what goes in each slot.
+:::
+
+:::godot
+This is door A, written in C#. It is the vertex data of Godot, all of it. Line by line:
+
+- **`public struct {{vertexType}}`**: a vertex is a packet of data, and in C# a packet of data is a `struct`. This one is called `{{vertexType}}` and **it is the same for the whole tutorial**: you write it once and you never touch it again.
+- **`public vec3 VERTEX;`**: the position of the vertex. Godot calls it `VERTEX`, so your field is called `VERTEX`. Same with `NORMAL`, `TANGENT`, `BINORMAL`, `UV`, `UV2`, `COLOR`, `CUSTOM0` to `CUSTOM3`, `BONE_INDICES`, `BONE_WEIGHTS` and `POINT_SIZE`: Godot's names, with Godot's capital letters.
+- **`[location(0)]`, `[location(1)]`...**: the syntax asks for a number in each field, so the number is there. But in door A the plugin does not use it: it reads the **name**.
+
+This is the file in Rider:
+
+![Screen.cs open in Rider: the GodotVertex struct with its 14 fields, from VERTEX to POINT_SIZE, and below it the Pixel struct](../../assets/get-started/godot/en/rider-screen.jpg)
+
+You are going to use only `VERTEX` (the position) and `UV` in the shaders of the tutorial. The other twelve are there so you never have to change the struct: a shader that does not read them leaves them alone, and Godot fills them with default values. They are listed one by one in [the Godot reference](../reference/godot.md).
+
+`[location]` comes from `using YotsubaShader.GlslSyntax;`, that is why that `using` is at the top.
+
+Three questions it is normal to ask here:
+
+**Who fills those fields?** Godot. Every mesh carries its vertex data, and the engine hands each vertex to your shader with those names. The only thing to keep in mind is that the mesh must carry what you ask for: the viewer of the previous chapter gives the rectangle normals and tangents because your struct asks for them.
+
+**Do the names matter?** Here, yes, a lot. They are how Godot and your shader understand each other. If you write `Position` instead of `VERTEX`, the compiler does not know which data you want and tells you.
+
+**Do I have to declare all 14?** No, but the tutorial does, so the struct is always the same and nobody gets lost.
+:::
 
 ### Door B: what Vertex lets through to Fragment
 
@@ -232,15 +253,19 @@ using YotsubaShader.GlslSyntax.Types;
 
 namespace MyShaders;
 
-public struct Corner
+public struct {{vertexType}}
 {
-    [location(0)] public vec2 Position;
-    [location(1)] public vec2 Uv;
+    {{vertexFields glsl}}
 }
 
 public struct Pixel
 {
     [gl_Position] public vec4 Position;
+    [location(0)] public vec2 Uv;
+}
+
+public struct PixelIn
+{
     [location(0)] public vec2 Uv;
 }
 ```
@@ -251,15 +276,19 @@ using YotsubaShader.GlslSyntax.Types;
 
 namespace MyShaders;
 
-public struct Corner
+public struct {{vertexType}}
 {
-    [TEXCOORD(0)] public vec2 Position;
-    [TEXCOORD(1)] public vec2 Uv;
+    {{vertexFields hlsl}}
 }
 
 public struct Pixel
 {
     [SV_Position] public vec4 Position;
+    [TEXCOORD(0)] public vec2 Uv;
+}
+
+public struct PixelIn
+{
     [TEXCOORD(0)] public vec2 Uv;
 }
 ```
@@ -270,15 +299,19 @@ using YotsubaShader.GlslSyntax.Types;
 
 namespace MyShaders;
 
-public struct Corner
+public struct {{vertexType}}
 {
-    [attribute(0)] public vec2 Position;
-    [attribute(1)] public vec2 Uv;
+    {{vertexFields msl}}
 }
 
 public struct Pixel
 {
     [position] public vec4 Position;
+    [attribute(0)] public vec2 Uv;
+}
+
+public struct PixelIn
+{
     [attribute(0)] public vec2 Uv;
 }
 ```
@@ -289,15 +322,19 @@ using YotsubaShader.GlslSyntax.Types;
 
 namespace MyShaders;
 
-public struct Corner
+public struct {{vertexType}}
 {
-    [location(0)] public vec2 Position;
-    [location(1)] public vec2 Uv;
+    {{vertexFields glsl}}
 }
 
 public struct Pixel
 {
     [builtin_position] public vec4 Position;
+    [location(0)] public vec2 Uv;
+}
+
+public struct PixelIn
+{
     [location(0)] public vec2 Uv;
 }
 ```
@@ -308,10 +345,9 @@ using YotsubaShader.GlslSyntax.Types;
 
 namespace MyShaders;
 
-public struct Corner
+public struct {{vertexType}}
 {
-    [Location(0)] public vec2 Position;
-    [Location(1)] public vec2 Uv;
+    {{vertexFields spirv}}
 }
 
 public struct Pixel
@@ -319,9 +355,14 @@ public struct Pixel
     [BuiltIn_Position] public vec4 Position;
     [Location(0)] public vec2 Uv;
 }
+
+public struct PixelIn
+{
+    [Location(0)] public vec2 Uv;
+}
 ```
 
-`Pixel` is door B. It has the two kinds of data that leave Vertex, the special one and yours:
+`Pixel` is door B as Vertex sees it. It has the two kinds of data that leave Vertex, the special one and yours:
 
 - **`[gl_Position] public vec4 Position;`** is the special data, the one with the star. `[gl_Position]` tells the GPU: "this is the final position of the vertex, keep it". That is why it has no number. And it is a `vec4` because the final position has four numbers.
 - **`[location(0)] public vec2 Uv;`** is data of yours: "in slot 0 of this door the `Uv` travels".
@@ -333,14 +374,20 @@ public struct Pixel
 
 Yes. And this is the moment to look at it carefully, because it is exactly the confusion I warned you about.
 
-In `Corner`, slot 0 is the position. In `Pixel`, slot 0 is the `Uv`. They do not clash, because they are two different doors, and each door counts from 0 on its own:
+:::xna
+In `{{vertexType}}`, slot 0 is the position. In `Pixel`, slot 0 is the `Uv`. They do not clash, because they are two different doors, and each door counts from 0 on its own:
 
 | | Slot 0 | Slot 1 |
 | --- | --- | --- |
-| `Corner` (door A) | `Position` | `Uv` |
+| `{{vertexType}}` (door A) | `{{pos}}` | `{{uv}}` |
 | `Pixel` (door B) | `Uv` | none |
 
 The `Uv` came in through slot 1 of door A and leaves through slot 0 of door B. Nothing wrong with that: the number is only valid inside its own door.
+:::
+
+:::godot
+In the Godot route door A is not numbered by you: its fields are found by **name** (`VERTEX`, `UV`...), as you just saw. Door B (`Pixel`) is the one that does use slot numbers: its `Uv` travels in slot 0, and that is the number `PixelIn` has to repeat.
+:::
 
 And why is the `Uv` in `Pixel` not slot 1, so it looks the same? You could put it in 1 and it would work. But at door B the position does not take a slot, so the first free one is 0. The normal thing is to number from 0 without leaving gaps.
 
@@ -348,7 +395,9 @@ And why is the `Uv` in `Pixel` not slot 1, so it looks the same? You could put i
 
 Because it is what reaches each pixel. The Vertex function fills it once per vertex, the GPU spreads it, and the Fragment function receives it once per pixel, already blended.
 
-Using **the same** `struct` for what Vertex returns and what Fragment receives has an advantage: the two sides of door B always match, because they are literally the same code. You cannot get the number wrong on one side and not on the other.
+Fragment does not receive the whole `Pixel`. The final position is for the GPU to place the triangle, and a Fragment function has no use for it (in GLSL, `gl_Position` does not even exist in that stage, and the compiler warns you if you try). That is why the file has a second `struct`, `PixelIn`, with only the data of yours: what Fragment receives.
+
+The two sides of door B have to agree: the same `location` number and the same type. Here `Uv` is `location(0)` and `vec2` in both. If one side said `vec3`, or slot 1, the shader would not compile.
 
 ## Third file: the two functions
 
@@ -358,11 +407,11 @@ Decisions 3, 4 and 5 are left: the two functions and door C. They go together in
 
 ```csharp
 [ShaderStage(Stage.Vertex)]
-public Pixel Vertex(Corner corner)
+public Pixel Vertex({{vertexType}} corner)
 {
     Pixel pixel;
-    pixel.Position = Make.Vec4(corner.Position.X, corner.Position.Y, 0f, 1f);
-    pixel.Uv = corner.Uv;
+    pixel.Position = Make.Vec4(corner.{{pos}}.X, corner.{{pos}}.Y, 0f, 1f);
+    pixel.Uv = corner.{{uv}};
     return pixel;
 }
 ```
@@ -370,7 +419,7 @@ public Pixel Vertex(Corner corner)
 Start with the first line and the signature, which already say almost everything:
 
 - **`[ShaderStage(Stage.Vertex)]`** is what turns this method into the Vertex stage. Without that attribute it would be just any method and the GPU would never call it.
-- **`(Corner corner)`**: what it receives. It is door A: one vertex, with its `Position` and its `Uv`. Remember it is **a single one**. The GPU calls the method four times, once per corner.
+- **`({{vertexType}} corner)`**: what it receives. It is door A: one vertex, with its `{{pos}}` and its `{{uv}}`. Remember it is **a single one**. The GPU calls the method four times, once per corner.
 - **`public Pixel`**: what it returns. It is door B.
 - **The name `Vertex`** is free. It could be called `PlaceCorner`. What counts is the attribute.
 
@@ -379,7 +428,7 @@ And the body does the two jobs of the Vertex stage:
 **Job 1, say where the vertex goes:**
 
 ```csharp
-pixel.Position = Make.Vec4(corner.Position.X, corner.Position.Y, 0f, 1f);
+pixel.Position = Make.Vec4(corner.{{pos}}.X, corner.{{pos}}.Y, 0f, 1f);
 ```
 
 Here we do not want to move anything, so the final position is the same one that arrived. The only thing that changes is that it arrived with two numbers and has to be handed over with four. That is why we take the `X` and the `Y` that arrived and fill in `0f` and `1f`, which are the depth and the perspective we talked about.
@@ -387,7 +436,7 @@ Here we do not want to move anything, so the final position is the same one that
 **Job 2, let through what Fragment is going to need:**
 
 ```csharp
-pixel.Uv = corner.Uv;
+pixel.Uv = corner.{{uv}};
 ```
 
 We copy the `Uv` as is. If you did not, nothing would reach the Fragment function to tell where each pixel is.
@@ -399,14 +448,14 @@ We copy the `Uv` as is. If you did not, nothing would reach the Fragment functio
 ```csharp
 [ShaderStage(Stage.Fragment)]
 [return: location(0)]
-public vec4 Fragment(Pixel pixel)
+public vec4 Fragment(PixelIn pixel)
 {
     return Make.Vec4(1f, 0f, 0f, 1f);
 }
 ```
 
 - **`[ShaderStage(Stage.Fragment)]`** turns this method into the Fragment stage.
-- **`(Pixel pixel)`**: what it receives. It is the other side of door B. But mind what you learned about the spreading: this `pixel` is none of the four that `Vertex` returned. It is a mix of them, different for each pixel.
+- **`(PixelIn pixel)`**: what it receives. It is the other side of door B: only your data, without the position. But mind what you learned about the spreading: this `pixel` is none of the four that `Vertex` returned. It is a mix of them, different for each pixel.
 - **`public vec4`**: what it returns. A color, that is, four numbers.
 - **`[return: location(0)]`** is door C: "the color I return goes to slot 0". And slot 0 of door C is the screen.
 
@@ -420,8 +469,8 @@ You have now written the three doors, and all three have a `location(0)`. Now yo
 
 | Where you wrote it | Which door it is | What travels in its slot 0 |
 | --- | --- | --- |
-| `[location(0)]` in `Corner` | A: from the game to Vertex | The position of the vertex. |
-| `[location(0)]` in `Pixel` | B: from Vertex to Fragment | The `Uv`. |
+| `[location(0)]` in `{{vertexType}}` | A: from the game to Vertex | The position of the vertex. |
+| `[location(0)]` in `Pixel` and in `PixelIn` | B: from Vertex to Fragment | The `Uv`. |
 | `[return: location(0)]` on `Fragment` | C: from Fragment to the screen | The color of the pixel. |
 
 Three zeros, three doors, three different things.
@@ -440,17 +489,17 @@ namespace MyShaders;
 public class Gradient
 {
     [ShaderStage(Stage.Vertex)]
-    public Pixel Vertex(Corner corner)
+    public Pixel Vertex({{vertexType}} corner)
     {
         Pixel pixel;
-        pixel.Position = Make.Vec4(corner.Position.X, corner.Position.Y, 0f, 1f);
-        pixel.Uv = corner.Uv;
+        pixel.Position = Make.Vec4(corner.{{pos}}.X, corner.{{pos}}.Y, 0f, 1f);
+        pixel.Uv = corner.{{uv}};
         return pixel;
     }
 
     [ShaderStage(Stage.Fragment)]
     [return: location(0)]
-    public vec4 Fragment(Pixel pixel)
+    public vec4 Fragment(PixelIn pixel)
     {
         return Make.Vec4(1f, 0f, 0f, 1f);
     }
@@ -467,17 +516,17 @@ namespace MyShaders;
 public class Gradient
 {
     [ShaderStage(Stage.Vertex)]
-    public Pixel Vertex(Corner corner)
+    public Pixel Vertex({{vertexType}} corner)
     {
         Pixel pixel;
-        pixel.Position = Make.Vec4(corner.Position.X, corner.Position.Y, 0f, 1f);
-        pixel.Uv = corner.Uv;
+        pixel.Position = Make.Vec4(corner.{{pos}}.X, corner.{{pos}}.Y, 0f, 1f);
+        pixel.Uv = corner.{{uv}};
         return pixel;
     }
 
     [ShaderStage(Stage.Fragment)]
     [return: SV_Target]
-    public vec4 Fragment(Pixel pixel)
+    public vec4 Fragment(PixelIn pixel)
     {
         return Make.Vec4(1f, 0f, 0f, 1f);
     }
@@ -494,17 +543,17 @@ namespace MyShaders;
 public class Gradient
 {
     [ShaderStage(Stage.Vertex)]
-    public Pixel Vertex(Corner corner)
+    public Pixel Vertex({{vertexType}} corner)
     {
         Pixel pixel;
-        pixel.Position = Make.Vec4(corner.Position.X, corner.Position.Y, 0f, 1f);
-        pixel.Uv = corner.Uv;
+        pixel.Position = Make.Vec4(corner.{{pos}}.X, corner.{{pos}}.Y, 0f, 1f);
+        pixel.Uv = corner.{{uv}};
         return pixel;
     }
 
     [ShaderStage(Stage.Fragment)]
     [return: color(0)]
-    public vec4 Fragment(Pixel pixel)
+    public vec4 Fragment(PixelIn pixel)
     {
         return Make.Vec4(1f, 0f, 0f, 1f);
     }
@@ -521,17 +570,17 @@ namespace MyShaders;
 public class Gradient
 {
     [ShaderStage(Stage.Vertex)]
-    public Pixel Vertex(Corner corner)
+    public Pixel Vertex({{vertexType}} corner)
     {
         Pixel pixel;
-        pixel.Position = Make.Vec4(corner.Position.X, corner.Position.Y, 0f, 1f);
-        pixel.Uv = corner.Uv;
+        pixel.Position = Make.Vec4(corner.{{pos}}.X, corner.{{pos}}.Y, 0f, 1f);
+        pixel.Uv = corner.{{uv}};
         return pixel;
     }
 
     [ShaderStage(Stage.Fragment)]
     [return: location(0)]
-    public vec4 Fragment(Pixel pixel)
+    public vec4 Fragment(PixelIn pixel)
     {
         return Make.Vec4(1f, 0f, 0f, 1f);
     }
@@ -548,17 +597,17 @@ namespace MyShaders;
 public class Gradient
 {
     [ShaderStage(Stage.Vertex)]
-    public Pixel Vertex(Corner corner)
+    public Pixel Vertex({{vertexType}} corner)
     {
         Pixel pixel;
-        pixel.Position = Make.Vec4(corner.Position.X, corner.Position.Y, 0f, 1f);
-        pixel.Uv = corner.Uv;
+        pixel.Position = Make.Vec4(corner.{{pos}}.X, corner.{{pos}}.Y, 0f, 1f);
+        pixel.Uv = corner.{{uv}};
         return pixel;
     }
 
     [ShaderStage(Stage.Fragment)]
     [return: Location(0)]
-    public vec4 Fragment(Pixel pixel)
+    public vec4 Fragment(PixelIn pixel)
     {
         return Make.Vec4(1f, 0f, 0f, 1f);
     }
@@ -596,7 +645,7 @@ That is what `add` does: it compiles every shader in your project and **adds** t
 | `ToHlsl(stage)` | The shader translated to HLSL (DirectX), as text. |
 | `ToMSL(stage)` | The shader translated to Metal (Apple), as text. |
 | `ToSpirV()` | The shader in SPIR-V, Vulkan's binary format, as `byte[]`. |
-| `ToMGFX(platform)`, `ToKNIWebGL_FX()`, `ToFNA_FX()` | The shader ready to load in MonoGame, KNI or FNA, as `byte[]`. |
+| `ToMGFX(platform)`, `ToKNIWebGL_FX()`, `ToFNA_FX()` | The shader ready to load in MonoGame, KNI or FNA, as `byte[]`. These three appear only if you ask for the engine's plugin with `--target {{plugin}}`, `--target kni` or `--target fna`. You will do it in [Your window to see shaders](visor.md). |
 
 That is, you do not have to load files or remember paths. Your shader is a class, and you ask that same class for the compiled result.
 
@@ -737,17 +786,17 @@ namespace MyShaders;
 public class Gradient
 {
     [ShaderStage(Stage.Vertex)]
-    public Pixel Vertex(Corner corner)
+    public Pixel Vertex({{vertexType}} corner)
     {
         Pixel pixel;
-        pixel.Position = Make.Vec4(corner.Position.X, corner.Position.Y, 0f, 1f);
-        pixel.Uv = corner.Uv;
+        pixel.Position = Make.Vec4(corner.{{pos}}.X, corner.{{pos}}.Y, 0f, 1f);
+        pixel.Uv = corner.{{uv}};
         return pixel;
     }
 
     [ShaderStage(Stage.Fragment)]
     [return: location(0)]
-    public vec4 Fragment(Pixel pixel)
+    public vec4 Fragment(PixelIn pixel)
     {
         float red = 1f;
         float green = 0.25f + 0.6f * pixel.Uv.Y;
@@ -767,17 +816,17 @@ namespace MyShaders;
 public class Gradient
 {
     [ShaderStage(Stage.Vertex)]
-    public Pixel Vertex(Corner corner)
+    public Pixel Vertex({{vertexType}} corner)
     {
         Pixel pixel;
-        pixel.Position = Make.Vec4(corner.Position.X, corner.Position.Y, 0f, 1f);
-        pixel.Uv = corner.Uv;
+        pixel.Position = Make.Vec4(corner.{{pos}}.X, corner.{{pos}}.Y, 0f, 1f);
+        pixel.Uv = corner.{{uv}};
         return pixel;
     }
 
     [ShaderStage(Stage.Fragment)]
     [return: SV_Target]
-    public vec4 Fragment(Pixel pixel)
+    public vec4 Fragment(PixelIn pixel)
     {
         float red = 1f;
         float green = 0.25f + 0.6f * pixel.Uv.Y;
@@ -797,17 +846,17 @@ namespace MyShaders;
 public class Gradient
 {
     [ShaderStage(Stage.Vertex)]
-    public Pixel Vertex(Corner corner)
+    public Pixel Vertex({{vertexType}} corner)
     {
         Pixel pixel;
-        pixel.Position = Make.Vec4(corner.Position.X, corner.Position.Y, 0f, 1f);
-        pixel.Uv = corner.Uv;
+        pixel.Position = Make.Vec4(corner.{{pos}}.X, corner.{{pos}}.Y, 0f, 1f);
+        pixel.Uv = corner.{{uv}};
         return pixel;
     }
 
     [ShaderStage(Stage.Fragment)]
     [return: color(0)]
-    public vec4 Fragment(Pixel pixel)
+    public vec4 Fragment(PixelIn pixel)
     {
         float red = 1f;
         float green = 0.25f + 0.6f * pixel.Uv.Y;
@@ -827,17 +876,17 @@ namespace MyShaders;
 public class Gradient
 {
     [ShaderStage(Stage.Vertex)]
-    public Pixel Vertex(Corner corner)
+    public Pixel Vertex({{vertexType}} corner)
     {
         Pixel pixel;
-        pixel.Position = Make.Vec4(corner.Position.X, corner.Position.Y, 0f, 1f);
-        pixel.Uv = corner.Uv;
+        pixel.Position = Make.Vec4(corner.{{pos}}.X, corner.{{pos}}.Y, 0f, 1f);
+        pixel.Uv = corner.{{uv}};
         return pixel;
     }
 
     [ShaderStage(Stage.Fragment)]
     [return: location(0)]
-    public vec4 Fragment(Pixel pixel)
+    public vec4 Fragment(PixelIn pixel)
     {
         float red = 1f;
         float green = 0.25f + 0.6f * pixel.Uv.Y;
@@ -857,17 +906,17 @@ namespace MyShaders;
 public class Gradient
 {
     [ShaderStage(Stage.Vertex)]
-    public Pixel Vertex(Corner corner)
+    public Pixel Vertex({{vertexType}} corner)
     {
         Pixel pixel;
-        pixel.Position = Make.Vec4(corner.Position.X, corner.Position.Y, 0f, 1f);
-        pixel.Uv = corner.Uv;
+        pixel.Position = Make.Vec4(corner.{{pos}}.X, corner.{{pos}}.Y, 0f, 1f);
+        pixel.Uv = corner.{{uv}};
         return pixel;
     }
 
     [ShaderStage(Stage.Fragment)]
     [return: Location(0)]
-    public vec4 Fragment(Pixel pixel)
+    public vec4 Fragment(PixelIn pixel)
     {
         float red = 1f;
         float green = 0.25f + 0.6f * pixel.Uv.Y;
@@ -965,7 +1014,7 @@ That is why the next chapter has you make a small window, a **viewer**, that dra
 
 ## What you learned
 
-- A shader in C# is two `struct`s and a class with two methods.
+- A shader in C# is a few `struct`s and a class with two methods.
 - Door A is a `struct` with `[location(n)]` on each field: what your game sends for each vertex.
 - Door B is another `struct`: the final position marked with `[gl_Position]`, and your data with `[location(n)]`.
 - Door C is `[return: location(0)]` above the Fragment method.

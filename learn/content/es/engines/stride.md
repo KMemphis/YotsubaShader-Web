@@ -1,7 +1,7 @@
 ---
 title: Stride
 summary: Usa Yotsuba Shader con Stride.
-order: 4
+order: 5
 status: planned
 ---
 

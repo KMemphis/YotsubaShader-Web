@@ -5,6 +5,8 @@
 //   node tts.mjs --lang es --only get-started/colors  one language / pages whose key contains the text
 //   node tts.mjs --dry                                 only count characters, no API calls
 //   node tts.mjs --voice Fola --model gemini-3.8-flash-tts
+//   node tts.mjs --batch                               send every missing chunk as ONE Batch API job (separate quota,
+//                                                      half price, takes minutes to hours), then build the pages
 //
 // The key is read from the GEMINI_API_KEY environment variable or from learn/.env (git-ignored).
 // Run `node build.mjs` first: it writes .tts/<lang>/<page>.json with the exact text of each page.
@@ -20,7 +22,7 @@ import path from 'node:path';
 import crypto from 'node:crypto';
 import { spawnSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
-import { RATE, synthesize, alignChunk } from './lib/speech.mjs';
+import { RATE, synthesize, alignChunk, wavToPcm } from './lib/speech.mjs';
 
 const ROOT = path.dirname(fileURLToPath(import.meta.url));
 const DUMP = path.join(ROOT, '.tts');
@@ -38,6 +40,8 @@ const LIMIT = +opt('limit', 0);
 const CONCURRENCY = +opt('concurrency', 1);
 const PACE_MS = +opt('pace', 6500); // the 2.5 TTS free tier allows 10 requests per minute
 const CHUNK_CHARS = +opt('chunk', 800);
+const BATCH_POLL_MS = 30000;
+const BATCH_SIZE = 12;
 const PAUSE_BETWEEN_CHUNKS = 0.35; // seconds of silence added between chunks
 
 /* ---------------------------------------------------------------- key */
@@ -79,10 +83,14 @@ async function pool(items, size, fn) {
 const SAY = { en: [['C#', 'C sharp'], ['Yotsuba', 'Yot soo ba']], es: [['C#', 'Ce sharp'], ['Yotsuba', 'Yot su ba']] };
 const say = (t, lang) => (SAY[lang] || []).reduce((x, [a, b]) => x.split(a).join(b), t);
 
-async function chunkAudio(chunk, key, lang) {
+function chunkInfo(chunk, lang) {
   const text = say(chunk.items.map((b) => b.text).join('\n\n'), lang);
   const id = crypto.createHash('sha1').update(`${MODEL}|${VOICE}|${text}`).digest('hex');
-  const file = path.join(CACHE, id + '.pcm');
+  return { text, id, file: path.join(CACHE, id + '.pcm') };
+}
+
+async function chunkAudio(chunk, key, lang) {
+  const { text, file } = chunkInfo(chunk, lang);
   if (fs.existsSync(file)) return { pcm: fs.readFileSync(file), cached: true };
   await sleep(PACE_MS);
   const pcm = await synthesize(text, key, { model: MODEL, voice: VOICE });
@@ -122,6 +130,82 @@ async function doPage(dump, key) {
   return { chunks: chunks.length, cached: results.filter((r) => r.cached).length, seconds: offset };
 }
 
+/* ---------------------------------------------------------------- batch */
+// Sends every chunk that is not cached yet as one Batch API job and stores the answers in the same cache
+// the normal path uses. The job name is saved so an interrupted run can pick the same job up again.
+async function runBatch(pages, key) {
+  const wanted = new Map();
+  for (const d of pages) for (const c of planChunks(d.blocks)) {
+    const i = chunkInfo(c, d.lang);
+    if (!fs.existsSync(i.file)) wanted.set(i.id, i);
+  }
+  if (!wanted.size) { console.log('Batch: nothing missing from the cache.'); return; }
+  const api = 'https://generativelanguage.googleapis.com/v1beta';
+  const headers = { 'content-type': 'application/json', 'x-goog-api-key': key };
+  fs.mkdirSync(CACHE, { recursive: true });
+  const stateFile = path.join(CACHE, 'pending-batch.json');
+  // Responses carry the audio twice as base64 JSON; Node cannot read a body over ~500 MB, so send small jobs.
+  const all = [...wanted.values()];
+  if (all.length > BATCH_SIZE) {
+    for (let i = 0; i < all.length; i += BATCH_SIZE) await runBatchJob(all.slice(i, i + BATCH_SIZE), key);
+    return;
+  }
+  await runBatchJob(all, key);
+}
+
+// Network hiccups (ECONNRESET, DNS) are common while downloading a large batch result: retry instead of dying.
+async function retry(fn, tries = 8) {
+  for (let i = 0; ; i++) {
+    try { return await fn(); } catch (e) { if (i >= tries - 1) throw e; await sleep(Math.min(60000, 3000 * 2 ** i)); }
+  }
+}
+
+async function runBatchJob(list, key) {
+  const wanted = new Map(list.map((i) => [i.id, i]));
+  const api = 'https://generativelanguage.googleapis.com/v1beta';
+  const headers = { 'content-type': 'application/json', 'x-goog-api-key': key };
+  const stateFile = path.join(CACHE, 'pending-batch.json');
+  let name;
+  if (fs.existsSync(stateFile)) {
+    const st = JSON.parse(fs.readFileSync(stateFile, 'utf8'));
+    if (st.model === MODEL && st.voice === VOICE) { name = st.name; console.log(`Batch: resuming ${name}`); }
+  }
+  if (!name) {
+    const requests = [...wanted.values()].map((i) => ({
+      request: {
+        contents: [{ role: 'user', parts: [{ text: i.text }] }],
+        generationConfig: { responseModalities: ['audio'], speech_config: { voice_config: { prebuilt_voice_config: { voice_name: VOICE } } } },
+      },
+      metadata: { key: i.id },
+    }));
+    const { res, j } = await retry(async () => { const res = await await fetch(`${api}/models/${MODEL}:batchGenerateContent`, { method: 'POST', headers, body: JSON.stringify({ batch: { display_name: 'yotsuba-tts', input_config: { requests: { requests } } } }) }); return { res, j: await res.json() }; });
+    if (!res.ok) throw new Error(`batch create failed: ${j.error?.message || res.status}`);
+    name = j.name;
+    fs.writeFileSync(stateFile, JSON.stringify({ name, model: MODEL, voice: VOICE }));
+    console.log(`Batch: ${requests.length} chunks sent as ${name}`);
+  }
+  let job;
+  for (;;) {
+    job = await retry(async () => (await fetch(`${api}/${name}`, { headers })).json());
+    const state = job.metadata?.state || '';
+    const st = job.metadata?.batchStats || {};
+    console.log(`  ${state} (${st.successfulRequestCount || 0} ok, ${st.failedRequestCount || 0} failed, ${st.pendingRequestCount || 0} pending)`);
+    if (/SUCCEEDED|FAILED|CANCELLED|EXPIRED/.test(state)) break;
+    await sleep(BATCH_POLL_MS);
+  }
+  fs.rmSync(stateFile, { force: true });
+  const out = job.response?.inlinedResponses?.inlinedResponses || job.metadata?.output?.inlinedResponses?.inlinedResponses || [];
+  let saved = 0;
+  for (const r of out) {
+    const part = r.response?.candidates?.[0]?.content?.parts?.find((p) => p.inlineData);
+    const id = r.metadata?.key;
+    if (!part || !wanted.has(id)) { console.warn(`  ! ${id}: ${r.error?.message || 'no audio'}`); continue; }
+    fs.writeFileSync(wanted.get(id).file, wavToPcm(Buffer.from(part.inlineData.data, 'base64')));
+    saved++;
+  }
+  console.log(`Batch: ${saved} of ${wanted.size} chunks saved to the cache.`);
+}
+
 /* ---------------------------------------------------------------- main */
 function listDumps(dir = DUMP) {
   if (!fs.existsSync(dir)) return [];
@@ -147,6 +231,8 @@ if (flag('dry')) process.exit(0);
 
 const key = loadKey();
 if (!key) { console.error('Set GEMINI_API_KEY (environment variable or learn/.env).'); process.exit(1); }
+
+if (flag('batch')) await runBatch(selected, key);
 
 let done = 0, quota = 0;
 for (const d of selected) {

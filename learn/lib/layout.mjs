@@ -1,8 +1,11 @@
 // HTML templates: shell (top bar, footer), home, section viewer, 404.
 
+import fs from 'node:fs';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
 import { esc } from './highlight.mjs';
 import { speakable } from './tts.mjs';
-import { SITE, LANGS, SECTIONS, ENGINES, SOURCE_LANGUAGES, UI } from '../site.config.mjs';
+import { SITE, LANGS, SECTIONS, ENGINES, ROUTES, SOURCE_LANGUAGES, UI } from '../site.config.mjs';
 
 const ICONS = {
   cpu: '<rect x="6" y="6" width="12" height="12" rx="2"/><rect x="9.5" y="9.5" width="5" height="5" rx="1"/><path d="M9 2v3M15 2v3M9 19v3M15 19v3M2 9h3M2 15h3M19 9h3M19 15h3"/>',
@@ -26,7 +29,7 @@ const url = (...p) => '/' + p.filter(Boolean).join('/') + (p.length ? '/' : '');
 
 const subbarOf = (body) => (body.match(/<!--SUBBAR:([\s\S]*?)-->/) || [])[1] || '';
 
-function shell({ lang, title, description, path, alt, body, bodyClass = '', section = null, noindex = false, usesStyles = false }) {
+function shell({ lang, title, description, path, alt, body, bodyClass = '', section = null, noindex = false, usesStyles = false, route = null, routeAlt = null }) {
   const t = UI[lang];
   const fullTitle = path === '' ? `${t.homeTitle}` : `${title} · ${t.siteName} ${t.siteTag}`;
   const canon = SITE.url + (path === '' ? url(lang) : url(lang, path));
@@ -55,7 +58,7 @@ ${noindex ? '<meta name="robots" content="noindex">' : `<link rel="canonical" hr
 <link rel="stylesheet" href="/css/learn.css">
 ${bodyClass === 'home' ? '<link rel="stylesheet" href="/css/banner.css">' : ''}
 </head>
-<body class="${bodyClass}" data-uses-styles="${usesStyles}">
+<body class="${bodyClass}" data-uses-styles="${usesStyles}"${route ? ` data-route="${route}"` : ''}>
 <a class="skip" href="#main">${t.skip}</a>
 <header class="topbar">
   <div class="topbar-in">
@@ -80,12 +83,14 @@ ${body}
 <footer class="footer"><div class="wrap"><span>${t.footer}</span><span><a href="${SITE.mainSite}">${t.mainSite}</a> · ${t.trademarks}</span></div></footer>
 <div class="scrim" id="scrim" hidden></div>
 <dialog id="search-dialog" aria-label="${t.search}"><form method="dialog"><div class="sd-box">${icon('search')}<input id="search-input" type="search" placeholder="${t.searchPlaceholder}" autocomplete="off" spellcheck="false" aria-label="${t.search}"><button class="sd-close" value="close" aria-label="${t.close}">Esc</button></div></form><ul id="search-results" role="listbox"></ul></dialog>
-<script>window.LEARN=${JSON.stringify({ lang, ui: { copy: t.copy, copied: t.copied, noResults: t.noResults, progress: t.progress, listen: t.listen, pause: t.listenPause, resume: t.listenResume, loading: t.listenLoading, error: t.listenError } })}</script>
+<script>window.LEARN=${JSON.stringify({ lang, routes: routeAlt, ui: { copy: t.copy, copied: t.copied, noResults: t.noResults, progress: t.progress, routeNotice: t.routeNotice, listen: t.listen, pause: t.listenPause, resume: t.listenResume, loading: t.listenLoading, error: t.listenError } })}</script>
 <script src="/js/learn.js" defer></script>
 ${bodyClass === 'home' ? '<script src="/js/banner.js" defer></script>' : ''}
 
 </body></html>`;
 }
+
+const LOGOS = path.join(path.dirname(fileURLToPath(import.meta.url)), '..', 'static', 'img', 'engines');
 
 /* ----------------------------------------------------------------- banners */
 // One banner per source language, stacked one under the other. On the left, squares choose what is shown: the
@@ -96,10 +101,12 @@ function banners(lang) {
   const t = UI[lang];
   const slides = SOURCE_LANGUAGES.map((s) => {
     const copy = t.banners[s.id];
-    const target = (sec) => url(lang, sec, s.links[sec]);
-    const links = SECTIONS.map(
-      (sec) => `<a class="slide-link" href="${target(sec.id)}"><span>${t.sections[sec.id].short}</span><i>${icon('right')}</i></a>`,
-    ).join('');
+    const links = ENGINES.filter((e) => ROUTES.some((x) => x.id === e.id)).map((e) => {
+      const r = ROUTES.find((x) => x.id === e.id);
+      const href = r ? url(lang, 'get-started', r.prefix.replace(/\/$/, '') || undefined) : url(lang, 'engines', e.id);
+      const logo = ['svg', 'png'].find((x) => fs.existsSync(path.join(LOGOS, `${e.id}.${x}`)));
+      return `<a class="slide-link" href="${href}">${logo ? `<img class="engine-logo" src="/img/engines/${e.id}.${logo}" alt="" width="32" height="32">` : ''}<span>${esc(e.name)}</span><i>${icon('right')}</i></a>`;
+    }).join('');
     const dots = [t.paneLogo, t.paneExample]
       .map((label, n) => `<li><button type="button" data-pane="${n}" aria-label="${esc(label)}" title="${esc(label)}" aria-current="${n === 0}"></button></li>`)
       .join('');
@@ -113,7 +120,6 @@ function banners(lang) {
         <p class="kicker">${t.bannerKicker} · ${esc(s.name)}</p>
         <h2>${esc(copy.title)}</h2>
         <p class="slide-text">${esc(copy.text)}</p>
-        <a class="slide-cta" href="${target('get-started')}"><span>${t.bannerStart(esc(s.name))}</span><i>${icon('right')}</i></a>
       </div>
       <nav class="slide-links" aria-label="${esc(s.name)}">${links}</nav>
     </article>`;
@@ -130,7 +136,7 @@ export function homePage({ lang, sections, alt }) {
     const engines =
       s.id === 'engines'
         ? `<ul class="engine-row" aria-label="${t.enginesRowLabel}">${ENGINES.map(
-            (e) => `<li><a href="${url(lang, 'engines', e.id)}" title="${e.name}">${e.name}</a></li>`,
+            (e) => { const r = ROUTES.find((x) => x.id === e.id); return `<li><a href="${r ? url(lang, 'get-started', r.prefix.replace(/\/$/, '') || undefined) : url(lang, 'engines', e.id)}" title="${e.name}">${e.name}</a></li>`; },
           ).join('')}</ul>`
         : '';
     return `<article class="tile tile-${s.id}">
@@ -149,21 +155,28 @@ export function homePage({ lang, sections, alt }) {
 }
 
 /* ---------------------------------------------------------------- chapter */
-export function chapterPage({ lang, section, pages, page, index, alt, speech }) {
+export function chapterPage({ lang, section, pages, page, index, alt, speech, routes = null }) {
   const t = UI[lang];
   const sec = t.sections[section];
   const prev = pages[index - 1], next = pages[index + 1];
   const sidebar = pages
-    .map((p) => `<li><a href="${p.url}" data-page="${p.id}"${p === page ? ' aria-current="page"' : ''}><span class="num">${p.num}</span><span class="lbl">${esc(p.title)}</span>${p.status === 'planned' ? `<span class="badge">${t.planned}</span>` : ''}<span class="done" aria-hidden="true">${icon('check')}</span></a></li>`)
+    .map((p) => `<li><a href="${p.href || p.url}" data-page="${p.id}"${p === page ? ' aria-current="page"' : ''}><span class="num">${p.num}</span><span class="lbl">${esc(p.title)}</span>${p.status === 'planned' ? `<span class="badge">${t.planned}</span>` : ''}<span class="done" aria-hidden="true">${icon('check')}</span></a></li>`)
     .join('');
   const toc = page.headings.length
     ? `<nav class="toc" aria-label="${t.onThisPage}"><div class="toc-title">${t.onThisPage}</div><ul>${page.headings.map((h) => `<li class="l${h.level}"><a href="#${h.id}">${esc(h.text)}</a></li>`).join('')}</ul></nav>`
     : '';
   const STYLE_OPTIONS = { glsl: 'GLSL', hlsl: 'HLSL', msl: 'MSL (Metal)', wgsl: 'WGSL', spirv: 'SPIR-V' };
   // Like Apple's documentation: a bar under the header with a "Language" dropdown on the right; here it picks the code style.
-  const styleBar = page.usesStyles
-    ? `<div class="subbar" id="style-picker"><div class="subbar-in"><span class="subbar-title">${sec.title}</span><label class="style-select"><span>${t.codeStyle}:</span><select id="style-select" aria-label="${t.codeStyle}">${Object.entries(STYLE_OPTIONS).map(([k, v]) => `<option value="${k}">${v}</option>`).join('')}</select></label></div></div>`
+  const routePicker = routes
+    ? `<div class="route-pick" id="route-pick" role="group" aria-label="${t.route}"><span>${t.route}:</span>${routes.map((r) => `<a href="${r.url}" data-route="${r.id}" title="${esc(r.hint)}"${r.current ? ' aria-current="true"' : ''}>${esc(r.name)}</a>`).join('')}</div>`
     : '';
+  const styleSelect = page.usesStyles
+    ? `<label class="style-select"><span>${t.codeStyle}:</span><select id="style-select" aria-label="${t.codeStyle}">${Object.entries(STYLE_OPTIONS).map(([k, v]) => `<option value="${k}">${v}</option>`).join('')}</select></label>`
+    : '';
+  const styleBar = page.usesStyles || routes
+    ? `<div class="subbar" id="style-picker"><div class="subbar-in"><span class="subbar-title">${sec.title}</span><div class="subbar-end">${routePicker}${styleSelect}</div></div></div>`
+    : '';
+  const sectionUrl = pages.find((p) => p.slug === 'index')?.url || url(lang, section);
   const pager = `<nav class="pager" aria-label="${t.chaptersLabel}">${
     prev ? `<a class="prev" href="${prev.url}"><small>${icon('left')}${t.prev}</small><span>${esc(prev.title)}</span></a>` : '<span></span>'
   }${next ? `<a class="next" href="${next.url}"><small>${t.next}${icon('right')}</small><span>${esc(next.title)}</span></a>` : '<span></span>'}</nav>`;
@@ -186,12 +199,12 @@ export function chapterPage({ lang, section, pages, page, index, alt, speech }) 
   const body = `<!--SUBBAR:${styleBar}-->
 <div class="doc">
   <aside class="sidebar" id="sidebar" aria-label="${t.chaptersLabel}">
-    <div class="side-head"><a class="crumb-sec" href="${url(lang, section)}">${sec.title}</a><button class="icon-btn only-narrow" id="side-close" type="button" aria-label="${t.close}">✕</button></div>
+    <div class="side-head"><a class="crumb-sec" href="${sectionUrl}">${sec.title}</a><button class="icon-btn only-narrow" id="side-close" type="button" aria-label="${t.close}">✕</button></div>
     <div class="progress" aria-hidden="true"><span id="progress-bar"></span></div>
     <ol class="chapters">${sidebar}</ol>
   </aside>
   <main id="main" class="article-wrap">
-    <nav class="crumbs" aria-label="breadcrumb"><a href="${url(lang)}">${t.siteTag}</a>${icon('chevron')}<a href="${url(lang, section)}">${sec.short}</a>${icon('chevron')}<span>${esc(page.title)}</span></nav>
+    <nav class="crumbs" aria-label="breadcrumb"><a href="${url(lang)}">${t.siteTag}</a>${icon('chevron')}<a href="${sectionUrl}">${sec.short}</a>${icon('chevron')}<span>${esc(page.title)}</span></nav>
     <article class="article">${article}
       ${edit}
     </article>
@@ -199,7 +212,7 @@ export function chapterPage({ lang, section, pages, page, index, alt, speech }) 
   </main>
   ${toc}
 </div>`;
-  return shell({ lang, title: page.title, description: page.summary, path: page.path, alt, body, bodyClass: 'doc-page', section, usesStyles: page.usesStyles });
+  return shell({ lang, title: page.title, description: page.summary, path: page.path, alt, body, bodyClass: 'doc-page', section, usesStyles: page.usesStyles, route: page.route, routeAlt: routes ? Object.fromEntries(routes.map((r) => [r.id, { url: r.url, name: r.name }])) : null });
 }
 
 export function notFoundPage(lang) {

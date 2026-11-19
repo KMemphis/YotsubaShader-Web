@@ -17,7 +17,7 @@ public class Mandelbrot
 
     [ShaderStage(Stage.Fragment)]
     [return: location(0)]
-    public vec4 Fragment(Pixel pixel)
+    public vec4 Fragment(PixelIn pixel)
     {
         float cx = pixel.Uv.X * 3f - 2.2f;
         float cy = pixel.Uv.Y * 3f - 1.5f;

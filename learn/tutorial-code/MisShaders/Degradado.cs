@@ -17,7 +17,7 @@ public class Degradado
 
     [ShaderStage(Stage.Fragment)]
     [return: location(0)]
-    public vec4 Fragment(Pixel pixel)
+    public vec4 Fragment(PixelIn pixel)
     {
         float rojo = 1f;
         float verde = 0.25f + 0.6f * pixel.Uv.Y;
