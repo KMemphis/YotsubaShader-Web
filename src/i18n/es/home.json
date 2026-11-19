@@ -78,7 +78,6 @@
  "Copy": "Copiar",
  "Locations and built-in values on every stage boundary": "Ubicaciones y valores integrados en cada frontera entre etapas",
  "Uniforms, storage buffers, textures and samplers with explicit bindings": "Uniforms, storage buffers, texturas y samplers con bindings explícitos",
- "Interface slots and locations": "Slots de interfaz y ubicaciones",
  "Everything a shader needs, in C#.": "Todo lo que necesita un shader, en C#.",
  "Stages": "Etapas",
  "Vertex, fragment and compute entry points with [ShaderStage].": "Puntos de entrada de vertex, fragment y compute con [ShaderStage].",
@@ -102,7 +101,6 @@
  "View on GitHub": "Ver en GitHub",
  "Write shaders in C#. Compile for the backend you choose.": "Escribe shaders en C#. Compila para el backend que elijas.",
  "All documentation": "Toda la documentación",
- "Attribute reference": "Referencia de atributos",
  "Contributing": "Contribuir",
  "Legal": "Legal",
  "Licensing": "Licencias",
@@ -141,5 +139,8 @@
  "Do more with five syntaxes": "Haz más con cinco sintaxis",
  "The HLSL, GLSL, MSL, SPIR-V and WGSL syntaxes now share the same semantic model. Choose the names your team knows; the compiler resolves them to the same IR built-ins.": "Las sintaxis HLSL, GLSL, MSL, SPIR-V y WGSL ahora comparten el mismo modelo semántico. Elige los nombres que tu equipo conoce; el compilador los resuelve a los mismos valores integrados de la IR.",
  "Resource attributes for every syntax": "Atributos de recursos para cada sintaxis",
- "Uniform buffers, storage buffers, textures, samplers and binding slots are available in each syntax.": "Uniform buffers, storage buffers, texturas, samplers y slots de binding disponibles en cada sintaxis."
+ "Uniform buffers, storage buffers, textures, samplers and binding slots are available in each syntax.": "Uniform buffers, storage buffers, texturas, samplers y slots de binding disponibles en cada sintaxis.",
+ "The compile command": "El comando compile",
+ "The add command": "El comando add",
+ "Plugins": "Plugins"
 }

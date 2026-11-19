@@ -1,4 +1,4 @@
-import { NAV, DONATIONS, SECTIONS, SITE } from './site.mjs';
+import { LEARN_URL, NAV, DONATIONS, SECTIONS, SITE } from './site.mjs';
 import { icon, STYLES, wordmark } from './components.mjs';
 import { esc } from './highlight.mjs';
 import { BACKENDS } from './backends.mjs';
@@ -56,6 +56,7 @@ function finalize(html, pagePath, locale) {
     .replace(/__FILM_LANG__/g, () => L.htmlLang)
     .replace('__HTMLLANG__', () => L.htmlLang)
     .replace('<!--LANGREDIRECT-->', () => redirect)
+    .replace(/__LEARN__/g, () => `${LEARN_URL}/${locale}`)
     .replace('<!--SEO-->', () => seoTags(pagePath, locale))
     .replace('<!--I18N-->', () => strings)
     .replace(/__LANGSWITCH__/g, () => langSwitch(locale, pagePath));
@@ -95,7 +96,7 @@ function subNav(sectionId, currentPath) {
     .map(([label, href]) => `<a href="${href}"${href === currentPath ? ' aria-current="page"' : ''}>${label}</a>`)
     .join('');
   return `<div class="subnav"><div class="subnav-inner">${s.standard
-    ? `<a class="subnav-title subnav-title--std" href="/technologies/compilation/" aria-label="Compiles to ${OUTPUT_FORMATS.join(', ')}"><span class="std-lead">Compiles to</span><span class="spirv-chip spirv-chip--sm"><img src="/img/backends/spirv.svg" alt="SPIR-V"></span>${AVAILABLE_BACKENDS.filter((b) => b.format !== 'SPIR-V').map((b) => `<span class="fmt${b.logo ? ' fmt--logo' : ''}" title="${esc(b.name)}">${b.logo ? `<img src="${b.logo}" alt="${esc(b.name)}">` : ''}${esc(b.format)}</span>`).join('')}<span class="fmt">C++</span><span class="fmt fmt--more" title="${CROSS_FORMATS.join(', ')}">+${CROSS_FORMATS.length}</span></a>`
+    ? `<a class="subnav-title subnav-title--std" href="__LEARN__/reference/compile/" aria-label="Compiles to ${OUTPUT_FORMATS.join(', ')}"><span class="std-lead">Compiles to</span><span class="spirv-chip spirv-chip--sm"><img src="/img/backends/spirv.svg" alt="SPIR-V"></span>${AVAILABLE_BACKENDS.filter((b) => b.format !== 'SPIR-V').map((b) => `<span class="fmt${b.logo ? ' fmt--logo' : ''}" title="${esc(b.name)}">${b.logo ? `<img src="${b.logo}" alt="${esc(b.name)}">` : ''}${esc(b.format)}</span>`).join('')}<span class="fmt">C++</span><span class="fmt fmt--more" title="${CROSS_FORMATS.join(', ')}">+${CROSS_FORMATS.length}</span></a>`
     : `<a class="subnav-title" href="${s.href}">${s.title}</a>`}<nav class="subnav-links" aria-label="${s.title}">${links}</nav></div></div>`;
 }
 
@@ -111,7 +112,7 @@ function footer() {
     </div>
     <div class="foot-cols">
       ${col('Explore', [['Get Started', '/get-started/'], ['Syntaxes', '/syntaxes/'], ['Playground', '/playground/'], ["What's New", '/whats-new/'], ['Resources', '/resources/']])}
-      ${col('Documentation', [['All documentation', '/documentation/'], ['Your first shader', '/documentation/yotsuba-shader/writing-your-first-shader/'], ['Syntaxes', '/documentation/yotsuba-shader/choosing-a-syntax/'], ['Attribute reference', '/documentation/yotsuba-shader/builtin-values-across-syntaxes/']])}
+      ${col('Documentation', [['All documentation', '__LEARN__/reference/'], ['HLSL syntax', '__LEARN__/reference/hlsl/'], ['GLSL syntax', '__LEARN__/reference/glsl/'], ['The compile command', '__LEARN__/reference/compile/'], ['The add command', '__LEARN__/reference/add/'], ['Plugins', '__LEARN__/reference/plugins/'], ['Get Started', '__LEARN__/get-started/']])}
       ${col('Community', [['Community', '/community/'], ['Contributing', '/community/contributing/'], ['Contact', '/community/contact/'], ['GitHub', SITE.repo], ['Sponsor on GitHub', SITE.sponsors], ['Donations', '/donations/']])}
       ${col('Legal', [['Licensing', '/community/licensing/'], ['Sponsors', '/donations/sponsors/']])}
     </div>
@@ -180,100 +181,3 @@ ${scripts.map((src) => `<script src="${src}" defer></script>`).join('\n')}
 }
 
 /* ------------------------------------------------------------------ docs */
-
-function sidebar(tree, articlesBySlug, currentSlug, setHref) {
-  const link = (slug) => {
-    const a = articlesBySlug.get(slug);
-    const href = `${setHref}${slug}/`;
-    const current = slug === currentSlug;
-    return `<a class="side-link${current ? ' is-current' : ''}" href="${href}"${current ? ' aria-current="page"' : ''} data-filter-text="${esc(a.title.toLowerCase())}">${icon(a.icon || 'doc')}<span>${esc(a.title)}</span></a>`;
-  };
-
-  return tree
-    .map((block) => {
-      if (block.items && !block.group) {
-        return `<div class="side-block">${block.label ? `<p class="side-label">${block.label}</p>` : ''}${block.items.map(link).join('')}</div>`;
-      }
-      return `<div class="side-block">${block.label ? `<p class="side-label">${block.label}</p>` : ''}${block.groups
-        .map((g) => {
-          const open = g.items.includes(currentSlug);
-          return `<div class="side-group${open ? ' is-open' : ''}" data-group="${esc(g.title)}">
-  <button class="side-group-head" type="button" aria-expanded="${open}"><span class="chev">${icon('chevron-right')}</span>${icon('list')}<span>${esc(g.title)}</span></button>
-  <div class="side-group-items">${g.items.map(link).join('')}</div>
-</div>`;
-        })
-        .join('')}</div>`;
-    })
-    .join('');
-}
-
-/** Documentation article page (left tree + hero + body + TOC). */
-export function renderDoc({ set, article, tree, articlesBySlug, prev, next, toc, body, pagePath, locale = 'en' }) {
-  const setHref = `/documentation/${set.slug}/`;
-  const tocHtml = toc.length && !article.wide
-    ? `<aside class="doc-toc" aria-label="On this page"><p>On this page</p><ul>${toc
-        .map((t) => `<li><a href="#${t.id}">${esc(t.text)}</a></li>`)
-        .join('')}</ul></aside>`
-    : '';
-  const styleSelect = `<label class="style-select"><span>Syntax:</span><select data-style-select aria-label="Syntax for code samples">${STYLES.map((s) => `<option value="${s.id}">${s.label}</option>`).join('')}</select></label>`;
-  const pager = `<nav class="doc-pager" aria-label="Previous and next">
-  ${prev ? `<a class="prev" href="${prev.slug === 'index' ? setHref : setHref + prev.slug + '/'}">${icon('chevron-left')}<span><small>Previous</small>${esc(prev.title)}</span></a>` : '<span></span>'}
-  ${next ? `<a class="next" href="${setHref}${next.slug}/"><span><small>Next</small>${esc(next.title)}</span>${icon('chevron-right')}</a>` : '<span></span>'}
-</nav>`;
-  const crumbs = `<nav class="crumbs" aria-label="Breadcrumb"><a href="/documentation/">Documentation</a><span>/</span><a href="${setHref}">${esc(set.title)}</a>${article.slug === 'index' ? '' : `<span>/</span><span aria-current="page">${esc(article.title)}</span>`}</nav>`;
-
-  const html = `<!doctype html>
-<html lang="__HTMLLANG__" data-root="__ROOT__">
-${head({ title: article.title, description: article.summary, pagePath, fullTitle: `${article.title} | Documentation - ${SITE.name}` })}
-<body class="docs">
-<a class="skip" href="#main">Skip to content</a>
-${globalNav('documentation')}
-<div class="docbar">
-  <div class="docbar-inner">
-    <button class="icon-btn sidebar-toggle" type="button" aria-label="Toggle navigation" aria-controls="doc-sidebar" aria-expanded="false">${icon('sidebar')}</button>
-    <a class="docbar-title" href="/documentation/">Documentation</a>
-    ${styleSelect}
-    <div class="lang-slot">__LANGSWITCH__</div>
-  </div>
-</div>
-<div class="doc-shell">
-  <aside class="doc-sidebar" id="doc-sidebar" aria-label="Documentation navigation">
-    <div class="side-top">
-      <a class="side-back" href="/documentation/">${icon('chevron-left')}<span>All Documentation</span></a>
-      <h2 class="side-title"><a href="${setHref}">${esc(set.title)}</a></h2>
-    </div>
-    <nav class="side-scroll" data-sidebar>
-      ${sidebar(tree, articlesBySlug, article.slug, setHref)}
-      <p class="side-none" hidden>No matching topics.</p>
-    </nav>
-    <div class="side-filter">
-      <label class="filter">${icon('list')}<input type="search" placeholder="Filter" aria-label="Filter topics" data-sidebar-filter></label>
-      <kbd title="Press / to filter">/</kbd>
-    </div>
-  </aside>
-  <div class="doc-backdrop" data-sidebar-close></div>
-  <main class="doc-main" id="main">
-    <header class="doc-hero doc-hero--${article.heroKind || 'article'}">
-      <div class="doc-hero-inner">
-        ${crumbs}
-        <p class="doc-kind">${esc(article.kind || 'Article')}</p>
-        <h1>${esc(article.title)}</h1>
-        <p class="doc-summary">${esc(article.summary)}</p>
-        <span class="doc-hero-icon">${icon(article.heroIcon || article.icon || 'doc')}</span>
-      </div>
-    </header>
-    <div class="doc-content${article.wide ? ' doc-content--wide' : ''}">
-      <article class="doc-body prose">${body}</article>
-      ${tocHtml}
-    </div>
-    ${pager}
-    <div class="doc-foot">Copyright © ${SITE.year} Yotsuba Shader contributors · <a href="/community/licensing/">Licensing</a> · <a href="${SITE.repo}" rel="noopener">GitHub</a></div>
-  </main>
-</div>
-${searchDialog}
-<!--I18N-->
-<script src="/js/site.js" defer></script>
-</body>
-</html>`;
-  return finalize(html, pagePath, locale);
-}

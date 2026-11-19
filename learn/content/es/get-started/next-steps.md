@@ -23,10 +23,10 @@ La buena noticia es que el punto de partida es siempre el mismo y ya lo tienes: 
 ## Elige tu Game Engine
 
 ```buttons
-[MonoGame](../reference/monogame.md)
-[KNI](../reference/kni.md)
-[FNA](../reference/fna.md)
-[Godot](../reference/godot.md)
+[MonoGame](../engines/monogame-reference.md)
+[KNI](../engines/kni-reference.md)
+[FNA](../engines/fna-reference.md)
+[Godot](../engines/godot-reference.md)
 [Stride](../engines/stride.md)
 [Unity](../engines/unity.md)
 [Silk.NET](../engines/silknet.md)
@@ -34,7 +34,7 @@ La buena noticia es que el punto de partida es siempre el mismo y ya lo tienes: 
 :::
 
 :::godot
-Ya dibujaste en pantalla: la escena del visor, tus shaders corriendo en Godot e incluso una escena 3D vista a través de ellos. Lo que no viste es todo lo que Godot puede hacer alrededor, y está reunido en la [referencia de Godot](../reference/godot.md): los nombres de los 14 atributos del vértice y lo que soporta el traductor.
+Ya dibujaste en pantalla: la escena del visor, tus shaders corriendo en Godot e incluso una escena 3D vista a través de ellos. Lo que no viste es todo lo que Godot puede hacer alrededor, y está reunido en la [referencia de Godot](../engines/godot-reference.md): los nombres de los 14 atributos del vértice y lo que soporta el traductor.
 
 A partir de aquí, la mejor forma de aprender es tomar uno de tus shaders y usarlo en un objeto real, con el `VERTEX` y el `NORMAL` de un `MeshInstance3D`.
 :::

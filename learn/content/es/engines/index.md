@@ -22,4 +22,4 @@ godot | Godot | Godot 4, con GDScript o C#. Ves los shaders dentro del editor.
 
 ## Referencia
 
-Cuando termines el tutorial, cada engine tiene una página para consultar: [MonoGame](../reference/monogame.md), [KNI](../reference/kni.md), [FNA](../reference/fna.md) y [Godot](../reference/godot.md).
+Cada engine tiene una página de referencia con su paquete, el método generado, los datos de vértice, los uniforms y un ejemplo completo: [MonoGame](monogame-reference.md), [KNI](kni-reference.md), [FNA](fna-reference.md) y [Godot](godot-reference.md).

@@ -4,15 +4,23 @@ summary: Embed the compiler and the runtime contract in an engine you control.
 order: 0
 ---
 
-If you own the engine, you control the whole pipeline: build time, resource binding and runtime. This section explains the pieces you integrate.
+If you own the engine, you decide how shaders reach the GPU. Yotsuba Shader gives you the compiled shader in the format your graphics API reads, and a fixed contract that says which slot every input, output and resource takes. You write the loader once.
 
 ## Integration map
 
-| Piece | Responsibility | Chapter |
+| Piece | What you do | Chapter |
 | --- | --- | --- |
-| Compiler | Turns C# shaders into the backend format | [Compile in your build](compile-in-your-build.md) |
-| Interface contract | Inputs, outputs, resources, bindings | [Binding resources](binding-resources.md) |
-| Runtime | Loads the compiled output for your graphics API | [Binding resources](binding-resources.md) |
+| Compiler | Turn the C# shaders into SPIR-V, GLSL, GLSL ES, HLSL, MSL or C++ files | [Compile in your build](compile-in-your-build.md) |
+| Interface contract | Create vertex layouts, uniform buffers and textures in the slots the shader expects | [Binding resources](binding-resources.md) |
+| Runtime | Get the compiled shader into your renderer, from a file or from C# | [Load at run time](load-at-runtime.md) |
 
-> [!IMPORTANT]
-> This is an example chapter. Replace it with the real integration steps.
+## The short version
+
+1. Write the shader in C# in a project of its own.
+2. Run `yotsuba compile` in your build, once per target your renderer needs.
+3. In the renderer, create the pipeline with the vertex locations and the `set`/`binding` numbers the shader declares.
+4. Load the file (or call the generated method) and hand it to the graphics API.
+
+```bash
+dotnet yotsuba compile Game.Shaders.csproj --target spirv --target hlsl --output shaders
+```

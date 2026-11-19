@@ -1,9 +1,3 @@
 {
- "Types for engines and frameworks": "Tipos para motores y frameworks",
- "Use scalars, vectors, matrices, structs and arrays in a shader, and learn how each C# type becomes a GPU type.": "Usa escalares, vectores, matrices, structs y arreglos en un shader, y aprende cómo cada tipo de C# se convierte en un tipo de GPU.",
- "Uniform and storage buffers": "Uniform buffers y storage buffers",
- "A texture and a sampler bound to their slots.": "Una textura y un sampler enlazados a sus slots.",
- "Declare textures and samplers, describe exactly what kind of image each one is, and bind them in the syntax you write in.": "Declara texturas y samplers, describe con exactitud qué tipo de imagen es cada una y enlázalas en la sintaxis en que escribes.",
- "Uniform buffers, storage buffers, textures, samplers and binding slots in each syntax.": "Uniform buffers, storage buffers, texturas, samplers y slots de binding en cada sintaxis.",
- "Every built-in value of a syntax, grouped by stage and written as C#. Pick the tab of your syntax. The comment above each member names the concept, so you can find the same value in any other tab.": "Cada valor integrado de una sintaxis, agrupado por etapa y escrito en C#. Elige la pestaña de tu sintaxis. El comentario sobre cada miembro nombra el concepto, así puedes encontrar el mismo valor en cualquier otra pestaña."
+ "Types for engines and frameworks": "Tipos para motores y frameworks"
 }

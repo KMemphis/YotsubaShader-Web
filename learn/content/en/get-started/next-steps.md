@@ -23,10 +23,10 @@ The good news is that the starting point is always the same and you already have
 ## Pick your game engine
 
 ```buttons
-[MonoGame](../reference/monogame.md)
-[KNI](../reference/kni.md)
-[FNA](../reference/fna.md)
-[Godot](../reference/godot.md)
+[MonoGame](../engines/monogame-reference.md)
+[KNI](../engines/kni-reference.md)
+[FNA](../engines/fna-reference.md)
+[Godot](../engines/godot-reference.md)
 [Stride](../engines/stride.md)
 [Unity](../engines/unity.md)
 [Silk.NET](../engines/silknet.md)
@@ -34,7 +34,7 @@ The good news is that the starting point is always the same and you already have
 :::
 
 :::godot
-You already drew on screen: the viewer scene, your shaders running in Godot and even a 3D scene seen through them. What you did not see is everything Godot can do around that, and it is gathered in the [Godot reference](../reference/godot.md): the names of the 14 vertex attributes and what the translator supports.
+You already drew on screen: the viewer scene, your shaders running in Godot and even a 3D scene seen through them. What you did not see is everything Godot can do around that, and it is gathered in the [Godot reference](../engines/godot-reference.md): the names of the 14 vertex attributes and what the translator supports.
 
 From here, the best way to learn is to take one of your shaders and use it on a real object, with `VERTEX` and `NORMAL` of a `MeshInstance3D`.
 :::

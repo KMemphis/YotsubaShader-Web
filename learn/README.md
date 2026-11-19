@@ -26,7 +26,7 @@ status: planned          # optional: shows a "Planned" badge (use it for anythin
 ```
 
 Supported Markdown: headings (`##`/`###` feed "On this page"), lists, tables, images (`![alt](../../assets/x.png)` with files in `content/assets/`),
-links between chapters (`[text](../reference/compiler.md#targets)`, validated at build time), fenced code, and callouts:
+links between chapters (`[text](../reference/compile.md#targets)`, validated at build time), fenced code, and callouts:
 
 ```markdown
 > [!NOTE]  > [!TIP]  > [!WARNING]  > [!IMPORTANT]  > [!PLANNED]
@@ -64,7 +64,14 @@ links between chapters (`[text](../reference/compiler.md#targets)`, validated at
 ## Engines
 
 The engine row on the home page comes from `ENGINES` in `site.config.mjs` and shows names only (no logos). Each engine needs `content/<lang>/engines/<id>.md`.
-The MonoGame, KNI, FNA and Godot guides are complete (the Godot one is the reference for the Godot route); the other engines (Stride, Unity, Silk.NET) are placeholders marked `status: planned`.
+`engines/<id>.md` for MonoGame, KNI, FNA and Godot are stubs with `redirect: <routeId>`: the sidebar links straight to the Get Started of that engine. The real engine documentation lives in `engines/<id>-reference.md`. The other engines (Stride, Unity, Silk.NET) are placeholders marked `status: planned`.
+
+## Documentation (`reference/`)
+
+The Documentation section has exactly eight pages, in English and Spanish: the five syntaxes (`hlsl`, `glsl`, `msl`, `spirv`, `wgsl`), and the three commands of the compiler (`compile`, `add`, `plugins`), plus the `index` hub. The main site (`Web/`) has no documentation of its own: it links here with `__LEARN__/reference/...`.
+
+- The five syntax pages are generated: `node tools/gen-syntax-reference.mjs` reads the `YotsubaShader.*Syntax` projects of the compiler repository (the folder that contains `Web/`) and rewrites `content/<lang>/reference/{hlsl,glsl,msl,spirv,wgsl}.md`. Run it when the attributes change and commit the result; building `learn` never needs the compiler repository.
+- `compile`, `add` and `plugins` describe the CLI of `Core/YotsubaShader.Compiler.CLI`. Check them against `Program.cs`, `Args.cs` and `PluginCommand.cs` when the CLI changes.
 
 ## Deploy
 

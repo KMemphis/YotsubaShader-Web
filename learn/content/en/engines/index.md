@@ -22,4 +22,4 @@ godot | Godot | Godot 4, with GDScript or C#. You see the shaders inside the edi
 
 ## Reference
 
-Once you finish the tutorial, each engine has a page to look things up: [MonoGame](../reference/monogame.md), [KNI](../reference/kni.md), [FNA](../reference/fna.md) and [Godot](../reference/godot.md).
+Each engine has a reference page with its package, the generated method, the vertex data, the uniforms and a complete example: [MonoGame](monogame-reference.md), [KNI](kni-reference.md), [FNA](fna-reference.md) and [Godot](godot-reference.md).

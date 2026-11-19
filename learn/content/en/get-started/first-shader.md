@@ -230,7 +230,7 @@ This is the file in Rider:
 
 ![Screen.cs open in Rider: the GodotVertex struct with its 14 fields, from VERTEX to POINT_SIZE, and below it the Pixel struct](../../assets/get-started/godot/en/rider-screen.jpg)
 
-You are going to use only `VERTEX` (the position) and `UV` in the shaders of the tutorial. The other twelve are there so you never have to change the struct: a shader that does not read them leaves them alone, and Godot fills them with default values. They are listed one by one in [the Godot reference](../reference/godot.md).
+You are going to use only `VERTEX` (the position) and `UV` in the shaders of the tutorial. The other twelve are there so you never have to change the struct: a shader that does not read them leaves them alone, and Godot fills them with default values. They are listed one by one in [the Godot reference](../engines/godot-reference.md).
 
 `[location]` comes from `using YotsubaShader.GlslSyntax;`, that is why that `using` is at the top.
 

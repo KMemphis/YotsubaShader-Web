@@ -48,9 +48,9 @@ const overview = {
   <div class="container">
     <h2 class="h-lg center">Where to go next</h2>
     <div class="grid grid-3 mt-48">
-      ${cardLink({ href: '/documentation/yotsuba-shader/understanding-yotsuba-shader/', icon: 'book', title: 'Understand the model', body: 'The language, the IR and the compiler stages in one article.' })}
-      ${cardLink({ href: '/documentation/yotsuba-shader/choosing-a-syntax/', icon: 'braces', title: 'Pick a syntax', body: 'HLSL, GLSL, MSL, SPIR-V or WGSL syntax. Same semantics.' })}
-      ${cardLink({ href: '/documentation/yotsuba-shader/shader-diagnostics-in-your-ide/', icon: 'check', title: 'See errors in your IDE', body: 'Current validation limits and planned shader diagnostics.' })}
+      ${cardLink({ href: '__LEARN__/get-started/', icon: 'book', title: 'Understand the model', body: 'The language, the IR and the compiler stages in one article.' })}
+      ${cardLink({ href: '__LEARN__/reference/', icon: 'braces', title: 'Pick a syntax', body: 'HLSL, GLSL, MSL, SPIR-V or WGSL syntax. Same semantics.' })}
+      ${cardLink({ href: '__LEARN__/reference/compile/', icon: 'check', title: 'See errors in your IDE', body: 'Current validation limits and planned shader diagnostics.' })}
       ${cardLink({ href: '/technologies/', icon: 'layers', title: 'See the technologies', body: 'The language, the Roslyn frontend, the IR and the SPIR-V compiler.' })}
     </div>
   </div>
@@ -90,7 +90,7 @@ const firstShader = {
     <p>The attributes describe user semantics and built-ins. <code>[Location(n)]</code> is available separately from <code>YotsubaShader.SpirvSyntax</code>. Syntax declarations cover more concepts than the current processor can lower.</p>
     <h2>Grow it</h2>
     <p>Resources use the namespace of the chosen syntax, for example <code>YotsubaShader.SpirvSyntax.Resources</code>. Compute declarations and the supported body subset compile today; resource sampling, arbitrary library calls, and other unsupported operations still need dedicated support.</p>
-    <p><a class="link-more" href="/documentation/yotsuba-shader/writing-your-first-shader/">Read the full article ${icon('chevron-right')}</a></p>
+    <p><a class="link-more" href="__LEARN__/get-started/">Read the full article ${icon('chevron-right')}</a></p>
   </div>
 </section>`,
 };
