@@ -130,11 +130,11 @@ namespace MyShaders;
 public class Mandelbrot
 {
     [ShaderStage(Stage.Vertex)]
-    public Pixel Vertex(Corner corner)
+    public Pixel Vertex({{vertexType}} corner)
     {
         Pixel pixel;
-        pixel.Position = Make.Vec4(corner.Position.X, corner.Position.Y, 0f, 1f);
-        pixel.Uv = corner.Uv;
+        pixel.Position = Make.Vec4(corner.{{pos}}.X, corner.{{pos}}.Y, 0f, 1f);
+        pixel.Uv = corner.{{uv}};
         return pixel;
     }
 
@@ -201,11 +201,11 @@ namespace MyShaders;
 public class Mandelbrot
 {
     [ShaderStage(Stage.Vertex)]
-    public Pixel Vertex(Corner corner)
+    public Pixel Vertex({{vertexType}} corner)
     {
         Pixel pixel;
-        pixel.Position = Make.Vec4(corner.Position.X, corner.Position.Y, 0f, 1f);
-        pixel.Uv = corner.Uv;
+        pixel.Position = Make.Vec4(corner.{{pos}}.X, corner.{{pos}}.Y, 0f, 1f);
+        pixel.Uv = corner.{{uv}};
         return pixel;
     }
 
@@ -272,11 +272,11 @@ namespace MyShaders;
 public class Mandelbrot
 {
     [ShaderStage(Stage.Vertex)]
-    public Pixel Vertex(Corner corner)
+    public Pixel Vertex({{vertexType}} corner)
     {
         Pixel pixel;
-        pixel.Position = Make.Vec4(corner.Position.X, corner.Position.Y, 0f, 1f);
-        pixel.Uv = corner.Uv;
+        pixel.Position = Make.Vec4(corner.{{pos}}.X, corner.{{pos}}.Y, 0f, 1f);
+        pixel.Uv = corner.{{uv}};
         return pixel;
     }
 
@@ -343,11 +343,11 @@ namespace MyShaders;
 public class Mandelbrot
 {
     [ShaderStage(Stage.Vertex)]
-    public Pixel Vertex(Corner corner)
+    public Pixel Vertex({{vertexType}} corner)
     {
         Pixel pixel;
-        pixel.Position = Make.Vec4(corner.Position.X, corner.Position.Y, 0f, 1f);
-        pixel.Uv = corner.Uv;
+        pixel.Position = Make.Vec4(corner.{{pos}}.X, corner.{{pos}}.Y, 0f, 1f);
+        pixel.Uv = corner.{{uv}};
         return pixel;
     }
 
@@ -414,11 +414,11 @@ namespace MyShaders;
 public class Mandelbrot
 {
     [ShaderStage(Stage.Vertex)]
-    public Pixel Vertex(Corner corner)
+    public Pixel Vertex({{vertexType}} corner)
     {
         Pixel pixel;
-        pixel.Position = Make.Vec4(corner.Position.X, corner.Position.Y, 0f, 1f);
-        pixel.Uv = corner.Uv;
+        pixel.Position = Make.Vec4(corner.{{pos}}.X, corner.{{pos}}.Y, 0f, 1f);
+        pixel.Uv = corner.{{uv}};
         return pixel;
     }
 
@@ -485,17 +485,7 @@ Three things worth noticing:
 
 The same command as always. Since `add` compiles every shader in the project, it now processes both:
 
-But first, tell the viewer about the new shader. In `Viewer/Program.cs`, add this line to the `switch`, above the `_ =>` line:
-
-```csharp
-            "Mandelbrot" => new Mandelbrot().ToMGFX(gl),
-```
-
-Now run it:
-
-```bash
-dotnet yotsuba add MyShaders/MyShaders.csproj --target spirv && dotnet run --project Viewer -- Mandelbrot
-```
+{{register Mandelbrot}}
 
 The viewer opens with your fractal. You will probably see it **stretched sideways**. It is not a fault of the shader: it is the same problem as the oval in the [coordinates](coordinates.md) chapter. This shader converts the `Uv` into numbers without taking into account that the window is wider than tall. To see it properly, make it square: in `Viewer/Program.cs`, change `800` and `450` to `600` and `600`. At the end of the chapter there is a challenge to fix it in the shader itself.
 
@@ -605,6 +595,123 @@ float cy = (pixel.Uv.Y - 0.5f) * 3f;
 ![The Mandelbrot fractal with the right proportions in a wide window](../../assets/get-started/taller/mandelbrot-ancho.png)
 
 The numbers `3f` and `-0.7f` are the ones that used to come from the `3f` and the `-2.2f`: the `3` is how much of the plane is seen in height, and the `-0.7` is the center of the view horizontally.
+
+:::godot
+## A bonus for Godot: an apocalyptic sky
+
+In Godot the fractal does not have to stay inside a rectangle. You are going to use it as the **sky of a 3D scene**, with a ripple that makes it look like the air is burning.
+
+> [!NOTE]
+> This is a **temporary** shader, only to show off. You will not need it later: when you finish, you go back to `Mandelbrot` and the rest of the tutorial goes on exactly as in every other route.
+
+Create `MyShaders/MandelbrotSky.cs`:
+
+```csharp style=glsl title="MyShaders/MandelbrotSky.cs"
+using YotsubaShader.GlslSyntax;
+using YotsubaShader.GlslSyntax.Resources;
+using YotsubaShader.GlslSyntax.Types;
+using YotsubaShader.Language;
+using static YotsubaShader.GlslSyntax.Methods.Math;
+
+namespace MyShaders;
+
+public struct SkyClock
+{
+    public float Seconds;
+}
+
+public class MandelbrotSky
+{
+    [uniform, layout(0, 0)]
+    public SkyClock Sky;
+
+    [ShaderStage(Stage.Vertex)]
+    public Pixel Vertex(GodotVertex corner)
+    {
+        Pixel pixel;
+        // z almost 0: the rectangle sits at the very back, behind every object of the scene.
+        pixel.Position = Make.Vec4(corner.VERTEX.X, corner.VERTEX.Y, 0.00001f, 1f);
+        pixel.Uv = corner.UV;
+        return pixel;
+    }
+
+    [ShaderStage(Stage.Fragment)]
+    [return: location(0)]
+    public vec4 Fragment(PixelIn pixel)
+    {
+        float t = Sky.Seconds;
+
+        // The ripple: every row of the sky is pushed sideways by a wave that travels upwards.
+        float u = pixel.Uv.X + 0.012f * sin(pixel.Uv.Y * 38f - t * 2.5f);
+        float v = pixel.Uv.Y + 0.008f * sin(pixel.Uv.X * 29f + t * 1.7f);
+
+        // A slow breathing zoom over the upper edge of the fractal.
+        float zoom = 1.1f + 0.2f * sin(t * 0.15f);
+        float cx = -0.65f + (u - 0.5f) * 3f / zoom;
+        float cy = 0.45f + (v - 0.5f) * 1.7f / zoom;
+
+        int steps = CountSteps(cx, cy);
+        float k = steps / 100f;
+        float red = clamp(k * 4f, 0f, 1f);
+        float green = clamp(k * 4f - 1.2f, 0f, 1f) * 0.55f;
+        float blue = clamp(k * 4f - 3f, 0f, 1f) * 0.25f;
+
+        // The inside of the set (all 100 steps) is the dark core of the sky.
+        float inside = step(100f, steps);
+        red = mix(red, 0.02f, inside);
+        green = mix(green, 0f, inside);
+        blue = mix(blue, 0f, inside);
+        return Make.Vec4(red, green, blue, 1f);
+    }
+
+    public static int CountSteps(float cx, float cy)
+    {
+        float x = 0f;
+        float y = 0f;
+        int steps = 0;
+
+        while (steps < 100)
+        {
+            float newX = x * x - y * y + cx;
+            float newY = 2f * x * y + cy;
+            x = newX;
+            y = newY;
+
+            if (x * x + y * y > 4f)
+            {
+                break;
+            }
+
+            steps++;
+        }
+
+        return steps;
+    }
+}
+```
+
+Three ideas are new here:
+
+- **`0.00001f` in the position.** Until now the third number of `Position` was `0f`. In Godot, that number is the depth: how far from the camera the point is. With almost zero, the rectangle goes to the very back, behind everything else. Objects in front of it hide it, exactly like a real sky.
+- **The ripple.** Before turning the pixel into `cx` and `cy`, you push `Uv.X` a little with a `sin` of the height, and `Uv.Y` with a `sin` of the width. Both include the time, so the waves travel. Change `0.012f` to `0.05f` and the sky will melt.
+- **`step` and `mix` instead of an `if`.** The inside of the set is painted with these two, which choose a color without branching. `step(100f, steps)` is `1` when the pixel never escaped and `0` otherwise; `mix` uses that number to pick between the fire color and the dark core.
+
+Now the scene. Open `viewer.tscn` and save it with another name (**Scene → Save Scene As…**): `sky.tscn`. Then add, as children of `Viewer`:
+
+- **`Ground`**: a `MeshInstance3D`. In the Inspector, **Mesh → New PlaneMesh** and make its **Size** `80 × 80`.
+- **`TowerA`, `TowerB`, `TowerC`**: more `MeshInstance3D`, with **Mesh → New BoxMesh**, tall and thin (for example `1.6 × 7 × 1.6`). Place them behind the camera's view, between `-4` and `-11` in Z, at different heights.
+- **`Light`**: a `DirectionalLight3D` with an orange color.
+
+Select the `Camera3D` and move it up and back (`Position` Y `1.6`, Z `8`). Select the root and write `MandelbrotSky` in **Shader Name**.
+
+![The sky scene tree: Viewer with Screen, Camera3D, Ground, four towers and a Light](../../assets/get-started/godot/en/cielo-escena.jpg)
+
+Press **Play Scene** (`Cmd/Ctrl+R`):
+
+![A red and orange Mandelbrot fractal as the sky behind dark towers, over a dark red ground](../../assets/get-started/godot/en/cielo-juego.jpg)
+
+The fractal is your own code, running as the background of a 3D scene. To go back, open `viewer.tscn`: it still says `Mandelbrot`.
+:::
 
 ## What you can use inside a shader and what you cannot
 

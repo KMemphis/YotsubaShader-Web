@@ -145,10 +145,9 @@ using YotsubaShader.GlslSyntax.Types;
 
 namespace MisShaders;
 
-public struct Vertice
+public struct {{vertexType}}
 {
-    [location(0)] public vec2 Posicion;
-    [location(1)] public vec2 Uv;
+    {{vertexFields glsl}}
 }
 ```
 
@@ -158,10 +157,9 @@ using YotsubaShader.GlslSyntax.Types;
 
 namespace MisShaders;
 
-public struct Vertice
+public struct {{vertexType}}
 {
-    [TEXCOORD(0)] public vec2 Posicion;
-    [TEXCOORD(1)] public vec2 Uv;
+    {{vertexFields hlsl}}
 }
 ```
 
@@ -171,10 +169,9 @@ using YotsubaShader.GlslSyntax.Types;
 
 namespace MisShaders;
 
-public struct Vertice
+public struct {{vertexType}}
 {
-    [attribute(0)] public vec2 Posicion;
-    [attribute(1)] public vec2 Uv;
+    {{vertexFields msl}}
 }
 ```
 
@@ -184,10 +181,9 @@ using YotsubaShader.GlslSyntax.Types;
 
 namespace MisShaders;
 
-public struct Vertice
+public struct {{vertexType}}
 {
-    [location(0)] public vec2 Posicion;
-    [location(1)] public vec2 Uv;
+    {{vertexFields glsl}}
 }
 ```
 
@@ -197,13 +193,13 @@ using YotsubaShader.GlslSyntax.Types;
 
 namespace MisShaders;
 
-public struct Vertice
+public struct {{vertexType}}
 {
-    [Location(0)] public vec2 Posicion;
-    [Location(1)] public vec2 Uv;
+    {{vertexFields spirv}}
 }
 ```
 
+:::xna
 Esto es la puerta A, escrita en C#. Línea por línea:
 
 - **`public struct Vertice`**: un vértice es un paquete de datos, y en C# un paquete de datos es un `struct`. El nombre `Vertice` lo elegí yo. Puedes ponerle el que quieras.
@@ -221,6 +217,31 @@ Tres preguntas que es normal hacerse aquí:
 **¿Importan los nombres `Posicion` y `Uv`?** A la GPU no. Ella solo ve el número del casillero y el tipo. Los nombres son para ti, para que el código se pueda leer.
 
 **¿Qué pasa si me equivoco de número?** Que el shader lee el dato que no es. Si aquí pusieras `Uv` en el casillero 0, recibirías la posición creyendo que es el `Uv`. No sale ningún error: simplemente el dibujo sale mal. Por eso conviene tener claro qué va en cada casillero.
+:::
+
+:::godot
+Esto es la puerta A, escrita en C#. Son los datos de vértice de Godot, todos. Línea por línea:
+
+- **`public struct {{vertexType}}`**: un vértice es un paquete de datos, y en C# un paquete de datos es un `struct`. Este se llama `{{vertexType}}` y **es el mismo durante todo el tutorial**: lo escribes una vez y no lo vuelves a tocar.
+- **`public vec3 VERTEX;`**: la posición del vértice. Godot la llama `VERTEX`, así que tu campo se llama `VERTEX`. Igual con `NORMAL`, `TANGENT`, `BINORMAL`, `UV`, `UV2`, `COLOR`, `CUSTOM0` a `CUSTOM3`, `BONE_INDICES`, `BONE_WEIGHTS` y `POINT_SIZE`: los nombres de Godot, con las mayúsculas de Godot.
+- **`[location(0)]`, `[location(1)]`...**: la sintaxis pide un número en cada campo, así que el número está. Pero en la puerta A el plugin no lo usa: lee el **nombre**.
+
+Así se ve el archivo en Rider:
+
+![Screen.cs abierto en Rider: el struct GodotVertex con sus 14 campos, de VERTEX a POINT_SIZE, y debajo el struct Pixel](../../assets/get-started/godot/en/rider-screen.jpg)
+
+En los shaders del tutorial solo vas a usar `VERTEX` (la posición) y `UV`. Los otros doce están para que nunca tengas que cambiar el struct: un shader que no los lee los deja quietos, y Godot rellena los demás con valores por defecto. Están explicados uno por uno en [la referencia de Godot](../reference/godot.md).
+
+`[location]` sale de `using YotsubaShader.GlslSyntax;`, por eso está ese `using` arriba.
+
+Tres preguntas que es normal hacerse aquí:
+
+**¿Quién llena esos campos?** Godot. Cada malla lleva sus datos de vértice, y el motor le entrega cada vértice a tu shader con esos nombres. Lo único que hay que tener presente es que la malla debe llevar lo que pides: el visor del capítulo anterior le da al rectángulo normales y tangentes porque tu struct las pide.
+
+**¿Importan los nombres?** Aquí sí, y mucho. Son la forma en que Godot y tu shader se entienden. Si escribes `Position` en lugar de `VERTEX`, el compilador no sabe qué dato quieres y te lo dice.
+
+**¿Tengo que declarar los 14?** No, pero el tutorial lo hace, para que el struct sea siempre el mismo y nadie se pierda.
+:::
 
 ### La puerta B: lo que Vertex le deja pasar a Fragment
 
@@ -232,10 +253,9 @@ using YotsubaShader.GlslSyntax.Types;
 
 namespace MisShaders;
 
-public struct Vertice
+public struct {{vertexType}}
 {
-    [location(0)] public vec2 Posicion;
-    [location(1)] public vec2 Uv;
+    {{vertexFields glsl}}
 }
 
 public struct Pixel
@@ -256,10 +276,9 @@ using YotsubaShader.GlslSyntax.Types;
 
 namespace MisShaders;
 
-public struct Vertice
+public struct {{vertexType}}
 {
-    [TEXCOORD(0)] public vec2 Posicion;
-    [TEXCOORD(1)] public vec2 Uv;
+    {{vertexFields hlsl}}
 }
 
 public struct Pixel
@@ -280,10 +299,9 @@ using YotsubaShader.GlslSyntax.Types;
 
 namespace MisShaders;
 
-public struct Vertice
+public struct {{vertexType}}
 {
-    [attribute(0)] public vec2 Posicion;
-    [attribute(1)] public vec2 Uv;
+    {{vertexFields msl}}
 }
 
 public struct Pixel
@@ -304,10 +322,9 @@ using YotsubaShader.GlslSyntax.Types;
 
 namespace MisShaders;
 
-public struct Vertice
+public struct {{vertexType}}
 {
-    [location(0)] public vec2 Posicion;
-    [location(1)] public vec2 Uv;
+    {{vertexFields glsl}}
 }
 
 public struct Pixel
@@ -328,10 +345,9 @@ using YotsubaShader.GlslSyntax.Types;
 
 namespace MisShaders;
 
-public struct Vertice
+public struct {{vertexType}}
 {
-    [Location(0)] public vec2 Posicion;
-    [Location(1)] public vec2 Uv;
+    {{vertexFields spirv}}
 }
 
 public struct Pixel
@@ -358,14 +374,20 @@ public struct PixelIn
 
 Sí. Y es el momento de mirarlo bien, porque es justo la confusión de la que te avisé.
 
-En `Vertice`, el casillero 0 es la posición. En `Pixel`, el casillero 0 es el `Uv`. No chocan, porque son dos puertas distintas, y cada puerta cuenta desde 0 por su cuenta:
+:::xna
+En `{{vertexType}}`, el casillero 0 es la posición. En `Pixel`, el casillero 0 es el `Uv`. No chocan, porque son dos puertas distintas, y cada puerta cuenta desde 0 por su cuenta:
 
 | | Casillero 0 | Casillero 1 |
 | --- | --- | --- |
-| `Vertice` (puerta A) | `Posicion` | `Uv` |
+| `{{vertexType}}` (puerta A) | `{{pos}}` | `{{uv}}` |
 | `Pixel` (puerta B) | `Uv` | no hay |
 
 El `Uv` entró por el casillero 1 de la puerta A y sale por el casillero 0 de la puerta B. No pasa nada: el número solo vale dentro de su puerta.
+:::
+
+:::godot
+En la ruta Godot la puerta A no la numeras tú: sus campos se encuentran por **nombre** (`VERTEX`, `UV`...), como acabas de ver. La puerta B (`Pixel`) es la que sí usa números de casillero: su `Uv` viaja por el casillero 0, y ese es el número que `PixelIn` tiene que repetir.
+:::
 
 ¿Y por qué en `Pixel` el `Uv` no es el casillero 1, para que quede igual? Podrías ponerlo en el 1 y funcionaría. Pero en la puerta B la posición no ocupa casillero, así que el primero que queda libre es el 0. Lo normal es numerar desde 0 sin dejar huecos.
 
@@ -385,11 +407,11 @@ Quedan las decisiones 3, 4 y 5: las dos funciones y la puerta C. Van juntas en u
 
 ```csharp
 [ShaderStage(Stage.Vertex)]
-public Pixel Vertex(Vertice vertice)
+public Pixel Vertex({{vertexType}} vertice)
 {
     Pixel pixel;
-    pixel.Posicion = Crear.Vec4(vertice.Posicion.X, vertice.Posicion.Y, 0f, 1f);
-    pixel.Uv = vertice.Uv;
+    pixel.Posicion = Crear.Vec4(vertice.{{pos}}.X, vertice.{{pos}}.Y, 0f, 1f);
+    pixel.Uv = vertice.{{uv}};
     return pixel;
 }
 ```
@@ -397,7 +419,7 @@ public Pixel Vertex(Vertice vertice)
 Empieza por la primera línea y la firma, que ya lo dicen casi todo:
 
 - **`[ShaderStage(Stage.Vertex)]`** es lo que convierte a este método en la etapa Vertex. Sin ese atributo sería un método cualquiera y la GPU no lo llamaría nunca.
-- **`(Vertice vertice)`**: lo que recibe. Es la puerta A: un vértice, con su `Posicion` y su `Uv`. Recuerda que es **uno solo**. La GPU llama al método cuatro veces, una por esquina.
+- **`({{vertexType}} vertice)`**: lo que recibe. Es la puerta A: un vértice, con su `{{pos}}` y su `{{uv}}`. Recuerda que es **uno solo**. La GPU llama al método cuatro veces, una por esquina.
 - **`public Pixel`**: lo que devuelve. Es la puerta B.
 - **El nombre `Vertex`** es libre. Podría llamarse `ColocarEsquina`. Lo que manda es el atributo.
 
@@ -406,7 +428,7 @@ Y el cuerpo hace los dos trabajos de la etapa Vertex:
 **Trabajo 1, decir dónde va el vértice:**
 
 ```csharp
-pixel.Posicion = Crear.Vec4(vertice.Posicion.X, vertice.Posicion.Y, 0f, 1f);
+pixel.Posicion = Crear.Vec4(vertice.{{pos}}.X, vertice.{{pos}}.Y, 0f, 1f);
 ```
 
 Aquí no queremos mover nada, así que la posición final es la misma que llegó. Lo único que cambia es que llegó con dos números y hay que entregarla con cuatro. Por eso tomamos la `X` y la `Y` que llegaron y rellenamos con `0f` y `1f`, que son la profundidad y la perspectiva de las que hablamos.
@@ -414,7 +436,7 @@ Aquí no queremos mover nada, así que la posición final es la misma que llegó
 **Trabajo 2, dejar pasar lo que Fragment va a necesitar:**
 
 ```csharp
-pixel.Uv = vertice.Uv;
+pixel.Uv = vertice.{{uv}};
 ```
 
 Copiamos el `Uv` tal cual. Si no lo hicieras, a la función Fragment no le llegaría nada con qué saber dónde está cada píxel.
@@ -447,7 +469,7 @@ Ya escribiste las tres puertas, y en las tres hay un `location(0)`. Ahora puedes
 
 | Dónde lo escribiste | Qué puerta es | Qué viaja en su casillero 0 |
 | --- | --- | --- |
-| `[location(0)]` en `Vertice` | A: del juego a Vertex | La posición del vértice. |
+| `[location(0)]` en `{{vertexType}}` | A: del juego a Vertex | La posición del vértice. |
 | `[location(0)]` en `Pixel` y en `PixelIn` | B: de Vertex a Fragment | El `Uv`. |
 | `[return: location(0)]` en `Fragment` | C: de Fragment a la pantalla | El color del píxel. |
 
@@ -467,11 +489,11 @@ namespace MisShaders;
 public class Degradado
 {
     [ShaderStage(Stage.Vertex)]
-    public Pixel Vertex(Vertice vertice)
+    public Pixel Vertex({{vertexType}} vertice)
     {
         Pixel pixel;
-        pixel.Posicion = Crear.Vec4(vertice.Posicion.X, vertice.Posicion.Y, 0f, 1f);
-        pixel.Uv = vertice.Uv;
+        pixel.Posicion = Crear.Vec4(vertice.{{pos}}.X, vertice.{{pos}}.Y, 0f, 1f);
+        pixel.Uv = vertice.{{uv}};
         return pixel;
     }
 
@@ -494,11 +516,11 @@ namespace MisShaders;
 public class Degradado
 {
     [ShaderStage(Stage.Vertex)]
-    public Pixel Vertex(Vertice vertice)
+    public Pixel Vertex({{vertexType}} vertice)
     {
         Pixel pixel;
-        pixel.Posicion = Crear.Vec4(vertice.Posicion.X, vertice.Posicion.Y, 0f, 1f);
-        pixel.Uv = vertice.Uv;
+        pixel.Posicion = Crear.Vec4(vertice.{{pos}}.X, vertice.{{pos}}.Y, 0f, 1f);
+        pixel.Uv = vertice.{{uv}};
         return pixel;
     }
 
@@ -521,11 +543,11 @@ namespace MisShaders;
 public class Degradado
 {
     [ShaderStage(Stage.Vertex)]
-    public Pixel Vertex(Vertice vertice)
+    public Pixel Vertex({{vertexType}} vertice)
     {
         Pixel pixel;
-        pixel.Posicion = Crear.Vec4(vertice.Posicion.X, vertice.Posicion.Y, 0f, 1f);
-        pixel.Uv = vertice.Uv;
+        pixel.Posicion = Crear.Vec4(vertice.{{pos}}.X, vertice.{{pos}}.Y, 0f, 1f);
+        pixel.Uv = vertice.{{uv}};
         return pixel;
     }
 
@@ -548,11 +570,11 @@ namespace MisShaders;
 public class Degradado
 {
     [ShaderStage(Stage.Vertex)]
-    public Pixel Vertex(Vertice vertice)
+    public Pixel Vertex({{vertexType}} vertice)
     {
         Pixel pixel;
-        pixel.Posicion = Crear.Vec4(vertice.Posicion.X, vertice.Posicion.Y, 0f, 1f);
-        pixel.Uv = vertice.Uv;
+        pixel.Posicion = Crear.Vec4(vertice.{{pos}}.X, vertice.{{pos}}.Y, 0f, 1f);
+        pixel.Uv = vertice.{{uv}};
         return pixel;
     }
 
@@ -575,11 +597,11 @@ namespace MisShaders;
 public class Degradado
 {
     [ShaderStage(Stage.Vertex)]
-    public Pixel Vertex(Vertice vertice)
+    public Pixel Vertex({{vertexType}} vertice)
     {
         Pixel pixel;
-        pixel.Posicion = Crear.Vec4(vertice.Posicion.X, vertice.Posicion.Y, 0f, 1f);
-        pixel.Uv = vertice.Uv;
+        pixel.Posicion = Crear.Vec4(vertice.{{pos}}.X, vertice.{{pos}}.Y, 0f, 1f);
+        pixel.Uv = vertice.{{uv}};
         return pixel;
     }
 
@@ -623,7 +645,7 @@ Eso es lo que hace `add`: compila todos los shaders de tu proyecto y **añade** 
 | `ToHlsl(etapa)` | El shader traducido a HLSL (DirectX), como texto. |
 | `ToMSL(etapa)` | El shader traducido a Metal (Apple), como texto. |
 | `ToSpirV()` | El shader en SPIR-V, el formato binario de Vulkan, como `byte[]`. |
-| `ToMGFX(plataforma)`, `ToKNIWebGL_FX()`, `ToFNA_FX()` | El shader listo para cargar en MonoGame, KNI o FNA, como `byte[]`. |
+| `ToMGFX(plataforma)`, `ToKNIWebGL_FX()`, `ToFNA_FX()` | El shader listo para cargar en MonoGame, KNI o FNA, como `byte[]`. Estos tres aparecen solo si pides el plugin del motor con `--target {{plugin}}`, `--target kni` o `--target fna`. Lo harás en [Tu ventana para ver shaders](visor.md). |
 
 Es decir, no tienes que cargar archivos ni recordar rutas. Tu shader es una clase, y el resultado compilado se lo pides a esa misma clase.
 
@@ -764,11 +786,11 @@ namespace MisShaders;
 public class Degradado
 {
     [ShaderStage(Stage.Vertex)]
-    public Pixel Vertex(Vertice vertice)
+    public Pixel Vertex({{vertexType}} vertice)
     {
         Pixel pixel;
-        pixel.Posicion = Crear.Vec4(vertice.Posicion.X, vertice.Posicion.Y, 0f, 1f);
-        pixel.Uv = vertice.Uv;
+        pixel.Posicion = Crear.Vec4(vertice.{{pos}}.X, vertice.{{pos}}.Y, 0f, 1f);
+        pixel.Uv = vertice.{{uv}};
         return pixel;
     }
 
@@ -794,11 +816,11 @@ namespace MisShaders;
 public class Degradado
 {
     [ShaderStage(Stage.Vertex)]
-    public Pixel Vertex(Vertice vertice)
+    public Pixel Vertex({{vertexType}} vertice)
     {
         Pixel pixel;
-        pixel.Posicion = Crear.Vec4(vertice.Posicion.X, vertice.Posicion.Y, 0f, 1f);
-        pixel.Uv = vertice.Uv;
+        pixel.Posicion = Crear.Vec4(vertice.{{pos}}.X, vertice.{{pos}}.Y, 0f, 1f);
+        pixel.Uv = vertice.{{uv}};
         return pixel;
     }
 
@@ -824,11 +846,11 @@ namespace MisShaders;
 public class Degradado
 {
     [ShaderStage(Stage.Vertex)]
-    public Pixel Vertex(Vertice vertice)
+    public Pixel Vertex({{vertexType}} vertice)
     {
         Pixel pixel;
-        pixel.Posicion = Crear.Vec4(vertice.Posicion.X, vertice.Posicion.Y, 0f, 1f);
-        pixel.Uv = vertice.Uv;
+        pixel.Posicion = Crear.Vec4(vertice.{{pos}}.X, vertice.{{pos}}.Y, 0f, 1f);
+        pixel.Uv = vertice.{{uv}};
         return pixel;
     }
 
@@ -854,11 +876,11 @@ namespace MisShaders;
 public class Degradado
 {
     [ShaderStage(Stage.Vertex)]
-    public Pixel Vertex(Vertice vertice)
+    public Pixel Vertex({{vertexType}} vertice)
     {
         Pixel pixel;
-        pixel.Posicion = Crear.Vec4(vertice.Posicion.X, vertice.Posicion.Y, 0f, 1f);
-        pixel.Uv = vertice.Uv;
+        pixel.Posicion = Crear.Vec4(vertice.{{pos}}.X, vertice.{{pos}}.Y, 0f, 1f);
+        pixel.Uv = vertice.{{uv}};
         return pixel;
     }
 
@@ -884,11 +906,11 @@ namespace MisShaders;
 public class Degradado
 {
     [ShaderStage(Stage.Vertex)]
-    public Pixel Vertex(Vertice vertice)
+    public Pixel Vertex({{vertexType}} vertice)
     {
         Pixel pixel;
-        pixel.Posicion = Crear.Vec4(vertice.Posicion.X, vertice.Posicion.Y, 0f, 1f);
-        pixel.Uv = vertice.Uv;
+        pixel.Posicion = Crear.Vec4(vertice.{{pos}}.X, vertice.{{pos}}.Y, 0f, 1f);
+        pixel.Uv = vertice.{{uv}};
         return pixel;
     }
 

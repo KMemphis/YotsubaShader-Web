@@ -52,16 +52,29 @@ links between chapters (`[text](../reference/compiler.md#targets)`, validated at
 ```
 ````
 
+## Routes (one Get Started per engine)
+
+`content/<lang>/get-started/*.md` is a single source rendered once per route: MonoGame (default URLs), `/kni/`, `/fna/` and `/godot/`. Routes live in `ROUTES` and `ROUTE_TEXT` in `site.config.mjs`; the engine is resolved in `lib/routes.mjs`.
+
+- `{{var}}` and `{{macro arg}}` insert route text (for example `{{register Colors}}` or `{{vertexType}}`).
+- `:::godot ... :::` and `:::xna ... :::` (MonoGame + KNI + FNA) emit a block in that route only.
+- Restart `node build.mjs --serve` after editing `site.config.mjs`: it caches modules.
+- Godot screenshots go in `content/assets/get-started/godot/en/` and are shared by the English and Spanish chapters.
+
 ## Engines
 
 The engine row on the home page comes from `ENGINES` in `site.config.mjs` and shows names only (no logos). Each engine needs `content/<lang>/engines/<id>.md`.
-All engine guides are placeholders marked `status: planned`.
+The MonoGame, KNI, FNA and Godot guides are complete (the Godot one is the reference for the Godot route); the other engines (Stride, Unity, Silk.NET) are placeholders marked `status: planned`.
 
 ## Deploy
 
-1. `SITE_URL=https://learn.yotsubashader.com npm run build` (adds absolute `canonical`/`hreflang`, `sitemap.xml`, `robots.txt`).
-2. Publish `dist/` on any static host; point the `learn` CNAME at it. Optionally 301 `docs.yotsubashader.com` to `learn.`.
-3. Set `SITE.editUrl` in `site.config.mjs` to show an "Edit this page" link.
+Published with GitHub Pages at `https://learn.yotsubashader.com`. Pages gives one site per repository and the main site already uses the one of this repo, so `learn` is published from the compiler repo (`KMemphis/YotsubaShader`, workflow `.github/workflows/learn.yml`), which checks out this repo, builds `learn/` and deploys `learn/dist`.
+
+- Setup, once: in the compiler repo, Settings → Pages → Source "GitHub Actions", custom domain `learn.yotsubashader.com`, Enforce HTTPS. In the DNS add a `CNAME` record `learn` → `kmemphis.github.io`.
+- If this repo is private, add the secret `WEB_REPO_TOKEN` (read access to this repo) to the compiler repo.
+- A push that changes `learn/**` runs `.github/workflows/learn-notify.yml` here, which sends `repository_dispatch` (`learn-updated`) to the compiler repo. It needs the secret `LEARN_DISPATCH_TOKEN` (a token with write access to the compiler repo). Without it, run the workflow by hand (`workflow_dispatch`).
+- Manual build: `SITE_URL=https://learn.yotsubashader.com npm run build` (adds absolute `canonical`/`hreflang`, `sitemap.xml`, `robots.txt`).
+- Optionally 301 `docs.yotsubashader.com` to `learn.`. Set `SITE.editUrl` in `site.config.mjs` to show an "Edit this page" link.
 
 Paths are root-absolute (`/en/...`), so the site must be served from the root of its own (sub)domain.
 

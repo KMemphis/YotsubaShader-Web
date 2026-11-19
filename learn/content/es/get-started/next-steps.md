@@ -15,6 +15,7 @@ Terminaste el tutorial. Dibujaste colores, formas, una cara, un atardecer y una 
 - Cómo mandarle datos a un shader con un uniform, y cómo leer una imagen con una textura.
 - Cómo compilar con `add` y pedirle el resultado a tu propia clase.
 
+:::xna
 Lo que falta es lo único que este tutorial no podía enseñarte de una sola manera: **dibujar en pantalla**. Abrir una ventana, mandar el rectángulo a la GPU, entregarle el reloj y la foto. Eso depende de con qué trabajes.
 
 La buena noticia es que el punto de partida es siempre el mismo y ya lo tienes: `new Degradado()` y uno de los métodos que le puso `add`.
@@ -22,13 +23,21 @@ La buena noticia es que el punto de partida es siempre el mismo y ya lo tienes: 
 ## Elige tu Game Engine
 
 ```buttons
-[MonoGame](../engines/monogame.md)
-[KNI](../engines/kni.md)
-[FNA](../engines/fna.md)
+[MonoGame](../reference/monogame.md)
+[KNI](../reference/kni.md)
+[FNA](../reference/fna.md)
+[Godot](../reference/godot.md)
 [Stride](../engines/stride.md)
 [Unity](../engines/unity.md)
 [Silk.NET](../engines/silknet.md)
 ```
+:::
+
+:::godot
+Ya dibujaste en pantalla: la escena del visor, tus shaders corriendo en Godot e incluso una escena 3D vista a través de ellos. Lo que no viste es todo lo que Godot puede hacer alrededor, y está reunido en la [referencia de Godot](../reference/godot.md): los nombres de los 14 atributos del vértice y lo que soporta el traductor.
+
+A partir de aquí, la mejor forma de aprender es tomar uno de tus shaders y usarlo en un objeto real, con el `VERTEX` y el `NORMAL` de un `MeshInstance3D`.
+:::
 
 ## ¿Tienes tu propio motor?
 

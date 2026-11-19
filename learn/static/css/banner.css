@@ -46,3 +46,6 @@
   .slide-link { height: 60px; flex: 1 1 calc(50% - 10px); max-width: none; font-size: .75rem; letter-spacing: .1em; }
   .slide-link i { width: 60px; }
 }
+
+.slide-link .engine-logo { flex: none; width: 32px; height: 32px; object-fit: contain; border-radius: 6px; }
+.slide-link > span { flex: 1; text-align: left; }

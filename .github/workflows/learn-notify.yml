@@ -1,0 +1,22 @@
+name: Avisar a learn
+
+# Cuando cambia Web/learn, pide al repo del compilador que vuelva a publicar learn.yotsubashader.com.
+# Necesita el secreto LEARN_DISPATCH_TOKEN: un token con permiso de escritura en KMemphis/YotsubaShader.
+
+on:
+  push:
+    branches: [main]
+    paths: ['learn/**']
+  workflow_dispatch:
+
+jobs:
+  notify:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Disparar la publicación
+        run: |
+          curl -fsS -X POST \
+            -H "Authorization: Bearer ${{ secrets.LEARN_DISPATCH_TOKEN }}" \
+            -H "Accept: application/vnd.github+json" \
+            https://api.github.com/repos/KMemphis/YotsubaShader/dispatches \
+            -d '{"event_type":"learn-updated"}'

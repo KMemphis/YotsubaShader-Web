@@ -27,17 +27,7 @@ return Crear.Vec4(v, v, v, 1f);
 
 Ejecuta el ciclo de trabajo:
 
-Pero primero, avisa al visor del nuevo shader. En `Visor/Program.cs`, agrega esta línea al `switch`, encima de la línea `_ =>`:
-
-```csharp
-            "Bucles" => new Bucles().ToMGFX(gl),
-```
-
-Ahora sí, ejecútalo:
-
-```bash
-dotnet yotsuba add MisShaders/MisShaders.csproj --target spirv && dotnet run --project Visor -- Bucles
-```
+{{register Bucles}}
 
 ![Cinco franjas verticales, de gris oscuro a blanco](../../assets/get-started/taller/re1.png)
 
@@ -290,11 +280,11 @@ namespace MisShaders;
 public class Bucles
 {
     [ShaderStage(Stage.Vertex)]
-    public Pixel Vertex(Vertice vertice)
+    public Pixel Vertex({{vertexType}} vertice)
     {
         Pixel pixel;
-        pixel.Posicion = Crear.Vec4(vertice.Posicion.X, vertice.Posicion.Y, 0f, 1f);
-        pixel.Uv = vertice.Uv;
+        pixel.Posicion = Crear.Vec4(vertice.{{pos}}.X, vertice.{{pos}}.Y, 0f, 1f);
+        pixel.Uv = vertice.{{uv}};
         return pixel;
     }
 
@@ -334,11 +324,11 @@ namespace MisShaders;
 public class Bucles
 {
     [ShaderStage(Stage.Vertex)]
-    public Pixel Vertex(Vertice vertice)
+    public Pixel Vertex({{vertexType}} vertice)
     {
         Pixel pixel;
-        pixel.Posicion = Crear.Vec4(vertice.Posicion.X, vertice.Posicion.Y, 0f, 1f);
-        pixel.Uv = vertice.Uv;
+        pixel.Posicion = Crear.Vec4(vertice.{{pos}}.X, vertice.{{pos}}.Y, 0f, 1f);
+        pixel.Uv = vertice.{{uv}};
         return pixel;
     }
 
@@ -378,11 +368,11 @@ namespace MisShaders;
 public class Bucles
 {
     [ShaderStage(Stage.Vertex)]
-    public Pixel Vertex(Vertice vertice)
+    public Pixel Vertex({{vertexType}} vertice)
     {
         Pixel pixel;
-        pixel.Posicion = Crear.Vec4(vertice.Posicion.X, vertice.Posicion.Y, 0f, 1f);
-        pixel.Uv = vertice.Uv;
+        pixel.Posicion = Crear.Vec4(vertice.{{pos}}.X, vertice.{{pos}}.Y, 0f, 1f);
+        pixel.Uv = vertice.{{uv}};
         return pixel;
     }
 
@@ -422,11 +412,11 @@ namespace MisShaders;
 public class Bucles
 {
     [ShaderStage(Stage.Vertex)]
-    public Pixel Vertex(Vertice vertice)
+    public Pixel Vertex({{vertexType}} vertice)
     {
         Pixel pixel;
-        pixel.Posicion = Crear.Vec4(vertice.Posicion.X, vertice.Posicion.Y, 0f, 1f);
-        pixel.Uv = vertice.Uv;
+        pixel.Posicion = Crear.Vec4(vertice.{{pos}}.X, vertice.{{pos}}.Y, 0f, 1f);
+        pixel.Uv = vertice.{{uv}};
         return pixel;
     }
 
@@ -466,11 +456,11 @@ namespace MisShaders;
 public class Bucles
 {
     [ShaderStage(Stage.Vertex)]
-    public Pixel Vertex(Vertice vertice)
+    public Pixel Vertex({{vertexType}} vertice)
     {
         Pixel pixel;
-        pixel.Posicion = Crear.Vec4(vertice.Posicion.X, vertice.Posicion.Y, 0f, 1f);
-        pixel.Uv = vertice.Uv;
+        pixel.Posicion = Crear.Vec4(vertice.{{pos}}.X, vertice.{{pos}}.Y, 0f, 1f);
+        pixel.Uv = vertice.{{uv}};
         return pixel;
     }
 

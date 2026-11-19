@@ -134,6 +134,12 @@ byte[] fxb = new TriangleShader().ToFNA_FX();
 
 var effect = new Effect(GraphicsDevice, mgfx);`, 'LoadEffect.cs')}
 <p>Only the plugins named with <code>--target</code> are generated into <code>YotsubaShader.g.cs</code>.</p>
+<p>The <code>godot</code> plugin (<code>YotsubaShader.Extensions.Godot</code>) writes Godot Shading Language text instead of a binary, so its method returns a <code>string</code>. It has no ShadowDusk dependency and ships an editor addon that regenerates the <code>.gdshader</code> files from the Godot editor.</p>
+${code('csharp', `string spatial = new TriangleShader().ToGodotShader(GodotShaderType.Spatial);
+string canvas = new TriangleShader().ToGodotShader(GodotShaderType.CanvasItem);
+
+var shader = new Godot.Shader { Code = spatial };`, 'LoadGodotShader.cs')}
+<p>Vertex inputs are mapped by semantic (<code>[POSITION]</code> to <code>VERTEX</code>, <code>[NORMAL]</code>, <code>[TEXCOORD(0)]</code> to <code>UV</code>, <code>[TEXCOORD(1)]</code> to <code>UV2</code>, <code>[COLOR]</code>), user vertex outputs become <code>varying</code>s, and <code>SV_Target0</code> is written to <code>ALBEDO</code>/<code>ALPHA</code> (Spatial, with <code>render_mode unshaded, cull_disabled</code>) or <code>COLOR</code> (CanvasItem). Compute shaders, storage buffers and several render targets have no equivalent and are reported as errors.</p>
 <p>The existing source generator builds the compiler instruction table internally. It is separate from the application-project <code>add</code> command.</p>
 <p><a href="/technologies/compilation/">See the illustrated compilation process.</a></p>
 `,

@@ -17,17 +17,7 @@ Crea el shader de este capítulo a partir de la plantilla:
 
 Y ejecuta el ciclo de trabajo (el mismo del capítulo anterior, con el nombre nuevo al final):
 
-Pero primero, avisa al visor del nuevo shader. En `Visor/Program.cs`, agrega esta línea al `switch`, encima de la línea `_ =>`:
-
-```csharp
-            "Colores" => new Colores().ToMGFX(gl),
-```
-
-Ahora sí, ejecútalo:
-
-```bash
-dotnet yotsuba add MisShaders/MisShaders.csproj --target spirv && dotnet run --project Visor -- Colores
-```
+{{register Colores}}
 
 La ventana sale negra. Es lo que dice la única línea de `Fragment`:
 

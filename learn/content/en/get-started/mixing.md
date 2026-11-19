@@ -43,17 +43,7 @@ Here `t` is the pixel's height: `0` at the top and `1` at the bottom. Each color
 
 Run the work cycle:
 
-But first, tell the viewer about the new shader. In `Viewer/Program.cs`, add this line to the `switch`, above the `_ =>` line:
-
-```csharp
-            "Mixing" => new Mixing().ToMGFX(gl),
-```
-
-Now run it:
-
-```bash
-dotnet yotsuba add MyShaders/MyShaders.csproj --target spirv && dotnet run --project Viewer -- Mixing
-```
+{{register Mixing}}
 
 ![A vertical gradient: dark blue at the top and orange at the bottom, like a sunset sky](../../assets/get-started/taller/me1.png)
 
@@ -278,11 +268,11 @@ public class Mixing
     public Context Data;
 
     [ShaderStage(Stage.Vertex)]
-    public Pixel Vertex(Corner corner)
+    public Pixel Vertex({{vertexType}} corner)
     {
         Pixel pixel;
-        pixel.Position = Make.Vec4(corner.Position.X, corner.Position.Y, 0f, 1f);
-        pixel.Uv = corner.Uv;
+        pixel.Position = Make.Vec4(corner.{{pos}}.X, corner.{{pos}}.Y, 0f, 1f);
+        pixel.Uv = corner.{{uv}};
         return pixel;
     }
 
@@ -360,11 +350,11 @@ public class Mixing
     public Context Data;
 
     [ShaderStage(Stage.Vertex)]
-    public Pixel Vertex(Corner corner)
+    public Pixel Vertex({{vertexType}} corner)
     {
         Pixel pixel;
-        pixel.Position = Make.Vec4(corner.Position.X, corner.Position.Y, 0f, 1f);
-        pixel.Uv = corner.Uv;
+        pixel.Position = Make.Vec4(corner.{{pos}}.X, corner.{{pos}}.Y, 0f, 1f);
+        pixel.Uv = corner.{{uv}};
         return pixel;
     }
 
@@ -442,11 +432,11 @@ public class Mixing
     public Context Data;
 
     [ShaderStage(Stage.Vertex)]
-    public Pixel Vertex(Corner corner)
+    public Pixel Vertex({{vertexType}} corner)
     {
         Pixel pixel;
-        pixel.Position = Make.Vec4(corner.Position.X, corner.Position.Y, 0f, 1f);
-        pixel.Uv = corner.Uv;
+        pixel.Position = Make.Vec4(corner.{{pos}}.X, corner.{{pos}}.Y, 0f, 1f);
+        pixel.Uv = corner.{{uv}};
         return pixel;
     }
 
@@ -524,11 +514,11 @@ public class Mixing
     public Context Data;
 
     [ShaderStage(Stage.Vertex)]
-    public Pixel Vertex(Corner corner)
+    public Pixel Vertex({{vertexType}} corner)
     {
         Pixel pixel;
-        pixel.Position = Make.Vec4(corner.Position.X, corner.Position.Y, 0f, 1f);
-        pixel.Uv = corner.Uv;
+        pixel.Position = Make.Vec4(corner.{{pos}}.X, corner.{{pos}}.Y, 0f, 1f);
+        pixel.Uv = corner.{{uv}};
         return pixel;
     }
 
@@ -606,11 +596,11 @@ public class Mixing
     public Context Data;
 
     [ShaderStage(Stage.Vertex)]
-    public Pixel Vertex(Corner corner)
+    public Pixel Vertex({{vertexType}} corner)
     {
         Pixel pixel;
-        pixel.Position = Make.Vec4(corner.Position.X, corner.Position.Y, 0f, 1f);
-        pixel.Uv = corner.Uv;
+        pixel.Position = Make.Vec4(corner.{{pos}}.X, corner.{{pos}}.Y, 0f, 1f);
+        pixel.Uv = corner.{{uv}};
         return pixel;
     }
 

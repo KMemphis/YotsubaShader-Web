@@ -95,17 +95,7 @@ return Make.Vec4(t, t, t, 1f);
 
 Run the work cycle:
 
-But first, tell the viewer about the new shader. In `Viewer/Program.cs`, add this line to the `switch`, above the `_ =>` line:
-
-```csharp
-            "Time" => new Time().ToMGFX(gl),
-```
-
-Now run it:
-
-```bash
-dotnet yotsuba add MyShaders/MyShaders.csproj --target spirv && dotnet run --project Viewer -- Time
-```
+{{register Time}}
 
 The window gets lighter and lighter for one second, and suddenly goes back to black, and repeats. Why?
 
@@ -227,11 +217,11 @@ public class Time
     public Context Data;
 
     [ShaderStage(Stage.Vertex)]
-    public Pixel Vertex(Corner corner)
+    public Pixel Vertex({{vertexType}} corner)
     {
         Pixel pixel;
-        pixel.Position = Make.Vec4(corner.Position.X, corner.Position.Y, 0f, 1f);
-        pixel.Uv = corner.Uv;
+        pixel.Position = Make.Vec4(corner.{{pos}}.X, corner.{{pos}}.Y, 0f, 1f);
+        pixel.Uv = corner.{{uv}};
         return pixel;
     }
 
@@ -281,11 +271,11 @@ public class Time
     public Context Data;
 
     [ShaderStage(Stage.Vertex)]
-    public Pixel Vertex(Corner corner)
+    public Pixel Vertex({{vertexType}} corner)
     {
         Pixel pixel;
-        pixel.Position = Make.Vec4(corner.Position.X, corner.Position.Y, 0f, 1f);
-        pixel.Uv = corner.Uv;
+        pixel.Position = Make.Vec4(corner.{{pos}}.X, corner.{{pos}}.Y, 0f, 1f);
+        pixel.Uv = corner.{{uv}};
         return pixel;
     }
 
@@ -335,11 +325,11 @@ public class Time
     public Context Data;
 
     [ShaderStage(Stage.Vertex)]
-    public Pixel Vertex(Corner corner)
+    public Pixel Vertex({{vertexType}} corner)
     {
         Pixel pixel;
-        pixel.Position = Make.Vec4(corner.Position.X, corner.Position.Y, 0f, 1f);
-        pixel.Uv = corner.Uv;
+        pixel.Position = Make.Vec4(corner.{{pos}}.X, corner.{{pos}}.Y, 0f, 1f);
+        pixel.Uv = corner.{{uv}};
         return pixel;
     }
 
@@ -389,11 +379,11 @@ public class Time
     public Context Data;
 
     [ShaderStage(Stage.Vertex)]
-    public Pixel Vertex(Corner corner)
+    public Pixel Vertex({{vertexType}} corner)
     {
         Pixel pixel;
-        pixel.Position = Make.Vec4(corner.Position.X, corner.Position.Y, 0f, 1f);
-        pixel.Uv = corner.Uv;
+        pixel.Position = Make.Vec4(corner.{{pos}}.X, corner.{{pos}}.Y, 0f, 1f);
+        pixel.Uv = corner.{{uv}};
         return pixel;
     }
 
@@ -443,11 +433,11 @@ public class Time
     public Context Data;
 
     [ShaderStage(Stage.Vertex)]
-    public Pixel Vertex(Corner corner)
+    public Pixel Vertex({{vertexType}} corner)
     {
         Pixel pixel;
-        pixel.Position = Make.Vec4(corner.Position.X, corner.Position.Y, 0f, 1f);
-        pixel.Uv = corner.Uv;
+        pixel.Position = Make.Vec4(corner.{{pos}}.X, corner.{{pos}}.Y, 0f, 1f);
+        pixel.Uv = corner.{{uv}};
         return pixel;
     }
 

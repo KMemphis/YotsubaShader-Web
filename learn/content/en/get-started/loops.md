@@ -27,17 +27,7 @@ return Make.Vec4(v, v, v, 1f);
 
 Run the work cycle:
 
-But first, tell the viewer about the new shader. In `Viewer/Program.cs`, add this line to the `switch`, above the `_ =>` line:
-
-```csharp
-            "Loops" => new Loops().ToMGFX(gl),
-```
-
-Now run it:
-
-```bash
-dotnet yotsuba add MyShaders/MyShaders.csproj --target spirv && dotnet run --project Viewer -- Loops
-```
+{{register Loops}}
 
 ![Five vertical stripes, from dark gray to white](../../assets/get-started/taller/re1.png)
 
@@ -290,11 +280,11 @@ namespace MyShaders;
 public class Loops
 {
     [ShaderStage(Stage.Vertex)]
-    public Pixel Vertex(Corner corner)
+    public Pixel Vertex({{vertexType}} corner)
     {
         Pixel pixel;
-        pixel.Position = Make.Vec4(corner.Position.X, corner.Position.Y, 0f, 1f);
-        pixel.Uv = corner.Uv;
+        pixel.Position = Make.Vec4(corner.{{pos}}.X, corner.{{pos}}.Y, 0f, 1f);
+        pixel.Uv = corner.{{uv}};
         return pixel;
     }
 
@@ -334,11 +324,11 @@ namespace MyShaders;
 public class Loops
 {
     [ShaderStage(Stage.Vertex)]
-    public Pixel Vertex(Corner corner)
+    public Pixel Vertex({{vertexType}} corner)
     {
         Pixel pixel;
-        pixel.Position = Make.Vec4(corner.Position.X, corner.Position.Y, 0f, 1f);
-        pixel.Uv = corner.Uv;
+        pixel.Position = Make.Vec4(corner.{{pos}}.X, corner.{{pos}}.Y, 0f, 1f);
+        pixel.Uv = corner.{{uv}};
         return pixel;
     }
 
@@ -378,11 +368,11 @@ namespace MyShaders;
 public class Loops
 {
     [ShaderStage(Stage.Vertex)]
-    public Pixel Vertex(Corner corner)
+    public Pixel Vertex({{vertexType}} corner)
     {
         Pixel pixel;
-        pixel.Position = Make.Vec4(corner.Position.X, corner.Position.Y, 0f, 1f);
-        pixel.Uv = corner.Uv;
+        pixel.Position = Make.Vec4(corner.{{pos}}.X, corner.{{pos}}.Y, 0f, 1f);
+        pixel.Uv = corner.{{uv}};
         return pixel;
     }
 
@@ -422,11 +412,11 @@ namespace MyShaders;
 public class Loops
 {
     [ShaderStage(Stage.Vertex)]
-    public Pixel Vertex(Corner corner)
+    public Pixel Vertex({{vertexType}} corner)
     {
         Pixel pixel;
-        pixel.Position = Make.Vec4(corner.Position.X, corner.Position.Y, 0f, 1f);
-        pixel.Uv = corner.Uv;
+        pixel.Position = Make.Vec4(corner.{{pos}}.X, corner.{{pos}}.Y, 0f, 1f);
+        pixel.Uv = corner.{{uv}};
         return pixel;
     }
 
@@ -466,11 +456,11 @@ namespace MyShaders;
 public class Loops
 {
     [ShaderStage(Stage.Vertex)]
-    public Pixel Vertex(Corner corner)
+    public Pixel Vertex({{vertexType}} corner)
     {
         Pixel pixel;
-        pixel.Position = Make.Vec4(corner.Position.X, corner.Position.Y, 0f, 1f);
-        pixel.Uv = corner.Uv;
+        pixel.Position = Make.Vec4(corner.{{pos}}.X, corner.{{pos}}.Y, 0f, 1f);
+        pixel.Uv = corner.{{uv}};
         return pixel;
     }
 

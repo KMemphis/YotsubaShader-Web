@@ -256,6 +256,22 @@ dialog::backdrop { background: rgba(0,0,0,.35); backdrop-filter: blur(6px); }
 .subbar { position: sticky; top: var(--top); z-index: 40; height: 44px; background: var(--material); backdrop-filter: saturate(180%) blur(20px); -webkit-backdrop-filter: saturate(180%) blur(20px); border-bottom: 1px solid var(--line-soft); }
 .subbar-in { height: 100%; max-width: 1440px; margin: 0 auto; padding: 0 24px; display: flex; align-items: center; justify-content: space-between; gap: 16px; }
 .subbar-title { font-weight: 600; font-size: .9375rem; }
+.subbar-end { display: flex; align-items: center; gap: 20px; }
+.route-pick { display: flex; align-items: center; gap: 4px; font-size: .875rem; color: var(--text-2); }
+.route-pick span { margin-right: 4px; }
+.route-pick a { color: var(--text-2); padding: 4px 12px; border-radius: 980px; text-decoration: none; font-weight: 500; }
+.route-pick a:hover { color: var(--text); }
+.route-pick a[aria-current] { background: var(--accent); color: #fff; font-weight: 600; }
+.route-notice { margin: 0 0 20px; padding: 10px 14px; border-radius: 12px; background: rgba(127,127,127,.12); font-size: .9375rem; }
+.route-notice a { font-weight: 600; }
+.route-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; margin: 20px 0; }
+.route-cards a { display: flex; align-items: center; gap: 16px; padding: 20px; border-radius: 18px; border: 1px solid var(--line-soft); text-decoration: none; color: var(--text); background: rgba(127,127,127,.08); }
+.route-cards a:hover { border-color: var(--accent); }
+.route-cards strong { display: block; font-size: 1.25rem; margin-bottom: 4px; }
+.route-cards .route-logo { flex: none; width: 48px; height: 48px; object-fit: contain; border-radius: 10px; }
+.route-cards .route-text { display: block; min-width: 0; }
+.route-cards .route-text > span { color: var(--text-2); font-size: .9375rem; }
+@media (max-width: 560px) { .route-pick span { display: none; } .subbar-end { gap: 8px; } .subbar-title { display: none; } }
 .style-select { position: relative; display: flex; align-items: center; gap: 8px; font-size: .875rem; color: var(--text-2); }
 .style-select select { appearance: none; -webkit-appearance: none; border: 0; background: transparent; color: var(--accent); font: inherit; font-weight: 600; padding: 6px 20px 6px 4px; cursor: pointer; border-radius: 6px; }
 .style-select::after { content: ''; position: absolute; right: 7px; top: 50%; width: 6px; height: 6px; border-right: 1.5px solid var(--text-3); border-bottom: 1.5px solid var(--text-3); transform: translateY(-70%) rotate(45deg); pointer-events: none; }

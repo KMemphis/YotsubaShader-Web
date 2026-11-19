@@ -17,17 +17,7 @@ Create this chapter's shader from the template:
 
 And run the work cycle (the same one from the previous chapter, with the new name at the end):
 
-But first, tell the viewer about the new shader. In `Viewer/Program.cs`, add this line to the `switch`, above the `_ =>` line:
-
-```csharp
-            "Colors" => new Colors().ToMGFX(gl),
-```
-
-Now run it:
-
-```bash
-dotnet yotsuba add MyShaders/MyShaders.csproj --target spirv && dotnet run --project Viewer -- Colors
-```
+{{register Colors}}
 
 The window comes out black. That is what the only line of `Fragment` says:
 

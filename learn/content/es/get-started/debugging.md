@@ -81,13 +81,25 @@ Esta tabla reúne los problemas más comunes. Es la que más vas a consultar.
 |---|---|---|
 | La ventana sale **negra** y no cambia nada | Tu `Fragment` devuelve negro (como en `Plantilla`) o no llegó el cambio. | Ejecuta el ciclo completo, con `add`. Prueba la técnica del color sólido. |
 | `No existe la clase MisShaders.X` | El nombre tras `--` no coincide con la clase. | Revisa mayúsculas y que el archivo declare esa clase. |
-| La ventana muestra una versión **vieja** | Guardaste pero no ejecutaste `add`. | Usa siempre `add && dotnet run --project Visor -- Nombre`. |
+| La ventana muestra una versión **vieja** | Guardaste pero el shader no se tradujo de nuevo. | Ejecuta el ciclo completo cada vez, como dice el capítulo. |
 | Todo **blanco** | Un valor se pasó de `1`. | Pinta el valor dividido (técnica 2). |
 | Todo **negro** con una cuenta de luz | El valor es negativo o `0`. | Pinta el valor. Revisa signos y el orden de una resta. |
 | El círculo sale **ovalado** | La ventana es más ancha que alta y el shader no lo tiene en cuenta. | Mira el capítulo de [coordenadas](coordinates.md). |
 | El dibujo sale **al revés** | La `Y` crece hacia abajo. | Usa `1f - pixel.Uv.Y`. |
 | Un valor es siempre `0` o siempre `1` | Dividiste dos enteros. | Escribe un decimal: `a / 6f`, no `a / 6`. |
 | Se ve bien en el visor y mal en mi juego | Los datos que le entrega tu juego no coinciden. | Revisa que el vértice de tu juego tenga el orden de tu struct `Vertice`. |
+
+:::godot
+En Godot hay algunos casos más:
+
+| Lo que ves | Causa probable | Qué hacer |
+| --- | --- | --- |
+| La ventana sale **gris** y no dibuja nada | El archivo `.gdshader` aún no existe o no se pudo cargar. | Revisa que `GodotGame/yotsuba_shaders/MisShaders/` tenga el archivo y usa **Project → Reload Current Project**. |
+| Godot no ve un shader recién creado | El addon solo lee los archivos al abrir el editor o al recuperar el foco. | **Project → Reload Current Project** (pide detener el juego si está corriendo). |
+| No se encuentra `dotnet` al pulsar Play | En macOS, Godot no siempre hereda el `PATH` de tu terminal. | Abre Godot desde una terminal donde `dotnet --version` funcione. |
+| `Unknown command 'yotsuba'` | Ejecutaste el comando fuera de la carpeta `Tutorial`. | Entra a `Tutorial` (donde está `dotnet-tools.json`) y ejecuta una vez `dotnet tool restore`. |
+| Un shader con textura sale negro | El visor no tiene imagen en **Foto**. | Arrastra la imagen a la propiedad **Foto** del nodo `Visor`. |
+:::
 
 ## Errores de compilación frecuentes
 

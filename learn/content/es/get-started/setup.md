@@ -16,6 +16,9 @@ Cuando termines el tutorial, esa misma librería la vas a poder usar en tu Game 
 
   Ojo con un detalle: el SDK es el programa que compila, y no tiene por qué ser de la misma versión que tu proyecto. Por eso más abajo creamos los proyectos con `-f net8.0`: el SDK 10 sabe compilarlos igual. Si tu juego usa otra versión, no pasa nada.
 - **Un editor de C#.** El que ya uses: Rider, Visual Studio o Visual Studio Code.
+:::godot
+- **Godot 4.** Descárgalo en [godotengine.org](https://godotengine.org/download). Sirven las dos versiones: la estándar (GDScript) y la **.NET** (C#). Lo configurarás en el capítulo del visor; por ahora basta con tenerlo descargado.
+:::
 
 Por eso no necesitas instalar ningún Game Engine para seguir el tutorial.
 
@@ -101,6 +104,18 @@ dotnet build Probar
 
 Si al final ves `Build succeeded`, ya está todo listo. Aún no hay ningún shader, pero las referencias están bien puestas.
 
+:::godot
+## Ábrelo en tu editor
+
+Abre `MisShaders/MisShaders.csproj` con el editor que prefieras (Rider, Visual Studio, VS Code). Así se ve en Rider:
+
+![Rider con el proyecto abierto: Dependencies y los archivos Gradient.cs, Make.cs, Mandelbrot.cs, Plasma.cs, Screen.cs, Template.cs y Underwater.cs](../../assets/get-started/godot/en/rider-solucion.jpg)
+
+Godot y tu editor son dos programas distintos: el editor es para el C# de `MisShaders`, y Godot solo sirve para ver el resultado.
+
+También puedes hacer lo mismo desde la terminal: `dotnet build MisShaders` desde la carpeta `Tutorial`.
+:::
+
 ## Un atajo para llamar al compilador
 
 El compilador de Yotsuba Shader es un programa de terminal (una CLI). Lo vas a ejecutar así, desde la carpeta `Tutorial`:
@@ -116,7 +131,7 @@ No lo ejecutes todavía. Solo fíjate en sus partes:
 | `dotnet yotsuba` | "Ejecuta el compilador". `yotsuba` es el nombre de la herramienta que acabas de instalar. Todo lo que va después son las órdenes para él. |
 | `add` | El comando. `add` significa: "compila mis shaders y **añade** el resultado a mi proyecto". |
 | `MisShaders/MisShaders.csproj` | El proyecto donde están los shaders. |
-| `--target spirv` | Un formato de salida. Hoy la CLI siempre pide al menos uno, aunque `add` te entrega todos los formatos. |
+| `--target spirv` | Un formato de salida. La CLI pide al menos uno. `spirv` viene dentro de la CLI; los motores (MonoGame, KNI, FNA) son plugins que añades más adelante como un `--target` más. |
 
 En el siguiente capítulo lo vas a usar de verdad.
 

@@ -129,11 +129,11 @@ namespace MisShaders;
 public class Neon
 {
     [ShaderStage(Stage.Vertex)]
-    public Pixel Vertex(Vertice vertice)
+    public Pixel Vertex({{vertexType}} vertice)
     {
         Pixel pixel;
-        pixel.Posicion = Crear.Vec4(vertice.Posicion.X, vertice.Posicion.Y, 0f, 1f);
-        pixel.Uv = vertice.Uv;
+        pixel.Posicion = Crear.Vec4(vertice.{{pos}}.X, vertice.{{pos}}.Y, 0f, 1f);
+        pixel.Uv = vertice.{{uv}};
         return pixel;
     }
 
@@ -172,11 +172,11 @@ namespace MisShaders;
 public class Neon
 {
     [ShaderStage(Stage.Vertex)]
-    public Pixel Vertex(Vertice vertice)
+    public Pixel Vertex({{vertexType}} vertice)
     {
         Pixel pixel;
-        pixel.Posicion = Crear.Vec4(vertice.Posicion.X, vertice.Posicion.Y, 0f, 1f);
-        pixel.Uv = vertice.Uv;
+        pixel.Posicion = Crear.Vec4(vertice.{{pos}}.X, vertice.{{pos}}.Y, 0f, 1f);
+        pixel.Uv = vertice.{{uv}};
         return pixel;
     }
 
@@ -215,11 +215,11 @@ namespace MisShaders;
 public class Neon
 {
     [ShaderStage(Stage.Vertex)]
-    public Pixel Vertex(Vertice vertice)
+    public Pixel Vertex({{vertexType}} vertice)
     {
         Pixel pixel;
-        pixel.Posicion = Crear.Vec4(vertice.Posicion.X, vertice.Posicion.Y, 0f, 1f);
-        pixel.Uv = vertice.Uv;
+        pixel.Posicion = Crear.Vec4(vertice.{{pos}}.X, vertice.{{pos}}.Y, 0f, 1f);
+        pixel.Uv = vertice.{{uv}};
         return pixel;
     }
 
@@ -258,11 +258,11 @@ namespace MisShaders;
 public class Neon
 {
     [ShaderStage(Stage.Vertex)]
-    public Pixel Vertex(Vertice vertice)
+    public Pixel Vertex({{vertexType}} vertice)
     {
         Pixel pixel;
-        pixel.Posicion = Crear.Vec4(vertice.Posicion.X, vertice.Posicion.Y, 0f, 1f);
-        pixel.Uv = vertice.Uv;
+        pixel.Posicion = Crear.Vec4(vertice.{{pos}}.X, vertice.{{pos}}.Y, 0f, 1f);
+        pixel.Uv = vertice.{{uv}};
         return pixel;
     }
 
@@ -301,11 +301,11 @@ namespace MisShaders;
 public class Neon
 {
     [ShaderStage(Stage.Vertex)]
-    public Pixel Vertex(Vertice vertice)
+    public Pixel Vertex({{vertexType}} vertice)
     {
         Pixel pixel;
-        pixel.Posicion = Crear.Vec4(vertice.Posicion.X, vertice.Posicion.Y, 0f, 1f);
-        pixel.Uv = vertice.Uv;
+        pixel.Posicion = Crear.Vec4(vertice.{{pos}}.X, vertice.{{pos}}.Y, 0f, 1f);
+        pixel.Uv = vertice.{{uv}};
         return pixel;
     }
 

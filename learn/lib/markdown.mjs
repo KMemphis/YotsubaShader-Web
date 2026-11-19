@@ -3,7 +3,12 @@
 // (> [!NOTE|TIP|WARNING|IMPORTANT|PLANNED]), fenced code, code groups (style=hlsl|glsl|...),
 // tables, images, links, bold/italic/code, horizontal rules, button rows (```buttons, one link per line).
 
+import fs from 'node:fs';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
 import { esc, highlight } from './highlight.mjs';
+
+const LOGOS = path.join(path.dirname(fileURLToPath(import.meta.url)), '..', 'static', 'img', 'engines');
 
 export const STYLES = { glsl: 'GLSL', hlsl: 'HLSL', msl: 'MSL', wgsl: 'WGSL', spirv: 'SPIR-V' };
 
@@ -172,6 +177,15 @@ function render(tokens, ctx, headings) {
         if (tk.lang === 'buttons') {
           // ```buttons: one Markdown link per line, drawn as a row of buttons.
           html += `<div class="buttons">${tk.code.split('\n').filter((l) => l.trim()).map((l) => inline(l.trim(), ctx).replace('<a ', '<a class="button" ')).join('')}</div>`;
+          break;
+        }
+        if (tk.lang === 'routes') {
+          // ```routes: one line per route, `id | Title | description`; each card opens this same page in that route.
+          html += `<div class="route-cards">${tk.code.split('\n').filter((l) => l.trim()).map((l) => {
+            const [id, title, desc] = l.split('|').map((x) => x.trim());
+            const logo = fs.existsSync(path.join(LOGOS, id + '.svg')) ? id + '.svg' : fs.existsSync(path.join(LOGOS, id + '.png')) ? id + '.png' : '';
+            return `<a href="${ctx.routeUrl(id)}" data-pick-route="${esc(id)}">${logo ? `<img class="route-logo" src="/img/engines/${logo}" alt="" width="48" height="48">` : ''}<span class="route-text"><strong>${esc(title)}</strong><span>${esc(desc)}</span></span></a>`;
+          }).join('')}</div>`;
           break;
         }
         if (tk.attrs.tab) {

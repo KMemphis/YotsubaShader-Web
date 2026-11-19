@@ -58,6 +58,19 @@
     $('#style-select')?.addEventListener('change', (e) => setStyle(e.target.value, true));
   }
 
+  /* route (XNA, Godot...): remember the explicit choice; if the reader is in another route, offer to switch */
+  const here = document.body.dataset.route;
+  $$('#route-pick a').forEach((a) => a.addEventListener('click', () => store.set('ys-route', a.dataset.route)));
+  $$('a[data-pick-route]').forEach((a) => a.addEventListener('click', () => store.set('ys-route', a.dataset.pickRoute)));
+  const saved = store.get('ys-route');
+  const altRoutes = window.LEARN.routes;
+  if (here && saved && saved !== here && altRoutes?.[saved]) {
+    const n = document.createElement('p');
+    n.className = 'route-notice';
+    n.innerHTML = `${ui.routeNotice(altRoutes[saved].name)}: <a href="${altRoutes[saved].url}">${altRoutes[saved].name} →</a>`;
+    $('.article')?.prepend(n);
+  }
+
   /* progress: mark chapters as viewed */
   const chapters = $$('.chapters a');
   if (chapters.length) {

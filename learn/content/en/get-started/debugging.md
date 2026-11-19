@@ -81,13 +81,25 @@ This table gathers the most common problems. It is the one you will consult most
 |---|---|---|
 | The window comes out **black** and nothing changes | Your `Fragment` returns black (as in `Template`) or the change did not arrive. | Run the full cycle, with `add`. Try the solid color technique. |
 | `Class MyShaders.X does not exist` | The name after `--` does not match the class. | Check capital letters and that the file declares that class. |
-| The window shows an **old** version | You saved but did not run `add`. | Always use `add && dotnet run --project Viewer -- Name`. |
+| The window shows an **old** version | You saved but the shader was not translated again. | Run the full cycle every time, as the chapter says. |
 | All **white** | A value went over `1`. | Paint the value divided down (technique 2). |
 | All **black** with a light calculation | The value is negative or `0`. | Paint the value. Check signs and the order of a subtraction. |
 | The circle comes out **oval** | The window is wider than tall and the shader does not take it into account. | See the [coordinates](coordinates.md) chapter. |
 | The drawing comes out **upside down** | `Y` grows downward. | Use `1f - pixel.Uv.Y`. |
 | A value is always `0` or always `1` | You divided two integers. | Write a decimal: `a / 6f`, not `a / 6`. |
 | It looks right in the viewer and wrong in my game | The data your game delivers does not match. | Check that your game's vertex has the order of your `Corner` struct. |
+
+:::godot
+In Godot there are a few more cases:
+
+| What you see | Probable cause | What to do |
+| --- | --- | --- |
+| The window is **gray** and nothing draws | The `.gdshader` file does not exist yet or failed to load. | Check that `GodotGame/yotsuba_shaders/MyShaders/` has the file and use **Project → Reload Current Project**. |
+| Godot does not see a shader you just created | The addon only reads files when the editor starts or gets focus. | **Project → Reload Current Project** (it asks to stop the game if it is running). |
+| `dotnet` is not found when pressing Play | On macOS, Godot does not always inherit the `PATH` of your terminal. | Open Godot from a terminal where `dotnet --version` works. |
+| `Unknown command 'yotsuba'` | You ran the command outside the `Tutorial` folder. | Go into `Tutorial` (where `dotnet-tools.json` lives) and run `dotnet tool restore` once. |
+| A shader with a texture draws black | The viewer has no image in **Photo**. | Drag the image to the **Photo** property of the `Viewer` node. |
+:::
 
 ## Common compilation errors
 
