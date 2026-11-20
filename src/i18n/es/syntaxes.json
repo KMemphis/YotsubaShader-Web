@@ -15,7 +15,6 @@
  "Compute workgroup size is a method attribute: <code>[numthreads(x, y, z)]</code>. Resources use <code>cbuffer</code> and <code>register(RegisterPrefix.b, n)</code>.": "El tamaño del workgroup de cómputo es un atributo de método: <code>[numthreads(x, y, z)]</code>. Los recursos usan <code>cbuffer</code> y <code>register(RegisterPrefix.b, n)</code>.",
  "The same shader": "El mismo shader",
  "Common built-ins": "Valores integrados comunes",
- "Attribute": "Atributo",
  "Teams coming from OpenGL and Vulkan GLSL. Inspired by GLSL (OpenGL / Vulkan GLSL).": "Equipos que vienen de OpenGL y GLSL de Vulkan. Inspirado en GLSL (OpenGL / GLSL de Vulkan).",
  "The <code>gl_*</code> built-ins (<code>gl_Position</code>, <code>gl_VertexIndex</code>, <code>gl_GlobalInvocationID</code>) and <code>layout(set, binding)</code> carry over directly.": "Los valores integrados <code>gl_*</code> (<code>gl_Position</code>, <code>gl_VertexIndex</code>, <code>gl_GlobalInvocationID</code>) y <code>layout(set, binding)</code> se trasladan directamente.",
  "Workgroup size is <code>[layout_local_size(x, y, z)]</code>. Some attributes carry extension suffixes, such as <code>gl_BaryCoordEXT</code> and <code>gl_FragStencilRefARB</code>.": "El tamaño del workgroup es <code>[layout_local_size(x, y, z)]</code>. Algunos atributos llevan sufijos de extensión, como <code>gl_BaryCoordEXT</code> y <code>gl_FragStencilRefARB</code>.",
