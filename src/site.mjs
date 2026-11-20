@@ -1,7 +1,7 @@
 // Site-wide configuration: navigation, sections and sub-navigation.
 // Every entry below is a separate URL (no in-page "scroll to section" links).
 
-/** Documentation lives in its own site; pages write `__LEARN__/reference/…` and the build adds the language. */
+/** Documentation lives in its own site; pages write `__LEARN__/…` and the build sends every one to the learn home. */
 export const LEARN_URL = 'https://learn.yotsubashader.com';
 
 export const SITE = {

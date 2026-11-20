@@ -100,7 +100,6 @@
  "Your first shader": "Tu primer shader",
  "View on GitHub": "Ver en GitHub",
  "Write shaders in C#. Compile for the backend you choose.": "Escribe shaders en C#. Compila para el backend que elijas.",
- "All documentation": "Toda la documentación",
  "Contributing": "Contribuir",
  "Legal": "Legal",
  "Licensing": "Licencias",
@@ -140,9 +139,6 @@
  "The HLSL, GLSL, MSL, SPIR-V and WGSL syntaxes now share the same semantic model. Choose the names your team knows; the compiler resolves them to the same IR built-ins.": "Las sintaxis HLSL, GLSL, MSL, SPIR-V y WGSL ahora comparten el mismo modelo semántico. Elige los nombres que tu equipo conoce; el compilador los resuelve a los mismos valores integrados de la IR.",
  "Resource attributes for every syntax": "Atributos de recursos para cada sintaxis",
  "Uniform buffers, storage buffers, textures, samplers and binding slots are available in each syntax.": "Uniform buffers, storage buffers, texturas, samplers y slots de binding disponibles en cada sintaxis.",
- "The compile command": "El comando compile",
- "The add command": "El comando add",
- "Plugins": "Plugins",
  "ENGINES AND FRAMEWORKS": "ENGINES Y FRAMEWORKS",
  "Write the shader once. Use it in your engine.": "Escribe el shader una vez. Úsalo en tu engine.",
  "Guides and reference for MonoGame, KNI, FNA and Godot.": "Guías y referencia para MonoGame, KNI, FNA y Godot."
