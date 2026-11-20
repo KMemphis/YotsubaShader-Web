@@ -56,7 +56,7 @@ function finalize(html, pagePath, locale) {
     .replace(/__FILM_LANG__/g, () => L.htmlLang)
     .replace('__HTMLLANG__', () => L.htmlLang)
     .replace('<!--LANGREDIRECT-->', () => redirect)
-    .replace(/__LEARN__/g, () => `${LEARN_URL}/${locale}`)
+    .replace(/__LEARN__\/[^"'\s)<]*/g, () => `${LEARN_URL}/`)
     .replace('<!--SEO-->', () => seoTags(pagePath, locale))
     .replace('<!--I18N-->', () => strings)
     .replace(/__LANGSWITCH__/g, () => langSwitch(locale, pagePath));
@@ -112,7 +112,7 @@ function footer() {
     </div>
     <div class="foot-cols">
       ${col('Explore', [['Get Started', '/get-started/'], ['Syntaxes', '/syntaxes/'], ['Playground', '/playground/'], ["What's New", '/whats-new/'], ['Resources', '/resources/']])}
-      ${col('Documentation', [['All documentation', '__LEARN__/reference/'], ['HLSL syntax', '__LEARN__/reference/hlsl/'], ['GLSL syntax', '__LEARN__/reference/glsl/'], ['The compile command', '__LEARN__/reference/compile/'], ['The add command', '__LEARN__/reference/add/'], ['Plugins', '__LEARN__/reference/plugins/'], ['Get Started', '__LEARN__/get-started/']])}
+      ${col('Documentation', [['Documentation', '__LEARN__/']])}
       ${col('Community', [['Community', '/community/'], ['Contributing', '/community/contributing/'], ['Contact', '/community/contact/'], ['GitHub', SITE.repo], ['Sponsor on GitHub', SITE.sponsors], ['Donations', '/donations/']])}
       ${col('Legal', [['Licensing', '/community/licensing/'], ['Sponsors', '/donations/sponsors/']])}
     </div>
