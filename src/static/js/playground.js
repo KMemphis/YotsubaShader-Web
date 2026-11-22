@@ -71,7 +71,13 @@
   /* ------------------------------------------------------------- project */
   const project = { files: [], active: '' };
   const current = () => project.files.find((f) => f.name === project.active);
-  const save = () => { try { localStorage.setItem(STORE, JSON.stringify(project)); } catch { /* storage unavailable */ } };
+  const save = () => {
+    // `edited` tells a copy of an example apart from the user's own work, so examples that change between releases
+    // are not frozen in the browser.
+    const base = examples.find((example) => example.id === project.example);
+    project.edited = !base || JSON.stringify(base.files) !== JSON.stringify(project.files.map(({ name, source }) => ({ name, source })));
+    try { localStorage.setItem(STORE, JSON.stringify(project)); } catch { /* storage unavailable */ }
+  };
   const mobileViewport = matchMedia('(max-width: 760px)');
   const navigatorDrawerViewport = matchMedia('(max-width: 900px)');
 
@@ -174,6 +180,8 @@
     buffers: [],
     textures: [],
     uniforms: [],
+    blocks: [],
+    pointer: { x: 0, y: 0, down: 0 },
     raf: 0,
     startedAt: performance.now(),
     frame: 0,
@@ -191,6 +199,7 @@
     livePreview.raf = 0;
     if (!gl) return;
     livePreview.buffers.forEach((buffer) => gl.deleteBuffer(buffer));
+    livePreview.blocks.forEach((block) => gl.deleteBuffer(block.buffer));
     livePreview.textures.forEach((texture) => gl.deleteTexture(texture));
     if (livePreview.vao) gl.deleteVertexArray(livePreview.vao);
     if (livePreview.program) gl.deleteProgram(livePreview.program);
@@ -199,6 +208,7 @@
     livePreview.buffers = [];
     livePreview.textures = [];
     livePreview.uniforms = [];
+    livePreview.blocks = [];
   }
 
   function ensurePreviewContext() {
@@ -210,6 +220,16 @@
     }
     livePreview.gl = gl;
     new ResizeObserver(() => drawPreviewFrame(performance.now(), false)).observe(el.previewCanvas);
+    // The pointer position (in pixels, origin at the bottom left like gl_FragCoord) feeds a `Mouse` field.
+    const track = (event) => {
+      const rect = el.previewCanvas.getBoundingClientRect();
+      const scale = el.previewCanvas.width / Math.max(1, rect.width);
+      livePreview.pointer.x = (event.clientX - rect.left) * scale;
+      livePreview.pointer.y = (rect.bottom - event.clientY) * scale;
+    };
+    el.previewCanvas.addEventListener('pointermove', track);
+    el.previewCanvas.addEventListener('pointerdown', (event) => { track(event); livePreview.pointer.down = 1; });
+    window.addEventListener('pointerup', () => { livePreview.pointer.down = 0; });
     return gl;
   }
 
@@ -226,7 +246,22 @@
     return shader;
   }
 
+  // The generated GLSL ES keeps a few Vulkan-only spellings that WebGL 2 (ESSL 3.00) rejects, and it declares every
+  // storage buffer of the class in each stage even when only compute uses it. WebGL 2 has no storage buffers.
+  function sanitizeForWebgl(source) {
+    return source
+      .replace(/layout\s*\([^)]*\bstd430\b[^)]*\)\s*(?:(?:readonly|writeonly|coherent|restrict|volatile)\s+)*buffer\s+\w+\s*\{[^}]*\}\s*\w*\s*;/g, '')
+      .replace(/\bgl_VertexIndex\b/g, 'gl_VertexID')
+      .replace(/\bgl_InstanceIndex\b/g, 'gl_InstanceID')
+      .replace(/layout\s*\(([^)]*)\)/g, (_, list) => {
+        const kept = list.split(',').map((part) => part.trim()).filter((part) => part && !/^(set|binding)\s*=/.test(part));
+        return kept.length ? `layout(${kept.join(', ')})` : '';
+      });
+  }
+
   function linkPreviewProgram(gl, vertexSource, fragmentSource) {
+    vertexSource = sanitizeForWebgl(vertexSource);
+    fragmentSource = sanitizeForWebgl(fragmentSource);
     let vertex = null;
     let fragment = null;
     let program = null;
@@ -484,11 +519,16 @@
     return { vertex, fragment, geometryFallback: false };
   }
 
+  /* Extra hints of the selected example: `screen` covers the whole canvas with the vertex data (texture coordinates
+     start at the top left, like in MonoGame and Direct3D) and `values` fills uniform members by name. */
+  const previewHint = () => examples.find((example) => example.id === el.example.value)?.preview || {};
+
   function attributeValues(name, components) {
     const lower = name.toLowerCase();
-    const position = [[-.78, -.68, 0, 1], [.0, .78, 0, 1], [.78, -.68, 0, 1]];
+    const screen = previewHint().screen;
+    const position = screen ? [[-1, -1, 0, 1], [3, -1, 0, 1], [-1, 3, 0, 1]] : [[-.78, -.68, 0, 1], [.0, .78, 0, 1], [.78, -.68, 0, 1]];
     const color = [[1, .25, .48, 1], [.27, .83, .78, 1], [.53, .42, 1, 1]];
-    const uv = [[0, 0, 0, 1], [.5, 1, 0, 1], [1, 0, 0, 1]];
+    const uv = screen ? [[0, 1, 0, 1], [2, 1, 0, 1], [0, -1, 0, 1]] : [[0, 0, 0, 1], [.5, 1, 0, 1], [1, 0, 0, 1]];
     const source = lower.includes('position') ? position : lower.includes('color') ? color : lower.includes('uv') || lower.includes('texcoord') ? uv : [[0, 0, 0, 1], [0, 0, 0, 1], [0, 0, 0, 1]];
     return new Float32Array(source.flatMap((value) => value.slice(0, components)));
   }
@@ -517,7 +557,83 @@
       const info = gl.getActiveUniform(program, index);
       livePreview.uniforms.push({ info, location: gl.getUniformLocation(program, info.name) });
     }
+
+    // Uniform buffers: every member whose name is Time, Resolution, Mouse or Frame is filled in each frame.
+    const blockCount = gl.getProgramParameter(program, gl.ACTIVE_UNIFORM_BLOCKS);
+    for (let block = 0; block < blockCount; block++) {
+      const size = gl.getActiveUniformBlockParameter(program, block, gl.UNIFORM_BLOCK_DATA_SIZE);
+      const indices = gl.getActiveUniformBlockParameter(program, block, gl.UNIFORM_BLOCK_ACTIVE_UNIFORM_INDICES);
+      const offsets = gl.getActiveUniforms(program, [...indices], gl.UNIFORM_OFFSET);
+      const members = [...indices].map((uniformIndex, position) => {
+        const info = gl.getActiveUniform(program, uniformIndex);
+        return { name: info.name.split('.').pop().replace(/\[0\]$/, '').toLowerCase(), type: info.type, offset: offsets[position] / 4 };
+      });
+      const buffer = gl.createBuffer();
+      gl.bindBuffer(gl.UNIFORM_BUFFER, buffer);
+      gl.bufferData(gl.UNIFORM_BUFFER, size, gl.DYNAMIC_DRAW);
+      gl.uniformBlockBinding(program, block, block);
+      gl.bindBufferBase(gl.UNIFORM_BUFFER, block, buffer);
+      const data = new ArrayBuffer(size);
+      livePreview.blocks.push({ buffer, floats: new Float32Array(data), ints: new Int32Array(data), members });
+    }
     gl.bindVertexArray(null);
+  }
+
+  /* Images bound to the sampler uniforms. An example lists them in `textures` as { sampler, file }: `sampler` is
+     the name of the shader field, and an unnamed sampler takes the next image in the list. */
+  const previewImages = new Map();
+  function previewTextureFor(samplerName, order) {
+    const current = examples.find((example) => example.id === el.example.value);
+    const list = current?.textures?.length ? current.textures : (examples.find((example) => example.textures?.length)?.textures || []);
+    const lower = samplerName.toLowerCase();
+    const entry = list.find((item) => lower.includes(item.sampler.toLowerCase())) || list[order];
+    return entry ? root + entry.file : '';
+  }
+  function loadPreviewImage(url) {
+    if (!previewImages.has(url)) {
+      previewImages.set(url, new Promise((resolve, reject) => {
+        const image = new Image();
+        image.decoding = 'async';
+        image.onload = () => resolve(image);
+        image.onerror = () => { previewImages.delete(url); reject(new Error(url)); };
+        image.src = url;
+      }));
+    }
+    return previewImages.get(url);
+  }
+  function attachPreviewImage(gl, texture, url, unit) {
+    loadPreviewImage(url).then((image) => {
+      if (!livePreview.textures.includes(texture)) return;
+      gl.activeTexture(gl.TEXTURE0 + unit);
+      gl.bindTexture(gl.TEXTURE_2D, texture);
+      gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, true);
+      gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, image);
+      gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, false);
+      gl.generateMipmap(gl.TEXTURE_2D);
+      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR_MIPMAP_LINEAR);
+      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.REPEAT);
+      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.REPEAT);
+    }).catch(() => { /* keep the placeholder pixel */ });
+  }
+
+  function setPreviewBlocks(gl, elapsed) {
+    const { width, height } = el.previewCanvas;
+    const pointer = livePreview.pointer;
+    const fixed = previewHint().values || {};
+    for (const block of livePreview.blocks) {
+      for (const member of block.members) {
+        const at = member.offset;
+        if (fixed[member.name]) { fixed[member.name].forEach((value, i) => { block.floats[at + i] = value; }); continue; }
+        if (member.type === gl.FLOAT && member.name.includes('time')) block.floats[at] = elapsed;
+        else if ((member.type === gl.INT || member.type === gl.UNSIGNED_INT) && member.name.includes('frame')) block.ints[at] = livePreview.frame;
+        else if (member.type === gl.FLOAT_VEC2 && member.name.includes('resolution')) { block.floats[at] = width; block.floats[at + 1] = height; }
+        else if (member.type === gl.FLOAT_VEC3 && member.name.includes('resolution')) { block.floats[at] = width; block.floats[at + 1] = height; block.floats[at + 2] = 1; }
+        else if (member.type === gl.FLOAT_VEC2 && member.name.includes('mouse')) { block.floats[at] = pointer.x; block.floats[at + 1] = pointer.y; }
+        else if (member.type === gl.FLOAT_VEC4 && member.name.includes('mouse')) { block.floats[at] = pointer.x; block.floats[at + 1] = pointer.y; block.floats[at + 2] = pointer.down; }
+      }
+      gl.bindBuffer(gl.UNIFORM_BUFFER, block.buffer);
+      gl.bufferSubData(gl.UNIFORM_BUFFER, 0, block.floats);
+    }
   }
 
   function setPreviewUniforms(gl, elapsed) {
@@ -538,9 +654,12 @@
         gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
         gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
         gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, 1, 1, 0, gl.RGBA, gl.UNSIGNED_BYTE, new Uint8Array([244, 92, 157, 255]));
+        const url = previewTextureFor(info.name, textureUnit);
+        if (url) attachPreviewImage(gl, texture, url, textureUnit);
         gl.uniform1i(location, textureUnit++);
       }
     }
+    setPreviewBlocks(gl, elapsed);
   }
 
   function drawPreviewFrame(now, animate = true) {
@@ -1194,7 +1313,12 @@
     if (!files) {
       try {
         const saved = JSON.parse(localStorage.getItem(STORE) || 'null');
-        if (saved && Array.isArray(saved.files) && saved.files.length) { files = saved.files; active = saved.active; project.example = saved.example; }
+        // Only the user's own edits are restored. A saved copy of an unchanged example is dropped so the page opens on
+        // the default example (or the one named by ?example=).
+        const untouched = saved && (saved.edited === false
+          || (saved.edited === undefined && (examples.some((e) => e.id === saved.example) || /^triangle-/.test(saved.example || '')))
+          || examples.some((e) => JSON.stringify(e.files) === JSON.stringify(saved.files)));
+        if (saved && !untouched && Array.isArray(saved.files) && saved.files.length) { files = saved.files; active = saved.active; project.example = saved.example; }
       } catch { /* ignore */ }
     }
     if (!files) {

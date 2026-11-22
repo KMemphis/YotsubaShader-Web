@@ -4,9 +4,13 @@ summary: Cómo se escribe un color en un shader, qué significan los cuatro núm
 order: 6
 ---
 
+> [!SCENE] intro
+
 Todo lo que un shader de píxeles hace termina en una sola cosa: **devolver un color**. Una sombra, un fuego, el agua, un fractal. Al final, el shader dice "este píxel va de este color", y la GPU lo pinta.
 
 Por eso empezamos por aquí. Si entiendes bien qué es un color para la GPU, el resto del tutorial se vuelve mucho más fácil.
+
+> [!SCENE] first
 
 ## Paso 1: tu primer shader de color
 
@@ -34,7 +38,11 @@ Esos cuatro números son el color. Cada uno tiene un trabajo:
 | 3.º | Azul | Cuánta luz azul hay |
 | 4.º | Alfa | Qué tan opaco es el color |
 
+> [!SCENE] channels
+
 A los tres primeros se les llama **RGB** (*red, green, blue*: rojo, verde y azul), y a cada uno, un **canal**. Tu pantalla está hecha de píxeles diminutos, y cada uno tiene tres luces: una roja, una verde y una azul. El shader decide cuánto brilla cada una.
+
+> [!SCENE] light
 
 ## Paso 2: enciende una luz
 
@@ -54,6 +62,8 @@ Ahora hazlo tú: prueba `(0f, 1f, 0f, 1f)` y luego `(0f, 0f, 1f, 1f)`. Cada vez 
 
 > [!NOTE]
 > Quizás te intrigue que `vec4` tenga campos llamados `X`, `Y`, `Z` y `W` en vez de `R`, `G`, `B` y `A`. Es porque un `vec4` es solo "cuatro números juntos": a veces son una posición, a veces un color. Tú decides qué significan. Para un color, el orden es siempre el mismo: `X` es el rojo, `Y` el verde, `Z` el azul y `W` el alfa.
+
+> [!SCENE] mix
 
 ## Paso 3: mezcla luces
 
@@ -78,6 +88,8 @@ Prueba estas recetas, una por una:
 | Magenta | `Crear.Vec4(1f, 0f, 1f, 1f)` |
 | Naranja | `Crear.Vec4(1f, 0.5f, 0f, 1f)` |
 
+> [!SCENE] grays
+
 Hay un truco con los grises. Cuando las tres luces valen lo mismo, el color no tira ni a rojo, ni a verde, ni a azul: sale gris. Cuanto mayor el número, más claro. Pruébalo:
 
 ```csharp
@@ -87,6 +99,8 @@ return Crear.Vec4(0.5f, 0.5f, 0.5f, 1f);
 ![Una ventana completamente gris](../../assets/get-started/taller/co4.png)
 
 Ese es un gris medio. Con `0.2f` en las tres sale casi negro, y con `0.9f`, casi blanco.
+
+> [!SCENE] range
 
 ## ¿Por qué de 0 a 1 y no de 0 a 255?
 
@@ -103,6 +117,8 @@ float azul = 0f / 255f;    // 0
 Y por eso el naranja de la tabla es `(1, 0.5, 0)`: el `128` es casi la mitad de `255`.
 
 ¿Y por qué de `0` a `1`? Porque así las cuentas salen solas. Multiplicar un color por `0.5` lo deja a la mitad de brillo; multiplicarlo por `0` lo apaga; multiplicarlo por `1` no lo cambia.
+
+> [!SCENE] clip
 
 ## Paso 4: ¿qué pasa si me paso?
 
@@ -123,11 +139,15 @@ Esto es importante por dos razones:
 - Puedes hacer cuentas que se pasen un poco sin que nada se rompa.
 - Pero también puede esconderte errores: si algo sale completamente blanco o completamente negro, quizás tu cuenta se pasó del rango y la GPU lo recortó. Lo recordaremos en el capítulo de [cuando algo sale mal](debugging.md).
 
+> [!SCENE] alpha
+
 ## El cuarto número: alfa
 
 Queda un número por explicar. El alfa dice **qué tan opaco** es el color: `1` es completamente opaco y `0` es completamente transparente. Sirve para cosas como el cristal, el humo o un sprite con bordes suaves.
 
 Pero para que el alfa tenga efecto, el programa que dibuja tiene que estar preparado para mezclar ese color con lo que había detrás. Eso no lo decide el shader. Por ahora, déjalo siempre en `1f`, que es el valor seguro.
+
+> [!SCENE] challenge
 
 ## Un reto
 
@@ -138,6 +158,8 @@ Antes de seguir, hazlo tú sin mirar la tabla. Cambia el color hasta conseguir:
 3. El color que más te guste.
 
 No hay una respuesta correcta. Lo importante es que veas cómo el cambio de un número se nota al instante.
+
+> [!SCENE] learned
 
 ## Lo que aprendiste
 

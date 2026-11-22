@@ -4,9 +4,15 @@ summary: Cómo encontrar el error en un shader que no funciona, y respuestas a l
 order: 17
 ---
 
+> [!SCENE] intro
+
 Tarde o temprano, tu shader mostrará una pantalla negra y no sabrás por qué. Le pasa a todo el mundo, incluso a quien lleva años haciendo shaders. La diferencia es que los que llevan años tienen un método para encontrar el problema. En este capítulo lo aprendes.
 
+> [!SCENE] console
+
 Hay una dificultad que conviene aceptar desde ya: **en un shader no puedes escribir en la consola**. No existe `Console.WriteLine`. Un shader corre en la GPU, miles de veces a la vez, y no tiene dónde imprimir. Lo que sí tienes es el color: *tu única forma de mirar dentro del shader es pintar lo que quieres ver*.
+
+> [!SCENE] method
 
 ## El método: cuatro preguntas, en orden
 
@@ -16,6 +22,8 @@ Cuando algo no funciona, hazte estas preguntas **en este orden**. Casi siempre l
 2. **¿Se ejecuta mi shader?** Quizás estás mirando otro, o uno viejo.
 3. **¿Llegan bien los datos?** El tamaño de la ventana, el tiempo, los `Uv`.
 4. **¿Está bien mi cuenta?** Aquí entran las técnicas de pintar valores.
+
+> [!SCENE] t1
 
 ## Técnica 1: un color sólido
 
@@ -28,6 +36,8 @@ return Crear.Vec4(1f, 0f, 0f, 1f);
 Si la ventana sale roja, tu shader se ejecuta, el rectángulo se dibuja y la GPU funciona. El problema está en tu cuenta, que viene después de esa línea. Si **no** sale roja, el problema es más profundo: mira la tabla de más abajo.
 
 Este truco sirve porque te quita dudas de encima. Cuando no sabes dónde está el fallo, lo primero es saber dónde **no** está.
+
+> [!SCENE] t2
 
 ## Técnica 2: pintar el número
 
@@ -55,6 +65,8 @@ Dos cosas para recordar cuando interpretes lo que ves:
 > [!TIP]
 > Para ver valores que se salen de `0`-`1`, **escálalos**: si sospechas que `x` va de `0` a `10`, pinta `x / 10f`. Si va de `-1` a `1`, pinta `x * 0.5f + 0.5f`. Así caben en el rango visible.
 
+> [!SCENE] t3
+
 ## Técnica 3: parte y corta
 
 Si tu shader tiene muchas líneas, no sabes cuál falla. Pon un `return` de color sólido **a la mitad**, y mira si se ve:
@@ -72,6 +84,8 @@ return Crear.Vec4(c, c, c, 1f);
 Si `b` se ve bien, el problema está después. Si se ve mal, está antes. Mueve el `return` hacia arriba o hacia abajo hasta acorralar el problema, como al buscar una palabra en un diccionario.
 
 C# te avisará de que hay "código inalcanzable" debajo del `return`. Es solo una advertencia, y en este caso es justo lo que queremos.
+
+> [!SCENE] symptoms
 
 ## Síntomas y causas
 
@@ -97,9 +111,11 @@ En Godot hay algunos casos más:
 | La ventana sale **gris** y no dibuja nada | El archivo `.gdshader` aún no existe o no se pudo cargar. | Revisa que `GodotGame/yotsuba_shaders/MisShaders/` tenga el archivo y usa **Project → Reload Current Project**. |
 | Godot no ve un shader recién creado | El addon solo lee los archivos al abrir el editor o al recuperar el foco. | **Project → Reload Current Project** (pide detener el juego si está corriendo). |
 | No se encuentra `dotnet` al pulsar Play | En macOS, Godot no siempre hereda el `PATH` de tu terminal. | Abre Godot desde una terminal donde `dotnet --version` funcione. |
-| `Unknown command 'yotsuba'` | Ejecutaste el comando fuera de la carpeta `Tutorial`. | Entra a `Tutorial` (donde está `dotnet-tools.json`) y ejecuta una vez `dotnet tool restore`. |
+| `yotsuba: command not found` | La herramienta no está instalada, o abriste la terminal antes de instalarla. | Ejecuta `dotnet tool install --global YotsubaShader.Compiler.CLI` y abre una terminal nueva. |
 | Un shader con textura sale negro | El visor no tiene imagen en **Foto**. | Arrastra la imagen a la propiedad **Foto** del nodo `Visor`. |
 :::
+
+> [!SCENE] errors
 
 ## Errores de compilación frecuentes
 
@@ -114,7 +130,11 @@ En Godot hay algunos casos más:
 | `... no hay código disponible para compilarlo en GPU` | Llamaste a `Math.Sqrt`, `Math.Sin` o similar. | Todavía no existen en Yotsuba Shader. Escríbelas tú o espera los capítulos planeados. |
 | `CS0234` tras renombrar una clase | `YotsubaShader.g.cs` nombra una clase que ya no existe. | Bórralo y vuelve a ejecutar `add`. |
 
+> [!SCENE] faq
+
 ## Preguntas que todo el mundo se hace
+
+> [!SCENE] q_plus
 
 ### ¿Por qué no puedo sumar dos vectores con `+`?
 
@@ -147,9 +167,13 @@ vec3 mezcla = Sumar(Escalar(rojo, pixel.Uv.X), Escalar(verde, pixel.Uv.Y));
 return Crear.Vec4(mezcla.X, mezcla.Y, mezcla.Z, 1f);
 ```
 
+> [!SCENE] q_f
+
 ### ¿Por qué hay que poner la `f` en los números?
 
 Porque en C# un número con decimales, como `0.5`, es un `double`, otro tipo de número que ocupa más memoria. Y las GPU trabajan con `float`. La `f` le dice a C# "este es un `float`". Sin ella no compila.
+
+> [!SCENE] q_kinds
 
 ### ¿Qué diferencia hay entre los datos del vértice, un uniform y el `Uv`?
 
@@ -163,9 +187,13 @@ Es la pregunta más repetida en los foros de shaders, y la confusión es lógica
 
 La regla para decidir dónde poner un dato: ¿cambia de un vértice a otro? Va en el vértice. ¿Es igual para todo el dibujo (el tiempo, el tamaño, un color elegido)? Es un uniform. ¿Quieres que el `Fragment` lo reciba suavemente repartido? Se pasa del `Vertex` al `Fragment` por una puerta, como hiciste con el `Uv`.
 
+> [!SCENE] q_neigh
+
 ### ¿Puedo preguntarle a un píxel vecino qué color tiene?
 
 No. Cada píxel se calcula por separado y a la vez que los demás, así que no hay un "primero" ni un "después" entre ellos. Si necesitas algo que dependa de los vecinos (un desenfoque, por ejemplo), se hace en dos pasadas: primero se dibuja una imagen completa, y luego otro shader la **lee** como textura. Es un tema avanzado, y no lo necesitas para empezar.
+
+> [!SCENE] q_zero
 
 ### ¿Qué pasa si divido entre cero?
 
@@ -179,13 +207,19 @@ if (ancho > 0f)
 }
 ```
 
+> [!SCENE] q_slow
+
 ### ¿Mi shader es lento?
 
 Primero asegúrate de que funciona. La velocidad se mide, no se adivina. Como guía: los bucles con muchas vueltas y los `if` muy complejos son lo que más cuesta, porque cada píxel los ejecuta. Si notas que va lento, empieza reduciendo las vueltas de un bucle y comprueba si mejora.
 
+> [!SCENE] q_tool
+
 ### Quiero una herramienta de verdad para depurar
 
 Existen depuradores gráficos, como **RenderDoc**, que permiten congelar un fotograma y mirar qué recibió y qué dibujó la GPU. Son útiles cuando el problema es de datos, no de cuentas. Para lo que haces en este tutorial no los necesitas todavía.
+
+> [!SCENE] learned
 
 ## Lo que aprendiste
 

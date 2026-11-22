@@ -22,5 +22,5 @@ Si el motor es tuyo, decides cómo llegan los shaders a la GPU. Yotsuba Shader t
 4. Carga el archivo (o llama al método generado) y entrégalo a la API gráfica.
 
 ```bash
-dotnet yotsuba compile Game.Shaders.csproj --target spirv --target hlsl --output shaders
+yotsuba compile Game.Shaders.csproj --target spirv --target hlsl --output shaders
 ```

@@ -54,7 +54,7 @@ public class BasicColorShader
  * One complete shader (vertex, fragment and compute) in each authoring vocabulary. Attribute names come from
  * the YotsubaShader.<X>Syntax packages. The vector type is the project's own (see TYPES_CS).
  */
-const triangle = ({ ns, usings = '', res = '', buffer, position, vertexId, globalId, size = '', note = '' }) => `using YotsubaShader.Language;
+const triangle = ({ ns, usings = '', res = '', buffer = '', position, vertexId, globalId = '', size = '', fragmentInput = 'VertexOutput vertex', compute = true }) => `using YotsubaShader.Language;
 using YotsubaShader.${ns};${usings}${res ? '\n' + res : ''}
 
 public struct VertexOutput
@@ -65,9 +65,7 @@ public struct VertexOutput
 
 public class Triangle
 {
-${buffer}
-
-    [ShaderStage(Stage.Vertex)]
+${buffer ? buffer + '\n\n' : ''}    [ShaderStage(Stage.Vertex)]
     public VertexOutput Vertex([${vertexId}] uint id)
     {
         VertexOutput vertexOutput = new VertexOutput();
@@ -76,18 +74,16 @@ ${buffer}
     }
 
     [ShaderStage(Stage.Fragment)]
-${ns === 'HlslSyntax' ? '    [return: SV_Target(0)]\n' : ''}    public Vector4 Fragment(VertexOutput vertex)
+${ns === 'HlslSyntax' ? '    [return: SV_Target(0)]\n' : ''}    public Vector4 Fragment(${fragmentInput})
     {
         return new Vector4(1, 0.4f, 0.7f, 1);
-    }
+    }${compute ? `
 
-${note}    [ShaderStage(Stage.Compute)]
+    [ShaderStage(Stage.Compute)]
 ${size}    public void Compute([${globalId}] UInt3 id)
     {
-    }
+    }` : ''}
 }`;
-
-const hostNote = '    // Workgroup size is set by the host\n';
 
 export const STYLE_TRIANGLE = {
   hlsl: triangle({
@@ -101,18 +97,16 @@ export const STYLE_TRIANGLE = {
     buffer: '    [buffer, layout(0, 0)]\n    public float[] Output;',
     position: 'gl_Position', vertexId: 'gl_VertexIndex', globalId: 'gl_GlobalInvocationID',
     size: '    [layout_local_size(8, 8, 1)]\n',
+    fragmentInput: '[gl_FragCoord] Vector4 fragCoord',
   }),
   msl: triangle({
     ns: 'MslSyntax', res: resUsing('msl'),
-    buffer: '    [device, buffer(0)]\n    public float[] Output;',
-    position: 'position', vertexId: 'vertex_id', globalId: 'thread_position_in_grid',
-    note: hostNote,
+    position: 'position', vertexId: 'vertex_id', compute: false,
   }),
   spirv: triangle({
     ns: 'SpirvSyntax', res: resUsing('spirv'),
-    buffer: '    [StorageBuffer, DescriptorSet(0), @Binding(0)]\n    public float[] Output;',
-    position: 'BuiltIn_Position', vertexId: 'BuiltIn_VertexIndex', globalId: 'BuiltIn_GlobalInvocationId',
-    note: hostNote,
+    position: 'BuiltIn_Position', vertexId: 'BuiltIn_VertexIndex', compute: false,
+    fragmentInput: '[BuiltIn_FragCoord] Vector4 fragCoord',
   }),
   wgsl: triangle({
     ns: 'WgslSyntax', res: resUsing('wgsl'),

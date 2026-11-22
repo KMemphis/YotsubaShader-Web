@@ -4,6 +4,8 @@ summary: Lleva tus shaders al Game Engine que uses.
 order: 20
 ---
 
+> [!SCENE] intro
+
 Terminaste el tutorial. Dibujaste colores, formas, una cara, un atardecer y una bola que rebota. Hiciste cinco shaders, y por el camino aprendiste:
 
 - Qué es un shader y qué hace cada etapa.
@@ -16,6 +18,8 @@ Terminaste el tutorial. Dibujaste colores, formas, una cara, un atardecer y una 
 - Cómo compilar con `add` y pedirle el resultado a tu propia clase.
 
 :::xna
+> [!SCENE] x_engine
+
 Lo que falta es lo único que este tutorial no podía enseñarte de una sola manera: **dibujar en pantalla**. Abrir una ventana, mandar el rectángulo a la GPU, entregarle el reloj y la foto. Eso depende de con qué trabajes.
 
 La buena noticia es que el punto de partida es siempre el mismo y ya lo tienes: `new Degradado()` y uno de los métodos que le puso `add`.
@@ -34,10 +38,14 @@ La buena noticia es que el punto de partida es siempre el mismo y ya lo tienes: 
 :::
 
 :::godot
+> [!SCENE] g_next
+
 Ya dibujaste en pantalla: la escena del visor, tus shaders corriendo en Godot e incluso una escena 3D vista a través de ellos. Lo que no viste es todo lo que Godot puede hacer alrededor, y está reunido en la [referencia de Godot](../engines/godot-reference.md): los nombres de los 14 atributos del vértice y lo que soporta el traductor.
 
 A partir de aquí, la mejor forma de aprender es tomar uno de tus shaders y usarlo en un objeto real, con el `VERTEX` y el `NORMAL` de un `MeshInstance3D`.
 :::
+
+> [!SCENE] own
 
 ## ¿Tienes tu propio motor?
 
@@ -46,6 +54,8 @@ Si usas directamente Vulkan, DirectX, Metal u OpenGL, o estás haciendo tu propi
 ```buttons
 [Usar Yotsuba Shader en tu propio motor](../custom-engine/index.md)
 ```
+
+> [!SCENE] lookup
 
 ## Para consultar
 

@@ -54,6 +54,29 @@ Open http://localhost:4173/playground/ . The page finds `playground-app/_framewo
 itself. Without it, add `?demo=1` to preview the UI with sample data. The first load downloads roughly 80 MB
 uncompressed (Roslyn Workspaces/Features are most of it; served compressed and cached afterwards).
 
+## Live preview
+
+The preview draws one triangle (three vertices) with the GLSL ES the compiler produces, so a shader that builds its
+positions from `SV_VertexID` / `gl_VertexIndex` can cover the whole canvas with a single oversized triangle. Before
+linking, the page rewrites the few Vulkan-only spellings that WebGL 2 rejects (`gl_VertexIndex`, `set =` and
+`binding =` inside `layout(...)`).
+
+- Uniform buffers: a member named `Time` (float), `Resolution` (vec2/vec3), `Frame` (int/uint) or `Mouse` (vec2, or vec4
+  whose `z` is 1 while the pointer is pressed) is filled in every frame. Mouse coordinates are in pixels with the
+  origin at the bottom left, like `gl_FragCoord`.
+- Samplers: combined samplers (`sampler2D` in the GLSL syntax) get the images listed by the example in `textures`
+  (`{ sampler, file }`, matched by field name). Images live in `src/static/img/playground/` (see `CREDITS.md`).
+- Separate `Texture2D` + `SamplerState` pairs (HLSL syntax) compile to SPIR-V, but the GLSL ES generation fails with
+  "Cannot find mapping for combined sampler", so those shaders do not reach the preview.
+- An example can carry a `preview` hint: `screen: true` covers the canvas with the vertex data (texture coordinates start at
+  the top left) and `values` fills uniform members by lower-case name, for fields the page does not know (the ocean uses it
+  for its camera).
+- Examples are real `.cs` files in `src/playground-examples/` that `src/pages/playground.mjs` embeds. Most visual ones are a single
+  `Shader.cs` written with the library's own `vec2/vec3/vec4` and its `mix`, `smoothstep`, `fract`, `dot`, `normalize`, `reflect`...
+  They were written before the library vectors had constructors and operators, so their arithmetic is still per component;
+  `vec3(x, y, z)`, `new vec3(xy, z)`, `a + b`, `v *= 2.0f`, `mat2(c, s, -s, c) * uv`... work now (see the `Constructors`
+  class of each syntax).
+
 ## JSON contract
 
 Files travel as `[{ "name": "Shader.cs", "source": "..." }]`. `Compile` returns:

@@ -7,7 +7,7 @@ order: 6
 `compile` reads a C# project, finds every class that has methods marked with `[ShaderStage]` and writes each shader as separate files in a folder. Use it when something that is not C# loads the shaders (an engine, a build pipeline, a tool), or when you want to open the files and read them.
 
 ```bash
-dotnet yotsuba compile MyShaders/MyShaders.csproj --target glsl --target spirv --output out
+yotsuba compile MyShaders/MyShaders.csproj --target glsl --target spirv --output out
 ```
 
 ## Synopsis
@@ -22,7 +22,7 @@ yotsuba compile <project.csproj> --target <target> [--target <target> ...] [--ou
 | `--target <target>` | Yes, at least one | The format to generate. Repeat it to ask for several. See the table below. |
 | `--output <folder>` | No | Where the files go. The path is counted from the folder of the `.csproj`, not from where you run the command. Default: `artifacts`. |
 
-`dotnet yotsuba` is how the tool is called after `dotnet tool install YotsubaShader.Compiler.CLI` in a folder with a tool manifest. The same program is published as a stand-alone executable (`YotsubaShader.Compiler.CLI` on Linux and macOS, `YotsubaShader.Compiler.CLI.exe` on Windows), where the command is `yotsuba`.
+`yotsuba` is how the tool is called after `dotnet tool install --global YotsubaShader.Compiler.CLI`. If you prefer to pin its version in the project (for example in CI), install it as a local tool with `dotnet new tool-manifest` and `dotnet tool install YotsubaShader.Compiler.CLI`, and call it with `dotnet tool run yotsuba`. The same program is published as a stand-alone executable (`YotsubaShader.Compiler.CLI` on Linux and macOS, `YotsubaShader.Compiler.CLI.exe` on Windows), where the command is `yotsuba`.
 
 ## What it does
 
@@ -80,7 +80,7 @@ The CLI prints its messages in Spanish. The full list of messages is in the [Get
 All the text formats at once:
 
 ```bash
-dotnet yotsuba compile Game.Graphics/Game.Graphics.csproj \
+yotsuba compile Game.Graphics/Game.Graphics.csproj \
   --target glsl --target gles --target hlsl --target msl \
   --output build/shaders
 ```
@@ -88,7 +88,7 @@ dotnet yotsuba compile Game.Graphics/Game.Graphics.csproj \
 SPIR-V plus the Godot shaders, as part of a build script:
 
 ```bash
-dotnet yotsuba compile Shaders/Shaders.csproj --target spirv --target godot --output ../Game/shaders
+yotsuba compile Shaders/Shaders.csproj --target spirv --target godot --output ../Game/shaders
 ```
 
 When the program that uses the shaders is written in C#, [`add`](add.md) is usually a better fit: it leaves the result inside the project as methods, and the C# compiler checks the names for you.

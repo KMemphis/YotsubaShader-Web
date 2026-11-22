@@ -4,9 +4,13 @@ summary: Cómo hacer que un shader repita una tarea, con for, break y continue, 
 order: 11
 ---
 
+> [!SCENE] intro
+
 Dibujar un círculo ya sabes. ¿Y seis círculos? ¿Y cincuenta? No vas a copiar y pegar el mismo bloque cincuenta veces. Para eso existen los **bucles**: le dices al shader "repite esto tantas veces", y lo hace.
 
 Con los bucles, un shader hace cosas grandes con poco código. El fractal de Mandelbrot, que harás más adelante, no es más que un bucle que da cien vueltas por cada píxel.
+
+> [!SCENE] for
 
 ## Paso 1: contar con un for
 
@@ -55,6 +59,8 @@ Cambia el `5` en la condición del bucle y también el `5f`. Si usas `10` en los
 
 > [!NOTE]
 > Esta es la primera vez que usamos `escalones++`. Es lo mismo que `escalones = escalones + 1`, pero más corto. Se lee "suma uno".
+
+> [!SCENE] circles
 
 ## Paso 2: seis círculos con un solo bloque
 
@@ -148,6 +154,8 @@ Para tener siete círculos, cambia los dos `6` por `7`. Para que sean más grand
 > [!WARNING]
 > Una trampa clásica: **la división de enteros**. Si escribes `i / 6`, y `i` es un `int`, C# divide enteros y **tira los decimales**: `1 / 6` da `0`, no `0.1666`. Por eso escribimos `(i + 0.5f) * aspecto / 6f`: en cuanto aparece un `float`, todo se calcula con decimales. Si algún día un valor te sale siempre `0` o siempre `1` sin motivo, mira si no estás dividiendo dos enteros.
 
+> [!SCENE] continue
+
 ## Paso 3: saltarse vueltas con continue
 
 A veces quieres que en algunas vueltas no pase nada. `continue` significa *"termina esta vuelta aquí y pasa a la siguiente"*. Agrega esto **al principio del cuerpo del bucle**, justo debajo de la llave de apertura:
@@ -164,6 +172,8 @@ A veces quieres que en algunas vueltas no pase nada. `continue` significa *"term
 ![Tres círculos de seis posibles: solo se dibujan los de las posiciones 0, 2 y 4](../../assets/get-started/taller/re3.png)
 
 Solo se dibujan los círculos de las vueltas `0`, `2` y `4`. Los demás quedaron saltados.
+
+> [!SCENE] break
 
 ## Paso 4: parar antes con break
 
@@ -190,6 +200,8 @@ Compara este resultado con el mismo código **sin** la línea del `break` (prué
 ![Seis círculos solapados sin break: el de la derecha queda completo y encima de los demás](../../assets/get-started/taller/re5.png)
 
 Sin `break`, cada vuelta pinta encima de la anterior, así que **gana el último círculo** (el de la derecha). Con `break`, en cuanto un círculo acierta, el bucle se detiene, y **gana el primero** (el de la izquierda). Es la misma idea de la cara: el orden decide quién queda arriba.
+
+> [!SCENE] array
 
 ## Paso 5: una lista de datos, el array
 
@@ -243,6 +255,8 @@ Cambia los números de la lista y verás las barras subir y bajar. Ese es el pod
 > [!NOTE]
 > Los arrays de un shader tienen un tamaño fijo, que debes escribir al crearlos: `new float[5]`. No puedes pedir un tamaño que dependa de una variable, porque la GPU necesita saber cuánta memoria reservar antes de empezar.
 
+> [!SCENE] while
+
 ## Otro bucle: while
 
 Existe otra forma de repetir, el `while`, que sigue mientras una condición sea verdadera:
@@ -256,6 +270,8 @@ while (pasos < 100)
 ```
 
 Hace lo mismo que un `for`, con la diferencia de que tú te encargas del contador. Lo usarás cuando no sepas antes de empezar cuántas vueltas dar, aunque siempre con un tope. El Mandelbrot, más adelante, es un ejemplo.
+
+> [!SCENE] cost
 
 ## Cuidado: los bucles cuestan
 
@@ -489,6 +505,8 @@ public class Bucles
     }
 }
 ```
+
+> [!SCENE] learned
 
 ## Lo que aprendiste
 

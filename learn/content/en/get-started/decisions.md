@@ -4,15 +4,21 @@ summary: How a shader paints different things depending on where each pixel is, 
 order: 8
 ---
 
+> [!SCENE] intro
+
 Until now the shader computed a color with a calculation. But sometimes you do not want a calculation: you want to **choose**. "If the pixel is on the left, paint it orange; if not, blue". That is done with `if`.
 
 With `if` you will be able to draw shapes: rectangles, circles, boards. Everything that has a hard edge.
+
+> [!SCENE] alone
 
 ## An idea worth having clear
 
 Before writing code, one thing about how the GPU works, because it will save you confusion: **each pixel runs your `Fragment` on its own**. It is as if you had 360,000 people with the same sheet of instructions, each one painting their little square, without talking to each other.
 
 That means that inside the `if`, "I" is always a single pixel. The pixel on the left can decide "orange" and the one on the right "blue", and neither knows what the other decided. You cannot ask "what color is your neighbor?". You have to decide only with what you know about yourself: your position, the time, the data you were given.
+
+> [!SCENE] split
 
 ## Step 1: splitting the screen in two
 
@@ -39,6 +45,8 @@ Read it like a sentence: *"if the X position is less than 0.5, return orange. If
 - If the condition is false, the shader skips the braces and continues with what comes next: the second `return`.
 
 Move the `0.5f` to `0.2f` and run again. The line that divides the two colors moves to the left.
+
+> [!SCENE] elseif
 
 ## Step 2: more than two options with else if
 
@@ -71,6 +79,8 @@ Order matters. C# tests the conditions **from top to bottom and keeps the first 
 
 Notice also that there is now a `float x` at the start. Saving `pixel.Uv.X` in a variable with a short name makes the conditions easier to read.
 
+> [!SCENE] operators
+
 ## The comparison operators
 
 These are the ones you can use inside the condition:
@@ -88,6 +98,8 @@ These are the ones you can use inside the condition:
 > A single `=` **assigns** (`x = 5f` stores a 5 in `x`). To **compare** you have to write two: `x == 5f`. It is a very common mistake when starting. Luckily, C# warns you with an error if you get it wrong inside an `if`.
 >
 > And one more warning: with `float` numbers, almost never use `==`. A `float` that "should" be `0.5` can be `0.5000001` after several calculations, and the comparison fails. With whole numbers (`int`) there is no problem.
+
+> [!SCENE] combine
 
 ## Step 3: combining conditions
 
@@ -116,6 +128,8 @@ There are three ways of combining conditions:
 For example, `x < 0.1f || x > 0.9f` is true at the left and right edges, and false in the middle.
 
 Try this: change the four numbers so the rectangle is taller than wide, and then one that touches the edge of the window.
+
+> [!SCENE] circle
 
 ## Step 4: a circle
 
@@ -189,6 +203,8 @@ The condition `dx * dx + dy * dy < 0.3f * 0.3f` says: "I am closer to the center
 
 Change the `0.3f` (in both factors) to `0.1f` and the circle gets small. Change the `0.5f` in `dx` to `0.3f` and the circle moves to the left.
 
+> [!SCENE] checker
+
 ## Step 5: a chessboard
 
 A very common trick to decide "this square is light, this one is dark" is to count which square you are in and check whether that number is even or odd. Replace `Fragment` with this:
@@ -213,6 +229,8 @@ Let us go part by part:
 
 Change both `8f` to `4f` and to `20f`. With different numbers in each, you will get rectangular squares.
 
+> [!SCENE] ternary
+
 ## A shortcut: the ? operator
 
 When you only want to choose **one value** between two, there is a shorter way than `if`:
@@ -236,6 +254,8 @@ else
 ```
 
 Use `?` when the decision is short, and `if` when there are several lines inside.
+
+> [!SCENE] flaw
 
 ## The flaw of shapes made with if
 
@@ -436,6 +456,8 @@ public class Decisions
     }
 }
 ```
+
+> [!SCENE] learned
 
 ## What you learned
 

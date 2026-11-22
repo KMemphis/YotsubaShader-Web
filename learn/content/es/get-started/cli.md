@@ -4,7 +4,11 @@ summary: Los comandos del compilador (add, compile y plugin), los plugins de cad
 order: 18
 ---
 
+> [!SCENE] intro
+
 Durante todo el tutorial usaste un solo comando, `add`. En este capítulo ves la CLI completa: qué otro comando tiene, qué formatos puede generar y cómo dejar de escribir el comando a mano.
+
+> [!SCENE] two
 
 ## Los dos comandos
 
@@ -15,12 +19,14 @@ La CLI tiene dos comandos. Los dos compilan lo mismo. Lo que cambia es **dónde 
 | `add` | En un archivo de C#, `YotsubaShader.g.cs`, dentro de tu proyecto. | Cuando el programa que usa los shaders está hecho en C#. Es lo normal. |
 | `compile` | En archivos sueltos (`.glsl`, `.hlsl`, `.spv`...) dentro de una carpeta. | Cuando los shaders los va a cargar algo que no es C#, o cuando quieres abrir los archivos y mirarlos. |
 
+> [!SCENE] add
+
 ## `add`: el resultado dentro de tu proyecto
 
 Ya lo conoces:
 
 ```bash
-dotnet yotsuba add MisShaders/MisShaders.csproj --target spirv
+yotsuba add MisShaders/MisShaders.csproj --target spirv
 ```
 
 Lo que hace, paso a paso:
@@ -45,6 +51,8 @@ Los que piden un `Stage` devuelven una etapa cada vez: `Stage.Vertex` o `Stage.F
 
 Lo bueno de `add` es que el compilador de C# te cuida. Si renombras la clase `Degradado`, tu programa deja de compilar hasta que lo arregles. Con archivos sueltos, un nombre mal escrito solo lo descubres al ejecutar.
 
+> [!SCENE] targets
+
 Los cinco primeros vienen con la CLI. Los métodos de los motores vienen de **plugins**, y cada uno se pide con su propio `--target`:
 
 | Método | Devuelve | Para | Se pide con |
@@ -57,11 +65,13 @@ Los cinco primeros vienen con la CLI. Los métodos de los motores vienen de **pl
 Por ejemplo, para usar tus shaders en {{engine}}:
 
 ```bash
-dotnet yotsuba add MisShaders/MisShaders.csproj --target spirv --target {{plugin}}
+yotsuba add MisShaders/MisShaders.csproj --target spirv --target {{plugin}}
 ```
 
 > [!NOTE]
 > La CLI exige al menos un `--target` también con `add`. `spirv` es el que usa el tutorial, y los métodos de la primera tabla se generan sin importar cuál elijas.
+
+> [!SCENE] plugins
 
 ### Plugins
 
@@ -69,19 +79,21 @@ Un plugin es un paquete NuGet pequeño que le enseña a la CLI un formato más. 
 
 | Comando | Qué hace |
 | --- | --- |
-| `dotnet yotsuba plugin list` | Muestra los plugins que existen y cuáles tienes instalados. |
-| `dotnet yotsuba plugin install monogame` | Descarga un plugin antes de necesitarlo. |
-| `dotnet yotsuba plugin update monogame` | Trae su última versión. Sin nombre, actualiza todos los instalados. |
-| `dotnet yotsuba plugin remove monogame` | Lo borra. |
+| `yotsuba plugin list` | Muestra los plugins que existen y cuáles tienes instalados. |
+| `yotsuba plugin install monogame` | Descarga un plugin antes de necesitarlo. |
+| `yotsuba plugin update monogame` | Trae su última versión. Sin nombre, actualiza todos los instalados. |
+| `yotsuba plugin remove monogame` | Lo borra. |
 
 El plugin lo usa solo la CLI, al compilar. Tu juego no lo referencia. Las [guías de MonoGame, KNI y FNA](../engines/index.md) muestran el camino completo, paso a paso.
+
+> [!SCENE] compile
 
 ## `compile`: el resultado en archivos
 
 Con `compile` eliges los formatos que quieres, repitiendo `--target`, y la carpeta donde dejarlos, con `--output`:
 
 ```bash
-dotnet yotsuba compile MisShaders/MisShaders.csproj --target glsl --target hlsl --target msl --target spirv --output salida
+yotsuba compile MisShaders/MisShaders.csproj --target glsl --target hlsl --target msl --target spirv --output salida
 ```
 
 Con los dos primeros shaders del tutorial en el proyecto, esto es lo que aparece:
@@ -115,6 +127,8 @@ Dos detalles de `--output`:
 - La ruta se cuenta desde la carpeta del `.csproj`, no desde donde ejecutas el comando. Por eso `salida` acabó dentro de `MisShaders`.
 - Si no pones `--output`, la carpeta se llama `artifacts`.
 
+> [!SCENE] formats
+
 ### Los formatos que puedes pedir con `--target`
 
 | `--target` | Qué genera | Extensión |
@@ -129,6 +143,8 @@ Dos detalles de `--output`:
 | `kni` (o `kni-webgl`) | Efecto de KNI. Necesita el plugin `kni`. | `.knifx` |
 | `fna` | Efecto de FNA. Necesita el plugin `fna`. | `.fxb` |
 | `godot` (o `gdshader`) | Shaders de Godot, uno por tipo (`spatial`, `canvas_item`). Necesita el plugin `godot`. | `.gdshader` |
+
+> [!SCENE] auto
 
 ## Haz que `add` se ejecute solo
 
@@ -150,7 +166,7 @@ Abre `MisShaders/MisShaders.csproj` y añade el bloque `<Target>`. El archivo co
   </PropertyGroup>
 
   <Target Name="CompilarShaders" BeforeTargets="CoreCompile" Condition="'$(DesignTimeBuild)' != 'true'">
-    <Exec Command="dotnet yotsuba add &quot;$(MSBuildProjectFullPath)&quot; --target spirv --target {{plugin}}" />
+    <Exec Command="yotsuba add &quot;$(MSBuildProjectFullPath)&quot; --target spirv --target {{plugin}}" />
     <ItemGroup>
       <Compile Remove="YotsubaShader.g.cs" />
       <Compile Include="YotsubaShader.g.cs" />
@@ -175,6 +191,8 @@ dotnet run --project Probar
 
 Cambia un número en `Degradado.cs`, ejecuta ese comando, y el cambio ya sale en la consola.
 
+> [!SCENE] wrong
+
 ## Cuando algo sale mal
 
 Estos son los mensajes que más vas a ver, y lo que significan:
@@ -191,6 +209,8 @@ Estos son los mensajes que más vas a ver, y lo que significan:
 | `'new ...vec4()' sin constructor declarado no está soportado para vectores.` | Creaste un vector con `new vec4 { ... }`. | Usa `Crear.Vec4(...)`, el ayudante del primer shader. |
 
 Si el error aparece nada más abrir el proyecto, antes de compilar ningún shader, ejecuta primero `dotnet build MisShaders`. La CLI necesita que el proyecto ya haya descargado sus dependencias.
+
+> [!SCENE] learned
 
 ## Lo que aprendiste
 

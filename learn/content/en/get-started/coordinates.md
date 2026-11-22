@@ -4,9 +4,13 @@ summary: How a pixel knows where it is, and how to use that position to draw gra
 order: 7
 ---
 
+> [!SCENE] intro
+
 In the previous chapter every pixel had the same color. Now you are going to achieve something much more interesting: each pixel getting its own.
 
 For that, the shader needs an answer to one question: **where is this pixel?** That answer is the `Uv`, and you have been seeing it since the first shader without us stopping to look at it closely. Today we do.
+
+> [!SCENE] uvcolor
 
 ## Step 1: the Uv turned into color
 
@@ -26,6 +30,8 @@ Black on the left and red on the right. What you are seeing is the value of `Uv.
 
 This is the best tool for understanding a shader: **turning a number into color so you can see it**. You will use it many times.
 
+> [!SCENE] down
+
 ## Step 2: the other coordinate
 
 Now change the line to show `Uv.Y` in the green channel:
@@ -42,6 +48,8 @@ This surprises almost everyone, because in math and in function plots the Y axis
 
 > [!TIP]
 > If some day you see a drawing **upside down** (the sky at the bottom, for example), the first thing to check is whether your Y grows upward or downward.
+
+> [!SCENE] map
 
 Now put both coordinates together, one in each channel:
 
@@ -61,6 +69,8 @@ This image is a coordinate map. Each corner tells you its position:
 | Bottom right | `(1, 1)` | Yellow |
 
 If you ever doubt what is happening with the positions in a shader, paint `Uv.X` and `Uv.Y` as colors and you will know at once.
+
+> [!SCENE] repeat
 
 ## Step 3: repeating the pattern
 
@@ -82,6 +92,8 @@ Together, they make the number rise from `0` to `1`, go back to `0`, rise again,
 
 Change the `4f` to `10f` and you will see ten stripes. Change the `1f` of the remainder to `0.5f` and see how the stripes change. Playing with these numbers is the best way to make them stick.
 
+> [!SCENE] center
+
 ## Step 4: putting the origin in the center
 
 The `Uv` starts at the top-left corner. But to draw a circle in the middle, or anything centered, we need the point `(0, 0)` to be **at the center** of the screen. For that we subtract `0.5`:
@@ -97,6 +109,8 @@ return Make.Vec4(dx, dy, 0f, 1f);
 ![Four zones: black at the top left, reddish at the top right, greenish at the bottom left and yellowish at the bottom right, with a black center](../../assets/get-started/taller/cr5.png)
 
 Look at the result carefully. The left half has no red and the top half has no green. Why? Because there `dx` and `dy` are **less than zero**, and as you saw in the colors chapter, the GPU clips negatives to `0`. In other words: what you see is the color half-cut at the center. The center itself, where `dx` and `dy` are `0`, is the darkest point.
+
+> [!SCENE] dist
 
 ## Step 5: the distance to the center
 
@@ -121,6 +135,8 @@ Let us read the third line from the inside out:
 
 It works, but something is wrong. We asked for a **round** spot, and an **oval** came out. What happened?
 
+> [!SCENE] oval
+
 ## The oval problem
 
 The `Uv` always goes from `0` to `1`, both horizontally and vertically, no matter the shape of the window. Our window is 800 by 450 pixels: it is wider than tall. So `0.1` of width is 80 pixels, but `0.1` of height is only 45. The distances we compute **are not equal in both directions**, and the circle stretches.
@@ -128,6 +144,8 @@ The `Uv` always goes from `0` to `1`, both horizontally and vertically, no matte
 This is one of the problems beginners ask about most: *"why is my circle oval?"* The solution is to correct that difference. If the window is 1.78 times wider than tall, we have to multiply `dx` by 1.78 so that it "measures the same" as `dy`.
 
 But for that the shader has to **know the width and height of the window**, and it cannot guess that from inside. The program that draws it knows, and it has to pass it along.
+
+> [!SCENE] uniform
 
 ## Step 6: data handed over by the program
 
@@ -208,6 +226,8 @@ And now, inside `Fragment`, you can use it like any other value: `Data.Width` an
 
 > [!NOTE]
 > How does the window find out that it has to deliver `Width` and `Height`? It is the viewer that does it, by name: it looks for a piece of data called `Data_Width` (the uniform's name, an underscore and the field's name). If your shader uses other names, the viewer does not know them. That is why, in this tutorial, keep the names `Data`, `Width`, `Height` and `Seconds`.
+
+> [!SCENE] fix
 
 ## Step 7: fixing the circle
 
@@ -410,6 +430,8 @@ public class Coordinates
     }
 }
 ```
+
+> [!SCENE] learned
 
 ## What you learned
 

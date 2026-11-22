@@ -67,7 +67,7 @@
   if (here && saved && saved !== here && altRoutes?.[saved]) {
     const n = document.createElement('p');
     n.className = 'route-notice';
-    n.innerHTML = `${ui.routeNotice(altRoutes[saved].name)}: <a href="${altRoutes[saved].url}">${altRoutes[saved].name} →</a>`;
+    n.innerHTML = `${String(ui.routeNotice).replace('{name}', altRoutes[saved].name)}: <a href="${altRoutes[saved].url}">${altRoutes[saved].name} →</a>`;
     $('.article')?.prepend(n);
   }
 
@@ -226,6 +226,8 @@
         audio.addEventListener('ended', () => { cancelAnimationFrame(raf); show(-1); setState('idle'); document.body.classList.remove('is-listening'); audio.currentTime = 0; });
         audio.addEventListener('error', () => { cancelAnimationFrame(raf); setState('error'); });
         document.body.classList.add('is-listening');
+        // the stage (stage.js) follows the same audio: it gets the audio element and every word with its start time
+        document.dispatchEvent(new CustomEvent('narration:start', { detail: { audio, words: words.map(({ el, start }) => ({ el, start })) } }));
         await audio.play();
       } catch { setState('error'); } finally { starting = false; }
     };

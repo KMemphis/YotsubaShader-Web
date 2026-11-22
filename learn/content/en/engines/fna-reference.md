@@ -18,10 +18,10 @@ FNA loads a shader as an **effect**. Yotsuba Shader compiles your C# shader into
 
 ## Build the shaders
 
-From the folder that holds the tool manifest (created with `dotnet new tool-manifest` and `dotnet tool install YotsubaShader.Compiler.CLI`):
+With the compiler installed (`dotnet tool install --global YotsubaShader.Compiler.CLI`), from any folder:
 
 ```bash
-dotnet yotsuba add MyShaders/MyShaders.csproj --target spirv --target fna
+yotsuba add MyShaders/MyShaders.csproj --target spirv --target fna
 ```
 
 The first run downloads the `fna` plugin. `MyShaders/YotsubaShader.g.cs` then contains `ToFNA_FX` for every shader class. To run the command on every build, see [The add command](../reference/add.md); plugin management is in [Plugins](../reference/plugins.md).
@@ -261,5 +261,5 @@ With the official FNA instead of `FNA.SDL3`, copy the `fnalibs` on every system.
 | The rectangle is deformed or missing | A field uses `VertexElementUsage.Position`. | Use `TextureCoordinate` with the index of the `location`. |
 | `NullReferenceException` in `Parameters[...].SetValue` | The parameter name does not exist. | The name is `<Field>_<Member>`. |
 | The window stays black | `Apply()` or `DrawUserPrimitives` is missing, or the shader returns black. | Check the game above and return a color with `1` as the last value. |
-| `add` fails with a network error | The CLI is downloading the plugin and cannot reach NuGet. | Check the connection, or run `dotnet yotsuba plugin install fna` when you are online. |
+| `add` fails with a network error | The CLI is downloading the plugin and cannot reach NuGet. | Check the connection, or run `yotsuba plugin install fna` when you are online. |
 | `DllNotFoundException` at start | The native libraries (SDL3, FNA3D) are not next to the program. | See *Native libraries* above. |

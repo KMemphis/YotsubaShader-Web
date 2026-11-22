@@ -1,0 +1,12 @@
+{
+ "title": "Yotsuba Shader · Home film",
+ "voice": "Orus",
+ "model": "gemini-2.5-flash-preview-tts",
+ "captionReplace": [],
+ "scenes": [
+  { "id": "h1-what", "narration": "Yotsuba Shader is an SDK for writing shaders in C#." },
+  { "id": "h2-code", "narration": "A shader is a plain C# class. Vertex, fragment or compute, with your own types and libraries." },
+  { "id": "h3-targets", "narration": "The compiler emits SPIR-V, and source for HLSL, GLSL, GLSL ES and Metal." },
+  { "id": "h4-close", "narration": "Free and open source. Try it in the Playground." }
+ ]
+}

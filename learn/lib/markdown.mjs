@@ -162,7 +162,11 @@ function render(tokens, ctx, headings) {
       }
       case 'quote': {
         const m = tk.lines[0].match(/^\[!(\w+)\]\s*(.*)$/);
-        if (m && m[1].toUpperCase() === 'SAY') {
+        if (m && m[1].toUpperCase() === 'SCENE') {
+          // > [!SCENE] id: invisible cue for the listen "stage" (stage/<section>/<page>.mjs). The scene with this id starts
+          // when the narration reaches the first spoken word after the cue. It holds no text, so the audio text does not change.
+          html += `<div class="scene-cue" data-scene="${esc(m[2].trim())}" hidden></div>`;
+        } else if (m && m[1].toUpperCase() === 'SAY') {
           // > [!SAY] text: said by the "listen" audio only (it describes a table, code or picture); shown as a caption while it is read
           const say = [m[2], ...tk.lines.slice(1)].filter((l, n) => n || l).join(' ');
           html += `<p class="say" aria-hidden="true">${inline(say, ctx)}</p>`;

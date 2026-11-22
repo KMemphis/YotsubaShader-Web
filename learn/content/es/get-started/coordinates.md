@@ -4,9 +4,13 @@ summary: Cómo sabe un píxel dónde está, y cómo usar esa posición para dibu
 order: 7
 ---
 
+> [!SCENE] intro
+
 En el capítulo anterior todos los píxeles tenían el mismo color. Ahora vas a lograr algo mucho más interesante: que cada píxel tenga el suyo.
 
 Para eso el shader necesita una respuesta a una pregunta: **¿dónde está este píxel?** Esa respuesta es el `Uv`, y lo has estado viendo desde el primer shader sin que nos hayamos detenido a mirarlo de cerca. Hoy sí.
+
+> [!SCENE] uvcolor
 
 ## Paso 1: el Uv hecho color
 
@@ -26,6 +30,8 @@ Negro a la izquierda y rojo a la derecha. Lo que estás viendo es el valor de `U
 
 Esta es la mejor herramienta para entender un shader: **convertir un número en color para poder verlo**. La vas a usar muchas veces.
 
+> [!SCENE] down
+
 ## Paso 2: la otra coordenada
 
 Ahora cambia la línea para mostrar `Uv.Y` en el canal verde:
@@ -42,6 +48,8 @@ Esto sorprende a casi todo el mundo, porque en matemáticas y en los dibujos de 
 
 > [!TIP]
 > Si algún día ves un dibujo **al revés** (el cielo abajo, por ejemplo), lo primero que debes revisar es si tu Y crece hacia arriba o hacia abajo.
+
+> [!SCENE] map
 
 Ahora pon las dos coordenadas juntas, una en cada canal:
 
@@ -61,6 +69,8 @@ Esta imagen es un mapa de coordenadas. Cada esquina te cuenta su posición:
 | Abajo a la derecha | `(1, 1)` | Amarillo |
 
 Si alguna vez dudas de qué está pasando con las posiciones en un shader, pinta `Uv.X` y `Uv.Y` como colores y lo sabrás al instante.
+
+> [!SCENE] repeat
 
 ## Paso 3: repetir el patrón
 
@@ -82,6 +92,8 @@ Juntas, hacen que el número suba de `0` a `1`, vuelva a `0`, suba otra vez, y a
 
 Cambia el `4f` por `10f` y verás diez franjas. Cambia el `1f` del resto por `0.5f` y verás que las franjas cambian. Jugar con estos números es la mejor forma de que se te queden en la cabeza.
 
+> [!SCENE] center
+
 ## Paso 4: poner el origen en el centro
 
 El `Uv` empieza en la esquina de arriba a la izquierda. Pero para dibujar un círculo en el medio, o cualquier cosa centrada, necesitamos que el punto `(0, 0)` esté en **el centro** de la pantalla. Para eso restamos `0.5`:
@@ -97,6 +109,8 @@ return Crear.Vec4(dx, dy, 0f, 1f);
 ![Cuatro zonas: negro arriba a la izquierda, rojizo arriba a la derecha, verdoso abajo a la izquierda y amarillento abajo a la derecha, con el centro negro](../../assets/get-started/taller/cr5.png)
 
 Mira el resultado con atención. La mitad izquierda no tiene rojo y la mitad de arriba no tiene verde. ¿Por qué? Porque ahí `dx` y `dy` valen **menos que cero**, y como viste en el capítulo de los colores, la GPU recorta lo negativo a `0`. Es decir: lo que ves es el color a medias, cortado por el centro. El centro mismo, donde `dx` y `dy` valen `0`, es el punto más oscuro.
+
+> [!SCENE] dist
 
 ## Paso 5: la distancia al centro
 
@@ -121,6 +135,8 @@ Leamos la tercera línea de adentro hacia afuera:
 
 Funciona, pero algo está mal. Pedimos una mancha **redonda**, y salió un **óvalo**. ¿Qué pasó?
 
+> [!SCENE] oval
+
 ## El problema del óvalo
 
 El `Uv` siempre va de `0` a `1`, tanto en horizontal como en vertical, sin importar la forma de la ventana. Nuestra ventana mide 800 por 450 píxeles: es más ancha que alta. Así que `0.1` de ancho son 80 píxeles, pero `0.1` de alto son solo 45. Las distancias que calculamos **no son iguales en las dos direcciones**, y el círculo se estira.
@@ -128,6 +144,8 @@ El `Uv` siempre va de `0` a `1`, tanto en horizontal como en vertical, sin impor
 Este es uno de los problemas que más preguntan los principiantes: *"¿por qué mi círculo sale ovalado?"* La solución es corregir esa diferencia. Si la ventana es 1,78 veces más ancha que alta, hay que multiplicar `dx` por 1,78 para que "mida lo mismo" que `dy`.
 
 Pero para eso el shader tiene que **saber el ancho y el alto de la ventana**, y eso no lo puede adivinar desde dentro. Lo sabe el programa que lo dibuja, y tiene que pasárselo.
+
+> [!SCENE] uniform
 
 ## Paso 6: datos que le entrega el programa
 
@@ -208,6 +226,8 @@ Y ahora, dentro de `Fragment`, puedes usarlo como cualquier otro valor: `Datos.A
 
 > [!NOTE]
 > ¿Cómo se entera la ventana de que tiene que entregar `Ancho` y `Alto`? Es el visor quien lo hace, por el nombre: busca un dato llamado `Datos_Ancho` (el nombre del uniform, un guion bajo y el nombre del campo). Si tu shader usa otros nombres, el visor no los conoce. Por eso, en este tutorial, mantén los nombres `Datos`, `Ancho`, `Alto` y `Segundos`.
+
+> [!SCENE] fix
 
 ## Paso 7: arreglar el círculo
 
@@ -410,6 +430,8 @@ public class Coordenadas
     }
 }
 ```
+
+> [!SCENE] learned
 
 ## Lo que aprendiste
 

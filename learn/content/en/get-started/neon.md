@@ -4,9 +4,13 @@ summary: The math functions the GPU already has, used to draw a glowing ring.
 order: 14
 ---
 
+> [!SCENE] intro
+
 So far you did every calculation with additions, subtractions and multiplications. But the GPU already comes with many math functions built in: square root, sine, absolute value, mixing two colors... In this chapter you will use them to draw a neon tube:
 
 ![A ring of light, pink on the left and cyan on the right, on an almost black background](../../assets/get-started/neon.png)
+
+> [!SCENE] use
 
 ## How the GPU's functions are used
 
@@ -29,6 +33,8 @@ These are the four you will use in this shader:
 | `abs(x)` | Removes the sign from a number. | `abs(-0.2f)` gives `0.2` |
 | `clamp(x, minimum, maximum)` | If `x` goes past the limits, it leaves it at the limit. | `clamp(7f, 0f, 1f)` gives `1` |
 | `mix(a, b, t)` | Mixes `a` and `b`. With `t` at `0` it gives `a`, with `1` it gives `b`, with `0.5` half of each. | `mix(0f, 10f, 0.5f)` gives `5` |
+
+> [!SCENE] dist
 
 ## Step 1: how far each pixel is from the center
 
@@ -55,6 +61,8 @@ If you painted each pixel with that number as its color (farther away, whiter), 
 
 Black in the center, because the distance is `0`. Lighter and lighter as you move away.
 
+> [!SCENE] ring
+
 ## Step 2: how far each pixel is from the ring
 
 We want a ring of radius `0.6`. The pixels that form the ring are the ones at a distance of `0.6` from the center. So we subtract:
@@ -68,6 +76,8 @@ If a pixel is at `0.6` from the center, the result is `0`: it is right on the ri
 ![A black line in the shape of a ring; it gets lighter on both sides](../../assets/get-started/neon2.png)
 
 You can already see the ring: it is the black line, where the distance is `0`.
+
+> [!SCENE] glow
 
 ## Step 3: turning the distance into glow
 
@@ -92,6 +102,8 @@ Near the ring the result is huge, and `clamp` leaves it at `1`, which is the max
 
 > [!TIP]
 > The `0.03` is the thickness of the glow. With `0.01` you get a thin thread. With `0.1`, a huge halo.
+
+> [!SCENE] color
 
 ## Step 4: giving it color
 
@@ -333,6 +345,8 @@ public class Neon
 }
 ```
 
+> [!SCENE] check
+
 To check that it is written correctly, build the C# project:
 
 ```bash
@@ -340,6 +354,8 @@ dotnet build MyShaders
 ```
 
 If you get `Build succeeded`, the shader is valid C#. Once `add` supports these functions, it is compiled and used just like the previous two: `new Neon().ToGlsl(Stage.Fragment)`.
+
+> [!SCENE] play
 
 ## Play with it
 
@@ -352,6 +368,8 @@ float bigGlow = clamp(0.03f / abs(distanceToCenter - 0.6f), 0f, 1f);
 float smallGlow = clamp(0.03f / abs(distanceToCenter - 0.3f), 0f, 1f);
 float glow = clamp(bigGlow + smallGlow, 0f, 1f);
 ```
+
+> [!SCENE] learned
 
 ## What you learned
 

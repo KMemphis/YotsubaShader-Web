@@ -4,9 +4,13 @@ summary: Los mismos shaders se pueden escribir con los nombres de HLSL, GLSL, Me
 order: 19
 ---
 
+> [!SCENE] intro
+
 En todo el tutorial escribiste con los nombres de GLSL: `[gl_Position]`, `[location(0)]`, `vec4`. Los elegimos porque son los que más aparecen en tutoriales de shaders. Pero si tú o tu equipo vienen de otro lenguaje, no tienen por qué aprender nombres nuevos.
 
 Yotsuba Shader trae cinco "estilos". Cada uno es una librería con los mismos atributos, llamados como se llaman en un lenguaje de shaders distinto.
+
+> [!SCENE] target
 
 ## El estilo de escritura no es el destino
 
@@ -26,6 +30,8 @@ C# con el estilo que prefieras  →  compilador  →  SPIR-V · HLSL · GLSL · 
 
 > [!NOTE]
 > La *escritura* con estilo WGSL está disponible. La *salida* WGSL está planificada y todavía no está implementada.
+
+> [!SCENE] five
 
 ## El mismo shader en cinco estilos
 
@@ -227,6 +233,8 @@ public class Triangle
     }
 }
 ```
+
+> [!SCENE] vectors
 
 ## Tus propios vectores
 

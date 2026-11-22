@@ -4,7 +4,11 @@ summary: Aprende desde cero qué es un Shader.
 order: 1
 ---
 
+> [!SCENE] intro
+
 Un Shader es, para que lo entiendas, una función (o método) que podemos llamar para que se ejecute en la GPU.
+
+> [!SCENE] gpu
 
 La GPU es la tarjeta gráfica de tu computadora. Puede ser una pieza aparte, como la de la foto, o venir dentro del mismo procesador, como en los portátiles y los teléfonos.
 
@@ -12,11 +16,17 @@ La GPU es la tarjeta gráfica de tu computadora. Puede ser una pieza aparte, com
 
 > [!SAY] En la foto se ve una tarjeta gráfica vista desde arriba. Es un bloque largo y oscuro, con tres ventiladores redondos en fila y un borde de metal con los conectores. Eso es lo que mucha gente imagina cuando oye la palabra GPU: una pieza que podrías tomar con la mano y conectar al computador.
 
+> [!SCENE] node
+
 Como sabes, si programas para Windows puedes usar un lenguaje como JavaScript con Node, pero no puedes usar Node para programar un sistema operativo, porque Node depende de funciones del propio sistema operativo que no existen en un entorno "limpio", sin sistema operativo. Algo muy parecido pasaba con C# y la GPU (antes de Yotsuba Shader).
+
+> [!SCENE] langs
 
 Hasta ahora, ninguno de los lenguajes de programación que conocemos (C#, JavaScript, Java, Rust, ...) podía ejecutarse directamente en la GPU, por una razón sencilla: tienen cosas muy difíciles de traducir, y otras que la GPU simplemente no puede hacer.
 
 ## Ejemplos de cosas que la GPU no puede hacer
+
+> [!SCENE] file
 
 Desde la GPU no podemos acceder al sistema de archivos (Filesystem).
 
@@ -28,7 +38,11 @@ File.WriteAllText("file.txt", "hola"); // No existe un sistema de archivos en la
 
 > [!SAY] Aquí hay una línea que escribirías sin pensarlo en un programa normal. Llamamos a File punto WriteAllText, le damos el nombre de un archivo y la palabra hola, y el computador lo guarda. En la GPU esta línea no tiene a dónde ir, porque no hay un disco donde escribir. Eso es lo que dice el comentario del final.
 
+> [!SCENE] nope
+
 Tampoco existen los `string`, las listas, las clases con herencia ni las excepciones.
+
+> [!SCENE] math
 
 Así que puedes pensar en la GPU como una máquina sin sistema operativo. Lo que puedes ejecutar allí son, sobre todo, cuentas: sumar, multiplicar, comparar. No las cosas que normalmente haces con lenguajes pensados para la CPU, como Rust, JS, Java, Python o GDScript.
 
@@ -37,6 +51,8 @@ Así que puedes pensar en la GPU como una máquina sin sistema operativo. Lo que
 Aunque en la GPU no se puede hacer de todo, hay buenas razones para escribir código que se ejecute allí.
 
 ### 1. Para hacer muchas cuentas a la vez
+
+> [!SCENE] cores
 
 Una MacBook Air M5 suele tener 10 núcleos en su CPU. Eso quiere decir que puede hacer, como máximo, 10 cosas a la vez de verdad. A cada una de esas cosas que corren a la vez se le llama hilo.
 
@@ -47,6 +63,8 @@ Una GPU, en cambio, no funciona igual: por dentro tiene miles de trabajadores pe
 > [!SAY] En esta imagen podemos comparar dos chips. A la izquierda, la CPU: diez cuadros grandes, cada uno un núcleo potente. A la derecha, la GPU: cientos y cientos de cuadros pequeños, apretados unos junto a otros. Diez trabajadores fuertes contra una multitud de pequeños, y esa multitud es lo que le permite a la GPU hacer tantos cálculos al mismo tiempo.
 
 #### ¿Por qué no ejecutamos todo en la GPU entonces?
+
+> [!SCENE] for
 
 Porque la GPU solo gana cuando el trabajo se puede repartir de una forma muy concreta.
 Por ejemplo:
@@ -66,6 +84,8 @@ Si ejecutáramos esto tanto en la CPU como en la GPU, tal cual, un índice detr�
 
 Ya sé que te estás preguntando: ¿por qué, si te dije que la GPU es más rápida?
 La respuesta es que depende. La GPU no es más rápida en todo: lo que hace bien es muchas cuentas a la vez. Cada uno de sus hilos, por separado, es más lento que un núcleo de la CPU. Para que la GPU le gane a la CPU, en lugar de recorrer el `for` un índice detrás de otro, cada hilo de la GPU tiene que encargarse de un índice distinto del arreglo.
+
+> [!SCENE] parallel
 
 En C# ya tienes algo que funciona con esa misma idea. Se llama `Parallel`, y te permite ejecutar un `for` repartiendo los índices entre todos los núcleos de la CPU:
 
@@ -97,9 +117,13 @@ Y esa función que trabaja sobre un solo índice, la que en el ejemplo se llama 
 
 ### 2. Para decidir el color de cada píxel de la pantalla
 
+> [!SCENE] pixels
+
 Tu pantalla es una cuadrícula de puntos de colores. Cada punto es un píxel. Una pantalla Full HD tiene 1920 píxeles de ancho por 1080 de alto, es decir, algo más de 2 millones de píxeles.
 
 Para que un juego se vea fluido hay que decidir el color de todos esos píxeles unas 60 veces por segundo. Son más de 120 millones de colores calculados cada segundo. Con un `for` en la CPU no llegas. Pero mira bien el problema: es el mismo del arreglo de antes, solo que ahora el arreglo son los píxeles de la pantalla.
+
+> [!SCENE] fragment
 
 Así que la GPU te deja escribir una función que recibe un píxel y devuelve su color. Ella la llama una vez por cada píxel, y a todos al mismo tiempo.
 
@@ -107,9 +131,13 @@ Así que la GPU te deja escribir una función que recibe un píxel y devuelve su
 
 > [!SAY] En esta imagen hay una cuadrícula de cuadritos, que son los píxeles. Uno de ellos está marcado, y de él sale una flecha hacia una caja que dice Fragment. La idea es que cada píxel de la pantalla se manda, uno por uno, a la misma función, y la función responde con un color.
 
+> [!SCENE] shade
+
 Lo interesante es que dentro de esa función tú decides el color con la lógica que quieras. Si devuelves siempre rojo, la pantalla se ve roja. Si el color depende de la posición del píxel, tienes un degradado. Si depende de una imagen y del tiempo, puedes hacer que una foto se mueva como si estuviera bajo el agua. Agua, fuego, sombras, luces, el efecto de cuando te golpean en un juego: todo eso son funciones que deciden el color de un píxel.
 
 ## Las etapas de un Shader
+
+> [!SCENE] stages
 
 Hasta ahora hablamos de "una función". En realidad hay varios tipos, y a cada tipo se le llama etapa (en inglés, *Stage*). La diferencia entre una etapa y otra es **sobre qué** se ejecuta la función:
 
@@ -121,6 +149,8 @@ Hasta ahora hablamos de "una función". En realidad hay varios tipos, y a cada t
 
 > [!SAY] Esta tabla tiene tres filas, una por cada etapa. Vertex se ejecuta una vez por cada punto de la figura y decide en qué lugar de la pantalla cae ese punto. Fragment se ejecuta una vez por cada píxel que ocupa la figura y decide su color. Y Compute se ejecuta una vez por cada índice que le pidas, no dibuja nada, y es el caso de nuestro arreglo de entidades.
 
+> [!SCENE] pipeline
+
 Para dibujar algo siempre trabajan juntas las dos primeras. Tú mandas una figura hecha de puntos, la etapa Vertex coloca cada punto, la GPU averigua qué píxeles quedan dentro de la figura, y la etapa Fragment le pone color a cada uno:
 
 ![Tres puntos pasan por Vertex, forman un triángulo, la GPU marca los píxeles que toca y Fragment los colorea](../../assets/get-started/etapas.svg)
@@ -131,9 +161,13 @@ No te preocupes si todavía no lo ves claro. El siguiente capítulo recorre ese 
 
 ## ¿Y dónde entra Yotsuba Shader?
 
+> [!SCENE] yotsuba
+
 Como la GPU no entiende C#, los shaders se han escrito siempre en lenguajes hechos solo para eso: HLSL, GLSL, Metal... Cada API gráfica tiene el suyo, y ninguno conoce las clases ni los tipos de tu proyecto.
 
 Con Yotsuba Shader escribes el shader en C#, en tu mismo proyecto y con tu mismo editor. El compilador revisa que solo uses cosas que la GPU puede hacer, y lo traduce al lenguaje que necesites.
+
+> [!SCENE] summary
 
 En resumen:
 

@@ -4,6 +4,8 @@ summary: How to send data to the shader from your program, using time to animate
 order: 15
 ---
 
+> [!SCENE] intro
+
 The three previous shaders have something in common: they always draw the same image. That makes sense. The only thing each pixel knows is its `Uv`, and that never changes.
 
 For something to move, the shader needs a piece of data that changes over time. And the GPU does not have that data: your program does. In this chapter you learn to send it, and with that you make this effect, which is a classic from the 90s:
@@ -13,6 +15,8 @@ For something to move, the shader needs a piece of data that changes over time. 
 | ![Blobs in rainbow colors](../../assets/get-started/plasma-1.png) | ![The same blobs, shifted and with another shape](../../assets/get-started/plasma-2.png) | ![The blobs, again with another shape](../../assets/get-started/plasma-3.png) |
 
 They are three moments of the same shader. In motion, the blobs deform and melt into each other without stopping.
+
+> [!SCENE] uniform
 
 ## Data that comes from outside: the uniform
 
@@ -71,6 +75,8 @@ float t = Time.Seconds;
 
 One thing to keep in mind: the shader can **read** a uniform, but not change it. Data travels in one direction only, from your program to the GPU.
 
+> [!SCENE] sin
+
 ## A wave: the `sin` function
 
 `sin` is the sine. You do not need to remember trigonometry. For what we care about, `sin` is a function that, whatever number you give it, returns something between `-1` and `1`, going up and down without stopping, like a wave.
@@ -88,6 +94,8 @@ sin(x * 6f + t)
 ```
 
 as `t` grows, all the stripes slide to one side. With that addition you already have movement.
+
+> [!SCENE] four
 
 ## Four waves together
 
@@ -112,6 +120,8 @@ One by one:
 When you add them, where several crests meet the value is high, and where several troughs meet it is low. Since each one goes at its own pace, the drawing never repeats exactly:
 
 ![Gray blobs, light and dark, with rounded, irregular shapes](../../assets/get-started/ola2.png)
+
+> [!SCENE] rainbow
 
 ## From a number to a rainbow
 
@@ -404,6 +414,8 @@ public class Plasma
 }
 ```
 
+> [!SCENE] compile
+
 ## What happens to the uniform when compiling
 
 When `add` processes a shader with a uniform, your `struct` and its address show up in the output. In GLSL they look like this:
@@ -416,6 +428,8 @@ layout(set = 0, binding = 0, std140) uniform Clock
 ```
 
 There are your `Clock`, your `Seconds`, your `Time` field and the two numbers from `layout(0, 0)`: `set = 0` is the group and `binding = 0` is the slot.
+
+> [!SCENE] program
 
 ## How your program sends it the time
 
@@ -460,11 +474,15 @@ The viewer script from the [viewer chapter](visor.md) already handles it: every 
 If you rename the field to something else (`Clock.Seconds` in a field called `Wall`, for example), the uniform becomes `Wall_Seconds` and the viewer still finds it, because it only looks at the ending.
 :::
 
+> [!SCENE] play
+
 ## Play with it
 
 - Change the `1.5f` in `Rainbow` to `0.5f`. The colors change more slowly from one blob to the next, and you get bigger blobs of a single color.
 - Multiply the time: `float t = Time.Seconds * 3f;`. Everything goes three times faster.
 - Add a second piece of data to the `Clock`, for example `public float Speed;`, and use it in that multiplication. Now your program controls the speed without touching the shader.
+
+> [!SCENE] learned
 
 ## What you learned
 

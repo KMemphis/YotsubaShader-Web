@@ -4,15 +4,21 @@ summary: Cómo hace un shader para pintar cosas distintas según dónde está ca
 order: 8
 ---
 
+> [!SCENE] intro
+
 Hasta ahora el shader calculaba un color con una cuenta. Pero a veces no quieres una cuenta: quieres **elegir**. "Si el píxel está a la izquierda, píntalo de naranja; si no, de azul". Eso se hace con `if`.
 
 Con `if` vas a poder dibujar figuras: rectángulos, círculos, tableros. Todo lo que tenga un borde duro.
+
+> [!SCENE] alone
 
 ## Una idea que conviene tener clara
 
 Antes de escribir código, una cosa sobre cómo trabaja la GPU, porque te va a ahorrar confusiones: **cada píxel ejecuta tu `Fragment` por su cuenta**. Es como si tuvieras 360.000 personas con la misma hoja de instrucciones, cada una pintando su cuadradito, sin hablar entre ellas.
 
 Eso significa que dentro del `if`, "yo" es siempre un solo píxel. El píxel de la izquierda puede decidir "naranja" y el de la derecha "azul", y ninguno sabe qué decidió el otro. No puedes preguntarle "¿de qué color es tu vecino?". Tienes que decidir solo con lo que sabes de ti: tu posición, el tiempo, los datos que te dieron.
+
+> [!SCENE] split
 
 ## Paso 1: partir la pantalla en dos
 
@@ -39,6 +45,8 @@ Léelo como una frase: *"si la posición X es menor que 0,5, devuelve naranja. S
 - Si la condición es falsa, el shader se salta las llaves y sigue con lo que viene después: el segundo `return`.
 
 Mueve el `0.5f` a `0.2f` y vuelve a ejecutar. La línea que divide los dos colores se corre hacia la izquierda.
+
+> [!SCENE] elseif
 
 ## Paso 2: más de dos opciones con else if
 
@@ -71,6 +79,8 @@ El orden importa. C# prueba las condiciones **de arriba abajo y se queda con la 
 
 Fíjate también en que ahora hay un `float x` al principio. Guardar `pixel.Uv.X` en una variable con un nombre corto hace que las condiciones se lean más fácil.
 
+> [!SCENE] operators
+
 ## Los operadores de comparación
 
 Estos son los que puedes usar dentro de la condición:
@@ -88,6 +98,8 @@ Estos son los que puedes usar dentro de la condición:
 > Un `=` solo **asigna** (`x = 5f` guarda un 5 en `x`). Para **comparar** hay que escribir dos: `x == 5f`. Es un error muy común al empezar. Por suerte, C# te avisa con un error si te equivocas dentro de un `if`.
 >
 > Y una advertencia más: con números `float` casi nunca uses `==`. Un `float` que "debería" valer `0.5` puede valer `0.5000001` después de varias cuentas, y la comparación falla. Con números enteros (`int`) no hay problema.
+
+> [!SCENE] combine
 
 ## Paso 3: combinar condiciones
 
@@ -116,6 +128,8 @@ Hay tres formas de combinar condiciones:
 Por ejemplo, `x < 0.1f || x > 0.9f` es verdadero en los bordes izquierdo y derecho, y falso en el medio.
 
 Prueba esto: cambia los cuatro números para que el rectángulo sea más alto que ancho, y luego uno que toque el borde de la ventana.
+
+> [!SCENE] circle
 
 ## Paso 4: un círculo
 
@@ -189,6 +203,8 @@ La condición `dx * dx + dy * dy < 0.3f * 0.3f` dice: "estoy más cerca del cent
 
 Cambia el `0.3f` (en los dos factores) por `0.1f` y el círculo se hace pequeño. Cambia el `0.5f` de `dx` por `0.3f` y el círculo se mueve a la izquierda.
 
+> [!SCENE] checker
+
 ## Paso 5: un tablero de ajedrez
 
 Un truco muy usado para decidir "esta casilla es clara, esta es oscura" es contar en qué casilla estás y mirar si ese número es par o impar. Reemplaza `Fragment` por esto:
@@ -213,6 +229,8 @@ Vamos por partes:
 
 Cambia los dos `8f` por `4f` y por `20f`. Con números distintos en cada uno saldrán casillas rectangulares.
 
+> [!SCENE] ternary
+
 ## Un atajo: el operador ?
 
 Cuando solo quieres elegir **un valor** entre dos, hay una forma más corta que el `if`:
@@ -236,6 +254,8 @@ else
 ```
 
 Usa el `?` cuando la decisión es corta, y el `if` cuando haya varias líneas dentro.
+
+> [!SCENE] flaw
 
 ## El defecto de las figuras con if
 
@@ -436,6 +456,8 @@ public class Decisiones
     }
 }
 ```
+
+> [!SCENE] learned
 
 ## Lo que aprendiste
 

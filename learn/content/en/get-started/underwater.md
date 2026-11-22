@@ -4,6 +4,8 @@ summary: How to read an image from the shader and change it.
 order: 16
 ---
 
+> [!SCENE] intro
+
 The four previous shaders made up the color of each pixel with calculations. In this last one, the color comes from an image: a photo. And since the color goes through your function before it reaches the screen, you can do whatever you want to it.
 
 You will take this photo:
@@ -15,6 +17,8 @@ and make it look like this, rippling as if you were looking at it through water:
 ![The same photo with a bluish tint, darkened edges and slightly wavy shapes](../../assets/get-started/agua-1.png)
 
 Everything you already know comes together in this shader: `Uv`, your own functions, `sin`, `mix` and the time uniform. The only new thing is reading the image.
+
+> [!SCENE] texture
 
 ## An image inside a shader: the texture
 
@@ -29,6 +33,8 @@ public sampler2D Photo;
 - `layout(0, 1)` is its address: group 0, slot 1. Slot 0 is already taken by the clock, and two things cannot be at the same address.
 
 Your program is the one that loads the photo and leaves it at that address, just as it did with the clock.
+
+> [!SCENE] read
 
 ## Reading a color from the photo
 
@@ -51,6 +57,8 @@ vec4 photo = texture(Photo, Make.Vec2(pixel.Uv.X, pixel.Uv.Y));
 ```csharp
 using static YotsubaShader.GlslSyntax.Methods.Intrinsic;
 ```
+
+> [!SCENE] trick
 
 ## The trick: reading from a slightly different place
 
@@ -78,6 +86,8 @@ The second line does the same for the height, with other numbers so the two wave
 
 The photo did not move. What changed is which point each pixel reads from.
 
+> [!SCENE] tint
+
 ## Tinting it blue
 
 Under water everything looks bluish, because water dims the red. We will do the same: lower the red a lot, the green a little, and leave the blue.
@@ -91,6 +101,8 @@ vec3 color = mix(original, seaBlue, 0.6f);
 `photo.X`, `photo.Y` and `photo.Z` are the red, green and blue of the color you read. `seaBlue` is that same color with red at 20% and green at 70%.
 
 The final `mix` keeps 60% of the blue version and 40% of the original. That way the fish is still orange, but muted. If you want deeper water, raise the `0.6f`.
+
+> [!SCENE] vignette
 
 ## Darkening the edges
 
@@ -182,6 +194,8 @@ public class Underwater
 }
 ```
 
+> [!SCENE] shared
+
 The `struct Clock` is not declared again: it is the one from `Plasma.cs`. Two shaders can share the same data `struct`, and your program can send the same clock to both.
 
 :::godot
@@ -234,6 +248,8 @@ The wreck, the rocks and the sand are plain Godot models. Everything you see tin
 To go back to the standard chapter, open `viewer.tscn`: it still has `Underwater` and the clownfish in **Photo**.
 :::
 
+> [!SCENE] far
+
 ## Look how far you have come
 
 Read the `Fragment` method again. It does ten lines of calculations, and each one is something you learned in a chapter:
@@ -248,11 +264,15 @@ Read the `Fragment` method again. It does ten lines of calculations, and each on
 
 Almost every effect you see in a game is made with these same pieces: reading an image, shifting a little where it is read from, mixing colors and using distances.
 
+> [!SCENE] play
+
 ## Play with it
 
 - Change `0.012f` to `0.05f` in both lines. The photo deforms much more.
 - Remove the blue tint by returning `original` instead of `color`. You are left with just the ripples.
 - Turn the photo black and white: calculate `float gray = (photo.X + photo.Y + photo.Z) / 3f;` and return `Make.Vec4(gray, gray, gray, 1f)`.
+
+> [!SCENE] learned
 
 ## What you learned
 

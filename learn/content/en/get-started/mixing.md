@@ -4,9 +4,13 @@ summary: The three most used tools in shaders, mix, clamp and smoothstep, writte
 order: 10
 ---
 
+> [!SCENE] intro
+
 If you ask someone who makes shaders which function they use the most, they will probably tell you **`mix`**. It is used to go from one value to another little by little. With it you make gradients, changes from one color to another, soft edges, lights that fade out.
 
 The GPU already comes with that function made, just like two sibling functions: `clamp` and `smoothstep`. But in Yotsuba Shader they cannot be called from C# yet (you will see it flagged in the neon ring chapter). And for learning, that is a stroke of luck: **you are going to write them yourself**. Once you have made them with your own hands, there will be no mystery left in them.
+
+> [!SCENE] mix
 
 ## Step 1: mixing two numbers
 
@@ -49,6 +53,8 @@ Run the work cycle:
 
 A sunset sky with a single function. Change the numbers to your liking, and you will see how each channel moves on its own.
 
+> [!SCENE] clamp
+
 ## Step 2: what if t goes outside 0 to 1?
 
 `Mix` works perfectly as long as `t` is between `0` and `1`. But if `t` is `2`, the formula does not stop at `b`: it goes past it. With `a = 10` and `b = 20`, `t = 2` gives `30`.
@@ -73,6 +79,8 @@ Sometimes that is what you want. But many times you will want the result to **st
 If the value is less than the minimum, it returns the minimum. If it is greater than the maximum, it returns the maximum. If not, it leaves it as it is. `Clamp(5f, 0f, 1f)` gives `1`; `Clamp(-3f, 0f, 1f)` gives `0`; and `Clamp(0.4f, 0f, 1f)` gives `0.4`.
 
 We are not going to use it yet, but the next function will need it.
+
+> [!SCENE] smooth
 
 ## Step 3: soft edges
 
@@ -110,6 +118,8 @@ See how the path changes:
 | 1 | 1 |
 
 With the straight ramp, at a quarter of the way you are at a quarter of the height. With the smoothed one, at a quarter of the way you are barely at 16%. That slow start and slow end are what makes it look "smooth".
+
+> [!SCENE] circle
 
 ## Step 4: a circle with a soft edge
 
@@ -184,6 +194,8 @@ The three numbers in the last line (`brightness`, `brightness * 0.6f`, `brightne
 ![An orange disc with a blurred edge on a black background](../../assets/get-started/taller/me2.png)
 
 Compare it with the circle from the previous chapter. There is no sharp edge anymore: the light fades out. Change the `0.04f` to `0.085f` and the edge becomes almost sharp. Change the `0.09f` to `0.2f` and the light blurs much more. **The closer `start` and `end` are, the harder the edge.**
+
+> [!SCENE] sunset
 
 ## Step 5: a complete sunset
 
@@ -663,6 +675,8 @@ public class Mixing
     }
 }
 ```
+
+> [!SCENE] learned
 
 ## What you learned
 

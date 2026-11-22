@@ -22,5 +22,5 @@ If you own the engine, you decide how shaders reach the GPU. Yotsuba Shader give
 4. Load the file (or call the generated method) and hand it to the graphics API.
 
 ```bash
-dotnet yotsuba compile Game.Shaders.csproj --target spirv --target hlsl --output shaders
+yotsuba compile Game.Shaders.csproj --target spirv --target hlsl --output shaders
 ```

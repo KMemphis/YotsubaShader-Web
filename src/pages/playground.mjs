@@ -1,6 +1,6 @@
+import fs from 'node:fs';
 import { icon } from '../components.mjs';
-import { BASIC_COLOR, STYLE_TRIANGLE, TYPES_CS, TYPES_TEXTURE_CS, TEXTURE_BINDING, withoutXna } from '../snippets.mjs';
-import { STYLES } from '../components.mjs';
+import { BASIC_COLOR, TYPES_CS, withoutXna } from '../snippets.mjs';
 
 // The playground UI is complete; the compiler is attached through one function (see src/static/js/playground.js
 // and Web/playground/README.md for the JSON contract).
@@ -10,15 +10,29 @@ export default function playground() {
     { name: 'Types.cs', source: TYPES_CS },
     { name: 'Shader.cs', source: withoutXna(source) },
   ];
+  // Visual examples live as real .cs files in src/playground-examples/. Each one is a single Shader.cs that only uses
+  // the types and functions of the YotsubaShader libraries.
+  const read = (file) => fs.readFileSync(new URL(`../playground-examples/${file}`, import.meta.url), 'utf8').replace(/\r\n/g, '\n');
+  const visual = (id, name, shader, extra = {}) => ({
+    id, name, ...extra,
+    files: [{ name: 'Shader.cs', source: read(shader) }],
+  });
   const examples = [
+    // This one draws a screen quad (POSITION + TEXCOORD) and reads the camera from the uniform buffer, so the preview
+    // is told to cover the screen and which values to put in the fields the page does not know.
+    visual('ocean', 'Procedural ocean', 'ocean.cs', {
+      preview: { screen: true, values: { cameraposition: [0, 2, 0], cameraangles: [0, 0] } },
+    }),
+    visual('mandelbulb', 'Mandelbulb', 'mandelbulb.cs'),
+    visual('aurora', 'Aurora', 'aurora.cs'),
+    visual('mesh-gradient', 'Mesh gradient', 'mesh-gradient.cs'),
+    visual('orbs', 'Mirror orbs', 'orbs.cs'),
+    visual('bricks', 'Brick wall', 'bricks.cs', {
+      textures: [{ sampler: 'Albedo', file: 'img/playground/red-brick.webp' }, { sampler: 'Height', file: 'img/playground/red-brick-height.webp' }],
+    }),
+    visual('pool', 'Pool water', 'pool.cs', { textures: [{ sampler: 'Tiles', file: 'img/playground/marble.webp' }] }),
+    visual('fractal', 'Fractal zoom', 'fractal.cs'),
     { id: 'basic-color', name: 'Basic color shader', files: project(BASIC_COLOR) },
-    ...STYLES.map((s) => ({ id: `triangle-${s.id}`, name: `Triangle (${s.label})`, files: project(STYLE_TRIANGLE[s.id]), style: s.id })),
-    {
-      id: 'texture-binding',
-      name: 'Texture and sampler',
-      files: [{ name: 'Types.cs', source: TYPES_TEXTURE_CS }, { name: 'Shader.cs', source: withoutXna(TEXTURE_BINDING) }],
-      image: '/img/enuma.webp',
-    },
   ];
 
   return [
@@ -64,7 +78,7 @@ export default function playground() {
         <summary class="pg-icon-button" aria-label="Availability" title="Availability">
           <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 10v6M12 7h.01"/></svg>
         </summary>
-        <div class="pg-popover"><h2>Current availability</h2><p>The playground provides C# analysis, shader discovery, SPIR-V assembly, generated backend code, and a basic live WebGL2 preview for compatible vertex and fragment shaders.</p></div>
+        <div class="pg-popover"><h2>Current availability</h2><p>The playground provides C# analysis, shader discovery, SPIR-V assembly, generated backend code, and a live WebGL2 preview for compatible vertex and fragment shaders. In the preview, the fields Time, Resolution and Mouse of a uniform buffer are filled in for you, and each sampler receives the image listed by the example.</p></div>
       </details>
       __LANGSWITCH__
       <button class="pg-btn" type="button" id="pg-share" title="Copy a link to this code">${icon('external')}<span>Share</span></button>

@@ -4,6 +4,8 @@ summary: Cómo mandarle datos al shader desde tu programa, usando el tiempo para
 order: 15
 ---
 
+> [!SCENE] intro
+
 Los tres shaders anteriores tienen algo en común: dibujan siempre la misma imagen. Es lógico. Lo único que sabe cada píxel es su `Uv`, y eso no cambia nunca.
 
 Para que algo se mueva, el shader necesita un dato que cambie con el tiempo. Y ese dato no lo tiene la GPU: lo tiene tu programa. En este capítulo aprendes a mandárselo, y con eso haces este efecto, que es un clásico de los años 90:
@@ -13,6 +15,8 @@ Para que algo se mueva, el shader necesita un dato que cambie con el tiempo. Y e
 | ![Manchas de colores del arcoíris](../../assets/get-started/plasma-1.png) | ![Las mismas manchas, desplazadas y con otra forma](../../assets/get-started/plasma-2.png) | ![Las manchas, de nuevo con otra forma](../../assets/get-started/plasma-3.png) |
 
 Son tres momentos del mismo shader. En movimiento, las manchas se deforman y se funden unas con otras sin parar.
+
+> [!SCENE] uniform
 
 ## Un dato que viene de fuera: el uniform
 
@@ -71,6 +75,8 @@ float t = Tiempo.Segundos;
 
 Una cosa a tener en cuenta: el shader puede **leer** un uniform, pero no cambiarlo. Los datos viajan en un solo sentido, de tu programa a la GPU.
 
+> [!SCENE] sin
+
 ## Una onda: la función `sin`
 
 `sin` es el seno. No hace falta recordar trigonometría. Para lo que nos interesa, `sin` es una función que, le des el número que le des, devuelve algo entre `-1` y `1`, subiendo y bajando sin parar como una ola.
@@ -88,6 +94,8 @@ sin(x * 6f + t)
 ```
 
 a medida que `t` crece, todas las franjas se deslizan hacia un lado. Con esa suma ya tienes movimiento.
+
+> [!SCENE] four
 
 ## Cuatro ondas juntas
 
@@ -112,6 +120,8 @@ Una por una:
 Al sumarlas, donde coinciden varias crestas el valor es alto, y donde coinciden varios valles es bajo. Como cada una va a su ritmo, el dibujo nunca se repite igual:
 
 ![Manchas en gris, claras y oscuras, con formas redondeadas e irregulares](../../assets/get-started/ola2.png)
+
+> [!SCENE] rainbow
 
 ## De un número a un arcoíris
 
@@ -404,6 +414,8 @@ public class Plasma
 }
 ```
 
+> [!SCENE] compile
+
 ## Qué pasa con el uniform al compilar
 
 Cuando `add` procesa un shader con un uniform, tu `struct` y su dirección aparecen en la salida. En GLSL quedan así:
@@ -416,6 +428,8 @@ layout(set = 0, binding = 0, std140) uniform Reloj
 ```
 
 Ahí están tu `Reloj`, tu `Segundos`, tu campo `Tiempo` y los dos números de `layout(0, 0)`: `set = 0` es el grupo y `binding = 0` es el casillero.
+
+> [!SCENE] program
 
 ## Cómo le manda tu programa el tiempo
 
@@ -460,11 +474,15 @@ El script del visor del [capítulo del visor](visor.md) ya se encarga: en cada c
 Si cambias el nombre del campo (por ejemplo, un campo `Pared`), el uniform pasa a ser `Pared_Segundos` y el visor lo sigue encontrando, porque solo mira el final del nombre.
 :::
 
+> [!SCENE] play
+
 ## Juega con él
 
 - Cambia el `1.5f` de `Arcoiris` por `0.5f`. Los colores cambian más despacio de una mancha a otra, y salen manchas más grandes de un solo color.
 - Multiplica el tiempo: `float t = Tiempo.Segundos * 3f;`. Todo va tres veces más rápido.
 - Añade un segundo dato al `Reloj`, por ejemplo `public float Velocidad;`, y úsalo en esa multiplicación. Ahora tu programa controla la velocidad sin tocar el shader.
+
+> [!SCENE] learned
 
 ## Lo que aprendiste
 
