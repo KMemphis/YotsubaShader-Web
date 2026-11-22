@@ -1,7 +1,7 @@
 {
  "Important": "Importante",
  "Choose your vocabulary": "Elige tu vocabulario",
- "Teams coming from Direct3D and HLSL. 31 attributes.": "Equipos que vienen de Direct3D y HLSL. 31 atributos.",
+ "Teams coming from Direct3D and HLSL. 32 attributes.": "Equipos que vienen de Direct3D y HLSL. 32 atributos.",
  "Teams coming from OpenGL and Vulkan GLSL. 35 attributes.": "Equipos que vienen de OpenGL y GLSL de Vulkan. 35 atributos.",
  "Teams coming from the Metal Shading Language. 32 attributes.": "Equipos que vienen de Metal Shading Language. 32 atributos.",
  "Teams that think in SPIR-V and Vulkan descriptors. 34 attributes.": "Equipos que piensan en SPIR-V y en descriptores de Vulkan. 34 atributos.",
@@ -38,7 +38,7 @@
  "WGSL syntax": "Sintaxis WGSL",
  "Every built-in value in all five syntaxes in one table.": "Cada valor integrado de las cinco sintaxis en una sola tabla.",
  "The attributes of the HLSL syntax in Yotsuba Shader, inspired by HLSL (Direct3D).": "Los atributos de la sintaxis HLSL en Yotsuba Shader, inspirada en HLSL (Direct3D).",
- "Package and namespace <code>YotsubaShader.HlslSyntax</code> · 31 attributes": "Paquete y namespace <code>YotsubaShader.HlslSyntax</code> · 31 atributos",
+ "Package and namespace <code>YotsubaShader.HlslSyntax</code> · 32 attributes": "Paquete y namespace <code>YotsubaShader.HlslSyntax</code> · 32 atributos",
  "The syntax never determines the output target. Every syntax resolves to the same IR slots.": "La sintaxis nunca determina el destino de salida. Todas las sintaxis se resuelven a los mismos slots de la IR.",
  "All HLSL syntax attributes": "Todos los atributos de la sintaxis HLSL",
  "Other syntaxes: <a href=\"/syntaxes/glsl/\">GLSL syntax</a> · <a href=\"/syntaxes/msl/\">MSL syntax</a> · <a href=\"/syntaxes/spirv/\">SPIR-V syntax</a> · <a href=\"/syntaxes/wgsl/\">WGSL syntax</a>": "Otras sintaxis: <a href=\"/syntaxes/glsl/\">sintaxis GLSL</a> · <a href=\"/syntaxes/msl/\">sintaxis MSL</a> · <a href=\"/syntaxes/spirv/\">sintaxis SPIR-V</a> · <a href=\"/syntaxes/wgsl/\">sintaxis WGSL</a>",
