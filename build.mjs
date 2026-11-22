@@ -225,7 +225,7 @@ function build() {
     }
   }
   for (const [from, to] of Object.entries(DOC_REDIRECTS)) {
-    for (const locale of locales) write(outFile(localePath(from, locale)), externalRedirectPage(`${LEARN_URL}/${locale}/${to}`));
+    for (const locale of locales) write(outFile(localePath(from, locale)), externalRedirectPage(`${LEARN_URL}/`));
   }
   write('.nojekyll', '');
 

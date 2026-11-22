@@ -4,9 +4,13 @@ summary: How to make a shader repeat a task, with for, break and continue, and h
 order: 11
 ---
 
+> [!SCENE] intro
+
 You already know how to draw a circle. And six circles? And fifty? You are not going to copy and paste the same block fifty times. That is what **loops** are for: you tell the shader "repeat this so many times", and it does.
 
 With loops, a shader does big things with little code. The Mandelbrot fractal, which you will make later, is nothing more than a loop that goes around a hundred times for each pixel.
+
+> [!SCENE] for
 
 ## Step 1: counting with a for
 
@@ -55,6 +59,8 @@ Change the `5` in the loop's condition and also the `5f`. If you use `10` in bot
 
 > [!NOTE]
 > This is the first time we use `steps++`. It is the same as `steps = steps + 1`, but shorter. It reads "add one".
+
+> [!SCENE] circles
 
 ## Step 2: six circles with a single block
 
@@ -148,6 +154,8 @@ For seven circles, change the two `6`s to `7`. To make them bigger, change the `
 > [!WARNING]
 > A classic trap: **integer division**. If you write `i / 6`, and `i` is an `int`, C# divides integers and **throws away the decimals**: `1 / 6` gives `0`, not `0.1666`. That is why we write `(i + 0.5f) * aspect / 6f`: as soon as a `float` appears, everything is computed with decimals. If some day a value always comes out `0` or always `1` for no reason, check whether you are dividing two integers.
 
+> [!SCENE] continue
+
 ## Step 3: skipping laps with continue
 
 Sometimes you want nothing to happen on some laps. `continue` means *"end this lap here and go to the next one"*. Add this **at the beginning of the loop body**, right below the opening brace:
@@ -164,6 +172,8 @@ Sometimes you want nothing to happen on some laps. `continue` means *"end this l
 ![Three circles out of six possible: only those at positions 0, 2 and 4 are drawn](../../assets/get-started/taller/re3.png)
 
 Only the circles from laps `0`, `2` and `4` are drawn. The others were skipped.
+
+> [!SCENE] break
 
 ## Step 4: stopping early with break
 
@@ -190,6 +200,8 @@ Compare this result with the same code **without** the `break` line (try it your
 ![Six overlapping circles without break: the one on the right is complete and on top of the others](../../assets/get-started/taller/re5.png)
 
 Without `break`, each lap paints over the previous one, so **the last circle wins** (the one on the right). With `break`, as soon as a circle hits, the loop stops, and **the first one wins** (the one on the left). It is the same idea as the face: the order decides who ends up on top.
+
+> [!SCENE] array
 
 ## Step 5: a list of data, the array
 
@@ -243,6 +255,8 @@ Change the numbers in the list and you will see the bars go up and down. That is
 > [!NOTE]
 > A shader's arrays have a fixed size, which you must write when creating them: `new float[5]`. You cannot ask for a size that depends on a variable, because the GPU needs to know how much memory to reserve before starting.
 
+> [!SCENE] while
+
 ## Another loop: while
 
 There is another way to repeat, the `while`, which continues as long as a condition is true:
@@ -256,6 +270,8 @@ while (pasos < 100)
 ```
 
 It does the same as a `for`, with the difference that you take care of the counter. You will use it when you do not know before starting how many laps to take, though always with a limit. The Mandelbrot, later on, is an example.
+
+> [!SCENE] cost
 
 ## Careful: loops cost
 
@@ -489,6 +505,8 @@ public class Loops
     }
 }
 ```
+
+> [!SCENE] learned
 
 ## What you learned
 

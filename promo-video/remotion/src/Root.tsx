@@ -5,6 +5,7 @@ import { PreviewV3 } from './PreviewV3';
 import { MotionPromo } from './motion/MotionPromo';
 import { Ep01 } from './ep01/Ep01';
 import { framesFor } from './ep01/data';
+import { Home, homeFrames } from './Home';
 import { Ep02 } from './ep02/Ep02';
 import { ChapterCompositions } from './chapters/ChapterRoot';
 
@@ -15,6 +16,8 @@ export const FPS = 60;
 export const Root: React.FC = () => (
   <>
     <ChapterCompositions />
+    <Composition id="Home-en" component={Home} durationInFrames={homeFrames('en')} fps={60} width={1920} height={1080} defaultProps={{ lang: 'en' as const }} />
+    <Composition id="Home-es" component={Home} durationInFrames={homeFrames('es')} fps={60} width={1920} height={1080} defaultProps={{ lang: 'es' as const }} />
     <Composition id="MotionES-1080" component={MotionPromo} durationInFrames={2250} fps={30} width={1920} height={1080} />
     <Composition id="MotionES-4K" component={MotionPromo} durationInFrames={4500} fps={60} width={3840} height={2160} />
     <Composition id="Ep01-en" component={Ep01} durationInFrames={framesFor('en')} fps={60} width={1920} height={1080} defaultProps={{ lang: 'en' }} />

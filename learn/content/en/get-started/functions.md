@@ -4,7 +4,11 @@ summary: How to keep order in a growing shader, by writing your own functions an
 order: 9
 ---
 
+> [!SCENE] intro
+
 As a shader grows, it starts to repeat itself. You are going to see that problem in action by drawing a face. First you will draw it in the most direct way, you will notice the code getting heavy, and then you will fix it with functions. That is the right order to learn this: feel the problem before using the tool.
+
+> [!SCENE] sky
 
 ## Step 1: the sky and the measures
 
@@ -84,6 +88,8 @@ Run the work cycle:
 
 You will see a window of a plain sky blue. It is not much, but it is the base of everything.
 
+> [!SCENE] head
+
 ## Step 2: the head
 
 Add this **between** the `vec4 color = ...` line and the `return color;`:
@@ -100,6 +106,8 @@ if (dx * dx + dy * dy < 0.4f * 0.4f)
 It is the circle from the previous chapter: center at `(middle, 0.5)`, radius `0.4`. But with an important difference: instead of doing `return` inside the `if`, we **change the `color` variable**. This way the shader keeps going and can still paint more things on top.
 
 Run the work cycle. You will see a yellow circle on the sky.
+
+> [!SCENE] eyes
 
 ## Step 3: the eyes
 
@@ -125,6 +133,8 @@ Notice that we reuse `dx` and `dy` (without writing `float` again): we just give
 
 Run the work cycle. You now have a face with two eyes. And there is another important idea hidden here: **the order in which you paint matters**. The eyes come after the head, so they are painted on top. If you put the eyes first and the head after, the head would cover them.
 
+> [!SCENE] mouth
+
 ## Step 4: the mouth
 
 The mouth will be a rectangle. Add this, also before the `return`:
@@ -142,11 +152,15 @@ Run the work cycle.
 
 It works. Now take a calm look at what you wrote.
 
+> [!SCENE] repeat
+
 ## The problem: the code repeats itself
 
 The two eyes have **almost the same code**. And so does the head, with other numbers. If you wanted to add a nose, you would copy the block again. If you made a mistake in a calculation, you would have to fix it in three places. And the shader is already hard to read, and it only has three circles.
 
 When you see yourself copying and pasting a block changing only a few numbers, it is the sign that a **function** is missing.
+
+> [!SCENE] func
 
 ## Step 5: your first function
 
@@ -197,6 +211,8 @@ Run the work cycle: **the image is identical**. What matters is that now each ci
 > [!NOTE]
 > The data a function receives are called **parameters**, and they are **copies**. If inside `InCircle` you wrote `x = 0f;`, you would only change the copy, and the `x` in `Fragment` would stay the same. That is normal in C#, and in a shader it is mandatory: functions cannot modify the variables of whoever calls them. What you do is return a result with `return`.
 
+> [!SCENE] rect
+
 ## Step 6: another function, for the rectangle
 
 The mouth can also be written better. Add this second function, below `InCircle`:
@@ -219,6 +235,8 @@ if (InRectangle(x, y, middle - 0.15f, 0.65f, middle + 0.15f, 0.7f))
 
 Notice how well the call reads now. Without looking at the function, you already know what it does.
 
+> [!SCENE] colors
+
 ## Step 7: give the colors a name
 
 There is another kind of repetition: the same color written three times (`Make.Vec4(0.1f, 0.1f, 0.1f, 1f)` in the eyes and the mouth). If you wanted to change the black to a brown, you would have to touch three lines.
@@ -236,6 +254,8 @@ vec4 color = sky;
 And in each `if` change every `Make.Vec4(...)` to the name that corresponds: `color = skin;` for the head and `color = ink;` for the eyes and the mouth. Run the work cycle to check that nothing changed.
 
 Now, if you want the face to be green, you change **a single line**.
+
+> [!SCENE] struct
 
 ## Step 8: your own data types
 
@@ -309,6 +329,8 @@ return color;
 ```
 
 Run the work cycle. It is the same face as before, but look at how the shader reads: first **what is there** in the scene (head, eyes, colors) and then **how it is painted**. To move an eye, you change a number on a named line. To add a third one, you copy a line.
+
+> [!SCENE] cannot
 
 ## What cannot be done
 
@@ -756,6 +778,8 @@ public class Face
     }
 }
 ```
+
+> [!SCENE] learned
 
 ## What you learned
 

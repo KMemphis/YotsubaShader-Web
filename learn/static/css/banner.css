@@ -50,3 +50,9 @@
 .slide-link .engine-logo { flex: none; width: 32px; height: 32px; object-fit: contain; border-radius: 6px; }
 .slide-link > span { flex: 1; text-align: left; }
 
+.slide-link .engine-logo.wide { width: 76px; }
+@media (min-width: 1101px) {
+  #custom .slide-link { max-width: 236px; gap: 12px; padding-left: 18px; letter-spacing: .1em; }
+  #custom .slide-link i { width: 52px; }
+  #custom .slide-link .engine-logo.wide { width: 64px; }
+}

@@ -7,7 +7,7 @@ order: 1
 Usa la CLI en un paso del build. Lee el proyecto de C#, compila cada clase de shader y escribe archivos simples que cualquier motor puede cargar.
 
 ```bash
-dotnet yotsuba compile Game.Shaders.csproj \
+yotsuba compile Game.Shaders.csproj \
   --target spirv --target glsl --target hlsl --target msl \
   --output shaders
 ```
@@ -45,6 +45,6 @@ La carpeta de salida se cuenta desde la carpeta del `.csproj`. Las carpetas sigu
 Ejecuta el comando después de compilar el proyecto de C# y antes de que tu paso de contenido copie archivos. El código de salida es `0` si todo se escribió y `1` si el proyecto tiene errores de C#, así que un job de CI falla solo. La lista completa de opciones está en [El comando compile](../reference/compile.md).
 
 ```bash
-dotnet tool restore
-dotnet yotsuba compile Game.Shaders.csproj --target spirv --output Content/shaders
+dotnet tool install --global YotsubaShader.Compiler.CLI
+yotsuba compile Game.Shaders.csproj --target spirv --output Content/shaders
 ```

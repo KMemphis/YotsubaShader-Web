@@ -4,9 +4,13 @@ summary: Las tres herramientas más usadas en shaders, mezclar, limitar y suaviz
 order: 10
 ---
 
+> [!SCENE] intro
+
 Si le preguntas a alguien que hace shaders cuál es la función que más usa, probablemente te diga **`mix`**. Sirve para pasar de un valor a otro poco a poco. Con ella haces degradados, cambios de un color a otro, bordes suaves, luces que se apagan.
 
 La GPU ya trae esa función hecha, igual que otras dos hermanas suyas: `clamp` y `smoothstep`. Pero en Yotsuba Shader todavía no se pueden llamar desde C# (lo verás avisado en el capítulo del anillo de neón). Y eso, para aprender, es una suerte: **vas a escribirlas tú**. Cuando las hayas hecho con tus manos, no habrá ningún misterio en ellas.
+
+> [!SCENE] mix
 
 ## Paso 1: mezclar dos números
 
@@ -49,6 +53,8 @@ Ejecuta el ciclo de trabajo:
 
 Un cielo de atardecer con una sola función. Cambia los números a tu gusto, y verás cómo cada canal se mueve por separado.
 
+> [!SCENE] clamp
+
 ## Paso 2: ¿y si t se sale de 0 a 1?
 
 `Mezclar` funciona perfecto mientras `t` esté entre `0` y `1`. Pero si `t` vale `2`, la fórmula no se detiene en `b`: se pasa. Con `a = 10` y `b = 20`, `t = 2` da `30`.
@@ -73,6 +79,8 @@ A veces eso es lo que quieres. Pero muchas veces querrás que el resultado **se 
 Si el valor es menor que el mínimo, devuelve el mínimo. Si es mayor que el máximo, devuelve el máximo. Si no, lo deja como está. `Limitar(5f, 0f, 1f)` da `1`; `Limitar(-3f, 0f, 1f)` da `0`; y `Limitar(0.4f, 0f, 1f)` da `0.4`.
 
 No lo vamos a usar todavía, pero lo necesitará la siguiente función.
+
+> [!SCENE] smooth
 
 ## Paso 3: bordes suaves
 
@@ -110,6 +118,8 @@ Mira cómo cambia el recorrido:
 | 1 | 1 |
 
 Con la rampa recta, a un cuarto del camino vas a un cuarto de la altura. Con la suavizada, a un cuarto del camino apenas llevas un 16 %. Ese arranque lento y ese final lento son lo que hace que se vea "suave".
+
+> [!SCENE] circle
 
 ## Paso 4: un círculo con borde suave
 
@@ -184,6 +194,8 @@ Los tres números de la última línea (`brillo`, `brillo * 0.6f`, `brillo * 0.1
 ![Un disco naranja con el borde difuminado sobre un fondo negro](../../assets/get-started/taller/me2.png)
 
 Compara con el círculo del capítulo anterior. Ya no hay un borde afilado: la luz se va apagando. Cambia el `0.04f` por `0.085f` y el borde queda casi afilado. Cambia el `0.09f` por `0.2f` y la luz se difumina mucho más. **Cuanto más cerca estén `desde` y `hasta`, más duro es el borde.**
+
+> [!SCENE] sunset
 
 ## Paso 5: un atardecer completo
 
@@ -663,6 +675,8 @@ public class Mezclas
     }
 }
 ```
+
+> [!SCENE] learned
 
 ## Lo que aprendiste
 

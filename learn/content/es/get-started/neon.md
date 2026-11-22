@@ -4,9 +4,13 @@ summary: Las funciones matemáticas que ya trae la GPU, usadas para dibujar un a
 order: 14
 ---
 
+> [!SCENE] intro
+
 Hasta ahora todas las cuentas las hiciste con sumas, restas y multiplicaciones. Pero la GPU ya trae hechas muchas funciones matemáticas: raíz cuadrada, seno, valor absoluto, mezclar dos colores... En este capítulo las vas a usar para dibujar un tubo de neón:
 
 ![Un anillo de luz, rosa por la izquierda y celeste por la derecha, sobre un fondo casi negro](../../assets/get-started/neon.png)
+
+> [!SCENE] use
 
 ## Cómo se usan las funciones de la GPU
 
@@ -29,6 +33,8 @@ Estas son las cuatro que vas a usar en este shader:
 | `abs(x)` | Le quita el signo a un número. | `abs(-0.2f)` da `0.2` |
 | `clamp(x, minimo, maximo)` | Si `x` se sale de los límites, lo deja en el límite. | `clamp(7f, 0f, 1f)` da `1` |
 | `mix(a, b, t)` | Mezcla `a` y `b`. Con `t` en `0` da `a`, con `1` da `b`, con `0.5` da la mitad de cada uno. | `mix(0f, 10f, 0.5f)` da `5` |
+
+> [!SCENE] dist
 
 ## Paso 1: qué tan lejos está cada píxel del centro
 
@@ -55,6 +61,8 @@ Si pintaras cada píxel con ese número como color (más lejos, más blanco), ve
 
 Negro en el centro, porque la distancia es `0`. Cada vez más claro al alejarse.
 
+> [!SCENE] ring
+
 ## Paso 2: qué tan lejos está cada píxel del anillo
 
 Queremos un anillo de radio `0.6`. Los píxeles que forman el anillo son los que están a una distancia de `0.6` del centro. Así que restamos:
@@ -68,6 +76,8 @@ Si un píxel está a `0.6` del centro, el resultado es `0`: está justo sobre el
 ![Una línea negra en forma de anillo; a ambos lados se va aclarando](../../assets/get-started/neon2.png)
 
 Ya se ve el anillo: es la línea negra, donde la distancia vale `0`.
+
+> [!SCENE] glow
 
 ## Paso 3: convertir la distancia en brillo
 
@@ -92,6 +102,8 @@ Cerca del anillo el resultado es enorme, y `clamp` lo deja en `1`, que es el má
 
 > [!TIP]
 > El `0.03` es el grosor del brillo. Con `0.01` tienes un hilo fino. Con `0.1`, un resplandor enorme.
+
+> [!SCENE] color
 
 ## Paso 4: ponerle color
 
@@ -333,6 +345,8 @@ public class Neon
 }
 ```
 
+> [!SCENE] check
+
 Para comprobar que está bien escrito, compila el proyecto de C#:
 
 ```bash
@@ -340,6 +354,8 @@ dotnet build MisShaders
 ```
 
 Si sale `Build succeeded`, el shader es C# válido. Cuando `add` admita estas funciones, se compila y se usa igual que los dos anteriores: `new Neon().ToGlsl(Stage.Fragment)`.
+
+> [!SCENE] play
 
 ## Juega con él
 
@@ -352,6 +368,8 @@ float brilloGrande = clamp(0.03f / abs(distanciaAlCentro - 0.6f), 0f, 1f);
 float brilloPequeno = clamp(0.03f / abs(distanciaAlCentro - 0.3f), 0f, 1f);
 float brillo = clamp(brilloGrande + brilloPequeno, 0f, 1f);
 ```
+
+> [!SCENE] learned
 
 ## Lo que aprendiste
 

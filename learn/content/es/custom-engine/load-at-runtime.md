@@ -23,7 +23,7 @@ Pasa los bytes a `vkCreateShaderModule`, el texto a tu compilador de HLSL, GLSL 
 Si el renderer está escrito en C#, `add` incrusta los shaders compilados en el proyecto como métodos. No se lee nada del disco en ejecución.
 
 ```bash
-dotnet yotsuba add Game.Shaders.csproj --target spirv
+yotsuba add Game.Shaders.csproj --target spirv
 ```
 
 ```csharp

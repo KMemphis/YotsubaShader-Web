@@ -7,7 +7,7 @@ order: 7
 `add` compila los shaders de un proyecto y escribe el resultado en un archivo C#, `YotsubaShader.g.cs`, dentro de ese mismo proyecto. Cada clase de shader recibe métodos de extensión que devuelven el shader compilado, así tu programa lo pide por nombre y el compilador de C# comprueba ese nombre.
 
 ```bash
-dotnet yotsuba add MyShaders/MyShaders.csproj --target spirv
+yotsuba add MyShaders/MyShaders.csproj --target spirv
 ```
 
 ## Sintaxis
@@ -82,7 +82,7 @@ Escribir el comando después de cada cambio es fácil de olvidar. Añade un `<Ta
 
 ```xml
 <Target Name="CompileShaders" BeforeTargets="CoreCompile" Condition="'$(DesignTimeBuild)' != 'true'">
-  <Exec Command="dotnet yotsuba add &quot;$(MSBuildProjectFullPath)&quot; --target spirv --target monogame" />
+  <Exec Command="yotsuba add &quot;$(MSBuildProjectFullPath)&quot; --target spirv --target monogame" />
   <ItemGroup>
     <Compile Remove="YotsubaShader.g.cs" />
     <Compile Include="YotsubaShader.g.cs" />

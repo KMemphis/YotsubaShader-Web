@@ -13,7 +13,7 @@ Godot tiene su propio lenguaje de shaders, el Godot Shading Language, guardado e
 | Plugin y destino | `godot` (`--target godot`, alias `gdshader`) |
 | Salida | Texto: `<Clase>.spatial.gdshader` y `<Clase>.canvasitem.gdshader` |
 | Método generado (`add`) | `ToGodotShader(GodotShaderType)`, devuelve un `string` (`Spatial` o `CanvasItem`) |
-| Comando que usa el addon | `dotnet yotsuba compile <proyecto> --target godot --output <carpeta>` |
+| Comando que usa el addon | `yotsuba compile <proyecto> --target godot --output <carpeta>` |
 | Nombres de uniforms | `<Campo>_<Miembro>`, por ejemplo `Time_Seconds` |
 | Probado con | Godot 4.7.2 en macOS, estándar (GDScript) y .NET (C#) |
 
@@ -37,7 +37,7 @@ El addon se ejecuta antes de que empiece el juego y también desde *Project → 
 
 Dos requisitos:
 
-- El proyecto de Godot debe estar **dentro** de la carpeta donde se ejecutó `dotnet new tool-manifest`, porque .NET busca el manifiesto de herramientas hacia arriba (`Tutorial/GodotGame`, `Tutorial/MyShaders`).
+- Godot tiene que encontrar `yotsuba`. El `command` por defecto (`dotnet yotsuba`) usa la herramienta global por sí solo; si Godot no la ve, escribe la ruta completa del ejecutable `yotsuba` en `command`.
 - Godot tiene que poder encontrar `dotnet`. En macOS, un Godot abierto desde el Dock o Finder no ve el `PATH` de la terminal: ábrelo desde una terminal, o pon la ruta completa en el ajuste `command`.
 
 ## El shader
@@ -282,6 +282,6 @@ El plugin avisa de esto con un error claro y nunca deja un archivo roto: shaders
 | La ventana está **gris** y no dibuja nada | El archivo `.gdshader` todavía no existe o no se pudo cargar. | Comprueba que `GodotGame/yotsuba_shaders/MyShaders/` tiene el archivo y usa *Project → Reload Current Project*. |
 | Godot no ve un shader recién creado | El addon solo lee archivos cuando el editor arranca o recupera el foco. | *Project → Reload Current Project* (pide detener el juego si está corriendo). |
 | No se encuentra `dotnet` al pulsar Play | En macOS, Godot no siempre hereda el `PATH` de tu terminal. | Abre Godot desde una terminal donde funcione `dotnet --version`, o define `command`. |
-| `Unknown command 'yotsuba'` | El comando se ejecutó fuera de la carpeta con el manifiesto de herramientas. | Entra en `Tutorial` (donde está `dotnet-tools.json`) y ejecuta `dotnet tool restore` una vez. |
+| El addon no encuentra `yotsuba` | La herramienta no está instalada, o Godot no ve la carpeta donde .NET instala las herramientas. | Ejecuta `dotnet tool install --global YotsubaShader.Compiler.CLI`, o escribe la ruta completa del ejecutable en `command`. |
 | Un shader con textura se dibuja negro | No se le dio ninguna imagen al uniform de textura. | Asígnale una `Texture2D` (la propiedad `Photo` del visor del tutorial). |
 | El plugin lista los nombres válidos | Un campo de vértice tiene un nombre que no es de Godot. | Usa un nombre de la tabla. |

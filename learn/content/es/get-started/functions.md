@@ -4,7 +4,11 @@ summary: Cómo ordenar un shader que crece, escribiendo tus propias funciones y 
 order: 9
 ---
 
+> [!SCENE] intro
+
 A medida que un shader crece, empieza a repetirse. Vas a ver ese problema en acción dibujando una cara. Primero la dibujarás de la forma más directa, notarás que el código se vuelve pesado, y luego lo arreglarás con funciones. Ese es el orden correcto para aprender esto: sentir el problema antes de usar la herramienta.
+
+> [!SCENE] sky
 
 ## Paso 1: el cielo y las medidas
 
@@ -84,6 +88,8 @@ Ejecuta el ciclo de trabajo:
 
 Verás una ventana de un azul cielo liso. Es poco, pero es la base de todo.
 
+> [!SCENE] head
+
 ## Paso 2: la cabeza
 
 Agrega esto **entre** la línea de `vec4 color = ...` y el `return color;`:
@@ -100,6 +106,8 @@ if (dx * dx + dy * dy < 0.4f * 0.4f)
 Es el círculo del capítulo anterior: centro en `(medio, 0.5)`, radio `0.4`. Pero con una diferencia importante: en vez de hacer `return` dentro del `if`, **cambiamos la variable `color`**. Así el shader sigue y todavía puede pintar más cosas encima.
 
 Ejecuta el ciclo de trabajo. Verás un círculo amarillo sobre el cielo.
+
+> [!SCENE] eyes
 
 ## Paso 3: los ojos
 
@@ -125,6 +133,8 @@ Fíjate en que reusamos `dx` y `dy` (sin volver a escribir `float`): solo les da
 
 Ejecuta el ciclo de trabajo. Ya tienes una cara con dos ojos. Y hay otra idea importante escondida aquí: **el orden en que pintas importa**. Los ojos están después de la cabeza, así que se pintan encima. Si pusieras los ojos primero y la cabeza después, la cabeza los taparía.
 
+> [!SCENE] mouth
+
 ## Paso 4: la boca
 
 La boca será un rectángulo. Agrega esto, también antes del `return`:
@@ -142,11 +152,15 @@ Ejecuta el ciclo de trabajo.
 
 Funciona. Ahora mira con calma lo que escribiste.
 
+> [!SCENE] repeat
+
 ## El problema: el código se repite
 
 Los dos ojos tienen **casi el mismo código**. Y la cabeza también, con otros números. Si quisieras añadir una nariz, copiarías el bloque otra vez. Si te equivocaras en una cuenta, tendrías que corregirla en tres sitios. Y el shader ya cuesta leerlo, y solo tiene tres círculos.
 
 Cuando ves que copias y pegas un bloque cambiando solo unos números, es la señal de que falta una **función**.
+
+> [!SCENE] func
 
 ## Paso 5: tu primera función
 
@@ -197,6 +211,8 @@ Ejecuta el ciclo de trabajo: **la imagen es idéntica**. Lo importante es que ah
 > [!NOTE]
 > Los datos que recibe una función se llaman **parámetros**, y son **copias**. Si dentro de `EnCirculo` escribieras `x = 0f;`, solo cambiarías la copia, y la `x` de `Fragment` seguiría igual. Es lo normal en C#, y en un shader es obligatorio: las funciones no pueden modificar las variables de quien las llama. Lo que haces es devolver un resultado con `return`.
 
+> [!SCENE] rect
+
 ## Paso 6: otra función, para el rectángulo
 
 La boca también se puede escribir mejor. Agrega esta segunda función, debajo de `EnCirculo`:
@@ -219,6 +235,8 @@ if (EnRectangulo(x, y, medio - 0.15f, 0.65f, medio + 0.15f, 0.7f))
 
 Fíjate en lo bien que se lee ahora la llamada. Sin mirar la función, ya sabes lo que hace.
 
+> [!SCENE] colors
+
 ## Paso 7: ponle nombre a los colores
 
 Hay otro tipo de repetición: el mismo color escrito tres veces (`Crear.Vec4(0.1f, 0.1f, 0.1f, 1f)` en los ojos y la boca). Si quisieras cambiar el negro por un marrón, tendrías que tocar tres líneas.
@@ -236,6 +254,8 @@ vec4 color = cielo;
 Y cambia en los `if` cada `Crear.Vec4(...)` por el nombre que corresponda: `color = piel;` para la cabeza y `color = tinta;` para los ojos y la boca. Ejecuta el ciclo de trabajo para comprobar que no cambió nada.
 
 Ahora, si quieres que la cara sea verde, cambias **una sola línea**.
+
+> [!SCENE] struct
 
 ## Paso 8: tus propios tipos de datos
 
@@ -309,6 +329,8 @@ return color;
 ```
 
 Ejecuta el ciclo de trabajo. Es la misma cara de antes, pero fíjate en cómo se lee el shader: primero **qué hay** en la escena (cabeza, ojos, colores) y después **cómo se pinta**. Para mover un ojo, cambias un número en una línea con nombre. Para añadir un tercero, copias una línea.
+
+> [!SCENE] cannot
 
 ## Qué no se puede hacer
 
@@ -756,6 +778,8 @@ public class Carita
     }
 }
 ```
+
+> [!SCENE] learned
 
 ## Lo que aprendiste
 

@@ -25,3 +25,10 @@ npm run studio                      # editar en Remotion Studio
 - **Cuando cambie la web**, vuelve a ejecutar `sync-snippets`, `record` (en los dos idiomas) y `render:all`. Los videos muestran la web tal como está en ese momento.
 - **Música:** `remotion/public/music.wav` es un colchón ambiental sintetizado con FFmpeg; puedes cambiarlo por una pista con licencia.
 - Los videos que se ven en la home están en `../src/static/video/` (1080p y 2160p, codificados desde estos).
+
+## Película de la home (30 s en inglés, 35 s en español)
+
+- Composición `Home-en` / `Home-es` (`remotion/src/Home.tsx`); la voz sale de `home/script*.json` con `node automation/ep01-narration.mjs --ep home [--lang es]`.
+- Render 4K60: `node automation/render-home.mjs` → `../.local/promo-video/home/`. Se codifica a `../src/static/video/promo-<lang>-{1080,2160}.mp4` (crf 22, faststart) y el póster con un `remotion still` del fotograma 170.
+- Si se regenera la voz, hay que volver a medir `TARGET_TIMES` en `Home.tsx` (ffmpeg `silencedetect`).
+- La versión anterior (106 s, `Promo.tsx` / `PromoA-*`) sigue en el repo; sus MP4 y pósters están en `../.local/promo-video/home-original-106s/`.

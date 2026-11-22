@@ -4,18 +4,28 @@ summary: Aprende desde cero a crear shaders con Yotsuba Shader.
 order: 0
 ---
 
+> [!SCENE] welcome
+
 Bienvenido a Yotsuba Shader. Un SDK para escribir shaders en C# para múltiples APIs gráficas y Game Engines.
+
+> [!SCENE] learn
 
 ## Qué aprenderás
 
 En este tutorial aprenderás a escribir shaders en C# con Yotsuba Shader, y a compilarlos para pasárselos a la GPU, ya sea desde un Game Engine existente, desde tu propio Game Engine, o directamente desde alguna API gráfica.
 
+> [!SCENE] basics
+
 Aprenderás desde los fundamentos de un Shader hasta cómo usar el compilador.
 No tienes que saber qué es un Shader, ni cómo funciona. Aquí te enseñamos. Lo único que necesitas es saber programar en C#.
+
+> [!SCENE] steps
 
 ## Cómo está hecho este tutorial
 
 No vas a leer una lista de atributos y funciones. Vas a **escribir código y verlo funcionar**, paso a paso. En cada capítulo hay algo para teclear, un comando para ejecutar y una imagen que debes ver aparecer en tu ventana. Si algo no se ve igual, el capítulo te dice qué revisar.
+
+> [!SCENE] path
 
 El camino tiene tres tramos:
 
@@ -27,7 +37,7 @@ Aquí no se da por sentado nada. Está pensado para quien nunca ha visto un shad
 | --- | --- |
 | [¿Qué es un Shader?](what-is-a-shader.md) | Para qué sirve, y por qué se ejecuta en la GPU. |
 | [Cómo se construye un shader](how-a-shader-is-built.md) | Vértices, píxeles y las tres puertas por las que viajan los datos. |
-| [Prepara tu proyecto](setup.md) | Dejas todo instalado, en una librería que no depende de ningún motor. |
+| [Prepara tu proyecto](setup.md) | Dejas todo instalado, en una librería de C# para tus shaders. |
 | [Shader 1: un atardecer](first-shader.md) | Tu primer shader completo, y cómo compilarlo con el comando `add`. |
 
 ### 2. El taller
@@ -58,7 +68,9 @@ Ahora que tienes las herramientas, las usas para hacer cuatro shaders más ambic
 
 Cuando algo no salga, tienes [Cuando algo sale mal](debugging.md): un método para encontrar errores y las preguntas que casi todo el mundo se hace.
 
-Este tutorial no depende de ningún Game Engine. Al terminar, en [¿Y ahora qué?](next-steps.md), eliges el tuyo y ves cómo se usan allí los shaders que hiciste.
+> [!SCENE] finale
+
+Este tutorial usa {{engine}}. Al terminar, en [¿Y ahora qué?](next-steps.md), ves cómo se usan en {{engine}} los shaders que hiciste.
 
 > [!TIP]
 > Pulsa **⌘K** (o **Ctrl K**) en cualquier momento para buscar en todo el sitio.

@@ -4,7 +4,11 @@ summary: How to make a shader move, using the clock the program hands it.
 order: 12
 ---
 
+> [!SCENE] intro
+
 So far your images are still. A real shader moves: water ripples, fire flickers, light changes. And the surprise is that, to achieve that, **you need nothing new**. You already know everything necessary.
+
+> [!SCENE] memory
 
 ## How something moves when it has no memory
 
@@ -17,6 +21,8 @@ A shader remembers nothing. On every frame it starts from zero: it runs, returns
 So how does something move? With a very simple trick: **the program tells it what time it is**. The shader receives a number, the seconds that have passed since it started, and computes the ball's position **from that number**. At 2 seconds, the ball is here. At 3, it is there. On every frame, the clock reads something different, and that is why the image changes.
 
 That number is a uniform, just like the window's width and height. And you already know how it is declared.
+
+> [!SCENE] clock
 
 ## Step 1: add the clock
 
@@ -84,6 +90,8 @@ And before `Vertex`:
     public Context Data;
 ```
 
+> [!SCENE] flash
+
 ## Step 2: a color that comes and goes
 
 Replace the line in `Fragment` with this one:
@@ -102,6 +110,8 @@ The window gets lighter and lighter for one second, and suddenly goes back to bl
 `Data.Seconds` grows without stopping: `0.1, 0.5, 1.2, 2.7, ...`. But `% 1f` only keeps the decimal part, as in the coordinates chapter, so `t` rises from `0` to `1` and starts over. It is the same technique as the stripes, but in time instead of space.
 
 The abrupt jump from white to black is not very pleasant. Let us fix it so it goes up and down, without jumps.
+
+> [!SCENE] breathe
 
 ## Step 3: up and down without jumps
 
@@ -130,6 +140,8 @@ See how `t` behaves as time passes:
 It rises from `0` to `1` in half a second and falls from `1` to `0` in the other half. The light **breathes**, without jumps. This up and down is called a triangle wave, because drawn on paper it looks like a row of triangles.
 
 Change the `1f` of the `%` to `3f`, and it will breathe slower: three seconds per full turn. Change `Data.Seconds` to `Data.Seconds * 4f` and it will go four times faster. Multiplying the time is how you control the speed.
+
+> [!SCENE] ball
 
 ## Step 4: a bouncing ball
 
@@ -165,6 +177,8 @@ Run the work cycle and watch the ball go from one side to the other. Let us take
 
 Notice something: the shader never "moved" the ball. Every time, it simply works out **where it should be** and draws it there.
 
+> [!SCENE] color
+
 ## Step 5: let it change color too
 
 One last improvement, to practice mixing. Add this function inside the `Time` class, after `Fragment`:
@@ -192,6 +206,8 @@ This is how it looks at three different moments:
 | ![The orange ball at the left end](../../assets/get-started/taller/ti3-a.png) | ![The orange ball in the center](../../assets/get-started/taller/ti3-b.png) | ![The orange ball at the right end](../../assets/get-started/taller/ti3-c.png) |
 
 It makes sense for the color to depend on `progress`: `progress` is the only thing the shader knows about "what point of the trip am I at".
+
+> [!SCENE] more
 
 ## What else can be done with time
 
@@ -472,6 +488,8 @@ public class Time
     }
 }
 ```
+
+> [!SCENE] learned
 
 ## What you learned
 

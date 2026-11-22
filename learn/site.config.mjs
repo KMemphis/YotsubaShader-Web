@@ -55,8 +55,8 @@ function xnaText(name, plugin, toFx, extra) {
     const shaders = es ? 'MisShaders' : 'MyShaders', viewer = es ? 'Visor' : 'Viewer';
     const loadLine = (c) => `            "${c}" => ${toFx(c)},`;
     const register = (c) => es
-      ? `Pero primero, avisa al visor del nuevo shader. En \`${viewer}/Program.cs\`, agrega esta línea al \`switch\`, encima de la línea \`_ =>\`:\n\n\`\`\`csharp\n${loadLine(c)}\n\`\`\`\n\nAhora sí, ejecútalo:\n\n\`\`\`bash\ndotnet yotsuba add ${shaders}/${shaders}.csproj --target spirv --target ${plugin} && dotnet run --project ${viewer} -- ${c}\n\`\`\``
-      : `But first, tell the viewer about the new shader. In \`${viewer}/Program.cs\`, add this line to the \`switch\`, above the \`_ =>\` line:\n\n\`\`\`csharp\n${loadLine(c)}\n\`\`\`\n\nNow run it:\n\n\`\`\`bash\ndotnet yotsuba add ${shaders}/${shaders}.csproj --target spirv --target ${plugin} && dotnet run --project ${viewer} -- ${c}\n\`\`\``;
+      ? `Pero primero, avisa al visor del nuevo shader. En \`${viewer}/Program.cs\`, agrega esta línea al \`switch\`, encima de la línea \`_ =>\`:\n\n\`\`\`csharp\n${loadLine(c)}\n\`\`\`\n\nAhora sí, ejecútalo:\n\n\`\`\`bash\nyotsuba add ${shaders}/${shaders}.csproj --target spirv --target ${plugin} && dotnet run --project ${viewer} -- ${c}\n\`\`\``
+      : `But first, tell the viewer about the new shader. In \`${viewer}/Program.cs\`, add this line to the \`switch\`, above the \`_ =>\` line:\n\n\`\`\`csharp\n${loadLine(c)}\n\`\`\`\n\nNow run it:\n\n\`\`\`bash\nyotsuba add ${shaders}/${shaders}.csproj --target spirv --target ${plugin} && dotnet run --project ${viewer} -- ${c}\n\`\`\``;
     const pos = es ? 'Posicion' : 'Position';
     return {
       vars: es
@@ -118,6 +118,24 @@ export const SOURCE_LANGUAGES = [
         => input.Color;
 }`,
   },
+  {
+    id: 'custom', name: 'Engine', c1: '#5eead4', c2: '#0f766e', c3: '#042f2e', links: {},
+    // buttons of this banner (instead of the engines): graphics APIs, each opening its own chapter of the Custom engine section
+    buttons: [
+      { name: 'OpenGL', logo: 'opengl.svg', wide: true, page: ['custom-engine', 'opengl'] },
+      { name: 'Direct3D', logo: 'directx.svg', wide: true, page: ['custom-engine', 'direct3d'] },
+      { name: 'Vulkan', logo: 'vulkan.svg', wide: true, page: ['custom-engine', 'vulkan'] },
+      { name: 'Metal', logo: 'metal.svg', page: ['custom-engine', 'metal'] },
+      { name: 'WebGL', logo: 'webgl.svg', wide: true, page: ['custom-engine', 'webgl'] },
+    ],
+    example: `yotsuba compile Game.Shaders.csproj \\
+  --target spirv --target glsl \\
+  --target hlsl --target msl \\
+  --output shaders
+
+byte[] spirv = File.ReadAllBytes(
+    "shaders/Game/Sweep.spv");`,
+  },
 ];
 
 export const UI = {
@@ -135,6 +153,7 @@ export const UI = {
     paneExample: 'Example shader',
     bannerSlide: (i, n) => `${i} of ${n}`,
     banners: {
+      custom: { title: 'Implement in your own engine', text: 'Compile the shaders in your build and load them in your renderer. The same C# shader comes out as SPIR-V, GLSL, HLSL and Metal, with the locations and bindings you write. Pick your graphics API:' },
       csharp: { title: 'Get Started', text: 'Learn from scratch how to write shaders in C# and see them run. The tutorial has one guide for each engine: MonoGame, KNI, FNA and Godot. The chapters and the shaders are the same; only the window, the project and the commands change. Pick your engine:' },
     },
     sections: {
@@ -166,6 +185,7 @@ export const UI = {
     copied: 'Copied',
     video: 'Video', videoSubtitles: 'English', videoMin: (n) => `${n} min`,
     listen: 'Listen', listenPause: 'Pause', listenResume: 'Resume', listenLoading: 'Loading…', listenTitle: 'Listen to this page', listenError: 'Audio unavailable',
+    stageLabel: 'Visual guide for the narration', stageClose: 'Close the visual guide', stageMenu: 'Chapters', stageSeek: 'Jump to this part',
     linkHere: 'Link to this section',
     skip: 'Skip to content',
     menu: 'Menu',
@@ -196,6 +216,7 @@ export const UI = {
     paneExample: 'Shader de ejemplo',
     bannerSlide: (i, n) => `${i} de ${n}`,
     banners: {
+      custom: { title: 'Implementar en tu propio motor', text: 'Compila los shaders en tu build y cárgalos en tu renderer. El mismo shader de C# sale como SPIR-V, GLSL, HLSL y Metal, con las ubicaciones y los bindings que escribes. Elige tu API gráfica:' },
       csharp: { title: 'Get Started', text: 'Aprende desde cero a escribir shaders en C# y verlos funcionar. El tutorial tiene una guía para cada engine: MonoGame, KNI, FNA y Godot. Los capítulos y los shaders son los mismos; solo cambian la ventana, el proyecto y los comandos. Elige tu engine:' },
     },
     sections: {
@@ -227,6 +248,7 @@ export const UI = {
     copied: 'Copiado',
     video: 'Video', videoSubtitles: 'Español', videoMin: (n) => `${n} min`,
     listen: 'Escuchar', listenPause: 'Pausar', listenResume: 'Continuar', listenLoading: 'Cargando…', listenTitle: 'Escuchar esta página', listenError: 'Audio no disponible',
+    stageLabel: 'Guía visual de la narración', stageClose: 'Cerrar la guía visual', stageMenu: 'Capítulos', stageSeek: 'Ir a esta parte',
     linkHere: 'Enlace a esta sección',
     skip: 'Saltar al contenido',
     menu: 'Menú',

@@ -23,7 +23,7 @@ Pass the bytes to `vkCreateShaderModule`, the text to your HLSL, GLSL or Metal c
 If the renderer is written in C#, `add` embeds the compiled shaders in the project as methods. Nothing is read from disk at run time.
 
 ```bash
-dotnet yotsuba add Game.Shaders.csproj --target spirv
+yotsuba add Game.Shaders.csproj --target spirv
 ```
 
 ```csharp

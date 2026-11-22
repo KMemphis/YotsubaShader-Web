@@ -18,10 +18,10 @@ KNI carga un shader como un **efecto**. Yotsuba Shader compila tu shader de C# a
 
 ## Compilar los shaders
 
-Desde la carpeta que tiene el manifiesto de herramientas (creado con `dotnet new tool-manifest` y `dotnet tool install YotsubaShader.Compiler.CLI`):
+Con el compilador instalado (`dotnet tool install --global YotsubaShader.Compiler.CLI`), desde cualquier carpeta:
 
 ```bash
-dotnet yotsuba add MyShaders/MyShaders.csproj --target spirv --target kni
+yotsuba add MyShaders/MyShaders.csproj --target spirv --target kni
 ```
 
 La primera vez se descarga el plugin `kni`. Entonces `MyShaders/YotsubaShader.g.cs` contiene `ToKNIWebGL_FX` para cada clase de shader. Para ejecutar el comando en cada build, mira [El comando add](../reference/add.md); la gestión de plugins está en [Plugins](../reference/plugins.md).
@@ -252,5 +252,5 @@ El método se llama `ToKNIWebGL_FX` y no recibe argumentos: hay un solo efecto p
 | El rectángulo sale deformado o no aparece | Un campo usa `VertexElementUsage.Position`. | Usa `TextureCoordinate` con el índice del `location`. |
 | `NullReferenceException` en `Parameters[...].SetValue` | El nombre del parámetro no existe. | El nombre es `<Campo>_<Miembro>`. |
 | La ventana queda negra | Falta `Apply()` o `DrawUserPrimitives`, o el shader devuelve negro. | Revisa el juego de arriba y devuelve un color con `1` como último valor. |
-| `add` falla con un error de red | La CLI está descargando el plugin y no llega a NuGet. | Revisa la conexión, o ejecuta `dotnet yotsuba plugin install kni` cuando tengas internet. |
+| `add` falla con un error de red | La CLI está descargando el plugin y no llega a NuGet. | Revisa la conexión, o ejecuta `yotsuba plugin install kni` cuando tengas internet. |
 

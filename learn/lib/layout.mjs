@@ -21,6 +21,8 @@ const ICONS = {
   play: '<path d="M8 5.5v13l11-6.5z" fill="currentColor"/>',
   pause: '<path d="M8 5v14M16 5v14" stroke-width="2.6"/>',
   right: '<path d="M9 5l7 7-7 7"/>',
+  dots: '<circle cx="5" cy="12" r="1.6" fill="currentColor" stroke="none"/><circle cx="12" cy="12" r="1.6" fill="currentColor" stroke="none"/><circle cx="19" cy="12" r="1.6" fill="currentColor" stroke="none"/>',
+  close: '<path d="M6 6l12 12M18 6L6 18"/>',
 };
 export const icon = (n, cls = '') =>
   `<svg class="icon ${cls}" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${ICONS[n]}</svg>`;
@@ -29,7 +31,7 @@ const url = (...p) => '/' + p.filter(Boolean).join('/') + (p.length ? '/' : '');
 
 const subbarOf = (body) => (body.match(/<!--SUBBAR:([\s\S]*?)-->/) || [])[1] || '';
 
-function shell({ lang, title, description, path, alt, body, bodyClass = '', section = null, noindex = false, usesStyles = false, route = null, routeAlt = null }) {
+function shell({ lang, title, description, path, alt, body, bodyClass = '', section = null, noindex = false, usesStyles = false, route = null, routeAlt = null, stage = false }) {
   const t = UI[lang];
   const fullTitle = path === '' ? `${t.homeTitle}` : `${title} · ${t.siteName} ${t.siteTag}`;
   const canon = SITE.url + (path === '' ? url(lang) : url(lang, path));
@@ -57,6 +59,7 @@ ${noindex ? '<meta name="robots" content="noindex">' : `<link rel="canonical" hr
 <script>try{var th=localStorage.getItem('ys-theme');if(th)document.documentElement.dataset.theme=th}catch(e){}</script>
 <link rel="stylesheet" href="/css/learn.css">
 ${bodyClass === 'home' ? '<link rel="stylesheet" href="/css/banner.css">' : ''}
+${stage ? '<link rel="stylesheet" href="/css/stage.css">' : ''}
 </head>
 <body class="${bodyClass}" data-uses-styles="${usesStyles}"${route ? ` data-route="${route}"` : ''}>
 <a class="skip" href="#main">${t.skip}</a>
@@ -83,9 +86,10 @@ ${body}
 <footer class="footer"><div class="wrap"><span>${t.footer}</span><span><a href="${SITE.mainSite}">${t.mainSite}</a> · ${t.trademarks}</span></div></footer>
 <div class="scrim" id="scrim" hidden></div>
 <dialog id="search-dialog" aria-label="${t.search}"><form method="dialog"><div class="sd-box">${icon('search')}<input id="search-input" type="search" placeholder="${t.searchPlaceholder}" autocomplete="off" spellcheck="false" aria-label="${t.search}"><button class="sd-close" value="close" aria-label="${t.close}">Esc</button></div></form><ul id="search-results" role="listbox"></ul></dialog>
-<script>window.LEARN=${JSON.stringify({ lang, routes: routeAlt, ui: { copy: t.copy, copied: t.copied, noResults: t.noResults, progress: t.progress, routeNotice: t.routeNotice, listen: t.listen, pause: t.listenPause, resume: t.listenResume, loading: t.listenLoading, error: t.listenError } })}</script>
+<script>window.LEARN=${JSON.stringify({ lang, routes: routeAlt, ui: { copy: t.copy, copied: t.copied, noResults: t.noResults, progress: t.progress, routeNotice: t.routeNotice('{name}'), listen: t.listen, pause: t.listenPause, resume: t.listenResume, loading: t.listenLoading, error: t.listenError } })}</script>
 <script src="/js/learn.js" defer></script>
 ${bodyClass === 'home' ? '<script src="/js/banner.js" defer></script>' : ''}
+${stage ? '<script src="/js/stage.js" defer></script>' : ''}
 
 </body></html>`;
 }
@@ -101,7 +105,9 @@ function banners(lang) {
   const t = UI[lang];
   const slides = SOURCE_LANGUAGES.map((s) => {
     const copy = t.banners[s.id];
-    const links = ENGINES.filter((e) => ROUTES.some((x) => x.id === e.id)).map((e) => {
+    const links = s.buttons
+      ? s.buttons.map((b) => `<a class="slide-link" href="${url(lang, ...b.page)}"><img class="engine-logo${b.wide ? ' wide' : ''}" src="/img/apis/${b.logo}" alt="" width="${b.wide ? 76 : 32}" height="32"><span>${esc(b.name)}</span><i>${icon('right')}</i></a>`).join('')
+      : ENGINES.filter((e) => ROUTES.some((x) => x.id === e.id)).map((e) => {
       const r = ROUTES.find((x) => x.id === e.id);
       const href = r ? url(lang, 'get-started', r.prefix.replace(/\/$/, '') || undefined) : url(lang, 'engines', e.id);
       const logo = ['svg', 'png'].find((x) => fs.existsSync(path.join(LOGOS, `${e.id}.${x}`)));
@@ -155,7 +161,7 @@ export function homePage({ lang, sections, alt }) {
 }
 
 /* ---------------------------------------------------------------- chapter */
-export function chapterPage({ lang, section, pages, page, index, alt, speech, routes = null }) {
+export function chapterPage({ lang, section, pages, page, index, alt, speech, routes = null, stage = null }) {
   const t = UI[lang];
   const sec = t.sections[section];
   const prev = pages[index - 1], next = pages[index + 1];
@@ -196,8 +202,15 @@ export function chapterPage({ lang, section, pages, page, index, alt, speech, ro
     ? `<button class="listen" id="listen" type="button" data-src="${audioSrc}" aria-pressed="false" title="${t.listenTitle}">${icon('play', 'i-play')}${icon('pause', 'i-pause')}<span>${t.listen}</span></button>`
     : '';
   const article = spoken.html.replace('<!--LISTEN-->', listenBtn);
+  // the stage: motion graphics on the right half while the page is read aloud (desktop only, see stage.js)
+  const hasStage = !!(audioSrc && stage?.length);
+  const stageHtml = hasStage
+    ? `<aside class="stage" id="stage" aria-label="${t.stageLabel}" hidden><div class="stage-screen" id="stage-screen"></div><button class="stage-close" id="stage-close" type="button" aria-label="${t.stageClose}" title="${t.stageClose}">${icon('close')}</button><div class="stage-bar" id="stage-bar" aria-hidden="true"><span id="stage-progress"></span></div></aside>
+  <button class="stage-dots" id="stage-dots" type="button" aria-label="${t.stageMenu}" title="${t.stageMenu}" aria-controls="sidebar" aria-expanded="false" hidden>${icon('dots')}</button>
+  <script type="application/json" id="stage-data">${JSON.stringify({ lang, seek: t.stageSeek, scenes: stage }).replace(/</g, '\\u003c')}</script>`
+    : '';
   const body = `<!--SUBBAR:${styleBar}-->
-<div class="doc">
+<div class="doc${hasStage ? ' has-stage' : ''}">
   <aside class="sidebar" id="sidebar" aria-label="${t.chaptersLabel}">
     <div class="side-head"><a class="crumb-sec" href="${sectionUrl}">${sec.title}</a><button class="icon-btn only-narrow" id="side-close" type="button" aria-label="${t.close}">✕</button></div>
     <div class="progress" aria-hidden="true"><span id="progress-bar"></span></div>
@@ -211,8 +224,9 @@ export function chapterPage({ lang, section, pages, page, index, alt, speech, ro
     ${pager}
   </main>
   ${toc}
+  ${stageHtml}
 </div>`;
-  return shell({ lang, title: page.title, description: page.summary, path: page.path, alt, body, bodyClass: 'doc-page', section, usesStyles: page.usesStyles, route: page.route, routeAlt: routes ? Object.fromEntries(routes.map((r) => [r.id, { url: r.url, name: r.name }])) : null });
+  return shell({ lang, title: page.title, description: page.summary, path: page.path, alt, body, bodyClass: 'doc-page', section, usesStyles: page.usesStyles, route: page.route, routeAlt: routes ? Object.fromEntries(routes.map((r) => [r.id, { url: r.url, name: r.name }])) : null, stage: hasStage });
 }
 
 export function notFoundPage(lang) {

@@ -4,7 +4,11 @@ summary: Cómo hacer que un shader se mueva, usando el reloj que le entrega el p
 order: 12
 ---
 
+> [!SCENE] intro
+
 Hasta ahora tus imágenes están quietas. Un shader de verdad se mueve: el agua ondula, el fuego parpadea, la luz cambia. Y la sorpresa es que, para lograr eso, **no hace falta nada nuevo**. Ya sabes todo lo necesario.
+
+> [!SCENE] memory
 
 ## Cómo se mueve algo que no tiene memoria
 
@@ -17,6 +21,8 @@ Un shader no recuerda nada. En cada fotograma empieza de cero: se ejecuta, devue
 Entonces, ¿cómo se mueve algo? Con un truco muy simple: **el programa le dice qué hora es**. El shader recibe un número, los segundos que pasaron desde que arrancó, y calcula la posición de la bola **a partir de ese número**. A los 2 segundos, la bola está aquí. A los 3, está allá. Cada fotograma, el reloj marca algo distinto, y por eso la imagen cambia.
 
 Ese número es un uniform, igual que el ancho y el alto de la ventana. Y ya sabes cómo se declara.
+
+> [!SCENE] clock
 
 ## Paso 1: agrega el reloj
 
@@ -84,6 +90,8 @@ Y antes de `Vertex`:
     public Entorno Datos;
 ```
 
+> [!SCENE] flash
+
 ## Paso 2: un color que va y viene
 
 Reemplaza la línea de `Fragment` por esta:
@@ -102,6 +110,8 @@ La ventana se pone cada vez más clara durante un segundo, y de golpe vuelve a n
 `Datos.Segundos` crece sin parar: `0.1, 0.5, 1.2, 2.7, ...`. Pero `% 1f` solo se queda con la parte decimal, como en el capítulo de las coordenadas, así que `t` sube de `0` a `1` y vuelve a empezar. Es la misma técnica de las franjas, pero en el tiempo en vez de en el espacio.
 
 El salto brusco de blanco a negro no es muy agradable. Vamos a arreglarlo para que suba y baje, sin saltos.
+
+> [!SCENE] breathe
 
 ## Paso 3: subir y bajar sin saltos
 
@@ -130,6 +140,8 @@ Mira cómo se comporta `t` con el paso del tiempo:
 Sube de `0` a `1` en medio segundo y baja de `1` a `0` en el otro medio. La luz **respira**, sin saltos. A este sube y baja se le llama onda triangular, porque dibujado en un papel parece una fila de triángulos.
 
 Cambia el `1f` del `%` por `3f`, y respirará más lento: tres segundos por vuelta completa. Cambia `Datos.Segundos` por `Datos.Segundos * 4f` y irá cuatro veces más rápido. Multiplicar el tiempo es la forma de controlar la velocidad.
+
+> [!SCENE] ball
 
 ## Paso 4: una bola que rebota
 
@@ -165,6 +177,8 @@ Ejecuta el ciclo de trabajo y mira cómo la bola va de un lado a otro. Vamos a d
 
 Observa algo: el shader nunca "movió" la bola. Cada vez, simplemente calcula **dónde le toca estar** y la dibuja ahí.
 
+> [!SCENE] color
+
 ## Paso 5: que también cambie de color
 
 Una última mejora, para practicar mezclar. Agrega esta función dentro de la clase `Tiempo`, después de `Fragment`:
@@ -192,6 +206,8 @@ Así se ve en tres momentos distintos:
 | ![La bola naranja en el extremo izquierdo](../../assets/get-started/taller/ti3-a.png) | ![La bola naranja en el centro](../../assets/get-started/taller/ti3-b.png) | ![La bola naranja en el extremo derecho](../../assets/get-started/taller/ti3-c.png) |
 
 Tiene sentido que el color dependa de `avance`: `avance` es lo único que el shader sabe sobre "en qué punto del recorrido estoy".
+
+> [!SCENE] more
 
 ## Qué más se puede hacer con el tiempo
 
@@ -472,6 +488,8 @@ public class Tiempo
     }
 }
 ```
+
+> [!SCENE] learned
 
 ## Lo que aprendiste
 

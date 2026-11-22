@@ -4,6 +4,8 @@ summary: Cómo leer una imagen desde el shader y modificarla.
 order: 16
 ---
 
+> [!SCENE] intro
+
 Los cuatro shaders anteriores inventaban el color de cada píxel con cuentas. En este último, el color sale de una imagen: una foto. Y como el color pasa por tu función antes de llegar a la pantalla, puedes hacerle lo que quieras.
 
 Vas a tomar esta foto:
@@ -15,6 +17,8 @@ y vas a hacer que se vea así, ondulando como si la miraras a través del agua:
 ![La misma foto con tono azulado, los bordes oscurecidos y las formas ligeramente onduladas](../../assets/get-started/agua-1.png)
 
 En este shader se junta todo lo que ya sabes: `Uv`, funciones propias, `sin`, `mix` y el uniform del tiempo. Lo único nuevo es leer la imagen.
+
+> [!SCENE] texture
 
 ## Una imagen dentro de un shader: la textura
 
@@ -29,6 +33,8 @@ public sampler2D Foto;
 - `layout(0, 1)` es su dirección: grupo 0, casillero 1. El casillero 0 ya lo ocupa el reloj, y dos cosas no pueden estar en la misma dirección.
 
 Tu programa es quien carga la foto y la deja en esa dirección, igual que hacía con el reloj.
+
+> [!SCENE] read
 
 ## Leer un color de la foto
 
@@ -51,6 +57,8 @@ vec4 foto = texture(Foto, Crear.Vec2(pixel.Uv.X, pixel.Uv.Y));
 ```csharp
 using static YotsubaShader.GlslSyntax.Methods.Intrinsic;
 ```
+
+> [!SCENE] trick
 
 ## El truco: leer de un sitio un poco distinto
 
@@ -78,6 +86,8 @@ La segunda línea hace lo mismo para la altura, con otros números para que las 
 
 La foto no se movió. Lo que cambió es de qué punto lee cada píxel.
 
+> [!SCENE] tint
+
 ## Teñir de azul
 
 Debajo del agua todo se ve azulado, porque el agua apaga el rojo. Vamos a hacer lo mismo: bajar mucho el rojo, un poco el verde, y dejar el azul.
@@ -91,6 +101,8 @@ vec3 color = mix(original, azulMar, 0.6f);
 `foto.X`, `foto.Y` y `foto.Z` son el rojo, el verde y el azul del color que leíste. `azulMar` es ese mismo color con el rojo al 20 % y el verde al 70 %.
 
 El `mix` final se queda con un 60 % de la versión azul y un 40 % de la original. Así el pez sigue siendo naranja, pero apagado. Si quieres el agua más profunda, sube el `0.6f`.
+
+> [!SCENE] vignette
 
 ## Oscurecer los bordes
 
@@ -182,6 +194,8 @@ public class BajoElAgua
 }
 ```
 
+> [!SCENE] shared
+
 El `struct Reloj` no se vuelve a declarar: es el de `Plasma.cs`. Dos shaders pueden compartir el mismo `struct` de datos, y tu programa puede mandarles el mismo reloj a los dos.
 
 :::godot
@@ -234,6 +248,8 @@ El naufragio, las rocas y la arena son modelos normales de Godot. Todo lo que ve
 Para volver al capítulo estándar, abre `visor.tscn`: sigue con `BajoElAgua` y el pez payaso en **Foto**.
 :::
 
+> [!SCENE] far
+
 ## Mira lo lejos que llegaste
 
 Lee el método `Fragment` otra vez. Hace diez líneas de cuentas, y cada una es algo que aprendiste en un capítulo:
@@ -248,11 +264,15 @@ Lee el método `Fragment` otra vez. Hace diez líneas de cuentas, y cada una es 
 
 Casi todos los efectos que ves en un juego están hechos con estas mismas piezas: leer una imagen, desviar un poco de dónde se lee, mezclar colores y usar distancias.
 
+> [!SCENE] play
+
 ## Juega con él
 
 - Cambia `0.012f` por `0.05f` en las dos líneas. La foto se deforma mucho más.
 - Quita el tinte azul devolviendo `original` en lugar de `color`. Te quedas solo con las ondas.
 - Convierte la foto a blanco y negro: calcula `float gris = (foto.X + foto.Y + foto.Z) / 3f;` y devuelve `Crear.Vec4(gris, gris, gris, 1f)`.
+
+> [!SCENE] learned
 
 ## Lo que aprendiste
 

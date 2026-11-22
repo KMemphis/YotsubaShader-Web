@@ -4,6 +4,8 @@ summary: Your own functions, if and loops inside the GPU, drawing the Mandelbrot
 order: 13
 ---
 
+> [!SCENE] intro
+
 You already know how to decide with `if`, repeat with loops, write your own functions and move things with time. Now you are going to put it all together in a more ambitious shader: each pixel will run a loop of up to 100 turns, and with that you will draw this:
 
 ![The Mandelbrot fractal: a black shape like a heart and a circle, surrounded by blue edges full of branches](../../assets/get-started/mandelbrot.png)
@@ -11,6 +13,8 @@ You already know how to decide with `if`, repeat with loops, write your own func
 It is called the Mandelbrot fractal. The curious thing is that there is no image stored anywhere: that whole drawing comes from a two-line formula, repeated many times.
 
 There is no new C# in this chapter. It is proof that what you learned in the previous ones is enough to draw something as complex as this.
+
+> [!SCENE] idea
 
 ## The idea, without the math
 
@@ -25,6 +29,8 @@ For each pixel we do the following:
 The pixels that never escape are the black shape. The ones that escape quickly are the dark background. And the ones that take a while to escape form the bright edges.
 
 That is all. You do not need to understand why the formula produces that drawing. What we care about is how it is written.
+
+> [!SCENE] count
 
 ## Step 1: counting the turns
 
@@ -70,6 +76,8 @@ Look at what is here: a `while`, an `if`, a `break`, an `int` and a `++`. All of
 > [!WARNING]
 > A loop in a shader must always have a sure end. Here it is `steps < 100`. A loop that never ends does not give an error: it freezes the GPU, and the whole screen with it.
 
+> [!SCENE] map
+
 ## Step 2: from the pixel to `cx` and `cy`
 
 `CountSteps` needs two numbers for each pixel. We get them from `Uv`, which you already know: it goes from `0` to `1`.
@@ -82,6 +90,8 @@ float cy = pixel.Uv.Y * 3f - 1.5f;
 ```
 
 Check it with the extremes: when `Uv.X` is `0`, `cx` is `-2.2`. When it is `1`, it is `3 - 2.2 = 0.8`. This "multiply to stretch, subtract to move" calculation is one you will use in every shader.
+
+> [!SCENE] color
 
 ## Step 3: from the number of turns to a color
 
@@ -475,11 +485,15 @@ public class Mandelbrot
 }
 ```
 
+> [!SCENE] notice
+
 Three things worth noticing:
 
 - **The `Vertex` method is the same as in the previous shader.** When what you draw is a rectangle that covers the screen, the Vertex stage does not change. The interesting part happens in `Fragment`.
 - **You did not write `Corner`, `Pixel` and `PixelIn` again.** They are in `Screen.cs` and all your shaders share them, like any `struct` in your project.
 - **The `CountSteps` and `Palette` functions do not have `[ShaderStage]`.** Only stages have it. The rest are helper functions, and the compiler finds them on its own because `Fragment` calls them.
+
+> [!SCENE] compile
 
 ## Compile and look at the result
 
@@ -531,6 +545,8 @@ int CountSteps(float cx, float cy)
 
 Think for a moment about what the GPU does with this. If you draw in a 600 by 600 window, that is 360,000 pixels. Each one takes up to 100 turns. That is up to 36 million turns per image, and the GPU does it dozens of times per second without effort, because all the pixels work at once. This is reason 1 from the chapter [What is a shader?](what-is-a-shader.md), now with a real example.
 
+> [!SCENE] play
+
 ## Play with it
 
 The best thing about a fractal is that you can get as close as you want and there is always more detail. To zoom in you only have to change the two lines that calculate `cx` and `cy`: a smaller number in the multiplication is more zoom, and the number you subtract moves the view.
@@ -548,6 +564,8 @@ Other things you can try (remember to run `add` after each change):
 
 - Change both `100`s to `20`. The edge loses detail, because the points have fewer turns to show whether they escape.
 - In `Palette`, swap `red` and `blue` in the last line. The fractal goes from blue to orange.
+
+> [!SCENE] challenge
 
 ### Challenge: stop it stretching
 
@@ -713,6 +731,8 @@ Press **Play Scene** (`Cmd/Ctrl+R`):
 The fractal is your own code, running as the background of a 3D scene. To go back, open `viewer.tscn`: it still says `Mandelbrot`.
 :::
 
+> [!SCENE] allowed
+
 ## What you can use inside a shader and what you cannot
 
 You have seen that a lot of C# works. This is the summary:
@@ -726,6 +746,8 @@ You have seen that a lot of C# works. This is the summary:
 | `+`, `-`, `*`, `/`, `%`, comparisons, `&&`, `||` | `new` on objects, `async`, lambdas |
 
 The general rule is the one from the first chapter: the GPU only knows how to do calculations. If something needs memory that grows, text or the operating system, it does not exist there.
+
+> [!SCENE] learned
 
 ## What you learned
 

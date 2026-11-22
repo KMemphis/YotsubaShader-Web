@@ -4,11 +4,15 @@ summary: Tu primer shader. Escribes en C# cada parte que ya conoces, lo compilas
 order: 4
 ---
 
+> [!SCENE] goal
+
 Este es el shader que vas a hacer en este capítulo. Pinta toda la pantalla con un degradado, de rosa arriba a amarillo abajo:
 
 ![Un degradado de rosa arriba a amarillo abajo](../../assets/get-started/degradado.png)
 
 Es sencillo a propósito. Lo importante aquí no es el dibujo, sino que escribas en C#, una por una, las cinco cosas que viste en [Cómo se construye un shader](how-a-shader-is-built.md). Los cuatro shaders que vienen después usan exactamente estas mismas partes.
+
+> [!SCENE] plan
 
 ## El plan
 
@@ -26,6 +30,8 @@ Es sencillo a propósito. Lo importante aquí no es el dibujo, sino que escribas
 
 No hay nada más. Un shader en C# son unos `struct` y una clase con dos métodos.
 
+> [!SCENE] rect
+
 ## La figura: un rectángulo que cubre toda la pantalla
 
 Allí seguimos un triángulo. Ahora queremos pintar la pantalla entera, así que la figura va a ser un rectángulo que la cubra de borde a borde: dos triángulos, cuatro vértices.
@@ -34,6 +40,8 @@ Allí seguimos un triángulo. Ahora queremos pintar la pantalla entera, así que
 
 - **La posición**, como siempre. Las cuatro esquinas de la pantalla: `(-1, 1)`, `(1, 1)`, `(-1, -1)` y `(1, -1)`.
 - **Un dato que se suele llamar `Uv`**, y que es nuevo.
+
+> [!SCENE] uv
 
 ### ¿Qué es `Uv` y para qué lo quiero?
 
@@ -52,11 +60,15 @@ El nombre `Uv` es una costumbre: en gráficos se usan las letras "U" y "V" para 
 > [!NOTE]
 > "¿Y por qué no uso directamente la posición, si ya dice dónde está cada cosa?" Por dos razones. La posición final se la queda la GPU: es el dato especial, el de la estrella. Y además va de `-1` a `1` con la Y hacia arriba, mientras que para hacer cuentas es mucho más cómodo algo que vaya de `0` a `1` empezando por arriba a la izquierda.
 
+> [!SCENE] doors
+
 Con eso, las tres puertas de este shader quedan así:
 
 ![Las tres puertas del shader del atardecer. Puerta A: Posicion en el casillero 0 y Uv en el 1. Puerta B: Posicion marcada con una estrella y Uv en el casillero 0. Puerta C: el color en el casillero 0](../../assets/get-started/puertas-atardecer.svg)
 
 Es el mismo dibujo de las tres puertas que ya conoces, cambiando "color" por `Uv`. Tenlo a mano, porque cada casillero de ese dibujo va a ser una línea de C#.
+
+> [!SCENE] vectors
 
 ## Los vectores: números que van juntos
 
@@ -78,6 +90,8 @@ Cuando un `vec4` guarda un color, sus campos se siguen llamando `X`, `Y`, `Z` y 
 | `Y` | el verde |
 | `Z` | el azul |
 | `W` | la opacidad |
+
+> [!SCENE] make
 
 ## Primer archivo: un ayudante para crear vectores
 
@@ -130,6 +144,8 @@ Las tres funciones hacen lo mismo: crean un vector vacío, le llenan los campos 
 > Quizás te extrañe ver `vec4 v;` sin un `new`. Es C# normal: a un `struct` puedes declararlo vacío y llenarle los campos uno por uno. C# solo te pide que los llenes **todos** antes de usarlo. Si borras la línea `v.W = w;`, el `return v;` deja de compilar con el error `CS0165: Use of unassigned local variable 'v'`.
 
 Esto ya te enseña algo importante: **desde un shader puedes llamar a tus propias funciones**. `Crear.Vec4` es un método de C# normal y corriente, y el compilador lo lleva a la GPU junto con tu shader.
+
+> [!SCENE] doorA
 
 ## Segundo archivo: las puertas A y B
 
@@ -242,6 +258,8 @@ Tres preguntas que es normal hacerse aquí:
 
 **¿Tengo que declarar los 14?** No, pero el tutorial lo hace, para que el struct sea siempre el mismo y nadie se pierda.
 :::
+
+> [!SCENE] doorB
 
 ### La puerta B: lo que Vertex le deja pasar a Fragment
 
@@ -370,6 +388,8 @@ public struct PixelIn
 > [!NOTE]
 > El nombre `gl_Position` puede parecer raro. Viene de GLSL, el lenguaje de shaders de OpenGL, donde ese dato especial se llama exactamente así. Como en este tutorial usamos el estilo GLSL, los nombres son los mismos.
 
+> [!SCENE] zero
+
 ### "Un momento: ¿otra vez `location(0)`?"
 
 Sí. Y es el momento de mirarlo bien, porque es justo la confusión de la que te avisé.
@@ -391,6 +411,8 @@ En la ruta Godot la puerta A no la numeras tú: sus campos se encuentran por **n
 
 ¿Y por qué en `Pixel` el `Uv` no es el casillero 1, para que quede igual? Podrías ponerlo en el 1 y funcionaría. Pero en la puerta B la posición no ocupa casillero, así que el primero que queda libre es el 0. Lo normal es numerar desde 0 sin dejar huecos.
 
+> [!SCENE] pixel
+
 ### ¿Por qué se llama `Pixel`?
 
 Porque es lo que le llega a cada píxel. La función Vertex lo llena tres veces, una por vértice, la GPU lo reparte, y la función Fragment lo recibe una vez por píxel, ya mezclado.
@@ -398,6 +420,8 @@ Porque es lo que le llega a cada píxel. La función Vertex lo llena tres veces,
 Fragment no recibe el `Pixel` completo. La posición final sirve para que la GPU coloque el triángulo, y una función Fragment no la necesita (en GLSL, `gl_Position` ni siquiera existe en esa etapa, y el compilador te avisa si lo intentas). Por eso el archivo tiene un segundo `struct`, `PixelIn`, con solo los datos tuyos: lo que recibe Fragment.
 
 Los dos lados de la puerta B tienen que coincidir: el mismo número de `location` y el mismo tipo. Aquí `Uv` es `location(0)` y `vec2` en los dos. Si un lado dijera `vec3`, o el casillero 1, el shader no compilaría.
+
+> [!SCENE] vertexfn
 
 ## Tercer archivo: las dos funciones
 
@@ -443,6 +467,8 @@ Copiamos el `Uv` tal cual. Si no lo hicieras, a la función Fragment no le llega
 
 `Pixel pixel;` al principio y `return pixel;` al final son lo mismo que hiciste en `Crear.cs`: declarar el `struct` vacío, llenar sus dos campos y devolverlo.
 
+> [!SCENE] fragfn
+
 ### La función Fragment y la puerta C
 
 ```csharp
@@ -463,6 +489,8 @@ Si nunca habías visto `[return: ...]`, es C# normal. Los atributos se ponen enc
 
 Por ahora el cuerpo hace lo más simple posible. Devuelve siempre `Crear.Vec4(1f, 0f, 0f, 1f)`, que es rojo: todo el rojo, nada de verde, nada de azul, y opacidad completa. Ni siquiera usa el `pixel` que recibe. Así que toda la pantalla va a quedar roja.
 
+> [!SCENE] zeros
+
 ### Los tres ceros
 
 Ya escribiste las tres puertas, y en las tres hay un `location(0)`. Ahora puedes leerlos sin confundirte:
@@ -474,6 +502,8 @@ Ya escribiste las tres puertas, y en las tres hay un `location(0)`. Ahora puedes
 | `[return: location(0)]` en `Fragment` | C: de Fragment a la pantalla | El color del píxel. |
 
 Tres ceros, tres puertas, tres cosas distintas.
+
+> [!SCENE] file
 
 ### El archivo completo
 
@@ -618,12 +648,14 @@ Un shader es una clase normal, con un método por cada etapa. La clase se llama 
 
 Hay un `using` nuevo, `YotsubaShader.Language`. De ahí salen `[ShaderStage]` y `Stage`.
 
+> [!SCENE] add
+
 ## Compílalo con `add`
 
 Ya tienes un shader escrito. Ahora hay que convertirlo en algo que la GPU entienda. Desde la carpeta `Tutorial`, ejecuta el comando que viste en el capítulo anterior:
 
 ```bash
-dotnet yotsuba add MisShaders/MisShaders.csproj --target spirv
+yotsuba add MisShaders/MisShaders.csproj --target spirv
 ```
 
 La primera vez tarda un poco, porque también se compila el propio compilador. Al terminar verás algo así:
@@ -653,6 +685,8 @@ Es decir, no tienes que cargar archivos ni recordar rutas. Tu shader es una clas
 > `YotsubaShader.g.cs` es un archivo generado. No lo edites a mano: cada vez que ejecutas `add` se vuelve a escribir entero.
 >
 > Si más adelante borras o renombras una clase de shader y `add` falla con un error `CS0234`, es porque el archivo viejo todavía nombra la clase que ya no existe. Borra `YotsubaShader.g.cs` y ejecuta `add` otra vez.
+
+> [!SCENE] use
 
 ## Usa el resultado
 
@@ -765,6 +799,8 @@ Aquí se ven las puertas A y B enteras:
 - Y la posición final no tiene `layout` ni número. Aparece al final como `gl_Position = pixel.Posicion;`. Es el dato especial, el que se queda la GPU.
 
 Vuelve a dejar `Stage.Fragment` antes de seguir.
+
+> [!SCENE] gradient
 
 ## Ahora sí, el degradado
 
@@ -938,7 +974,7 @@ Los píxeles del medio quedan entre un color y otro. No escribiste ningún bucle
 Vuelve a compilar y a ejecutar:
 
 ```bash
-dotnet yotsuba add MisShaders/MisShaders.csproj --target spirv
+yotsuba add MisShaders/MisShaders.csproj --target spirv
 ```
 
 ```bash
@@ -961,6 +997,8 @@ Son tus mismas líneas. Los números largos son tus `0.6f`, `0.45f` y `0.35f`, e
 
 > [!IMPORTANT]
 > Cada vez que cambies un shader tienes que ejecutar `add` otra vez, y después compilar tu programa. Si te saltas el `add`, tu programa sigue usando la versión anterior. En el [capítulo de la CLI](cli.md) verás cómo hacer que esto ocurra solo.
+
+> [!SCENE] apis
 
 ## El mismo shader, para otras APIs gráficas
 
@@ -1006,11 +1044,15 @@ Escribiste el shader una sola vez, en C#, y lo tienes para OpenGL, DirectX, Meta
 > [!TIP]
 > Para ver la etapa Vertex en lugar de la Fragment, cambia `Stage.Fragment` por `Stage.Vertex`. `ToSpirV()` no pide etapa porque el archivo SPIR-V lleva las dos dentro.
 
+> [!SCENE] screen
+
 ## ¿Y cómo lo veo en pantalla?
 
 Hasta aquí solo has visto el degradado como una imagen del tutorial y como texto en la consola. Para verlo dibujado de verdad hace falta una ventana y algo que le mande el rectángulo a la GPU. Eso lo hace un Game Engine o una API gráfica, y cada uno lo hace a su manera.
 
-Por eso el siguiente capítulo te hace una ventana pequeña, un **visor**, que dibuja el shader que le indiques. Es una herramienta de trabajo y no depende de ningún motor en particular: tus shaders siguen siendo los mismos. Con ella, cada capítulo que viene te va a pedir que escribas, ejecutes y **veas** lo que haces. Al terminar, en [¿Y ahora qué?](next-steps.md), eliges tu engine y ves cómo cargar allí lo que te da `add`.
+Por eso el siguiente capítulo te hace una ventana pequeña, un **visor**, que dibuja el shader que le indiques. Es una herramienta de trabajo: tus shaders siguen siendo los mismos. Con ella, cada capítulo que viene te va a pedir que escribas, ejecutes y **veas** lo que haces. Al terminar, en [¿Y ahora qué?](next-steps.md), eliges tu engine y ves cómo cargar allí lo que te da `add`.
+
+> [!SCENE] learned
 
 ## Lo que aprendiste
 

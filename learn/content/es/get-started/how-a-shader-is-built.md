@@ -4,9 +4,15 @@ summary: El recorrido que hacen los datos desde tu juego hasta la pantalla, ante
 order: 2
 ---
 
+> [!SCENE] intro
+
 Ya sabes qué es un shader: una función que la GPU ejecuta muchísimas veces a la vez. Pero saber qué es no te dice cómo se hace uno. ¿Qué recibe esa función? ¿Qué tiene que devolver? ¿Quién la llama, y con qué datos?
 
+> [!SCENE] journey
+
 En este capítulo no vas a escribir código ni a instalar nada. Vas a seguir el viaje completo de un dibujo, desde tu juego hasta la pantalla, un paso detrás de otro. Tómate tu tiempo con él, porque todo lo que escribas después en C# es uno de estos pasos. Si entiendes el viaje, el código se explica solo.
+
+> [!SCENE] triangle
 
 El dibujo que vamos a seguir es este triángulo:
 
@@ -15,6 +21,8 @@ El dibujo que vamos a seguir es este triángulo:
 Tiene una esquina roja, una verde y una azul, y por dentro los colores se van mezclando. Parece poca cosa, pero para dibujarlo hacen falta todas las piezas que tiene un shader. Ni una menos.
 
 ## 1. Todo se dibuja con triángulos
+
+> [!SCENE] shapes
 
 La GPU sabe dibujar muy pocas figuras, y la que se usa para casi todo es el triángulo. Todo lo demás se arma juntando triángulos:
 
@@ -31,6 +39,8 @@ Fíjate en el rectángulo: tiene 4 vértices y no 6, porque los dos triángulos 
 
 ## 2. Tu juego manda una lista de vértices
 
+> [!SCENE] list
+
 Para dibujar el triángulo, tu juego le manda a la GPU una lista con sus tres vértices. Y de cada vértice manda los datos que tú decidas. En nuestro caso son dos: dónde está y de qué color es.
 
 | Vértice | Posición | Color |
@@ -45,6 +55,8 @@ Hay dos cosas aquí que conviene tener claras desde ya:
 - **Para la GPU son solo números.** Ella no sabe que eso es "un color". Ve tres o cuatro números juntos y nada más. El significado se lo das tú dentro del shader.
 
 ### ¿Qué puede llevar un vértice?
+
+> [!SCENE] carry
 
 La posición y el color son lo que necesita este triángulo, pero un vértice puede llevar cualquier dato que quieras. Estos son los habituales:
 
@@ -64,6 +76,8 @@ La GPU no sabe qué significa nada de esto. Un `vec4` son cuatro números, ya po
 
 ### ¿Qué significan los números de la posición?
 
+> [!SCENE] coords
+
 Tu pantalla puede medir 1920 píxeles de ancho, o 800, o 4000. Para que el mismo dibujo sirva en todas, la GPU no mide la pantalla en píxeles. Usa la misma regla, sea cual sea la pantalla:
 
 ![La pantalla vista por la GPU: el centro es (0, 0), la esquina de arriba a la izquierda es (-1, 1) y la de abajo a la derecha es (1, -1)](../../assets/get-started/coordenadas.svg)
@@ -78,6 +92,8 @@ Así que el vértice `(0, 0.8)` está centrado a lo ancho y casi arriba del todo
 > Si ya programaste algo en 2D, estás acostumbrado a que la Y crece hacia abajo. Aquí es al revés: la Y crece hacia **arriba**.
 
 ## 3. La etapa Vertex: una vez por cada vértice
+
+> [!SCENE] vertex
 
 Aquí entra la primera función que escribes tú.
 
@@ -96,6 +112,8 @@ En el triángulo queda así:
 
 ### "Si la posición ya la mandó mi juego, ¿para qué la devuelvo otra vez?"
 
+> [!SCENE] why
+
 Es la pregunta lógica, porque en nuestro triángulo la función Vertex no cambia nada: recibe una posición y devuelve esa misma.
 
 Pero en un juego de verdad los vértices casi nunca se mandan ya colocados. La forma de un personaje se manda una sola vez, y es la etapa Vertex la que lo mueve por el mapa, lo gira, o lo hace pequeño cuando está lejos de la cámara. Para eso existe: es el lugar donde se decide dónde cae cada punto.
@@ -103,6 +121,8 @@ Pero en un juego de verdad los vértices casi nunca se mandan ya colocados. La f
 Que en nuestro ejemplo la respuesta sea "donde ya estaba" no quita que alguien tenga que darla.
 
 ### La posición final tiene cuatro números, no dos
+
+> [!SCENE] four
 
 Tu juego mandó la posición con dos números, X e Y. Pero la GPU pide la posición final con cuatro:
 
@@ -117,6 +137,8 @@ Los dos últimos solo importan en 3D. Mientras dibujes en 2D, quédate con esto:
 
 ## 4. La GPU arma el triángulo
 
+> [!SCENE] raster
+
 Este paso no lo escribes tú. Lo hace la GPU sola.
 
 Con las tres posiciones finales ya sabe dónde está el triángulo en la pantalla. Entonces averigua qué píxeles quedan dentro:
@@ -126,6 +148,8 @@ Con las tres posiciones finales ya sabe dónde está el triángulo en la pantall
 Cuanto más grande sea la figura, más píxeles toca. Un triángulo pequeño puede tocar unos cientos. Un rectángulo que cubre toda una pantalla Full HD toca los dos millones.
 
 ## 5. El reparto: de tres valores a miles
+
+> [!SCENE] spread
 
 Aquí pasa algo que casi nunca se explica, y es la clave para entender todo lo demás.
 
@@ -139,7 +163,11 @@ La GPU **reparte**. A cada píxel le da una mezcla de los tres valores, según l
 - Un píxel a mitad de camino entre el rojo y el verde recibe mitad de cada uno.
 - Un píxel justo en el centro recibe un tercio de cada uno.
 
+> [!SCENE] heat
+
 Esto no es algo especial de los colores. La GPU no sabe que son colores, ¿recuerdas? Para ella son números, y reparte **cualquier** número que la función Vertex deje pasar. Si dejas pasar una temperatura, cada píxel recibe su temperatura mezclada.
+
+> [!SCENE] important
 
 De aquí sale una idea que tienes que llevarte de este capítulo:
 
@@ -149,6 +177,8 @@ De aquí sale una idea que tienes que llevarte de este capítulo:
 El nombre técnico de este reparto es *interpolación*. Lo vas a leer en otros sitios. Aquí lo seguimos llamando reparto.
 
 ## 6. La etapa Fragment: una vez por cada píxel
+
+> [!SCENE] fragment
 
 Esta es la segunda función que escribes tú.
 
@@ -168,11 +198,15 @@ Un color son cuatro números, y cada uno va de `0` (nada) a `1` (todo). No de 0 
 
 El cuarto número es la opacidad: `1` es un color sólido y `0` es totalmente transparente.
 
+> [!SCENE] freedom
+
 En nuestro triángulo, la función Fragment hace lo más simple que existe: recibe el color ya mezclado y lo devuelve tal cual. Todo el degradado lo hizo el reparto.
 
 Pero podría hacer lo que quisiera con él: oscurecerlo, ignorarlo y devolver rojo, o calcular otro color con una fórmula. En eso consiste escribir shaders, y es lo que harás en los cinco que vienen.
 
 ### Lo que una función Fragment no puede hacer
+
+> [!SCENE] isolated
 
 Como la GPU ejecuta la función para miles de píxeles al mismo tiempo, cada llamada vive aislada de las demás:
 
@@ -184,6 +218,8 @@ Lo único que sabe un píxel es lo que le llega por el reparto. Si necesita algo
 
 ## 7. Los casilleros: cómo sabe cada etapa qué dato es cuál
 
+> [!SCENE] slots
+
 Hasta ahora hablamos de "la posición" y "el color", por su nombre. Pero la GPU no entiende de nombres. Para ella los datos viajan en **casilleros numerados**.
 
 Tu juego dice: "pongo la posición en el casillero 0 y el color en el casillero 1". Y la función Vertex dice: "leo la posición del casillero 0 y el color del casillero 1". Se entienden por el número.
@@ -193,6 +229,8 @@ A ese número se le llama *location*, que en inglés es "ubicación".
 Qué número lleva cada dato lo decides tú. El casillero 0 no es la posición por regla: podrías poner el color en el casillero 0 y la posición en el 1, siempre que tu juego haga lo mismo. La GPU solo ve el número y el tipo: casillero 0, dos float; casillero 1, cuatro float. Cada casillero guarda hasta cuatro números, y toda GPU ofrece al menos 16 para los datos de vértice. Si te equivocas de número no aparece ningún error: el shader lee los datos equivocados y el dibujo sale mal.
 
 En HLSL el casillero se escribe como una semántica, `TEXCOORD0` y `TEXCOORD1` en nuestro triángulo. Es la misma idea con otro nombre.
+
+> [!SCENE] doors
 
 Hasta ahí es fácil. Lo que confunde a casi todo el mundo es esto: **no hay una sola fila de casilleros. Hay tres.**
 
@@ -213,6 +251,8 @@ Piensa en tres edificios en la misma calle. Los tres tienen un apartamento núme
 > [!IMPORTANT]
 > Este es el punto donde casi todo el mundo se pierde la primera vez. Vas a ver un `0` junto a la posición en la etapa Vertex, y otro `0` junto al color en la etapa Fragment, y vas a pensar que hay un error o que los dos significan lo mismo. Ni lo uno ni lo otro: son casilleros de puertas distintas.
 
+> [!SCENE] rules
+
 Las reglas son tres:
 
 1. **Dentro de una misma puerta no se repite un número.** No puede haber dos datos en el casillero 0 de la puerta A.
@@ -220,6 +260,8 @@ Las reglas son tres:
 3. **Entre puertas distintas, los números no tienen ninguna relación.**
 
 ### ¿Y la posición final? ¿Por qué no tiene número?
+
+> [!SCENE] special
 
 Mira la puerta B en el dibujo. Además del color hay otra cosa, marcada con una estrella en vez de un número: la posición final.
 
@@ -235,6 +277,8 @@ Así que hay dos clases de datos saliendo de Vertex:
 Porque un shader puede pintar en varias imágenes a la vez, y el número dice en cuál. Es algo avanzado que no vas a necesitar en este tutorial. Casi siempre se pinta en una sola, y esa es la número `0`.
 
 ### Cinco estilos: tú eliges
+
+> [!SCENE] styles
 
 El número entre corchetes, `location`, es como GLSL nombra un casillero. GLSL es el lenguaje de OpenGL y Vulkan. HLSL, el lenguaje de DirectX, nombra lo mismo con una palabra y un índice, como `TEXCOORD0`. Metal, WebGPU y SPIR-V también tienen sus propias palabras. Entonces, ¿cuál escribes? **El que ya conozcas.** Yotsuba Shader tiene cinco estilos: **GLSL, HLSL, MSL (Metal), WGSL (WebGPU) y SPIR-V**. Solo cambian las palabras de la interfaz; la matemática y el C# quedan exactamente igual. Usa el menú **Estilo**, arriba a la derecha de esta página, para ver todos los ejemplos en el estilo que prefieras.
 
@@ -282,6 +326,8 @@ public struct {{cornerType}}
 }
 ```
 
+> [!SCENE] dict
+
 Se ven distintos, pero cada lenguaje tiene sus propias palabras para los mismos conceptos, y el compilador conoce el concepto que hay detrás de cada palabra. Estos son los que has visto hasta ahora:
 
 | Concepto | GLSL | HLSL | MSL | WGSL | SPIR-V |
@@ -298,6 +344,8 @@ En el resto de este capítulo hablamos del número de forma neutral: "el casille
 
 ## 8. El plano completo
 
+> [!SCENE] blueprint
+
 Ya hiciste el viaje entero. Para construir **cualquier** shader, no solo este triángulo, tienes que decidir cinco cosas:
 
 | | Lo que decides | En el triángulo |
@@ -309,6 +357,8 @@ Ya hiciste el viaje entero. Para construir **cualquier** shader, no solo este tr
 | 5 | A dónde va el color (puerta C) | Al casillero 0. |
 
 > [!SAY] Esta tabla resume todo el viaje, una fila por decisión. En la primera fila, cada vértice lleva su posición en el casillero cero y su color en el casillero uno. En la segunda, lo que Vertex le pasa a Fragment es la posición final, que es la especial, y el color en el casillero cero. La tercera dice que la función Vertex solo copia la posición y el color. La cuarta, que Fragment devuelve el color que recibe. Y la quinta, que ese color sale por el casillero cero.
+
+> [!SCENE] who
 
 Y este es el reparto del trabajo entre los tres que participan:
 
@@ -323,6 +373,8 @@ Y este es el reparto del trabajo entre los tres que participan:
 Fíjate en lo que **no** tienes que escribir: ni el bucle sobre los vértices, ni el bucle sobre los píxeles, ni el reparto. Todo eso ya lo hace la GPU.
 
 ## 9. El shader completo y lo que genera el compilador
+
+> [!SCENE] whole
 
 Este es el shader completo del triángulo, escrito en los cinco estilos. Elige el tuyo en el menú **Estilo**. (`Crear.Vec4` es el pequeño ayudante del capítulo del primer shader.)
 
@@ -933,6 +985,8 @@ También compilamos el mismo shader escrito en cada uno de los cinco estilos: lo
 
 > [!NOTE]
 > El compilador convierte tu C# primero a SPIR-V, y desde ahí genera los otros lenguajes. Por eso un nombre como `TEXCOORD` y un número como `location(0)` pueden significar lo mismo para él: los dos terminan como el mismo casillero en SPIR-V.
+
+> [!SCENE] learned
 
 ## Lo que aprendiste
 

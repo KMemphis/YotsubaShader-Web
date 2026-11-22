@@ -4,6 +4,8 @@ summary: Un visor pequeño que dibuja en una ventana el shader que elijas, para 
 order: 5
 ---
 
+> [!SCENE] intro
+
 Hasta ahora compilaste un shader y leíste su código en la consola. Pero un shader se hace para **verse**. Un shader del que no ves el resultado es como una receta que nunca cocinas: no aprendes nada.
 
 Por eso, desde este capítulo cambia la forma de trabajar. Todo lo que sigue funciona así:
@@ -16,6 +18,8 @@ Por eso, desde este capítulo cambia la forma de trabajar. Todo lo que sigue fun
 Para el paso 3 necesitas esa ventana. La vas a construir ahora, una sola vez.
 
 :::xna
+> [!SCENE] x_viewer
+
 ## Qué es el visor
 
 El visor es un programa de unas 70 líneas que hace tres cosas:
@@ -28,6 +32,8 @@ Fíjate en una cosa: el visor **no forma parte de tu shader**. Tus shaders sigue
 
 > [!NOTE]
 > No hace falta que entiendas cada línea del visor para seguir. Si te da curiosidad, la guía de [{{engine}}](../engines/{{plugin}}-reference.md) explica una por una las partes que aquí solo mencionamos.
+
+> [!SCENE] x_project
 
 ## Paso 1: crea el proyecto
 
@@ -51,6 +57,8 @@ Tutorial/
 ├── Probar/           la consola del capítulo anterior
 └── Visor/            nuevo: la ventana
 ```
+
+> [!SCENE] x_vertex
 
 ## Paso 2: describe el vértice, del lado de la ventana
 
@@ -76,6 +84,8 @@ public readonly struct Esquina(Vector2 posicion, Vector2 uv) : IVertexType
 ```
 
 Aquí lo único importante es que coincida con tu `Vertice`: primero dos números para la posición (ranura 0), luego dos para el `Uv` (ranura 1). Si algún día cambias `Vertice`, tendrás que cambiar `Esquina` igual.
+
+> [!SCENE] x_window
 
 ## Paso 3: una ventana vacía
 
@@ -137,6 +147,8 @@ dotnet run --project Visor
 ```
 
 Debe aparecer una ventana azul. Ciérrala con **Esc**. Si la ves, {{engine}} funciona en tu equipo y no te falta nada.
+
+> [!SCENE] x_shader
 
 ## Paso 4: agrega el shader
 
@@ -285,6 +297,8 @@ public class Visor : Game
 }
 ```
 
+> [!SCENE] x_see
+
 ## Paso 5: ve tu primer shader
 
 Ahora sí. Tu `Degradado` del capítulo anterior ya está compilado, así que basta con ejecutar el visor:
@@ -299,6 +313,8 @@ Lo que va después de `--` es el nombre del shader que le pasas al visor.
 
 Ese es tu shader, dibujado por la GPU de tu equipo. Ciérralo con **Esc**.
 
+> [!SCENE] x_cycle
+
 ## El ciclo de trabajo
 
 Ahora vas a aprender el ciclo que usarás el resto del tutorial. Es siempre el mismo:
@@ -310,7 +326,7 @@ Ahora vas a aprender el ciclo que usarás el resto del tutorial. Es siempre el m
 Los dos últimos pasos caben en una línea, unidos por `&&` (que significa "y si salió bien, sigue con esto"):
 
 ```bash
-dotnet yotsuba add MisShaders/MisShaders.csproj --target spirv --target {{plugin}} && dotnet run --project Visor -- Degradado
+yotsuba add MisShaders/MisShaders.csproj --target spirv --target {{plugin}} && dotnet run --project Visor -- Degradado
 ```
 
 Hay algo nuevo en el comando: `--target {{plugin}}`. El visor carga tu shader con `{{toMethod}}`, y ese método no lo genera la CLI sola: viene del **plugin de {{engine}}**. Con ese `--target` lo pides. La primera vez la CLI descarga el plugin (necesita internet solo esa vez) y desde entonces usa la copia que guardó. La [guía de {{engine}}](../engines/{{plugin}}-reference.md) explica qué es el plugin y qué produce.
@@ -344,6 +360,8 @@ Acabas de hacer lo que vas a hacer cientos de veces: cambiar un número y ver qu
 :::
 
 :::godot
+> [!SCENE] g_viewer
+
 ## Qué es el visor
 
 El visor es una pequeña **escena de Godot** que hace tres cosas:
@@ -356,6 +374,8 @@ Fíjate en una cosa: el visor **no forma parte de tu shader**. Tus shaders sigue
 
 > [!NOTE]
 > No necesitas entender cada línea del visor para seguir. Son unas 30 líneas de Godot.
+
+> [!SCENE] g_project
 
 ## Paso 1: crea el proyecto de Godot
 
@@ -381,10 +401,12 @@ Tutorial/
 └── GodotGame/        nuevo: el proyecto de Godot
 ```
 
-Va **dentro** de `Tutorial` a propósito. La herramienta `yotsuba` se instaló con un manifiesto (`.config/dotnet-tools.json`), y .NET busca ese manifiesto en la carpeta actual y en las de arriba. Si el proyecto de Godot está dentro de `Tutorial`, `dotnet yotsuba` también funciona desde ahí.
+Va **dentro** de `Tutorial` a propósito, para que todo quede junto y funcionen las rutas relativas que usarás más adelante (`../GodotGame/...`).
 
 > [!NOTE]
 > Las dos versiones de Godot sirven: la estándar (GDScript) y la **.NET** (C#). Todos los scripts de esta ruta aparecen en los dos lenguajes, en pestañas. El C# que escribes en `MisShaders` es solo el shader, y Godot nunca lo ejecuta.
+
+> [!SCENE] g_addon
 
 ## Paso 2: instala el addon
 
@@ -417,6 +439,8 @@ Rellena `project` con:
 ![La misma sección con el campo Project puesto en ../MisShaders/MisShaders.csproj](../../assets/get-started/godot/en/ajustes-lleno.jpg)
 
 La ruta se cuenta desde el proyecto de Godot. Deja el resto como está: `Output Dir` es donde van los shaders traducidos, `Shader Type` es `spatial` (para objetos 3D), `Command` es la herramienta y `Regenerate on Run` hace que el addon traduzca cada vez que pulsas Play.
+
+> [!SCENE] g_scene
 
 ## Paso 3: el rectángulo y la ventana
 
@@ -571,6 +595,8 @@ Así se ve el editor con tu script:
 
 Si usas C#, el archivo del script se tiene que llamar igual que la clase, `Visor.cs`, y Godot necesita un `.csproj` para el proyecto de Godot (el editor lo crea con **Proyecto → Herramientas → C# → Crear solución de C#**). Ese `.csproj` **no** es `MisShaders`: es el del juego.
 
+> [!SCENE] g_see
+
 ## Paso 4: ve tu primer shader
 
 Guarda la escena (`Cmd/Ctrl+S`) como `visor.tscn`. Selecciona el nodo `Visor`: en el Inspector, **Shader Name** dice `Degradado`.
@@ -584,7 +610,9 @@ Pulsa **Play** (el triángulo de arriba a la derecha). La primera vez Godot pide
 Ese es tu shader, dibujado por la GPU. Cierra la ventana para volver al editor.
 
 > [!NOTE]
-> Si prefieres la terminal, el addon hace esto por ti: `dotnet yotsuba compile MisShaders/MisShaders.csproj --target godot --output ../GodotGame/yotsuba_shaders`.
+> Si prefieres la terminal, el addon hace esto por ti: `yotsuba compile MisShaders/MisShaders.csproj --target godot --output ../GodotGame/yotsuba_shaders`.
+
+> [!SCENE] g_cycle
 
 ## El ciclo de trabajo
 
@@ -617,6 +645,8 @@ Acabas de hacer lo que harás cientos de veces: cambiar un número y ver qué pa
 > [!NOTE]
 > Con cada shader nuevo solo escribirás su nombre en el campo **Nombre Shader**. Lo haces una vez por shader.
 :::
+
+> [!SCENE] template
 
 ## Un archivo de partida
 
@@ -776,7 +806,7 @@ Comprueba que todo funciona ejecutando la plantilla. Primero agrega su línea al
 Luego ejecuta:
 
 ```bash
-dotnet yotsuba add MisShaders/MisShaders.csproj --target spirv --target {{plugin}} && dotnet run --project Visor -- Plantilla
+yotsuba add MisShaders/MisShaders.csproj --target spirv --target {{plugin}} && dotnet run --project Visor -- Plantilla
 ```
 
 Debe abrirse una ventana completamente negra. Si la ves, estás listo.
@@ -803,10 +833,12 @@ Comprueba que todo funciona ejecutando la plantilla. Selecciona el nodo `Visor`,
 | `Cannot open file 'res://yotsuba_shaders/MisShaders/Colores.spatial.gdshader'` | El nombre en **Nombre Shader** está mal escrito, o el addon no se ejecutó. | Revisa las mayúsculas, y que el plugin **YotsubaShader** esté activado. |
 | La ventana muestra el shader viejo | El addon está apagado o `regenerate_on_run` está apagado. | Enciéndelo en la configuración del proyecto, o usa **Proyecto → Herramientas → Regenerate YotsubaShader shaders**. |
 | El panel de Salida dice que no encontró `dotnet` | Godot, abierto desde el Dock o el Finder, no ve el mismo `PATH` que tu terminal. | Pon la ruta completa de `dotnet` en el ajuste `command` del addon. |
-| `dotnet yotsuba` dice que no existe | El proyecto de Godot está fuera de la carpeta donde ejecutaste `dotnet new tool-manifest`. | Mueve `GodotGame` dentro de `Tutorial`. |
+| El addon no encuentra `yotsuba` | Godot se abrió desde el Dock o Finder y no ve la carpeta donde .NET instala las herramientas, o la herramienta no está instalada. | Ejecuta `dotnet tool install --global YotsubaShader.Compiler.CLI`, o escribe la ruta completa del ejecutable `yotsuba` en el campo `Command`. |
 | Un error `CS` con número y línea | Es un error normal de C# en tu shader. | Léelo, ve a esa línea y corrígela. |
 | La ventana sale negra o vacía | Godot descartó el rectángulo o el shader falló. | Revisa el `extra_cull_margin` de `Pantalla` y el panel de Salida. |
 :::
+
+> [!SCENE] learned
 
 ## Lo que aprendiste
 

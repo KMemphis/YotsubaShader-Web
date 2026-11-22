@@ -4,11 +4,15 @@ summary: Instala lo necesario y crea el proyecto donde vivirán tus shaders.
 order: 3
 ---
 
+> [!SCENE] intro
+
 En este capítulo no vas a escribir ningún shader todavía. Vas a dejar lista la carpeta de trabajo, para que en los capítulos siguientes solo tengas que preocuparte por el código.
 
-Todo el tutorial lo vas a hacer en una librería de C# que no depende de ningún Game Engine. No usa MonoGame, ni Unity, ni Stride, ni ningún otro. Los shaders que escribas ahí sirven para todos, porque el Game Engine se elige al final, cuando compilas.
+Todos los shaders del tutorial los vas a escribir en una librería de C#. Los vas a ver funcionar con {{engine}}.
 
-Cuando termines el tutorial, esa misma librería la vas a poder usar en tu Game Engine sin cambiarle una línea. En el último capítulo, [¿Y ahora qué?](next-steps.md), hay un botón por cada Game Engine con los pasos para conectarla.
+Cuando termines el tutorial, vas a usar esa misma librería en tu juego de {{engine}}. El último capítulo, [¿Y ahora qué?](next-steps.md), tiene los pasos para conectarla.
+
+> [!SCENE] need
 
 ## Lo que necesitas
 
@@ -20,7 +24,7 @@ Cuando termines el tutorial, esa misma librería la vas a poder usar en tu Game 
 - **Godot 4.** Descárgalo en [godotengine.org](https://godotengine.org/download). Sirven las dos versiones: la estándar (GDScript) y la **.NET** (C#). Lo configurarás en el capítulo del visor; por ahora basta con tenerlo descargado.
 :::
 
-Por eso no necesitas instalar ningún Game Engine para seguir el tutorial.
+> [!SCENE] tree
 
 ## Cómo va a quedar la carpeta
 
@@ -36,6 +40,8 @@ Mira que `MisShaders` es una librería de C# como cualquier otra. Eso es lo buen
 
 `Probar` solo existe para ver el resultado mientras aprendes. Cuando uses los shaders en tu juego, su lugar lo ocupa el proyecto de tu juego.
 
+> [!SCENE] install
+
 ## 1. Crea la carpeta e instala el compilador
 
 ```bash
@@ -47,14 +53,15 @@ cd Tutorial
 ```
 
 ```bash
-dotnet new tool-manifest
+dotnet tool install --global YotsubaShader.Compiler.CLI
 ```
 
-```bash
-dotnet tool install YotsubaShader.Compiler.CLI
-```
+El comando descarga el compilador de Yotsuba Shader desde NuGet y lo instala como herramienta de todo tu equipo, no solo de esta carpeta. Desde ahora, desde cualquier carpeta, al compilador se le llama con `yotsuba`.
 
-El primer comando crea un archivo pequeño, `.config/dotnet-tools.json`, donde .NET anota qué herramientas usa esta carpeta. El segundo descarga el compilador de Yotsuba Shader desde NuGet y lo anota ahí. Desde ahora, en esta carpeta, al compilador se le llama con `dotnet yotsuba`.
+> [!NOTE]
+> Si la terminal dice que no encuentra `yotsuba` justo después de instalar, ciérrala y abre una nueva. La terminal lee la lista de herramientas cuando arranca.
+
+> [!SCENE] project
 
 ## 2. Crea el proyecto de shaders
 
@@ -81,8 +88,12 @@ Con esa línea te llegan dos cosas:
 
 `YotsubaShader.Language` no la añades tú. `GlslSyntax` ya la usa por dentro, y cuando un paquete usa otro, NuGet te trae los dos.
 
+> [!SCENE] styles
+
 > [!NOTE]
 > `GlslSyntax` es uno de los cinco "estilos" que trae Yotsuba Shader. Usa los mismos nombres que GLSL, el lenguaje de shaders que más vas a encontrar en tutoriales de internet. Si vienes de HLSL, Metal, Vulkan o WGSL, hay un estilo para cada uno, y el resultado es el mismo. Lo verás en [Otros estilos de escritura](how-it-works.md). En este tutorial usamos GLSL de principio a fin.
+
+> [!SCENE] tryit
 
 ## 3. Crea el programa para probar
 
@@ -95,6 +106,8 @@ dotnet add Probar reference MisShaders/MisShaders.csproj
 ```
 
 `Probar` es un programa de consola cualquiera. Hace el papel de "tu juego" o "tu aplicación": el programa que va a pedir los shaders ya compilados. Lo usaremos para ver con nuestros propios ojos lo que produce el compilador.
+
+> [!SCENE] build
 
 ## 4. Comprueba que todo compila
 
@@ -116,19 +129,21 @@ Godot y tu editor son dos programas distintos: el editor es para el C# de `MisSh
 También puedes hacer lo mismo desde la terminal: `dotnet build MisShaders` desde la carpeta `Tutorial`.
 :::
 
+> [!SCENE] cli
+
 ## Un atajo para llamar al compilador
 
 El compilador de Yotsuba Shader es un programa de terminal (una CLI). Lo vas a ejecutar así, desde la carpeta `Tutorial`:
 
 ```bash
-dotnet yotsuba add MisShaders/MisShaders.csproj --target spirv
+yotsuba add MisShaders/MisShaders.csproj --target spirv
 ```
 
 No lo ejecutes todavía. Solo fíjate en sus partes:
 
 | Parte | Qué significa |
 | --- | --- |
-| `dotnet yotsuba` | "Ejecuta el compilador". `yotsuba` es el nombre de la herramienta que acabas de instalar. Todo lo que va después son las órdenes para él. |
+| `yotsuba` | "Ejecuta el compilador". Es el nombre de la herramienta que acabas de instalar. Todo lo que va después son las órdenes para él. |
 | `add` | El comando. `add` significa: "compila mis shaders y **añade** el resultado a mi proyecto". |
 | `MisShaders/MisShaders.csproj` | El proyecto donde están los shaders. |
 | `--target spirv` | Un formato de salida. La CLI pide al menos uno. `spirv` viene dentro de la CLI; los motores (MonoGame, KNI, FNA) son plugins que añades más adelante como un `--target` más. |

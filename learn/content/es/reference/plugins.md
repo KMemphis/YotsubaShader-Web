@@ -13,7 +13,7 @@ Un plugin lo usa solo la CLI, mientras compila. Tu juego no lo referencia.
 Pídelo con `--target`. La CLI lo descarga la primera vez y comprueba si hay una versión nueva cada vez que se ejecuta:
 
 ```bash
-dotnet yotsuba add MyShaders/MyShaders.csproj --target spirv --target monogame
+yotsuba add MyShaders/MyShaders.csproj --target spirv --target monogame
 ```
 
 Sin internet, la CLI avisa de que no pudo buscar actualizaciones y usa la copia instalada. Si el plugin nunca se instaló, el comando falla.
