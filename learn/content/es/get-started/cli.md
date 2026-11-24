@@ -139,10 +139,13 @@ Dos detalles de `--output`:
 | `hlsl` | HLSL, para DirectX | `.hlsl` |
 | `msl` (o `metal`) | Metal, para Apple | `.msl` |
 | `cpp` | C++ | `.cpp` |
+| `wgsl` | WGSL, para WebGPU. Un archivo por clase shader con todas sus etapas. | `.wgsl` |
 | `monogame` (o `mgfx`) | Efectos de MonoGame, uno por plataforma. Necesita el plugin `monogame`. | `.mgfx` |
 | `kni` (o `kni-webgl`) | Efecto de KNI. Necesita el plugin `kni`. | `.knifx` |
 | `fna` | Efecto de FNA. Necesita el plugin `fna`. | `.fxb` |
 | `godot` (o `gdshader`) | Shaders de Godot, uno por tipo (`spatial`, `canvas_item`). Necesita el plugin `godot`. | `.gdshader` |
+
+Cada formato usa su versión de lenguaje por defecto. Para pedir otra, escríbela después del nombre: `--target glsl:430`, `--target gles:300` o `--target spirv:1.3`. Las versiones que acepta cada formato están en [la referencia de compile](../reference/compile.md#versiones-del-lenguaje).
 
 > [!SCENE] auto
 

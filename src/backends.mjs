@@ -8,7 +8,7 @@ export const BACKENDS = [
   { id: 'vulkan', name: 'Vulkan', format: 'SPIR-V', logo: '/img/backends/vulkan.svg', ratio: 1300 / 500 },
   { id: 'd3d', name: 'Direct3D 11 / 12', format: 'HLSL', logo: null },
   { id: 'metal', name: 'Metal', format: 'MSL', logo: null },
-  { id: 'webgpu', name: 'WebGPU', format: 'WGSL', logo: '/img/backends/webgpu.svg', ratio: 768 / 600, iconOnly: true, planned: true },
+  { id: 'webgpu', name: 'WebGPU', format: 'WGSL', logo: '/img/backends/webgpu.svg', ratio: 768 / 600, iconOnly: true },
   { id: 'opengl', name: 'OpenGL', format: 'GLSL', logo: '/img/backends/opengl.svg', ratio: 1200 / 500 },
   { id: 'webgl', name: 'WebGL', format: 'GLSL ES', logo: '/img/backends/webgl.svg', ratio: 1200 / 500 },
 ];

@@ -171,6 +171,8 @@ var app = new ApplicationInfo
 };
 ```
 
+Si tu programa tiene que funcionar en Vulkan 1.1 o 1.2, pide la versión de SPIR-V que leen: `--target spirv:1.3` para Vulkan 1.1 y `--target spirv:1.5` para Vulkan 1.2. El validador la acepta para esa versión (`spirv-val --target-env vulkan1.1`), y pides esa versión de Vulkan al crear la instancia.
+
 ## Cárgalo en Vulkan
 
 Los ejemplos usan Silk.NET.Vulkan, y cada llamada tiene el nombre de la función nativa. Los punteros necesitan `<AllowUnsafeBlocks>true</AllowUnsafeBlocks>` en el `.csproj` del proyecto que dibuja. La instancia, el device y el render pass son los que ya tienes. Lee el archivo y crea el shader module:
@@ -298,4 +300,4 @@ ShaderModule module = CreateModule(vk, device, spirv);
 
 Usa `compile` cuando tu motor carga los assets desde disco, o cuando quieres inspeccionar el archivo con las herramientas del SDK. Usa `add` cuando el renderer está escrito en C# y quieres que el compilador de C# compruebe el nombre del shader. Las opciones de los dos están en [El comando compile](../reference/compile.md) y [El comando add](../reference/add.md).
 
-El mismo shader va a las otras APIs gráficas cambiando solo el target: [OpenGL](opengl.md), [Direct3D](direct3d.md), [Metal](metal.md) y [WebGL](webgl.md).
+El mismo shader va a las otras APIs gráficas cambiando solo el target: [OpenGL](opengl.md), [Direct3D](direct3d.md), [Metal](metal.md), [WebGL](webgl.md) y [WebGPU](webgpu.md).

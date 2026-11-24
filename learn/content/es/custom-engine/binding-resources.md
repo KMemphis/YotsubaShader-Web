@@ -47,6 +47,7 @@ La salida del vertex en `location(0)` es la entrada del fragment en `location(0)
 | SPIR-V, GLSL, GLSL ES | `layout(location = n)` | `layout(location = 0) out` |
 | HLSL | `TEXCOORDn` | `SV_Target0` |
 | MSL | `[[user(locnN)]]` | `[[color(0)]]` |
+| WGSL | `@location(n)` | `-> @location(0)` |
 
 Crea tu layout de vértices con un elemento por `location`, del tipo que tiene el campo (`vec2` son dos floats, `vec4` son cuatro).
 
@@ -55,22 +56,24 @@ Crea tu layout de vértices con un elemento por `location`, del tipo que tiene e
 `[layout(set, binding)]` coloca un recurso. Un struct `[uniform]` se vuelve un bloque uniforme con layout `std140`:
 
 ```glsl
-layout(set = 0, binding = 0, std140) uniform Stopwatch
+layout(binding = 0, std140) uniform Stopwatch
 {
     float Seconds;
 } Time;
 ```
 
-| Recurso | GLSL / SPIR-V | HLSL | MSL |
-| --- | --- | --- | --- |
-| Struct uniform en `layout(0, 0)` | `set = 0, binding = 0` | `cbuffer … : register(b0)` | `constant … [[buffer(0)]]` |
-| Textura `sampler2D` en `layout(0, 1)` | `set = 0, binding = 1` | `Texture2D … : register(t1)` y `SamplerState … : register(s1)` | `texture2d … [[texture(0)]]` y `sampler … [[sampler(0)]]` |
+| Recurso | GLSL | SPIR-V | HLSL | MSL | WGSL |
+| --- | --- | --- | --- | --- | --- |
+| Struct uniform en `layout(0, 0)` | `binding = 0` | `DescriptorSet 0`, `Binding 0` | `cbuffer … : register(b0)` | `constant … [[buffer(0)]]` | `@group(0) @binding(0) var<uniform>` |
+| Textura `sampler2D` en `layout(0, 1)` | `binding = 1` | `DescriptorSet 0`, `Binding 1` | `Texture2D … : register(t1)` y `SamplerState … : register(s1)` | `texture2d … [[texture(0)]]` y `sampler … [[sampler(0)]]` | No disponible: mira abajo |
 
 Cosas que debes saber al crear los recursos:
 
 - En HLSL los miembros del struct uniform son constantes sueltas del `cbuffer`, con el nombre `<Campo>_<Miembro>` (`Time_Seconds`). El contenido del buffer son los mismos bytes que el struct de C#.
+- El GLSL es para OpenGL, que no tiene descriptor sets: el número de set solo llega al SPIR-V (Vulkan). Por debajo de `#version 420` el GLSL tampoco tiene `binding`, y colocas cada recurso desde tu programa.
 - En MSL los números de binding se renumeran por tipo: buffers, texturas y samplers cuentan cada uno desde 0 en orden.
 - Una textura y su sampler van juntos. En GLSL son un solo `sampler2D`; en HLSL usan el mismo número de registro.
+- WGSL conserva el set y el binding como `@group` y `@binding`. No tiene texturas con el sampler dentro, así que un shader con un `sampler2D` de GLSL no compila a `wgsl`: la CLI lo dice y nombra el campo. Escribe la textura y el sampler como dos campos, `Texture2D` y `SamplerState` en el estilo HLSL, y cada uno recibe su propio `@binding`.
 
 ## Puntos de entrada
 

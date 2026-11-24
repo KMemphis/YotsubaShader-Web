@@ -52,6 +52,7 @@ export default [
       ] },
       { k: 'row', at: 'formats', items: [
         { k: 'box', cls: 's-mono', text: L('formats', 'formatos'), sub: 'spirv · glsl · hlsl · msl', at: 'formats' },
+        { k: 'box', cls: 's-mono', text: 'wgsl', sub: '.wgsl · WebGPU', at: 'formats+0.6' },
         { k: 'box', cls: 'accent s-mono', text: L('automatic', 'automático'), sub: 'add', at: 'stop' },
       ] },
     ],

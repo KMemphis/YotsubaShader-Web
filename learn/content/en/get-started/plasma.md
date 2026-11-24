@@ -421,13 +421,13 @@ public class Plasma
 When `add` processes a shader with a uniform, your `struct` and its address show up in the output. In GLSL they look like this:
 
 ```glsl
-layout(set = 0, binding = 0, std140) uniform Clock
+layout(binding = 0, std140) uniform Clock
 {
     float Seconds;
 } Time;
 ```
 
-There are your `Clock`, your `Seconds`, your `Time` field and the two numbers from `layout(0, 0)`: `set = 0` is the group and `binding = 0` is the slot.
+There are your `Clock`, your `Seconds`, your `Time` field and the slot from `layout(0, 0)`: `binding = 0` is the slot. The other number, the group, is not in the GLSL: this GLSL is for OpenGL, which has no groups. The group travels in the SPIR-V, the format for Vulkan.
 
 > [!SCENE] program
 

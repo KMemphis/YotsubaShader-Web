@@ -31,12 +31,16 @@ SPIR-V is one file with every stage inside. The text formats are one file per st
 
 | Your renderer uses | Ask for | Notes |
 | --- | --- | --- |
-| Vulkan, WebGPU through SPIR-V tools | `spirv` | One `.spv` per shader class. |
-| OpenGL 4.5 | `glsl` | `#version 450`, written with Vulkan semantics (`set` and `binding`). |
-| OpenGL ES, WebGL | `gles` | Same layout as `glsl`, for ES. |
-| Direct3D 11 | `hlsl` | Shader model 5.0. |
-| Metal | `msl` | |
+| Vulkan | `spirv` | One `.spv` per shader class. SPIR-V 1.6 (Vulkan 1.3); `spirv:1.3` for Vulkan 1.1 and `spirv:1.5` for Vulkan 1.2. |
+| WebGPU | `wgsl` | One `.wgsl` per shader class, with every stage inside. |
+| OpenGL | `glsl` | `#version 450`, with `binding` and no descriptor sets. `glsl:410` for macOS, `glsl:330` for OpenGL 3.3. |
+| OpenGL ES | `gles` | `#version 310 es`. `gles:320` for ES 3.2. |
+| WebGL 2 | `gles:300` | `#version 300 es`, without `binding`. |
+| Direct3D 11 and 12 | `hlsl` | Shader model 5.0. `hlsl:6.0` (up to `6.8`) for shader model 6. |
+| Metal | `msl` | MSL 1.2. `msl:2.4`, `msl:3.1`... when the shader needs a newer version. |
 | A software renderer | `cpp` | C++ per stage. |
+
+The number after the colon is the version of the output language, and every target has a default. The accepted versions are in [The compile command](../reference/compile.md#language-versions).
 
 The output folder is counted from the folder of the `.csproj`. The folders follow the namespace of your classes.
 

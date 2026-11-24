@@ -111,10 +111,10 @@ yotsuba compile MisShaders/MisShaders.csproj --target webgl
 El plugin 'webgl' no existe. Disponibles: monogame, kni, fna, godot.
 ```
 
-El target para WebGL es `gles`:
+El target para WebGL es `gles`. WebGL 2 es OpenGL ES 3.0, así que pide esa versión añadiendo `:300` al target:
 
 ```bash
-yotsuba compile MisShaders/MisShaders.csproj --target gles --output shaders
+yotsuba compile MisShaders/MisShaders.csproj --target gles:300 --output shaders
 ```
 
 No imprime nada si todo sale bien y termina con código `0`. La carpeta de `--output` se cuenta desde la carpeta del `.csproj`, y las subcarpetas siguen el namespace:
@@ -149,67 +149,43 @@ public Reloj Tiempo;
 ```
 
 ```glsl
-layout(set = 0, binding = 0, std140) uniform Reloj
+layout(std140) uniform Reloj
 {
     float Segundos;
 } Tiempo;
 ```
 
-## Lo que WebGL 2 no acepta
+## Por qué la versión 300
 
-Los archivos empiezan con `#version 310 es`, que es OpenGL ES 3.1. WebGL 2 es ES 3.0, así que hay tres cosas del texto que cambiar antes de que el navegador lo compile:
+Sin versión, `gles` escribe `#version 310 es`, OpenGL ES 3.1, la versión de los móviles y otros dispositivos con OpenGL ES. WebGL 2 es ES 3.0 y rechaza tres cosas de 3.1, así que `gles:300` las escribe de otra forma:
 
-- La línea de versión pasa a `#version 300 es`.
-- `set` y `binding` no existen en WebGL. El bloque conserva `std140`, y lo colocas desde JavaScript.
-- WebGL une la salida de la etapa vertex con la entrada de la etapa fragment por nombre, y no acepta `layout(location)` ahí. En los archivos generados el nombre no es el mismo en los dos lados: el método vertex devuelve `_return_Uv`, y el método fragment recibe `pixel_Uv` porque su parámetro es `Fragment(PixelIn pixel)`. Los dos pasan a llamarse `v_Uv`.
+- La primera línea es `#version 300 es`.
+- El bloque uniform no lleva `binding`, que no existe en WebGL. Conserva `std140`, y lo colocas desde JavaScript.
+- El valor que va de la etapa vertex a la etapa fragment no lleva `layout(location)`, porque WebGL une las dos etapas por nombre. La CLI le da el mismo nombre en los dos lados, `ys_varying0` (el `0` es su ubicación).
 
-Los atributos de vértice conservan su `layout(location)`, que ES 3.0 sí acepta. Los cambios caben en una función:
-
-```js
-function toWebGL2(source) {
-  return source
-    .replace('#version 310 es', '#version 300 es')
-    .replace(/set = \d+, binding = \d+, /g, '')
-    .replace(/layout\(location = \d+\) (?=(?:in|out) [\w ]*\b(?:_return|pixel)_\w+;)/g, '')
-    .replace(/\b(?:_return|pixel)_(\w+)/g, 'v_$1');
-}
-```
-
-Aplicada a los archivos generados, estas líneas cambian. En `Plasma.Vertex.gles`:
+En `Plasma.Vertex.gles`:
 
 ```glsl
-#version 310 es
-layout(set = 0, binding = 0, std140) uniform Reloj
-layout(location = 0) out vec2 _return_Uv;
-```
-
-```glsl
-#version 300 es
-layout(std140) uniform Reloj
-out vec2 v_Uv;
+out vec2 ys_varying0;
 ```
 
 Y en `Plasma.Fragment.gles`:
 
 ```glsl
-layout(location = 0) in highp vec2 pixel_Uv;
+in highp vec2 ys_varying0;
 ```
 
-```glsl
-in highp vec2 v_Uv;
-```
-
-Si el parámetro de tu método fragment se llama distinto de `pixel`, cambia `pixel` por ese nombre en las dos expresiones.
+Los atributos de vértice conservan su `layout(location)`, que ES 3.0 sí acepta. Los archivos se cargan tal cual; no hay nada que editar.
 
 ## Cárgalo en WebGL 2
 
-Descarga cada archivo, aplica `toWebGL2`, compila y enlaza:
+Descarga cada archivo, compila y enlaza:
 
 ```js
 const gl = document.getElementById('view').getContext('webgl2');
 
 async function compile(type, url) {
-  const source = toWebGL2(await (await fetch(url)).text());
+  const source = await (await fetch(url)).text();
   const shader = gl.createShader(type);
   gl.shaderSource(shader, source);
   gl.compileShader(shader);
@@ -247,7 +223,7 @@ gl.enableVertexAttribArray(1);                           // [location(1)] vec2 U
 gl.vertexAttribPointer(1, 2, gl.FLOAT, false, 16, 8);
 ```
 
-El bloque `Reloj` es el que declaraste con `[uniform, layout(0, 0)]`. Como WebGL ignora el binding escrito en el shader, enlazas tú el bloque a un punto de enlace. Un bloque con layout `std140` ocupa al menos 16 bytes, por eso el buffer tiene 16 aunque `Segundos` sea un solo `float`:
+El bloque `Reloj` es el que declaraste con `[uniform, layout(0, 0)]`. En WebGL el shader no lleva binding, así que enlazas tú el bloque a un punto de enlace. Un bloque con layout `std140` ocupa al menos 16 bytes, por eso el buffer tiene 16 aunque `Segundos` sea un solo `float`:
 
 ```js
 const reloj = gl.createBuffer();
@@ -280,7 +256,7 @@ requestAnimationFrame(function frame(ms) {
 Si una aplicación .NET sirve tu página (ASP.NET Core, por ejemplo), puedes olvidarte de los archivos. `add` escribe los shaders dentro del proyecto de shaders como métodos de C#:
 
 ```bash
-yotsuba add MisShaders/MisShaders.csproj --target gles
+yotsuba add MisShaders/MisShaders.csproj --target gles:300
 ```
 
 ```text
@@ -305,10 +281,10 @@ app.MapGet("/shaders/plasma.frag", () => Results.Text(plasma.ToGlslEs(Stage.Frag
 app.Run();
 ```
 
-En la página, cambia las dos URL que usaba `compile` por `/shaders/plasma.vert` y `/shaders/plasma.frag`. El texto es el mismo, así que `toWebGL2` y el resto de la página no cambian.
+En la página, cambia las dos URL que usaba `compile` por `/shaders/plasma.vert` y `/shaders/plasma.frag`. `add` usa la versión que escribes en `--target`, así que `ToGlslEs` devuelve el mismo texto ES 3.00 que los archivos, y el resto de la página no cambia.
 
 ## Qué comando usar
 
 Usa `compile` cuando tu sitio es estático y copias los archivos al servidor, o cuando quieres abrir el GLSL ES y leerlo. Usa `add` cuando una aplicación de C# sirve la página y quieres que el compilador de C# compruebe el nombre del shader. Las opciones de los dos están en [El comando compile](../reference/compile.md) y [El comando add](../reference/add.md).
 
-El mismo shader va a las otras APIs gráficas cambiando solo el target: [OpenGL](opengl.md), [Direct3D](direct3d.md), [Vulkan](vulkan.md) y [Metal](metal.md).
+El mismo shader va a las otras APIs gráficas cambiando solo el target: [OpenGL](opengl.md), [Direct3D](direct3d.md), [Vulkan](vulkan.md), [Metal](metal.md) y [WebGPU](webgpu.md).

@@ -107,7 +107,7 @@ public class ComputeShader
     }
 }`, 'ComputeShader.cs')}</div></div></div></section>
 <section class="section language-surface"><div class="container">
-<h2 class="h-lg">Start with HLSL. Explore other vocabularies when you need them.</h2><p>The syntax controls the attribute names you write. It does not select the output graphics API. WGSL-inspired authoring attributes already exist; generating WGSL output is planned for 2027.</p>
+<h2 class="h-lg">Start with HLSL. Explore other vocabularies when you need them.</h2><p>The syntax controls the attribute names you write. It does not select the output graphics API. The WGSL attributes are one more way to write the shader, and WGSL is one of the formats the CLI can generate.</p>
 <div class="language-vocabularies">${Object.entries(SYNTAX_META).map(([id, meta]) => `<a class="btn btn-secondary" href="/syntaxes/${id}/">${meta.label}</a>`).join('')}</div>
 <p class="mt-32"><a class="compilation-text-link" href="__LEARN__/reference/compile/">See how the shader is compiled →</a></p>
 </div></section>`,

@@ -10,7 +10,7 @@ Si el motor es tuyo, decides cómo llegan los shaders a la GPU. Yotsuba Shader t
 
 | Pieza | Qué haces | Capítulo |
 | --- | --- | --- |
-| Compilador | Convertir los shaders de C# a archivos SPIR-V, GLSL, GLSL ES, HLSL, MSL o C++ | [Compilar en tu build](compile-in-your-build.md) |
+| Compilador | Convertir los shaders de C# a archivos SPIR-V, GLSL, GLSL ES, HLSL, MSL, WGSL o C++ | [Compilar en tu build](compile-in-your-build.md) |
 | Contrato de interfaz | Crear los layouts de vértices, los buffers uniformes y las texturas en las ranuras que el shader espera | [Enlazar recursos](binding-resources.md) |
 | Ejecución | Llevar el shader compilado a tu renderer, desde un archivo o desde C# | [Cargar en ejecución](load-at-runtime.md) |
 

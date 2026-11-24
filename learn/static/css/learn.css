@@ -87,7 +87,7 @@ kbd { font: 500 .75rem var(--font); background: var(--bg); border: 1px solid var
 .tiles { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; padding-bottom: 96px; }
 .tile { position: relative; display: flex; flex-direction: column; padding: 28px; background: var(--bg-2); border-radius: 24px; min-height: 280px; transition: transform .25s cubic-bezier(.2,.8,.2,1), box-shadow .25s; }
 .tile:hover { transform: translateY(-3px); box-shadow: var(--shadow); }
-.tile-engines, .tile-custom-engine { grid-column: 1 / -1; min-height: 0; }
+.tile-engines, .tile-custom-engine, .tile-api { grid-column: 1 / -1; min-height: 0; }
 .tile-link { position: absolute; inset: 0; border-radius: 24px; z-index: 1; }
 .tile-ico { display: grid; place-items: center; width: 48px; height: 48px; border-radius: 14px; background: var(--accent-soft); color: var(--accent); margin-bottom: 20px; }
 .tile-ico .big { width: 26px; height: 26px; }
@@ -209,7 +209,7 @@ dialog::backdrop { background: rgba(0,0,0,.35); backdrop-filter: blur(6px); }
   .doc { display: block; }
   .sidebar { position: fixed; z-index: 60; inset: 0 auto 0 0; width: min(88vw, 340px); height: 100%; background: var(--bg); transform: translateX(-102%); transition: transform .3s cubic-bezier(.2,.8,.2,1); box-shadow: var(--shadow); padding-top: 16px; }
   .sidebar.open { transform: none; }
-  .tiles { grid-template-columns: 1fr; padding-bottom: 64px; } .tile-engines, .tile-custom-engine { grid-column: auto; }
+  .tiles { grid-template-columns: 1fr; padding-bottom: 64px; } .tile-engines, .tile-custom-engine, .tile-api { grid-column: auto; }
   .hero { padding: 56px 20px 24px; }
   .pager { grid-template-columns: 1fr; }
 }

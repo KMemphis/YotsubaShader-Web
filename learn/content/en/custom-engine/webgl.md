@@ -111,10 +111,10 @@ yotsuba compile MyShaders/MyShaders.csproj --target webgl
 El plugin 'webgl' no existe. Disponibles: monogame, kni, fna, godot.
 ```
 
-The target for WebGL is `gles`:
+The target for WebGL is `gles`. WebGL 2 is OpenGL ES 3.0, so ask for that version by adding `:300` to the target:
 
 ```bash
-yotsuba compile MyShaders/MyShaders.csproj --target gles --output shaders
+yotsuba compile MyShaders/MyShaders.csproj --target gles:300 --output shaders
 ```
 
 It prints nothing when it works and exits with code `0`. The `--output` folder is counted from the folder of the `.csproj`, and the subfolders follow the namespace:
@@ -149,67 +149,43 @@ public Clock Time;
 ```
 
 ```glsl
-layout(set = 0, binding = 0, std140) uniform Clock
+layout(std140) uniform Clock
 {
     float Seconds;
 } Time;
 ```
 
-## What WebGL 2 does not accept
+## Why version 300
 
-The files start with `#version 310 es`, which is OpenGL ES 3.1. WebGL 2 is ES 3.0, so three things in the text have to change before the browser compiles it:
+Without a version, `gles` writes `#version 310 es`, OpenGL ES 3.1, the version of phones and other OpenGL ES devices. WebGL 2 is ES 3.0 and rejects three things of 3.1, so `gles:300` writes them differently:
 
-- The version line becomes `#version 300 es`.
-- `set` and `binding` do not exist in WebGL. The block keeps `std140`, and you place it from JavaScript.
-- WebGL links the output of the vertex stage with the input of the fragment stage by name, and it does not accept `layout(location)` there. In the generated files the name is not the same on both sides: the vertex method returns `_return_Uv`, and the fragment method receives `pixel_Uv` because its parameter is `Fragment(PixelIn pixel)`. Both get the name `v_Uv`.
+- The first line is `#version 300 es`.
+- The uniform block has no `binding`, which does not exist in WebGL. It keeps `std140`, and you place it from JavaScript.
+- The value that goes from the vertex stage to the fragment stage has no `layout(location)`, because WebGL joins the two stages by name. The CLI gives it the same name on both sides, `ys_varying0` (the `0` is its location).
 
-The vertex attributes keep their `layout(location)`, which ES 3.0 does accept. The edits fit in one function:
-
-```js
-function toWebGL2(source) {
-  return source
-    .replace('#version 310 es', '#version 300 es')
-    .replace(/set = \d+, binding = \d+, /g, '')
-    .replace(/layout\(location = \d+\) (?=(?:in|out) [\w ]*\b(?:_return|pixel)_\w+;)/g, '')
-    .replace(/\b(?:_return|pixel)_(\w+)/g, 'v_$1');
-}
-```
-
-Applied to the generated files, these lines change. In `Plasma.Vertex.gles`:
+In `Plasma.Vertex.gles`:
 
 ```glsl
-#version 310 es
-layout(set = 0, binding = 0, std140) uniform Clock
-layout(location = 0) out vec2 _return_Uv;
-```
-
-```glsl
-#version 300 es
-layout(std140) uniform Clock
-out vec2 v_Uv;
+out vec2 ys_varying0;
 ```
 
 And in `Plasma.Fragment.gles`:
 
 ```glsl
-layout(location = 0) in highp vec2 pixel_Uv;
+in highp vec2 ys_varying0;
 ```
 
-```glsl
-in highp vec2 v_Uv;
-```
-
-If you name the parameter of your fragment method something other than `pixel`, change `pixel` in the two expressions to that name.
+The vertex attributes keep their `layout(location)`, which ES 3.0 does accept. The files load as they are; there is nothing to edit.
 
 ## Load it in WebGL 2
 
-Fetch each file, apply `toWebGL2`, compile and link:
+Fetch each file, compile and link:
 
 ```js
 const gl = document.getElementById('view').getContext('webgl2');
 
 async function compile(type, url) {
-  const source = toWebGL2(await (await fetch(url)).text());
+  const source = await (await fetch(url)).text();
   const shader = gl.createShader(type);
   gl.shaderSource(shader, source);
   gl.compileShader(shader);
@@ -247,7 +223,7 @@ gl.enableVertexAttribArray(1);                           // [location(1)] vec2 U
 gl.vertexAttribPointer(1, 2, gl.FLOAT, false, 16, 8);
 ```
 
-The `Clock` block is the one you declared with `[uniform, layout(0, 0)]`. Since WebGL ignores the binding written in the shader, you tie the block to a binding point yourself. A block in `std140` layout takes at least 16 bytes, which is why the buffer has 16 even though `Seconds` is a single `float`:
+The `Clock` block is the one you declared with `[uniform, layout(0, 0)]`. WebGL has no binding in the shader, so you tie the block to a binding point yourself. A block in `std140` layout takes at least 16 bytes, which is why the buffer has 16 even though `Seconds` is a single `float`:
 
 ```js
 const clock = gl.createBuffer();
@@ -280,7 +256,7 @@ requestAnimationFrame(function frame(ms) {
 If a .NET application serves your page (ASP.NET Core, for example), you can skip the files. `add` writes the shaders into the shader project as C# methods:
 
 ```bash
-yotsuba add MyShaders/MyShaders.csproj --target gles
+yotsuba add MyShaders/MyShaders.csproj --target gles:300
 ```
 
 ```text
@@ -305,10 +281,10 @@ app.MapGet("/shaders/plasma.frag", () => Results.Text(plasma.ToGlslEs(Stage.Frag
 app.Run();
 ```
 
-In the page, change the two URLs that `compile` used for `/shaders/plasma.vert` and `/shaders/plasma.frag`. The text is the same, so `toWebGL2` and the rest of the page do not change.
+In the page, change the two URLs that `compile` used for `/shaders/plasma.vert` and `/shaders/plasma.frag`. `add` uses the version you write in `--target`, so `ToGlslEs` returns the same ES 3.00 text as the files, and the rest of the page does not change.
 
 ## Which command to use
 
 Use `compile` when your site is static and you copy the files to the server, or when you want to open the GLSL ES and read it. Use `add` when a C# application serves the page and you want the C# compiler to check the shader name. The options of both are in [The compile command](../reference/compile.md) and [The add command](../reference/add.md).
 
-The same shader goes to the other graphics APIs by changing only the target: [OpenGL](opengl.md), [Direct3D](direct3d.md), [Vulkan](vulkan.md) and [Metal](metal.md).
+The same shader goes to the other graphics APIs by changing only the target: [OpenGL](opengl.md), [Direct3D](direct3d.md), [Vulkan](vulkan.md), [Metal](metal.md) and [WebGPU](webgpu.md).

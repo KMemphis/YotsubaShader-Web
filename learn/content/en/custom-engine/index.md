@@ -10,7 +10,7 @@ If you own the engine, you decide how shaders reach the GPU. Yotsuba Shader give
 
 | Piece | What you do | Chapter |
 | --- | --- | --- |
-| Compiler | Turn the C# shaders into SPIR-V, GLSL, GLSL ES, HLSL, MSL or C++ files | [Compile in your build](compile-in-your-build.md) |
+| Compiler | Turn the C# shaders into SPIR-V, GLSL, GLSL ES, HLSL, MSL, WGSL or C++ files | [Compile in your build](compile-in-your-build.md) |
 | Interface contract | Create vertex layouts, uniform buffers and textures in the slots the shader expects | [Binding resources](binding-resources.md) |
 | Runtime | Get the compiled shader into your renderer, from a file or from C# | [Load at run time](load-at-runtime.md) |
 

@@ -421,13 +421,13 @@ public class Plasma
 Cuando `add` procesa un shader con un uniform, tu `struct` y su dirección aparecen en la salida. En GLSL quedan así:
 
 ```glsl
-layout(set = 0, binding = 0, std140) uniform Reloj
+layout(binding = 0, std140) uniform Reloj
 {
     float Segundos;
 } Tiempo;
 ```
 
-Ahí están tu `Reloj`, tu `Segundos`, tu campo `Tiempo` y los dos números de `layout(0, 0)`: `set = 0` es el grupo y `binding = 0` es el casillero.
+Ahí están tu `Reloj`, tu `Segundos`, tu campo `Tiempo` y el casillero de `layout(0, 0)`: `binding = 0` es el casillero. El otro número, el grupo, no aparece en el GLSL: este GLSL es para OpenGL, que no tiene grupos. El grupo viaja en el SPIR-V, el formato para Vulkan.
 
 > [!SCENE] program
 

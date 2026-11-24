@@ -15,6 +15,7 @@ export const SECTIONS = [
   { id: 'engines', icon: 'puzzle' },
   { id: 'get-started', icon: 'spark', routes: true },
   { id: 'reference', icon: 'book' },
+  { id: 'api', icon: 'code' },
 ];
 
 // Engines are listed by name only (no logos). Graphics APIs may use their official logos.
@@ -127,6 +128,7 @@ export const SOURCE_LANGUAGES = [
       { name: 'Vulkan', logo: 'vulkan.svg', wide: true, page: ['custom-engine', 'vulkan'] },
       { name: 'Metal', logo: 'metal.svg', page: ['custom-engine', 'metal'] },
       { name: 'WebGL', logo: 'webgl.svg', wide: true, page: ['custom-engine', 'webgl'] },
+      { name: 'WebGPU', logo: 'webgpu.svg', page: ['custom-engine', 'webgpu'] },
     ],
     example: `yotsuba compile Game.Shaders.csproj \\
   --target spirv --target glsl \\
@@ -153,7 +155,7 @@ export const UI = {
     paneExample: 'Example shader',
     bannerSlide: (i, n) => `${i} of ${n}`,
     banners: {
-      custom: { title: 'Implement in your own engine', text: 'Compile the shaders in your build and load them in your renderer. The same C# shader comes out as SPIR-V, GLSL, HLSL and Metal, with the locations and bindings you write. Pick your graphics API:' },
+      custom: { title: 'Implement in your own engine', text: 'Compile the shaders in your build and load them in your renderer. The same C# shader comes out as SPIR-V, GLSL, HLSL, Metal and WGSL, with the locations and bindings you write. Pick your graphics API:' },
       csharp: { title: 'Get Started', text: 'Learn from scratch how to write shaders in C# and see them run. The tutorial has one guide for each engine: MonoGame, KNI, FNA and Godot. The chapters and the shaders are the same; only the window, the project and the commands change. Pick your engine:' },
     },
     sections: {
@@ -161,6 +163,7 @@ export const UI = {
       engines: { title: 'Use it in existing engines', short: 'Engines', blurb: 'Step-by-step integration for the engines your team already uses.' },
       'get-started': { title: 'Get Started', short: 'Get Started', blurb: 'Learn from scratch how to create shaders with Yotsuba Shader.' },
       reference: { title: 'Documentation', short: 'Documentation', blurb: 'Language, attributes, compiler and backends, in detail.' },
+      api: { title: 'API Reference', short: 'API', blurb: 'Every attribute of the five syntaxes, the CLI commands and the compiler library.' },
     },
     route: 'Route',
     routeNotice: (n) => `You chose the ${n} route. See this page in that route`,
@@ -216,7 +219,7 @@ export const UI = {
     paneExample: 'Shader de ejemplo',
     bannerSlide: (i, n) => `${i} de ${n}`,
     banners: {
-      custom: { title: 'Implementar en tu propio motor', text: 'Compila los shaders en tu build y cárgalos en tu renderer. El mismo shader de C# sale como SPIR-V, GLSL, HLSL y Metal, con las ubicaciones y los bindings que escribes. Elige tu API gráfica:' },
+      custom: { title: 'Implementar en tu propio motor', text: 'Compila los shaders en tu build y cárgalos en tu renderer. El mismo shader de C# sale como SPIR-V, GLSL, HLSL, Metal y WGSL, con las ubicaciones y los bindings que escribes. Elige tu API gráfica:' },
       csharp: { title: 'Get Started', text: 'Aprende desde cero a escribir shaders en C# y verlos funcionar. El tutorial tiene una guía para cada engine: MonoGame, KNI, FNA y Godot. Los capítulos y los shaders son los mismos; solo cambian la ventana, el proyecto y los comandos. Elige tu engine:' },
     },
     sections: {
@@ -224,6 +227,7 @@ export const UI = {
       engines: { title: 'Usar en engines existentes', short: 'Engines', blurb: 'Integración paso a paso para los engines que tu equipo ya usa.' },
       'get-started': { title: 'Get Started', short: 'Get Started', blurb: 'Aprende desde cero a crear shaders con Yotsuba Shader.' },
       reference: { title: 'Documentación', short: 'Documentación', blurb: 'Lenguaje, atributos, compilador y backends, en detalle.' },
+      api: { title: 'Referencia de la API', short: 'API', blurb: 'Cada atributo de las cinco sintaxis, los comandos de la CLI y la librería del compilador.' },
     },
     route: 'Ruta',
     routeNotice: (n) => `Elegiste la ruta ${n}. Ver esta página en esa ruta`,

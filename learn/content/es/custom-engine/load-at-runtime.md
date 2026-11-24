@@ -38,7 +38,7 @@ string vertex = shader.ToHlsl(Stage.Vertex);
 string fragment = shader.ToHlsl(Stage.Fragment);
 ```
 
-Los métodos son `ToSpirV()`, `ToGlsl(Stage)`, `ToGlslEs(Stage)`, `ToHlsl(Stage)` y `ToMSL(Stage)`. Están listados en [El comando add](../reference/add.md).
+Los métodos son `ToSpirV()`, `ToGlsl(Stage)`, `ToGlslEs(Stage)`, `ToHlsl(Stage)` y `ToMSL(Stage)`, y también `ToWgsl()` cuando pides `--target wgsl`. Están listados en [El comando add](../reference/add.md).
 
 ## Orden de trabajo en el renderer
 

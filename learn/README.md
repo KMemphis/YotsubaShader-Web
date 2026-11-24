@@ -10,7 +10,7 @@ npm run build   # writes dist/ ; fails on broken links or missing frontmatter
 
 ## Sections
 
-Four sections, defined in `site.config.mjs` (`SECTIONS`): `custom-engine`, `engines`, `get-started`, `reference`.
+Five sections, defined in `site.config.mjs` (`SECTIONS`): `custom-engine`, `engines`, `get-started`, `reference`, `api`.
 Each one is a folder `content/<lang>/<section>/` with an `index.md` (the section overview) plus one `.md` per chapter.
 Languages: `en` and `es`, mirrored by file name (the language menu keeps you on the same page).
 
@@ -72,6 +72,13 @@ The Documentation section has exactly eight pages, in English and Spanish: the f
 
 - The five syntax pages are generated: `node tools/gen-syntax-reference.mjs` reads the `YotsubaShader.*Syntax` projects of the compiler repository (the folder that contains `Web/`) and rewrites `content/<lang>/reference/{hlsl,glsl,msl,spirv,wgsl}.md`. Run it when the attributes change and commit the result; building `learn` never needs the compiler repository.
 - `compile`, `add` and `plugins` describe the CLI of `Core/YotsubaShader.Compiler.CLI`. Check them against `Program.cs`, `Args.cs` and `PluginCommand.cs` when the CLI changes.
+
+## API Reference (`api/`)
+
+The API Reference section has eight pages, in English and Spanish: `index`, the five syntax APIs (`hlsl`, `glsl`, `msl`, `spirv`, `wgsl`), `cli` (every command of the CLI and what it does) and `compiler` (the `YotsubaShader.Compiler.Library` API).
+
+- The five syntax pages are generated: `node tools/gen-api-reference.mjs` reads `Core/Syntax/YotsubaShader.*Syntax` and rewrites `content/<lang>/api/{hlsl,glsl,msl,spirv,wgsl}.md` with each attribute's declaration, concept, equivalents in the other syntaxes and an example. Run it when the attributes change and commit the result.
+- `cli` follows `Program.cs`, `Args.cs` and `PluginCommand.cs`; `compiler` follows `CSharpToSpirvCompiler.cs` and `Plugins/YotsubaShader.Extensions` (`CompiledCode`, `ShaderReflection`, `IShaderTargetBackend`). Check them when those files change.
 
 ## Deploy
 

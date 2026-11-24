@@ -141,7 +141,7 @@ const donations = {
       <div class="card">
         <div class="card-icon">${icon('cpu')}</div>
         <h3 class="card-title card-title--left">Maintenance is real work</h3>
-        <p class="card-body">One compiler, five shader vocabularies and six output formats. Each one needs testing, fixes and updates.</p>
+        <p class="card-body">One compiler, five shader vocabularies and seven output formats. Each one needs testing, fixes and updates.</p>
       </div>
       <div class="card">
         <div class="card-icon">${icon('users')}</div>
@@ -162,7 +162,7 @@ const donations = {
       <a class="card card--link" href="/technologies/">
         <span class="card-icon">${icon('layers')}</span>
         <span class="card-title">The compiler and its backends</span>
-        <span class="card-body">Keeping the output correct for SPIR-V, HLSL, MSL, WGSL, GLSL and GLSL ES as the tools and drivers around it change.</span>
+        <span class="card-body">Keeping the output correct for SPIR-V, HLSL, MSL, WGSL, GLSL, GLSL ES and C++ as the tools and drivers around it change.</span>
         <span class="card-more">See the technologies ${icon('external')}</span>
       </a>
       <a class="card card--link" href="__LEARN__/reference/">

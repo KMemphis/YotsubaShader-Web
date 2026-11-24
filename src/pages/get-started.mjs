@@ -23,11 +23,11 @@ const overview = {
 <section class="section">
   <div class="container container--narrow">
     <h2 class="h-lg">Before you begin</h2>
-    <p class="lead mt-24">The source projects target .NET 8. This checkout does not establish the availability of a published, production-ready NuGet package.</p>
+    <p class="lead mt-24">The source projects need the .NET 10 SDK to build. This checkout does not establish the availability of a published, production-ready NuGet package.</p>
     ${table(
       ['Requirement', 'Details'],
       [
-        ['<strong>.NET 8 SDK</strong>', 'The solution targets <code>net8.0</code>; <code>global.json</code> asks for SDK 8.0 and rolls forward to the latest minor version.'],
+        ['<strong>.NET 10 SDK</strong>', 'The solution needs SDK 10 to build: the CLI targets <code>net10.0</code>, and the libraries and analyzers it compiles target <code>net8.0</code> and <code>netstandard2.0</code>.'],
         ['<strong>Operating system</strong>', 'macOS, Linux or Windows with a compatible SDK.'],
         ['<strong>Git</strong>', 'To clone the repository.'],
         ['<strong>SPIRV-Tools</strong> <span class="muted">(optional)</span>', 'Provides <code>spirv-val</code> to validate generated modules.'],
@@ -117,9 +117,9 @@ const build = {
     <p><code>BasicColorShader</code> contains vertex, fragment, and compute entry points. The CLI discovers those methods and writes the selected backend artifacts to the output directory.</p>
     ${code('bash', `dotnet run --project Core/YotsubaShader.Compiler.CLI/YotsubaShader.Compiler.CLI.csproj -- \\
   compile Examples/YotsubaShader.Example/YotsubaShader.Example.csproj \\
-  --target spirv --target hlsl --target glsl --target gles --target msl --target cpp \\
+  --target spirv --target hlsl --target glsl --target gles --target msl --target wgsl --target cpp \\
   --output artifacts/`)}
-    <p>To generate project-local C# accessors instead, use <code>add</code>. It writes <code>YotsubaShader.g.cs</code> beside the project and exposes <code>ToSpirV</code>, <code>ToHlsl</code>, <code>ToGlsl</code>, <code>ToGlslEs</code>, and <code>ToMSL</code> extension methods.</p>
+    <p>To generate project-local C# accessors instead, use <code>add</code>. It writes <code>YotsubaShader.g.cs</code> beside the project and exposes <code>ToSpirV</code>, <code>ToHlsl</code>, <code>ToGlsl</code>, <code>ToGlslEs</code>, and <code>ToMSL</code> extension methods, plus <code>ToWgsl</code> when you pass <code>--target wgsl</code>.</p>
     ${code('bash', `dotnet run --project Core/YotsubaShader.Compiler.CLI/YotsubaShader.Compiler.CLI.csproj -- \\
   add Examples/YotsubaShader.Example/YotsubaShader.Example.csproj --target spirv`)}
     <h2>Validate SPIR-V</h2>

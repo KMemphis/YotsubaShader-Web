@@ -116,7 +116,7 @@ MyShaders/shaders/
     └── Plasma.Vertex.msl
 ```
 
-There is one file per stage, named `<Class>.<Stage>.msl`. The `Vertex` method of C# turns into a function named `Vertex`, and `Fragment` into `Fragment`. The two entry points, as the compiler wrote them:
+There is one file per stage, named `<Class>.<Stage>.msl`. The files are written for MSL 1.2, which every Metal device reads; if your shader uses something newer, add the version to the target (`--target msl:2.4`, `msl:3.1`...). The `Vertex` method of C# turns into a function named `Vertex`, and `Fragment` into `Fragment`. The two entry points, as the compiler wrote them:
 
 ```text
 vertex Vertex_out Vertex(Vertex_in in [[stage_in]])
@@ -248,4 +248,4 @@ Give each string to the device the way Swift gives `source` to `makeLibrary(sour
 
 Use `compile` when your app loads its assets from the bundle, or when you want to open the MSL and read it. Use `add` when the renderer is written in C# and you want the C# compiler to check the shader name. The options of both are in [The compile command](../reference/compile.md) and [The add command](../reference/add.md).
 
-The same shader goes to the other graphics APIs by changing only the target: [OpenGL](opengl.md), [Direct3D](direct3d.md), [Vulkan](vulkan.md) and [WebGL](webgl.md).
+The same shader goes to the other graphics APIs by changing only the target: [OpenGL](opengl.md), [Direct3D](direct3d.md), [Vulkan](vulkan.md), [WebGL](webgl.md) and [WebGPU](webgpu.md).

@@ -51,5 +51,6 @@
  "Cubemap.cs(13, 6)",
  "Cubemap.cs(7, 6)",
  "Cubemap.cs(14, 50)",
- "WebGL 2"
+ "WebGL 2",
+ "HLSL, MSL, WGSL, GLSL, GLSL ES, C++"
 ]
