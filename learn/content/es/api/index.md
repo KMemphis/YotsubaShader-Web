@@ -24,6 +24,10 @@ Los atributos y tipos de cada paquete de sintaxis. Las cinco compilan a los mism
 - [API de la sintaxis SPIR-V](spirv.md): `YotsubaShader.SpirvSyntax`.
 - [API de la sintaxis WGSL](wgsl.md): `YotsubaShader.WgslSyntax`.
 
+## Metadatos
+
+- [Atributos de metadatos](metadata.md): `[ShaderTargets]`, `[ShaderEngines]`, `Target` y `GameEngine`.
+
 ## CLI
 
 - [Comandos de la CLI](cli.md): `compile`, `add`, `plugin list | install | update | remove`, `lsp`, `--version` y `--help`, y lo que hace cada uno.

@@ -24,6 +24,10 @@ The attributes and types of each syntax package. All five compile to the same ta
 - [SPIR-V syntax API](spirv.md): `YotsubaShader.SpirvSyntax`.
 - [WGSL syntax API](wgsl.md): `YotsubaShader.WgslSyntax`.
 
+## Metadata
+
+- [Metadata attributes](metadata.md): `[ShaderTargets]`, `[ShaderEngines]`, `Target` and `GameEngine`.
+
 ## CLI
 
 - [CLI commands](cli.md): `compile`, `add`, `plugin list | install | update | remove`, `lsp`, `--version` and `--help`, and what each one does.

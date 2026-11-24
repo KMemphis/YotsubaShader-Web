@@ -335,9 +335,9 @@ const whatsNew = {
 
 ${entry(
   'Shader errors in your IDE',
-  'Live shader diagnostics and per-backend checks are planned. Current C# diagnostics are available through the playground.',
-  `<p>The repository does not yet implement <code>YotsubaTargets</code> or a backend compatibility analyzer. See the documentation for the current API and planned workflows.</p>`,
-  ['Shader diagnostics in your IDE', '__LEARN__/reference/compile/'],
+  'The analyzer now checks your shader against the graphics APIs you choose with <code>[ShaderTargets]</code>, and reports what an API does not have while you type.',
+  `<p>Without an attribute the shader is checked against Vulkan 1.3. Declare <code>[ShaderTargets(Target.Vulkan_13 | Target.WebGpu)]</code> on a class, or on the whole assembly, and what an API lacks becomes an error; what it only has sometimes stays a warning. <code>[ShaderEngines(GameEngine.Godot)]</code> adds the rules of Godot. The package <code>YotsubaShader.Compiler.Metadata</code> arrives with every syntax package. Messages are in English, and in Spanish when your IDE is in Spanish.</p>`,
+  ['Shader diagnostics in your IDE', '__LEARN__/reference/targets/'],
 )}
 
 ${entry(
