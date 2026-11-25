@@ -5,7 +5,7 @@
 const L = (en, es) => ({ en, es });
 const cs = (title, code) => ({ title, code, lang: 'csharp' });
 const FISH = '/assets/get-started/pez.jpg';
-const ENGINE_LOGO = { route: { kni: '/img/engines/kni.png', fna: '/img/engines/fna.png', godot: '/img/engines/godot.svg', default: '/img/engines/monogame.png' } };
+const ENGINE_LOGO = { route: { kni: '/img/engines/kni.png', fna: '/img/engines/fna.png', godot: '/img/engines/godot.svg', raylib: '/img/engines/raylib.png', silknet: '/img/engines/silknet.svg', default: '/img/engines/monogame.png' } };
 const win = (tiles, at, extra = {}) => ({ k: 'gl', cls: 'window w50', title: '{{engine}}', logo: ENGINE_LOGO, tex: FISH, at, fx: 'pop', radius: 10, tiles, ...extra });
 const tiles = (arr, at, extra = {}) => ({ k: 'gl', cls: 'w86', gap: 2, radius: 10, tex: FISH, at, fx: 'fade', tiles: arr, ...extra });
 const BG = 'vec3(.1,.1,.14)';
@@ -14,25 +14,25 @@ const T = (frag, extra = {}) => ({ frag, tex: true, aspect: '4 / 3', ...extra })
 const FIELD = L(cs('MyShaders/Underwater.cs', `[layout(0, 1)]
 public sampler2D Photo;`), cs('MisShaders/BajoElAgua.cs', `[layout(0, 1)]
 public sampler2D Foto;`));
-const READ = L(cs('Fragment', 'vec4 photo = texture(Photo, Make.Vec2(u, v));'), cs('Fragment', 'vec4 foto = texture(Foto, Crear.Vec2(u, v));'));
-const ASIS = L(cs('Fragment', 'vec4 photo = texture(Photo, Make.Vec2(pixel.Uv.X, pixel.Uv.Y));'), cs('Fragment', 'vec4 foto = texture(Foto, Crear.Vec2(pixel.Uv.X, pixel.Uv.Y));'));
+const READ = L(cs('Fragment', 'vec4 photo = texture(Photo, new vec2(u, v));'), cs('Fragment', 'vec4 foto = texture(Foto, new vec2(u, v));'));
+const ASIS = L(cs('Fragment', 'vec4 photo = texture(Photo, new vec2(pixel.Uv.X, pixel.Uv.Y));'), cs('Fragment', 'vec4 foto = texture(Foto, new vec2(pixel.Uv.X, pixel.Uv.Y));'));
 const INTRINSIC = cs('MyShaders/Underwater.cs', 'using static YotsubaShader.GlslSyntax.Methods.Intrinsic;');
 const WAVE = L(cs('Fragment', `float u = pixel.Uv.X
     + sin(pixel.Uv.Y * 25f + t * 2f) * 0.012f;
 float v = pixel.Uv.Y
     + sin(pixel.Uv.X * 20f + t * 1.5f) * 0.012f;
 
-vec4 photo = texture(Photo, Make.Vec2(u, v));`), cs('Fragment', `float u = pixel.Uv.X
+vec4 photo = texture(Photo, new vec2(u, v));`), cs('Fragment', `float u = pixel.Uv.X
     + sin(pixel.Uv.Y * 25f + t * 2f) * 0.012f;
 float v = pixel.Uv.Y
     + sin(pixel.Uv.X * 20f + t * 1.5f) * 0.012f;
 
-vec4 foto = texture(Foto, Crear.Vec2(u, v));`));
-const TINT = L(cs('Fragment', `vec3 original = Make.Vec3(photo.X, photo.Y, photo.Z);
-vec3 seaBlue = Make.Vec3(photo.X * 0.2f,
+vec4 foto = texture(Foto, new vec2(u, v));`));
+const TINT = L(cs('Fragment', `vec3 original = new vec3(photo.X, photo.Y, photo.Z);
+vec3 seaBlue = new vec3(photo.X * 0.2f,
     photo.Y * 0.7f, photo.Z * 1f + 0.1f);
-vec3 color = mix(original, seaBlue, 0.6f);`), cs('Fragment', `vec3 original = Crear.Vec3(foto.X, foto.Y, foto.Z);
-vec3 azulMar = Crear.Vec3(foto.X * 0.2f,
+vec3 color = mix(original, seaBlue, 0.6f);`), cs('Fragment', `vec3 original = new vec3(foto.X, foto.Y, foto.Z);
+vec3 azulMar = new vec3(foto.X * 0.2f,
     foto.Y * 0.7f, foto.Z * 1f + 0.1f);
 vec3 color = mix(original, azulMar, 0.6f);`));
 const VIGNETTE = L(cs('MyShaders/Underwater.cs', `public static float Vignette(float u, float v)
@@ -50,9 +50,9 @@ const VIGNETTE = L(cs('MyShaders/Underwater.cs', `public static float Vignette(f
 }`));
 const SHADE = L(cs('Fragment', `float shade = Vignette(pixel.Uv.X, pixel.Uv.Y);
 
-return Make.Vec4(color.X * shade, color.Y * shade, color.Z * shade, 1f);`), cs('Fragment', `float sombra = Vineta(pixel.Uv.X, pixel.Uv.Y);
+return new vec4(color.X * shade, color.Y * shade, color.Z * shade, 1f);`), cs('Fragment', `float sombra = Vineta(pixel.Uv.X, pixel.Uv.Y);
 
-return Crear.Vec4(color.X * sombra, color.Y * sombra, color.Z * sombra, 1f);`));
+return new vec4(color.X * sombra, color.Y * sombra, color.Z * sombra, 1f);`));
 
 // shader pieces. q = where the pixel reads from; amp = the ripple size
 const RIP = (amp = '.012') => `vec2 q=uv+vec2(sin(uv.y*25.+t*2.),sin(uv.x*20.+t*1.5))*${amp};`;
@@ -196,7 +196,7 @@ export default [
     items: [
       { k: 'kicker', text: L('Look how far you have come', 'Mira lo lejos que llegaste') },
       { k: 'row', at: 'ten', out: 'almost', items: [
-        { k: 'box', cls: 's-mono', text: 'pixel.Uv.X · Make.Vec4', sub: L('Shader 1', 'Shader 1'), at: 'each' },
+        { k: 'box', cls: 's-mono', text: 'pixel.Uv.X · new vec4', sub: L('Shader 1', 'Shader 1'), at: 'each' },
         { k: 'box', cls: 's-mono', text: 'Vignette()', sub: L('Shader 2', 'Shader 2'), at: 'each+1' },
         { k: 'box', cls: 's-mono', text: 'sqrt · mix', sub: L('Shader 3', 'Shader 3'), at: 'each+2' },
         { k: 'box', cls: 's-mono', text: 'Time.Seconds · sin', sub: L('Shader 4', 'Shader 4'), at: 'each+3' },

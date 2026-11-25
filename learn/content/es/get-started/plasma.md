@@ -133,7 +133,7 @@ public static vec4 Arcoiris(float valor)
     float rojo = 0.5f + 0.5f * sin(valor * 1.5f);
     float verde = 0.5f + 0.5f * sin(valor * 1.5f + 2.1f);
     float azul = 0.5f + 0.5f * sin(valor * 1.5f + 4.2f);
-    return Crear.Vec4(rojo, verde, azul, 1f);
+    return new vec4(rojo, verde, azul, 1f);
 }
 ```
 
@@ -167,7 +167,7 @@ public class Plasma
     public Pixel Vertex({{vertexType}} vertice)
     {
         Pixel pixel;
-        pixel.Posicion = Crear.Vec4(vertice.{{pos}}.X, vertice.{{pos}}.Y, 0f, 1f);
+        pixel.Posicion = new vec4(vertice.{{pos}}.X, vertice.{{pos}}.Y, 0f, 1f);
         pixel.Uv = vertice.{{uv}};
         return pixel;
     }
@@ -193,7 +193,7 @@ public class Plasma
         float rojo = 0.5f + 0.5f * sin(valor * 1.5f);
         float verde = 0.5f + 0.5f * sin(valor * 1.5f + 2.1f);
         float azul = 0.5f + 0.5f * sin(valor * 1.5f + 4.2f);
-        return Crear.Vec4(rojo, verde, azul, 1f);
+        return new vec4(rojo, verde, azul, 1f);
     }
 }
 ```
@@ -221,7 +221,7 @@ public class Plasma
     public Pixel Vertex({{vertexType}} vertice)
     {
         Pixel pixel;
-        pixel.Posicion = Crear.Vec4(vertice.{{pos}}.X, vertice.{{pos}}.Y, 0f, 1f);
+        pixel.Posicion = new vec4(vertice.{{pos}}.X, vertice.{{pos}}.Y, 0f, 1f);
         pixel.Uv = vertice.{{uv}};
         return pixel;
     }
@@ -247,7 +247,7 @@ public class Plasma
         float rojo = 0.5f + 0.5f * sin(valor * 1.5f);
         float verde = 0.5f + 0.5f * sin(valor * 1.5f + 2.1f);
         float azul = 0.5f + 0.5f * sin(valor * 1.5f + 4.2f);
-        return Crear.Vec4(rojo, verde, azul, 1f);
+        return new vec4(rojo, verde, azul, 1f);
     }
 }
 ```
@@ -275,7 +275,7 @@ public class Plasma
     public Pixel Vertex({{vertexType}} vertice)
     {
         Pixel pixel;
-        pixel.Posicion = Crear.Vec4(vertice.{{pos}}.X, vertice.{{pos}}.Y, 0f, 1f);
+        pixel.Posicion = new vec4(vertice.{{pos}}.X, vertice.{{pos}}.Y, 0f, 1f);
         pixel.Uv = vertice.{{uv}};
         return pixel;
     }
@@ -301,7 +301,7 @@ public class Plasma
         float rojo = 0.5f + 0.5f * sin(valor * 1.5f);
         float verde = 0.5f + 0.5f * sin(valor * 1.5f + 2.1f);
         float azul = 0.5f + 0.5f * sin(valor * 1.5f + 4.2f);
-        return Crear.Vec4(rojo, verde, azul, 1f);
+        return new vec4(rojo, verde, azul, 1f);
     }
 }
 ```
@@ -329,7 +329,7 @@ public class Plasma
     public Pixel Vertex({{vertexType}} vertice)
     {
         Pixel pixel;
-        pixel.Posicion = Crear.Vec4(vertice.{{pos}}.X, vertice.{{pos}}.Y, 0f, 1f);
+        pixel.Posicion = new vec4(vertice.{{pos}}.X, vertice.{{pos}}.Y, 0f, 1f);
         pixel.Uv = vertice.{{uv}};
         return pixel;
     }
@@ -355,7 +355,7 @@ public class Plasma
         float rojo = 0.5f + 0.5f * sin(valor * 1.5f);
         float verde = 0.5f + 0.5f * sin(valor * 1.5f + 2.1f);
         float azul = 0.5f + 0.5f * sin(valor * 1.5f + 4.2f);
-        return Crear.Vec4(rojo, verde, azul, 1f);
+        return new vec4(rojo, verde, azul, 1f);
     }
 }
 ```
@@ -383,7 +383,7 @@ public class Plasma
     public Pixel Vertex({{vertexType}} vertice)
     {
         Pixel pixel;
-        pixel.Posicion = Crear.Vec4(vertice.{{pos}}.X, vertice.{{pos}}.Y, 0f, 1f);
+        pixel.Posicion = new vec4(vertice.{{pos}}.X, vertice.{{pos}}.Y, 0f, 1f);
         pixel.Uv = vertice.{{uv}};
         return pixel;
     }
@@ -409,7 +409,7 @@ public class Plasma
         float rojo = 0.5f + 0.5f * sin(valor * 1.5f);
         float verde = 0.5f + 0.5f * sin(valor * 1.5f + 2.1f);
         float azul = 0.5f + 0.5f * sin(valor * 1.5f + 4.2f);
-        return Crear.Vec4(rojo, verde, azul, 1f);
+        return new vec4(rojo, verde, azul, 1f);
     }
 }
 ```
@@ -472,6 +472,8 @@ uniform float Tiempo_Segundos;
 El script del visor del [capítulo del visor](visor.md) ya se encarga: en cada cuadro busca los uniforms que terminan en `_Segundos` y escribe los segundos desde que empezó el juego. Por eso `Plasma` se mueve con solo escribir `Plasma` en **Nombre Shader** y pulsar **Play**; no escribes código extra.
 
 Si cambias el nombre del campo (por ejemplo, un campo `Pared`), el uniform pasa a ser `Pared_Segundos` y el visor lo sigue encontrando, porque solo mira el final del nombre.
+
+![Godot al pulsar Play: la ventana del juego muestra el plasma de colores moviéndose](../../assets/get-started/godot/es/plasma.gif)
 :::
 
 > [!SCENE] play

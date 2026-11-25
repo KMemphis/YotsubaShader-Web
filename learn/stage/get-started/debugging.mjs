@@ -4,61 +4,61 @@
 
 const L = (en, es) => ({ en, es });
 const cs = (title, code) => ({ title, code, lang: 'csharp' });
-const ENGINE_LOGO = { route: { kni: '/img/engines/kni.png', fna: '/img/engines/fna.png', godot: '/img/engines/godot.svg', default: '/img/engines/monogame.png' } };
+const ENGINE_LOGO = { route: { kni: '/img/engines/kni.png', fna: '/img/engines/fna.png', godot: '/img/engines/godot.svg', raylib: '/img/engines/raylib.png', silknet: '/img/engines/silknet.svg', default: '/img/engines/monogame.png' } };
 const win = (modes, at, extra = {}) => ({ k: 'gl', cls: 'window w40', title: '{{engine}}', logo: ENGINE_LOGO, at, fx: 'pop', radius: 10, tiles: [{ modes, aspect: '16 / 10', at }], ...extra });
 const tiles = (arr, at, extra = {}) => ({ k: 'gl', cls: 'w86', gap: 2, radius: 10, at, fx: 'fade', tiles: arr, ...extra });
 const stagger = (arr, at, step = 0.5) => arr.map((a, i) => ({ ...a, at: `${at}+${(i * step).toFixed(1)}` }));
 
-const SOLID = L(cs('Fragment', 'return Make.Vec4(1f, 0f, 0f, 1f);'), cs('Fragment', 'return Crear.Vec4(1f, 0f, 0f, 1f);'));
+const SOLID = L(cs('Fragment', 'return new vec4(1f, 0f, 0f, 1f);'), cs('Fragment', 'return new vec4(1f, 0f, 0f, 1f);'));
 const PAINT = L(cs('Fragment', `float dx = pixel.Uv.X - 0.5f;
 float dy = pixel.Uv.Y - 0.5f;
 float light = 1f - (dx * dx + dy * dy) * 40f;
 
-// return Make.Vec4(light, light, light, 1f);
-return Make.Vec4(dx, dx, dx, 1f);`), cs('Fragment', `float dx = pixel.Uv.X - 0.5f;
+// return new vec4(light, light, light, 1f);
+return new vec4(dx, dx, dx, 1f);`), cs('Fragment', `float dx = pixel.Uv.X - 0.5f;
 float dy = pixel.Uv.Y - 0.5f;
 float luz = 1f - (dx * dx + dy * dy) * 40f;
 
-// return Crear.Vec4(luz, luz, luz, 1f);
-return Crear.Vec4(dx, dx, dx, 1f);`));
+// return new vec4(luz, luz, luz, 1f);
+return new vec4(dx, dx, dx, 1f);`));
 const SPLIT = L(cs('Fragment', `float a = pixel.Uv.X * 2f - 1f;
 float b = a * a;
 
-return Make.Vec4(b, b, b, 1f); // try here: does b look right?
+return new vec4(b, b, b, 1f); // try here: does b look right?
 
 float c = 1f - b;
-return Make.Vec4(c, c, c, 1f);`), cs('Fragment', `float a = pixel.Uv.X * 2f - 1f;
+return new vec4(c, c, c, 1f);`), cs('Fragment', `float a = pixel.Uv.X * 2f - 1f;
 float b = a * a;
 
-return Crear.Vec4(b, b, b, 1f); // prueba aquí: ¿se ve bien b?
+return new vec4(b, b, b, 1f); // prueba aquí: ¿se ve bien b?
 
 float c = 1f - b;
-return Crear.Vec4(c, c, c, 1f);`));
-const ADD1 = L(cs('Fragment', 'vec3 sum = Make.Vec3(a.X + b.X, a.Y + b.Y, a.Z + b.Z);'), cs('Fragment', 'vec3 suma = Crear.Vec3(a.X + b.X, a.Y + b.Y, a.Z + b.Z);'));
+return new vec4(c, c, c, 1f);`));
+const ADD1 = L(cs('Fragment', 'vec3 sum = new vec3(a.X + b.X, a.Y + b.Y, a.Z + b.Z);'), cs('Fragment', 'vec3 suma = new vec3(a.X + b.X, a.Y + b.Y, a.Z + b.Z);'));
 const ADD2 = L(cs('MyShaders/Gradient.cs', `public static vec3 Add(vec3 a, vec3 b)
 {
-    return Make.Vec3(a.X + b.X, a.Y + b.Y, a.Z + b.Z);
+    return new vec3(a.X + b.X, a.Y + b.Y, a.Z + b.Z);
 }
 
 public static vec3 Scale(vec3 a, float k)
 {
-    return Make.Vec3(a.X * k, a.Y * k, a.Z * k);
+    return new vec3(a.X * k, a.Y * k, a.Z * k);
 }`), cs('MisShaders/Degradado.cs', `public static vec3 Sumar(vec3 a, vec3 b)
 {
-    return Crear.Vec3(a.X + b.X, a.Y + b.Y, a.Z + b.Z);
+    return new vec3(a.X + b.X, a.Y + b.Y, a.Z + b.Z);
 }
 
 public static vec3 Escalar(vec3 a, float k)
 {
-    return Crear.Vec3(a.X * k, a.Y * k, a.Z * k);
+    return new vec3(a.X * k, a.Y * k, a.Z * k);
 }`));
-const ADD3 = L(cs('Fragment', `vec3 red = Make.Vec3(1f, 0f, 0f);
-vec3 green = Make.Vec3(0f, 1f, 0f);
+const ADD3 = L(cs('Fragment', `vec3 red = new vec3(1f, 0f, 0f);
+vec3 green = new vec3(0f, 1f, 0f);
 vec3 blend = Add(Scale(red, pixel.Uv.X), Scale(green, pixel.Uv.Y));
-return Make.Vec4(blend.X, blend.Y, blend.Z, 1f);`), cs('Fragment', `vec3 rojo = Crear.Vec3(1f, 0f, 0f);
-vec3 verde = Crear.Vec3(0f, 1f, 0f);
+return new vec4(blend.X, blend.Y, blend.Z, 1f);`), cs('Fragment', `vec3 rojo = new vec3(1f, 0f, 0f);
+vec3 verde = new vec3(0f, 1f, 0f);
 vec3 mezcla = Sumar(Escalar(rojo, pixel.Uv.X), Escalar(verde, pixel.Uv.Y));
-return Crear.Vec4(mezcla.X, mezcla.Y, mezcla.Z, 1f);`));
+return new vec4(mezcla.X, mezcla.Y, mezcla.Z, 1f);`));
 const RATIO = L(cs('Fragment', `float ratio = 0f;
 if (width > 0f)
 {
@@ -204,7 +204,7 @@ export default [
         { k: 'box', cls: 's-bad s-mono', text: 'CS0664', sub: L('0.5 → 0.5f', '0.5 → 0.5f') },
         { k: 'box', cls: 's-bad s-mono', text: 'CS0019', sub: L('no operators on vectors', 'sin operadores en vectores') },
         { k: 'box', cls: 's-bad s-mono', text: 'CS0165', sub: L('fill every field', 'rellena cada campo') },
-        { k: 'box', cls: 's-bad s-mono', text: 'CS1729', sub: L('new vec4 → Make.Vec4', 'new vec4 → Crear.Vec4') },
+        { k: 'box', cls: 's-bad s-mono', text: 'CS1503', sub: L('wrong number of values in new vec4', 'valores de más o de menos en new vec4') },
         { k: 'box', cls: 's-bad s-mono', text: 'CS0234', sub: L('delete YotsubaShader.g.cs', 'borra YotsubaShader.g.cs') },
       ], 'common', 0.8) },
     ],

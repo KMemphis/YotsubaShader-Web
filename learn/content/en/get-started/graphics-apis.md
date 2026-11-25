@@ -23,7 +23,7 @@ Three words have a fixed meaning in this chapter, because they sound alike:
 - **Output format**: what you ask the compiler to write, with `--target` (`spirv`, `glsl`, `hlsl`...). It is **not** the same as the graphics APIs of this chapter: the output format decides what is written, the graphics APIs decide what the analyzer warns about. The attribute you will use is called `[ShaderTargets]`, but it lists graphics APIs, not output formats.
 
 > [!NOTE]
-> The attributes of this chapter arrive with version 0.9.3 of the packages. `YotsubaShader.GlslSyntax` brings them along, so you do not add any package.
+> The attributes of this chapter arrive with version 0.9.4 of the packages. `YotsubaShader.GlslSyntax` brings them along, so you do not add any package.
 
 ## Step 1: use something not every graphics API has
 
@@ -42,7 +42,7 @@ public class Precise
     public Pixel Vertex(Corner corner)
     {
         Pixel pixel;
-        pixel.Position = Make.Vec4(corner.Position.X, corner.Position.Y, 0f, 1f);
+        pixel.Position = new vec4(corner.Position.X, corner.Position.Y, 0f, 1f);
         pixel.Uv = corner.Uv;
         return pixel;
     }
@@ -52,7 +52,7 @@ public class Precise
     public vec4 Fragment(PixelIn pixel)
     {
         double green = 0.25 + 0.6 * pixel.Uv.Y;     // double, not float
-        return Make.Vec4(1f, (float)green, 0.45f, 1f);
+        return new vec4(1f, (float)green, 0.45f, 1f);
     }
 }
 ```
@@ -225,6 +225,28 @@ warning YS0710: 'Main' is a compute shader and Godot Shading Language has no
 
 ```csharp
 [ShaderTargets(Target.OpenGL_33 | Target.DirectX_11)]
+public class Precise { /* ... */ }
+```
+:::
+
+:::raylib
+## What about {{engine}}?
+
+{{engine}} does not need an attribute of its own: it runs your shader on OpenGL 3.3, the version raylib uses. List that graphics API in `[ShaderTargets]`:
+
+```csharp
+[ShaderTargets(Target.OpenGL_33)]
+public class Precise { /* ... */ }
+```
+:::
+
+:::silknet
+## What about {{engine}}?
+
+{{engine}} does not need an attribute of its own: it runs your shader on the graphics API you picked in the viewer chapter. List that graphics API in `[ShaderTargets]`, or all four with `|` if the same shader has to work in each of them:
+
+```csharp
+[ShaderTargets(Target.OpenGL_33 | Target.OpenGLES_30 | Target.Vulkan_13 | Target.WebGpu)]
 public class Precise { /* ... */ }
 ```
 :::

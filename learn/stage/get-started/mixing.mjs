@@ -4,7 +4,7 @@
 
 const L = (en, es) => ({ en, es });
 const cs = (title, code) => ({ title, code, lang: 'csharp' });
-const ENGINE_LOGO = { route: { kni: '/img/engines/kni.png', fna: '/img/engines/fna.png', godot: '/img/engines/godot.svg', default: '/img/engines/monogame.png' } };
+const ENGINE_LOGO = { route: { kni: '/img/engines/kni.png', fna: '/img/engines/fna.png', godot: '/img/engines/godot.svg', raylib: '/img/engines/raylib.png', silknet: '/img/engines/silknet.svg', default: '/img/engines/monogame.png' } };
 const win = (tiles, at, extra = {}) => ({ k: 'gl', cls: 'window w50', title: '{{engine}}', logo: ENGINE_LOGO, at, fx: 'pop', radius: 10, tiles, ...extra });
 const tiles = (arr, at, extra = {}) => ({ k: 'gl', cls: 'w86', gap: 2, radius: 10, at, fx: 'fade', tiles: arr, ...extra });
 
@@ -126,7 +126,7 @@ export default [
     beats: { middle: L('the two middle lines', 'las dos líneas del medio'), flip: L('flips it', 'lo da vuelta'), tint: L('tint the light orange', 'tiñen la luz de naranja'), compare: L('Compare it with the circle', 'Compara con el círculo'), sharp: L('almost sharp', 'casi afilado'), blur: L('the light blurs', 'la luz se difumina') },
     items: [
       { k: 'kicker', text: L('Step 4 · a soft circle', 'Paso 4 · un círculo suave') },
-      { k: 'code', at: 0.2, type: 0.4, cps: 60, code: L(cs('Fragment', 'float d2 = dx * dx + dy * dy;\nfloat brightness = 1f - Smooth(0.04f, 0.09f, d2);\nreturn Make.Vec4(brightness, brightness * 0.6f, brightness * 0.1f, 1f);'), cs('Fragment', 'float d2 = dx * dx + dy * dy;\nfloat brillo = 1f - Suavizar(0.04f, 0.09f, d2);\nreturn Crear.Vec4(brillo, brillo * 0.6f, brillo * 0.1f, 1f);')),
+      { k: 'code', at: 0.2, type: 0.4, cps: 60, code: L(cs('Fragment', 'float d2 = dx * dx + dy * dy;\nfloat brightness = 1f - Smooth(0.04f, 0.09f, d2);\nreturn new vec4(brightness, brightness * 0.6f, brightness * 0.1f, 1f);'), cs('Fragment', 'float d2 = dx * dx + dy * dy;\nfloat brillo = 1f - Suavizar(0.04f, 0.09f, d2);\nreturn new vec4(brillo, brillo * 0.6f, brillo * 0.1f, 1f);')),
         hl: [{ at: 'middle', until: 'flip', lines: [1] }, { at: 'flip', until: 'tint', lines: [1] }, { at: 'tint', lines: [2] }] },
       win([{ modes: [{ at: 'middle', frag: SH.edgeSoft('.04', '.09') }, { at: 'compare', frag: SH.edgeHard }, { at: 'compare+2', frag: SH.edgeSoft('.04', '.09') }, { at: 'sharp', frag: SH.edgeSoft('.085', '.09') }, { at: 'blur', frag: SH.edgeSoft('.04', '.2') }] }], 'middle'),
     ],

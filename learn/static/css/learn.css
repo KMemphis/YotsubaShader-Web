@@ -259,7 +259,7 @@ dialog::backdrop { background: rgba(0,0,0,.35); backdrop-filter: blur(6px); }
 .subbar-end { display: flex; align-items: center; gap: 20px; }
 .route-pick { display: flex; align-items: center; gap: 4px; font-size: .875rem; color: var(--text-2); }
 .route-pick span { margin-right: 4px; }
-.route-pick a { color: var(--text-2); padding: 4px 12px; border-radius: 980px; text-decoration: none; font-weight: 500; }
+.route-pick a { white-space: nowrap; color: var(--text-2); padding: 4px 12px; border-radius: 980px; text-decoration: none; font-weight: 500; }
 .route-pick a:hover { color: var(--text); }
 .route-pick a[aria-current] { background: var(--accent); color: #fff; font-weight: 600; }
 .route-notice { margin: 0 0 20px; padding: 10px 14px; border-radius: 12px; background: rgba(127,127,127,.12); font-size: .9375rem; }
@@ -271,7 +271,7 @@ dialog::backdrop { background: rgba(0,0,0,.35); backdrop-filter: blur(6px); }
 .route-cards .route-logo { flex: none; width: 48px; height: 48px; object-fit: contain; border-radius: 10px; }
 .route-cards .route-text { display: block; min-width: 0; }
 .route-cards .route-text > span { color: var(--text-2); font-size: .9375rem; }
-@media (max-width: 560px) { .route-pick span { display: none; } .subbar-end { gap: 8px; } .subbar-title { display: none; } }
+@media (max-width: 560px) { .route-pick span { display: none; } .subbar-end { gap: 8px; min-width: 0; flex: 1 1 auto; } .subbar-title { display: none; } .route-pick { min-width: 0; overflow-x: auto; scrollbar-width: none; } .route-pick::-webkit-scrollbar { display: none; } .style-select { flex: none; white-space: nowrap; } }
 .style-select { position: relative; display: flex; align-items: center; gap: 8px; font-size: .875rem; color: var(--text-2); }
 .style-select select { appearance: none; -webkit-appearance: none; border: 0; background: transparent; color: var(--accent); font: inherit; font-weight: 600; padding: 6px 20px 6px 4px; cursor: pointer; border-radius: 6px; }
 .style-select::after { content: ''; position: absolute; right: 7px; top: 50%; width: 6px; height: 6px; border-right: 1.5px solid var(--text-3); border-bottom: 1.5px solid var(--text-3); transform: translateY(-70%) rotate(45deg); pointer-events: none; }

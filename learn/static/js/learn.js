@@ -62,6 +62,9 @@
   const here = document.body.dataset.route;
   $$('#route-pick a').forEach((a) => a.addEventListener('click', () => store.set('ys-route', a.dataset.route)));
   $$('a[data-pick-route]').forEach((a) => a.addEventListener('click', () => store.set('ys-route', a.dataset.pickRoute)));
+  // narrow screens: the route pills scroll sideways, so bring the current one into view
+  const current = $('#route-pick a[aria-current]');
+  if (current) current.parentElement.scrollLeft = current.offsetLeft - 16;
   const saved = store.get('ys-route');
   const altRoutes = window.LEARN.routes;
   if (here && saved && saved !== here && altRoutes?.[saved]) {

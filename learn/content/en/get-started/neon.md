@@ -110,8 +110,8 @@ Near the ring the result is huge, and `clamp` leaves it at `1`, which is the max
 We have a glow from `0` to `1`. What is left is deciding what color the light is and what color the background is. This is where `mix` comes in, which also works with colors:
 
 ```csharp
-vec3 pink = Make.Vec3(1f, 0.2f, 0.7f);
-vec3 cyan = Make.Vec3(0.2f, 0.8f, 1f);
+vec3 pink = new vec3(1f, 0.2f, 0.7f);
+vec3 cyan = new vec3(0.2f, 0.8f, 1f);
 vec3 tube = mix(pink, cyan, pixel.Uv.X);
 ```
 
@@ -120,7 +120,7 @@ vec3 tube = mix(pink, cyan, pixel.Uv.X);
 And now we mix again, between the background and the tube, using the glow:
 
 ```csharp
-vec3 background = Make.Vec3(0.02f, 0.02f, 0.06f);
+vec3 background = new vec3(0.02f, 0.02f, 0.06f);
 vec3 color = mix(background, tube, glow);
 ```
 
@@ -144,7 +144,7 @@ public class Neon
     public Pixel Vertex({{vertexType}} corner)
     {
         Pixel pixel;
-        pixel.Position = Make.Vec4(corner.{{pos}}.X, corner.{{pos}}.Y, 0f, 1f);
+        pixel.Position = new vec4(corner.{{pos}}.X, corner.{{pos}}.Y, 0f, 1f);
         pixel.Uv = corner.{{uv}};
         return pixel;
     }
@@ -161,14 +161,14 @@ public class Neon
 
         float glow = clamp(0.03f / distanceToRing, 0f, 1f);
 
-        vec3 pink = Make.Vec3(1f, 0.2f, 0.7f);
-        vec3 cyan = Make.Vec3(0.2f, 0.8f, 1f);
+        vec3 pink = new vec3(1f, 0.2f, 0.7f);
+        vec3 cyan = new vec3(0.2f, 0.8f, 1f);
         vec3 tube = mix(pink, cyan, pixel.Uv.X);
 
-        vec3 background = Make.Vec3(0.02f, 0.02f, 0.06f);
+        vec3 background = new vec3(0.02f, 0.02f, 0.06f);
         vec3 color = mix(background, tube, glow);
 
-        return Make.Vec4(color.X, color.Y, color.Z, 1f);
+        return new vec4(color.X, color.Y, color.Z, 1f);
     }
 }
 ```
@@ -187,7 +187,7 @@ public class Neon
     public Pixel Vertex({{vertexType}} corner)
     {
         Pixel pixel;
-        pixel.Position = Make.Vec4(corner.{{pos}}.X, corner.{{pos}}.Y, 0f, 1f);
+        pixel.Position = new vec4(corner.{{pos}}.X, corner.{{pos}}.Y, 0f, 1f);
         pixel.Uv = corner.{{uv}};
         return pixel;
     }
@@ -204,14 +204,14 @@ public class Neon
 
         float glow = clamp(0.03f / distanceToRing, 0f, 1f);
 
-        vec3 pink = Make.Vec3(1f, 0.2f, 0.7f);
-        vec3 cyan = Make.Vec3(0.2f, 0.8f, 1f);
+        vec3 pink = new vec3(1f, 0.2f, 0.7f);
+        vec3 cyan = new vec3(0.2f, 0.8f, 1f);
         vec3 tube = mix(pink, cyan, pixel.Uv.X);
 
-        vec3 background = Make.Vec3(0.02f, 0.02f, 0.06f);
+        vec3 background = new vec3(0.02f, 0.02f, 0.06f);
         vec3 color = mix(background, tube, glow);
 
-        return Make.Vec4(color.X, color.Y, color.Z, 1f);
+        return new vec4(color.X, color.Y, color.Z, 1f);
     }
 }
 ```
@@ -230,7 +230,7 @@ public class Neon
     public Pixel Vertex({{vertexType}} corner)
     {
         Pixel pixel;
-        pixel.Position = Make.Vec4(corner.{{pos}}.X, corner.{{pos}}.Y, 0f, 1f);
+        pixel.Position = new vec4(corner.{{pos}}.X, corner.{{pos}}.Y, 0f, 1f);
         pixel.Uv = corner.{{uv}};
         return pixel;
     }
@@ -247,14 +247,14 @@ public class Neon
 
         float glow = clamp(0.03f / distanceToRing, 0f, 1f);
 
-        vec3 pink = Make.Vec3(1f, 0.2f, 0.7f);
-        vec3 cyan = Make.Vec3(0.2f, 0.8f, 1f);
+        vec3 pink = new vec3(1f, 0.2f, 0.7f);
+        vec3 cyan = new vec3(0.2f, 0.8f, 1f);
         vec3 tube = mix(pink, cyan, pixel.Uv.X);
 
-        vec3 background = Make.Vec3(0.02f, 0.02f, 0.06f);
+        vec3 background = new vec3(0.02f, 0.02f, 0.06f);
         vec3 color = mix(background, tube, glow);
 
-        return Make.Vec4(color.X, color.Y, color.Z, 1f);
+        return new vec4(color.X, color.Y, color.Z, 1f);
     }
 }
 ```
@@ -273,7 +273,7 @@ public class Neon
     public Pixel Vertex({{vertexType}} corner)
     {
         Pixel pixel;
-        pixel.Position = Make.Vec4(corner.{{pos}}.X, corner.{{pos}}.Y, 0f, 1f);
+        pixel.Position = new vec4(corner.{{pos}}.X, corner.{{pos}}.Y, 0f, 1f);
         pixel.Uv = corner.{{uv}};
         return pixel;
     }
@@ -290,14 +290,14 @@ public class Neon
 
         float glow = clamp(0.03f / distanceToRing, 0f, 1f);
 
-        vec3 pink = Make.Vec3(1f, 0.2f, 0.7f);
-        vec3 cyan = Make.Vec3(0.2f, 0.8f, 1f);
+        vec3 pink = new vec3(1f, 0.2f, 0.7f);
+        vec3 cyan = new vec3(0.2f, 0.8f, 1f);
         vec3 tube = mix(pink, cyan, pixel.Uv.X);
 
-        vec3 background = Make.Vec3(0.02f, 0.02f, 0.06f);
+        vec3 background = new vec3(0.02f, 0.02f, 0.06f);
         vec3 color = mix(background, tube, glow);
 
-        return Make.Vec4(color.X, color.Y, color.Z, 1f);
+        return new vec4(color.X, color.Y, color.Z, 1f);
     }
 }
 ```
@@ -316,7 +316,7 @@ public class Neon
     public Pixel Vertex({{vertexType}} corner)
     {
         Pixel pixel;
-        pixel.Position = Make.Vec4(corner.{{pos}}.X, corner.{{pos}}.Y, 0f, 1f);
+        pixel.Position = new vec4(corner.{{pos}}.X, corner.{{pos}}.Y, 0f, 1f);
         pixel.Uv = corner.{{uv}};
         return pixel;
     }
@@ -333,14 +333,14 @@ public class Neon
 
         float glow = clamp(0.03f / distanceToRing, 0f, 1f);
 
-        vec3 pink = Make.Vec3(1f, 0.2f, 0.7f);
-        vec3 cyan = Make.Vec3(0.2f, 0.8f, 1f);
+        vec3 pink = new vec3(1f, 0.2f, 0.7f);
+        vec3 cyan = new vec3(0.2f, 0.8f, 1f);
         vec3 tube = mix(pink, cyan, pixel.Uv.X);
 
-        vec3 background = Make.Vec3(0.02f, 0.02f, 0.06f);
+        vec3 background = new vec3(0.02f, 0.02f, 0.06f);
         vec3 color = mix(background, tube, glow);
 
-        return Make.Vec4(color.X, color.Y, color.Z, 1f);
+        return new vec4(color.X, color.Y, color.Z, 1f);
     }
 }
 ```

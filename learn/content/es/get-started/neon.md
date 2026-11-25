@@ -110,8 +110,8 @@ Cerca del anillo el resultado es enorme, y `clamp` lo deja en `1`, que es el má
 Tenemos un brillo de `0` a `1`. Falta decidir de qué color es la luz y de qué color es el fondo. Aquí entra `mix`, que también funciona con colores:
 
 ```csharp
-vec3 rosa = Crear.Vec3(1f, 0.2f, 0.7f);
-vec3 celeste = Crear.Vec3(0.2f, 0.8f, 1f);
+vec3 rosa = new vec3(1f, 0.2f, 0.7f);
+vec3 celeste = new vec3(0.2f, 0.8f, 1f);
 vec3 tubo = mix(rosa, celeste, pixel.Uv.X);
 ```
 
@@ -120,7 +120,7 @@ vec3 tubo = mix(rosa, celeste, pixel.Uv.X);
 Y ahora mezclamos otra vez, entre el fondo y el tubo, usando el brillo:
 
 ```csharp
-vec3 fondo = Crear.Vec3(0.02f, 0.02f, 0.06f);
+vec3 fondo = new vec3(0.02f, 0.02f, 0.06f);
 vec3 color = mix(fondo, tubo, brillo);
 ```
 
@@ -144,7 +144,7 @@ public class Neon
     public Pixel Vertex({{vertexType}} vertice)
     {
         Pixel pixel;
-        pixel.Posicion = Crear.Vec4(vertice.{{pos}}.X, vertice.{{pos}}.Y, 0f, 1f);
+        pixel.Posicion = new vec4(vertice.{{pos}}.X, vertice.{{pos}}.Y, 0f, 1f);
         pixel.Uv = vertice.{{uv}};
         return pixel;
     }
@@ -161,14 +161,14 @@ public class Neon
 
         float brillo = clamp(0.03f / distanciaAlAnillo, 0f, 1f);
 
-        vec3 rosa = Crear.Vec3(1f, 0.2f, 0.7f);
-        vec3 celeste = Crear.Vec3(0.2f, 0.8f, 1f);
+        vec3 rosa = new vec3(1f, 0.2f, 0.7f);
+        vec3 celeste = new vec3(0.2f, 0.8f, 1f);
         vec3 tubo = mix(rosa, celeste, pixel.Uv.X);
 
-        vec3 fondo = Crear.Vec3(0.02f, 0.02f, 0.06f);
+        vec3 fondo = new vec3(0.02f, 0.02f, 0.06f);
         vec3 color = mix(fondo, tubo, brillo);
 
-        return Crear.Vec4(color.X, color.Y, color.Z, 1f);
+        return new vec4(color.X, color.Y, color.Z, 1f);
     }
 }
 ```
@@ -187,7 +187,7 @@ public class Neon
     public Pixel Vertex({{vertexType}} vertice)
     {
         Pixel pixel;
-        pixel.Posicion = Crear.Vec4(vertice.{{pos}}.X, vertice.{{pos}}.Y, 0f, 1f);
+        pixel.Posicion = new vec4(vertice.{{pos}}.X, vertice.{{pos}}.Y, 0f, 1f);
         pixel.Uv = vertice.{{uv}};
         return pixel;
     }
@@ -204,14 +204,14 @@ public class Neon
 
         float brillo = clamp(0.03f / distanciaAlAnillo, 0f, 1f);
 
-        vec3 rosa = Crear.Vec3(1f, 0.2f, 0.7f);
-        vec3 celeste = Crear.Vec3(0.2f, 0.8f, 1f);
+        vec3 rosa = new vec3(1f, 0.2f, 0.7f);
+        vec3 celeste = new vec3(0.2f, 0.8f, 1f);
         vec3 tubo = mix(rosa, celeste, pixel.Uv.X);
 
-        vec3 fondo = Crear.Vec3(0.02f, 0.02f, 0.06f);
+        vec3 fondo = new vec3(0.02f, 0.02f, 0.06f);
         vec3 color = mix(fondo, tubo, brillo);
 
-        return Crear.Vec4(color.X, color.Y, color.Z, 1f);
+        return new vec4(color.X, color.Y, color.Z, 1f);
     }
 }
 ```
@@ -230,7 +230,7 @@ public class Neon
     public Pixel Vertex({{vertexType}} vertice)
     {
         Pixel pixel;
-        pixel.Posicion = Crear.Vec4(vertice.{{pos}}.X, vertice.{{pos}}.Y, 0f, 1f);
+        pixel.Posicion = new vec4(vertice.{{pos}}.X, vertice.{{pos}}.Y, 0f, 1f);
         pixel.Uv = vertice.{{uv}};
         return pixel;
     }
@@ -247,14 +247,14 @@ public class Neon
 
         float brillo = clamp(0.03f / distanciaAlAnillo, 0f, 1f);
 
-        vec3 rosa = Crear.Vec3(1f, 0.2f, 0.7f);
-        vec3 celeste = Crear.Vec3(0.2f, 0.8f, 1f);
+        vec3 rosa = new vec3(1f, 0.2f, 0.7f);
+        vec3 celeste = new vec3(0.2f, 0.8f, 1f);
         vec3 tubo = mix(rosa, celeste, pixel.Uv.X);
 
-        vec3 fondo = Crear.Vec3(0.02f, 0.02f, 0.06f);
+        vec3 fondo = new vec3(0.02f, 0.02f, 0.06f);
         vec3 color = mix(fondo, tubo, brillo);
 
-        return Crear.Vec4(color.X, color.Y, color.Z, 1f);
+        return new vec4(color.X, color.Y, color.Z, 1f);
     }
 }
 ```
@@ -273,7 +273,7 @@ public class Neon
     public Pixel Vertex({{vertexType}} vertice)
     {
         Pixel pixel;
-        pixel.Posicion = Crear.Vec4(vertice.{{pos}}.X, vertice.{{pos}}.Y, 0f, 1f);
+        pixel.Posicion = new vec4(vertice.{{pos}}.X, vertice.{{pos}}.Y, 0f, 1f);
         pixel.Uv = vertice.{{uv}};
         return pixel;
     }
@@ -290,14 +290,14 @@ public class Neon
 
         float brillo = clamp(0.03f / distanciaAlAnillo, 0f, 1f);
 
-        vec3 rosa = Crear.Vec3(1f, 0.2f, 0.7f);
-        vec3 celeste = Crear.Vec3(0.2f, 0.8f, 1f);
+        vec3 rosa = new vec3(1f, 0.2f, 0.7f);
+        vec3 celeste = new vec3(0.2f, 0.8f, 1f);
         vec3 tubo = mix(rosa, celeste, pixel.Uv.X);
 
-        vec3 fondo = Crear.Vec3(0.02f, 0.02f, 0.06f);
+        vec3 fondo = new vec3(0.02f, 0.02f, 0.06f);
         vec3 color = mix(fondo, tubo, brillo);
 
-        return Crear.Vec4(color.X, color.Y, color.Z, 1f);
+        return new vec4(color.X, color.Y, color.Z, 1f);
     }
 }
 ```
@@ -316,7 +316,7 @@ public class Neon
     public Pixel Vertex({{vertexType}} vertice)
     {
         Pixel pixel;
-        pixel.Posicion = Crear.Vec4(vertice.{{pos}}.X, vertice.{{pos}}.Y, 0f, 1f);
+        pixel.Posicion = new vec4(vertice.{{pos}}.X, vertice.{{pos}}.Y, 0f, 1f);
         pixel.Uv = vertice.{{uv}};
         return pixel;
     }
@@ -333,14 +333,14 @@ public class Neon
 
         float brillo = clamp(0.03f / distanciaAlAnillo, 0f, 1f);
 
-        vec3 rosa = Crear.Vec3(1f, 0.2f, 0.7f);
-        vec3 celeste = Crear.Vec3(0.2f, 0.8f, 1f);
+        vec3 rosa = new vec3(1f, 0.2f, 0.7f);
+        vec3 celeste = new vec3(0.2f, 0.8f, 1f);
         vec3 tubo = mix(rosa, celeste, pixel.Uv.X);
 
-        vec3 fondo = Crear.Vec3(0.02f, 0.02f, 0.06f);
+        vec3 fondo = new vec3(0.02f, 0.02f, 0.06f);
         vec3 color = mix(fondo, tubo, brillo);
 
-        return Crear.Vec4(color.X, color.Y, color.Z, 1f);
+        return new vec4(color.X, color.Y, color.Z, 1f);
     }
 }
 ```

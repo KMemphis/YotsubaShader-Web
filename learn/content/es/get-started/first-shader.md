@@ -93,67 +93,49 @@ Cuando un `vec4` guarda un color, sus campos se siguen llamando `X`, `Y`, `Z` y 
 
 > [!SCENE] make
 
-## Primer archivo: un ayudante para crear vectores
+## Crear un vector
 
-Vas a crear vectores todo el rato, así que conviene tener una forma corta de hacerlo. Crea el archivo `Crear.cs` dentro de `MisShaders`:
+Un vector se crea como cualquier otro tipo de C#: con `new` y su constructor. Escribes los valores en el orden de los campos, `X`, `Y`, `Z` y `W`:
 
-```csharp title="MisShaders/Crear.cs"
+```csharp
 using YotsubaShader.GlslSyntax.Types;
 
-namespace MisShaders;
-
-public static class Crear
-{
-    public static vec2 Vec2(float x, float y)
-    {
-        vec2 v;
-        v.X = x;
-        v.Y = y;
-        return v;
-    }
-
-    public static vec3 Vec3(float x, float y, float z)
-    {
-        vec3 v;
-        v.X = x;
-        v.Y = y;
-        v.Z = z;
-        return v;
-    }
-
-    public static vec4 Vec4(float x, float y, float z, float w)
-    {
-        vec4 v;
-        v.X = x;
-        v.Y = y;
-        v.Z = z;
-        v.W = w;
-        return v;
-    }
-}
+vec2 uv = new vec2(0.5f, 0.25f);
+vec3 naranja = new vec3(1f, 0.5f, 0.1f);
+vec4 rojo = new vec4(1f, 0f, 0f, 1f);
 ```
 
-> [!SAY] Crearemos una clase estática llamada Crear, y dentro colocaremos tres métodos: uno llamado Vec2, otro Vec3 y otro Vec4. Nos van a servir de ayuda para crear vectores. Es como si escribiéramos vec2 y llamáramos a su constructor, pero en lugar de eso lo hacemos con un método normal, para que veas que puedes usar C# como lo usas siempre cuando construyes un shader. Los tres hacen lo mismo: declaran un vector vacío llamado v, le asignan la X y la Y, y según el tamaño también la Z y la W, y al final lo devuelven. Arriba del archivo, el using de GlslSyntax punto Types es de donde salen los tipos vec2, vec3 y vec4, y el namespace MisShaders es solo el nombre de la carpeta lógica donde vive el archivo.
-
-Las tres funciones hacen lo mismo: crean un vector vacío, le llenan los campos uno por uno y lo devuelven. Ahora, para tener el color rojo, basta con escribir `Crear.Vec4(1f, 0f, 0f, 1f)`.
+> [!SAY] Un vector se crea como cualquier otro tipo de C sharp: con new y su constructor. Escribes los valores en el orden de los campos. Un vec2 recibe dos números, un vec3 recibe tres y un vec4 recibe cuatro. Para tener el color rojo, con opacidad total, basta con escribir new vec4 de uno, cero, cero, uno. Arriba, el using de GlslSyntax punto Types es de donde salen los tipos vec2, vec3 y vec4.
 
 - `using YotsubaShader.GlslSyntax.Types;` es de donde salen `vec2`, `vec3` y `vec4`.
 - La `f` de `1f` dice que el número es un `float`. Acostúmbrate a ponerla siempre: con un número con decimales, como `0.5`, es obligatoria, porque sin ella C# lo toma por un `double` y no compila.
 
-> [!NOTE]
-> Quizás te extrañe ver `vec4 v;` sin un `new`. Es C# normal: a un `struct` puedes declararlo vacío y llenarle los campos uno por uno. C# solo te pide que los llenes **todos** antes de usarlo. Si borras la línea `v.W = w;`, el `return v;` deja de compilar con el error `CS0165: Use of unassigned local variable 'v'`.
+El constructor tiene algunas formas más, todas útiles:
 
-Esto ya te enseña algo importante: **desde un shader puedes llamar a tus propias funciones**. `Crear.Vec4` es un método de C# normal y corriente, y el compilador lo lleva a la GPU junto con tu shader.
+```csharp
+vec4 gris = new vec4(0.5f);              // el mismo número en los cuatro campos
+vec4 solido = new vec4(naranja, 1f);     // un vec3 más el cuarto valor
+vec2 esquina = new vec2(uv.X, uv.Y);     // campos de otros vectores
+```
+
+> [!NOTE]
+> También puedes declarar un vector vacío, `vec4 v;`, y llenarle los campos uno por uno con `v.X = 1f;`. Es C# normal: solo te pide que los llenes **todos** antes de usarlo, o falla con `CS0165: Use of unassigned local variable 'v'`. El constructor lo hace en una sola línea, así que es el que usaremos en todo el tutorial.
+
+No hace falta nada más: el compilador sabe qué significa el constructor de un vector y lo escribe en el idioma de cada API gráfica, por ejemplo `vec4(1.0, 0.0, 0.0, 1.0)` en GLSL y `float4(1.0f, 0.0f, 0.0f, 1.0f)` en HLSL.
 
 > [!SCENE] doorA
 
-## Segundo archivo: las puertas A y B
+## Primer archivo: las puertas A y B
 
 Ahora sí, las puertas. Van las dos en un archivo que se llama `Pantalla.cs`. Lo vas a escribir en dos partes.
 
 ### La puerta A: lo que lleva cada vértice
 
 Crea `Pantalla.cs` con esto:
+
+:::godot
+En Godot: abre la pestaña **Yotsuba**, selecciona `MisShaders` en el panel **Project**, pulsa **New file** y escribe `Pantalla.cs`. Pega el código en el editor vacío y guárdalo con `Cmd/Ctrl+S`.
+:::
 
 ```csharp style=glsl title="MisShaders/Pantalla.cs"
 using YotsubaShader.GlslSyntax;
@@ -235,6 +217,26 @@ Tres preguntas que es normal hacerse aquí:
 **¿Qué pasa si me equivoco de número?** Que el shader lee el dato que no es. Si aquí pusieras `Uv` en el casillero 0, recibirías la posición creyendo que es el `Uv`. No sale ningún error: simplemente el dibujo sale mal. Por eso conviene tener claro qué va en cada casillero.
 :::
 
+:::raylib silknet
+Esto es la puerta A, escrita en C#. Línea por línea:
+
+- **`public struct Vertice`**: un vértice es un paquete de datos, y en C# un paquete de datos es un `struct`. El nombre `Vertice` lo elegí yo. Puedes ponerle el que quieras.
+- **`[location(0)] public vec2 Posicion;`**: "en el casillero 0 de esta puerta viajan dos `float`, y yo los voy a llamar `Posicion`".
+- **`[location(1)] public vec2 Uv;`**: "en el casillero 1 viajan otros dos `float`, y los voy a llamar `Uv`".
+
+`[location]` sale de `using YotsubaShader.GlslSyntax;`, por eso está ese `using` arriba.
+
+Compáralo con el dibujo de las puertas: en la puerta A hay un casillero 0 con `Posicion` y un casillero 1 con `Uv`. Es exactamente lo que acabas de escribir.
+
+Tres preguntas que es normal hacerse aquí:
+
+**¿Quién llena esos casilleros?** Tu juego. Cuando llegues a tu Game Engine vas a escribir las cuatro esquinas con su posición y su `Uv`, y vas a decirle que la posición va en el casillero 0 y el `Uv` en el 1. Aquí, en el shader, solo declaras qué esperas recibir.
+
+**¿Importan los nombres `Posicion` y `Uv`?** A la GPU no. Ella solo ve el número del casillero y el tipo. Los nombres son para ti, para que el código se pueda leer.
+
+**¿Qué pasa si me equivoco de número?** Que el shader lee el dato que no es. Si aquí pusieras `Uv` en el casillero 0, recibirías la posición creyendo que es el `Uv`. No sale ningún error: simplemente el dibujo sale mal. Por eso conviene tener claro qué va en cada casillero.
+:::
+
 :::godot
 Esto es la puerta A, escrita en C#. Son los datos de vértice de Godot, todos. Línea por línea:
 
@@ -242,9 +244,9 @@ Esto es la puerta A, escrita en C#. Son los datos de vértice de Godot, todos. L
 - **`public vec3 VERTEX;`**: la posición del vértice. Godot la llama `VERTEX`, así que tu campo se llama `VERTEX`. Igual con `NORMAL`, `TANGENT`, `BINORMAL`, `UV`, `UV2`, `COLOR`, `CUSTOM0` a `CUSTOM3`, `BONE_INDICES`, `BONE_WEIGHTS` y `POINT_SIZE`: los nombres de Godot, con las mayúsculas de Godot.
 - **`[location(0)]`, `[location(1)]`...**: la sintaxis pide un número en cada campo, así que el número está. Pero en la puerta A el plugin no lo usa: lee el **nombre**.
 
-Así se ve el archivo en Rider:
+Así se ve el archivo en la pestaña Yotsuba de Godot:
 
-![Screen.cs abierto en Rider: el struct GodotVertex con sus 14 campos, de VERTEX a POINT_SIZE, y debajo el struct Pixel](../../assets/get-started/godot/en/rider-screen.jpg)
+![Pantalla.cs abierto en la pestaña Yotsuba de Godot: el struct VerticeGodot con sus 14 campos, de VERTEX a POINT_SIZE, y debajo el struct Pixel](../../assets/get-started/godot/es/yotsuba-screen.jpg)
 
 En los shaders del tutorial solo vas a usar `VERTEX` (la posición) y `UV`. Los otros doce están para que nunca tengas que cambiar el struct: un shader que no los lee los deja quietos, y Godot rellena los demás con valores por defecto. Están explicados uno por uno en [la referencia de Godot](../engines/godot-reference.md).
 
@@ -252,7 +254,7 @@ En los shaders del tutorial solo vas a usar `VERTEX` (la posición) y `UV`. Los 
 
 Tres preguntas que es normal hacerse aquí:
 
-**¿Quién llena esos campos?** Godot. Cada malla lleva sus datos de vértice, y el motor le entrega cada vértice a tu shader con esos nombres. Lo único que hay que tener presente es que la malla debe llevar lo que pides: el visor del capítulo anterior le da al rectángulo normales y tangentes porque tu struct las pide.
+**¿Quién llena esos campos?** Godot. Cada malla lleva sus datos de vértice, y el motor le entrega cada vértice a tu shader con esos nombres. Lo único que hay que tener presente es que la malla debe llevar lo que pides: el visor del capítulo siguiente le da al rectángulo normales y tangentes porque tu struct las pide.
 
 **¿Importan los nombres?** Aquí sí, y mucho. Son la forma en que Godot y tu shader se entienden. Si escribes `Position` en lugar de `VERTEX`, el compilador no sabe qué dato quieres y te lo dice.
 
@@ -405,6 +407,17 @@ En `{{vertexType}}`, el casillero 0 es la posición. En `Pixel`, el casillero 0 
 El `Uv` entró por el casillero 1 de la puerta A y sale por el casillero 0 de la puerta B. No pasa nada: el número solo vale dentro de su puerta.
 :::
 
+:::raylib silknet
+En `{{vertexType}}`, el casillero 0 es la posición. En `Pixel`, el casillero 0 es el `Uv`. No chocan, porque son dos puertas distintas, y cada puerta cuenta desde 0 por su cuenta:
+
+| | Casillero 0 | Casillero 1 |
+| --- | --- | --- |
+| `{{vertexType}}` (puerta A) | `{{pos}}` | `{{uv}}` |
+| `Pixel` (puerta B) | `Uv` | no hay |
+
+El `Uv` entró por el casillero 1 de la puerta A y sale por el casillero 0 de la puerta B. No pasa nada: el número solo vale dentro de su puerta.
+:::
+
 :::godot
 En la ruta Godot la puerta A no la numeras tú: sus campos se encuentran por **nombre** (`VERTEX`, `UV`...), como acabas de ver. La puerta B (`Pixel`) es la que sí usa números de casillero: su `Uv` viaja por el casillero 0, y ese es el número que `PixelIn` tiene que repetir.
 :::
@@ -423,7 +436,7 @@ Los dos lados de la puerta B tienen que coincidir: el mismo número de `location
 
 > [!SCENE] vertexfn
 
-## Tercer archivo: las dos funciones
+## Segundo archivo: las dos funciones
 
 Quedan las decisiones 3, 4 y 5: las dos funciones y la puerta C. Van juntas en una clase. Primero te las enseño por separado, y después el archivo completo para que lo copies.
 
@@ -434,7 +447,7 @@ Quedan las decisiones 3, 4 y 5: las dos funciones y la puerta C. Van juntas en u
 public Pixel Vertex({{vertexType}} vertice)
 {
     Pixel pixel;
-    pixel.Posicion = Crear.Vec4(vertice.{{pos}}.X, vertice.{{pos}}.Y, 0f, 1f);
+    pixel.Posicion = new vec4(vertice.{{pos}}.X, vertice.{{pos}}.Y, 0f, 1f);
     pixel.Uv = vertice.{{uv}};
     return pixel;
 }
@@ -452,7 +465,7 @@ Y el cuerpo hace los dos trabajos de la etapa Vertex:
 **Trabajo 1, decir dónde va el vértice:**
 
 ```csharp
-pixel.Posicion = Crear.Vec4(vertice.{{pos}}.X, vertice.{{pos}}.Y, 0f, 1f);
+pixel.Posicion = new vec4(vertice.{{pos}}.X, vertice.{{pos}}.Y, 0f, 1f);
 ```
 
 Aquí no queremos mover nada, así que la posición final es la misma que llegó. Lo único que cambia es que llegó con dos números y hay que entregarla con cuatro. Por eso tomamos la `X` y la `Y` que llegaron y rellenamos con `0f` y `1f`, que son la profundidad y la perspectiva de las que hablamos.
@@ -465,7 +478,7 @@ pixel.Uv = vertice.{{uv}};
 
 Copiamos el `Uv` tal cual. Si no lo hicieras, a la función Fragment no le llegaría nada con qué saber dónde está cada píxel.
 
-`Pixel pixel;` al principio y `return pixel;` al final son lo mismo que hiciste en `Crear.cs`: declarar el `struct` vacío, llenar sus dos campos y devolverlo.
+`Pixel pixel;` al principio y `return pixel;` al final funcionan como el `vec4 v;` vacío de la nota sobre vectores: declaras el `struct` vacío, le llenas los dos campos y lo devuelves. Aquí sí lo necesitas, porque no hay un constructor que arme un `struct` tuyo.
 
 > [!SCENE] fragfn
 
@@ -476,7 +489,7 @@ Copiamos el `Uv` tal cual. Si no lo hicieras, a la función Fragment no le llega
 [return: location(0)]
 public vec4 Fragment(PixelIn pixel)
 {
-    return Crear.Vec4(1f, 0f, 0f, 1f);
+    return new vec4(1f, 0f, 0f, 1f);
 }
 ```
 
@@ -487,7 +500,7 @@ public vec4 Fragment(PixelIn pixel)
 
 Si nunca habías visto `[return: ...]`, es C# normal. Los atributos se ponen encima de lo que describen: encima de un campo, de un método, de una clase. Pero lo que un método devuelve no tiene un sitio propio donde poner nada encima, así que C# te deja escribir `return:` delante para decir "este atributo no es para el método, es para lo que devuelve".
 
-Por ahora el cuerpo hace lo más simple posible. Devuelve siempre `Crear.Vec4(1f, 0f, 0f, 1f)`, que es rojo: todo el rojo, nada de verde, nada de azul, y opacidad completa. Ni siquiera usa el `pixel` que recibe. Así que toda la pantalla va a quedar roja.
+Por ahora el cuerpo hace lo más simple posible. Devuelve siempre `new vec4(1f, 0f, 0f, 1f)`, que es rojo: todo el rojo, nada de verde, nada de azul, y opacidad completa. Ni siquiera usa el `pixel` que recibe. Así que toda la pantalla va a quedar roja.
 
 > [!SCENE] zeros
 
@@ -509,6 +522,10 @@ Tres ceros, tres puertas, tres cosas distintas.
 
 Crea `Degradado.cs` con las dos funciones dentro de una clase:
 
+:::godot
+En la pestaña Yotsuba otra vez: **New file**, `Degradado.cs`, pega y guarda. Si escribiste algo mal, el error sale subrayado y en la lista de debajo del editor.
+:::
+
 ```csharp style=glsl title="MisShaders/Degradado.cs"
 using YotsubaShader.GlslSyntax;
 using YotsubaShader.GlslSyntax.Types;
@@ -522,7 +539,7 @@ public class Degradado
     public Pixel Vertex({{vertexType}} vertice)
     {
         Pixel pixel;
-        pixel.Posicion = Crear.Vec4(vertice.{{pos}}.X, vertice.{{pos}}.Y, 0f, 1f);
+        pixel.Posicion = new vec4(vertice.{{pos}}.X, vertice.{{pos}}.Y, 0f, 1f);
         pixel.Uv = vertice.{{uv}};
         return pixel;
     }
@@ -531,7 +548,7 @@ public class Degradado
     [return: location(0)]
     public vec4 Fragment(PixelIn pixel)
     {
-        return Crear.Vec4(1f, 0f, 0f, 1f);
+        return new vec4(1f, 0f, 0f, 1f);
     }
 }
 ```
@@ -549,7 +566,7 @@ public class Degradado
     public Pixel Vertex({{vertexType}} vertice)
     {
         Pixel pixel;
-        pixel.Posicion = Crear.Vec4(vertice.{{pos}}.X, vertice.{{pos}}.Y, 0f, 1f);
+        pixel.Posicion = new vec4(vertice.{{pos}}.X, vertice.{{pos}}.Y, 0f, 1f);
         pixel.Uv = vertice.{{uv}};
         return pixel;
     }
@@ -558,7 +575,7 @@ public class Degradado
     [return: SV_Target]
     public vec4 Fragment(PixelIn pixel)
     {
-        return Crear.Vec4(1f, 0f, 0f, 1f);
+        return new vec4(1f, 0f, 0f, 1f);
     }
 }
 ```
@@ -576,7 +593,7 @@ public class Degradado
     public Pixel Vertex({{vertexType}} vertice)
     {
         Pixel pixel;
-        pixel.Posicion = Crear.Vec4(vertice.{{pos}}.X, vertice.{{pos}}.Y, 0f, 1f);
+        pixel.Posicion = new vec4(vertice.{{pos}}.X, vertice.{{pos}}.Y, 0f, 1f);
         pixel.Uv = vertice.{{uv}};
         return pixel;
     }
@@ -585,7 +602,7 @@ public class Degradado
     [return: color(0)]
     public vec4 Fragment(PixelIn pixel)
     {
-        return Crear.Vec4(1f, 0f, 0f, 1f);
+        return new vec4(1f, 0f, 0f, 1f);
     }
 }
 ```
@@ -603,7 +620,7 @@ public class Degradado
     public Pixel Vertex({{vertexType}} vertice)
     {
         Pixel pixel;
-        pixel.Posicion = Crear.Vec4(vertice.{{pos}}.X, vertice.{{pos}}.Y, 0f, 1f);
+        pixel.Posicion = new vec4(vertice.{{pos}}.X, vertice.{{pos}}.Y, 0f, 1f);
         pixel.Uv = vertice.{{uv}};
         return pixel;
     }
@@ -612,7 +629,7 @@ public class Degradado
     [return: location(0)]
     public vec4 Fragment(PixelIn pixel)
     {
-        return Crear.Vec4(1f, 0f, 0f, 1f);
+        return new vec4(1f, 0f, 0f, 1f);
     }
 }
 ```
@@ -630,7 +647,7 @@ public class Degradado
     public Pixel Vertex({{vertexType}} vertice)
     {
         Pixel pixel;
-        pixel.Posicion = Crear.Vec4(vertice.{{pos}}.X, vertice.{{pos}}.Y, 0f, 1f);
+        pixel.Posicion = new vec4(vertice.{{pos}}.X, vertice.{{pos}}.Y, 0f, 1f);
         pixel.Uv = vertice.{{uv}};
         return pixel;
     }
@@ -639,7 +656,7 @@ public class Degradado
     [return: Location(0)]
     public vec4 Fragment(PixelIn pixel)
     {
-        return Crear.Vec4(1f, 0f, 0f, 1f);
+        return new vec4(1f, 0f, 0f, 1f);
     }
 }
 ```
@@ -722,26 +739,16 @@ struct Pixel
 layout(location = 0) in vec2 pixel_Uv;
 layout(location = 0) out vec4 _return;
 
-vec4 Vec4(float x, float y, float z, float w)
-{
-    vec4 v;
-    v.x = x;
-    v.y = y;
-    v.z = z;
-    v.w = w;
-    return v;
-}
-
 void main()
 {
-    _return = Vec4(1.0, 0.0, 0.0, 1.0);
+    _return = vec4(1.0, 0.0, 0.0, 1.0);
 }
 ```
 
 Míralo con calma, porque ahí está todo lo que escribiste, traducido a otro lenguaje:
 
 - Tu `struct Pixel` está ahí.
-- Tu función `Crear.Vec4` está ahí, aunque la escribiste en otro archivo. El compilador se trajo solo lo que el shader usa: `Vec2` y `Vec3` no aparecen.
+- Tu `new vec4(...)` también está, escrito como `vec4(...)`, el constructor de GLSL. No tuviste que escribir un ayudante para eso: el compilador traduce el constructor del vector.
 - Tu método `Fragment` es el `main()` del final.
 
 Y tus puertas también están ahí. Mira estas dos líneas:
@@ -772,20 +779,10 @@ layout(location = 0) in vec2 vertice_Posicion;
 layout(location = 1) in vec2 vertice_Uv;
 layout(location = 0) out vec2 _return_Uv;
 
-vec4 Vec4(float x, float y, float z, float w)
-{
-    vec4 v;
-    v.x = x;
-    v.y = y;
-    v.z = z;
-    v.w = w;
-    return v;
-}
-
 void main()
 {
     Pixel pixel;
-    pixel.Posicion = Vec4(vertice_Posicion.x, vertice_Posicion.y, 0.0, 1.0);
+    pixel.Posicion = vec4(vertice_Posicion.x, vertice_Posicion.y, 0.0, 1.0);
     pixel.Uv = vertice_Uv;
     gl_Position = pixel.Posicion;
     _return_Uv = pixel.Uv;
@@ -825,7 +822,7 @@ public class Degradado
     public Pixel Vertex({{vertexType}} vertice)
     {
         Pixel pixel;
-        pixel.Posicion = Crear.Vec4(vertice.{{pos}}.X, vertice.{{pos}}.Y, 0f, 1f);
+        pixel.Posicion = new vec4(vertice.{{pos}}.X, vertice.{{pos}}.Y, 0f, 1f);
         pixel.Uv = vertice.{{uv}};
         return pixel;
     }
@@ -837,7 +834,7 @@ public class Degradado
         float rojo = 1f;
         float verde = 0.25f + 0.6f * pixel.Uv.Y;
         float azul = 0.45f - 0.35f * pixel.Uv.Y;
-        return Crear.Vec4(rojo, verde, azul, 1f);
+        return new vec4(rojo, verde, azul, 1f);
     }
 }
 ```
@@ -855,7 +852,7 @@ public class Degradado
     public Pixel Vertex({{vertexType}} vertice)
     {
         Pixel pixel;
-        pixel.Posicion = Crear.Vec4(vertice.{{pos}}.X, vertice.{{pos}}.Y, 0f, 1f);
+        pixel.Posicion = new vec4(vertice.{{pos}}.X, vertice.{{pos}}.Y, 0f, 1f);
         pixel.Uv = vertice.{{uv}};
         return pixel;
     }
@@ -867,7 +864,7 @@ public class Degradado
         float rojo = 1f;
         float verde = 0.25f + 0.6f * pixel.Uv.Y;
         float azul = 0.45f - 0.35f * pixel.Uv.Y;
-        return Crear.Vec4(rojo, verde, azul, 1f);
+        return new vec4(rojo, verde, azul, 1f);
     }
 }
 ```
@@ -885,7 +882,7 @@ public class Degradado
     public Pixel Vertex({{vertexType}} vertice)
     {
         Pixel pixel;
-        pixel.Posicion = Crear.Vec4(vertice.{{pos}}.X, vertice.{{pos}}.Y, 0f, 1f);
+        pixel.Posicion = new vec4(vertice.{{pos}}.X, vertice.{{pos}}.Y, 0f, 1f);
         pixel.Uv = vertice.{{uv}};
         return pixel;
     }
@@ -897,7 +894,7 @@ public class Degradado
         float rojo = 1f;
         float verde = 0.25f + 0.6f * pixel.Uv.Y;
         float azul = 0.45f - 0.35f * pixel.Uv.Y;
-        return Crear.Vec4(rojo, verde, azul, 1f);
+        return new vec4(rojo, verde, azul, 1f);
     }
 }
 ```
@@ -915,7 +912,7 @@ public class Degradado
     public Pixel Vertex({{vertexType}} vertice)
     {
         Pixel pixel;
-        pixel.Posicion = Crear.Vec4(vertice.{{pos}}.X, vertice.{{pos}}.Y, 0f, 1f);
+        pixel.Posicion = new vec4(vertice.{{pos}}.X, vertice.{{pos}}.Y, 0f, 1f);
         pixel.Uv = vertice.{{uv}};
         return pixel;
     }
@@ -927,7 +924,7 @@ public class Degradado
         float rojo = 1f;
         float verde = 0.25f + 0.6f * pixel.Uv.Y;
         float azul = 0.45f - 0.35f * pixel.Uv.Y;
-        return Crear.Vec4(rojo, verde, azul, 1f);
+        return new vec4(rojo, verde, azul, 1f);
     }
 }
 ```
@@ -945,7 +942,7 @@ public class Degradado
     public Pixel Vertex({{vertexType}} vertice)
     {
         Pixel pixel;
-        pixel.Posicion = Crear.Vec4(vertice.{{pos}}.X, vertice.{{pos}}.Y, 0f, 1f);
+        pixel.Posicion = new vec4(vertice.{{pos}}.X, vertice.{{pos}}.Y, 0f, 1f);
         pixel.Uv = vertice.{{uv}};
         return pixel;
     }
@@ -957,7 +954,7 @@ public class Degradado
         float rojo = 1f;
         float verde = 0.25f + 0.6f * pixel.Uv.Y;
         float azul = 0.45f - 0.35f * pixel.Uv.Y;
-        return Crear.Vec4(rojo, verde, azul, 1f);
+        return new vec4(rojo, verde, azul, 1f);
     }
 }
 ```
@@ -989,7 +986,7 @@ void main()
     float rojo = 1.0;
     float verde = 0.25 + (0.60000002384185791015625 * pixel_Uv.y);
     float azul = 0.449999988079071044921875 - (0.3499999940395355224609375 * pixel_Uv.y);
-    _return = Vec4(rojo, verde, azul, 1.0);
+    _return = vec4(rojo, verde, azul, 1.0);
 }
 ```
 
@@ -1035,7 +1032,7 @@ void Fragment_inner()
     float rojo = 1.0f;
     float verde = 0.25f + (0.60000002384185791015625f * pixel_Uv.y);
     float azul = 0.449999988079071044921875f - (0.3499999940395355224609375f * pixel_Uv.y);
-    _return = Vec4(rojo, verde, azul, 1.0f);
+    _return = float4(rojo, verde, azul, 1.0f);
 }
 ```
 

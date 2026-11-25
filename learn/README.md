@@ -54,17 +54,17 @@ links between chapters (`[text](../reference/compile.md#targets)`, validated at 
 
 ## Routes (one Get Started per engine)
 
-`content/<lang>/get-started/*.md` is a single source rendered once per route: MonoGame (default URLs), `/kni/`, `/fna/` and `/godot/`. Routes live in `ROUTES` and `ROUTE_TEXT` in `site.config.mjs`; the engine is resolved in `lib/routes.mjs`.
+`content/<lang>/get-started/*.md` is a single source rendered once per route: MonoGame (default URLs), `/kni/`, `/fna/`, `/godot/`, `/raylib/` and `/silknet/`. Routes live in `ROUTES` and `ROUTE_TEXT` in `site.config.mjs`; the engine is resolved in `lib/routes.mjs`.
 
 - `{{var}}` and `{{macro arg}}` insert route text (for example `{{register Colors}}` or `{{vertexType}}`).
-- `:::godot ... :::` and `:::xna ... :::` (MonoGame + KNI + FNA) emit a block in that route only.
+- `:::godot ... :::` and `:::xna ... :::` (MonoGame + KNI + FNA) emit a block in that route only. `:::raylib`, `:::silknet` and `:::raylib silknet` do the same for the two file-based routes (raylib-cs and Silk.NET), which read what `yotsuba compile` writes instead of calling a plugin method. Their viewers live in `tutorial-code/Viewer.<api>` (and `Visor.<api>` in Spanish); Silk.NET shows its four graphics APIs as `tab="OpenGL"`, `tab="OpenGL ES"`, `tab="Vulkan"` and `tab="WebGPU"` code tabs.
 - Restart `node build.mjs --serve` after editing `site.config.mjs`: it caches modules.
 - Godot screenshots go in `content/assets/get-started/godot/en/` and are shared by the English and Spanish chapters.
 
 ## Engines
 
 The engine row on the home page comes from `ENGINES` in `site.config.mjs` and shows names only (no logos). Each engine needs `content/<lang>/engines/<id>.md`.
-`engines/<id>.md` for MonoGame, KNI, FNA and Godot are stubs with `redirect: <routeId>`: the sidebar links straight to the Get Started of that engine. The real engine documentation lives in `engines/<id>-reference.md`. The other engines (Stride, Unity, Silk.NET) are placeholders marked `status: planned`.
+`engines/<id>.md` for MonoGame, KNI, FNA, Godot, raylib-cs and Silk.NET are stubs with `redirect: <routeId>`: the sidebar links straight to the Get Started of that engine. The real engine documentation lives in `engines/<id>-reference.md`. The other engines (Stride, Unity) are placeholders marked `status: planned`.
 
 ## Documentation (`reference/`)
 

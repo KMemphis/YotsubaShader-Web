@@ -33,7 +33,7 @@ public class Default
     public vec4 Fragment(PixelIn pixel)
     {
         double red = 1.0;   // double es opcional en Vulkan (shaderFloat64)
-        return Make.Vec4((float)red, pixel.Uv.X, pixel.Uv.Y, 1f);
+        return new vec4((float)red, pixel.Uv.X, pixel.Uv.Y, 1f);
     }
 }
 ```
@@ -43,7 +43,7 @@ warning YS0701: 'double' no está disponible en todas las APIs gráficas: Vulkan
     1.3: opcional (shaderFloat64). Afecta a: Vulkan 1.3.
 ```
 
-`PixelIn` y `Make` son los ayudantes del [tutorial](../get-started/index.md); cualquier shader se comporta igual. Es una advertencia porque nada indica que necesites otras APIs gráficas. Al declararlas, lo que les falta pasa a ser un error.
+`PixelIn` es el ayudante del [tutorial](../get-started/index.md); cualquier shader se comporta igual. Es una advertencia porque nada indica que necesites otras APIs gráficas. Al declararlas, lo que les falta pasa a ser un error.
 
 ## `[ShaderTargets]`: elige las APIs gráficas
 
@@ -65,7 +65,7 @@ public class Web
     public vec4 Fragment(PixelIn pixel)
     {
         double red = 1.0;   // WebGPU no tiene double: error
-        return Make.Vec4((float)red, pixel.Uv.X, pixel.Uv.Y, 1f);
+        return new vec4((float)red, pixel.Uv.X, pixel.Uv.Y, 1f);
     }
 }
 ```

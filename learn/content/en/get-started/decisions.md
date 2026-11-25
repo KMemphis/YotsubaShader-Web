@@ -27,9 +27,9 @@ Copy `Template.cs` as `Decisions.cs`, change the class name to `Decisions` and r
 ```csharp
 if (pixel.Uv.X < 0.5f)
 {
-    return Make.Vec4(1f, 0.4f, 0.1f, 1f);
+    return new vec4(1f, 0.4f, 0.1f, 1f);
 }
-return Make.Vec4(0.1f, 0.2f, 0.5f, 1f);
+return new vec4(0.1f, 0.2f, 0.5f, 1f);
 ```
 
 Run the work cycle:
@@ -56,15 +56,15 @@ What if we want three stripes? Replace the contents of `Fragment` with this:
 float x = pixel.Uv.X;
 if (x < 0.333f)
 {
-    return Make.Vec4(0.1f, 0.3f, 0.8f, 1f);
+    return new vec4(0.1f, 0.3f, 0.8f, 1f);
 }
 else if (x < 0.666f)
 {
-    return Make.Vec4(1f, 1f, 1f, 1f);
+    return new vec4(1f, 1f, 1f, 1f);
 }
 else
 {
-    return Make.Vec4(0.9f, 0.2f, 0.2f, 1f);
+    return new vec4(0.9f, 0.2f, 0.2f, 1f);
 }
 ```
 
@@ -110,9 +110,9 @@ float x = pixel.Uv.X;
 float y = pixel.Uv.Y;
 if (x > 0.25f && x < 0.75f && y > 0.25f && y < 0.75f)
 {
-    return Make.Vec4(1f, 0.5f, 0.1f, 1f);
+    return new vec4(1f, 0.5f, 0.1f, 1f);
 }
-return Make.Vec4(0.1f, 0.1f, 0.2f, 1f);
+return new vec4(0.1f, 0.1f, 0.2f, 1f);
 ```
 
 ![An orange rectangle centered on a dark blue background](../../assets/get-started/taller/de4.png)
@@ -192,12 +192,16 @@ float dx = (pixel.Uv.X - 0.5f) * aspect;
 float dy = pixel.Uv.Y - 0.5f;
 if (dx * dx + dy * dy < 0.3f * 0.3f)
 {
-    return Make.Vec4(1f, 0.5f, 0.1f, 1f);
+    return new vec4(1f, 0.5f, 0.1f, 1f);
 }
-return Make.Vec4(0.1f, 0.1f, 0.2f, 1f);
+return new vec4(0.1f, 0.1f, 0.2f, 1f);
 ```
 
 ![An orange circle centered on a dark blue background](../../assets/get-started/taller/de5.png)
+
+:::godot
+![Godot after pressing Play: the game window shows an orange circle on a dark blue background](../../assets/get-started/godot/en/decisions.gif)
+:::
 
 The condition `dx * dx + dy * dy < 0.3f * 0.3f` says: "I am closer to the center than the edge is". `0.3f * 0.3f` is the radius `0.3` multiplied by itself; we leave it written like that so you can see where it comes from.
 
@@ -214,9 +218,9 @@ int column = (int)(pixel.Uv.X * 8f);
 int row = (int)(pixel.Uv.Y * 8f);
 if ((column + row) % 2 == 0)
 {
-    return Make.Vec4(0.9f, 0.9f, 0.9f, 1f);
+    return new vec4(0.9f, 0.9f, 0.9f, 1f);
 }
-return Make.Vec4(0.15f, 0.15f, 0.15f, 1f);
+return new vec4(0.15f, 0.15f, 0.15f, 1f);
 ```
 
 ![An 8 by 8 chessboard, with light and dark squares](../../assets/get-started/taller/de6.png)
@@ -284,7 +288,7 @@ public class Decisions
     public Pixel Vertex({{vertexType}} corner)
     {
         Pixel pixel;
-        pixel.Position = Make.Vec4(corner.{{pos}}.X, corner.{{pos}}.Y, 0f, 1f);
+        pixel.Position = new vec4(corner.{{pos}}.X, corner.{{pos}}.Y, 0f, 1f);
         pixel.Uv = corner.{{uv}};
         return pixel;
     }
@@ -298,9 +302,9 @@ public class Decisions
         float dy = pixel.Uv.Y - 0.5f;
         if (dx * dx + dy * dy < 0.3f * 0.3f)
         {
-            return Make.Vec4(1f, 0.5f, 0.1f, 1f);
+            return new vec4(1f, 0.5f, 0.1f, 1f);
         }
-        return Make.Vec4(0.1f, 0.1f, 0.2f, 1f);
+        return new vec4(0.1f, 0.1f, 0.2f, 1f);
     }
 }
 ```
@@ -322,7 +326,7 @@ public class Decisions
     public Pixel Vertex({{vertexType}} corner)
     {
         Pixel pixel;
-        pixel.Position = Make.Vec4(corner.{{pos}}.X, corner.{{pos}}.Y, 0f, 1f);
+        pixel.Position = new vec4(corner.{{pos}}.X, corner.{{pos}}.Y, 0f, 1f);
         pixel.Uv = corner.{{uv}};
         return pixel;
     }
@@ -336,9 +340,9 @@ public class Decisions
         float dy = pixel.Uv.Y - 0.5f;
         if (dx * dx + dy * dy < 0.3f * 0.3f)
         {
-            return Make.Vec4(1f, 0.5f, 0.1f, 1f);
+            return new vec4(1f, 0.5f, 0.1f, 1f);
         }
-        return Make.Vec4(0.1f, 0.1f, 0.2f, 1f);
+        return new vec4(0.1f, 0.1f, 0.2f, 1f);
     }
 }
 ```
@@ -360,7 +364,7 @@ public class Decisions
     public Pixel Vertex({{vertexType}} corner)
     {
         Pixel pixel;
-        pixel.Position = Make.Vec4(corner.{{pos}}.X, corner.{{pos}}.Y, 0f, 1f);
+        pixel.Position = new vec4(corner.{{pos}}.X, corner.{{pos}}.Y, 0f, 1f);
         pixel.Uv = corner.{{uv}};
         return pixel;
     }
@@ -374,9 +378,9 @@ public class Decisions
         float dy = pixel.Uv.Y - 0.5f;
         if (dx * dx + dy * dy < 0.3f * 0.3f)
         {
-            return Make.Vec4(1f, 0.5f, 0.1f, 1f);
+            return new vec4(1f, 0.5f, 0.1f, 1f);
         }
-        return Make.Vec4(0.1f, 0.1f, 0.2f, 1f);
+        return new vec4(0.1f, 0.1f, 0.2f, 1f);
     }
 }
 ```
@@ -398,7 +402,7 @@ public class Decisions
     public Pixel Vertex({{vertexType}} corner)
     {
         Pixel pixel;
-        pixel.Position = Make.Vec4(corner.{{pos}}.X, corner.{{pos}}.Y, 0f, 1f);
+        pixel.Position = new vec4(corner.{{pos}}.X, corner.{{pos}}.Y, 0f, 1f);
         pixel.Uv = corner.{{uv}};
         return pixel;
     }
@@ -412,9 +416,9 @@ public class Decisions
         float dy = pixel.Uv.Y - 0.5f;
         if (dx * dx + dy * dy < 0.3f * 0.3f)
         {
-            return Make.Vec4(1f, 0.5f, 0.1f, 1f);
+            return new vec4(1f, 0.5f, 0.1f, 1f);
         }
-        return Make.Vec4(0.1f, 0.1f, 0.2f, 1f);
+        return new vec4(0.1f, 0.1f, 0.2f, 1f);
     }
 }
 ```
@@ -436,7 +440,7 @@ public class Decisions
     public Pixel Vertex({{vertexType}} corner)
     {
         Pixel pixel;
-        pixel.Position = Make.Vec4(corner.{{pos}}.X, corner.{{pos}}.Y, 0f, 1f);
+        pixel.Position = new vec4(corner.{{pos}}.X, corner.{{pos}}.Y, 0f, 1f);
         pixel.Uv = corner.{{uv}};
         return pixel;
     }
@@ -450,9 +454,9 @@ public class Decisions
         float dy = pixel.Uv.Y - 0.5f;
         if (dx * dx + dy * dy < 0.3f * 0.3f)
         {
-            return Make.Vec4(1f, 0.5f, 0.1f, 1f);
+            return new vec4(1f, 0.5f, 0.1f, 1f);
         }
-        return Make.Vec4(0.1f, 0.1f, 0.2f, 1f);
+        return new vec4(0.1f, 0.1f, 0.2f, 1f);
     }
 }
 ```

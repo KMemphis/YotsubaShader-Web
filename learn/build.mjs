@@ -185,7 +185,7 @@ function build() {
         };
         if (page.redirect) {
           const to = page.href;
-          outputs.push([page.url.slice(1) + 'index.html', `<!doctype html><html lang="${lang}"><head><meta charset="utf-8"><title>${page.title}</title><meta name="robots" content="noindex"><link rel="canonical" href="${SITE.url}${to}"><meta http-equiv="refresh" content="0;url=${to}"><script>location.replace(${JSON.stringify(to)})</script></head><body><a href="${to}">${page.title}</a></body></html>`]);
+          outputs.push([page.url.slice(1) + 'index.html', `<!doctype html><html lang="${lang}"><head><meta charset="utf-8"><title>${page.title}</title><meta name="robots" content="noindex"><link rel="canonical" href="${SITE.url}${to}"><meta http-equiv="refresh" content="0;url=${to}"><script>try{localStorage.setItem('ys-route',${JSON.stringify(page.redirect)})}catch(e){}location.replace(${JSON.stringify(to)})</script></head><body><a href="${to}">${page.title}</a></body></html>`]);
           return;
         }
         let stage = null;

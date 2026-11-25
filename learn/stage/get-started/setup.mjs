@@ -8,7 +8,7 @@ const SH = L('MyShaders', 'MisShaders'), TRY = L('TryIt', 'Probar');
 // live shaders (GLSL body of vec4 shade(vec2 uv, float t)): the same image in every window of this stage
 const GRADIENT = 'return vec4(uv.x,1.-uv.y,.6,1.);';
 const PLASMA = 'float x=uv.x*2.-1.,y=(1.-uv.y)*2.-1.;float v=sin(x*6.+t)+sin(y*6.+t*1.3)+sin((x+y)*6.+t*.7)+sin(sqrt(x*x+y*y)*9.-t*2.);return vec4(.5+.5*sin(v*1.5),.5+.5*sin(v*1.5+2.1),.5+.5*sin(v*1.5+4.2),1.);';
-const ENGINE_LOGO = { route: { kni: '/img/engines/kni.png', fna: '/img/engines/fna.png', godot: '/img/engines/godot.svg', default: '/img/engines/monogame.png' } };
+const ENGINE_LOGO = { route: { kni: '/img/engines/kni.png', fna: '/img/engines/fna.png', godot: '/img/engines/godot.svg', raylib: '/img/engines/raylib.png', silknet: '/img/engines/silknet.svg', default: '/img/engines/monogame.png' } };
 const win = (frag, at, extra = {}) => ({ k: 'gl', cls: 'window w40', title: '{{engine}}', logo: ENGINE_LOGO, at, fx: 'pop', radius: 10, tiles: [{ frag, at }], ...extra });
 
 export default [
@@ -126,6 +126,47 @@ export default [
       { k: 'term', at: 0, type: 0.3, cps: 30, code: L(term('dotnet build TryIt'), term('dotnet build Probar')) },
       { k: 'big', cls: 's-ok', at: 'see', text: 'Build succeeded', mark: { at: 'see+0.6', kind: 'check' } },
       { k: 'text', at: 'ready', text: L('No shader yet, but everything is in place', 'Aún sin shaders, pero todo en su sitio') },
+    ],
+  },
+  {
+    id: 'g_project',
+    beats: { empty: L('an empty folder called', 'una carpeta vacía llamada'), name: L('Project Name', 'Project Name'), path: L('Project Path', 'Project Path'), render: L('Forward+ is fine', 'Forward+ está bien'), inside: L('on purpose', 'a propósito'), manifest: L('the relative paths', 'las rutas relativas'), both: L('Both versions of Godot work', 'Las dos versiones de Godot sirven') },
+    items: [
+      { k: 'kicker', text: L('Step 5 · the Godot project', 'Paso 5 · el proyecto de Godot') },
+      { k: 'row', at: 'empty', out: 'inside', items: [
+        { k: 'box', cls: 's-mono', text: 'Project Name', sub: 'GodotGame', at: 'name' },
+        { k: 'box', cls: 's-mono', text: 'Project Path', sub: 'Tutorial/GodotGame', at: 'path' },
+        { k: 'box', cls: 'accent s-mono', text: 'Renderer', sub: 'Forward+', at: 'render' },
+      ] },
+      { k: 'row', at: 'inside', out: 'both', items: [
+        { k: 'box', cls: 's-mono', text: 'Tutorial/', sub: L('everything together', 'todo junto'), at: 'inside' },
+        { k: 'box', cls: 's-mono', text: L('MyShaders', 'MisShaders'), at: 'inside+0.4' },
+        { k: 'box', cls: 'accent s-mono', text: 'GodotGame', sub: L('inside, on purpose', 'dentro, a propósito'), at: 'inside+0.8' },
+      ] },
+      { k: 'row', at: 'both', items: [
+        { k: 'box', cls: 's-mono', text: 'GDScript', at: 'both' },
+        { k: 'box', cls: 's-mono', text: '.NET · C#', at: 'both+0.4' },
+      ] },
+    ],
+  },
+  {
+    id: 'g_addon',
+    beats: { addon: L('has an addon', 'tiene un addon'), play: L('Every time you press', 'Cada vez que pulsas'), nuget: L('inside the NuGet package', 'dentro del paquete NuGet'), reload: L('reload the project', 'recarga el proyecto'), plugins: L('Project Settings', 'Project Settings'), enabled: L('Enabled', 'Enabled'), filter: L('type yotsuba in the filter', 'escribe yotsuba en el filtro'), fill: L('Fill in', 'Rellena'), rest: L('Leave the rest as it is', 'Deja el resto como está') },
+    items: [
+      { k: 'kicker', text: L('Step 6 · the addon', 'Paso 6 · el addon') },
+      { k: 'row', at: 'addon', out: 'nuget', items: [
+        { k: 'box', cls: 's-mono', text: 'Play', at: 'play' },
+        { k: 'arrow', at: 'play+0.5' },
+        { k: 'box', cls: 'accent s-mono', text: 'yotsuba', sub: L('translates your shaders', 'traduce tus shaders'), at: 'play+0.8' },
+        { k: 'arrow', at: 'play+1.4' },
+        { k: 'box', cls: 's-mono', text: L('Godot files', 'archivos de Godot'), at: 'play+1.7' },
+      ] },
+      { k: 'row', at: 'nuget', items: [
+        { k: 'box', cls: 's-mono', text: '1', sub: L('copy the addon', 'copia el addon'), at: 'nuget' },
+        { k: 'box', cls: 's-mono', text: '2', sub: L('reload the project', 'recarga el proyecto'), at: 'reload' },
+        { k: 'box', cls: 's-mono', text: '3', sub: L('Plugins → Enabled', 'Plugins → Enabled'), at: 'enabled' },
+        { k: 'box', cls: 'accent s-mono', text: '4', sub: L('project path', 'ruta project'), at: 'fill' },
+      ] },
     ],
   },
   {

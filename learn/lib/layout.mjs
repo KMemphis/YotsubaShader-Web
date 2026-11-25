@@ -112,7 +112,7 @@ function banners(lang) {
       const r = ROUTES.find((x) => x.id === e.id);
       const href = r ? url(lang, 'get-started', r.prefix.replace(/\/$/, '') || undefined) : url(lang, 'engines', e.id);
       const logo = ['svg', 'png'].find((x) => fs.existsSync(path.join(LOGOS, `${e.id}.${x}`)));
-      return `<a class="slide-link" href="${href}">${logo ? `<img class="engine-logo" src="/img/engines/${e.id}.${logo}" alt="" width="32" height="32">` : ''}<span>${esc(e.name)}</span><i>${icon('right')}</i></a>`;
+      return `<a class="slide-link" href="${href}"${r ? ` data-pick-route="${r.id}"` : ''}>${logo ? `<img class="engine-logo" src="/img/engines/${e.id}.${logo}" alt="" width="32" height="32">` : ''}<span>${esc(e.name)}</span><i>${icon('right')}</i></a>`;
     }).join('');
     const dots = [t.paneLogo, t.paneExample]
       .map((label, n) => `<li><button type="button" data-pane="${n}" aria-label="${esc(label)}" title="${esc(label)}" aria-current="${n === 0}"></button></li>`)

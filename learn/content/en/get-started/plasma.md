@@ -133,7 +133,7 @@ public static vec4 Rainbow(float value)
     float red = 0.5f + 0.5f * sin(value * 1.5f);
     float green = 0.5f + 0.5f * sin(value * 1.5f + 2.1f);
     float blue = 0.5f + 0.5f * sin(value * 1.5f + 4.2f);
-    return Make.Vec4(red, green, blue, 1f);
+    return new vec4(red, green, blue, 1f);
 }
 ```
 
@@ -167,7 +167,7 @@ public class Plasma
     public Pixel Vertex({{vertexType}} corner)
     {
         Pixel pixel;
-        pixel.Position = Make.Vec4(corner.{{pos}}.X, corner.{{pos}}.Y, 0f, 1f);
+        pixel.Position = new vec4(corner.{{pos}}.X, corner.{{pos}}.Y, 0f, 1f);
         pixel.Uv = corner.{{uv}};
         return pixel;
     }
@@ -193,7 +193,7 @@ public class Plasma
         float red = 0.5f + 0.5f * sin(value * 1.5f);
         float green = 0.5f + 0.5f * sin(value * 1.5f + 2.1f);
         float blue = 0.5f + 0.5f * sin(value * 1.5f + 4.2f);
-        return Make.Vec4(red, green, blue, 1f);
+        return new vec4(red, green, blue, 1f);
     }
 }
 ```
@@ -221,7 +221,7 @@ public class Plasma
     public Pixel Vertex({{vertexType}} corner)
     {
         Pixel pixel;
-        pixel.Position = Make.Vec4(corner.{{pos}}.X, corner.{{pos}}.Y, 0f, 1f);
+        pixel.Position = new vec4(corner.{{pos}}.X, corner.{{pos}}.Y, 0f, 1f);
         pixel.Uv = corner.{{uv}};
         return pixel;
     }
@@ -247,7 +247,7 @@ public class Plasma
         float red = 0.5f + 0.5f * sin(value * 1.5f);
         float green = 0.5f + 0.5f * sin(value * 1.5f + 2.1f);
         float blue = 0.5f + 0.5f * sin(value * 1.5f + 4.2f);
-        return Make.Vec4(red, green, blue, 1f);
+        return new vec4(red, green, blue, 1f);
     }
 }
 ```
@@ -275,7 +275,7 @@ public class Plasma
     public Pixel Vertex({{vertexType}} corner)
     {
         Pixel pixel;
-        pixel.Position = Make.Vec4(corner.{{pos}}.X, corner.{{pos}}.Y, 0f, 1f);
+        pixel.Position = new vec4(corner.{{pos}}.X, corner.{{pos}}.Y, 0f, 1f);
         pixel.Uv = corner.{{uv}};
         return pixel;
     }
@@ -301,7 +301,7 @@ public class Plasma
         float red = 0.5f + 0.5f * sin(value * 1.5f);
         float green = 0.5f + 0.5f * sin(value * 1.5f + 2.1f);
         float blue = 0.5f + 0.5f * sin(value * 1.5f + 4.2f);
-        return Make.Vec4(red, green, blue, 1f);
+        return new vec4(red, green, blue, 1f);
     }
 }
 ```
@@ -329,7 +329,7 @@ public class Plasma
     public Pixel Vertex({{vertexType}} corner)
     {
         Pixel pixel;
-        pixel.Position = Make.Vec4(corner.{{pos}}.X, corner.{{pos}}.Y, 0f, 1f);
+        pixel.Position = new vec4(corner.{{pos}}.X, corner.{{pos}}.Y, 0f, 1f);
         pixel.Uv = corner.{{uv}};
         return pixel;
     }
@@ -355,7 +355,7 @@ public class Plasma
         float red = 0.5f + 0.5f * sin(value * 1.5f);
         float green = 0.5f + 0.5f * sin(value * 1.5f + 2.1f);
         float blue = 0.5f + 0.5f * sin(value * 1.5f + 4.2f);
-        return Make.Vec4(red, green, blue, 1f);
+        return new vec4(red, green, blue, 1f);
     }
 }
 ```
@@ -383,7 +383,7 @@ public class Plasma
     public Pixel Vertex({{vertexType}} corner)
     {
         Pixel pixel;
-        pixel.Position = Make.Vec4(corner.{{pos}}.X, corner.{{pos}}.Y, 0f, 1f);
+        pixel.Position = new vec4(corner.{{pos}}.X, corner.{{pos}}.Y, 0f, 1f);
         pixel.Uv = corner.{{uv}};
         return pixel;
     }
@@ -409,7 +409,7 @@ public class Plasma
         float red = 0.5f + 0.5f * sin(value * 1.5f);
         float green = 0.5f + 0.5f * sin(value * 1.5f + 2.1f);
         float blue = 0.5f + 0.5f * sin(value * 1.5f + 4.2f);
-        return Make.Vec4(red, green, blue, 1f);
+        return new vec4(red, green, blue, 1f);
     }
 }
 ```
@@ -472,6 +472,8 @@ uniform float Time_Seconds;
 The viewer script from the [viewer chapter](visor.md) already handles it: every frame it looks for uniforms that end in `_Seconds` and writes the seconds since the game started. That is why `Plasma` moves just by typing `Plasma` in **Shader Name** and pressing **Play**; you do not write any extra code.
 
 If you rename the field to something else (`Clock.Seconds` in a field called `Wall`, for example), the uniform becomes `Wall_Seconds` and the viewer still finds it, because it only looks at the ending.
+
+![Godot after pressing Play: the game window shows the moving colorful plasma](../../assets/get-started/godot/en/plasma.gif)
 :::
 
 > [!SCENE] play

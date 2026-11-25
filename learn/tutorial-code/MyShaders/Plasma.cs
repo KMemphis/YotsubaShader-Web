@@ -20,7 +20,7 @@ public class Plasma
     public Pixel Vertex(Corner corner)
     {
         Pixel pixel;
-        pixel.Position = Make.Vec4(corner.Position.X, corner.Position.Y, 0f, 1f);
+        pixel.Position = new vec4(corner.Position.X, corner.Position.Y, 0f, 1f);
         pixel.Uv = corner.Uv;
         return pixel;
     }
@@ -46,6 +46,6 @@ public class Plasma
         float red = 0.5f + 0.5f * sin(value * 1.5f);
         float green = 0.5f + 0.5f * sin(value * 1.5f + 2.1f);
         float blue = 0.5f + 0.5f * sin(value * 1.5f + 4.2f);
-        return Make.Vec4(red, green, blue, 1f);
+        return new vec4(red, green, blue, 1f);
     }
 }

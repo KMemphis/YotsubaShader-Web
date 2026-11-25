@@ -5,7 +5,7 @@
 const L = (en, es) => ({ en, es });
 const cs = (title, code) => ({ title, code, lang: 'csharp' });
 const term = (code) => ({ title: 'Terminal', code, lang: 'bash' });
-const ENGINE_LOGO = { route: { kni: '/img/engines/kni.png', fna: '/img/engines/fna.png', godot: '/img/engines/godot.svg', default: '/img/engines/monogame.png' } };
+const ENGINE_LOGO = { route: { kni: '/img/engines/kni.png', fna: '/img/engines/fna.png', godot: '/img/engines/godot.svg', raylib: '/img/engines/raylib.png', silknet: '/img/engines/silknet.svg', default: '/img/engines/monogame.png' } };
 const win = (tiles, at, extra = {}) => ({ k: 'gl', cls: 'window w50', title: '{{engine}}', logo: ENGINE_LOGO, at, fx: 'pop', radius: 10, tiles, ...extra });
 const tiles = (arr, at, extra = {}) => ({ k: 'gl', cls: 'w86', gap: 2, radius: 10, at, fx: 'fade', tiles: arr, ...extra });
 const BG = 'vec3(.1,.1,.14)';
@@ -18,13 +18,13 @@ float y = pixel.Uv.Y * 2f - 1f;`));
 const DIST = L(cs('Fragment', 'float distanceToCenter = sqrt(x * x + y * y);'), cs('Fragment', 'float distanciaAlCentro = sqrt(x * x + y * y);'));
 const RING = L(cs('Fragment', 'float distanceToRing = abs(distanceToCenter - 0.6f);'), cs('Fragment', 'float distanciaAlAnillo = abs(distanciaAlCentro - 0.6f);'));
 const GLOW = L(cs('Fragment', 'float glow = clamp(0.03f / distanceToRing, 0f, 1f);'), cs('Fragment', 'float brillo = clamp(0.03f / distanciaAlAnillo, 0f, 1f);'));
-const TUBE = L(cs('Fragment', `vec3 pink = Make.Vec3(1f, 0.2f, 0.7f);
-vec3 cyan = Make.Vec3(0.2f, 0.8f, 1f);
-vec3 tube = mix(pink, cyan, pixel.Uv.X);`), cs('Fragment', `vec3 rosa = Crear.Vec3(1f, 0.2f, 0.7f);
-vec3 celeste = Crear.Vec3(0.2f, 0.8f, 1f);
+const TUBE = L(cs('Fragment', `vec3 pink = new vec3(1f, 0.2f, 0.7f);
+vec3 cyan = new vec3(0.2f, 0.8f, 1f);
+vec3 tube = mix(pink, cyan, pixel.Uv.X);`), cs('Fragment', `vec3 rosa = new vec3(1f, 0.2f, 0.7f);
+vec3 celeste = new vec3(0.2f, 0.8f, 1f);
 vec3 tubo = mix(rosa, celeste, pixel.Uv.X);`));
-const MIXBG = L(cs('Fragment', `vec3 background = Make.Vec3(0.02f, 0.02f, 0.06f);
-vec3 color = mix(background, tube, glow);`), cs('Fragment', `vec3 fondo = Crear.Vec3(0.02f, 0.02f, 0.06f);
+const MIXBG = L(cs('Fragment', `vec3 background = new vec3(0.02f, 0.02f, 0.06f);
+vec3 color = mix(background, tube, glow);`), cs('Fragment', `vec3 fondo = new vec3(0.02f, 0.02f, 0.06f);
 vec3 color = mix(fondo, tubo, brillo);`));
 const BUILD = L(term('dotnet build MyShaders\n\nBuild succeeded.'), term('dotnet build MisShaders\n\nBuild succeeded.'));
 

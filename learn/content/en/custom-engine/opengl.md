@@ -58,7 +58,7 @@ public class Plasma
     public Pixel Vertex(Corner corner)
     {
         Pixel pixel;
-        pixel.Position = Make.Vec4(corner.Position.X, corner.Position.Y, 0f, 1f);
+        pixel.Position = new vec4(corner.Position.X, corner.Position.Y, 0f, 1f);
         pixel.Uv = corner.Uv;
         return pixel;
     }
@@ -79,20 +79,7 @@ public class Plasma
         float red = 0.5f + 0.5f * sin(waves * 1.5f);
         float green = 0.5f + 0.5f * sin(waves * 1.5f + 2.1f);
         float blue = 0.5f + 0.5f * sin(waves * 1.5f + 4.2f);
-        return Make.Vec4(red, green, blue, 1f);
-    }
-}
-
-public static class Make
-{
-    public static vec4 Vec4(float x, float y, float z, float w)
-    {
-        vec4 v;
-        v.X = x;
-        v.Y = y;
-        v.Z = z;
-        v.W = w;
-        return v;
+        return new vec4(red, green, blue, 1f);
     }
 }
 ```
@@ -136,20 +123,10 @@ layout(location = 0) in vec2 corner_Position;
 layout(location = 1) in vec2 corner_Uv;
 layout(location = 0) out vec2 _return_Uv;
 
-vec4 Vec4(float x, float y, float z, float w)
-{
-    vec4 v;
-    v.x = x;
-    v.y = y;
-    v.z = z;
-    v.w = w;
-    return v;
-}
-
 void main()
 {
     Pixel pixel;
-    pixel.Position = Vec4(corner_Position.x, corner_Position.y, 0.0, 1.0);
+    pixel.Position = vec4(corner_Position.x, corner_Position.y, 0.0, 1.0);
     pixel.Uv = corner_Uv;
     gl_Position = pixel.Position;
     _return_Uv = pixel.Uv;

@@ -10,7 +10,7 @@ public class Degradado
     public Pixel Vertex(Vertice vertice)
     {
         Pixel pixel;
-        pixel.Posicion = Crear.Vec4(vertice.Posicion.X, vertice.Posicion.Y, 0f, 1f);
+        pixel.Posicion = new vec4(vertice.Posicion.X, vertice.Posicion.Y, 0f, 1f);
         pixel.Uv = vertice.Uv;
         return pixel;
     }
@@ -22,6 +22,6 @@ public class Degradado
         float rojo = 1f;
         float verde = 0.25f + 0.6f * pixel.Uv.Y;
         float azul = 0.45f - 0.35f * pixel.Uv.Y;
-        return Crear.Vec4(rojo, verde, azul, 1f);
+        return new vec4(rojo, verde, azul, 1f);
     }
 }

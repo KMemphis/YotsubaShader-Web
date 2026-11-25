@@ -26,7 +26,7 @@ for (int i = 0; i < 5; i++)
     }
 }
 float v = steps / 5f;
-return Make.Vec4(v, v, v, 1f);
+return new vec4(v, v, v, 1f);
 ```
 
 Run the work cycle:
@@ -120,7 +120,7 @@ float aspect = Data.Width / Data.Height;
 float x = pixel.Uv.X * aspect;
 float y = pixel.Uv.Y;
 
-vec4 color = Make.Vec4(0.1f, 0.1f, 0.2f, 1f);
+vec4 color = new vec4(0.1f, 0.1f, 0.2f, 1f);
 for (int i = 0; i < 6; i++)
 {
     float centerX = (i + 0.5f) * aspect / 6f;
@@ -129,7 +129,7 @@ for (int i = 0; i < 6; i++)
     float dy = y - 0.5f;
     if (dx * dx + dy * dy < radius * radius)
     {
-        color = Make.Vec4(1f, 0.3f + 0.12f * i, 0.1f, 1f);
+        color = new vec4(1f, 0.3f + 0.12f * i, 0.1f, 1f);
     }
 }
 return color;
@@ -187,7 +187,7 @@ for (int i = 0; i < 6; i++)
     float dy = y - 0.5f;
     if (dx * dx + dy * dy < 0.2f * 0.2f)
     {
-        color = Make.Vec4(0.2f + 0.15f * i, 0.5f, 1f - 0.15f * i, 1f);
+        color = new vec4(0.2f + 0.15f * i, 0.5f, 1f - 0.15f * i, 1f);
         break;
     }
 }
@@ -231,14 +231,14 @@ heights[2] = 0.5f;
 heights[3] = 0.9f;
 heights[4] = 0.6f;
 
-vec4 color = Make.Vec4(0.1f, 0.1f, 0.2f, 1f);
+vec4 color = new vec4(0.1f, 0.1f, 0.2f, 1f);
 for (int i = 0; i < 5; i++)
 {
     float left = i * 0.2f + 0.03f;
     float right = left + 0.14f;
     if (pixel.Uv.X > left && pixel.Uv.X < right && pixel.Uv.Y > 1f - heights[i])
     {
-        color = Make.Vec4(0.2f + 0.15f * i, 0.6f, 0.9f - 0.15f * i, 1f);
+        color = new vec4(0.2f + 0.15f * i, 0.6f, 0.9f - 0.15f * i, 1f);
     }
 }
 return color;
@@ -247,6 +247,10 @@ return color;
 Run the work cycle.
 
 ![A chart of five bars of different heights, from blue to orange, on a dark background](../../assets/get-started/taller/re7.png)
+
+:::godot
+![Godot after pressing Play: the game window shows the chart of five bars](../../assets/get-started/godot/en/loops.gif)
+:::
 
 Each lap draws one bar: its left and right edges come from `i`, and its height comes from the list `heights[i]`. Notice the height condition: `Uv.Y > 1f - heights[i]`. Remember that `Y` grows downward, so "being below the line" means having a **greater** `Y`.
 
@@ -299,7 +303,7 @@ public class Loops
     public Pixel Vertex({{vertexType}} corner)
     {
         Pixel pixel;
-        pixel.Position = Make.Vec4(corner.{{pos}}.X, corner.{{pos}}.Y, 0f, 1f);
+        pixel.Position = new vec4(corner.{{pos}}.X, corner.{{pos}}.Y, 0f, 1f);
         pixel.Uv = corner.{{uv}};
         return pixel;
     }
@@ -315,14 +319,14 @@ public class Loops
         heights[3] = 0.9f;
         heights[4] = 0.6f;
 
-        vec4 color = Make.Vec4(0.1f, 0.1f, 0.2f, 1f);
+        vec4 color = new vec4(0.1f, 0.1f, 0.2f, 1f);
         for (int i = 0; i < 5; i++)
         {
             float left = i * 0.2f + 0.03f;
             float right = left + 0.14f;
             if (pixel.Uv.X > left && pixel.Uv.X < right && pixel.Uv.Y > 1f - heights[i])
             {
-                color = Make.Vec4(0.2f + 0.15f * i, 0.6f, 0.9f - 0.15f * i, 1f);
+                color = new vec4(0.2f + 0.15f * i, 0.6f, 0.9f - 0.15f * i, 1f);
             }
         }
         return color;
@@ -343,7 +347,7 @@ public class Loops
     public Pixel Vertex({{vertexType}} corner)
     {
         Pixel pixel;
-        pixel.Position = Make.Vec4(corner.{{pos}}.X, corner.{{pos}}.Y, 0f, 1f);
+        pixel.Position = new vec4(corner.{{pos}}.X, corner.{{pos}}.Y, 0f, 1f);
         pixel.Uv = corner.{{uv}};
         return pixel;
     }
@@ -359,14 +363,14 @@ public class Loops
         heights[3] = 0.9f;
         heights[4] = 0.6f;
 
-        vec4 color = Make.Vec4(0.1f, 0.1f, 0.2f, 1f);
+        vec4 color = new vec4(0.1f, 0.1f, 0.2f, 1f);
         for (int i = 0; i < 5; i++)
         {
             float left = i * 0.2f + 0.03f;
             float right = left + 0.14f;
             if (pixel.Uv.X > left && pixel.Uv.X < right && pixel.Uv.Y > 1f - heights[i])
             {
-                color = Make.Vec4(0.2f + 0.15f * i, 0.6f, 0.9f - 0.15f * i, 1f);
+                color = new vec4(0.2f + 0.15f * i, 0.6f, 0.9f - 0.15f * i, 1f);
             }
         }
         return color;
@@ -387,7 +391,7 @@ public class Loops
     public Pixel Vertex({{vertexType}} corner)
     {
         Pixel pixel;
-        pixel.Position = Make.Vec4(corner.{{pos}}.X, corner.{{pos}}.Y, 0f, 1f);
+        pixel.Position = new vec4(corner.{{pos}}.X, corner.{{pos}}.Y, 0f, 1f);
         pixel.Uv = corner.{{uv}};
         return pixel;
     }
@@ -403,14 +407,14 @@ public class Loops
         heights[3] = 0.9f;
         heights[4] = 0.6f;
 
-        vec4 color = Make.Vec4(0.1f, 0.1f, 0.2f, 1f);
+        vec4 color = new vec4(0.1f, 0.1f, 0.2f, 1f);
         for (int i = 0; i < 5; i++)
         {
             float left = i * 0.2f + 0.03f;
             float right = left + 0.14f;
             if (pixel.Uv.X > left && pixel.Uv.X < right && pixel.Uv.Y > 1f - heights[i])
             {
-                color = Make.Vec4(0.2f + 0.15f * i, 0.6f, 0.9f - 0.15f * i, 1f);
+                color = new vec4(0.2f + 0.15f * i, 0.6f, 0.9f - 0.15f * i, 1f);
             }
         }
         return color;
@@ -431,7 +435,7 @@ public class Loops
     public Pixel Vertex({{vertexType}} corner)
     {
         Pixel pixel;
-        pixel.Position = Make.Vec4(corner.{{pos}}.X, corner.{{pos}}.Y, 0f, 1f);
+        pixel.Position = new vec4(corner.{{pos}}.X, corner.{{pos}}.Y, 0f, 1f);
         pixel.Uv = corner.{{uv}};
         return pixel;
     }
@@ -447,14 +451,14 @@ public class Loops
         heights[3] = 0.9f;
         heights[4] = 0.6f;
 
-        vec4 color = Make.Vec4(0.1f, 0.1f, 0.2f, 1f);
+        vec4 color = new vec4(0.1f, 0.1f, 0.2f, 1f);
         for (int i = 0; i < 5; i++)
         {
             float left = i * 0.2f + 0.03f;
             float right = left + 0.14f;
             if (pixel.Uv.X > left && pixel.Uv.X < right && pixel.Uv.Y > 1f - heights[i])
             {
-                color = Make.Vec4(0.2f + 0.15f * i, 0.6f, 0.9f - 0.15f * i, 1f);
+                color = new vec4(0.2f + 0.15f * i, 0.6f, 0.9f - 0.15f * i, 1f);
             }
         }
         return color;
@@ -475,7 +479,7 @@ public class Loops
     public Pixel Vertex({{vertexType}} corner)
     {
         Pixel pixel;
-        pixel.Position = Make.Vec4(corner.{{pos}}.X, corner.{{pos}}.Y, 0f, 1f);
+        pixel.Position = new vec4(corner.{{pos}}.X, corner.{{pos}}.Y, 0f, 1f);
         pixel.Uv = corner.{{uv}};
         return pixel;
     }
@@ -491,14 +495,14 @@ public class Loops
         heights[3] = 0.9f;
         heights[4] = 0.6f;
 
-        vec4 color = Make.Vec4(0.1f, 0.1f, 0.2f, 1f);
+        vec4 color = new vec4(0.1f, 0.1f, 0.2f, 1f);
         for (int i = 0; i < 5; i++)
         {
             float left = i * 0.2f + 0.03f;
             float right = left + 0.14f;
             if (pixel.Uv.X > left && pixel.Uv.X < right && pixel.Uv.Y > 1f - heights[i])
             {
-                color = Make.Vec4(0.2f + 0.15f * i, 0.6f, 0.9f - 0.15f * i, 1f);
+                color = new vec4(0.2f + 0.15f * i, 0.6f, 0.9f - 0.15f * i, 1f);
             }
         }
         return color;

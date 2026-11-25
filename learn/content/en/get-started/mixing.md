@@ -40,7 +40,7 @@ float t = pixel.Uv.Y;
 float r = Mix(0.1f, 1f, t);
 float g = Mix(0.2f, 0.6f, t);
 float b = Mix(0.6f, 0.2f, t);
-return Make.Vec4(r, g, b, 1f);
+return new vec4(r, g, b, 1f);
 ```
 
 Here `t` is the pixel's height: `0` at the top and `1` at the bottom. Each color channel is mixed separately, from its top value to its bottom value. Notice the blue: it goes down from `0.6` to `0.2`, while red goes up from `0.1` to `1`.
@@ -181,7 +181,7 @@ float dy = pixel.Uv.Y - 0.5f;
 float d2 = dx * dx + dy * dy;
 
 float brightness = 1f - Smooth(0.04f, 0.09f, d2);
-return Make.Vec4(brightness, brightness * 0.6f, brightness * 0.1f, 1f);
+return new vec4(brightness, brightness * 0.6f, brightness * 0.1f, 1f);
 ```
 
 The important part is in the two middle lines. `d2` is the usual calculation for how far the pixel is from the center. Then:
@@ -213,7 +213,7 @@ float r = Mix(0.1f, 1f, t);
 float g = Mix(0.1f, 0.5f, t);
 float b = Mix(0.35f, 0.3f, t);
 
-return Make.Vec4(r, g, b, 1f);
+return new vec4(r, g, b, 1f);
 ```
 
 Nothing new except that `dy` is now measured from `0.62` (the sun's height, a bit below the center). Run the work cycle to see the sky.
@@ -251,7 +251,7 @@ if (pixel.Uv.Y > 0.7f)
     g = 0.05f;
     b = 0.1f;
 }
-return Make.Vec4(Clamp(r, 0f, 1f), Clamp(g, 0f, 1f), Clamp(b, 0f, 1f), 1f);
+return new vec4(Clamp(r, 0f, 1f), Clamp(g, 0f, 1f), Clamp(b, 0f, 1f), 1f);
 ```
 
 Here we see `Clamp` again: when adding the halo, red or green can go over `1`. The GPU would clip them on its own, but writing it by hand makes clear what is going on.
@@ -259,6 +259,10 @@ Here we see `Clamp` again: when adding the halo, red or green can go over `1`. T
 Run the work cycle.
 
 ![A sunset: dark blue sky turning orange, a sun with a halo near the horizon and a dark ground](../../assets/get-started/taller/me3.png)
+
+:::godot
+![Godot after pressing Play: the game window shows the sunset with a sun and a dark ground](../../assets/get-started/godot/en/mixing.gif)
+:::
 
 Three functions written by you, and you have a sunset. Play with it: raise the sun by changing the `0.62`, enlarge the halo by changing the `0.25`, or change the sky colors.
 
@@ -283,7 +287,7 @@ public class Mixing
     public Pixel Vertex({{vertexType}} corner)
     {
         Pixel pixel;
-        pixel.Position = Make.Vec4(corner.{{pos}}.X, corner.{{pos}}.Y, 0f, 1f);
+        pixel.Position = new vec4(corner.{{pos}}.X, corner.{{pos}}.Y, 0f, 1f);
         pixel.Uv = corner.{{uv}};
         return pixel;
     }
@@ -319,7 +323,7 @@ public class Mixing
             g = 0.05f;
             b = 0.1f;
         }
-        return Make.Vec4(Clamp(r, 0f, 1f), Clamp(g, 0f, 1f), Clamp(b, 0f, 1f), 1f);
+        return new vec4(Clamp(r, 0f, 1f), Clamp(g, 0f, 1f), Clamp(b, 0f, 1f), 1f);
     }
 
     public static float Clamp(float value, float min, float max)
@@ -365,7 +369,7 @@ public class Mixing
     public Pixel Vertex({{vertexType}} corner)
     {
         Pixel pixel;
-        pixel.Position = Make.Vec4(corner.{{pos}}.X, corner.{{pos}}.Y, 0f, 1f);
+        pixel.Position = new vec4(corner.{{pos}}.X, corner.{{pos}}.Y, 0f, 1f);
         pixel.Uv = corner.{{uv}};
         return pixel;
     }
@@ -401,7 +405,7 @@ public class Mixing
             g = 0.05f;
             b = 0.1f;
         }
-        return Make.Vec4(Clamp(r, 0f, 1f), Clamp(g, 0f, 1f), Clamp(b, 0f, 1f), 1f);
+        return new vec4(Clamp(r, 0f, 1f), Clamp(g, 0f, 1f), Clamp(b, 0f, 1f), 1f);
     }
 
     public static float Clamp(float value, float min, float max)
@@ -447,7 +451,7 @@ public class Mixing
     public Pixel Vertex({{vertexType}} corner)
     {
         Pixel pixel;
-        pixel.Position = Make.Vec4(corner.{{pos}}.X, corner.{{pos}}.Y, 0f, 1f);
+        pixel.Position = new vec4(corner.{{pos}}.X, corner.{{pos}}.Y, 0f, 1f);
         pixel.Uv = corner.{{uv}};
         return pixel;
     }
@@ -483,7 +487,7 @@ public class Mixing
             g = 0.05f;
             b = 0.1f;
         }
-        return Make.Vec4(Clamp(r, 0f, 1f), Clamp(g, 0f, 1f), Clamp(b, 0f, 1f), 1f);
+        return new vec4(Clamp(r, 0f, 1f), Clamp(g, 0f, 1f), Clamp(b, 0f, 1f), 1f);
     }
 
     public static float Clamp(float value, float min, float max)
@@ -529,7 +533,7 @@ public class Mixing
     public Pixel Vertex({{vertexType}} corner)
     {
         Pixel pixel;
-        pixel.Position = Make.Vec4(corner.{{pos}}.X, corner.{{pos}}.Y, 0f, 1f);
+        pixel.Position = new vec4(corner.{{pos}}.X, corner.{{pos}}.Y, 0f, 1f);
         pixel.Uv = corner.{{uv}};
         return pixel;
     }
@@ -565,7 +569,7 @@ public class Mixing
             g = 0.05f;
             b = 0.1f;
         }
-        return Make.Vec4(Clamp(r, 0f, 1f), Clamp(g, 0f, 1f), Clamp(b, 0f, 1f), 1f);
+        return new vec4(Clamp(r, 0f, 1f), Clamp(g, 0f, 1f), Clamp(b, 0f, 1f), 1f);
     }
 
     public static float Clamp(float value, float min, float max)
@@ -611,7 +615,7 @@ public class Mixing
     public Pixel Vertex({{vertexType}} corner)
     {
         Pixel pixel;
-        pixel.Position = Make.Vec4(corner.{{pos}}.X, corner.{{pos}}.Y, 0f, 1f);
+        pixel.Position = new vec4(corner.{{pos}}.X, corner.{{pos}}.Y, 0f, 1f);
         pixel.Uv = corner.{{uv}};
         return pixel;
     }
@@ -647,7 +651,7 @@ public class Mixing
             g = 0.05f;
             b = 0.1f;
         }
-        return Make.Vec4(Clamp(r, 0f, 1f), Clamp(g, 0f, 1f), Clamp(b, 0f, 1f), 1f);
+        return new vec4(Clamp(r, 0f, 1f), Clamp(g, 0f, 1f), Clamp(b, 0f, 1f), 1f);
     }
 
     public static float Clamp(float value, float min, float max)

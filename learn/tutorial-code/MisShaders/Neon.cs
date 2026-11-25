@@ -11,7 +11,7 @@ public class Neon
     public Pixel Vertex(Vertice vertice)
     {
         Pixel pixel;
-        pixel.Posicion = Crear.Vec4(vertice.Posicion.X, vertice.Posicion.Y, 0f, 1f);
+        pixel.Posicion = new vec4(vertice.Posicion.X, vertice.Posicion.Y, 0f, 1f);
         pixel.Uv = vertice.Uv;
         return pixel;
     }
@@ -28,13 +28,13 @@ public class Neon
 
         float brillo = clamp(0.03f / distanciaAlAnillo, 0f, 1f);
 
-        vec3 rosa = Crear.Vec3(1f, 0.2f, 0.7f);
-        vec3 celeste = Crear.Vec3(0.2f, 0.8f, 1f);
+        vec3 rosa = new vec3(1f, 0.2f, 0.7f);
+        vec3 celeste = new vec3(0.2f, 0.8f, 1f);
         vec3 tubo = mix(rosa, celeste, pixel.Uv.X);
 
-        vec3 fondo = Crear.Vec3(0.02f, 0.02f, 0.06f);
+        vec3 fondo = new vec3(0.02f, 0.02f, 0.06f);
         vec3 color = mix(fondo, tubo, brillo);
 
-        return Crear.Vec4(color.X, color.Y, color.Z, 1f);
+        return new vec4(color.X, color.Y, color.Z, 1f);
     }
 }

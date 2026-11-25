@@ -41,6 +41,10 @@ public struct Context
 
 With that, `Data.Seconds` exists. The viewer already knows how to fill it: on every frame it looks for `Data_Seconds` and sets it to the time it has been open.
 
+:::raylib silknet
+In {{engine}} the viewer does not search for `Data_Seconds` by name: the third value of the block it writes is the seconds, and it refreshes it on every frame.
+:::
+
 Copy `Template.cs` as `Time.cs`, change the class name to `Time` and declare the uniform, as always. At the top:
 
 ```csharp style=glsl
@@ -98,7 +102,7 @@ Replace the line in `Fragment` with this one:
 
 ```csharp
 float t = Data.Seconds % 1f;
-return Make.Vec4(t, t, t, 1f);
+return new vec4(t, t, t, 1f);
 ```
 
 Run the work cycle:
@@ -124,7 +128,7 @@ if (t > 0.5f)
     t = 1f - t;
 }
 float brightness = t * 2f;
-return Make.Vec4(brightness, brightness, brightness, 1f);
+return new vec4(brightness, brightness, brightness, 1f);
 ```
 
 See how `t` behaves as time passes:
@@ -163,9 +167,9 @@ float dx = x - centerX;
 float dy = y - 0.5f;
 if (dx * dx + dy * dy < 0.12f * 0.12f)
 {
-    return Make.Vec4(1f, 0.5f, 0.1f, 1f);
+    return new vec4(1f, 0.5f, 0.1f, 1f);
 }
-return Make.Vec4(0.1f, 0.1f, 0.2f, 1f);
+return new vec4(0.1f, 0.1f, 0.2f, 1f);
 ```
 
 Run the work cycle and watch the ball go from one side to the other. Let us take it apart:
@@ -194,7 +198,7 @@ And in `Fragment`, change the ball's `return` to this:
 
 ```csharp
     float green = Mix(0.3f, 0.9f, progress);
-    return Make.Vec4(1f, green, 0.1f, 1f);
+    return new vec4(1f, green, 0.1f, 1f);
 ```
 
 That is: the `return` line that was inside the `if` is replaced by these two. Now the green depends on `progress`, and the ball is reddish at the left end and turns yellow when it reaches the right one.
@@ -236,7 +240,7 @@ public class Time
     public Pixel Vertex({{vertexType}} corner)
     {
         Pixel pixel;
-        pixel.Position = Make.Vec4(corner.{{pos}}.X, corner.{{pos}}.Y, 0f, 1f);
+        pixel.Position = new vec4(corner.{{pos}}.X, corner.{{pos}}.Y, 0f, 1f);
         pixel.Uv = corner.{{uv}};
         return pixel;
     }
@@ -261,9 +265,9 @@ public class Time
         if (dx * dx + dy * dy < 0.12f * 0.12f)
         {
             float green = Mix(0.3f, 0.9f, progress);
-            return Make.Vec4(1f, green, 0.1f, 1f);
+            return new vec4(1f, green, 0.1f, 1f);
         }
-        return Make.Vec4(0.1f, 0.1f, 0.2f, 1f);
+        return new vec4(0.1f, 0.1f, 0.2f, 1f);
     }
 
     public static float Mix(float a, float b, float t)
@@ -290,7 +294,7 @@ public class Time
     public Pixel Vertex({{vertexType}} corner)
     {
         Pixel pixel;
-        pixel.Position = Make.Vec4(corner.{{pos}}.X, corner.{{pos}}.Y, 0f, 1f);
+        pixel.Position = new vec4(corner.{{pos}}.X, corner.{{pos}}.Y, 0f, 1f);
         pixel.Uv = corner.{{uv}};
         return pixel;
     }
@@ -315,9 +319,9 @@ public class Time
         if (dx * dx + dy * dy < 0.12f * 0.12f)
         {
             float green = Mix(0.3f, 0.9f, progress);
-            return Make.Vec4(1f, green, 0.1f, 1f);
+            return new vec4(1f, green, 0.1f, 1f);
         }
-        return Make.Vec4(0.1f, 0.1f, 0.2f, 1f);
+        return new vec4(0.1f, 0.1f, 0.2f, 1f);
     }
 
     public static float Mix(float a, float b, float t)
@@ -344,7 +348,7 @@ public class Time
     public Pixel Vertex({{vertexType}} corner)
     {
         Pixel pixel;
-        pixel.Position = Make.Vec4(corner.{{pos}}.X, corner.{{pos}}.Y, 0f, 1f);
+        pixel.Position = new vec4(corner.{{pos}}.X, corner.{{pos}}.Y, 0f, 1f);
         pixel.Uv = corner.{{uv}};
         return pixel;
     }
@@ -369,9 +373,9 @@ public class Time
         if (dx * dx + dy * dy < 0.12f * 0.12f)
         {
             float green = Mix(0.3f, 0.9f, progress);
-            return Make.Vec4(1f, green, 0.1f, 1f);
+            return new vec4(1f, green, 0.1f, 1f);
         }
-        return Make.Vec4(0.1f, 0.1f, 0.2f, 1f);
+        return new vec4(0.1f, 0.1f, 0.2f, 1f);
     }
 
     public static float Mix(float a, float b, float t)
@@ -398,7 +402,7 @@ public class Time
     public Pixel Vertex({{vertexType}} corner)
     {
         Pixel pixel;
-        pixel.Position = Make.Vec4(corner.{{pos}}.X, corner.{{pos}}.Y, 0f, 1f);
+        pixel.Position = new vec4(corner.{{pos}}.X, corner.{{pos}}.Y, 0f, 1f);
         pixel.Uv = corner.{{uv}};
         return pixel;
     }
@@ -423,9 +427,9 @@ public class Time
         if (dx * dx + dy * dy < 0.12f * 0.12f)
         {
             float green = Mix(0.3f, 0.9f, progress);
-            return Make.Vec4(1f, green, 0.1f, 1f);
+            return new vec4(1f, green, 0.1f, 1f);
         }
-        return Make.Vec4(0.1f, 0.1f, 0.2f, 1f);
+        return new vec4(0.1f, 0.1f, 0.2f, 1f);
     }
 
     public static float Mix(float a, float b, float t)
@@ -452,7 +456,7 @@ public class Time
     public Pixel Vertex({{vertexType}} corner)
     {
         Pixel pixel;
-        pixel.Position = Make.Vec4(corner.{{pos}}.X, corner.{{pos}}.Y, 0f, 1f);
+        pixel.Position = new vec4(corner.{{pos}}.X, corner.{{pos}}.Y, 0f, 1f);
         pixel.Uv = corner.{{uv}};
         return pixel;
     }
@@ -477,9 +481,9 @@ public class Time
         if (dx * dx + dy * dy < 0.12f * 0.12f)
         {
             float green = Mix(0.3f, 0.9f, progress);
-            return Make.Vec4(1f, green, 0.1f, 1f);
+            return new vec4(1f, green, 0.1f, 1f);
         }
-        return Make.Vec4(0.1f, 0.1f, 0.2f, 1f);
+        return new vec4(0.1f, 0.1f, 0.2f, 1f);
     }
 
     public static float Mix(float a, float b, float t)
@@ -490,6 +494,10 @@ public class Time
 ```
 
 > [!SCENE] learned
+
+:::godot
+![Godot after pressing Play: the game window shows a bouncing sun that changes color](../../assets/get-started/godot/en/time.gif)
+:::
 
 ## What you learned
 

@@ -41,6 +41,10 @@ public struct Entorno
 
 Con eso, `Datos.Segundos` existe. El visor ya sabe llenarlo: en cada fotograma busca `Datos_Segundos` y le pone el tiempo que lleva abierto.
 
+:::raylib silknet
+En {{engine}} el visor no busca `Datos_Segundos` por el nombre: el tercer valor del bloque que escribe son los segundos, y lo renueva en cada fotograma.
+:::
+
 Copia `Plantilla.cs` como `Tiempo.cs`, cambia el nombre de la clase por `Tiempo` y declara el uniform, como siempre. Arriba:
 
 ```csharp style=glsl
@@ -98,7 +102,7 @@ Reemplaza la línea de `Fragment` por esta:
 
 ```csharp
 float t = Datos.Segundos % 1f;
-return Crear.Vec4(t, t, t, 1f);
+return new vec4(t, t, t, 1f);
 ```
 
 Ejecuta el ciclo de trabajo:
@@ -124,7 +128,7 @@ if (t > 0.5f)
     t = 1f - t;
 }
 float brillo = t * 2f;
-return Crear.Vec4(brillo, brillo, brillo, 1f);
+return new vec4(brillo, brillo, brillo, 1f);
 ```
 
 Mira cómo se comporta `t` con el paso del tiempo:
@@ -163,9 +167,9 @@ float dx = x - centroX;
 float dy = y - 0.5f;
 if (dx * dx + dy * dy < 0.12f * 0.12f)
 {
-    return Crear.Vec4(1f, 0.5f, 0.1f, 1f);
+    return new vec4(1f, 0.5f, 0.1f, 1f);
 }
-return Crear.Vec4(0.1f, 0.1f, 0.2f, 1f);
+return new vec4(0.1f, 0.1f, 0.2f, 1f);
 ```
 
 Ejecuta el ciclo de trabajo y mira cómo la bola va de un lado a otro. Vamos a desmontarlo:
@@ -194,7 +198,7 @@ Y en `Fragment`, cambia el `return` de la bola por esto:
 
 ```csharp
     float verde = Mezclar(0.3f, 0.9f, avance);
-    return Crear.Vec4(1f, verde, 0.1f, 1f);
+    return new vec4(1f, verde, 0.1f, 1f);
 ```
 
 Es decir: la línea `return` que estaba dentro del `if` se reemplaza por estas dos. Ahora el verde depende de `avance`, y la bola es rojiza en el extremo izquierdo y se vuelve amarilla al llegar al derecho.
@@ -236,7 +240,7 @@ public class Tiempo
     public Pixel Vertex({{vertexType}} vertice)
     {
         Pixel pixel;
-        pixel.Posicion = Crear.Vec4(vertice.{{pos}}.X, vertice.{{pos}}.Y, 0f, 1f);
+        pixel.Posicion = new vec4(vertice.{{pos}}.X, vertice.{{pos}}.Y, 0f, 1f);
         pixel.Uv = vertice.{{uv}};
         return pixel;
     }
@@ -261,9 +265,9 @@ public class Tiempo
         if (dx * dx + dy * dy < 0.12f * 0.12f)
         {
             float verde = Mezclar(0.3f, 0.9f, avance);
-            return Crear.Vec4(1f, verde, 0.1f, 1f);
+            return new vec4(1f, verde, 0.1f, 1f);
         }
-        return Crear.Vec4(0.1f, 0.1f, 0.2f, 1f);
+        return new vec4(0.1f, 0.1f, 0.2f, 1f);
     }
 
     public static float Mezclar(float a, float b, float t)
@@ -290,7 +294,7 @@ public class Tiempo
     public Pixel Vertex({{vertexType}} vertice)
     {
         Pixel pixel;
-        pixel.Posicion = Crear.Vec4(vertice.{{pos}}.X, vertice.{{pos}}.Y, 0f, 1f);
+        pixel.Posicion = new vec4(vertice.{{pos}}.X, vertice.{{pos}}.Y, 0f, 1f);
         pixel.Uv = vertice.{{uv}};
         return pixel;
     }
@@ -315,9 +319,9 @@ public class Tiempo
         if (dx * dx + dy * dy < 0.12f * 0.12f)
         {
             float verde = Mezclar(0.3f, 0.9f, avance);
-            return Crear.Vec4(1f, verde, 0.1f, 1f);
+            return new vec4(1f, verde, 0.1f, 1f);
         }
-        return Crear.Vec4(0.1f, 0.1f, 0.2f, 1f);
+        return new vec4(0.1f, 0.1f, 0.2f, 1f);
     }
 
     public static float Mezclar(float a, float b, float t)
@@ -344,7 +348,7 @@ public class Tiempo
     public Pixel Vertex({{vertexType}} vertice)
     {
         Pixel pixel;
-        pixel.Posicion = Crear.Vec4(vertice.{{pos}}.X, vertice.{{pos}}.Y, 0f, 1f);
+        pixel.Posicion = new vec4(vertice.{{pos}}.X, vertice.{{pos}}.Y, 0f, 1f);
         pixel.Uv = vertice.{{uv}};
         return pixel;
     }
@@ -369,9 +373,9 @@ public class Tiempo
         if (dx * dx + dy * dy < 0.12f * 0.12f)
         {
             float verde = Mezclar(0.3f, 0.9f, avance);
-            return Crear.Vec4(1f, verde, 0.1f, 1f);
+            return new vec4(1f, verde, 0.1f, 1f);
         }
-        return Crear.Vec4(0.1f, 0.1f, 0.2f, 1f);
+        return new vec4(0.1f, 0.1f, 0.2f, 1f);
     }
 
     public static float Mezclar(float a, float b, float t)
@@ -398,7 +402,7 @@ public class Tiempo
     public Pixel Vertex({{vertexType}} vertice)
     {
         Pixel pixel;
-        pixel.Posicion = Crear.Vec4(vertice.{{pos}}.X, vertice.{{pos}}.Y, 0f, 1f);
+        pixel.Posicion = new vec4(vertice.{{pos}}.X, vertice.{{pos}}.Y, 0f, 1f);
         pixel.Uv = vertice.{{uv}};
         return pixel;
     }
@@ -423,9 +427,9 @@ public class Tiempo
         if (dx * dx + dy * dy < 0.12f * 0.12f)
         {
             float verde = Mezclar(0.3f, 0.9f, avance);
-            return Crear.Vec4(1f, verde, 0.1f, 1f);
+            return new vec4(1f, verde, 0.1f, 1f);
         }
-        return Crear.Vec4(0.1f, 0.1f, 0.2f, 1f);
+        return new vec4(0.1f, 0.1f, 0.2f, 1f);
     }
 
     public static float Mezclar(float a, float b, float t)
@@ -452,7 +456,7 @@ public class Tiempo
     public Pixel Vertex({{vertexType}} vertice)
     {
         Pixel pixel;
-        pixel.Posicion = Crear.Vec4(vertice.{{pos}}.X, vertice.{{pos}}.Y, 0f, 1f);
+        pixel.Posicion = new vec4(vertice.{{pos}}.X, vertice.{{pos}}.Y, 0f, 1f);
         pixel.Uv = vertice.{{uv}};
         return pixel;
     }
@@ -477,9 +481,9 @@ public class Tiempo
         if (dx * dx + dy * dy < 0.12f * 0.12f)
         {
             float verde = Mezclar(0.3f, 0.9f, avance);
-            return Crear.Vec4(1f, verde, 0.1f, 1f);
+            return new vec4(1f, verde, 0.1f, 1f);
         }
-        return Crear.Vec4(0.1f, 0.1f, 0.2f, 1f);
+        return new vec4(0.1f, 0.1f, 0.2f, 1f);
     }
 
     public static float Mezclar(float a, float b, float t)
@@ -490,6 +494,11 @@ public class Tiempo
 ```
 
 > [!SCENE] learned
+
+
+:::godot
+![Godot al pulsar Play: la ventana del juego muestra un sol que rebota y cambia de color](../../assets/get-started/godot/es/tiempo.gif)
+:::
 
 ## Lo que aprendiste
 

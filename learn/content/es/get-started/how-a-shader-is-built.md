@@ -376,7 +376,7 @@ Fíjate en lo que **no** tienes que escribir: ni el bucle sobre los vértices, n
 
 > [!SCENE] whole
 
-Este es el shader completo del triángulo, escrito en los cinco estilos. Elige el tuyo en el menú **Estilo**. (`Crear.Vec4` es el pequeño ayudante del capítulo del primer shader.)
+Este es el shader completo del triángulo, escrito en los cinco estilos. Elige el tuyo en el menú **Estilo**.
 
 ```csharp style=glsl
 using YotsubaShader.GlslSyntax;
@@ -407,7 +407,7 @@ public class Triangle
     public Pixel Vertex({{cornerType}} corner)
     {
         Pixel pixel;
-        pixel.Position = Make.Vec4(corner.{{cornerPos}}.X, corner.{{cornerPos}}.Y, 0f, 1f);
+        pixel.Position = new vec4(corner.{{cornerPos}}.X, corner.{{cornerPos}}.Y, 0f, 1f);
         pixel.Color = corner.{{color}};
         return pixel;
     }
@@ -450,7 +450,7 @@ public class Triangle
     public Pixel Vertex({{cornerType}} corner)
     {
         Pixel pixel;
-        pixel.Position = Make.Vec4(corner.{{cornerPos}}.X, corner.{{cornerPos}}.Y, 0f, 1f);
+        pixel.Position = new vec4(corner.{{cornerPos}}.X, corner.{{cornerPos}}.Y, 0f, 1f);
         pixel.Color = corner.{{color}};
         return pixel;
     }
@@ -493,7 +493,7 @@ public class Triangle
     public Pixel Vertex({{cornerType}} corner)
     {
         Pixel pixel;
-        pixel.Position = Make.Vec4(corner.{{cornerPos}}.X, corner.{{cornerPos}}.Y, 0f, 1f);
+        pixel.Position = new vec4(corner.{{cornerPos}}.X, corner.{{cornerPos}}.Y, 0f, 1f);
         pixel.Color = corner.{{color}};
         return pixel;
     }
@@ -536,7 +536,7 @@ public class Triangle
     public Pixel Vertex({{cornerType}} corner)
     {
         Pixel pixel;
-        pixel.Position = Make.Vec4(corner.{{cornerPos}}.X, corner.{{cornerPos}}.Y, 0f, 1f);
+        pixel.Position = new vec4(corner.{{cornerPos}}.X, corner.{{cornerPos}}.Y, 0f, 1f);
         pixel.Color = corner.{{color}};
         return pixel;
     }
@@ -579,7 +579,7 @@ public class Triangle
     public Pixel Vertex({{cornerType}} corner)
     {
         Pixel pixel;
-        pixel.Position = Make.Vec4(corner.{{cornerPos}}.X, corner.{{cornerPos}}.Y, 0f, 1f);
+        pixel.Position = new vec4(corner.{{cornerPos}}.X, corner.{{cornerPos}}.Y, 0f, 1f);
         pixel.Color = corner.{{color}};
         return pixel;
     }
@@ -624,7 +624,7 @@ public class Triangle
     public Pixel Vertex({{cornerType}} corner)
     {
         Pixel pixel;
-        pixel.Position = Make.Vec4(corner.{{cornerPos}}.X, corner.{{cornerPos}}.Y, 0f, 1f);
+        pixel.Position = new vec4(corner.{{cornerPos}}.X, corner.{{cornerPos}}.Y, 0f, 1f);
         pixel.Color = corner.{{color}};
         return pixel;
     }
@@ -651,20 +651,10 @@ layout(location = 0) in vec2 corner_Position;
 layout(location = 1) in vec4 corner_Color;
 layout(location = 0) out vec4 _return_Color;
 
-vec4 Vec4(float x, float y, float z, float w)
-{
-    vec4 v;
-    v.x = x;
-    v.y = y;
-    v.z = z;
-    v.w = w;
-    return v;
-}
-
 void main()
 {
     Pixel pixel;
-    pixel.Position = Vec4(corner_Position.x, corner_Position.y, 0.0, 1.0);
+    pixel.Position = vec4(corner_Position.x, corner_Position.y, 0.0, 1.0);
     pixel.Color = corner_Color;
     gl_Position = pixel.Position;
     _return_Color = pixel.Color;
@@ -695,20 +685,10 @@ struct SPIRV_Cross_Output
     float4 gl_Position : SV_Position;
 };
 
-float4 Vec4(float x, float y, float z, float w)
-{
-    float4 v;
-    v.x = x;
-    v.y = y;
-    v.z = z;
-    v.w = w;
-    return v;
-}
-
 void Vertex_inner()
 {
     Pixel pixel;
-    pixel.Position = Vec4(corner_Position.x, corner_Position.y, 0.0f, 1.0f);
+    pixel.Position = float4(corner_Position.x, corner_Position.y, 0.0f, 1.0f);
     pixel.Color = corner_Color;
     gl_Position = pixel.Position;
     _return_Color = pixel.Color;
@@ -727,8 +707,6 @@ SPIRV_Cross_Output Vertex(SPIRV_Cross_Input stage_input)
 ```
 
 ```cpp tab="Metal (MSL)"
-#pragma clang diagnostic ignored "-Wmissing-prototypes"
-
 #include <metal_stdlib>
 #include <simd/simd.h>
 
@@ -752,22 +730,11 @@ struct Vertex_in
     float4 corner_Color [[attribute(1)]];
 };
 
-static inline __attribute__((always_inline))
-float4 Vec4(float x, float y, float z, float w)
-{
-    float4 v;
-    v.x = x;
-    v.y = y;
-    v.z = z;
-    v.w = w;
-    return v;
-}
-
 vertex Vertex_out Vertex(Vertex_in in [[stage_in]])
 {
     Vertex_out out = {};
     Pixel pixel;
-    pixel.Position = Vec4(in.corner_Position.x, in.corner_Position.y, 0.0, 1.0);
+    pixel.Position = float4(in.corner_Position.x, in.corner_Position.y, 0.0, 1.0);
     pixel.Color = in.corner_Color;
     out.gl_Position = pixel.Position;
     out._return_Color = pixel.Color;
@@ -779,14 +746,13 @@ vertex Vertex_out Vertex(Vertex_in in [[stage_in]])
 ; SPIR-V
 ; Version: 1.6
 ; Generator: Khronos; 0
-; Bound: 57
+; Bound: 41
 ; Schema: 0
                OpCapability Shader
-               OpExtension "SPV_GOOGLE_decorate_string"
-               OpExtension "SPV_GOOGLE_hlsl_functionality1"
+          %1 = OpExtInstImport "GLSL.std.450"
                OpMemoryModel Logical GLSL450
                OpEntryPoint Vertex %Vertex "Vertex" %corner_Position %corner_Color %__return_Position %__return_Color
-               OpEntryPoint Fragment %Fragment "Fragment" %pixel_Position %pixel_Color %__return
+               OpEntryPoint Fragment %Fragment "Fragment" %pixel_Color %__return
                OpExecutionMode %Fragment OriginUpperLeft
                OpName %Vertex "Vertex"
                OpName %corner_Position "corner_Position"
@@ -794,24 +760,16 @@ vertex Vertex_out Vertex(Vertex_in in [[stage_in]])
                OpName %__return_Position "__return_Position"
                OpName %__return_Color "__return_Color"
                OpName %Fragment "Fragment"
-               OpName %pixel_Position "pixel_Position"
                OpName %pixel_Color "pixel_Color"
                OpName %__return "__return"
-               OpName %Vec4 "Vec4"
                OpName %Pixel "Pixel"
                OpMemberName %Pixel 0 "Position"
                OpMemberName %Pixel 1 "Color"
                OpName %pixel "pixel"
-               OpName %x "x"
-               OpName %y "y"
-               OpName %z "z"
-               OpName %w "w"
-               OpName %v "v"
                OpDecorate %corner_Position Location 0
                OpDecorate %corner_Color Location 1
                OpDecorate %__return_Position BuiltIn Position
                OpDecorate %__return_Color Location 0
-               OpDecorate %pixel_Position BuiltIn FragCoord
                OpDecorate %pixel_Color Location 0
                OpDecorate %__return Location 0
        %void = OpTypeVoid
@@ -823,67 +781,44 @@ vertex Vertex_out Vertex(Vertex_in in [[stage_in]])
 %_ptr_Output_v4float = OpTypePointer Output %v4float
     %float_0 = OpConstant %float 0
     %float_1 = OpConstant %float 1
-         %27 = OpTypeFunction %void
+         %21 = OpTypeFunction %void
       %Pixel = OpTypeStruct %v4float %v4float
 %_ptr_Function_Pixel = OpTypePointer Function %Pixel
 %_ptr_Function_v4float = OpTypePointer Function %v4float
        %uint = OpTypeInt 32 0
      %uint_0 = OpConstant %uint 0
      %uint_1 = OpConstant %uint 1
-         %33 = OpTypeFunction %v4float %float %float %float %float
-%_ptr_Function_float = OpTypePointer Function %float
-     %uint_2 = OpConstant %uint 2
-     %uint_3 = OpConstant %uint 3
 %corner_Position = OpVariable %_ptr_Input_v2float Input
 %corner_Color = OpVariable %_ptr_Input_v4float Input
 %__return_Position = OpVariable %_ptr_Output_v4float Output
 %__return_Color = OpVariable %_ptr_Output_v4float Output
-%pixel_Position = OpVariable %_ptr_Input_v4float Input
 %pixel_Color = OpVariable %_ptr_Input_v4float Input
    %__return = OpVariable %_ptr_Output_v4float Output
-     %Vertex = OpFunction %void None %27
-         %37 = OpLabel
+     %Vertex = OpFunction %void None %21
+         %27 = OpLabel
       %pixel = OpVariable %_ptr_Function_Pixel Function
-         %38 = OpAccessChain %_ptr_Function_v4float %pixel %uint_0
-         %39 = OpLoad %v2float %corner_Position
-         %40 = OpCompositeExtract %float %39 0
-         %41 = OpLoad %v2float %corner_Position
-         %42 = OpCompositeExtract %float %41 1
-         %43 = OpFunctionCall %v4float %Vec4 %40 %42 %float_0 %float_1
-               OpStore %38 %43
-         %44 = OpAccessChain %_ptr_Function_v4float %pixel %uint_1
-         %45 = OpLoad %v4float %corner_Color
-               OpStore %44 %45
-         %46 = OpLoad %Pixel %pixel
-         %47 = OpCompositeExtract %v4float %46 0
-               OpStore %__return_Position %47
-         %48 = OpCompositeExtract %v4float %46 1
-               OpStore %__return_Color %48
+         %28 = OpAccessChain %_ptr_Function_v4float %pixel %uint_0
+         %29 = OpLoad %v2float %corner_Position
+         %30 = OpCompositeExtract %float %29 0
+         %31 = OpLoad %v2float %corner_Position
+         %32 = OpCompositeExtract %float %31 1
+         %33 = OpCompositeConstruct %v4float %30 %32 %float_0 %float_1
+               OpStore %28 %33
+         %34 = OpAccessChain %_ptr_Function_v4float %pixel %uint_1
+         %35 = OpLoad %v4float %corner_Color
+               OpStore %34 %35
+         %36 = OpLoad %Pixel %pixel
+         %37 = OpCompositeExtract %v4float %36 0
+               OpStore %__return_Position %37
+         %38 = OpCompositeExtract %v4float %36 1
+               OpStore %__return_Color %38
                OpReturn
                OpFunctionEnd
-   %Fragment = OpFunction %void None %27
-         %49 = OpLabel
-         %50 = OpLoad %v4float %pixel_Color
-               OpStore %__return %50
+   %Fragment = OpFunction %void None %21
+         %39 = OpLabel
+         %40 = OpLoad %v4float %pixel_Color
+               OpStore %__return %40
                OpReturn
-               OpFunctionEnd
-       %Vec4 = OpFunction %v4float None %33
-          %x = OpFunctionParameter %float
-          %y = OpFunctionParameter %float
-          %z = OpFunctionParameter %float
-          %w = OpFunctionParameter %float
-         %51 = OpLabel
-          %v = OpVariable %_ptr_Function_v4float Function
-         %52 = OpAccessChain %_ptr_Function_float %v %uint_0
-               OpStore %52 %x
-         %53 = OpAccessChain %_ptr_Function_float %v %uint_1
-               OpStore %53 %y
-         %54 = OpAccessChain %_ptr_Function_float %v %uint_2
-               OpStore %54 %z
-         %55 = OpAccessChain %_ptr_Function_float %v %uint_3
-               OpStore %55 %w
-         %56 = OpLoad %v4float %v
-               OpReturnValue %56
                OpFunctionEnd
 ```
 
@@ -929,20 +864,10 @@ namespace Impl
         
         Resources* __res;
         
-        inline vec4 Vec4(const float &x, const float &y, const float &z, const float &w)
-        {
-            vec4 v;
-            v.x = x;
-            v.y = y;
-            v.z = z;
-            v.w = w;
-            return v;
-        }
-        
         inline void main()
         {
             struct Pixel pixel;
-            pixel.Position = Vec4(corner_Position.x, corner_Position.y, 0.0f, 1.0f);
+            pixel.Position = vec4(corner_Position.x, corner_Position.y, 0.0f, 1.0f);
             pixel.Color = corner_Color;
             gl_Position = pixel.Position;
             _return_Color = pixel.Color;

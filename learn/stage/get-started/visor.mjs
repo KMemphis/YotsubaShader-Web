@@ -6,7 +6,7 @@
 const L = (en, es) => ({ en, es });
 const term = (code) => ({ title: 'Terminal', code, lang: 'bash' });
 const cs = (title, code) => ({ title, code, lang: 'csharp' });
-const ENGINE_LOGO = { route: { kni: '/img/engines/kni.png', fna: '/img/engines/fna.png', godot: '/img/engines/godot.svg', default: '/img/engines/monogame.png' } };
+const ENGINE_LOGO = { route: { kni: '/img/engines/kni.png', fna: '/img/engines/fna.png', godot: '/img/engines/godot.svg', raylib: '/img/engines/raylib.png', silknet: '/img/engines/silknet.svg', default: '/img/engines/monogame.png' } };
 const win = (modes, at, extra = {}) => ({ k: 'gl', cls: 'window w50', title: '{{engine}}', logo: ENGINE_LOGO, at, fx: 'pop', radius: 10, tiles: [{ modes, aspect: '16 / 9', at }], ...extra });
 const BLUE = 'return vec4(.39,.58,.93,1.);';
 const SUNSET = 'return vec4(1.,1.-uv.y,uv.y*.6,1.);';
@@ -171,51 +171,10 @@ export default [
     ],
   },
   {
-    id: 'g_project',
-    beats: { empty: L('an empty folder called', 'una carpeta vacía llamada'), name: L('Project Name', 'Project Name'), path: L('Project Path', 'Project Path'), render: L('Forward+ is fine', 'Forward+ está bien'), inside: L('on purpose', 'a propósito'), manifest: L('the relative paths', 'las rutas relativas'), both: L('Both versions of Godot work', 'Las dos versiones de Godot sirven') },
-    items: [
-      { k: 'kicker', text: L('Step 1 · the Godot project', 'Paso 1 · el proyecto de Godot') },
-      { k: 'row', at: 'empty', out: 'inside', items: [
-        { k: 'box', cls: 's-mono', text: 'Project Name', sub: 'GodotGame', at: 'name' },
-        { k: 'box', cls: 's-mono', text: 'Project Path', sub: 'Tutorial/GodotGame', at: 'path' },
-        { k: 'box', cls: 'accent s-mono', text: 'Renderer', sub: 'Forward+', at: 'render' },
-      ] },
-      { k: 'row', at: 'inside', out: 'both', items: [
-        { k: 'box', cls: 's-mono', text: 'Tutorial/', sub: L('everything together', 'todo junto'), at: 'inside' },
-        { k: 'box', cls: 's-mono', text: L('MyShaders', 'MisShaders'), at: 'inside+0.4' },
-        { k: 'box', cls: 'accent s-mono', text: 'GodotGame', sub: L('inside, on purpose', 'dentro, a propósito'), at: 'inside+0.8' },
-      ] },
-      { k: 'row', at: 'both', items: [
-        { k: 'box', cls: 's-mono', text: 'GDScript', at: 'both' },
-        { k: 'box', cls: 's-mono', text: '.NET · C#', at: 'both+0.4' },
-      ] },
-    ],
-  },
-  {
-    id: 'g_addon',
-    beats: { addon: L('has an addon', 'tiene un addon'), play: L('Every time you press', 'Cada vez que pulsas'), nuget: L('inside the NuGet package', 'dentro del paquete NuGet'), reload: L('reload the project', 'recarga el proyecto'), plugins: L('Project Settings', 'Project Settings'), enabled: L('Enabled', 'Enabled'), filter: L('type yotsuba in the filter', 'escribe yotsuba en el filtro'), fill: L('Fill in', 'Rellena'), rest: L('Leave the rest as it is', 'Deja el resto como está') },
-    items: [
-      { k: 'kicker', text: L('Step 2 · the addon', 'Paso 2 · el addon') },
-      { k: 'row', at: 'addon', out: 'nuget', items: [
-        { k: 'box', cls: 's-mono', text: 'Play', at: 'play' },
-        { k: 'arrow', at: 'play+0.5' },
-        { k: 'box', cls: 'accent s-mono', text: 'yotsuba', sub: L('translates your shaders', 'traduce tus shaders'), at: 'play+0.8' },
-        { k: 'arrow', at: 'play+1.4' },
-        { k: 'box', cls: 's-mono', text: L('Godot files', 'archivos de Godot'), at: 'play+1.7' },
-      ] },
-      { k: 'row', at: 'nuget', items: [
-        { k: 'box', cls: 's-mono', text: '1', sub: L('copy the addon', 'copia el addon'), at: 'nuget' },
-        { k: 'box', cls: 's-mono', text: '2', sub: L('reload the project', 'recarga el proyecto'), at: 'reload' },
-        { k: 'box', cls: 's-mono', text: '3', sub: L('Plugins → Enabled', 'Plugins → Enabled'), at: 'enabled' },
-        { k: 'box', cls: 'accent s-mono', text: '4', sub: L('project path', 'ruta project'), at: 'fill' },
-      ] },
-    ],
-  },
-  {
     id: 'g_scene',
     beats: { key: L('the key idea of this route', 'la idea clave de esta ruta'), meshes: L('meshes', 'mallas'), three: L('a scene with three nodes', 'una escena con tres nodos'), root: L('The root', 'La raíz'), screen: L('node', 'nodo'), cam: L('The camera', 'La cámara'), margin: L('The margin', 'El margen'), why: L('do not throw this object away', 'no tires este objeto'), script: L('The script', 'El script'), corners: L('The corners are the same table', 'Las esquinas son la misma tabla'), flip: L('goes the other way', 'va al revés'), ready: L('runs once', 'se ejecuta una vez') },
     items: [
-      { k: 'kicker', text: L('Step 3 · the rectangle and the window', 'Paso 3 · el rectángulo y la ventana') },
+      { k: 'kicker', text: L('Step 1 · the rectangle and the window', 'Paso 1 · el rectángulo y la ventana') },
       { k: 'row', at: 'three', out: 'margin', items: NODES(['root', 'screen', 'cam']) },
       { k: 'row', at: 'margin', out: 'script', items: [
         { k: 'box', cls: 's-mono', text: 'Extra Cull Margin', sub: '16384', at: 'margin' },
@@ -233,7 +192,7 @@ export default [
     id: 'g_see',
     beats: { save: L('Save the scene', 'Guarda la escena'), play: L('Press', 'Pulsa'), select: L('Select Current', 'Select Current'), translates: L('the addon translates', 'el addon traduce'), yours: L('That is your shader', 'Ese es tu shader'), close: L('Close the window', 'Cierra la ventana') },
     items: [
-      { k: 'kicker', text: L('Step 4 · your first shader', 'Paso 4 · tu primer shader') },
+      { k: 'kicker', text: L('Step 2 · your first shader', 'Paso 2 · tu primer shader') },
       { k: 'row', at: 'save', out: 'play', items: NODES(['save', 'save+0.4', 'save+0.8']) },
       { k: 'row', at: 'play', out: 'yours', items: [
         { k: 'box', cls: 's-mono', text: 'Play ▶', at: 'play' },

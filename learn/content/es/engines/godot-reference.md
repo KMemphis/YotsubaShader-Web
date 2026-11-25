@@ -42,7 +42,7 @@ Dos requisitos:
 
 ## El shader
 
-Un shader para Godot declara los datos de vértice con los nombres propios de Godot. Este es una franja de luz que cruza la pantalla, controlada por un uniform de tiempo. Usa los tipos de salida de vértice y entrada de fragment del tutorial, un pequeño ayudante para `vec4` y el struct `GodotVertex` de la sección siguiente:
+Un shader para Godot declara los datos de vértice con los nombres propios de Godot. Este es una franja de luz que cruza la pantalla, controlada por un uniform de tiempo. Usa los tipos de salida de vértice y entrada de fragment del tutorial y el struct `GodotVertex` de la sección siguiente:
 
 ```csharp
 using YotsubaShader.GlslSyntax;
@@ -59,19 +59,6 @@ public struct Pixel
 public struct PixelIn
 {
     [location(0)] public vec2 Uv;
-}
-
-public static class Make
-{
-    public static vec4 Vec4(float x, float y, float z, float w)
-    {
-        vec4 v;
-        v.X = x;
-        v.Y = y;
-        v.Z = z;
-        v.W = w;
-        return v;
-    }
 }
 ```
 
@@ -97,7 +84,7 @@ public class Sweep
     public Pixel Vertex(GodotVertex corner)
     {
         Pixel pixel;
-        pixel.Position = Make.Vec4(corner.VERTEX.X, corner.VERTEX.Y, 0f, 1f);
+        pixel.Position = new vec4(corner.VERTEX.X, corner.VERTEX.Y, 0f, 1f);
         pixel.Uv = corner.UV;
         return pixel;
     }
@@ -118,7 +105,7 @@ public class Sweep
             brightness = 0f;
         }
 
-        return Make.Vec4(brightness, brightness * 0.5f, 0.15f + 0.35f * pixel.Uv.Y, 1f);
+        return new vec4(brightness, brightness * 0.5f, 0.15f + 0.35f * pixel.Uv.Y, 1f);
     }
 }
 ```
@@ -134,7 +121,7 @@ void vertex() {
     // ... los otros doce campos leen NORMAL, TANGENT, COLOR... de la misma forma
     vec4 ys_position = vec4(0.0);
     Pixel pixel;
-    pixel.Position = Vec4(corner_VERTEX.x, corner_VERTEX.y, 0.0, 1.0);
+    pixel.Position = vec4(corner_VERTEX.x, corner_VERTEX.y, 0.0, 1.0);
     pixel.Uv = corner_UV;
     ys_position = pixel.Position;
     v_Uv = pixel.Uv;

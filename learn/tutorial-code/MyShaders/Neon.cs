@@ -11,7 +11,7 @@ public class Neon
     public Pixel Vertex(Corner corner)
     {
         Pixel pixel;
-        pixel.Position = Make.Vec4(corner.Position.X, corner.Position.Y, 0f, 1f);
+        pixel.Position = new vec4(corner.Position.X, corner.Position.Y, 0f, 1f);
         pixel.Uv = corner.Uv;
         return pixel;
     }
@@ -28,13 +28,13 @@ public class Neon
 
         float glow = clamp(0.03f / distanceToRing, 0f, 1f);
 
-        vec3 pink = Make.Vec3(1f, 0.2f, 0.7f);
-        vec3 cyan = Make.Vec3(0.2f, 0.8f, 1f);
+        vec3 pink = new vec3(1f, 0.2f, 0.7f);
+        vec3 cyan = new vec3(0.2f, 0.8f, 1f);
         vec3 tube = mix(pink, cyan, pixel.Uv.X);
 
-        vec3 background = Make.Vec3(0.02f, 0.02f, 0.06f);
+        vec3 background = new vec3(0.02f, 0.02f, 0.06f);
         vec3 color = mix(background, tube, glow);
 
-        return Make.Vec4(color.X, color.Y, color.Z, 1f);
+        return new vec4(color.X, color.Y, color.Z, 1f);
     }
 }

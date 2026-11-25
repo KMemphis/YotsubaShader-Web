@@ -10,6 +10,10 @@ Ya sabes decidir con `if`, repetir con bucles, escribir tus propias funciones y 
 
 ![El fractal de Mandelbrot: una figura negra con forma de corazón y un círculo, rodeada de bordes azules llenos de ramas](../../assets/get-started/mandelbrot.png)
 
+:::godot
+![Godot al pulsar Play: la ventana del juego muestra el fractal de Mandelbrot con bordes azules](../../assets/get-started/godot/es/mandelbrot.gif)
+:::
+
 Se llama fractal de Mandelbrot. Lo curioso es que no hay ninguna imagen guardada en ningún sitio: todo ese dibujo sale de una fórmula de dos líneas, repetida muchas veces.
 
 No hay nada nuevo de C# en este capítulo. Es la prueba de que lo que aprendiste en los anteriores alcanza para dibujar algo tan complejo como esto.
@@ -102,7 +106,7 @@ int pasos = ContarPasos(cx, cy);
 
 if (pasos == 100)
 {
-    return Crear.Vec4(0f, 0f, 0f, 1f);
+    return new vec4(0f, 0f, 0f, 1f);
 }
 
 float t = pasos / 100f;
@@ -120,7 +124,7 @@ public static vec4 Paleta(float t)
     float rojo = 9f * resto * t * t * t;
     float verde = 15f * resto * resto * t * t;
     float azul = 8.5f * resto * resto * resto * t;
-    return Crear.Vec4(rojo, verde, azul, 1f);
+    return new vec4(rojo, verde, azul, 1f);
 }
 ```
 
@@ -143,7 +147,7 @@ public class Mandelbrot
     public Pixel Vertex({{vertexType}} vertice)
     {
         Pixel pixel;
-        pixel.Posicion = Crear.Vec4(vertice.{{pos}}.X, vertice.{{pos}}.Y, 0f, 1f);
+        pixel.Posicion = new vec4(vertice.{{pos}}.X, vertice.{{pos}}.Y, 0f, 1f);
         pixel.Uv = vertice.{{uv}};
         return pixel;
     }
@@ -159,7 +163,7 @@ public class Mandelbrot
 
         if (pasos == 100)
         {
-            return Crear.Vec4(0f, 0f, 0f, 1f);
+            return new vec4(0f, 0f, 0f, 1f);
         }
 
         float t = pasos / 100f;
@@ -196,7 +200,7 @@ public class Mandelbrot
         float rojo = 9f * resto * t * t * t;
         float verde = 15f * resto * resto * t * t;
         float azul = 8.5f * resto * resto * resto * t;
-        return Crear.Vec4(rojo, verde, azul, 1f);
+        return new vec4(rojo, verde, azul, 1f);
     }
 }
 ```
@@ -214,7 +218,7 @@ public class Mandelbrot
     public Pixel Vertex({{vertexType}} vertice)
     {
         Pixel pixel;
-        pixel.Posicion = Crear.Vec4(vertice.{{pos}}.X, vertice.{{pos}}.Y, 0f, 1f);
+        pixel.Posicion = new vec4(vertice.{{pos}}.X, vertice.{{pos}}.Y, 0f, 1f);
         pixel.Uv = vertice.{{uv}};
         return pixel;
     }
@@ -230,7 +234,7 @@ public class Mandelbrot
 
         if (pasos == 100)
         {
-            return Crear.Vec4(0f, 0f, 0f, 1f);
+            return new vec4(0f, 0f, 0f, 1f);
         }
 
         float t = pasos / 100f;
@@ -267,7 +271,7 @@ public class Mandelbrot
         float rojo = 9f * resto * t * t * t;
         float verde = 15f * resto * resto * t * t;
         float azul = 8.5f * resto * resto * resto * t;
-        return Crear.Vec4(rojo, verde, azul, 1f);
+        return new vec4(rojo, verde, azul, 1f);
     }
 }
 ```
@@ -285,7 +289,7 @@ public class Mandelbrot
     public Pixel Vertex({{vertexType}} vertice)
     {
         Pixel pixel;
-        pixel.Posicion = Crear.Vec4(vertice.{{pos}}.X, vertice.{{pos}}.Y, 0f, 1f);
+        pixel.Posicion = new vec4(vertice.{{pos}}.X, vertice.{{pos}}.Y, 0f, 1f);
         pixel.Uv = vertice.{{uv}};
         return pixel;
     }
@@ -301,7 +305,7 @@ public class Mandelbrot
 
         if (pasos == 100)
         {
-            return Crear.Vec4(0f, 0f, 0f, 1f);
+            return new vec4(0f, 0f, 0f, 1f);
         }
 
         float t = pasos / 100f;
@@ -338,7 +342,7 @@ public class Mandelbrot
         float rojo = 9f * resto * t * t * t;
         float verde = 15f * resto * resto * t * t;
         float azul = 8.5f * resto * resto * resto * t;
-        return Crear.Vec4(rojo, verde, azul, 1f);
+        return new vec4(rojo, verde, azul, 1f);
     }
 }
 ```
@@ -356,7 +360,7 @@ public class Mandelbrot
     public Pixel Vertex({{vertexType}} vertice)
     {
         Pixel pixel;
-        pixel.Posicion = Crear.Vec4(vertice.{{pos}}.X, vertice.{{pos}}.Y, 0f, 1f);
+        pixel.Posicion = new vec4(vertice.{{pos}}.X, vertice.{{pos}}.Y, 0f, 1f);
         pixel.Uv = vertice.{{uv}};
         return pixel;
     }
@@ -372,7 +376,7 @@ public class Mandelbrot
 
         if (pasos == 100)
         {
-            return Crear.Vec4(0f, 0f, 0f, 1f);
+            return new vec4(0f, 0f, 0f, 1f);
         }
 
         float t = pasos / 100f;
@@ -409,7 +413,7 @@ public class Mandelbrot
         float rojo = 9f * resto * t * t * t;
         float verde = 15f * resto * resto * t * t;
         float azul = 8.5f * resto * resto * resto * t;
-        return Crear.Vec4(rojo, verde, azul, 1f);
+        return new vec4(rojo, verde, azul, 1f);
     }
 }
 ```
@@ -427,7 +431,7 @@ public class Mandelbrot
     public Pixel Vertex({{vertexType}} vertice)
     {
         Pixel pixel;
-        pixel.Posicion = Crear.Vec4(vertice.{{pos}}.X, vertice.{{pos}}.Y, 0f, 1f);
+        pixel.Posicion = new vec4(vertice.{{pos}}.X, vertice.{{pos}}.Y, 0f, 1f);
         pixel.Uv = vertice.{{uv}};
         return pixel;
     }
@@ -443,7 +447,7 @@ public class Mandelbrot
 
         if (pasos == 100)
         {
-            return Crear.Vec4(0f, 0f, 0f, 1f);
+            return new vec4(0f, 0f, 0f, 1f);
         }
 
         float t = pasos / 100f;
@@ -480,7 +484,7 @@ public class Mandelbrot
         float rojo = 9f * resto * t * t * t;
         float verde = 15f * resto * resto * t * t;
         float azul = 8.5f * resto * resto * resto * t;
-        return Crear.Vec4(rojo, verde, azul, 1f);
+        return new vec4(rojo, verde, azul, 1f);
     }
 }
 ```
@@ -501,7 +505,13 @@ El mismo comando de siempre. Como `add` compila todos los shaders del proyecto, 
 
 {{register Mandelbrot}}
 
+:::xna raylib silknet
 Se abre el visor con tu fractal. Probablemente lo veas **estirado a lo ancho**. No es un fallo del shader: es el mismo problema del óvalo del capítulo de las [coordenadas](coordinates.md). Este shader convierte el `Uv` en números sin tener en cuenta que la ventana es más ancha que alta. Para verlo bien, hazla cuadrada: en `Visor/Program.cs`, cambia `800` y `450` por `600` y `600`. Al final del capítulo tienes un reto para arreglarlo en el propio shader.
+:::
+
+:::godot
+Se abre el visor con tu fractal. Probablemente lo veas **estirado a lo ancho**. No es un fallo del shader: es el mismo problema del óvalo del capítulo de las [coordenadas](coordinates.md). Este shader convierte el `Uv` en números sin tener en cuenta que la ventana es más ancha que alta. Para verlo bien, hazla cuadrada: en **Proyecto → Configuración del proyecto → Display → Window**, pon **Viewport Width** y **Viewport Height** en `600` y `600`. Al final del capítulo tienes un reto para arreglarlo en el propio shader.
+:::
 
 Si además quieres ver la versión compilada, en `Probar/Program.cs` cambia `new Degradado()` por `new Mandelbrot()`:
 
@@ -641,14 +651,14 @@ public struct RelojCielo
 public class MandelbrotCielo
 {
     [uniform, layout(0, 0)]
-    public RelojCielo Sky;
+    public RelojCielo Cielo;
 
     [ShaderStage(Stage.Vertex)]
     public Pixel Vertex(VerticeGodot vertice)
     {
         Pixel pixel;
         // z casi 0: el rectángulo queda en el fondo de todo, detrás de cualquier objeto de la escena.
-        pixel.Posicion = Crear.Vec4(vertice.VERTEX.X, vertice.VERTEX.Y, 0.00001f, 1f);
+        pixel.Posicion = new vec4(vertice.VERTEX.X, vertice.VERTEX.Y, 0.00001f, 1f);
         pixel.Uv = vertice.UV;
         return pixel;
     }
@@ -679,7 +689,7 @@ public class MandelbrotCielo
         red = mix(red, 0.02f, dentro);
         green = mix(green, 0f, dentro);
         blue = mix(blue, 0f, dentro);
-        return Crear.Vec4(red, green, blue, 1f);
+        return new vec4(red, green, blue, 1f);
     }
 
     public static int ContarPasos(float cx, float cy)
@@ -714,21 +724,21 @@ Hay tres ideas nuevas:
 - **La ondulación.** Antes de convertir el píxel en `cx` y `cy`, empujas un poco `Uv.X` con un `sin` de la altura, y `Uv.Y` con un `sin` del ancho. Los dos incluyen el tiempo, así que las ondas viajan. Cambia `0.012f` por `0.05f` y el cielo se derretirá.
 - **`step` y `mix` en lugar de un `if`.** El interior del conjunto se pinta con estas dos, que eligen un color sin ramificar. `step(100f, pasos)` vale `1` cuando el píxel nunca escapó y `0` en caso contrario; `mix` usa ese número para elegir entre el color del fuego y el núcleo oscuro.
 
-Ahora la escena. Abre `viewer.tscn` y guárdala con otro nombre (**Scene → Save Scene As…**): `sky.tscn`. Luego añade, como hijos de `Visor`:
+Ahora la escena. Abre `visor.tscn` y guárdala con otro nombre (**Scene → Save Scene As…**): `cielo.tscn`. Luego añade, como hijos de `Visor`:
 
-- **`Ground`**: un `MeshInstance3D`. En el Inspector, **Mesh → New PlaneMesh** y pon su **Size** en `80 × 80`.
-- **`TowerA`, `TowerB`, `TowerC`**: más `MeshInstance3D`, con **Mesh → New BoxMesh**, altas y delgadas (por ejemplo `1.6 × 7 × 1.6`). Colócalas entre `-4` y `-11` en Z, con alturas distintas.
-- **`Light`**: un `DirectionalLight3D` de color naranja.
+- **`Suelo`**: un `MeshInstance3D`. En el Inspector, **Mesh → New PlaneMesh** y pon su **Size** en `80 × 80`.
+- **`TorreA` … `TorreD`**: más `MeshInstance3D`, con **Mesh → New BoxMesh**, altas y delgadas (por ejemplo `1.6 × 7 × 1.6`). Colócalas entre `-4` y `-11` en Z, con alturas distintas.
+- **`Luz`**: un `DirectionalLight3D` de color naranja.
 
 Selecciona la `Camera3D` y súbela y échala hacia atrás (`Position` Y `1.6`, Z `8`). Selecciona la raíz y escribe `MandelbrotCielo` en **Shader Name**.
 
-![El árbol de la escena del cielo: Viewer con Screen, Camera3D, Ground, cuatro torres y una Light](../../assets/get-started/godot/en/cielo-escena.jpg)
+![El árbol de la escena del cielo: Visor con Pantalla, Camera3D, Suelo, cuatro torres y una Luz](../../assets/get-started/godot/es/cielo-escena.jpg)
 
 Pulsa **Play Scene** (`Cmd/Ctrl+R`):
 
-![Un fractal de Mandelbrot rojo y naranja como cielo detrás de torres oscuras, sobre un suelo rojo oscuro](../../assets/get-started/godot/en/cielo-juego.jpg)
+![Un fractal de Mandelbrot rojo y naranja como cielo detrás de torres oscuras, sobre un suelo rojo oscuro](../../assets/get-started/godot/es/cielo.gif)
 
-El fractal es tu propio código, corriendo como fondo de una escena 3D. Para volver, abre `viewer.tscn`: sigue diciendo `Mandelbrot`.
+El fractal es tu propio código, corriendo como fondo de una escena 3D. Para volver, abre `visor.tscn`: sigue diciendo `Mandelbrot`.
 :::
 
 > [!SCENE] allowed

@@ -58,7 +58,7 @@ public class Plasma
     public Pixel Vertex(Vertice vertice)
     {
         Pixel pixel;
-        pixel.Posicion = Crear.Vec4(vertice.Posicion.X, vertice.Posicion.Y, 0f, 1f);
+        pixel.Posicion = new vec4(vertice.Posicion.X, vertice.Posicion.Y, 0f, 1f);
         pixel.Uv = vertice.Uv;
         return pixel;
     }
@@ -79,20 +79,7 @@ public class Plasma
         float rojo = 0.5f + 0.5f * sin(olas * 1.5f);
         float verde = 0.5f + 0.5f * sin(olas * 1.5f + 2.1f);
         float azul = 0.5f + 0.5f * sin(olas * 1.5f + 4.2f);
-        return Crear.Vec4(rojo, verde, azul, 1f);
-    }
-}
-
-public static class Crear
-{
-    public static vec4 Vec4(float x, float y, float z, float w)
-    {
-        vec4 v;
-        v.X = x;
-        v.Y = y;
-        v.Z = z;
-        v.W = w;
-        return v;
+        return new vec4(rojo, verde, azul, 1f);
     }
 }
 ```

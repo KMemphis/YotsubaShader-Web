@@ -13,14 +13,14 @@ const L = (en, es) => ({ en, es });
 const cap = (text) => (typeof text === 'object' ? { en: cap(text.en), es: cap(text.es) } : `<b>${text}</b>`);
 
 /* ------------------------------------------------------------------ C# on the stage */
-const sunsetCs = (make) => `[ShaderStage(Stage.Fragment)]
+const sunsetCs = () => `[ShaderStage(Stage.Fragment)]
 [return: location(0)]
 public vec4 Fragment(PixelIn pixel)
 {
     float y = pixel.Uv.Y;
-    return ${make}.Vec4(1f, 0.25f + 0.6f * y, 0.45f - 0.35f * y, 1f);
+    return new vec4(1f, 0.25f + 0.6f * y, 0.45f - 0.35f * y, 1f);
 }`;
-const SUNSET_CS = L(csharp('MyShaders/Sunset.cs', sunsetCs('Make')), csharp('MisShaders/Atardecer.cs', sunsetCs('Crear')));
+const SUNSET_CS = L(csharp('MyShaders/Sunset.cs', sunsetCs()), csharp('MisShaders/Atardecer.cs', sunsetCs()));
 
 const forCs = (arr, i) => `int[] ${arr} = [1, 2, 3, 4, 5];
 
@@ -47,14 +47,14 @@ const FOR_CS = L(csharp('Program.cs', forCs('entities', 'index')), csharp('Progr
 const PAR_CS = L(csharp('Program.cs', parCs('entities', 'index')), csharp('Program.cs', parCs('entidades', 'indice')));
 const OP_CS = L(csharp('Program.cs', opCs('entities', 'index')), csharp('Program.cs', opCs('entidades', 'indice')));
 
-const redCs = (make, file) => `[ShaderStage(Stage.Fragment)]
+const redCs = (file) => `[ShaderStage(Stage.Fragment)]
 [return: location(0)]
 public vec4 Fragment(PixelIn pixel)
 {
-${file ? `    File.WriteAllText("log.txt", "${file}");\n` : ''}    return ${make}.Vec4(1f, 0f, 0f, 1f);
+${file ? `    File.WriteAllText("log.txt", "${file}");\n` : ''}    return new vec4(1f, 0f, 0f, 1f);
 }`;
-const RED_BAD = L(csharp('MyShaders/Red.cs', redCs('Make', 'hello')), csharp('MisShaders/Rojo.cs', redCs('Crear', 'hola')));
-const RED_OK = L(csharp('MyShaders/Red.cs', redCs('Make')), csharp('MisShaders/Rojo.cs', redCs('Crear')));
+const RED_BAD = L(csharp('MyShaders/Red.cs', redCs('hello')), csharp('MisShaders/Rojo.cs', redCs('hola')));
+const RED_OK = L(csharp('MyShaders/Red.cs', redCs()), csharp('MisShaders/Rojo.cs', redCs()));
 
 // the same red shader in the languages of three graphics APIs
 const HLSL = { title: 'Red.hlsl', lang: 'csharp', code: 'float4 main() : SV_Target\n{\n    return float4(1, 0, 0, 1);\n}' };
@@ -298,8 +298,8 @@ export default [
         { at: 'hit', frag: SH.hit },
       ] },
       { k: 'slot', items: [
-        { k: 'code', at: 'red', out: 'grad', code: L(csharp('Fragment', 'return Make.Vec4(1f, 0f, 0f, 1f);'), csharp('Fragment', 'return Crear.Vec4(1f, 0f, 0f, 1f);')) },
-        { k: 'code', at: 'grad', out: 'water', code: L(csharp('Fragment', 'return Make.Vec4(pixel.Uv.X, pixel.Uv.Y, 0.6f, 1f);'), csharp('Fragment', 'return Crear.Vec4(pixel.Uv.X, pixel.Uv.Y, 0.6f, 1f);')) },
+        { k: 'code', at: 'red', out: 'grad', code: L(csharp('Fragment', 'return new vec4(1f, 0f, 0f, 1f);'), csharp('Fragment', 'return new vec4(1f, 0f, 0f, 1f);')) },
+        { k: 'code', at: 'grad', out: 'water', code: L(csharp('Fragment', 'return new vec4(pixel.Uv.X, pixel.Uv.Y, 0.6f, 1f);'), csharp('Fragment', 'return new vec4(pixel.Uv.X, pixel.Uv.Y, 0.6f, 1f);')) },
       ] },
     ],
   },

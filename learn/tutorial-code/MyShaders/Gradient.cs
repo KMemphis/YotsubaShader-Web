@@ -10,7 +10,7 @@ public class Gradient
     public Pixel Vertex(Corner corner)
     {
         Pixel pixel;
-        pixel.Position = Make.Vec4(corner.Position.X, corner.Position.Y, 0f, 1f);
+        pixel.Position = new vec4(corner.Position.X, corner.Position.Y, 0f, 1f);
         pixel.Uv = corner.Uv;
         return pixel;
     }
@@ -22,6 +22,6 @@ public class Gradient
         float red = 1f;
         float green = 0.25f + 0.6f * pixel.Uv.Y;
         float blue = 0.45f - 0.35f * pixel.Uv.Y;
-        return Make.Vec4(red, green, blue, 1f);
+        return new vec4(red, green, blue, 1f);
     }
 }

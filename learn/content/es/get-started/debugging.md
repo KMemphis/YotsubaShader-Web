@@ -30,7 +30,7 @@ Cuando algo no funciona, hazte estas preguntas **en este orden**. Casi siempre l
 Lo más simple y lo más útil. Pon esto como **primera línea** de `Fragment`:
 
 ```csharp
-return Crear.Vec4(1f, 0f, 0f, 1f);
+return new vec4(1f, 0f, 0f, 1f);
 ```
 
 Si la ventana sale roja, tu shader se ejecuta, el rectángulo se dibuja y la GPU funciona. El problema está en tu cuenta, que viene después de esa línea. Si **no** sale roja, el problema es más profundo: mira la tabla de más abajo.
@@ -48,8 +48,8 @@ float dx = pixel.Uv.X - 0.5f;
 float dy = pixel.Uv.Y - 0.5f;
 float luz = 1f - (dx * dx + dy * dy) * 40f;
 
-// return Crear.Vec4(luz, luz, luz, 1f);
-return Crear.Vec4(dx, dx, dx, 1f);
+// return new vec4(luz, luz, luz, 1f);
+return new vec4(dx, dx, dx, 1f);
 ```
 
 La línea original quedó comentada, y en su lugar se pinta `dx`. Ahora ves cómo se comporta: negro a la izquierda (valores negativos recortados) y claro a la derecha. Si ahí algo está mal, ya lo sabes. Si está bien, pinta `dy`, luego `dx * dx + dy * dy`, y así vas avanzando por la cuenta hasta encontrar el paso donde la imagen deja de ser lo que esperabas.
@@ -75,10 +75,10 @@ Si tu shader tiene muchas líneas, no sabes cuál falla. Pon un `return` de colo
 float a = pixel.Uv.X * 2f - 1f;
 float b = a * a;
 
-return Crear.Vec4(b, b, b, 1f); // prueba aquí: ¿se ve bien b?
+return new vec4(b, b, b, 1f); // prueba aquí: ¿se ve bien b?
 
 float c = 1f - b;
-return Crear.Vec4(c, c, c, 1f);
+return new vec4(c, c, c, 1f);
 ```
 
 Si `b` se ve bien, el problema está después. Si se ve mal, está antes. Mueve el `return` hacia arriba o hacia abajo hasta acorralar el problema, como al buscar una palabra en un diccionario.
@@ -115,6 +115,18 @@ En Godot hay algunos casos más:
 | Un shader con textura sale negro | El visor no tiene imagen en **Foto**. | Arrastra la imagen a la propiedad **Foto** del nodo `Visor`. |
 :::
 
+:::raylib silknet
+En {{engine}} hay algunos casos más:
+
+| Qué ves | Causa probable | Qué hacer |
+| --- | --- | --- |
+| `Could not find file '.../Degradado.Fragment.glsl'` (o `.spv`, `.wgsl`) | El shader no se compiló, o ejecutaste el visor desde otra carpeta. | Ejecuta el comando del ciclo desde la carpeta `Tutorial`. |
+| La ventana sale **negra** y la consola muestra un error de shader | El driver rechazó el shader generado. | Lee la primera línea del error: apunta a una línea del archivo generado. Comprueba que el `--target` sea el de tu API. |
+| Un shader con foto se dibuja **negro** | El visor no encontró la imagen. | Pon `pez.jpg` (`pez.png` en raylib-cs) dentro de la carpeta `Tutorial`. |
+| El shader funciona pero ignora el tiempo o el tamaño | Declara un bloque de datos que el visor no conoce. | El visor llena `Entorno` (ancho, alto, segundos) y el `Reloj` que lleva solo los segundos. Conserva los nombres del tutorial. |
+| `yotsuba: command not found` | La herramienta no está instalada, o abriste la terminal antes de instalarla. | Ejecuta `dotnet tool install --global YotsubaShader.Compiler.CLI` y abre una terminal nueva. |
+:::
+
 > [!SCENE] errors
 
 ## Errores de compilación frecuentes
@@ -126,7 +138,7 @@ En Godot hay algunos casos más:
 | `CS0664` (`Literal of type double...`) | Escribiste `0.5` en vez de `0.5f`. | Agrega la `f`. |
 | `CS0019` (`Operator '+' cannot be applied...`) | Sumaste dos `vec4` o multiplicaste un `vec2` por un número con `+` o `*`. | Los vectores no tienen operadores todavía. Opera campo por campo, o escribe tu función (más abajo). |
 | `CS0165` (`Use of unassigned local variable`) | Declaraste un `struct` y no llenaste todos sus campos. | Asigna cada campo antes de usarlo. |
-| `CS1729` (`does not contain a constructor`) | Escribiste `new vec4(...)`. | Usa `Crear.Vec4(...)`. |
+| `CS1503` (`Argument 2: cannot convert from 'float' to 'vec3'`) | Le diste a un vector una cantidad de valores que ninguna de sus formas acepta, como `new vec4(1f, 0f)`. | Dale todos sus valores (`new vec4(1f, 0f, 0f, 1f)`), uno solo (`new vec4(0.5f)`), o un vector más pequeño y el resto (`new vec4(color, 1f)`). |
 | `... no hay código disponible para compilarlo en GPU` | Llamaste a `Math.Sqrt`, `Math.Sin` o similar. | Todavía no existen en Yotsuba Shader. Escríbelas tú o espera los capítulos planeados. |
 | `CS0234` tras renombrar una clase | `YotsubaShader.g.cs` nombra una clase que ya no existe. | Bórralo y vuelve a ejecutar `add`. |
 
@@ -141,7 +153,7 @@ En Godot hay algunos casos más:
 En GLSL o HLSL sí puedes, porque los vectores son parte del lenguaje. Aquí `vec3` es un `struct` de C#, y C# no sabe qué significa sumar dos structs, a menos que alguien se lo enseñe. Mientras tanto, tienes dos opciones. La más directa es operar campo por campo:
 
 ```csharp
-vec3 suma = Crear.Vec3(a.X + b.X, a.Y + b.Y, a.Z + b.Z);
+vec3 suma = new vec3(a.X + b.X, a.Y + b.Y, a.Z + b.Z);
 ```
 
 Y si lo haces seguido, escribe una función una vez y úsala siempre:
@@ -149,22 +161,22 @@ Y si lo haces seguido, escribe una función una vez y úsala siempre:
 ```csharp
 public static vec3 Sumar(vec3 a, vec3 b)
 {
-    return Crear.Vec3(a.X + b.X, a.Y + b.Y, a.Z + b.Z);
+    return new vec3(a.X + b.X, a.Y + b.Y, a.Z + b.Z);
 }
 
 public static vec3 Escalar(vec3 a, float k)
 {
-    return Crear.Vec3(a.X * k, a.Y * k, a.Z * k);
+    return new vec3(a.X * k, a.Y * k, a.Z * k);
 }
 ```
 
 Con ellas, mezclar dos luces queda así:
 
 ```csharp
-vec3 rojo = Crear.Vec3(1f, 0f, 0f);
-vec3 verde = Crear.Vec3(0f, 1f, 0f);
+vec3 rojo = new vec3(1f, 0f, 0f);
+vec3 verde = new vec3(0f, 1f, 0f);
 vec3 mezcla = Sumar(Escalar(rojo, pixel.Uv.X), Escalar(verde, pixel.Uv.Y));
-return Crear.Vec4(mezcla.X, mezcla.Y, mezcla.Z, 1f);
+return new vec4(mezcla.X, mezcla.Y, mezcla.Z, 1f);
 ```
 
 > [!SCENE] q_f

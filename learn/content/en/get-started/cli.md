@@ -62,6 +62,10 @@ The first five come with the CLI. The engine methods come from **plugins**, and 
 | `ToFNA_FX()` | `byte[]` | FNA | `--target fna` |
 | `ToGodotShader(GodotShaderType)` | `string` | Godot | `--target godot` |
 
+:::raylib silknet
+raylib-cs and Silk.NET are not in this table: they need no plugin. They read the files that `compile` writes, in formats the CLI already includes (`glsl:330`, `gles:300`, `spirv` and `wgsl`), as you will see in the [viewer chapter](visor.md).
+:::
+
 For example, to use your shaders in {{engine}}:
 
 ```bash
@@ -209,7 +213,6 @@ The CLI prints its messages in Spanish. These are the ones you will see most, an
 | An error starting with `CS`, such as `error CS0103` | It is a normal C# error: your project does not compile. | Fix it like any C# error. The CLI does not continue until the project compiles. |
 | `error CS0234` right after deleting or renaming a shader class | `YotsubaShader.g.cs` still names the old class, and `add` builds the project before rewriting it. | Delete `YotsubaShader.g.cs` and run `add` again. |
 | `... no hay código disponible para compilarlo en GPU.` | You called a function that is not yours and that the GPU does not know, for example `System.Math.Sqrt`. | Use the functions in `YotsubaShader.GlslSyntax.Methods.Math` or write your own. |
-| `'new ...vec4()' sin constructor declarado no está soportado para vectores.` | You created a vector with `new vec4 { ... }`. | Use `Make.Vec4(...)`, the helper from the first shader. |
 
 If the error shows up as soon as the project is opened, before any shader is compiled, run `dotnet build MyShaders` first. The CLI needs the project to have already downloaded its dependencies.
 
@@ -220,6 +223,10 @@ If the error shows up as soon as the project is opened, before any shader is com
 - `add` leaves the result inside your project, as methods of your classes. `compile` leaves it in files.
 - `--target` chooses the format and can be repeated. `--output` chooses the folder.
 - MonoGame, KNI, FNA and Godot are plugins: you ask for them with `--target monogame`, `kni`, `fna` or `godot`, and the CLI downloads them the first time.
+
+:::raylib silknet
+- raylib-cs and Silk.NET are not plugins: they read the files that `yotsuba compile` writes with `--target glsl:330`, `gles:300`, `spirv` or `wgsl`.
+:::
 - With a `<Target>` in the `.csproj`, `add` runs on its own every time you build.
 
 Next: [Other writing styles](how-it-works.md).

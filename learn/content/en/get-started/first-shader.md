@@ -93,67 +93,49 @@ When a `vec4` holds a color, its fields are still called `X`, `Y`, `Z` and `W`, 
 
 > [!SCENE] make
 
-## First file: a helper for creating vectors
+## Creating a vector
 
-You are going to create vectors all the time, so it is worth having a short way to do it. Create the file `Make.cs` inside `MyShaders`:
+A vector is created like any other C# type: with `new` and its constructor. You write the values in the order of the fields, `X`, `Y`, `Z` and `W`:
 
-```csharp title="MyShaders/Make.cs"
+```csharp
 using YotsubaShader.GlslSyntax.Types;
 
-namespace MyShaders;
-
-public static class Make
-{
-    public static vec2 Vec2(float x, float y)
-    {
-        vec2 v;
-        v.X = x;
-        v.Y = y;
-        return v;
-    }
-
-    public static vec3 Vec3(float x, float y, float z)
-    {
-        vec3 v;
-        v.X = x;
-        v.Y = y;
-        v.Z = z;
-        return v;
-    }
-
-    public static vec4 Vec4(float x, float y, float z, float w)
-    {
-        vec4 v;
-        v.X = x;
-        v.Y = y;
-        v.Z = z;
-        v.W = w;
-        return v;
-    }
-}
+vec2 uv = new vec2(0.5f, 0.25f);
+vec3 orange = new vec3(1f, 0.5f, 0.1f);
+vec4 red = new vec4(1f, 0f, 0f, 1f);
 ```
 
-> [!SAY] We will create a static class called Make, and inside it we will place three methods: one called Vec2, another Vec3 and another Vec4. They are there to help us create vectors. It is as if we wrote vec2 and called its constructor, but instead we do it with a normal method, so that you can see you can use C# the way you always use it when building a shader. All three do the same thing: they declare an empty vector called v, assign its X and Y, and depending on the size also Z and W, and finally return it. At the top of the file, the using for GlslSyntax dot Types is where the types vec2, vec3 and vec4 come from, and the namespace MyShaders is just the name of the logical folder where the file lives.
-
-The three functions do the same thing: they create an empty vector, fill its fields one by one and return it. Now, to have the color red, it is enough to write `Make.Vec4(1f, 0f, 0f, 1f)`.
+> [!SAY] A vector is created like any other type in C sharp: with new and its constructor. You write the values in the order of the fields. A vec2 takes two numbers, a vec3 takes three, and a vec4 takes four. To have the color red, with full opacity, it is enough to write new vec4 of one, zero, zero, one. At the top, the using for GlslSyntax dot Types is where the types vec2, vec3 and vec4 come from.
 
 - `using YotsubaShader.GlslSyntax.Types;` is where `vec2`, `vec3` and `vec4` come from.
 - The `f` in `1f` says the number is a `float`. Get used to always writing it: with a number that has decimals, like `0.5`, it is mandatory, because without it C# takes it as a `double` and it does not compile.
 
-> [!NOTE]
-> You may find it odd to see `vec4 v;` without a `new`. It is normal C#: you can declare a `struct` empty and fill its fields one by one. C# only asks that you fill **all** of them before you use it. If you delete the line `v.W = w;`, `return v;` stops compiling with the error `CS0165: Use of unassigned local variable 'v'`.
+The constructor has a few more forms, all of them handy:
 
-This already teaches you something important: **from a shader you can call your own functions**. `Make.Vec4` is a plain ordinary C# method, and the compiler takes it to the GPU along with your shader.
+```csharp
+vec4 gray = new vec4(0.5f);            // the same number in the four fields
+vec4 solid = new vec4(orange, 1f);     // a vec3 plus the fourth value
+vec2 corner = new vec2(uv.X, uv.Y);    // fields of other vectors
+```
+
+> [!NOTE]
+> You can also declare a vector empty, `vec4 v;`, and fill its fields one by one with `v.X = 1f;`. It is normal C#: C# only asks that you fill **all** of them before you use it, or it fails with `CS0165: Use of unassigned local variable 'v'`. The constructor does it in a single line, so it is what we will use in the whole tutorial.
+
+Nothing else is needed: the compiler knows what the constructor of a vector means and writes it in the language of each graphics API, for example `vec4(1.0, 0.0, 0.0, 1.0)` in GLSL and `float4(1.0f, 0.0f, 0.0f, 1.0f)` in HLSL.
 
 > [!SCENE] doorA
 
-## Second file: doors A and B
+## First file: doors A and B
 
 Now for the doors. Both go in a file called `Screen.cs`. You are going to write it in two parts.
 
 ### Door A: what each vertex carries
 
 Create `Screen.cs` with this:
+
+:::godot
+In Godot: open the **Yotsuba** tab, select `MyShaders` in the **Project** panel, press **New file** and type `Screen.cs`. Paste the code into the empty editor and save it with `Cmd/Ctrl+S`.
+:::
 
 ```csharp style=glsl title="MyShaders/Screen.cs"
 using YotsubaShader.GlslSyntax;
@@ -235,6 +217,26 @@ Three questions it is normal to ask here:
 **What happens if I get the number wrong?** The shader reads the wrong data. If you put `Uv` in slot 0 here, you would receive the position believing it is the `Uv`. No error comes up: the drawing simply comes out wrong. That is why it is worth being clear about what goes in each slot.
 :::
 
+:::raylib silknet
+This is door A, written in C#. Line by line:
+
+- **`public struct Corner`**: a vertex is a packet of data, and in C# a packet of data is a `struct`. I chose the name `Corner`, because each vertex of our rectangle is one of its corners. You can call it whatever you want.
+- **`[location(0)] public vec2 Position;`**: "in slot 0 of this door two `float` travel, and I am going to call them `Position`".
+- **`[location(1)] public vec2 Uv;`**: "in slot 1 another two `float` travel, and I am going to call them `Uv`".
+
+`[location]` comes from `using YotsubaShader.GlslSyntax;`, that is why that `using` is at the top.
+
+Compare it with the drawing of the doors: at door A there is a slot 0 with `Position` and a slot 1 with `Uv`. It is exactly what you just wrote.
+
+Three questions it is normal to ask here:
+
+**Who fills those slots?** Your game. When you get to your game engine you are going to write the four corners with their position and their `Uv`, and you are going to tell it that the position goes in slot 0 and the `Uv` in slot 1. Here, in the shader, you only declare what you expect to receive.
+
+**Do the names `Position` and `Uv` matter?** Not to the GPU. It only sees the slot number and the type. The names are for you, so the code can be read.
+
+**What happens if I get the number wrong?** The shader reads the wrong data. If you put `Uv` in slot 0 here, you would receive the position believing it is the `Uv`. No error comes up: the drawing simply comes out wrong. That is why it is worth being clear about what goes in each slot.
+:::
+
 :::godot
 This is door A, written in C#. It is the vertex data of Godot, all of it. Line by line:
 
@@ -242,9 +244,9 @@ This is door A, written in C#. It is the vertex data of Godot, all of it. Line b
 - **`public vec3 VERTEX;`**: the position of the vertex. Godot calls it `VERTEX`, so your field is called `VERTEX`. Same with `NORMAL`, `TANGENT`, `BINORMAL`, `UV`, `UV2`, `COLOR`, `CUSTOM0` to `CUSTOM3`, `BONE_INDICES`, `BONE_WEIGHTS` and `POINT_SIZE`: Godot's names, with Godot's capital letters.
 - **`[location(0)]`, `[location(1)]`...**: the syntax asks for a number in each field, so the number is there. But in door A the plugin does not use it: it reads the **name**.
 
-This is the file in Rider:
+This is the file in the Yotsuba tab of Godot:
 
-![Screen.cs open in Rider: the GodotVertex struct with its 14 fields, from VERTEX to POINT_SIZE, and below it the Pixel struct](../../assets/get-started/godot/en/rider-screen.jpg)
+![Screen.cs open in the Yotsuba tab of Godot: the GodotVertex struct with its 14 fields, from VERTEX to POINT_SIZE, and below it the Pixel struct](../../assets/get-started/godot/en/yotsuba-screen.jpg)
 
 You are going to use only `VERTEX` (the position) and `UV` in the shaders of the tutorial. The other twelve are there so you never have to change the struct: a shader that does not read them leaves them alone, and Godot fills them with default values. They are listed one by one in [the Godot reference](../engines/godot-reference.md).
 
@@ -252,7 +254,7 @@ You are going to use only `VERTEX` (the position) and `UV` in the shaders of the
 
 Three questions it is normal to ask here:
 
-**Who fills those fields?** Godot. Every mesh carries its vertex data, and the engine hands each vertex to your shader with those names. The only thing to keep in mind is that the mesh must carry what you ask for: the viewer of the previous chapter gives the rectangle normals and tangents because your struct asks for them.
+**Who fills those fields?** Godot. Every mesh carries its vertex data, and the engine hands each vertex to your shader with those names. The only thing to keep in mind is that the mesh must carry what you ask for: the viewer of the next chapter gives the rectangle normals and tangents because your struct asks for them.
 
 **Do the names matter?** Here, yes, a lot. They are how Godot and your shader understand each other. If you write `Position` instead of `VERTEX`, the compiler does not know which data you want and tells you.
 
@@ -405,6 +407,17 @@ In `{{vertexType}}`, slot 0 is the position. In `Pixel`, slot 0 is the `Uv`. The
 The `Uv` came in through slot 1 of door A and leaves through slot 0 of door B. Nothing wrong with that: the number is only valid inside its own door.
 :::
 
+:::raylib silknet
+In `{{vertexType}}`, slot 0 is the position. In `Pixel`, slot 0 is the `Uv`. They do not clash, because they are two different doors, and each door counts from 0 on its own:
+
+| | Slot 0 | Slot 1 |
+| --- | --- | --- |
+| `{{vertexType}}` (door A) | `{{pos}}` | `{{uv}}` |
+| `Pixel` (door B) | `Uv` | none |
+
+The `Uv` came in through slot 1 of door A and leaves through slot 0 of door B. Nothing wrong with that: the number is only valid inside its own door.
+:::
+
 :::godot
 In the Godot route door A is not numbered by you: its fields are found by **name** (`VERTEX`, `UV`...), as you just saw. Door B (`Pixel`) is the one that does use slot numbers: its `Uv` travels in slot 0, and that is the number `PixelIn` has to repeat.
 :::
@@ -423,7 +436,7 @@ The two sides of door B have to agree: the same `location` number and the same t
 
 > [!SCENE] vertexfn
 
-## Third file: the two functions
+## Second file: the two functions
 
 Decisions 3, 4 and 5 are left: the two functions and door C. They go together in a class. First I show them to you separately, and then the complete file for you to copy.
 
@@ -434,7 +447,7 @@ Decisions 3, 4 and 5 are left: the two functions and door C. They go together in
 public Pixel Vertex({{vertexType}} corner)
 {
     Pixel pixel;
-    pixel.Position = Make.Vec4(corner.{{pos}}.X, corner.{{pos}}.Y, 0f, 1f);
+    pixel.Position = new vec4(corner.{{pos}}.X, corner.{{pos}}.Y, 0f, 1f);
     pixel.Uv = corner.{{uv}};
     return pixel;
 }
@@ -452,7 +465,7 @@ And the body does the two jobs of the Vertex stage:
 **Job 1, say where the vertex goes:**
 
 ```csharp
-pixel.Position = Make.Vec4(corner.{{pos}}.X, corner.{{pos}}.Y, 0f, 1f);
+pixel.Position = new vec4(corner.{{pos}}.X, corner.{{pos}}.Y, 0f, 1f);
 ```
 
 Here we do not want to move anything, so the final position is the same one that arrived. The only thing that changes is that it arrived with two numbers and has to be handed over with four. That is why we take the `X` and the `Y` that arrived and fill in `0f` and `1f`, which are the depth and the perspective we talked about.
@@ -465,7 +478,7 @@ pixel.Uv = corner.{{uv}};
 
 We copy the `Uv` as is. If you did not, nothing would reach the Fragment function to tell where each pixel is.
 
-`Pixel pixel;` at the start and `return pixel;` at the end are the same thing you did in `Make.cs`: declare the empty `struct`, fill its two fields and return it.
+`Pixel pixel;` at the start and `return pixel;` at the end work like the empty `vec4 v;` of the note about vectors: you declare the empty `struct`, fill its two fields and return it. This time you do need it, because there is no constructor to build a `struct` of yours.
 
 > [!SCENE] fragfn
 
@@ -476,7 +489,7 @@ We copy the `Uv` as is. If you did not, nothing would reach the Fragment functio
 [return: location(0)]
 public vec4 Fragment(PixelIn pixel)
 {
-    return Make.Vec4(1f, 0f, 0f, 1f);
+    return new vec4(1f, 0f, 0f, 1f);
 }
 ```
 
@@ -487,7 +500,7 @@ public vec4 Fragment(PixelIn pixel)
 
 If you had never seen `[return: ...]`, it is normal C#. Attributes go above what they describe: above a field, a method, a class. But what a method returns has no place of its own to put anything above, so C# lets you write `return:` in front to say "this attribute is not for the method, it is for what it returns".
 
-For now the body does the simplest thing possible. It always returns `Make.Vec4(1f, 0f, 0f, 1f)`, which is red: all the red, no green, no blue, and full opacity. It does not even use the `pixel` it receives. So the whole screen is going to be red.
+For now the body does the simplest thing possible. It always returns `new vec4(1f, 0f, 0f, 1f)`, which is red: all the red, no green, no blue, and full opacity. It does not even use the `pixel` it receives. So the whole screen is going to be red.
 
 > [!SCENE] zeros
 
@@ -509,6 +522,10 @@ Three zeros, three doors, three different things.
 
 Create `Gradient.cs` with the two functions inside a class:
 
+:::godot
+In the Yotsuba tab again: **New file**, `Gradient.cs`, paste and save. If you wrote something wrong, the error shows underlined and in the list under the editor.
+:::
+
 ```csharp style=glsl title="MyShaders/Gradient.cs"
 using YotsubaShader.GlslSyntax;
 using YotsubaShader.GlslSyntax.Types;
@@ -522,7 +539,7 @@ public class Gradient
     public Pixel Vertex({{vertexType}} corner)
     {
         Pixel pixel;
-        pixel.Position = Make.Vec4(corner.{{pos}}.X, corner.{{pos}}.Y, 0f, 1f);
+        pixel.Position = new vec4(corner.{{pos}}.X, corner.{{pos}}.Y, 0f, 1f);
         pixel.Uv = corner.{{uv}};
         return pixel;
     }
@@ -531,7 +548,7 @@ public class Gradient
     [return: location(0)]
     public vec4 Fragment(PixelIn pixel)
     {
-        return Make.Vec4(1f, 0f, 0f, 1f);
+        return new vec4(1f, 0f, 0f, 1f);
     }
 }
 ```
@@ -549,7 +566,7 @@ public class Gradient
     public Pixel Vertex({{vertexType}} corner)
     {
         Pixel pixel;
-        pixel.Position = Make.Vec4(corner.{{pos}}.X, corner.{{pos}}.Y, 0f, 1f);
+        pixel.Position = new vec4(corner.{{pos}}.X, corner.{{pos}}.Y, 0f, 1f);
         pixel.Uv = corner.{{uv}};
         return pixel;
     }
@@ -558,7 +575,7 @@ public class Gradient
     [return: SV_Target]
     public vec4 Fragment(PixelIn pixel)
     {
-        return Make.Vec4(1f, 0f, 0f, 1f);
+        return new vec4(1f, 0f, 0f, 1f);
     }
 }
 ```
@@ -576,7 +593,7 @@ public class Gradient
     public Pixel Vertex({{vertexType}} corner)
     {
         Pixel pixel;
-        pixel.Position = Make.Vec4(corner.{{pos}}.X, corner.{{pos}}.Y, 0f, 1f);
+        pixel.Position = new vec4(corner.{{pos}}.X, corner.{{pos}}.Y, 0f, 1f);
         pixel.Uv = corner.{{uv}};
         return pixel;
     }
@@ -585,7 +602,7 @@ public class Gradient
     [return: color(0)]
     public vec4 Fragment(PixelIn pixel)
     {
-        return Make.Vec4(1f, 0f, 0f, 1f);
+        return new vec4(1f, 0f, 0f, 1f);
     }
 }
 ```
@@ -603,7 +620,7 @@ public class Gradient
     public Pixel Vertex({{vertexType}} corner)
     {
         Pixel pixel;
-        pixel.Position = Make.Vec4(corner.{{pos}}.X, corner.{{pos}}.Y, 0f, 1f);
+        pixel.Position = new vec4(corner.{{pos}}.X, corner.{{pos}}.Y, 0f, 1f);
         pixel.Uv = corner.{{uv}};
         return pixel;
     }
@@ -612,7 +629,7 @@ public class Gradient
     [return: location(0)]
     public vec4 Fragment(PixelIn pixel)
     {
-        return Make.Vec4(1f, 0f, 0f, 1f);
+        return new vec4(1f, 0f, 0f, 1f);
     }
 }
 ```
@@ -630,7 +647,7 @@ public class Gradient
     public Pixel Vertex({{vertexType}} corner)
     {
         Pixel pixel;
-        pixel.Position = Make.Vec4(corner.{{pos}}.X, corner.{{pos}}.Y, 0f, 1f);
+        pixel.Position = new vec4(corner.{{pos}}.X, corner.{{pos}}.Y, 0f, 1f);
         pixel.Uv = corner.{{uv}};
         return pixel;
     }
@@ -639,7 +656,7 @@ public class Gradient
     [return: Location(0)]
     public vec4 Fragment(PixelIn pixel)
     {
-        return Make.Vec4(1f, 0f, 0f, 1f);
+        return new vec4(1f, 0f, 0f, 1f);
     }
 }
 ```
@@ -722,26 +739,16 @@ struct Pixel
 layout(location = 0) in vec2 pixel_Uv;
 layout(location = 0) out vec4 _return;
 
-vec4 Vec4(float x, float y, float z, float w)
-{
-    vec4 v;
-    v.x = x;
-    v.y = y;
-    v.z = z;
-    v.w = w;
-    return v;
-}
-
 void main()
 {
-    _return = Vec4(1.0, 0.0, 0.0, 1.0);
+    _return = vec4(1.0, 0.0, 0.0, 1.0);
 }
 ```
 
 Look at it calmly, because everything you wrote is there, translated to another language:
 
 - Your `struct Pixel` is there.
-- Your `Make.Vec4` function is there, even though you wrote it in another file. The compiler only brought along what the shader uses: `Vec2` and `Vec3` do not appear.
+- Your `new vec4(...)` is there too, written as `vec4(...)`, the constructor of GLSL. You did not have to write a helper for it: the compiler translates the constructor of the vector.
 - Your `Fragment` method is the `main()` at the end.
 
 And your doors are there too. Look at these two lines:
@@ -772,20 +779,10 @@ layout(location = 0) in vec2 corner_Position;
 layout(location = 1) in vec2 corner_Uv;
 layout(location = 0) out vec2 _return_Uv;
 
-vec4 Vec4(float x, float y, float z, float w)
-{
-    vec4 v;
-    v.x = x;
-    v.y = y;
-    v.z = z;
-    v.w = w;
-    return v;
-}
-
 void main()
 {
     Pixel pixel;
-    pixel.Position = Vec4(corner_Position.x, corner_Position.y, 0.0, 1.0);
+    pixel.Position = vec4(corner_Position.x, corner_Position.y, 0.0, 1.0);
     pixel.Uv = corner_Uv;
     gl_Position = pixel.Position;
     _return_Uv = pixel.Uv;
@@ -825,7 +822,7 @@ public class Gradient
     public Pixel Vertex({{vertexType}} corner)
     {
         Pixel pixel;
-        pixel.Position = Make.Vec4(corner.{{pos}}.X, corner.{{pos}}.Y, 0f, 1f);
+        pixel.Position = new vec4(corner.{{pos}}.X, corner.{{pos}}.Y, 0f, 1f);
         pixel.Uv = corner.{{uv}};
         return pixel;
     }
@@ -837,7 +834,7 @@ public class Gradient
         float red = 1f;
         float green = 0.25f + 0.6f * pixel.Uv.Y;
         float blue = 0.45f - 0.35f * pixel.Uv.Y;
-        return Make.Vec4(red, green, blue, 1f);
+        return new vec4(red, green, blue, 1f);
     }
 }
 ```
@@ -855,7 +852,7 @@ public class Gradient
     public Pixel Vertex({{vertexType}} corner)
     {
         Pixel pixel;
-        pixel.Position = Make.Vec4(corner.{{pos}}.X, corner.{{pos}}.Y, 0f, 1f);
+        pixel.Position = new vec4(corner.{{pos}}.X, corner.{{pos}}.Y, 0f, 1f);
         pixel.Uv = corner.{{uv}};
         return pixel;
     }
@@ -867,7 +864,7 @@ public class Gradient
         float red = 1f;
         float green = 0.25f + 0.6f * pixel.Uv.Y;
         float blue = 0.45f - 0.35f * pixel.Uv.Y;
-        return Make.Vec4(red, green, blue, 1f);
+        return new vec4(red, green, blue, 1f);
     }
 }
 ```
@@ -885,7 +882,7 @@ public class Gradient
     public Pixel Vertex({{vertexType}} corner)
     {
         Pixel pixel;
-        pixel.Position = Make.Vec4(corner.{{pos}}.X, corner.{{pos}}.Y, 0f, 1f);
+        pixel.Position = new vec4(corner.{{pos}}.X, corner.{{pos}}.Y, 0f, 1f);
         pixel.Uv = corner.{{uv}};
         return pixel;
     }
@@ -897,7 +894,7 @@ public class Gradient
         float red = 1f;
         float green = 0.25f + 0.6f * pixel.Uv.Y;
         float blue = 0.45f - 0.35f * pixel.Uv.Y;
-        return Make.Vec4(red, green, blue, 1f);
+        return new vec4(red, green, blue, 1f);
     }
 }
 ```
@@ -915,7 +912,7 @@ public class Gradient
     public Pixel Vertex({{vertexType}} corner)
     {
         Pixel pixel;
-        pixel.Position = Make.Vec4(corner.{{pos}}.X, corner.{{pos}}.Y, 0f, 1f);
+        pixel.Position = new vec4(corner.{{pos}}.X, corner.{{pos}}.Y, 0f, 1f);
         pixel.Uv = corner.{{uv}};
         return pixel;
     }
@@ -927,7 +924,7 @@ public class Gradient
         float red = 1f;
         float green = 0.25f + 0.6f * pixel.Uv.Y;
         float blue = 0.45f - 0.35f * pixel.Uv.Y;
-        return Make.Vec4(red, green, blue, 1f);
+        return new vec4(red, green, blue, 1f);
     }
 }
 ```
@@ -945,7 +942,7 @@ public class Gradient
     public Pixel Vertex({{vertexType}} corner)
     {
         Pixel pixel;
-        pixel.Position = Make.Vec4(corner.{{pos}}.X, corner.{{pos}}.Y, 0f, 1f);
+        pixel.Position = new vec4(corner.{{pos}}.X, corner.{{pos}}.Y, 0f, 1f);
         pixel.Uv = corner.{{uv}};
         return pixel;
     }
@@ -957,7 +954,7 @@ public class Gradient
         float red = 1f;
         float green = 0.25f + 0.6f * pixel.Uv.Y;
         float blue = 0.45f - 0.35f * pixel.Uv.Y;
-        return Make.Vec4(red, green, blue, 1f);
+        return new vec4(red, green, blue, 1f);
     }
 }
 ```
@@ -989,7 +986,7 @@ void main()
     float red = 1.0;
     float green = 0.25 + (0.60000002384185791015625 * pixel_Uv.y);
     float blue = 0.449999988079071044921875 - (0.3499999940395355224609375 * pixel_Uv.y);
-    _return = Vec4(red, green, blue, 1.0);
+    _return = vec4(red, green, blue, 1.0);
 }
 ```
 
@@ -1035,7 +1032,7 @@ void Fragment_inner()
     float red = 1.0f;
     float green = 0.25f + (0.60000002384185791015625f * pixel_Uv.y);
     float blue = 0.449999988079071044921875f - (0.3499999940395355224609375f * pixel_Uv.y);
-    _return = Vec4(red, green, blue, 1.0f);
+    _return = float4(red, green, blue, 1.0f);
 }
 ```
 

@@ -4,7 +4,7 @@
 
 const L = (en, es) => ({ en, es });
 const cs = (title, code) => ({ title, code, lang: 'csharp' });
-const ENGINE_LOGO = { route: { kni: '/img/engines/kni.png', fna: '/img/engines/fna.png', godot: '/img/engines/godot.svg', default: '/img/engines/monogame.png' } };
+const ENGINE_LOGO = { route: { kni: '/img/engines/kni.png', fna: '/img/engines/fna.png', godot: '/img/engines/godot.svg', raylib: '/img/engines/raylib.png', silknet: '/img/engines/silknet.svg', default: '/img/engines/monogame.png' } };
 const win = (tiles, at, extra = {}) => ({ k: 'gl', cls: 'window w50', title: '{{engine}}', logo: ENGINE_LOGO, at, fx: 'pop', radius: 10, tiles, ...extra });
 const tiles = (arr, at, extra = {}) => ({ k: 'gl', cls: 'w86', gap: 2, radius: 10, at, fx: 'fade', tiles: arr, ...extra });
 const BG = 'vec3(.1,.1,.14)';
@@ -64,7 +64,7 @@ const COLOR = L(cs('Fragment', `int steps = CountSteps(cx, cy);
 
 if (steps == 100)
 {
-    return Make.Vec4(0f, 0f, 0f, 1f);
+    return new vec4(0f, 0f, 0f, 1f);
 }
 
 float t = steps / 100f;
@@ -72,7 +72,7 @@ return Palette(t);`), cs('Fragment', `int pasos = ContarPasos(cx, cy);
 
 if (pasos == 100)
 {
-    return Make.Vec4(0f, 0f, 0f, 1f);
+    return new vec4(0f, 0f, 0f, 1f);
 }
 
 float t = pasos / 100f;
@@ -83,14 +83,14 @@ const PALETTE = L(cs('MyShaders/Mandelbrot.cs', `public static vec4 Palette(floa
     float red = 9f * rest * t * t * t;
     float green = 15f * rest * rest * t * t;
     float blue = 8.5f * rest * rest * rest * t;
-    return Make.Vec4(red, green, blue, 1f);
+    return new vec4(red, green, blue, 1f);
 }`), cs('MisShaders/Mandelbrot.cs', `public static vec4 Paleta(float t)
 {
     float resto = 1f - t;
     float rojo = 9f * resto * t * t * t;
     float verde = 15f * resto * resto * t * t;
     float azul = 8.5f * resto * resto * resto * t;
-    return Make.Vec4(rojo, verde, azul, 1f);
+    return new vec4(rojo, verde, azul, 1f);
 }`));
 const ZOOM = L(cs('Fragment', `float cx = pixel.Uv.X * 0.05f - 0.76f;
 float cy = pixel.Uv.Y * 0.05f + 0.06f;`), cs('Fragment', `float cx = pixel.Uv.X * 0.05f - 0.76f;

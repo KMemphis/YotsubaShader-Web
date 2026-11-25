@@ -10,13 +10,13 @@ const csharp = (title, code) => ({ title, code, lang: 'csharp' });
 const L = (en, es) => ({ en, es });
 
 /* ---------------------------------------------------------------- C# shown on the stage (from the chapters) */
-const fragGradient = (make) => `[ShaderStage(Stage.Fragment)]
+const fragGradient = () => `[ShaderStage(Stage.Fragment)]
 [return: location(0)]
 public vec4 Fragment(PixelIn pixel)
 {
-    return ${make}.Vec4(pixel.Uv.X, pixel.Uv.Y, 0.6f, 1f);
+    return new vec4(pixel.Uv.X, pixel.Uv.Y, 0.6f, 1f);
 }`;
-const GRADIENT_CS = L(csharp('MyShaders/Gradient.cs', fragGradient('Make')), csharp('MisShaders/Degradado.cs', fragGradient('Crear')));
+const GRADIENT_CS = L(csharp('MyShaders/Gradient.cs', fragGradient()), csharp('MisShaders/Degradado.cs', fragGradient()));
 
 // the same method in the C# everybody knows (System.Numerics): the shader is that, plus two attributes
 const PLAIN_CS = csharp('Program.cs', `public Vector4 Color(Vector2 uv)
@@ -46,7 +46,7 @@ const PINK = 'vec3(1.,.48,.7)', VIOLET = 'vec3(.77,.64,1.)', MINT = 'vec3(.38,.9
 const SH = {
   // Plasma.cs, line for line (Uv.Y grows downwards in the tutorial)
   plasma: 'float x=uv.x*2.-1.,y=(1.-uv.y)*2.-1.;float v=sin(x*6.+t)+sin(y*6.+t*1.3)+sin((x+y)*6.+t*.7)+sin(sqrt(x*x+y*y)*9.-t*2.);return vec4(.5+.5*sin(v*1.5),.5+.5*sin(v*1.5+2.1),.5+.5*sin(v*1.5+4.2),1.);',
-  // Gradient.cs: Make.Vec4(Uv.X, Uv.Y, 0.6, 1)
+  // Gradient.cs: new vec4(Uv.X, Uv.Y, 0.6, 1)
   gradient: 'return vec4(uv.x,1.-uv.y,.6,1.);',
   // the same with X and Y swapped: what you see when something is off
   gradientWrong: 'return vec4(1.-uv.y,uv.x,.6,1.);',
@@ -69,7 +69,7 @@ const SH = {
 };
 
 const FISH = '/assets/get-started/pez.jpg';
-const ENGINE_LOGO = { route: { kni: '/img/engines/kni.png', fna: '/img/engines/fna.png', godot: '/img/engines/godot.svg', default: '/img/engines/monogame.png' } };
+const ENGINE_LOGO = { route: { kni: '/img/engines/kni.png', fna: '/img/engines/fna.png', godot: '/img/engines/godot.svg', raylib: '/img/engines/raylib.png', silknet: '/img/engines/silknet.svg', default: '/img/engines/monogame.png' } };
 const cap = (text, logo) => (typeof text === 'object'
   ? { en: cap(text.en, logo), es: cap(text.es, logo) }
   : `${logo ? `<img src="${logo}" alt="">` : ''}<b>${text}</b>`);

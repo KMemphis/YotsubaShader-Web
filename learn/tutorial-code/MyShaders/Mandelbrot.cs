@@ -10,7 +10,7 @@ public class Mandelbrot
     public Pixel Vertex(Corner corner)
     {
         Pixel pixel;
-        pixel.Position = Make.Vec4(corner.Position.X, corner.Position.Y, 0f, 1f);
+        pixel.Position = new vec4(corner.Position.X, corner.Position.Y, 0f, 1f);
         pixel.Uv = corner.Uv;
         return pixel;
     }
@@ -26,7 +26,7 @@ public class Mandelbrot
 
         if (steps == 100)
         {
-            return Make.Vec4(0f, 0f, 0f, 1f);
+            return new vec4(0f, 0f, 0f, 1f);
         }
 
         float t = steps / 100f;
@@ -63,6 +63,6 @@ public class Mandelbrot
         float red = 9f * rest * t * t * t;
         float green = 15f * rest * rest * t * t;
         float blue = 8.5f * rest * rest * rest * t;
-        return Make.Vec4(red, green, blue, 1f);
+        return new vec4(red, green, blue, 1f);
     }
 }

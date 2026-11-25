@@ -41,7 +41,7 @@ Your program is the one that loads the photo and leaves it at that address, just
 To read the texture you use the `texture` function. You give it the texture and a point, and it returns the color at that point:
 
 ```csharp
-vec4 photo = texture(Photo, Make.Vec2(u, v));
+vec4 photo = texture(Photo, new vec2(u, v));
 ```
 
 The point is given with two numbers from `0` to `1`. `(0, 0)` is the top left corner of the photo and `(1, 1)` the bottom right. Sound familiar? It is exactly the same as `Uv`.
@@ -49,7 +49,7 @@ The point is given with two numbers from `0` to `1`. `(0, 0)` is the top left co
 That is why, if you give each pixel the color of the photo at its own `Uv`, the photo shows up on screen as is, unchanged:
 
 ```csharp
-vec4 photo = texture(Photo, Make.Vec2(pixel.Uv.X, pixel.Uv.Y));
+vec4 photo = texture(Photo, new vec2(pixel.Uv.X, pixel.Uv.Y));
 ```
 
 `texture` is not in the `Math` class, but in another one called `Intrinsic`, where the functions that talk to the hardware live. It is used with another `using static`:
@@ -70,7 +70,7 @@ If every pixel read a little to the right, the whole photo would look shifted. B
 float u = pixel.Uv.X + sin(pixel.Uv.Y * 25f + t * 2f) * 0.012f;
 float v = pixel.Uv.Y + sin(pixel.Uv.X * 20f + t * 1.5f) * 0.012f;
 
-vec4 photo = texture(Photo, Make.Vec2(u, v));
+vec4 photo = texture(Photo, new vec2(u, v));
 ```
 
 Look at the first line piece by piece:
@@ -93,8 +93,8 @@ The photo did not move. What changed is which point each pixel reads from.
 Under water everything looks bluish, because water dims the red. We will do the same: lower the red a lot, the green a little, and leave the blue.
 
 ```csharp
-vec3 original = Make.Vec3(photo.X, photo.Y, photo.Z);
-vec3 seaBlue = Make.Vec3(photo.X * 0.2f, photo.Y * 0.7f, photo.Z * 1f + 0.1f);
+vec3 original = new vec3(photo.X, photo.Y, photo.Z);
+vec3 seaBlue = new vec3(photo.X * 0.2f, photo.Y * 0.7f, photo.Z * 1f + 0.1f);
 vec3 color = mix(original, seaBlue, 0.6f);
 ```
 
@@ -129,7 +129,7 @@ That image is the vignette on its own: white is `1` and black is `0`. When you m
 ```csharp
 float shade = Vignette(pixel.Uv.X, pixel.Uv.Y);
 
-return Make.Vec4(color.X * shade, color.Y * shade, color.Z * shade, 1f);
+return new vec4(color.X * shade, color.Y * shade, color.Z * shade, 1f);
 ```
 
 Multiplying a color by a number between `0` and `1` is how you darken it.
@@ -159,7 +159,7 @@ public class Underwater
     public Pixel Vertex({{vertexType}} corner)
     {
         Pixel pixel;
-        pixel.Position = Make.Vec4(corner.{{pos}}.X, corner.{{pos}}.Y, 0f, 1f);
+        pixel.Position = new vec4(corner.{{pos}}.X, corner.{{pos}}.Y, 0f, 1f);
         pixel.Uv = corner.{{uv}};
         return pixel;
     }
@@ -173,15 +173,15 @@ public class Underwater
         float u = pixel.Uv.X + sin(pixel.Uv.Y * 25f + t * 2f) * 0.012f;
         float v = pixel.Uv.Y + sin(pixel.Uv.X * 20f + t * 1.5f) * 0.012f;
 
-        vec4 photo = texture(Photo, Make.Vec2(u, v));
+        vec4 photo = texture(Photo, new vec2(u, v));
 
-        vec3 original = Make.Vec3(photo.X, photo.Y, photo.Z);
-        vec3 seaBlue = Make.Vec3(photo.X * 0.2f, photo.Y * 0.7f, photo.Z * 1f + 0.1f);
+        vec3 original = new vec3(photo.X, photo.Y, photo.Z);
+        vec3 seaBlue = new vec3(photo.X * 0.2f, photo.Y * 0.7f, photo.Z * 1f + 0.1f);
         vec3 color = mix(original, seaBlue, 0.6f);
 
         float shade = Vignette(pixel.Uv.X, pixel.Uv.Y);
 
-        return Make.Vec4(color.X * shade, color.Y * shade, color.Z * shade, 1f);
+        return new vec4(color.X * shade, color.Y * shade, color.Z * shade, 1f);
     }
 
     public static float Vignette(float u, float v)
@@ -208,6 +208,8 @@ A shader cannot open files by itself: your scene gives it the image. The viewer 
 3. Drag `pez.jpg` from the FileSystem dock to the **Photo** property of the Inspector.
 
 Press **Play Scene** (`Cmd/Ctrl+R`): the clownfish appears rippling, tinted blue and with dark edges, exactly as in the other routes.
+
+![Godot after pressing Play: the game window shows the clownfish with waves, a blue tint and dark edges](../../assets/get-started/godot/en/fish.gif)
 
 ## A bonus for Godot: the whole 3D scene underwater
 
@@ -241,11 +243,144 @@ Now connect the two. Select the root `Viewer` and, in **Photo**, choose **New Vi
 
 Press **Play Scene**:
 
-![A seabed with a shipwreck, rocks, a chest and a barrel, tinted blue with dark edges and a slow ripple](../../assets/get-started/godot/en/agua-juego.gif)
+![A seabed with a shipwreck, rocks, a chest and a barrel, tinted blue with dark edges and a slow ripple](../../assets/get-started/godot/en/sea.gif)
 
 The wreck, the rocks and the sand are plain Godot models. Everything you see tinted, rippling and darkened at the edges is your `Underwater` shader, which received the camera image as if it were a photo.
 
 To go back to the standard chapter, open `viewer.tscn`: it still has `Underwater` and the clownfish in **Photo**.
+:::
+
+
+:::raylib
+## Giving the photo to the viewer
+
+A shader cannot open files by itself: your program gives it the image. The viewer from the [viewer chapter](visor.md) already has the lines for it: if there is a `pez.png` file in the folder where you run it, it loads it as a texture and puts it on the rectangle. raylib reads PNG, so this is the photo in that format:
+
+![The clownfish photo in PNG format](../../assets/get-started/pez.png)
+
+1. Save the image as `pez.png`, inside the `Tutorial` folder.
+2. Compile and run:
+
+{{register Underwater}}
+
+The clownfish appears rippling, tinted blue and with dark edges, exactly as in the other routes.
+
+These are the two lines of the viewer that matter:
+
+```csharp
+Texture2D photo = File.Exists("pez.png") ? Raylib.LoadTexture("pez.png") : default;
+// ...
+Rlgl.SetTexture(photo.Id);
+```
+
+`Rlgl.SetTexture` leaves the photo in texture unit 0, which is where the `Photo` of your shader (`sampler2D`) reads from.
+:::
+
+:::silknet
+## Giving the photo to the viewer
+
+A shader cannot open files by itself: your program gives it the image. The viewer from the [viewer chapter](visor.md) already has the lines for it: if there is a `pez.jpg` file in the folder where you run it, it loads it, uploads it as a texture and leaves it where your shader's `Photo` reads from.
+
+1. Save the clownfish photo from the start of this chapter as `pez.jpg`, inside the `Tutorial` folder.
+2. Compile and run. WebGPU needs one change first, explained below the commands:
+
+{{register Underwater}}
+
+The clownfish appears rippling, tinted blue and with dark edges, exactly as in the other routes.
+
+### Where the photo lands
+
+The shader says `[layout(0, 1)]` for `Photo`: group 0, slot 1. Every API has its own way of putting the image there. This is the line of the viewer that does it:
+
+```csharp tab="OpenGL"
+gl.ActiveTexture(TextureUnit.Texture0);
+gl.BindTexture(TextureTarget.Texture2D, photo);
+```
+```csharp tab="OpenGL ES"
+gl.ActiveTexture(TextureUnit.Texture0);
+gl.BindTexture(TextureTarget.Texture2D, photo);
+```
+```csharp tab="Vulkan"
+bindings[0] = new DescriptorSetLayoutBinding { Binding = 0, DescriptorType = DescriptorType.UniformBuffer, /* ... */ };
+bindings[1] = new DescriptorSetLayoutBinding { Binding = 1, DescriptorType = DescriptorType.CombinedImageSampler, /* ... */ };
+```
+```csharp tab="WebGPU"
+layoutEntries[0] = new BindGroupLayoutEntry { Binding = 0, /* uniform block */ };
+layoutEntries[1] = new BindGroupLayoutEntry { Binding = 1, /* texture */ };
+layoutEntries[2] = new BindGroupLayoutEntry { Binding = 2, /* sampler */ };
+```
+
+- In **OpenGL** and **OpenGL ES** the sampler `Photo` reads texture unit 0, so the viewer binds the photo there.
+- In **Vulkan** slot 1 of set 0 is a `CombinedImageSampler`: the image and how to read it travel together. Slot 0 is the clock.
+- In **WebGPU** the image and how to read it are **two different resources**: the texture goes in slot 1 and the sampler in slot 2.
+
+### WebGPU: the texture and its sampler
+
+Because WebGPU separates them, the shader has to declare them separately too. In the GLSL style, `sampler2D` is a single field; in WGSL, two. So for WebGPU, replace `MyShaders/Underwater.cs` with this version, written in the WGSL style. The effect is the same, line by line; what changes is how `Photo` is declared and read:
+
+```csharp title="MyShaders/Underwater.cs"
+using YotsubaShader.WgslSyntax;
+using YotsubaShader.WgslSyntax.Resources;
+using YotsubaShader.WgslSyntax.Resources.Types;
+using YotsubaShader.GlslSyntax.Types;
+using YotsubaShader.WgslSyntax.Types;
+using YotsubaShader.Language;
+using static YotsubaShader.WgslSyntax.Methods.Intrinsic;
+using static YotsubaShader.GlslSyntax.Methods.Math;
+
+namespace MyShaders;
+
+public class Underwater
+{
+    [uniform, @group(0), @binding(0)]
+    public Clock Time;
+
+    [@group(0), @binding(1)]
+    public texture_2d<float> Photo;
+
+    [@group(0), @binding(2)]
+    public sampler PhotoSampler;
+
+    [ShaderStage(Stage.Vertex)]
+    public Pixel Vertex({{vertexType}} corner)
+    {
+        Pixel pixel;
+        pixel.Position = new vec4(corner.{{pos}}.X, corner.{{pos}}.Y, 0f, 1f);
+        pixel.Uv = corner.{{uv}};
+        return pixel;
+    }
+
+    [ShaderStage(Stage.Fragment)]
+    [return: location(0)]
+    public vec4 Fragment(PixelIn pixel)
+    {
+        float t = Time.Seconds;
+
+        float u = pixel.Uv.X + sin(pixel.Uv.Y * 25f + t * 2f) * 0.012f;
+        float v = pixel.Uv.Y + sin(pixel.Uv.X * 20f + t * 1.5f) * 0.012f;
+
+        vec4<float> photo = textureSample(Photo, PhotoSampler, new vec2<float>(u, v));
+
+        vec3 original = new vec3(photo.X, photo.Y, photo.Z);
+        vec3 seaBlue = new vec3(photo.X * 0.2f, photo.Y * 0.7f, photo.Z * 1f + 0.1f);
+        vec3 color = mix(original, seaBlue, 0.6f);
+
+        float shade = Vignette(pixel.Uv.X, pixel.Uv.Y);
+
+        return new vec4(color.X * shade, color.Y * shade, color.Z * shade, 1f);
+    }
+
+    public static float Vignette(float u, float v)
+    {
+        float x = u * 2f - 1f;
+        float y = v * 2f - 1f;
+        float distance = sqrt(x * x + y * y);
+        return 1f - smoothstep(0.5f, 1.4f, distance);
+    }
+}
+```
+
+The two new fields are `texture_2d<float>` (the image) and `sampler` (how to read it, with filtering), and `textureSample` takes both. Compile and run it with the WebGPU command above.
 :::
 
 > [!SCENE] far
@@ -256,7 +391,7 @@ Read the `Fragment` method again. It does ten lines of calculations, and each on
 
 | Line | Where it comes from |
 | --- | --- |
-| `pixel.Uv.X`, `Make.Vec4(...)` | Shader 1 |
+| `pixel.Uv.X`, `new vec4(...)` | Shader 1 |
 | The `Vignette` function | Shader 2 |
 | `sqrt`, `mix` | Shader 3 |
 | `Time.Seconds`, `sin(... + t)` | Shader 4 |
@@ -270,7 +405,7 @@ Almost every effect you see in a game is made with these same pieces: reading an
 
 - Change `0.012f` to `0.05f` in both lines. The photo deforms much more.
 - Remove the blue tint by returning `original` instead of `color`. You are left with just the ripples.
-- Turn the photo black and white: calculate `float gray = (photo.X + photo.Y + photo.Z) / 3f;` and return `Make.Vec4(gray, gray, gray, 1f)`.
+- Turn the photo black and white: calculate `float gray = (photo.X + photo.Y + photo.Z) / 3f;` and return `new vec4(gray, gray, gray, 1f)`.
 
 > [!SCENE] learned
 

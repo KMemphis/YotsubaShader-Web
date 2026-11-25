@@ -26,7 +26,7 @@ for (int i = 0; i < 5; i++)
     }
 }
 float v = escalones / 5f;
-return Crear.Vec4(v, v, v, 1f);
+return new vec4(v, v, v, 1f);
 ```
 
 Ejecuta el ciclo de trabajo:
@@ -120,7 +120,7 @@ float aspecto = Datos.Ancho / Datos.Alto;
 float x = pixel.Uv.X * aspecto;
 float y = pixel.Uv.Y;
 
-vec4 color = Crear.Vec4(0.1f, 0.1f, 0.2f, 1f);
+vec4 color = new vec4(0.1f, 0.1f, 0.2f, 1f);
 for (int i = 0; i < 6; i++)
 {
     float centroX = (i + 0.5f) * aspecto / 6f;
@@ -129,7 +129,7 @@ for (int i = 0; i < 6; i++)
     float dy = y - 0.5f;
     if (dx * dx + dy * dy < radio * radio)
     {
-        color = Crear.Vec4(1f, 0.3f + 0.12f * i, 0.1f, 1f);
+        color = new vec4(1f, 0.3f + 0.12f * i, 0.1f, 1f);
     }
 }
 return color;
@@ -187,7 +187,7 @@ for (int i = 0; i < 6; i++)
     float dy = y - 0.5f;
     if (dx * dx + dy * dy < 0.2f * 0.2f)
     {
-        color = Crear.Vec4(0.2f + 0.15f * i, 0.5f, 1f - 0.15f * i, 1f);
+        color = new vec4(0.2f + 0.15f * i, 0.5f, 1f - 0.15f * i, 1f);
         break;
     }
 }
@@ -231,14 +231,14 @@ alturas[2] = 0.5f;
 alturas[3] = 0.9f;
 alturas[4] = 0.6f;
 
-vec4 color = Crear.Vec4(0.1f, 0.1f, 0.2f, 1f);
+vec4 color = new vec4(0.1f, 0.1f, 0.2f, 1f);
 for (int i = 0; i < 5; i++)
 {
     float izquierda = i * 0.2f + 0.03f;
     float derecha = izquierda + 0.14f;
     if (pixel.Uv.X > izquierda && pixel.Uv.X < derecha && pixel.Uv.Y > 1f - alturas[i])
     {
-        color = Crear.Vec4(0.2f + 0.15f * i, 0.6f, 0.9f - 0.15f * i, 1f);
+        color = new vec4(0.2f + 0.15f * i, 0.6f, 0.9f - 0.15f * i, 1f);
     }
 }
 return color;
@@ -247,6 +247,10 @@ return color;
 Ejecuta el ciclo de trabajo.
 
 ![Un gráfico de cinco barras de distinta altura, de azul a naranja, sobre fondo oscuro](../../assets/get-started/taller/re7.png)
+
+:::godot
+![Godot al pulsar Play: la ventana del juego muestra el gráfico de cinco barras](../../assets/get-started/godot/es/bucles.gif)
+:::
 
 Cada vuelta dibuja una barra: su borde izquierdo y derecho salen de `i`, y su altura sale de la lista `alturas[i]`. Fíjate en la condición de la altura: `Uv.Y > 1f - alturas[i]`. Recuerda que `Y` crece hacia abajo, así que "estar por debajo de la línea" significa tener una `Y` **mayor**.
 
@@ -299,7 +303,7 @@ public class Bucles
     public Pixel Vertex({{vertexType}} vertice)
     {
         Pixel pixel;
-        pixel.Posicion = Crear.Vec4(vertice.{{pos}}.X, vertice.{{pos}}.Y, 0f, 1f);
+        pixel.Posicion = new vec4(vertice.{{pos}}.X, vertice.{{pos}}.Y, 0f, 1f);
         pixel.Uv = vertice.{{uv}};
         return pixel;
     }
@@ -315,14 +319,14 @@ public class Bucles
         alturas[3] = 0.9f;
         alturas[4] = 0.6f;
 
-        vec4 color = Crear.Vec4(0.1f, 0.1f, 0.2f, 1f);
+        vec4 color = new vec4(0.1f, 0.1f, 0.2f, 1f);
         for (int i = 0; i < 5; i++)
         {
             float izquierda = i * 0.2f + 0.03f;
             float derecha = izquierda + 0.14f;
             if (pixel.Uv.X > izquierda && pixel.Uv.X < derecha && pixel.Uv.Y > 1f - alturas[i])
             {
-                color = Crear.Vec4(0.2f + 0.15f * i, 0.6f, 0.9f - 0.15f * i, 1f);
+                color = new vec4(0.2f + 0.15f * i, 0.6f, 0.9f - 0.15f * i, 1f);
             }
         }
         return color;
@@ -343,7 +347,7 @@ public class Bucles
     public Pixel Vertex({{vertexType}} vertice)
     {
         Pixel pixel;
-        pixel.Posicion = Crear.Vec4(vertice.{{pos}}.X, vertice.{{pos}}.Y, 0f, 1f);
+        pixel.Posicion = new vec4(vertice.{{pos}}.X, vertice.{{pos}}.Y, 0f, 1f);
         pixel.Uv = vertice.{{uv}};
         return pixel;
     }
@@ -359,14 +363,14 @@ public class Bucles
         alturas[3] = 0.9f;
         alturas[4] = 0.6f;
 
-        vec4 color = Crear.Vec4(0.1f, 0.1f, 0.2f, 1f);
+        vec4 color = new vec4(0.1f, 0.1f, 0.2f, 1f);
         for (int i = 0; i < 5; i++)
         {
             float izquierda = i * 0.2f + 0.03f;
             float derecha = izquierda + 0.14f;
             if (pixel.Uv.X > izquierda && pixel.Uv.X < derecha && pixel.Uv.Y > 1f - alturas[i])
             {
-                color = Crear.Vec4(0.2f + 0.15f * i, 0.6f, 0.9f - 0.15f * i, 1f);
+                color = new vec4(0.2f + 0.15f * i, 0.6f, 0.9f - 0.15f * i, 1f);
             }
         }
         return color;
@@ -387,7 +391,7 @@ public class Bucles
     public Pixel Vertex({{vertexType}} vertice)
     {
         Pixel pixel;
-        pixel.Posicion = Crear.Vec4(vertice.{{pos}}.X, vertice.{{pos}}.Y, 0f, 1f);
+        pixel.Posicion = new vec4(vertice.{{pos}}.X, vertice.{{pos}}.Y, 0f, 1f);
         pixel.Uv = vertice.{{uv}};
         return pixel;
     }
@@ -403,14 +407,14 @@ public class Bucles
         alturas[3] = 0.9f;
         alturas[4] = 0.6f;
 
-        vec4 color = Crear.Vec4(0.1f, 0.1f, 0.2f, 1f);
+        vec4 color = new vec4(0.1f, 0.1f, 0.2f, 1f);
         for (int i = 0; i < 5; i++)
         {
             float izquierda = i * 0.2f + 0.03f;
             float derecha = izquierda + 0.14f;
             if (pixel.Uv.X > izquierda && pixel.Uv.X < derecha && pixel.Uv.Y > 1f - alturas[i])
             {
-                color = Crear.Vec4(0.2f + 0.15f * i, 0.6f, 0.9f - 0.15f * i, 1f);
+                color = new vec4(0.2f + 0.15f * i, 0.6f, 0.9f - 0.15f * i, 1f);
             }
         }
         return color;
@@ -431,7 +435,7 @@ public class Bucles
     public Pixel Vertex({{vertexType}} vertice)
     {
         Pixel pixel;
-        pixel.Posicion = Crear.Vec4(vertice.{{pos}}.X, vertice.{{pos}}.Y, 0f, 1f);
+        pixel.Posicion = new vec4(vertice.{{pos}}.X, vertice.{{pos}}.Y, 0f, 1f);
         pixel.Uv = vertice.{{uv}};
         return pixel;
     }
@@ -447,14 +451,14 @@ public class Bucles
         alturas[3] = 0.9f;
         alturas[4] = 0.6f;
 
-        vec4 color = Crear.Vec4(0.1f, 0.1f, 0.2f, 1f);
+        vec4 color = new vec4(0.1f, 0.1f, 0.2f, 1f);
         for (int i = 0; i < 5; i++)
         {
             float izquierda = i * 0.2f + 0.03f;
             float derecha = izquierda + 0.14f;
             if (pixel.Uv.X > izquierda && pixel.Uv.X < derecha && pixel.Uv.Y > 1f - alturas[i])
             {
-                color = Crear.Vec4(0.2f + 0.15f * i, 0.6f, 0.9f - 0.15f * i, 1f);
+                color = new vec4(0.2f + 0.15f * i, 0.6f, 0.9f - 0.15f * i, 1f);
             }
         }
         return color;
@@ -475,7 +479,7 @@ public class Bucles
     public Pixel Vertex({{vertexType}} vertice)
     {
         Pixel pixel;
-        pixel.Posicion = Crear.Vec4(vertice.{{pos}}.X, vertice.{{pos}}.Y, 0f, 1f);
+        pixel.Posicion = new vec4(vertice.{{pos}}.X, vertice.{{pos}}.Y, 0f, 1f);
         pixel.Uv = vertice.{{uv}};
         return pixel;
     }
@@ -491,14 +495,14 @@ public class Bucles
         alturas[3] = 0.9f;
         alturas[4] = 0.6f;
 
-        vec4 color = Crear.Vec4(0.1f, 0.1f, 0.2f, 1f);
+        vec4 color = new vec4(0.1f, 0.1f, 0.2f, 1f);
         for (int i = 0; i < 5; i++)
         {
             float izquierda = i * 0.2f + 0.03f;
             float derecha = izquierda + 0.14f;
             if (pixel.Uv.X > izquierda && pixel.Uv.X < derecha && pixel.Uv.Y > 1f - alturas[i])
             {
-                color = Crear.Vec4(0.2f + 0.15f * i, 0.6f, 0.9f - 0.15f * i, 1f);
+                color = new vec4(0.2f + 0.15f * i, 0.6f, 0.9f - 0.15f * i, 1f);
             }
         }
         return color;
