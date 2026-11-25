@@ -7,6 +7,11 @@ import { esc } from './highlight.mjs';
 import { speakable } from './tts.mjs';
 import { SITE, LANGS, SECTIONS, ENGINES, ROUTES, SOURCE_LANGUAGES, UI } from '../site.config.mjs';
 
+/** Cloudflare Web Analytics (cookieless). Not emitted by the local dev server (`--serve`). */
+const ANALYTICS = process.argv.includes('--serve')
+  ? ''
+  : `<script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "df2764a440624c31860de3f6241f8183"}'></script>`;
+
 const ICONS = {
   cpu: '<rect x="6" y="6" width="12" height="12" rx="2"/><rect x="9.5" y="9.5" width="5" height="5" rx="1"/><path d="M9 2v3M15 2v3M9 19v3M15 19v3M2 9h3M2 15h3M19 9h3M19 15h3"/>',
   puzzle: '<path d="M10 4a2 2 0 1 1 4 0v1h4a1 1 0 0 1 1 1v4h-1a2 2 0 1 0 0 4h1v4a1 1 0 0 1-1 1h-4v-1a2 2 0 1 0-4 0v1H6a1 1 0 0 1-1-1v-4h1a2 2 0 1 0 0-4H5V6a1 1 0 0 1 1-1h4z"/>',
@@ -61,6 +66,7 @@ ${noindex ? '<meta name="robots" content="noindex">' : `<link rel="canonical" hr
 <link rel="stylesheet" href="/css/learn.css">
 ${bodyClass === 'home' ? '<link rel="stylesheet" href="/css/banner.css">' : ''}
 ${stage ? '<link rel="stylesheet" href="/css/stage.css">' : ''}
+${ANALYTICS}
 </head>
 <body class="${bodyClass}" data-uses-styles="${usesStyles}"${route ? ` data-route="${route}"` : ''}>
 <a class="skip" href="#main">${t.skip}</a>

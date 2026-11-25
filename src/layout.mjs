@@ -132,6 +132,11 @@ const searchDialog = `<div class="search" id="search" hidden role="dialog" aria-
   </div>
 </div>`;
 
+/** Cloudflare Web Analytics (no cookies, no individual tracking). Only in the published site: SITE_URL is empty locally. */
+const ANALYTICS = SITE.url.endsWith('://yotsubashader.com')
+  ? `<script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "df2764a440624c31860de3f6241f8183"}'></script>`
+  : '';
+
 function head({ title, description, pagePath, fullTitle, noindex = false, styles = [] }) {
   return `<head>
 <meta charset="utf-8">
@@ -154,6 +159,7 @@ ${styles.map(src => `<link rel="stylesheet" href="${esc(src)}">`).join('\n')}
 <script>try{var s=localStorage.getItem('ys-style');s={metal:'msl',vulkan:'spirv'}[s]||s;if(s)document.documentElement.dataset.style=s}catch(e){}</script>
 <!--LANGREDIRECT-->
 ${noindex ? '<meta name="robots" content="noindex">' : '<!--SEO-->'}
+${ANALYTICS}
 </head>`;
 }
 
