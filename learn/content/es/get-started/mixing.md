@@ -40,7 +40,7 @@ float t = pixel.Uv.Y;
 float r = Mezclar(0.1f, 1f, t);
 float g = Mezclar(0.2f, 0.6f, t);
 float b = Mezclar(0.6f, 0.2f, t);
-return Crear.Vec4(r, g, b, 1f);
+return new vec4(r, g, b, 1f);
 ```
 
 Aquí `t` es la altura del píxel: `0` arriba y `1` abajo. Cada canal de color se mezcla por separado, desde su valor de arriba hasta su valor de abajo. Fíjate en el azul: baja de `0.6` a `0.2`, mientras el rojo sube de `0.1` a `1`.
@@ -181,7 +181,7 @@ float dy = pixel.Uv.Y - 0.5f;
 float d2 = dx * dx + dy * dy;
 
 float brillo = 1f - Suavizar(0.04f, 0.09f, d2);
-return Crear.Vec4(brillo, brillo * 0.6f, brillo * 0.1f, 1f);
+return new vec4(brillo, brillo * 0.6f, brillo * 0.1f, 1f);
 ```
 
 Lo importante está en las dos líneas del medio. `d2` es la cuenta de siempre para saber qué tan lejos está el píxel del centro. Después:
@@ -213,7 +213,7 @@ float r = Mezclar(0.1f, 1f, t);
 float g = Mezclar(0.1f, 0.5f, t);
 float b = Mezclar(0.35f, 0.3f, t);
 
-return Crear.Vec4(r, g, b, 1f);
+return new vec4(r, g, b, 1f);
 ```
 
 Nada nuevo salvo que `dy` ahora se mide desde `0.62` (la altura del sol, un poco por debajo del centro). Ejecuta el ciclo de trabajo para ver el cielo.
@@ -251,7 +251,7 @@ if (pixel.Uv.Y > 0.7f)
     g = 0.05f;
     b = 0.1f;
 }
-return Crear.Vec4(Limitar(r, 0f, 1f), Limitar(g, 0f, 1f), Limitar(b, 0f, 1f), 1f);
+return new vec4(Limitar(r, 0f, 1f), Limitar(g, 0f, 1f), Limitar(b, 0f, 1f), 1f);
 ```
 
 Aquí volvemos a ver `Limitar`: al sumar el halo, el rojo o el verde pueden pasar de `1`. La GPU los recortaría sola, pero escribirlo a mano te deja claro lo que pasa.
@@ -259,6 +259,10 @@ Aquí volvemos a ver `Limitar`: al sumar el halo, el rojo o el verde pueden pasa
 Ejecuta el ciclo de trabajo.
 
 ![Un atardecer: cielo azul oscuro que pasa a naranja, un sol con halo cerca del horizonte y un suelo oscuro](../../assets/get-started/taller/me3.png)
+
+:::godot
+![Godot al pulsar Play: la ventana del juego muestra el atardecer con sol y suelo oscuro](../../assets/get-started/godot/es/mezclas.gif)
+:::
 
 Tres funciones escritas por ti, y tienes un atardecer. Juega con él: sube el sol cambiando el `0.62`, agranda el halo cambiando el `0.25`, o cambia los colores del cielo.
 
@@ -283,7 +287,7 @@ public class Mezclas
     public Pixel Vertex({{vertexType}} vertice)
     {
         Pixel pixel;
-        pixel.Posicion = Crear.Vec4(vertice.{{pos}}.X, vertice.{{pos}}.Y, 0f, 1f);
+        pixel.Posicion = new vec4(vertice.{{pos}}.X, vertice.{{pos}}.Y, 0f, 1f);
         pixel.Uv = vertice.{{uv}};
         return pixel;
     }
@@ -319,7 +323,7 @@ public class Mezclas
             g = 0.05f;
             b = 0.1f;
         }
-        return Crear.Vec4(Limitar(r, 0f, 1f), Limitar(g, 0f, 1f), Limitar(b, 0f, 1f), 1f);
+        return new vec4(Limitar(r, 0f, 1f), Limitar(g, 0f, 1f), Limitar(b, 0f, 1f), 1f);
     }
 
     public static float Limitar(float valor, float minimo, float maximo)
@@ -365,7 +369,7 @@ public class Mezclas
     public Pixel Vertex({{vertexType}} vertice)
     {
         Pixel pixel;
-        pixel.Posicion = Crear.Vec4(vertice.{{pos}}.X, vertice.{{pos}}.Y, 0f, 1f);
+        pixel.Posicion = new vec4(vertice.{{pos}}.X, vertice.{{pos}}.Y, 0f, 1f);
         pixel.Uv = vertice.{{uv}};
         return pixel;
     }
@@ -401,7 +405,7 @@ public class Mezclas
             g = 0.05f;
             b = 0.1f;
         }
-        return Crear.Vec4(Limitar(r, 0f, 1f), Limitar(g, 0f, 1f), Limitar(b, 0f, 1f), 1f);
+        return new vec4(Limitar(r, 0f, 1f), Limitar(g, 0f, 1f), Limitar(b, 0f, 1f), 1f);
     }
 
     public static float Limitar(float valor, float minimo, float maximo)
@@ -447,7 +451,7 @@ public class Mezclas
     public Pixel Vertex({{vertexType}} vertice)
     {
         Pixel pixel;
-        pixel.Posicion = Crear.Vec4(vertice.{{pos}}.X, vertice.{{pos}}.Y, 0f, 1f);
+        pixel.Posicion = new vec4(vertice.{{pos}}.X, vertice.{{pos}}.Y, 0f, 1f);
         pixel.Uv = vertice.{{uv}};
         return pixel;
     }
@@ -483,7 +487,7 @@ public class Mezclas
             g = 0.05f;
             b = 0.1f;
         }
-        return Crear.Vec4(Limitar(r, 0f, 1f), Limitar(g, 0f, 1f), Limitar(b, 0f, 1f), 1f);
+        return new vec4(Limitar(r, 0f, 1f), Limitar(g, 0f, 1f), Limitar(b, 0f, 1f), 1f);
     }
 
     public static float Limitar(float valor, float minimo, float maximo)
@@ -529,7 +533,7 @@ public class Mezclas
     public Pixel Vertex({{vertexType}} vertice)
     {
         Pixel pixel;
-        pixel.Posicion = Crear.Vec4(vertice.{{pos}}.X, vertice.{{pos}}.Y, 0f, 1f);
+        pixel.Posicion = new vec4(vertice.{{pos}}.X, vertice.{{pos}}.Y, 0f, 1f);
         pixel.Uv = vertice.{{uv}};
         return pixel;
     }
@@ -565,7 +569,7 @@ public class Mezclas
             g = 0.05f;
             b = 0.1f;
         }
-        return Crear.Vec4(Limitar(r, 0f, 1f), Limitar(g, 0f, 1f), Limitar(b, 0f, 1f), 1f);
+        return new vec4(Limitar(r, 0f, 1f), Limitar(g, 0f, 1f), Limitar(b, 0f, 1f), 1f);
     }
 
     public static float Limitar(float valor, float minimo, float maximo)
@@ -611,7 +615,7 @@ public class Mezclas
     public Pixel Vertex({{vertexType}} vertice)
     {
         Pixel pixel;
-        pixel.Posicion = Crear.Vec4(vertice.{{pos}}.X, vertice.{{pos}}.Y, 0f, 1f);
+        pixel.Posicion = new vec4(vertice.{{pos}}.X, vertice.{{pos}}.Y, 0f, 1f);
         pixel.Uv = vertice.{{uv}};
         return pixel;
     }
@@ -647,7 +651,7 @@ public class Mezclas
             g = 0.05f;
             b = 0.1f;
         }
-        return Crear.Vec4(Limitar(r, 0f, 1f), Limitar(g, 0f, 1f), Limitar(b, 0f, 1f), 1f);
+        return new vec4(Limitar(r, 0f, 1f), Limitar(g, 0f, 1f), Limitar(b, 0f, 1f), 1f);
     }
 
     public static float Limitar(float valor, float minimo, float maximo)

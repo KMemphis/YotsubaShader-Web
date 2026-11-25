@@ -46,7 +46,7 @@ dotnet add MyGame reference MyShaders/MyShaders.csproj
 
 ## El shader
 
-Este es el shader que se usa abajo: una franja de luz que cruza la pantalla, controlada por un uniform de tiempo. Usa los tipos de apoyo del tutorial (la entrada del vértice, la salida del vértice y un pequeño ayudante para construir un `vec4`):
+Este es el shader que se usa abajo: una franja de luz que cruza la pantalla, controlada por un uniform de tiempo. Usa los tipos de apoyo del tutorial (la entrada del vértice y la salida del vértice):
 
 ```csharp
 using YotsubaShader.GlslSyntax;
@@ -69,19 +69,6 @@ public struct Pixel
 public struct PixelIn
 {
     [location(0)] public vec2 Uv;
-}
-
-public static class Make
-{
-    public static vec4 Vec4(float x, float y, float z, float w)
-    {
-        vec4 v;
-        v.X = x;
-        v.Y = y;
-        v.Z = z;
-        v.W = w;
-        return v;
-    }
 }
 ```
 
@@ -107,7 +94,7 @@ public class Sweep
     public Pixel Vertex(Corner corner)
     {
         Pixel pixel;
-        pixel.Position = Make.Vec4(corner.Position.X, corner.Position.Y, 0f, 1f);
+        pixel.Position = new vec4(corner.Position.X, corner.Position.Y, 0f, 1f);
         pixel.Uv = corner.Uv;
         return pixel;
     }
@@ -128,7 +115,7 @@ public class Sweep
             brightness = 0f;
         }
 
-        return Make.Vec4(brightness, brightness * 0.5f, 0.15f + 0.35f * pixel.Uv.Y, 1f);
+        return new vec4(brightness, brightness * 0.5f, 0.15f + 0.35f * pixel.Uv.Y, 1f);
     }
 }
 ```

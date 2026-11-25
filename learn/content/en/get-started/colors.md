@@ -26,7 +26,7 @@ And run the work cycle (the same one from the previous chapter, with the new nam
 The window comes out black. That is what the only line of `Fragment` says:
 
 ```csharp
-return Make.Vec4(0f, 0f, 0f, 1f);
+return new vec4(0f, 0f, 0f, 1f);
 ```
 
 Those four numbers are the color. Each one has a job:
@@ -49,7 +49,7 @@ The first three are called **RGB** (*red, green, blue*), and each one is called 
 Change the color to this:
 
 ```csharp
-return Make.Vec4(1f, 0f, 0f, 1f);
+return new vec4(1f, 0f, 0f, 1f);
 ```
 
 Run the work cycle.
@@ -70,7 +70,7 @@ Now do it yourself: try `(0f, 1f, 0f, 1f)` and then `(0f, 0f, 1f, 1f)`. Every ti
 Now turn on two lights at once:
 
 ```csharp
-return Make.Vec4(1f, 1f, 0f, 1f);
+return new vec4(1f, 1f, 0f, 1f);
 ```
 
 ![A completely yellow window](../../assets/get-started/taller/co3.png)
@@ -81,19 +81,19 @@ Try these recipes, one by one:
 
 | Color | Write it like this |
 |---|---|
-| Black | `Make.Vec4(0f, 0f, 0f, 1f)` |
-| White | `Make.Vec4(1f, 1f, 1f, 1f)` |
-| Yellow | `Make.Vec4(1f, 1f, 0f, 1f)` |
-| Cyan | `Make.Vec4(0f, 1f, 1f, 1f)` |
-| Magenta | `Make.Vec4(1f, 0f, 1f, 1f)` |
-| Orange | `Make.Vec4(1f, 0.5f, 0f, 1f)` |
+| Black | `new vec4(0f, 0f, 0f, 1f)` |
+| White | `new vec4(1f, 1f, 1f, 1f)` |
+| Yellow | `new vec4(1f, 1f, 0f, 1f)` |
+| Cyan | `new vec4(0f, 1f, 1f, 1f)` |
+| Magenta | `new vec4(1f, 0f, 1f, 1f)` |
+| Orange | `new vec4(1f, 0.5f, 0f, 1f)` |
 
 > [!SCENE] grays
 
 There is a trick with grays. When the three lights have the same value, the color leans toward neither red, green nor blue: you get gray. The higher the number, the lighter it is. Try it:
 
 ```csharp
-return Make.Vec4(0.5f, 0.5f, 0.5f, 1f);
+return new vec4(0.5f, 0.5f, 0.5f, 1f);
 ```
 
 ![A completely gray window](../../assets/get-started/taller/co4.png)
@@ -125,12 +125,16 @@ And why from `0` to `1`? Because that way the math works out by itself. Multiply
 Now that you know the limit is `1`, let us do something forbidden. Write an impossible color:
 
 ```csharp
-return Make.Vec4(2f, 0.5f, -3f, 1f);
+return new vec4(2f, 0.5f, -3f, 1f);
 ```
 
 Red at `2` (double the maximum) and blue at `-3` (less than nothing). Run the work cycle.
 
 ![A completely orange window](../../assets/get-started/taller/co6.png)
+
+:::godot
+![Godot after pressing Play: the game window shows a flat orange with the impossible color (2, 0.5, -3)](../../assets/get-started/godot/en/colors.gif)
+:::
 
 You get the same orange as before, `(1, 0.5, 0)`. There is no error or anything strange: the GPU **clips** the values. What goes above `1` stays at `1`, and what goes below `0` stays at `0`.
 

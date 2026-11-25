@@ -10,7 +10,7 @@ public class Plantilla
     public Pixel Vertex(Vertice vertice)
     {
         Pixel pixel;
-        pixel.Posicion = Crear.Vec4(vertice.Posicion.X, vertice.Posicion.Y, 0f, 1f);
+        pixel.Posicion = new vec4(vertice.Posicion.X, vertice.Posicion.Y, 0f, 1f);
         pixel.Uv = vertice.Uv;
         return pixel;
     }
@@ -19,6 +19,6 @@ public class Plantilla
     [return: location(0)]
     public vec4 Fragment(PixelIn pixel)
     {
-        return Crear.Vec4(0f, 0f, 0f, 1f);
+        return new vec4(0f, 0f, 0f, 1f);
     }
 }

@@ -375,74 +375,12 @@ Fíjate en una cosa: el visor **no forma parte de tu shader**. Tus shaders sigue
 > [!NOTE]
 > No necesitas entender cada línea del visor para seguir. Son unas 30 líneas de Godot.
 
-> [!SCENE] g_project
-
-## Paso 1: crea el proyecto de Godot
-
 > [!NOTE]
-> Usa Godot **en inglés** (es el idioma por defecto) y así los nombres de los menús coinciden con las capturas y con la documentación oficial. En las capturas los nodos se llaman `Viewer` y `Screen`; en el texto los llamamos `Visor` y `Pantalla`, y tú puedes ponerles los nombres que prefieras mientras el script los use igual.
-
-Crea una carpeta vacía llamada `GodotGame` **dentro** de tu carpeta `Tutorial`. Abre Godot, pulsa **Create** y rellena la ventana así:
-
-![La ventana Create New Project de Godot: nombre GodotGame, ruta terminada en Tutorial/GodotGame, el mensaje "The project folder exists and is empty" y el renderizador Forward+](../../assets/get-started/godot/en/crear-proyecto.jpg)
-
-- **Project Name:** `GodotGame`.
-- **Project Path:** la ruta completa de esa carpeta vacía. Godot lo confirma con "The project folder exists and is empty". Deja **Create Folder** apagado, porque la carpeta ya existe.
-- **Renderer:** Forward+ está bien.
-
-Pulsa **Create**. El editor se abre con un proyecto vacío:
-
-![El editor de Godot recién creado el proyecto: sin escena y con el panel FileSystem que solo tiene icon.svg](../../assets/get-started/godot/en/editor-nuevo.jpg)
-
-```text
-Tutorial/
-├── MisShaders/       tus shaders
-├── Probar/           la consola del capítulo anterior
-└── GodotGame/        nuevo: el proyecto de Godot
-```
-
-Va **dentro** de `Tutorial` a propósito, para que todo quede junto y funcionen las rutas relativas que usarás más adelante (`../GodotGame/...`).
-
-> [!NOTE]
-> Las dos versiones de Godot sirven: la estándar (GDScript) y la **.NET** (C#). Todos los scripts de esta ruta aparecen en los dos lenguajes, en pestañas. El C# que escribes en `MisShaders` es solo el shader, y Godot nunca lo ejecuta.
-
-> [!SCENE] g_addon
-
-## Paso 2: instala el addon
-
-Yotsuba Shader tiene un addon para el editor de Godot. Cada vez que pulsas **Play**, le pide a `yotsuba` que traduzca tus shaders a archivos de Godot, así que nunca tienes que ejecutar el comando a mano. El addon viene dentro del paquete NuGet del plugin de Godot. Desde la carpeta `Tutorial`:
-
-```bash
-curl -L -o godot-addon.zip https://www.nuget.org/api/v2/package/YotsubaShader.Extensions.Godot/0.9.0
-unzip -q godot-addon.zip "content/addon/addons/*" -d godot-addon
-cp -R godot-addon/content/addon/addons GodotGame/
-```
-
-Un `.nupkg` es un archivo zip, así que en Windows también puedes renombrarlo a `.zip` y copiar a mano la carpeta `addons/yotsubashader`.
-
-Godot solo mira sus archivos al arrancar, así que recarga el proyecto (**Project → Reload Current Project**). La carpeta nueva `addons` aparece en el panel FileSystem.
-
-Ahora enciende el addon. Abre **Project → Project Settings → Plugins**. **YotsubaShader** está en la lista, apagado:
-
-![La pestaña Plugins de Project Settings con YotsubaShader en la lista y su casilla Enabled sin marcar](../../assets/get-started/godot/en/plugin-off.jpg)
-
-Marca la casilla **Enabled**. Luego abre la pestaña **General**, activa **Advanced Settings** (arriba a la derecha), escribe `yotsuba` en el filtro y elige la sección **Yotsuba Shader**. El campo **Project** está vacío:
-
-![La sección Yotsuba Shader de la pestaña General: Project vacío, Output Dir res://yotsuba_shaders, Shader Type spatial, Command dotnet yotsuba y Regenerate on Run activado](../../assets/get-started/godot/en/ajustes-vacio.jpg)
-
-Rellena `project` con:
-
-```text
-../MisShaders/MisShaders.csproj
-```
-
-![La misma sección con el campo Project puesto en ../MisShaders/MisShaders.csproj](../../assets/get-started/godot/en/ajustes-lleno.jpg)
-
-La ruta se cuenta desde el proyecto de Godot. Deja el resto como está: `Output Dir` es donde van los shaders traducidos, `Shader Type` es `spatial` (para objetos 3D), `Command` es la herramienta y `Regenerate on Run` hace que el addon traduzca cada vez que pulsas Play.
+> Esta ruta necesita el proyecto de Godot y el addon de [Prepara tu proyecto](setup.md): la carpeta `GodotGame` dentro de `Tutorial`, con `addons/yotsubashader` activado y `project` apuntando a `MisShaders`. Si te lo saltaste, hazlo ahora.
 
 > [!SCENE] g_scene
 
-## Paso 3: el rectángulo y la ventana
+## Paso 1: el rectángulo y la ventana
 
 Aquí está la idea clave de esta ruta: Godot no dibuja un rectángulo suelto. Dibuja **mallas** (*meshes*), dentro de **escenas**. Así que el visor es una escena con tres nodos:
 
@@ -456,7 +394,7 @@ Constrúyela paso a paso.
 
 **El nodo `Pantalla`.** Clic derecho en `Visor` y elige **Add Child Node…** (o selecciónalo y pulsa `Cmd/Ctrl+A`). Escribe `MeshInstance3D`, selecciónalo y pulsa **Create**:
 
-![La ventana Create New Node con MeshInstance3D escrito en el buscador y seleccionado](../../assets/get-started/godot/en/nodo-mesh.jpg)
+![La ventana Create New Node con MeshInstance3D escrito en el buscador y seleccionado](../../assets/get-started/godot/es/nodo-mesh.jpg)
 
 Haz doble clic en el nodo nuevo y cámbiale el nombre a `Pantalla`.
 
@@ -464,13 +402,13 @@ Haz doble clic en el nodo nuevo y cámbiale el nombre a `Pantalla`.
 
 **El margen.** Selecciona `Pantalla`. En el Inspector abre **Geometry** y pon **Extra Cull Margin** en `16384`:
 
-![El Inspector del nodo Screen con Geometry abierto y Extra Cull Margin en 16384 m; el árbol de la escena muestra Viewer y Screen](../../assets/get-started/godot/en/nodo-screen.jpg)
+![El Inspector del nodo Pantalla con Geometry abierto y Extra Cull Margin en 16384 m; el árbol de la escena muestra Visor y Pantalla](../../assets/get-started/godot/es/nodo-screen.jpg)
 
 Por qué: antes de dibujar un objeto, Godot comprueba, con su posición **en el mundo 3D**, si está dentro de lo que ve la cámara. Tu shader mueve los vértices a otro sitio, pero eso pasa después. El margen grande le dice a Godot: "no tires este objeto".
 
 **El script.** Clic derecho en `Visor` y elige **Attach Script…**. Deja el lenguaje en GDScript (o elige C# si usas .NET), pon la ruta `res://visor.gd` y pulsa **Create**:
 
-![La ventana Attach Node Script: lenguaje GDScript, hereda de Node3D, ruta res://viewer.gd](../../assets/get-started/godot/en/nodo-script.jpg)
+![La ventana Attach Node Script: lenguaje GDScript, hereda de Node3D, ruta res://visor.gd](../../assets/get-started/godot/es/nodo-script.jpg)
 
 Se abre el editor de scripts con una plantilla. Reemplaza **todo** su contenido por esto:
 
@@ -591,21 +529,21 @@ Otras líneas que vale la pena leer:
 
 Así se ve el editor con tu script:
 
-![El editor de scripts de Godot mostrando viewer.gd, con el árbol de la escena a la izquierda](../../assets/get-started/godot/en/script-editor.jpg)
+![El editor de scripts de Godot mostrando visor.gd, con el árbol de la escena a la izquierda](../../assets/get-started/godot/es/script-editor.jpg)
 
 Si usas C#, el archivo del script se tiene que llamar igual que la clase, `Visor.cs`, y Godot necesita un `.csproj` para el proyecto de Godot (el editor lo crea con **Proyecto → Herramientas → C# → Crear solución de C#**). Ese `.csproj` **no** es `MisShaders`: es el del juego.
 
 > [!SCENE] g_see
 
-## Paso 4: ve tu primer shader
+## Paso 2: ve tu primer shader
 
 Guarda la escena (`Cmd/Ctrl+S`) como `visor.tscn`. Selecciona el nodo `Visor`: en el Inspector, **Shader Name** dice `Degradado`.
 
-![La escena terminada: Viewer con Screen y Camera3D, y en el Inspector el campo Shader Name con Gradient](../../assets/get-started/godot/en/escena-final.jpg)
+![La escena terminada: Visor con Pantalla y Camera3D, y en el Inspector el campo Nombre Shader con Degradado](../../assets/get-started/godot/es/escena-final.jpg)
 
 Pulsa **Play** (el triángulo de arriba a la derecha). La primera vez Godot pide una escena principal: elige **Select Current**. Antes de que empiece el juego, el addon traduce `MisShaders`, y luego se abre la ventana.
 
-![La ventana del juego con un degradado de atardecer: rosa arriba, naranja en el medio y amarillo abajo](../../assets/get-started/godot/en/juego-degradado.jpg)
+![La ventana del juego con un degradado de atardecer: rosa arriba, naranja en el medio y amarillo abajo](../../assets/get-started/godot/es/degradado.gif)
 
 Ese es tu shader, dibujado por la GPU. Cierra la ventana para volver al editor.
 
@@ -646,6 +584,1175 @@ Acabas de hacer lo que harás cientos de veces: cambiar un número y ver qué pa
 > Con cada shader nuevo solo escribirás su nombre en el campo **Nombre Shader**. Lo haces una vez por shader.
 :::
 
+:::raylib
+## Qué es el visor
+
+El visor es un programa de unas 50 líneas que hace tres cosas:
+
+- Abre una ventana.
+- Dibuja un rectángulo que cubre toda la ventana (el mismo rectángulo de [Shader 1](first-shader.md)).
+- Le pone encima el shader que le indiques.
+
+Fíjate en algo: el visor **no forma parte de tu shader**. Tus shaders se quedan en `MisShaders`, sin saber nada de ventanas. El visor es solo una herramienta de trabajo, como un banco para probar piezas. Usamos {{engine}} para abrir la ventana porque es corto y funciona igual en Windows, Mac y Linux. Cuando quieras llevar tus shaders a tu juego, usarás la misma librería con el motor que prefieras.
+
+> [!NOTE]
+> No necesitas entender cada línea del visor para seguir. Si tienes curiosidad, la guía de [{{engine}}](../engines/raylib-reference.md) explica una por una las partes que aquí solo mencionamos.
+
+## Paso 1: compila los shaders a archivos
+
+En los capítulos anteriores usaste `add`, que escribe métodos de C# dentro de tu proyecto. raylib no los necesita: recibe el shader como **texto**. Por eso en esta ruta usas el otro comando, `compile`, que escribe cada shader en un archivo. Desde la carpeta `Tutorial`:
+
+```bash
+yotsuba compile MisShaders/MisShaders.csproj --target glsl:330 --output out
+```
+
+- `--target glsl:330` pide GLSL en su versión 3.30, el lenguaje del OpenGL 3.3 que usa raylib.
+- `--output out` es la carpeta donde se guardan los archivos.
+
+Por cada clase de shader salen ahora dos archivos, uno por etapa:
+
+```text
+MisShaders/out/MisShaders/
+├── Degradado.Vertex.glsl
+└── Degradado.Fragment.glsl
+```
+
+## Paso 2: crea el proyecto
+
+Desde la carpeta `Tutorial`:
+
+```bash
+dotnet new console -n Visor -f net8.0
+dotnet add Visor package Raylib-cs --version 8.1.0
+```
+
+- La primera línea crea un programa de consola vacío llamado `Visor`.
+- La segunda le agrega raylib-cs, que es lo que abre la ventana.
+
+El visor **no** referencia a `MisShaders`: solo lee los archivos del paso 1. Lo único que falta es permitir código `unsafe`, porque el siguiente archivo llama funciones por puntero. Abre `Visor/Visor.csproj` y agrega esta línea dentro de `<PropertyGroup>`:
+
+```xml
+<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+```
+
+Tu carpeta queda así:
+
+```text
+Tutorial/
+├── MisShaders/        tus shaders (con la carpeta out)
+├── Probar/            la consola del capítulo anterior
+└── Visor/           nuevo: la ventana
+```
+
+## Paso 3: una ventana vacía
+
+Reemplaza todo el contenido de `Visor/Program.cs` por esto:
+
+```csharp title="Visor/Program.cs"
+using Raylib_cs;
+
+string name = args.Length > 0 ? args[0] : "Degradado";
+
+Raylib.SetConfigFlags(ConfigFlags.ResizableWindow);
+Raylib.InitWindow(800, 450, name);
+
+while (!Raylib.WindowShouldClose())
+{
+    Raylib.BeginDrawing();
+    Raylib.ClearBackground(Color.SkyBlue);
+    Raylib.EndDrawing();
+}
+
+Raylib.CloseWindow();
+```
+
+Mira las tres partes:
+
+- La primera línea toma el nombre del shader que escribes al ejecutarlo. Si no escribes ninguno, usa `Degradado`.
+- `InitWindow` pide una ventana de 800 por 450 píxeles. Es ancha a propósito: más adelante te ayudará a descubrir un problema típico de los shaders. `ResizableWindow` te deja también estirarla con el ratón.
+- El bucle se repite en cada cuadro hasta que cierres la ventana (o pulses **Esc**), y lo único que hace por ahora es pintarla de azul cielo.
+
+Ejecútalo:
+
+```bash
+dotnet run --project Visor
+```
+
+Debe aparecer una ventana azul. Ciérrala con **Esc**. Si la ves, raylib funciona en tu equipo y no falta nada.
+
+## Paso 4: las funciones de OpenGL que raylib no envuelve
+
+raylib dibuja con OpenGL y envuelve casi todo lo que necesita, pero no los **bloques de uniforms**: la forma en que tu shader recibe el tamaño de la ventana y el tiempo. raylib ya creó el contexto de OpenGL, así que solo hay que preguntarle dónde viven esas funciones, con `Rlgl.GetProcAddress`. Crea `Visor/Gl.cs`:
+
+```csharp title="Visor/Gl.cs"
+using System.Runtime.InteropServices;
+using Raylib_cs;
+
+// Las pocas funciones de OpenGL que raylib no envuelve. raylib ya creó el contexto;
+// solo le preguntamos dónde están.
+public static unsafe class Gl
+{
+    public const uint UniformBuffer = 0x8A11;
+    public const uint DynamicDraw = 0x88E8;
+    public const uint ActiveUniformBlocks = 0x8A36;
+
+    private delegate void GenBuffersFn(int n, out uint buffers);
+    private delegate void BindBufferFn(uint target, uint buffer);
+    private delegate void BufferDataFn(uint target, nint size, float[] data, uint usage);
+    private delegate void BindBufferBaseFn(uint target, uint index, uint buffer);
+    private delegate void GetProgramFn(uint program, uint name, out int value);
+    private delegate void UniformBlockBindingFn(uint program, uint blockIndex, uint binding);
+
+    private static T Load<T>(string name) where T : Delegate
+    {
+        nint text = Marshal.StringToHGlobalAnsi(name);
+        void* address = Rlgl.GetProcAddress((sbyte*)text);
+        Marshal.FreeHGlobal(text);
+        return Marshal.GetDelegateForFunctionPointer<T>((nint)address);
+    }
+
+    private static readonly GenBuffersFn GenBuffersFunction = Load<GenBuffersFn>("glGenBuffers");
+    private static readonly BindBufferFn BindBufferFunction = Load<BindBufferFn>("glBindBuffer");
+    private static readonly BufferDataFn BufferDataFunction = Load<BufferDataFn>("glBufferData");
+    private static readonly BindBufferBaseFn BindBufferBaseFunction = Load<BindBufferBaseFn>("glBindBufferBase");
+    private static readonly GetProgramFn GetProgramFunction = Load<GetProgramFn>("glGetProgramiv");
+    private static readonly UniformBlockBindingFn UniformBlockBindingFunction = Load<UniformBlockBindingFn>("glUniformBlockBinding");
+
+    public static uint GenBuffer() { GenBuffersFunction(1, out uint id); return id; }
+    public static void BindBuffer(uint target, uint buffer) => BindBufferFunction(target, buffer);
+    public static void BufferData(uint target, float[] data, uint usage) => BufferDataFunction(target, data.Length * sizeof(float), data, usage);
+    public static void BindBufferBase(uint target, uint index, uint buffer) => BindBufferBaseFunction(target, index, buffer);
+    public static int GetProgram(uint program, uint name) { GetProgramFunction(program, name, out int value); return value; }
+    public static void UniformBlockBinding(uint program, uint block, uint binding) => UniformBlockBindingFunction(program, block, binding);
+}
+```
+
+`Load<T>` le pide a raylib una función por su nombre y la convierte en un delegado de C#. Los seis métodos de abajo se llaman como las funciones de OpenGL que envuelven (`glGenBuffers`, `glBindBufferBase`...), así que, si algún día buscas qué hacen, la documentación de OpenGL te sirve tal cual.
+
+## Paso 5: agrega el shader
+
+Ahora haremos que la ventana dibuje un shader en lugar de pintarse de azul. Reemplaza todo `Visor/Program.cs` por este archivo:
+
+```csharp title="Visor/Program.cs"
+using Raylib_cs;
+
+string name = args.Length > 0 ? args[0] : "Degradado";
+// Los shaders que declaran solo el reloj (un Reloj con Segundos) leen primero los segundos; los demás leen ancho, alto y segundos.
+bool clockOnly = name is "Plasma" or "BajoElAgua";
+
+Raylib.SetConfigFlags(ConfigFlags.ResizableWindow);
+Raylib.InitWindow(800, 450, name);
+
+// Las dos etapas del shader, tal como las escribió el compilador.
+string folder = "MisShaders/out/MisShaders";
+Shader shader = Raylib.LoadShaderFromMemory(
+    File.ReadAllText($"{folder}/{name}.Vertex.glsl"),
+    File.ReadAllText($"{folder}/{name}.Fragment.glsl"));
+
+// El bloque de uniforms (ancho, alto, segundos) va en la dirección 0.
+uint data = Gl.GenBuffer();
+int blocks = Gl.GetProgram(shader.Id, Gl.ActiveUniformBlocks);
+for (uint block = 0; block < blocks; block++)
+{
+    Gl.UniformBlockBinding(shader.Id, block, 0);
+}
+Gl.BindBufferBase(Gl.UniformBuffer, 0, data);
+
+// La foto para los shaders que declaran una textura. Si el archivo no existe, la textura es blanca.
+Texture2D photo = File.Exists("pez.png") ? Raylib.LoadTexture("pez.png") : default;
+
+while (!Raylib.WindowShouldClose())
+{
+    // Si tu shader declara estos datos, el visor se los entrega.
+    float seconds = (float)Raylib.GetTime();
+    float[] values = clockOnly ? [seconds, 0f, 0f, 0f] : [Raylib.GetScreenWidth(), Raylib.GetScreenHeight(), seconds, 0f];
+    Gl.BindBuffer(Gl.UniformBuffer, data);
+    Gl.BufferData(Gl.UniformBuffer, values, Gl.DynamicDraw);
+
+    Raylib.BeginDrawing();
+    Raylib.ClearBackground(Color.Black);
+    Raylib.BeginShaderMode(shader);
+
+    // El rectángulo: cuatro esquinas con su Uv. Las posiciones van de -1 a 1.
+    Rlgl.SetTexture(photo.Id);
+    Rlgl.Begin(DrawMode.Quads);
+    Rlgl.TexCoord2f(0f, 0f); Rlgl.Vertex2f(-1f, 1f);
+    Rlgl.TexCoord2f(0f, 1f); Rlgl.Vertex2f(-1f, -1f);
+    Rlgl.TexCoord2f(1f, 1f); Rlgl.Vertex2f(1f, -1f);
+    Rlgl.TexCoord2f(1f, 0f); Rlgl.Vertex2f(1f, 1f);
+    Rlgl.End();
+    Rlgl.SetTexture(0);
+
+    Raylib.EndShaderMode();
+    Raylib.EndDrawing();
+}
+
+Raylib.UnloadShader(shader);
+Raylib.CloseWindow();
+```
+
+Tiene cuatro partes:
+
+- **Carga.** `LoadShaderFromMemory` recibe el texto de las dos etapas, tal como las escribió el compilador. raylib las compila y las enlaza. Como el nombre sale de la línea de comandos, el visor no necesita saber de antemano qué shaders existen: **no hay que registrar cada shader nuevo**, basta con compilarlo.
+- **La dirección de los datos.** Tu shader declara sus datos como un *bloque de uniforms* (`[uniform, layout(0, 0)]`), y cada bloque necesita una dirección. GLSL 3.30 no puede escribirla en el texto, así que el visor asigna la dirección `0` a todos los bloques del programa con `UniformBlockBinding`, y deja ahí el buffer `data` con `BindBufferBase`.
+- **El rectángulo.** Entre `Rlgl.Begin` y `Rlgl.End` van las cuatro esquinas, cada una con su `Uv`. Las posiciones van de `-1` a `1`. raylib entrega la posición en la ranura 0 y el `Uv` en la ranura 1, exactamente el orden de tu struct `Corner`.
+- **Los datos de cada cuadro.** Si tu shader declara el tamaño de la ventana o el tiempo, el visor se los entrega: ancho, alto y segundos. Los shaders que declaran solo el reloj (`Plasma` y `BajoElAgua`) reciben primero los segundos. Todavía no usamos estos datos; en unos capítulos sabrás para qué sirven. Las líneas de la foto tampoco: son para el último shader, y si el archivo no existe se ignoran.
+
+## Paso 6: mira tu primer shader
+
+Ahora sí. Tu `Degradado` ya está compilado desde el paso 1, así que basta con ejecutar el visor:
+
+```bash
+dotnet run --project Visor -- Degradado
+```
+
+Lo que va después de `--` es el nombre del shader que le pasas al visor.
+
+![Un degradado de atardecer: rosa arriba, naranja en medio y amarillo abajo](../../assets/get-started/degradado.png)
+
+Ese es tu shader, dibujado por la GPU de tu equipo. Ciérralo con **Esc**.
+
+## El ciclo de trabajo
+
+Ahora vas a aprender el ciclo que usarás el resto del tutorial. Siempre es el mismo:
+
+1. **Editas** un archivo de `MisShaders`.
+2. **Compilas** con `compile`, para que tus cambios se conviertan en archivos.
+3. **Miras** con el visor.
+
+Los dos últimos pasos caben en una línea, unidos con `&&` (que significa "y si eso salió bien, continúa con esto"):
+
+```bash
+yotsuba compile MisShaders/MisShaders.csproj --target glsl:330 --output out && dotnet run --project Visor -- Degradado
+```
+
+Pruébalo con tu primer experimento. Abre `MisShaders/Degradado.cs` y busca esta línea en `Fragment`:
+
+```csharp
+float rojo = 1f;
+```
+
+Cámbiala por esta:
+
+```csharp
+float rojo = pixel.Uv.X;
+```
+
+Guarda y ejecuta el comando de arriba:
+
+![El mismo degradado, pero el rojo crece de izquierda a derecha: a la izquierda quedan azul oscuro y verde, a la derecha rosa y amarillo](../../assets/get-started/taller/degradadox.png)
+
+El rojo ya no vale lo mismo en toda la pantalla: ahora crece de izquierda a derecha, porque `pixel.Uv.X` va de `0` en el borde izquierdo a `1` en el derecho. En el borde izquierdo no hay nada de rojo y solo quedan el verde y el azul (azul oscuro arriba, verde abajo). A la derecha vuelve el atardecer de antes.
+
+Acabas de hacer lo que harás cientos de veces: cambiar un número y ver qué pasa. Antes de seguir, deja la línea otra vez en `float rojo = 1f;`.
+
+> [!TIP]
+> Guarda el comando del ciclo en un archivo de texto o en el historial de tu terminal. Lo vas a ejecutar muchas veces y lo único que cambia es el nombre del final.
+:::
+
+:::silknet
+## Qué es el visor
+
+El visor es un programa que hace tres cosas:
+
+- Abre una ventana.
+- Dibuja un rectángulo que cubre toda la ventana (el mismo rectángulo de [Shader 1](first-shader.md)).
+- Le pone encima el shader que le indiques.
+
+Fíjate en algo: el visor **no forma parte de tu shader**. Tus shaders se quedan en `MisShaders`, sin saber nada de ventanas. El visor es solo una herramienta de trabajo, como un banco para probar piezas. Usamos {{engine}} para abrir la ventana, y a diferencia de otras rutas aquí **eliges la API gráfica**: OpenGL, OpenGL ES, Vulkan o WebGPU. Cada pestaña de este capítulo es un visor completo para una de ellas, y los shaders que escribas después son los mismos para las cuatro.
+
+> [!NOTE]
+> Elige una API y **mantén la misma pestaña en todos los pasos del capítulo**. Los capítulos siguientes también tienen sus comandos en pestañas: usa siempre la tuya. Si tienes curiosidad por las demás, la guía de [{{engine}}](../engines/silknet-reference.md) explica una por una las partes que aquí solo mencionamos.
+
+## Paso 1: compila los shaders a archivos
+
+En los capítulos anteriores usaste `add`, que escribe métodos de C# dentro de tu proyecto. Aquí el visor recibe cada shader como un **archivo**, así que usas el otro comando, `compile`. Cada API pide un formato distinto con `--target`. Desde la carpeta `Tutorial`:
+
+```bash tab="OpenGL"
+yotsuba compile MisShaders/MisShaders.csproj --target glsl:330 --output out
+```
+```bash tab="OpenGL ES"
+yotsuba compile MisShaders/MisShaders.csproj --target gles:300 --output out
+```
+```bash tab="Vulkan"
+yotsuba compile MisShaders/MisShaders.csproj --target spirv --output out
+```
+```bash tab="WebGPU"
+yotsuba compile MisShaders/MisShaders.csproj --target wgsl --output out
+```
+
+- `--target` elige el formato: GLSL 3.30 para OpenGL, GLSL ES 3.00 para OpenGL ES, SPIR-V para Vulkan y WGSL para WebGPU.
+- `--output out` es la carpeta donde se guardan los archivos.
+
+Esto es lo que sale por cada clase de shader:
+
+```text tab="OpenGL"
+MisShaders/out/MisShaders/
+├── Degradado.Vertex.glsl
+└── Degradado.Fragment.glsl
+```
+```text tab="OpenGL ES"
+MisShaders/out/MisShaders/
+├── Degradado.Vertex.gles
+└── Degradado.Fragment.gles
+```
+```text tab="Vulkan"
+MisShaders/out/MisShaders/
+└── Degradado.spv
+```
+```text tab="WebGPU"
+MisShaders/out/MisShaders/
+└── Degradado.wgsl
+```
+
+OpenGL y OpenGL ES reciben un archivo por etapa. SPIR-V y WGSL guardan las dos etapas en un solo archivo.
+
+## Paso 2: crea el proyecto
+
+Desde la carpeta `Tutorial`, crea el proyecto y agrégale los paquetes de tu API:
+
+```bash
+dotnet new console -n Visor -f net8.0
+```
+
+```bash tab="OpenGL"
+dotnet add Visor package Silk.NET.OpenGL --version 2.23.0
+dotnet add Visor package Silk.NET.Windowing --version 2.23.0
+dotnet add Visor package Silk.NET.Input --version 2.23.0
+dotnet add Visor package StbImageSharp --version 2.23.0
+```
+```bash tab="OpenGL ES"
+dotnet add Visor package Silk.NET.OpenGLES --version 2.23.0
+dotnet add Visor package Silk.NET.Windowing --version 2.23.0
+dotnet add Visor package Silk.NET.Input --version 2.23.0
+dotnet add Visor package StbImageSharp --version 2.23.0
+```
+```bash tab="Vulkan"
+dotnet add Visor package Silk.NET.Vulkan --version 2.23.0
+dotnet add Visor package Silk.NET.Vulkan.Extensions.KHR --version 2.23.0
+dotnet add Visor package Silk.NET.Windowing --version 2.23.0
+dotnet add Visor package Silk.NET.Windowing.Sdl --version 2.23.0
+dotnet add Visor package Silk.NET.Input --version 2.23.0
+dotnet add Visor package Silk.NET.Input.Sdl --version 2.23.0
+dotnet add Visor package StbImageSharp --version 2.23.0
+```
+```bash tab="WebGPU"
+dotnet add Visor package Silk.NET.WebGPU --version 2.23.0
+dotnet add Visor package Silk.NET.WebGPU.Native.WGPU --version 2.23.0
+dotnet add Visor package Silk.NET.Windowing --version 2.23.0
+dotnet add Visor package Silk.NET.Input --version 2.23.0
+dotnet add Visor package StbImageSharp --version 2.23.0
+```
+
+El visor **no** referencia a `MisShaders`: solo lee los archivos del paso 1. Lo único que falta es permitir código `unsafe`, porque las APIs gráficas se llaman a través de punteros. Abre `Visor/Visor.csproj` y agrega esta línea dentro de `<PropertyGroup>`:
+
+```xml
+<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+```
+
+Además de los paquetes, cada API necesita algo en tu equipo:
+
+- **OpenGL.** Nada más: el visor pide un contexto 4.1 de perfil core, el máximo que ofrece macOS.
+- **OpenGL ES.** Un driver con OpenGL ES 3.0. En Linux y en la mayoría de los drivers de Windows ya viene; donde no hay ninguno (macOS, por ejemplo), pon `libEGL` y `libGLESv2` de ANGLE junto al programa.
+- **Vulkan.** El cargador de Vulkan y un driver. En Windows y Linux lo trae el driver de tu tarjeta; en macOS instala el [Vulkan SDK](https://vulkan.lunarg.com/sdk/home), que incluye MoltenVK.
+- **WebGPU.** Nada más: `Silk.NET.WebGPU.Native.WGPU` trae wgpu-native, que usa Direct3D 12, Metal o Vulkan según tu sistema.
+
+Tu carpeta queda así:
+
+```text
+Tutorial/
+├── MisShaders/        tus shaders (con la carpeta out)
+├── Probar/            la consola del capítulo anterior
+└── Visor/           nuevo: la ventana
+```
+
+## Paso 3: una ventana vacía
+
+Reemplaza todo el contenido de `Visor/Program.cs` por el de tu API:
+
+```csharp tab="OpenGL" title="Visor/Program.cs"
+using Silk.NET.Input;
+using Silk.NET.Maths;
+using Silk.NET.OpenGL;
+using Silk.NET.Windowing;
+
+string name = args.Length > 0 ? args[0] : "Degradado";
+
+var options = WindowOptions.Default with
+{
+    Size = new Vector2D<int>(800, 450),
+    Title = name,
+    API = new GraphicsAPI(ContextAPI.OpenGL, ContextProfile.Core, ContextFlags.ForwardCompatible, new APIVersion(4, 1)),
+};
+
+using IWindow window = Window.Create(options);
+GL gl = null!;
+
+window.Load += () =>
+{
+    gl = window.CreateOpenGL();
+    gl.ClearColor(0.39f, 0.58f, 0.93f, 1f);
+
+    // Esc cierra la ventana.
+    IInputContext input = window.CreateInput();
+    foreach (IKeyboard keyboard in input.Keyboards)
+    {
+        keyboard.KeyDown += (_, key, _) =>
+        {
+            if (key == Key.Escape) window.Close();
+        };
+    }
+};
+
+window.Resize += size => gl.Viewport(size);
+window.Render += _ => gl.Clear(ClearBufferMask.ColorBufferBit);
+
+window.Run();
+```
+```csharp tab="OpenGL ES" title="Visor/Program.cs"
+using Silk.NET.Input;
+using Silk.NET.Maths;
+using Silk.NET.OpenGLES;
+using Silk.NET.Windowing;
+
+string name = args.Length > 0 ? args[0] : "Degradado";
+
+var options = WindowOptions.Default with
+{
+    Size = new Vector2D<int>(800, 450),
+    Title = name,
+    API = new GraphicsAPI(ContextAPI.OpenGLES, new APIVersion(3, 0)),
+};
+
+using IWindow window = Window.Create(options);
+GL gl = null!;
+
+window.Load += () =>
+{
+    gl = window.CreateOpenGLES();
+    gl.ClearColor(0.39f, 0.58f, 0.93f, 1f);
+
+    // Esc cierra la ventana.
+    IInputContext input = window.CreateInput();
+    foreach (IKeyboard keyboard in input.Keyboards)
+    {
+        keyboard.KeyDown += (_, key, _) =>
+        {
+            if (key == Key.Escape) window.Close();
+        };
+    }
+};
+
+window.Resize += size => gl.Viewport(size);
+window.Render += _ => gl.Clear(ClearBufferMask.ColorBufferBit);
+
+window.Run();
+```
+```csharp tab="Vulkan" title="Visor/Program.cs"
+using Silk.NET.Input;
+using Silk.NET.Maths;
+using Silk.NET.Windowing;
+
+string name = args.Length > 0 ? args[0] : "Degradado";
+
+var options = WindowOptions.DefaultVulkan with
+{
+    Size = new Vector2D<int>(800, 450),
+    Title = name,
+};
+
+// SDL abre ventanas Vulkan en todos los sistemas.
+Window.PrioritizeSdl();
+using IWindow window = Window.Create(options);
+
+window.Load += () =>
+{
+    // Esc cierra la ventana.
+    IInputContext input = window.CreateInput();
+    foreach (IKeyboard keyboard in input.Keyboards)
+    {
+        keyboard.KeyDown += (_, key, _) =>
+        {
+            if (key == Key.Escape) window.Close();
+        };
+    }
+};
+
+window.Run();
+```
+```csharp tab="WebGPU" title="Visor/Program.cs"
+using Silk.NET.Input;
+using Silk.NET.Maths;
+using Silk.NET.Windowing;
+
+string name = args.Length > 0 ? args[0] : "Degradado";
+
+var options = WindowOptions.Default with
+{
+    Size = new Vector2D<int>(800, 450),
+    Title = name,
+    API = GraphicsAPI.None,
+};
+
+using IWindow window = Window.Create(options);
+
+window.Load += () =>
+{
+    // Esc cierra la ventana.
+    IInputContext input = window.CreateInput();
+    foreach (IKeyboard keyboard in input.Keyboards)
+    {
+        keyboard.KeyDown += (_, key, _) =>
+        {
+            if (key == Key.Escape) window.Close();
+        };
+    }
+};
+
+window.Run();
+```
+
+Mira las partes que se repiten en las cuatro:
+
+- La primera línea toma el nombre del shader que escribes al ejecutarlo. Si no escribes ninguno, usa `Degradado`.
+- `Size` pide una ventana de 800 por 450 píxeles. Es ancha a propósito: más adelante te ayudará a descubrir un problema típico de los shaders.
+- Lo que cambia es la opción de la API (`API =` o `DefaultVulkan`): le dice a Silk.NET qué tipo de ventana crear.
+- `Escape` cierra la ventana.
+
+Ejecútalo:
+
+```bash
+dotnet run --project Visor
+```
+
+Debe aparecer una ventana vacía. Ciérrala con **Esc**. Si la ves, Silk.NET funciona en tu equipo.
+
+## Paso 4: agrega el shader
+
+Ahora haremos que la ventana dibuje un shader. Reemplaza todo `Visor/Program.cs` por el archivo de tu API:
+
+```csharp tab="OpenGL" title="Visor/Program.cs"
+using Silk.NET.Input;
+using Silk.NET.Maths;
+using Silk.NET.OpenGL;
+using Silk.NET.Windowing;
+using StbImageSharp;
+
+string name = args.Length > 0 ? args[0] : "Degradado";
+// Los shaders que declaran solo el reloj (un Reloj con Segundos) leen primero los segundos; los demás leen ancho, alto y segundos.
+bool clockOnly = name is "Plasma" or "BajoElAgua";
+
+var options = WindowOptions.Default with
+{
+    Size = new Vector2D<int>(800, 450),
+    Title = name,
+    API = new GraphicsAPI(ContextAPI.OpenGL, ContextProfile.Core, ContextFlags.ForwardCompatible, new APIVersion(4, 1)),
+};
+
+using IWindow window = Window.Create(options);
+GL gl = null!;
+uint program = 0, vao = 0, data = 0, photo = 0;
+
+window.Load += () =>
+{
+    gl = window.CreateOpenGL();
+
+    IInputContext input = window.CreateInput();
+    foreach (IKeyboard keyboard in input.Keyboards)
+    {
+        keyboard.KeyDown += (_, key, _) =>
+        {
+            if (key == Key.Escape) window.Close();
+        };
+    }
+
+    // Las dos etapas del shader, tal como las escribió el compilador.
+    string folder = "MisShaders/out/MisShaders";
+    uint vertex = Compile(gl, ShaderType.VertexShader, File.ReadAllText($"{folder}/{name}.Vertex.glsl"));
+    uint fragment = Compile(gl, ShaderType.FragmentShader, File.ReadAllText($"{folder}/{name}.Fragment.glsl"));
+    program = gl.CreateProgram();
+    gl.AttachShader(program, vertex);
+    gl.AttachShader(program, fragment);
+    gl.LinkProgram(program);
+    gl.GetProgram(program, ProgramPropertyARB.LinkStatus, out int linked);
+    if (linked == 0) throw new Exception(gl.GetProgramInfoLog(program));
+    gl.DeleteShader(vertex);
+    gl.DeleteShader(fragment);
+
+    // El rectángulo: cuatro esquinas, cada una con su posición (ranura 0) y su Uv (ranura 1).
+    float[] screen =
+    {
+        -1f,  1f, 0f, 0f,
+         1f,  1f, 1f, 0f,
+        -1f, -1f, 0f, 1f,
+         1f, -1f, 1f, 1f,
+    };
+    vao = gl.GenVertexArray();
+    gl.BindVertexArray(vao);
+    uint vbo = gl.GenBuffer();
+    gl.BindBuffer(BufferTargetARB.ArrayBuffer, vbo);
+    gl.BufferData<float>(BufferTargetARB.ArrayBuffer, screen, BufferUsageARB.StaticDraw);
+    unsafe
+    {
+        gl.EnableVertexAttribArray(0);
+        gl.VertexAttribPointer(0, 2, VertexAttribPointerType.Float, false, 16, (void*)0);
+        gl.EnableVertexAttribArray(1);
+        gl.VertexAttribPointer(1, 2, VertexAttribPointerType.Float, false, 16, (void*)8);
+    }
+
+    // El bloque de uniforms (ancho, alto, segundos) va en la dirección 0.
+    data = gl.GenBuffer();
+    gl.BindBuffer(BufferTargetARB.UniformBuffer, data);
+    unsafe { gl.BufferData(BufferTargetARB.UniformBuffer, 16, null, BufferUsageARB.DynamicDraw); }
+    gl.BindBufferBase(BufferTargetARB.UniformBuffer, 0, data);
+    gl.GetProgram(program, ProgramPropertyARB.ActiveUniformBlocks, out int blocks);
+    for (uint block = 0; block < blocks; block++)
+    {
+        gl.UniformBlockBinding(program, block, 0);
+    }
+
+    // La foto para los shaders que declaran una textura.
+    if (File.Exists("pez.jpg"))
+    {
+        ImageResult image = ImageResult.FromStream(File.OpenRead("pez.jpg"), ColorComponents.RedGreenBlueAlpha);
+        photo = gl.GenTexture();
+        gl.BindTexture(TextureTarget.Texture2D, photo);
+        gl.TexImage2D<byte>(TextureTarget.Texture2D, 0, InternalFormat.Rgba8, (uint)image.Width, (uint)image.Height, 0, PixelFormat.Rgba, PixelType.UnsignedByte, image.Data);
+        gl.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter, (int)GLEnum.Linear);
+        gl.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMagFilter, (int)GLEnum.Linear);
+        gl.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapS, (int)GLEnum.ClampToEdge);
+        gl.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapT, (int)GLEnum.ClampToEdge);
+    }
+};
+
+window.Resize += size => gl.Viewport(size);
+
+window.Render += _ =>
+{
+    gl.Clear(ClearBufferMask.ColorBufferBit);
+    gl.UseProgram(program);
+
+    // Si tu shader declara estos datos, el visor se los entrega.
+    float seconds = (float)window.Time;
+    float[] values = clockOnly ? [seconds, 0f, 0f, 0f] : [window.FramebufferSize.X, window.FramebufferSize.Y, seconds, 0f];
+    gl.BindBuffer(BufferTargetARB.UniformBuffer, data);
+    gl.BufferSubData<float>(BufferTargetARB.UniformBuffer, 0, values);
+
+    if (photo != 0)
+    {
+        gl.ActiveTexture(TextureUnit.Texture0);
+        gl.BindTexture(TextureTarget.Texture2D, photo);
+    }
+
+    gl.BindVertexArray(vao);
+    gl.DrawArrays(PrimitiveType.TriangleStrip, 0, 4);
+};
+
+window.Run();
+
+static uint Compile(GL gl, ShaderType type, string source)
+{
+    uint shader = gl.CreateShader(type);
+    gl.ShaderSource(shader, source);
+    gl.CompileShader(shader);
+    gl.GetShader(shader, ShaderParameterName.CompileStatus, out int ok);
+    if (ok == 0) throw new Exception(gl.GetShaderInfoLog(shader));
+    return shader;
+}
+```
+```csharp tab="OpenGL ES" title="Visor/Program.cs"
+using Silk.NET.Input;
+using Silk.NET.Maths;
+using Silk.NET.OpenGLES;
+using Silk.NET.Windowing;
+using StbImageSharp;
+
+string name = args.Length > 0 ? args[0] : "Degradado";
+// Los shaders que declaran solo el reloj (un Reloj con Segundos) leen primero los segundos; los demás leen ancho, alto y segundos.
+bool clockOnly = name is "Plasma" or "BajoElAgua";
+
+var options = WindowOptions.Default with
+{
+    Size = new Vector2D<int>(800, 450),
+    Title = name,
+    API = new GraphicsAPI(ContextAPI.OpenGLES, new APIVersion(3, 0)),
+};
+
+using IWindow window = Window.Create(options);
+GL gl = null!;
+uint program = 0, vao = 0, data = 0, photo = 0;
+
+window.Load += () =>
+{
+    gl = window.CreateOpenGLES();
+
+    IInputContext input = window.CreateInput();
+    foreach (IKeyboard keyboard in input.Keyboards)
+    {
+        keyboard.KeyDown += (_, key, _) =>
+        {
+            if (key == Key.Escape) window.Close();
+        };
+    }
+
+    // Las dos etapas del shader, tal como las escribió el compilador.
+    string folder = "MisShaders/out/MisShaders";
+    uint vertex = Compile(gl, ShaderType.VertexShader, File.ReadAllText($"{folder}/{name}.Vertex.gles"));
+    uint fragment = Compile(gl, ShaderType.FragmentShader, File.ReadAllText($"{folder}/{name}.Fragment.gles"));
+    program = gl.CreateProgram();
+    gl.AttachShader(program, vertex);
+    gl.AttachShader(program, fragment);
+    gl.LinkProgram(program);
+    gl.GetProgram(program, ProgramPropertyARB.LinkStatus, out int linked);
+    if (linked == 0) throw new Exception(gl.GetProgramInfoLog(program));
+    gl.DeleteShader(vertex);
+    gl.DeleteShader(fragment);
+
+    // El rectángulo: cuatro esquinas, cada una con su posición (ranura 0) y su Uv (ranura 1).
+    float[] screen =
+    {
+        -1f,  1f, 0f, 0f,
+         1f,  1f, 1f, 0f,
+        -1f, -1f, 0f, 1f,
+         1f, -1f, 1f, 1f,
+    };
+    vao = gl.GenVertexArray();
+    gl.BindVertexArray(vao);
+    uint vbo = gl.GenBuffer();
+    gl.BindBuffer(BufferTargetARB.ArrayBuffer, vbo);
+    gl.BufferData<float>(BufferTargetARB.ArrayBuffer, screen, BufferUsageARB.StaticDraw);
+    unsafe
+    {
+        gl.EnableVertexAttribArray(0);
+        gl.VertexAttribPointer(0, 2, VertexAttribPointerType.Float, false, 16, (void*)0);
+        gl.EnableVertexAttribArray(1);
+        gl.VertexAttribPointer(1, 2, VertexAttribPointerType.Float, false, 16, (void*)8);
+    }
+
+    // El bloque de uniforms (ancho, alto, segundos) va en la dirección 0.
+    data = gl.GenBuffer();
+    gl.BindBuffer(BufferTargetARB.UniformBuffer, data);
+    unsafe { gl.BufferData(BufferTargetARB.UniformBuffer, 16, null, BufferUsageARB.DynamicDraw); }
+    gl.BindBufferBase(BufferTargetARB.UniformBuffer, 0, data);
+    gl.GetProgram(program, ProgramPropertyARB.ActiveUniformBlocks, out int blocks);
+    for (uint block = 0; block < blocks; block++)
+    {
+        gl.UniformBlockBinding(program, block, 0);
+    }
+
+    // La foto para los shaders que declaran una textura.
+    if (File.Exists("pez.jpg"))
+    {
+        ImageResult image = ImageResult.FromStream(File.OpenRead("pez.jpg"), ColorComponents.RedGreenBlueAlpha);
+        photo = gl.GenTexture();
+        gl.BindTexture(TextureTarget.Texture2D, photo);
+        gl.TexImage2D<byte>(TextureTarget.Texture2D, 0, InternalFormat.Rgba8, (uint)image.Width, (uint)image.Height, 0, PixelFormat.Rgba, PixelType.UnsignedByte, image.Data);
+        gl.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter, (int)GLEnum.Linear);
+        gl.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMagFilter, (int)GLEnum.Linear);
+        gl.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapS, (int)GLEnum.ClampToEdge);
+        gl.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapT, (int)GLEnum.ClampToEdge);
+    }
+};
+
+window.Resize += size => gl.Viewport(size);
+
+window.Render += _ =>
+{
+    gl.Clear(ClearBufferMask.ColorBufferBit);
+    gl.UseProgram(program);
+
+    // Si tu shader declara estos datos, el visor se los entrega.
+    float seconds = (float)window.Time;
+    float[] values = clockOnly ? [seconds, 0f, 0f, 0f] : [window.FramebufferSize.X, window.FramebufferSize.Y, seconds, 0f];
+    gl.BindBuffer(BufferTargetARB.UniformBuffer, data);
+    gl.BufferSubData<float>(BufferTargetARB.UniformBuffer, 0, values);
+
+    if (photo != 0)
+    {
+        gl.ActiveTexture(TextureUnit.Texture0);
+        gl.BindTexture(TextureTarget.Texture2D, photo);
+    }
+
+    gl.BindVertexArray(vao);
+    gl.DrawArrays(PrimitiveType.TriangleStrip, 0, 4);
+};
+
+window.Run();
+
+static uint Compile(GL gl, ShaderType type, string source)
+{
+    uint shader = gl.CreateShader(type);
+    gl.ShaderSource(shader, source);
+    gl.CompileShader(shader);
+    gl.GetShader(shader, ShaderParameterName.CompileStatus, out int ok);
+    if (ok == 0) throw new Exception(gl.GetShaderInfoLog(shader));
+    return shader;
+}
+```
+```csharp tab="Vulkan" title="Visor/Program.cs"
+using Silk.NET.Input;
+using Silk.NET.Maths;
+using Silk.NET.Windowing;
+
+string name = args.Length > 0 ? args[0] : "Degradado";
+
+var options = WindowOptions.DefaultVulkan with
+{
+    Size = new Vector2D<int>(800, 450),
+    Title = name,
+};
+
+// SDL abre ventanas Vulkan en todos los sistemas.
+Window.PrioritizeSdl();
+using IWindow window = Window.Create(options);
+Renderer? renderer = null;
+
+window.Load += () =>
+{
+    IInputContext input = window.CreateInput();
+    foreach (IKeyboard keyboard in input.Keyboards)
+    {
+        keyboard.KeyDown += (_, key, _) =>
+        {
+            if (key == Key.Escape) window.Close();
+        };
+    }
+
+    renderer = new Renderer(window, name);
+};
+
+window.FramebufferResize += _ =>
+{
+    if (renderer != null) renderer.Resized = true;
+};
+window.Render += _ => renderer!.Draw();
+window.Closing += () => renderer?.Dispose();
+
+window.Run();
+```
+```csharp tab="WebGPU" title="Visor/Program.cs"
+using Silk.NET.Core.Native;
+using Silk.NET.Input;
+using Silk.NET.Maths;
+using Silk.NET.WebGPU;
+using Silk.NET.Windowing;
+using StbImageSharp;
+using Buffer = Silk.NET.WebGPU.Buffer;
+
+string name = args.Length > 0 ? args[0] : "Degradado";
+// Los shaders que declaran solo el reloj (un Reloj con Segundos) leen primero los segundos; los demás leen ancho, alto y segundos.
+bool clockOnly = name is "Plasma" or "BajoElAgua";
+
+var options = WindowOptions.Default with
+{
+    Size = new Vector2D<int>(800, 450),
+    Title = name,
+    API = GraphicsAPI.None,
+};
+
+using IWindow window = Window.Create(options);
+unsafe
+{
+    WebGPU wgpu = WebGPU.GetApi();
+    Instance* instance = null;
+    Surface* surface = null;
+    Adapter* adapter = null;
+    Device* device = null;
+    Queue* queue = null;
+    RenderPipeline* pipeline = null;
+    BindGroup* bindGroup = null;
+    Buffer* vertexBuffer = null;
+    Buffer* dataBuffer = null;
+    TextureFormat format = TextureFormat.Bgra8Unorm;
+
+    window.Load += () =>
+    {
+        IInputContext input = window.CreateInput();
+        foreach (IKeyboard keyboard in input.Keyboards)
+        {
+            keyboard.KeyDown += (_, key, _) =>
+            {
+                if (key == Key.Escape) window.Close();
+            };
+        }
+
+        // Instancia, superficie, adaptador (la tarjeta gráfica) y dispositivo (tu conexión con ella).
+        var instanceDescriptor = new InstanceDescriptor();
+        instance = wgpu.CreateInstance(in instanceDescriptor);
+        surface = WindowSurface.Create(wgpu, instance, window);
+
+        var adapterOptions = new RequestAdapterOptions { CompatibleSurface = surface };
+        wgpu.InstanceRequestAdapter(instance, in adapterOptions, new PfnRequestAdapterCallback((status, result, message, _) =>
+        {
+            if (status != RequestAdapterStatus.Success) throw new Exception($"No adapter: {SilkMarshal.PtrToString((nint)message)}");
+            adapter = result;
+        }), null);
+
+        var deviceDescriptor = new DeviceDescriptor();
+        wgpu.AdapterRequestDevice(adapter, in deviceDescriptor, new PfnRequestDeviceCallback((status, result, message, _) =>
+        {
+            if (status != RequestDeviceStatus.Success) throw new Exception($"No device: {SilkMarshal.PtrToString((nint)message)}");
+            device = result;
+        }), null);
+        queue = wgpu.DeviceGetQueue(device);
+
+        Configure();
+
+        // El shader: un archivo WGSL con las dos etapas.
+        // El backend Metal de wgpu ya usa el nombre VertexOutput, así que a la struct de salida le damos otro.
+        string wgsl = File.ReadAllText($"MisShaders/out/MisShaders/{name}.wgsl")
+            .Replace("VertexOutput", "VertexOut");
+        var wgslDescriptor = new ShaderModuleWGSLDescriptor
+        {
+            Chain = new ChainedStruct { SType = SType.ShaderModuleWgsldescriptor },
+            Code = (byte*)SilkMarshal.StringToPtr(wgsl),
+        };
+        var moduleDescriptor = new ShaderModuleDescriptor { NextInChain = (ChainedStruct*)&wgslDescriptor };
+        ShaderModule* module = wgpu.DeviceCreateShaderModule(device, in moduleDescriptor);
+
+        // El rectángulo: cuatro esquinas, cada una con su posición (ranura 0) y su Uv (ranura 1).
+        // La Y de las posiciones está invertida porque el WGSL compilado mantiene la convención de Vulkan.
+        float[] screen =
+        [
+            -1f, -1f, 0f, 0f,
+             1f, -1f, 1f, 0f,
+            -1f,  1f, 0f, 1f,
+             1f,  1f, 1f, 1f,
+        ];
+        vertexBuffer = CreateBuffer(BufferUsage.Vertex | BufferUsage.CopyDst, (ulong)(screen.Length * sizeof(float)));
+        fixed (float* p = screen) wgpu.QueueWriteBuffer(queue, vertexBuffer, 0, p, (nuint)(screen.Length * sizeof(float)));
+
+        // El bloque de uniforms (ancho, alto, segundos): 16 bytes, que se escriben en cada cuadro.
+        dataBuffer = CreateBuffer(BufferUsage.Uniform | BufferUsage.CopyDst, 16);
+
+        // La foto: WebGPU mantiene separadas la textura y su sampler.
+        Texture* photo = CreatePhoto();
+        var viewDescriptor = new TextureViewDescriptor
+        {
+            Format = TextureFormat.Rgba8Unorm,
+            Dimension = TextureViewDimension.Dimension2D,
+            MipLevelCount = 1,
+            ArrayLayerCount = 1,
+            Aspect = TextureAspect.All,
+        };
+        TextureView* photoView = wgpu.TextureCreateView(photo, in viewDescriptor);
+        var samplerDescriptor = new SamplerDescriptor
+        {
+            MagFilter = FilterMode.Linear,
+            MinFilter = FilterMode.Linear,
+            AddressModeU = AddressMode.ClampToEdge,
+            AddressModeV = AddressMode.ClampToEdge,
+            AddressModeW = AddressMode.ClampToEdge,
+            MaxAnisotropy = 1,
+            LodMaxClamp = 32,
+        };
+        Sampler* sampler = wgpu.DeviceCreateSampler(device, in samplerDescriptor);
+
+        // Grupo 0: el binding 0 es el bloque de uniforms, el 1 la textura y el 2 el sampler.
+        var layoutEntries = stackalloc BindGroupLayoutEntry[3];
+        layoutEntries[0] = new BindGroupLayoutEntry { Binding = 0, Visibility = ShaderStage.Vertex | ShaderStage.Fragment, Buffer = new BufferBindingLayout { Type = BufferBindingType.Uniform } };
+        layoutEntries[1] = new BindGroupLayoutEntry { Binding = 1, Visibility = ShaderStage.Fragment, Texture = new TextureBindingLayout { SampleType = TextureSampleType.Float, ViewDimension = TextureViewDimension.Dimension2D } };
+        layoutEntries[2] = new BindGroupLayoutEntry { Binding = 2, Visibility = ShaderStage.Fragment, Sampler = new SamplerBindingLayout { Type = SamplerBindingType.Filtering } };
+        var layoutDescriptor = new BindGroupLayoutDescriptor { EntryCount = 3, Entries = layoutEntries };
+        BindGroupLayout* bindLayout = wgpu.DeviceCreateBindGroupLayout(device, in layoutDescriptor);
+
+        var entries = stackalloc BindGroupEntry[3];
+        entries[0] = new BindGroupEntry { Binding = 0, Buffer = dataBuffer, Offset = 0, Size = 16 };
+        entries[1] = new BindGroupEntry { Binding = 1, TextureView = photoView };
+        entries[2] = new BindGroupEntry { Binding = 2, Sampler = sampler };
+        var groupDescriptor = new BindGroupDescriptor { Layout = bindLayout, EntryCount = 3, Entries = entries };
+        bindGroup = wgpu.DeviceCreateBindGroup(device, in groupDescriptor);
+
+        var pipelineLayoutDescriptor = new PipelineLayoutDescriptor { BindGroupLayoutCount = 1, BindGroupLayouts = &bindLayout };
+        PipelineLayout* pipelineLayout = wgpu.DeviceCreatePipelineLayout(device, in pipelineLayoutDescriptor);
+
+        // Los atributos de vértice repiten los números de location del struct de C#.
+        var attributes = stackalloc VertexAttribute[2];
+        attributes[0] = new VertexAttribute { Format = VertexFormat.Float32x2, Offset = 0, ShaderLocation = 0 };
+        attributes[1] = new VertexAttribute { Format = VertexFormat.Float32x2, Offset = 8, ShaderLocation = 1 };
+        var vertexLayout = new VertexBufferLayout { ArrayStride = 16, StepMode = VertexStepMode.Vertex, AttributeCount = 2, Attributes = attributes };
+
+        var blend = new BlendState
+        {
+            Color = new BlendComponent { Operation = BlendOperation.Add, SrcFactor = BlendFactor.One, DstFactor = BlendFactor.Zero },
+            Alpha = new BlendComponent { Operation = BlendOperation.Add, SrcFactor = BlendFactor.One, DstFactor = BlendFactor.Zero },
+        };
+        var target = new ColorTargetState { Format = format, Blend = &blend, WriteMask = ColorWriteMask.All };
+        var fragment = new FragmentState { Module = module, EntryPoint = (byte*)SilkMarshal.StringToPtr("Fragment"), TargetCount = 1, Targets = &target };
+
+        var pipelineDescriptor = new RenderPipelineDescriptor
+        {
+            Layout = pipelineLayout,
+            Vertex = new VertexState { Module = module, EntryPoint = (byte*)SilkMarshal.StringToPtr("Vertex"), BufferCount = 1, Buffers = &vertexLayout },
+            Primitive = new PrimitiveState { Topology = PrimitiveTopology.TriangleStrip, FrontFace = FrontFace.Ccw, CullMode = CullMode.None },
+            Multisample = new MultisampleState { Count = 1, Mask = ~0u },
+            Fragment = &fragment,
+        };
+        pipeline = wgpu.DeviceCreateRenderPipeline(device, in pipelineDescriptor);
+    };
+
+    window.FramebufferResize += _ =>
+    {
+        if (device != null) Configure();
+    };
+
+    window.Render += _ =>
+    {
+        // Si tu shader declara estos datos, el visor se los entrega.
+        float seconds = (float)window.Time;
+    float[] values = clockOnly ? [seconds, 0f, 0f, 0f] : [window.FramebufferSize.X, window.FramebufferSize.Y, seconds, 0f];
+        fixed (float* p = values) wgpu.QueueWriteBuffer(queue, dataBuffer, 0, p, 16);
+
+        SurfaceTexture current;
+        wgpu.SurfaceGetCurrentTexture(surface, &current);
+        TextureView* view = wgpu.TextureCreateView(current.Texture, null);
+        CommandEncoder* encoder = wgpu.DeviceCreateCommandEncoder(device, null);
+
+        var color = new RenderPassColorAttachment
+        {
+            View = view,
+            LoadOp = LoadOp.Clear,
+            StoreOp = StoreOp.Store,
+            ClearValue = new Color(0, 0, 0, 1),
+        };
+        var passDescriptor = new RenderPassDescriptor { ColorAttachmentCount = 1, ColorAttachments = &color };
+        RenderPassEncoder* pass = wgpu.CommandEncoderBeginRenderPass(encoder, in passDescriptor);
+        wgpu.RenderPassEncoderSetPipeline(pass, pipeline);
+        wgpu.RenderPassEncoderSetBindGroup(pass, 0, bindGroup, 0, null);
+        wgpu.RenderPassEncoderSetVertexBuffer(pass, 0, vertexBuffer, 0, 64);
+        wgpu.RenderPassEncoderDraw(pass, 4, 1, 0, 0);
+        wgpu.RenderPassEncoderEnd(pass);
+
+        CommandBuffer* commands = wgpu.CommandEncoderFinish(encoder, null);
+        wgpu.QueueSubmit(queue, 1, &commands);
+        wgpu.SurfacePresent(surface);
+
+        wgpu.CommandBufferRelease(commands);
+        wgpu.RenderPassEncoderRelease(pass);
+        wgpu.CommandEncoderRelease(encoder);
+        wgpu.TextureViewRelease(view);
+        wgpu.TextureRelease(current.Texture);
+    };
+
+    window.Run();
+
+    void Configure()
+    {
+        var configuration = new SurfaceConfiguration
+        {
+            Device = device,
+            Format = format,
+            Usage = TextureUsage.RenderAttachment,
+            Width = (uint)window.FramebufferSize.X,
+            Height = (uint)window.FramebufferSize.Y,
+            PresentMode = PresentMode.Fifo,
+            AlphaMode = CompositeAlphaMode.Auto,
+        };
+        wgpu.SurfaceConfigure(surface, in configuration);
+    }
+
+    Buffer* CreateBuffer(BufferUsage usage, ulong size)
+    {
+        var descriptor = new BufferDescriptor { Usage = usage, Size = size };
+        return wgpu.DeviceCreateBuffer(device, in descriptor);
+    }
+
+    Texture* CreatePhoto()
+    {
+        // Si la foto no existe, la textura es un solo píxel blanco.
+        byte[] pixels = [255, 255, 255, 255];
+        int width = 1, height = 1;
+        if (File.Exists("pez.jpg"))
+        {
+            ImageResult image = ImageResult.FromStream(File.OpenRead("pez.jpg"), ColorComponents.RedGreenBlueAlpha);
+            pixels = image.Data;
+            width = image.Width;
+            height = image.Height;
+        }
+
+        var descriptor = new TextureDescriptor
+        {
+            Usage = TextureUsage.TextureBinding | TextureUsage.CopyDst,
+            Dimension = TextureDimension.Dimension2D,
+            Size = new Extent3D((uint)width, (uint)height, 1),
+            Format = TextureFormat.Rgba8Unorm,
+            MipLevelCount = 1,
+            SampleCount = 1,
+        };
+        Texture* texture = wgpu.DeviceCreateTexture(device, in descriptor);
+        var destination = new ImageCopyTexture { Texture = texture, MipLevel = 0, Aspect = TextureAspect.All };
+        var layout = new TextureDataLayout { Offset = 0, BytesPerRow = (uint)(width * 4), RowsPerImage = (uint)height };
+        var size = new Extent3D((uint)width, (uint)height, 1);
+        fixed (byte* p = pixels) wgpu.QueueWriteTexture(queue, in destination, p, (nuint)pixels.Length, in layout, in size);
+        return texture;
+    }
+}
+```
+
+Las cuatro versiones hacen lo mismo, con las palabras de cada API:
+
+- **Carga.** Lee el archivo del shader que compiló el paso 1. Como el nombre sale de la línea de comandos, **no hay que registrar cada shader nuevo**: basta con compilarlo.
+- **El rectángulo.** Cuatro esquinas, cada una con su posición (ranura 0) y su `Uv` (ranura 1), exactamente el orden de tu struct `Corner`. Las posiciones van de `-1` a `1`.
+- **Los datos.** El shader declara sus datos como un bloque de uniforms en la dirección `layout(0, 0)`: el visor crea un buffer de 16 bytes y lo vuelve a escribir en cada cuadro con el ancho, el alto y los segundos. Los shaders que declaran solo el reloj (`Plasma` y `BajoElAgua`) reciben primero los segundos. Todavía no usamos estos datos; en unos capítulos sabrás para qué sirven.
+- **La foto.** Si existe `pez.jpg`, se sube como textura en la dirección 1. Es para el último shader; si el archivo no existe se usa una textura blanca.
+
+**Vulkan y WebGPU necesitan archivos de apoyo.** En Vulkan, `Program.cs` solo crea la ventana y llama a `Renderer`: el renderizador son siete archivos `Renderer*.cs` (instancia, dispositivo, swapchain, recursos, pipeline, sincronización y dibujo). En WebGPU hace falta `WindowSurface.cs`, que crea la superficie de la ventana en cada sistema. Están completos, con su explicación, en la [guía de {{engine}}](../engines/silknet-reference.md): cópialos en `Visor/`, junto a `Program.cs`.
+
+## Paso 5: mira tu primer shader
+
+Ahora sí. Compila tu `Degradado` y ejecuta el visor:
+
+```bash tab="OpenGL"
+yotsuba compile MisShaders/MisShaders.csproj --target glsl:330 --output out && dotnet run --project Visor -- Degradado
+```
+```bash tab="OpenGL ES"
+yotsuba compile MisShaders/MisShaders.csproj --target gles:300 --output out && dotnet run --project Visor -- Degradado
+```
+```bash tab="Vulkan"
+yotsuba compile MisShaders/MisShaders.csproj --target spirv --output out && dotnet run --project Visor -- Degradado
+```
+```bash tab="WebGPU"
+yotsuba compile MisShaders/MisShaders.csproj --target wgsl --output out && dotnet run --project Visor -- Degradado
+```
+
+Lo que va después de `--` es el nombre del shader que le pasas al visor.
+
+![Un degradado de atardecer: rosa arriba, naranja en medio y amarillo abajo](../../assets/get-started/degradado.png)
+
+Ese es tu shader, dibujado por la GPU de tu equipo con la API que elegiste. Ciérralo con **Esc**.
+
+## El ciclo de trabajo
+
+Ahora vas a aprender el ciclo que usarás el resto del tutorial. Siempre es el mismo:
+
+1. **Editas** un archivo de `MisShaders`.
+2. **Compilas** con `compile`, para que tus cambios se conviertan en archivos.
+3. **Miras** con el visor.
+
+Los dos últimos pasos son el comando que acabas de ejecutar: están unidos con `&&` (que significa "y si eso salió bien, continúa con esto"). Pruébalo con tu primer experimento. Abre `MisShaders/Degradado.cs` y busca esta línea en `Fragment`:
+
+```csharp
+float rojo = 1f;
+```
+
+Cámbiala por esta:
+
+```csharp
+float rojo = pixel.Uv.X;
+```
+
+Guarda y ejecuta el comando de tu pestaña:
+
+![El mismo degradado, pero el rojo crece de izquierda a derecha: a la izquierda quedan azul oscuro y verde, a la derecha rosa y amarillo](../../assets/get-started/taller/degradadox.png)
+
+El rojo ya no vale lo mismo en toda la pantalla: ahora crece de izquierda a derecha, porque `pixel.Uv.X` va de `0` en el borde izquierdo a `1` en el derecho. En el borde izquierdo no hay nada de rojo y solo quedan el verde y el azul (azul oscuro arriba, verde abajo). A la derecha vuelve el atardecer de antes.
+
+Acabas de hacer lo que harás cientos de veces: cambiar un número y ver qué pasa. Antes de seguir, deja la línea otra vez en `float rojo = 1f;`.
+
+> [!TIP]
+> Guarda el comando del ciclo en un archivo de texto o en el historial de tu terminal. Lo vas a ejecutar muchas veces y lo único que cambia es el nombre del final.
+:::
+
 > [!SCENE] template
 
 ## Un archivo de partida
@@ -665,7 +1772,7 @@ public class Plantilla
     public Pixel Vertex({{vertexType}} vertice)
     {
         Pixel pixel;
-        pixel.Posicion = Crear.Vec4(vertice.{{pos}}.X, vertice.{{pos}}.Y, 0f, 1f);
+        pixel.Posicion = new vec4(vertice.{{pos}}.X, vertice.{{pos}}.Y, 0f, 1f);
         pixel.Uv = vertice.{{uv}};
         return pixel;
     }
@@ -674,7 +1781,7 @@ public class Plantilla
     [return: location(0)]
     public vec4 Fragment(PixelIn pixel)
     {
-        return Crear.Vec4(0f, 0f, 0f, 1f);
+        return new vec4(0f, 0f, 0f, 1f);
     }
 }
 ```
@@ -692,7 +1799,7 @@ public class Plantilla
     public Pixel Vertex({{vertexType}} vertice)
     {
         Pixel pixel;
-        pixel.Posicion = Crear.Vec4(vertice.{{pos}}.X, vertice.{{pos}}.Y, 0f, 1f);
+        pixel.Posicion = new vec4(vertice.{{pos}}.X, vertice.{{pos}}.Y, 0f, 1f);
         pixel.Uv = vertice.{{uv}};
         return pixel;
     }
@@ -701,7 +1808,7 @@ public class Plantilla
     [return: SV_Target]
     public vec4 Fragment(PixelIn pixel)
     {
-        return Crear.Vec4(0f, 0f, 0f, 1f);
+        return new vec4(0f, 0f, 0f, 1f);
     }
 }
 ```
@@ -719,7 +1826,7 @@ public class Plantilla
     public Pixel Vertex({{vertexType}} vertice)
     {
         Pixel pixel;
-        pixel.Posicion = Crear.Vec4(vertice.{{pos}}.X, vertice.{{pos}}.Y, 0f, 1f);
+        pixel.Posicion = new vec4(vertice.{{pos}}.X, vertice.{{pos}}.Y, 0f, 1f);
         pixel.Uv = vertice.{{uv}};
         return pixel;
     }
@@ -728,7 +1835,7 @@ public class Plantilla
     [return: color(0)]
     public vec4 Fragment(PixelIn pixel)
     {
-        return Crear.Vec4(0f, 0f, 0f, 1f);
+        return new vec4(0f, 0f, 0f, 1f);
     }
 }
 ```
@@ -746,7 +1853,7 @@ public class Plantilla
     public Pixel Vertex({{vertexType}} vertice)
     {
         Pixel pixel;
-        pixel.Posicion = Crear.Vec4(vertice.{{pos}}.X, vertice.{{pos}}.Y, 0f, 1f);
+        pixel.Posicion = new vec4(vertice.{{pos}}.X, vertice.{{pos}}.Y, 0f, 1f);
         pixel.Uv = vertice.{{uv}};
         return pixel;
     }
@@ -755,7 +1862,7 @@ public class Plantilla
     [return: location(0)]
     public vec4 Fragment(PixelIn pixel)
     {
-        return Crear.Vec4(0f, 0f, 0f, 1f);
+        return new vec4(0f, 0f, 0f, 1f);
     }
 }
 ```
@@ -773,7 +1880,7 @@ public class Plantilla
     public Pixel Vertex({{vertexType}} vertice)
     {
         Pixel pixel;
-        pixel.Posicion = Crear.Vec4(vertice.{{pos}}.X, vertice.{{pos}}.Y, 0f, 1f);
+        pixel.Posicion = new vec4(vertice.{{pos}}.X, vertice.{{pos}}.Y, 0f, 1f);
         pixel.Uv = vertice.{{uv}};
         return pixel;
     }
@@ -782,7 +1889,7 @@ public class Plantilla
     [return: Location(0)]
     public vec4 Fragment(PixelIn pixel)
     {
-        return Crear.Vec4(0f, 0f, 0f, 1f);
+        return new vec4(0f, 0f, 0f, 1f);
     }
 }
 ```
@@ -811,6 +1918,8 @@ yotsuba add MisShaders/MisShaders.csproj --target spirv --target {{plugin}} && d
 
 Debe abrirse una ventana completamente negra. Si la ves, estás listo.
 
+![Godot al pulsar Play con Plantilla: se abre la ventana del juego, completamente negra](../../assets/get-started/godot/es/plantilla.gif)
+
 ## Si algo falla
 
 | Lo que ves | Qué significa | Qué hacer |
@@ -836,6 +1945,25 @@ Comprueba que todo funciona ejecutando la plantilla. Selecciona el nodo `Visor`,
 | El addon no encuentra `yotsuba` | Godot se abrió desde el Dock o Finder y no ve la carpeta donde .NET instala las herramientas, o la herramienta no está instalada. | Ejecuta `dotnet tool install --global YotsubaShader.Compiler.CLI`, o escribe la ruta completa del ejecutable `yotsuba` en el campo `Command`. |
 | Un error `CS` con número y línea | Es un error normal de C# en tu shader. | Léelo, ve a esa línea y corrígela. |
 | La ventana sale negra o vacía | Godot descartó el rectángulo o el shader falló. | Revisa el `extra_cull_margin` de `Pantalla` y el panel de Salida. |
+:::
+
+:::raylib silknet
+Comprueba que todo funciona ejecutando la plantilla. Compílala y ábrela:
+
+{{register Plantilla}}
+
+Debe abrirse una ventana completamente negra. Si la ves, estás listo.
+
+## Si algo falla
+
+| Qué ves | Qué significa | Qué hacer |
+|---|---|---|
+| `Could not find file '.../Colores.Fragment.glsl'` (o `.spv`, `.wgsl`) | El shader no se compiló, el nombre está mal escrito o ejecutaste el visor desde otra carpeta. | Usa el comando del ciclo, que compila y abre, desde la carpeta `Tutorial`, y revisa las mayúsculas. |
+| La ventana muestra el shader viejo | Cambiaste el archivo pero no ejecutaste `compile`. | Usa el comando del ciclo, que hace las dos cosas. |
+| Un error `CS` con un número y una línea | Es un error normal de C# en tu código. | Léelo, ve a esa línea y corrígela. `compile` no continúa hasta que compila. |
+| La consola muestra un error de compilación del shader | El driver rechazó el shader generado. | Lee la línea que indica el error: casi siempre es una versión de GLSL distinta a la que pediste con `--target`. |
+| La ventana no se abre y no hay error | A veces queda detrás de otras ventanas. | Búscala en la barra de tareas o en el Dock. |
+| La ventana sale negra con un shader que usa una foto | El visor no encontró la imagen. | Pon la foto dentro de la carpeta `Tutorial`, como explica el capítulo del último shader. |
 :::
 
 > [!SCENE] learned

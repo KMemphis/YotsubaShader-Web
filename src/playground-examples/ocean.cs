@@ -1,62 +1,10 @@
 using System;
 using YotsubaShader.Language;
 using YotsubaShader.HlslSyntax;
+using YotsubaShader.HlslSyntax.Types;
 using YotsubaShader.SpirvSyntax.Resources;
-using YotsubaShader.Language.Native.Types.Vector;
 
 namespace Ocean;
-
-// ------------------------------------------------------------------ own vectors
-
-[Vector]
-public struct float2
-{
-    [VectorComponent(0)] public float X;
-    [VectorComponent(1)] public float Y;
-
-    public float2(float x, float y) { X = x; Y = y; }
-}
-
-[Vector]
-public struct float3
-{
-    [VectorComponent(0)] public float X;
-    [VectorComponent(1)] public float Y;
-    [VectorComponent(2)] public float Z;
-
-    public float3(float x, float y, float z) { X = x; Y = y; Z = z; }
-
-    public static float3 operator +(float3 a, float3 b)
-    {
-        return new float3(a.X + b.X, a.Y + b.Y, a.Z + b.Z);
-    }
-
-    public static float3 operator -(float3 a, float3 b)
-    {
-        return new float3(a.X - b.X, a.Y - b.Y, a.Z - b.Z);
-    }
-
-    public static float3 operator *(float3 a, float s)
-    {
-        return new float3(a.X * s, a.Y * s, a.Z * s);
-    }
-
-    public static float3 operator *(float s, float3 a)
-    {
-        return new float3(a.X * s, a.Y * s, a.Z * s);
-    }
-}
-
-[Vector]
-public struct float4
-{
-    [VectorComponent(0)] public float X;
-    [VectorComponent(1)] public float Y;
-    [VectorComponent(2)] public float Z;
-    [VectorComponent(3)] public float W;
-
-    public float4(float x, float y, float z, float w) { X = x; Y = y; Z = z; W = w; }
-}
 
 // ------------------------------------------------------------------ interface between stages
 

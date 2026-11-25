@@ -52,6 +52,7 @@ export default [
       ] },
       { k: 'row', at: 'formats', items: [
         { k: 'box', cls: 's-mono', text: L('formats', 'formatos'), sub: 'spirv · glsl · hlsl · msl', at: 'formats' },
+        { k: 'box', cls: 's-mono', text: 'wgsl', sub: '.wgsl · WebGPU', at: 'formats+0.6' },
         { k: 'box', cls: 'accent s-mono', text: L('automatic', 'automático'), sub: 'add', at: 'stop' },
       ] },
     ],
@@ -204,7 +205,7 @@ export default [
         { k: 'box', cls: 's-bad s-mono', text: 'error CS…', sub: L('fix it like any C# error', 'arréglalo como un error de C#') },
         { k: 'box', cls: 's-bad s-mono', text: 'CS0234', sub: L('delete YotsubaShader.g.cs', 'borra YotsubaShader.g.cs') },
         { k: 'box', cls: 's-bad s-mono', text: 'System.Math.Sqrt', sub: L('use …Methods.Math', 'usa …Methods.Math') },
-        { k: 'box', cls: 's-bad s-mono', text: 'new vec4 { … }', sub: L('use Make.Vec4(…)', 'usa Crear.Vec4(…)') },
+        { k: 'box', cls: 's-bad s-mono', text: 'new vec4 { … }', sub: L('use new vec4(…)', 'usa new vec4(…)') },
       ], 'msgs', 0.3, 1.2) },
       { k: 'term', at: 'build', type: 'build+0.3', cps: 30, code: L(term('dotnet build MyShaders'), term('dotnet build MisShaders')) },
     ],

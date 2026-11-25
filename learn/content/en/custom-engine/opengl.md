@@ -58,7 +58,7 @@ public class Plasma
     public Pixel Vertex(Corner corner)
     {
         Pixel pixel;
-        pixel.Position = Make.Vec4(corner.Position.X, corner.Position.Y, 0f, 1f);
+        pixel.Position = new vec4(corner.Position.X, corner.Position.Y, 0f, 1f);
         pixel.Uv = corner.Uv;
         return pixel;
     }
@@ -79,20 +79,7 @@ public class Plasma
         float red = 0.5f + 0.5f * sin(waves * 1.5f);
         float green = 0.5f + 0.5f * sin(waves * 1.5f + 2.1f);
         float blue = 0.5f + 0.5f * sin(waves * 1.5f + 4.2f);
-        return Make.Vec4(red, green, blue, 1f);
-    }
-}
-
-public static class Make
-{
-    public static vec4 Vec4(float x, float y, float z, float w)
-    {
-        vec4 v;
-        v.X = x;
-        v.Y = y;
-        v.Z = z;
-        v.W = w;
-        return v;
+        return new vec4(red, green, blue, 1f);
     }
 }
 ```
@@ -127,7 +114,7 @@ struct Pixel
     vec2 Uv;
 };
 
-layout(set = 0, binding = 0, std140) uniform Clock
+layout(binding = 0, std140) uniform Clock
 {
     float Seconds;
 } Time;
@@ -136,20 +123,10 @@ layout(location = 0) in vec2 corner_Position;
 layout(location = 1) in vec2 corner_Uv;
 layout(location = 0) out vec2 _return_Uv;
 
-vec4 Vec4(float x, float y, float z, float w)
-{
-    vec4 v;
-    v.x = x;
-    v.y = y;
-    v.z = z;
-    v.w = w;
-    return v;
-}
-
 void main()
 {
     Pixel pixel;
-    pixel.Position = Vec4(corner_Position.x, corner_Position.y, 0.0, 1.0);
+    pixel.Position = vec4(corner_Position.x, corner_Position.y, 0.0, 1.0);
     pixel.Uv = corner_Uv;
     gl_Position = pixel.Position;
     _return_Uv = pixel.Uv;
@@ -179,17 +156,17 @@ public Clock Time;
 ```
 
 ```glsl
-layout(set = 0, binding = 0, std140) uniform Clock
+layout(binding = 0, std140) uniform Clock
 {
     float Seconds;
 } Time;
 ```
 
-`#version 450` means you need an OpenGL 4.5 context. macOS stops at OpenGL 4.1, so these files do not load there; use [Metal](metal.md) on that system.
+`#version 450` means you need an OpenGL 4.5 context. macOS stops at OpenGL 4.1, so these files do not load there. Ask for that version with `--target glsl:410`, or use [Metal](metal.md) on that system. GLSL 4.10 has no `binding`, so tie the block to point 0 yourself before `BindBufferBase`: `gl.UniformBlockBinding(program, gl.GetUniformBlockIndex(program, "Clock"), 0);`
 
 ## Load it in OpenGL
 
-The examples use Silk.NET, and every call has the same name in any OpenGL binding. The pointers need `<AllowUnsafeBlocks>true</AllowUnsafeBlocks>` in the `.csproj` of the project that draws. Create the window and the context as you always do (`GL gl = window.CreateOpenGL();`) and compile each file as a shader object. The generated GLSL speaks Vulkan (`set = 0`), and OpenGL has no descriptor sets, so remove that word before the driver sees the text:
+The examples use Silk.NET, and every call has the same name in any OpenGL binding. The pointers need `<AllowUnsafeBlocks>true</AllowUnsafeBlocks>` in the `.csproj` of the project that draws. Create the window and the context as you always do (`GL gl = window.CreateOpenGL();`) and compile each file as a shader object. The text goes to the driver as the compiler wrote it:
 
 ```csharp
 static uint Compile(GL gl, ShaderType type, string source)
@@ -207,9 +184,6 @@ static uint CreateProgram(GL gl)
 {
     string vertexSource = File.ReadAllText("shaders/MyShaders/Plasma.Vertex.glsl");
     string fragmentSource = File.ReadAllText("shaders/MyShaders/Plasma.Fragment.glsl");
-
-    vertexSource = vertexSource.Replace("set = 0, ", "");
-    fragmentSource = fragmentSource.Replace("set = 0, ", "");
 
     uint vertex = Compile(gl, ShaderType.VertexShader, vertexSource);
     uint fragment = Compile(gl, ShaderType.FragmentShader, fragmentSource);
@@ -297,8 +271,8 @@ using YotsubaShader;
 using YotsubaShader.Language;
 
 var plasma = new Plasma();
-string vertexSource = plasma.ToGlsl(Stage.Vertex).Replace("set = 0, ", "");
-string fragmentSource = plasma.ToGlsl(Stage.Fragment).Replace("set = 0, ", "");
+string vertexSource = plasma.ToGlsl(Stage.Vertex);
+string fragmentSource = plasma.ToGlsl(Stage.Fragment);
 ```
 
 Pass those two strings to `Compile` from above. The rest of the program does not change.
@@ -307,4 +281,4 @@ Pass those two strings to `Compile` from above. The rest of the program does not
 
 Use `compile` when your engine loads assets from disk, or when you want to open the GLSL and read it. Use `add` when the renderer is written in C# and you want the C# compiler to check the shader name. The options of both are in [The compile command](../reference/compile.md) and [The add command](../reference/add.md).
 
-The same shader goes to the other graphics APIs by changing only the target: [Direct3D](direct3d.md), [Vulkan](vulkan.md), [Metal](metal.md) and [WebGL](webgl.md).
+The same shader goes to the other graphics APIs by changing only the target: [Direct3D](direct3d.md), [Vulkan](vulkan.md), [Metal](metal.md), [WebGL](webgl.md) and [WebGPU](webgpu.md).

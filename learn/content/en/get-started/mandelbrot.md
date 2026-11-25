@@ -10,6 +10,10 @@ You already know how to decide with `if`, repeat with loops, write your own func
 
 ![The Mandelbrot fractal: a black shape like a heart and a circle, surrounded by blue edges full of branches](../../assets/get-started/mandelbrot.png)
 
+:::godot
+![Godot after pressing Play: the game window shows the Mandelbrot fractal with blue edges](../../assets/get-started/godot/en/mandelbrot.gif)
+:::
+
 It is called the Mandelbrot fractal. The curious thing is that there is no image stored anywhere: that whole drawing comes from a two-line formula, repeated many times.
 
 There is no new C# in this chapter. It is proof that what you learned in the previous ones is enough to draw something as complex as this.
@@ -102,7 +106,7 @@ int steps = CountSteps(cx, cy);
 
 if (steps == 100)
 {
-    return Make.Vec4(0f, 0f, 0f, 1f);
+    return new vec4(0f, 0f, 0f, 1f);
 }
 
 float t = steps / 100f;
@@ -120,7 +124,7 @@ public static vec4 Palette(float t)
     float red = 9f * rest * t * t * t;
     float green = 15f * rest * rest * t * t;
     float blue = 8.5f * rest * rest * rest * t;
-    return Make.Vec4(red, green, blue, 1f);
+    return new vec4(red, green, blue, 1f);
 }
 ```
 
@@ -143,7 +147,7 @@ public class Mandelbrot
     public Pixel Vertex({{vertexType}} corner)
     {
         Pixel pixel;
-        pixel.Position = Make.Vec4(corner.{{pos}}.X, corner.{{pos}}.Y, 0f, 1f);
+        pixel.Position = new vec4(corner.{{pos}}.X, corner.{{pos}}.Y, 0f, 1f);
         pixel.Uv = corner.{{uv}};
         return pixel;
     }
@@ -159,7 +163,7 @@ public class Mandelbrot
 
         if (steps == 100)
         {
-            return Make.Vec4(0f, 0f, 0f, 1f);
+            return new vec4(0f, 0f, 0f, 1f);
         }
 
         float t = steps / 100f;
@@ -196,7 +200,7 @@ public class Mandelbrot
         float red = 9f * rest * t * t * t;
         float green = 15f * rest * rest * t * t;
         float blue = 8.5f * rest * rest * rest * t;
-        return Make.Vec4(red, green, blue, 1f);
+        return new vec4(red, green, blue, 1f);
     }
 }
 ```
@@ -214,7 +218,7 @@ public class Mandelbrot
     public Pixel Vertex({{vertexType}} corner)
     {
         Pixel pixel;
-        pixel.Position = Make.Vec4(corner.{{pos}}.X, corner.{{pos}}.Y, 0f, 1f);
+        pixel.Position = new vec4(corner.{{pos}}.X, corner.{{pos}}.Y, 0f, 1f);
         pixel.Uv = corner.{{uv}};
         return pixel;
     }
@@ -230,7 +234,7 @@ public class Mandelbrot
 
         if (steps == 100)
         {
-            return Make.Vec4(0f, 0f, 0f, 1f);
+            return new vec4(0f, 0f, 0f, 1f);
         }
 
         float t = steps / 100f;
@@ -267,7 +271,7 @@ public class Mandelbrot
         float red = 9f * rest * t * t * t;
         float green = 15f * rest * rest * t * t;
         float blue = 8.5f * rest * rest * rest * t;
-        return Make.Vec4(red, green, blue, 1f);
+        return new vec4(red, green, blue, 1f);
     }
 }
 ```
@@ -285,7 +289,7 @@ public class Mandelbrot
     public Pixel Vertex({{vertexType}} corner)
     {
         Pixel pixel;
-        pixel.Position = Make.Vec4(corner.{{pos}}.X, corner.{{pos}}.Y, 0f, 1f);
+        pixel.Position = new vec4(corner.{{pos}}.X, corner.{{pos}}.Y, 0f, 1f);
         pixel.Uv = corner.{{uv}};
         return pixel;
     }
@@ -301,7 +305,7 @@ public class Mandelbrot
 
         if (steps == 100)
         {
-            return Make.Vec4(0f, 0f, 0f, 1f);
+            return new vec4(0f, 0f, 0f, 1f);
         }
 
         float t = steps / 100f;
@@ -338,7 +342,7 @@ public class Mandelbrot
         float red = 9f * rest * t * t * t;
         float green = 15f * rest * rest * t * t;
         float blue = 8.5f * rest * rest * rest * t;
-        return Make.Vec4(red, green, blue, 1f);
+        return new vec4(red, green, blue, 1f);
     }
 }
 ```
@@ -356,7 +360,7 @@ public class Mandelbrot
     public Pixel Vertex({{vertexType}} corner)
     {
         Pixel pixel;
-        pixel.Position = Make.Vec4(corner.{{pos}}.X, corner.{{pos}}.Y, 0f, 1f);
+        pixel.Position = new vec4(corner.{{pos}}.X, corner.{{pos}}.Y, 0f, 1f);
         pixel.Uv = corner.{{uv}};
         return pixel;
     }
@@ -372,7 +376,7 @@ public class Mandelbrot
 
         if (steps == 100)
         {
-            return Make.Vec4(0f, 0f, 0f, 1f);
+            return new vec4(0f, 0f, 0f, 1f);
         }
 
         float t = steps / 100f;
@@ -409,7 +413,7 @@ public class Mandelbrot
         float red = 9f * rest * t * t * t;
         float green = 15f * rest * rest * t * t;
         float blue = 8.5f * rest * rest * rest * t;
-        return Make.Vec4(red, green, blue, 1f);
+        return new vec4(red, green, blue, 1f);
     }
 }
 ```
@@ -427,7 +431,7 @@ public class Mandelbrot
     public Pixel Vertex({{vertexType}} corner)
     {
         Pixel pixel;
-        pixel.Position = Make.Vec4(corner.{{pos}}.X, corner.{{pos}}.Y, 0f, 1f);
+        pixel.Position = new vec4(corner.{{pos}}.X, corner.{{pos}}.Y, 0f, 1f);
         pixel.Uv = corner.{{uv}};
         return pixel;
     }
@@ -443,7 +447,7 @@ public class Mandelbrot
 
         if (steps == 100)
         {
-            return Make.Vec4(0f, 0f, 0f, 1f);
+            return new vec4(0f, 0f, 0f, 1f);
         }
 
         float t = steps / 100f;
@@ -480,7 +484,7 @@ public class Mandelbrot
         float red = 9f * rest * t * t * t;
         float green = 15f * rest * rest * t * t;
         float blue = 8.5f * rest * rest * rest * t;
-        return Make.Vec4(red, green, blue, 1f);
+        return new vec4(red, green, blue, 1f);
     }
 }
 ```
@@ -501,7 +505,13 @@ The same command as always. Since `add` compiles every shader in the project, it
 
 {{register Mandelbrot}}
 
+:::xna raylib silknet
 The viewer opens with your fractal. You will probably see it **stretched sideways**. It is not a fault of the shader: it is the same problem as the oval in the [coordinates](coordinates.md) chapter. This shader converts the `Uv` into numbers without taking into account that the window is wider than tall. To see it properly, make it square: in `Viewer/Program.cs`, change `800` and `450` to `600` and `600`. At the end of the chapter there is a challenge to fix it in the shader itself.
+:::
+
+:::godot
+The viewer opens with your fractal. You will probably see it **stretched sideways**. It is not a fault of the shader: it is the same problem as the oval in the [coordinates](coordinates.md) chapter. This shader converts the `Uv` into numbers without taking into account that the window is wider than tall. To see it properly, make it square: in **Project → Project Settings → Display → Window**, set **Viewport Width** and **Viewport Height** to `600` and `600`. At the end of the chapter there is a challenge to fix it in the shader itself.
+:::
 
 If you also want to see the compiled version, in `TryIt/Program.cs` change `new Gradient()` to `new Mandelbrot()`:
 
@@ -648,7 +658,7 @@ public class MandelbrotSky
     {
         Pixel pixel;
         // z almost 0: the rectangle sits at the very back, behind every object of the scene.
-        pixel.Position = Make.Vec4(corner.VERTEX.X, corner.VERTEX.Y, 0.00001f, 1f);
+        pixel.Position = new vec4(corner.VERTEX.X, corner.VERTEX.Y, 0.00001f, 1f);
         pixel.Uv = corner.UV;
         return pixel;
     }
@@ -679,7 +689,7 @@ public class MandelbrotSky
         red = mix(red, 0.02f, inside);
         green = mix(green, 0f, inside);
         blue = mix(blue, 0f, inside);
-        return Make.Vec4(red, green, blue, 1f);
+        return new vec4(red, green, blue, 1f);
     }
 
     public static int CountSteps(float cx, float cy)
@@ -726,7 +736,7 @@ Select the `Camera3D` and move it up and back (`Position` Y `1.6`, Z `8`). Selec
 
 Press **Play Scene** (`Cmd/Ctrl+R`):
 
-![A red and orange Mandelbrot fractal as the sky behind dark towers, over a dark red ground](../../assets/get-started/godot/en/cielo-juego.jpg)
+![A red and orange Mandelbrot fractal as the sky behind dark towers, over a dark red ground](../../assets/get-started/godot/en/sky.gif)
 
 The fractal is your own code, running as the background of a 3D scene. To go back, open `viewer.tscn`: it still says `Mandelbrot`.
 :::

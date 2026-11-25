@@ -58,7 +58,7 @@ public class Plasma
     public Pixel Vertex(Vertice vertice)
     {
         Pixel pixel;
-        pixel.Posicion = Crear.Vec4(vertice.Posicion.X, vertice.Posicion.Y, 0f, 1f);
+        pixel.Posicion = new vec4(vertice.Posicion.X, vertice.Posicion.Y, 0f, 1f);
         pixel.Uv = vertice.Uv;
         return pixel;
     }
@@ -79,20 +79,7 @@ public class Plasma
         float rojo = 0.5f + 0.5f * sin(olas * 1.5f);
         float verde = 0.5f + 0.5f * sin(olas * 1.5f + 2.1f);
         float azul = 0.5f + 0.5f * sin(olas * 1.5f + 4.2f);
-        return Crear.Vec4(rojo, verde, azul, 1f);
-    }
-}
-
-public static class Crear
-{
-    public static vec4 Vec4(float x, float y, float z, float w)
-    {
-        vec4 v;
-        v.X = x;
-        v.Y = y;
-        v.Z = z;
-        v.W = w;
-        return v;
+        return new vec4(rojo, verde, azul, 1f);
     }
 }
 ```
@@ -211,7 +198,7 @@ context.Draw(6, 0);
 
 ## Direct3D 12
 
-Direct3D 12 compila HLSL con DXC. Los mismos archivos entran con un perfil de shader model 6, una llamada por stage. Puedes probarlo en la consola antes de escribir nada de C#:
+Direct3D 12 compila HLSL con DXC. Los mismos archivos entran con un perfil de shader model 6, una llamada por stage. Si quieres el texto escrito para shader model 6, añade la versión al target: `--target hlsl:6.0`. Puedes probarlo en la consola antes de escribir nada de C#:
 
 ```bash
 dxc -T vs_6_0 -E Vertex MisShaders/shaders/MisShaders/Plasma.Vertex.hlsl -Fo Plasma.Vertex.dxil
@@ -250,4 +237,4 @@ Pasa esos dos textos a `Compile` de arriba. El resto del programa no cambia.
 
 Usa `compile` cuando tu motor carga los assets desde disco, o cuando quieres abrir el HLSL y leerlo. Usa `add` cuando el renderer está escrito en C# y quieres que el compilador de C# compruebe el nombre del shader. Las opciones de los dos están en [El comando compile](../reference/compile.md) y [El comando add](../reference/add.md).
 
-El mismo shader va a las otras APIs gráficas cambiando solo el target: [OpenGL](opengl.md), [Vulkan](vulkan.md), [Metal](metal.md) y [WebGL](webgl.md).
+El mismo shader va a las otras APIs gráficas cambiando solo el target: [OpenGL](opengl.md), [Vulkan](vulkan.md), [Metal](metal.md), [WebGL](webgl.md) y [WebGPU](webgpu.md).

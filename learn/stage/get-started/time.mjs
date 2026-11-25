@@ -4,7 +4,7 @@
 
 const L = (en, es) => ({ en, es });
 const cs = (title, code) => ({ title, code, lang: 'csharp' });
-const ENGINE_LOGO = { route: { kni: '/img/engines/kni.png', fna: '/img/engines/fna.png', godot: '/img/engines/godot.svg', default: '/img/engines/monogame.png' } };
+const ENGINE_LOGO = { route: { kni: '/img/engines/kni.png', fna: '/img/engines/fna.png', godot: '/img/engines/godot.svg', raylib: '/img/engines/raylib.png', silknet: '/img/engines/silknet.svg', default: '/img/engines/monogame.png' } };
 const win = (tiles, at, extra = {}) => ({ k: 'gl', cls: 'window w50', title: '{{engine}}', logo: ENGINE_LOGO, at, fx: 'pop', radius: 10, tiles, ...extra });
 const tiles = (arr, at, extra = {}) => ({ k: 'gl', cls: 'w86', gap: 2, radius: 10, at, fx: 'fade', tiles: arr, ...extra });
 
@@ -23,8 +23,8 @@ const ENTORNO = L(cs('MyShaders/Context.cs', `public struct Context
     public float Segundos;
 }`));
 const code = (en, es) => L(cs('Fragment', en), cs('Fragment', es));
-const FLASH = code('float t = Data.Seconds % 1f;\nreturn Make.Vec4(t, t, t, 1f);', 'float t = Datos.Segundos % 1f;\nreturn Crear.Vec4(t, t, t, 1f);');
-const TRI = code('float t = Data.Seconds % 1f;\nif (t > 0.5f) t = 1f - t;\nreturn Make.Vec4(t * 2f, t * 2f, t * 2f, 1f);', 'float t = Datos.Segundos % 1f;\nif (t > 0.5f) t = 1f - t;\nreturn Crear.Vec4(t * 2f, t * 2f, t * 2f, 1f);');
+const FLASH = code('float t = Data.Seconds % 1f;\nreturn new vec4(t, t, t, 1f);', 'float t = Datos.Segundos % 1f;\nreturn new vec4(t, t, t, 1f);');
+const TRI = code('float t = Data.Seconds % 1f;\nif (t > 0.5f) t = 1f - t;\nreturn new vec4(t * 2f, t * 2f, t * 2f, 1f);', 'float t = Datos.Segundos % 1f;\nif (t > 0.5f) t = 1f - t;\nreturn new vec4(t * 2f, t * 2f, t * 2f, 1f);');
 const BALL = code('float progress = Data.Seconds * 0.4f % 1f;\nif (progress > 0.5f) progress = 1f - progress;\nprogress *= 2f;\nfloat centerX = 0.15f + progress * (aspect - 0.3f);',
   'float avance = Datos.Segundos * 0.4f % 1f;\nif (avance > 0.5f) avance = 1f - avance;\navance *= 2f;\nfloat centroX = 0.15f + avance * (aspecto - 0.3f);');
 

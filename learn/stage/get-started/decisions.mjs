@@ -4,23 +4,23 @@
 
 const L = (en, es) => ({ en, es });
 const cs = (title, code) => ({ title, code, lang: 'csharp' });
-const ENGINE_LOGO = { route: { kni: '/img/engines/kni.png', fna: '/img/engines/fna.png', godot: '/img/engines/godot.svg', default: '/img/engines/monogame.png' } };
+const ENGINE_LOGO = { route: { kni: '/img/engines/kni.png', fna: '/img/engines/fna.png', godot: '/img/engines/godot.svg', raylib: '/img/engines/raylib.png', silknet: '/img/engines/silknet.svg', default: '/img/engines/monogame.png' } };
 const win = (tiles, at, extra = {}) => ({ k: 'gl', cls: 'window w50', title: '{{engine}}', logo: ENGINE_LOGO, at, fx: 'pop', radius: 10, tiles, ...extra });
 const tiles = (arr, at, extra = {}) => ({ k: 'gl', cls: 'w86', gap: 2, radius: 10, at, fx: 'fade', tiles: arr, ...extra });
-const frag = (en, es) => L(cs('Fragment', en), cs('Fragment', es.replace(/Make\./g, 'Crear.')));
+const frag = (en, es) => L(cs('Fragment', en), cs('Fragment', es));
 const both = (s) => frag(s, s);
 
 const BG = 'vec3(.1,.1,.14)';
 const ORANGE = 'vec3(1.,.5,.1)', BLUE = 'vec3(.1,.4,1.)';
 const ASPECT = 'float asp=uRes.x/uRes.y;';
 
-const SPLIT = both('if (pixel.Uv.X < 0.5f)\n{\n    return Make.Vec4(1f, 0.5f, 0.1f, 1f);\n}\nreturn Make.Vec4(0.1f, 0.4f, 1f, 1f);');
-const ELSEIF = both('float x = pixel.Uv.X;\nif (x < 0.33f)\n    return Make.Vec4(1f, 0.5f, 0.1f, 1f);\nelse if (x < 0.66f)\n    return Make.Vec4(1f, 1f, 1f, 1f);\nelse\n    return Make.Vec4(0.1f, 0.4f, 1f, 1f);');
-const RECT = L(cs('Fragment', 'float x = pixel.Uv.X;\nfloat y = pixel.Uv.Y;\nif (x > 0.2f && x < 0.8f && y > 0.25f && y < 0.75f)\n    return Make.Vec4(1f, 0.5f, 0.1f, 1f);\nreturn Make.Vec4(0.1f, 0.1f, 0.14f, 1f);'), cs('Fragment', 'float x = pixel.Uv.X;\nfloat y = pixel.Uv.Y;\nif (x > 0.2f && x < 0.8f && y > 0.25f && y < 0.75f)\n    return Crear.Vec4(1f, 0.5f, 0.1f, 1f);\nreturn Crear.Vec4(0.1f, 0.1f, 0.14f, 1f);'));
-const CIRCLE = L(cs('Fragment', 'if (dx * dx + dy * dy < 0.3f * 0.3f)\n    return Make.Vec4(1f, 0.5f, 0.1f, 1f);\nreturn Make.Vec4(0.1f, 0.1f, 0.14f, 1f);'), cs('Fragment', 'if (dx * dx + dy * dy < 0.3f * 0.3f)\n    return Crear.Vec4(1f, 0.5f, 0.1f, 1f);\nreturn Crear.Vec4(0.1f, 0.1f, 0.14f, 1f);'));
-const CHECKER = L(cs('Fragment', 'int column = (int)(pixel.Uv.X * 8f);\nint row = (int)(pixel.Uv.Y * 8f);\nif ((column + row) % 2 == 0)\n    return Make.Vec4(1f, 1f, 1f, 1f);\nreturn Make.Vec4(0.1f, 0.1f, 0.14f, 1f);'), cs('Fragment', 'int columna = (int)(pixel.Uv.X * 8f);\nint fila = (int)(pixel.Uv.Y * 8f);\nif ((columna + fila) % 2 == 0)\n    return Crear.Vec4(1f, 1f, 1f, 1f);\nreturn Crear.Vec4(0.1f, 0.1f, 0.14f, 1f);'));
-const IF_FORM = both('Vec4 color;\nif (x < 0.5f)\n    color = Make.Vec4(1f, 0.5f, 0.1f, 1f);\nelse\n    color = Make.Vec4(0.1f, 0.4f, 1f, 1f);');
-const TERNARY = both('Vec4 color = x < 0.5f\n    ? Make.Vec4(1f, 0.5f, 0.1f, 1f)\n    : Make.Vec4(0.1f, 0.4f, 1f, 1f);');
+const SPLIT = both('if (pixel.Uv.X < 0.5f)\n{\n    return new vec4(1f, 0.5f, 0.1f, 1f);\n}\nreturn new vec4(0.1f, 0.4f, 1f, 1f);');
+const ELSEIF = both('float x = pixel.Uv.X;\nif (x < 0.33f)\n    return new vec4(1f, 0.5f, 0.1f, 1f);\nelse if (x < 0.66f)\n    return new vec4(1f, 1f, 1f, 1f);\nelse\n    return new vec4(0.1f, 0.4f, 1f, 1f);');
+const RECT = L(cs('Fragment', 'float x = pixel.Uv.X;\nfloat y = pixel.Uv.Y;\nif (x > 0.2f && x < 0.8f && y > 0.25f && y < 0.75f)\n    return new vec4(1f, 0.5f, 0.1f, 1f);\nreturn new vec4(0.1f, 0.1f, 0.14f, 1f);'), cs('Fragment', 'float x = pixel.Uv.X;\nfloat y = pixel.Uv.Y;\nif (x > 0.2f && x < 0.8f && y > 0.25f && y < 0.75f)\n    return new vec4(1f, 0.5f, 0.1f, 1f);\nreturn new vec4(0.1f, 0.1f, 0.14f, 1f);'));
+const CIRCLE = L(cs('Fragment', 'if (dx * dx + dy * dy < 0.3f * 0.3f)\n    return new vec4(1f, 0.5f, 0.1f, 1f);\nreturn new vec4(0.1f, 0.1f, 0.14f, 1f);'), cs('Fragment', 'if (dx * dx + dy * dy < 0.3f * 0.3f)\n    return new vec4(1f, 0.5f, 0.1f, 1f);\nreturn new vec4(0.1f, 0.1f, 0.14f, 1f);'));
+const CHECKER = L(cs('Fragment', 'int column = (int)(pixel.Uv.X * 8f);\nint row = (int)(pixel.Uv.Y * 8f);\nif ((column + row) % 2 == 0)\n    return new vec4(1f, 1f, 1f, 1f);\nreturn new vec4(0.1f, 0.1f, 0.14f, 1f);'), cs('Fragment', 'int columna = (int)(pixel.Uv.X * 8f);\nint fila = (int)(pixel.Uv.Y * 8f);\nif ((columna + fila) % 2 == 0)\n    return new vec4(1f, 1f, 1f, 1f);\nreturn new vec4(0.1f, 0.1f, 0.14f, 1f);'));
+const IF_FORM = both('Vec4 color;\nif (x < 0.5f)\n    color = new vec4(1f, 0.5f, 0.1f, 1f);\nelse\n    color = new vec4(0.1f, 0.4f, 1f, 1f);');
+const TERNARY = both('Vec4 color = x < 0.5f\n    ? new vec4(1f, 0.5f, 0.1f, 1f)\n    : new vec4(0.1f, 0.4f, 1f, 1f);');
 
 const SH = {
   // every pixel decides on its own: the little cells show each pixel's decision at the same time

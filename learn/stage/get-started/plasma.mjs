@@ -4,7 +4,7 @@
 
 const L = (en, es) => ({ en, es });
 const cs = (title, code) => ({ title, code, lang: 'csharp' });
-const ENGINE_LOGO = { route: { kni: '/img/engines/kni.png', fna: '/img/engines/fna.png', godot: '/img/engines/godot.svg', default: '/img/engines/monogame.png' } };
+const ENGINE_LOGO = { route: { kni: '/img/engines/kni.png', fna: '/img/engines/fna.png', godot: '/img/engines/godot.svg', raylib: '/img/engines/raylib.png', silknet: '/img/engines/silknet.svg', default: '/img/engines/monogame.png' } };
 const win = (tiles, at, extra = {}) => ({ k: 'gl', cls: 'window w50', title: '{{engine}}', logo: ENGINE_LOGO, at, fx: 'pop', radius: 10, tiles, ...extra });
 const tiles = (arr, at, extra = {}) => ({ k: 'gl', cls: 'w86', gap: 2, radius: 10, at, fx: 'fade', tiles: arr, ...extra });
 const BG = 'vec3(.1,.1,.14)';
@@ -28,10 +28,10 @@ public Reloj Tiempo;
 
 // en Fragment:
 float t = Tiempo.Segundos;`));
-const GLSL = L({ title: 'GLSL', lang: 'glsl', code: `layout(set = 0, binding = 0, std140) uniform Clock
+const GLSL = L({ title: 'GLSL', lang: 'glsl', code: `layout(binding = 0, std140) uniform Clock
 {
     float Seconds;
-} Time;` }, { title: 'GLSL', lang: 'glsl', code: `layout(set = 0, binding = 0, std140) uniform Reloj
+} Time;` }, { title: 'GLSL', lang: 'glsl', code: `layout(binding = 0, std140) uniform Reloj
 {
     float Segundos;
 } Tiempo;` });
@@ -129,13 +129,13 @@ export default [
       ] },
     ],
   },
-  /* what the compiler writes for a uniform: set = group, binding = slot */
+  /* what the compiler writes for a uniform: binding = slot; the group (set) only reaches the SPIR-V */
   {
     id: 'compile',
-    beats: { add: L('processes a shader with a uniform', 'procesa un shader con un uniform'), glsl: L('In GLSL they look like this', 'En GLSL quedan así'), set: L('is the group', 'es el grupo'), binding: L('is the slot', 'es el casillero') },
+    beats: { add: L('processes a shader with a uniform', 'procesa un shader con un uniform'), glsl: L('In GLSL they look like this', 'En GLSL quedan así'), binding: L('is the slot', 'es el casillero'), group: L('The other number, the group', 'El otro número, el grupo') },
     items: [
       { k: 'kicker', text: L('The uniform, compiled', 'El uniform, compilado') },
-      { k: 'code', at: 'glsl', type: 'glsl+0.3', cps: 55, code: GLSL, hl: [{ at: 'set', until: 'binding', lines: [0] }, { at: 'binding', lines: [0] }], tags: [{ at: 'set+0.3', line: 0, text: 'set = 0' }, { at: 'binding+0.3', line: 0, text: 'binding = 0' }] },
+      { k: 'code', at: 'glsl', type: 'glsl+0.3', cps: 55, code: GLSL, hl: [{ at: 'binding', lines: [0] }], tags: [{ at: 'binding+0.3', line: 0, text: 'binding = 0' }, { at: 'group+0.3', line: 0, text: 'set → SPIR-V' }] },
     ],
   },
   /* what your program does every frame: four steps; steps 1 and 2 are plain C# */

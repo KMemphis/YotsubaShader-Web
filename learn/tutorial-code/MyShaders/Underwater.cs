@@ -20,7 +20,7 @@ public class Underwater
     public Pixel Vertex(Corner corner)
     {
         Pixel pixel;
-        pixel.Position = Make.Vec4(corner.Position.X, corner.Position.Y, 0f, 1f);
+        pixel.Position = new vec4(corner.Position.X, corner.Position.Y, 0f, 1f);
         pixel.Uv = corner.Uv;
         return pixel;
     }
@@ -34,15 +34,15 @@ public class Underwater
         float u = pixel.Uv.X + sin(pixel.Uv.Y * 25f + t * 2f) * 0.012f;
         float v = pixel.Uv.Y + sin(pixel.Uv.X * 20f + t * 1.5f) * 0.012f;
 
-        vec4 photo = texture(Photo, Make.Vec2(u, v));
+        vec4 photo = texture(Photo, new vec2(u, v));
 
-        vec3 original = Make.Vec3(photo.X, photo.Y, photo.Z);
-        vec3 seaBlue = Make.Vec3(photo.X * 0.2f, photo.Y * 0.7f, photo.Z * 1f + 0.1f);
+        vec3 original = new vec3(photo.X, photo.Y, photo.Z);
+        vec3 seaBlue = new vec3(photo.X * 0.2f, photo.Y * 0.7f, photo.Z * 1f + 0.1f);
         vec3 color = mix(original, seaBlue, 0.6f);
 
         float shade = Vignette(pixel.Uv.X, pixel.Uv.Y);
 
-        return Make.Vec4(color.X * shade, color.Y * shade, color.Z * shade, 1f);
+        return new vec4(color.X * shade, color.Y * shade, color.Z * shade, 1f);
     }
 
     public static float Vignette(float u, float v)

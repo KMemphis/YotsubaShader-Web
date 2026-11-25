@@ -4,7 +4,7 @@
 
 const L = (en, es) => ({ en, es });
 const cs = (title, code) => ({ title, code, lang: 'csharp' });
-const ENGINE_LOGO = { route: { kni: '/img/engines/kni.png', fna: '/img/engines/fna.png', godot: '/img/engines/godot.svg', default: '/img/engines/monogame.png' } };
+const ENGINE_LOGO = { route: { kni: '/img/engines/kni.png', fna: '/img/engines/fna.png', godot: '/img/engines/godot.svg', raylib: '/img/engines/raylib.png', silknet: '/img/engines/silknet.svg', default: '/img/engines/monogame.png' } };
 const win = (tiles, at, extra = {}) => ({ k: 'gl', cls: 'window w50', title: '{{engine}}', logo: ENGINE_LOGO, at, fx: 'pop', radius: 10, tiles, ...extra });
 const both = (s, title = 'Fragment') => L(cs(title, s), cs(title, s));
 const pair = (en, es, title = 'Fragment') => L(cs(title, en), cs(title, es));
@@ -27,19 +27,19 @@ if (dx * dx + dy * dy < 0.06f * 0.06f)
 const HEAD = pair(`float dx = x - middle;
 float dy = y - 0.5f;
 if (dx * dx + dy * dy < 0.4f * 0.4f)
-    color = Make.Vec4(1f, 0.85f, 0.3f, 1f);`, `float dx = x - medio;
+    color = new vec4(1f, 0.85f, 0.3f, 1f);`, `float dx = x - medio;
 float dy = y - 0.5f;
 if (dx * dx + dy * dy < 0.4f * 0.4f)
-    color = Crear.Vec4(1f, 0.85f, 0.3f, 1f);`);
+    color = new vec4(1f, 0.85f, 0.3f, 1f);`);
 const MEASURE = pair(`float aspect = Data.Width / Data.Height;
 float x = pixel.Uv.X * aspect;
 float y = pixel.Uv.Y;
 float middle = aspect / 2f;
-vec4 color = Make.Vec4(0.45f, 0.7f, 1f, 1f);`, `float aspecto = Datos.Ancho / Datos.Alto;
+vec4 color = new vec4(0.45f, 0.7f, 1f, 1f);`, `float aspecto = Datos.Ancho / Datos.Alto;
 float x = pixel.Uv.X * aspecto;
 float y = pixel.Uv.Y;
 float medio = aspecto / 2f;
-vec4 color = Crear.Vec4(0.45f, 0.7f, 1f, 1f);`);
+vec4 color = new vec4(0.45f, 0.7f, 1f, 1f);`);
 const INCIRCLE = pair(`static bool InCircle(float x, float y, float cx, float cy, float r)
 {
     float dx = x - cx;
@@ -52,12 +52,12 @@ const INCIRCLE = pair(`static bool InCircle(float x, float y, float cx, float cy
     return dx * dx + dy * dy < r * r;
 }`, 'Face.cs');
 const INRECT = pair('static bool InRect(float x, float y, float x0, float y0, float x1, float y1)\n{\n    return x > x0 && x < x1 && y > y0 && y < y1;\n}', 'static bool EnRect(float x, float y, float x0, float y0, float x1, float y1)\n{\n    return x > x0 && x < x1 && y > y0 && y < y1;\n}', 'Face.cs');
-const PALETTE = pair(`vec4 sky = Make.Vec4(0.45f, 0.7f, 1f, 1f);
-vec4 skin = Make.Vec4(1f, 0.85f, 0.3f, 1f);
-vec4 ink = Make.Vec4(0.1f, 0.1f, 0.1f, 1f);
-vec4 color = sky;`, `vec4 cielo = Crear.Vec4(0.45f, 0.7f, 1f, 1f);
-vec4 piel = Crear.Vec4(1f, 0.85f, 0.3f, 1f);
-vec4 tinta = Crear.Vec4(0.1f, 0.1f, 0.1f, 1f);
+const PALETTE = pair(`vec4 sky = new vec4(0.45f, 0.7f, 1f, 1f);
+vec4 skin = new vec4(1f, 0.85f, 0.3f, 1f);
+vec4 ink = new vec4(0.1f, 0.1f, 0.1f, 1f);
+vec4 color = sky;`, `vec4 cielo = new vec4(0.45f, 0.7f, 1f, 1f);
+vec4 piel = new vec4(1f, 0.85f, 0.3f, 1f);
+vec4 tinta = new vec4(0.1f, 0.1f, 0.1f, 1f);
 vec4 color = cielo;`);
 const STRUCT = pair(`struct Circle
 {

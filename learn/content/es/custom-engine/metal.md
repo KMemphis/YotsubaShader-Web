@@ -58,7 +58,7 @@ public class Plasma
     public Pixel Vertex(Vertice vertice)
     {
         Pixel pixel;
-        pixel.Posicion = Crear.Vec4(vertice.Posicion.X, vertice.Posicion.Y, 0f, 1f);
+        pixel.Posicion = new vec4(vertice.Posicion.X, vertice.Posicion.Y, 0f, 1f);
         pixel.Uv = vertice.Uv;
         return pixel;
     }
@@ -79,20 +79,7 @@ public class Plasma
         float rojo = 0.5f + 0.5f * sin(olas * 1.5f);
         float verde = 0.5f + 0.5f * sin(olas * 1.5f + 2.1f);
         float azul = 0.5f + 0.5f * sin(olas * 1.5f + 4.2f);
-        return Crear.Vec4(rojo, verde, azul, 1f);
-    }
-}
-
-public static class Crear
-{
-    public static vec4 Vec4(float x, float y, float z, float w)
-    {
-        vec4 v;
-        v.X = x;
-        v.Y = y;
-        v.Z = z;
-        v.W = w;
-        return v;
+        return new vec4(rojo, verde, azul, 1f);
     }
 }
 ```
@@ -116,7 +103,7 @@ MisShaders/shaders/
     └── Plasma.Vertex.msl
 ```
 
-Hay un archivo por stage, con el nombre `<Clase>.<Stage>.msl`. El método `Vertex` de C# se convierte en una función llamada `Vertex`, y `Fragment` en `Fragment`. Los dos puntos de entrada, tal como los escribió el compilador:
+Hay un archivo por stage, con el nombre `<Clase>.<Stage>.msl`. Los archivos están escritos para MSL 1.2, que lee cualquier dispositivo Metal; si tu shader usa algo más nuevo, añade la versión al target (`--target msl:2.4`, `msl:3.1`...). El método `Vertex` de C# se convierte en una función llamada `Vertex`, y `Fragment` en `Fragment`. Los dos puntos de entrada, tal como los escribió el compilador:
 
 ```text
 vertex Vertex_out Vertex(Vertex_in in [[stage_in]])
@@ -248,4 +235,4 @@ Entrega cada texto al dispositivo como Swift entrega `source` a `makeLibrary(sou
 
 Usa `compile` cuando tu app carga los assets desde el bundle, o cuando quieres abrir el MSL y leerlo. Usa `add` cuando el renderer está escrito en C# y quieres que el compilador de C# compruebe el nombre del shader. Las opciones de los dos están en [El comando compile](../reference/compile.md) y [El comando add](../reference/add.md).
 
-El mismo shader va a las otras APIs gráficas cambiando solo el target: [OpenGL](opengl.md), [Direct3D](direct3d.md), [Vulkan](vulkan.md) y [WebGL](webgl.md).
+El mismo shader va a las otras APIs gráficas cambiando solo el target: [OpenGL](opengl.md), [Direct3D](direct3d.md), [Vulkan](vulkan.md), [WebGL](webgl.md) y [WebGPU](webgpu.md).

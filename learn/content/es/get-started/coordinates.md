@@ -17,7 +17,7 @@ Para eso el shader necesita una respuesta a una pregunta: **¿dónde está este 
 Copia `Plantilla.cs` como `Coordenadas.cs` y cambia el nombre de la clase por `Coordenadas`. Luego reemplaza la línea de `Fragment` por esta:
 
 ```csharp
-return Crear.Vec4(pixel.Uv.X, 0f, 0f, 1f);
+return new vec4(pixel.Uv.X, 0f, 0f, 1f);
 ```
 
 Aquí estamos usando la posición del píxel como si fuera la cantidad de rojo. Ejecuta el ciclo de trabajo:
@@ -37,7 +37,7 @@ Esta es la mejor herramienta para entender un shader: **convertir un número en 
 Ahora cambia la línea para mostrar `Uv.Y` en el canal verde:
 
 ```csharp
-return Crear.Vec4(0f, pixel.Uv.Y, 0f, 1f);
+return new vec4(0f, pixel.Uv.Y, 0f, 1f);
 ```
 
 ![Un degradado que va de negro arriba a verde abajo](../../assets/get-started/taller/cr2.png)
@@ -54,7 +54,7 @@ Esto sorprende a casi todo el mundo, porque en matemáticas y en los dibujos de 
 Ahora pon las dos coordenadas juntas, una en cada canal:
 
 ```csharp
-return Crear.Vec4(pixel.Uv.X, pixel.Uv.Y, 0f, 1f);
+return new vec4(pixel.Uv.X, pixel.Uv.Y, 0f, 1f);
 ```
 
 ![Un degradado en dos direcciones: negro arriba a la izquierda, rojo arriba a la derecha, verde abajo a la izquierda y amarillo abajo a la derecha](../../assets/get-started/taller/cr3.png)
@@ -78,7 +78,7 @@ Hasta ahora `Uv.X` va de `0` a `1` una sola vez. ¿Y si queremos que el degradad
 
 ```csharp
 float x = (pixel.Uv.X * 4f) % 1f;
-return Crear.Vec4(x, 0f, 0f, 1f);
+return new vec4(x, 0f, 0f, 1f);
 ```
 
 Hay dos cosas nuevas en esa línea:
@@ -101,7 +101,7 @@ El `Uv` empieza en la esquina de arriba a la izquierda. Pero para dibujar un cí
 ```csharp
 float dx = pixel.Uv.X - 0.5f;
 float dy = pixel.Uv.Y - 0.5f;
-return Crear.Vec4(dx, dy, 0f, 1f);
+return new vec4(dx, dy, 0f, 1f);
 ```
 
 `dx` y `dy` son "cuánto me alejo del centro" en cada dirección. Ya no van de `0` a `1`, sino de `-0.5` a `0.5`.
@@ -122,7 +122,7 @@ Ojo: ese resultado no es la distancia exacta. Es la distancia multiplicada por s
 float dx = pixel.Uv.X - 0.5f;
 float dy = pixel.Uv.Y - 0.5f;
 float luz = 1f - (dx * dx + dy * dy) * 4f;
-return Crear.Vec4(luz, luz, luz, 1f);
+return new vec4(luz, luz, luz, 1f);
 ```
 
 Leamos la tercera línea de adentro hacia afuera:
@@ -140,6 +140,10 @@ Funciona, pero algo está mal. Pedimos una mancha **redonda**, y salió un **óv
 ## El problema del óvalo
 
 El `Uv` siempre va de `0` a `1`, tanto en horizontal como en vertical, sin importar la forma de la ventana. Nuestra ventana mide 800 por 450 píxeles: es más ancha que alta. Así que `0.1` de ancho son 80 píxeles, pero `0.1` de alto son solo 45. Las distancias que calculamos **no son iguales en las dos direcciones**, y el círculo se estira.
+
+:::godot
+La ventana de tu proyecto de Godot mide 1152 por 648 píxeles mientras no la cambies, y tiene la misma forma ancha que los 800 por 450 de las otras rutas: `0.1` de ancho son unos 115 píxeles y `0.1` de alto solo 65, así que el círculo se estira igual.
+:::
 
 Este es uno de los problemas que más preguntan los principiantes: *"¿por qué mi círculo sale ovalado?"* La solución es corregir esa diferencia. Si la ventana es 1,78 veces más ancha que alta, hay que multiplicar `dx` por 1,78 para que "mida lo mismo" que `dy`.
 
@@ -227,6 +231,11 @@ Y ahora, dentro de `Fragment`, puedes usarlo como cualquier otro valor: `Datos.A
 > [!NOTE]
 > ¿Cómo se entera la ventana de que tiene que entregar `Ancho` y `Alto`? Es el visor quien lo hace, por el nombre: busca un dato llamado `Datos_Ancho` (el nombre del uniform, un guion bajo y el nombre del campo). Si tu shader usa otros nombres, el visor no los conoce. Por eso, en este tutorial, mantén los nombres `Datos`, `Ancho`, `Alto` y `Segundos`.
 
+:::raylib silknet
+> [!NOTE]
+> En {{engine}} funciona un poco distinto: el visor no busca `Datos_Ancho` por el nombre. Escribe el bloque de uniforms como `Ancho`, `Alto` y `Segundos`, en ese orden, así que declara los campos en ese orden y conserva los nombres del tutorial.
+:::
+
 > [!SCENE] fix
 
 ## Paso 7: arreglar el círculo
@@ -238,7 +247,7 @@ float aspecto = Datos.Ancho / Datos.Alto;
 float dx = (pixel.Uv.X - 0.5f) * aspecto;
 float dy = pixel.Uv.Y - 0.5f;
 float luz = 1f - (dx * dx + dy * dy) * 4f;
-return Crear.Vec4(luz, luz, luz, 1f);
+return new vec4(luz, luz, luz, 1f);
 ```
 
 La línea nueva es la primera: `aspecto` es el ancho dividido entre el alto, o sea cuántas veces más ancha que alta es la ventana. Con 800 y 450 vale 1,78. En la segunda línea se lo aplicamos a `dx`.
@@ -247,7 +256,17 @@ Ejecuta el ciclo de trabajo.
 
 ![Una mancha blanca perfectamente redonda sobre fondo negro](../../assets/get-started/taller/cr7.png)
 
+:::godot
+![Godot al pulsar Play: se abre la ventana del juego con la mancha blanca redonda sobre fondo negro](../../assets/get-started/godot/es/coordenadas.gif)
+:::
+
+:::xna raylib silknet
 Ahora sí es un círculo. Prueba una cosa más: estira la ventana con el ratón (o cambia el `800` y el `450` en `Visor/Program.cs`). El círculo sigue siendo redondo, porque el shader vuelve a calcular el aspecto con cada medida nueva.
+:::
+
+:::godot
+Ahora sí es un círculo. Prueba una cosa más: estira la ventana con el ratón (o cambia **Viewport Width** y **Viewport Height** en **Proyecto → Configuración del proyecto → Display → Window**). El círculo sigue siendo redondo, porque el shader vuelve a calcular el aspecto con cada medida nueva.
+:::
 
 > [!NOTE]
 > Hay otra forma de resolver esto, que es dividir entre el alto en vez del ancho, y dejar el eje X sin límite fijo. La que usamos aquí es la más fácil de explicar. En otros shaders verás las dos.
@@ -273,7 +292,7 @@ public class Coordenadas
     public Pixel Vertex({{vertexType}} vertice)
     {
         Pixel pixel;
-        pixel.Posicion = Crear.Vec4(vertice.{{pos}}.X, vertice.{{pos}}.Y, 0f, 1f);
+        pixel.Posicion = new vec4(vertice.{{pos}}.X, vertice.{{pos}}.Y, 0f, 1f);
         pixel.Uv = vertice.{{uv}};
         return pixel;
     }
@@ -286,7 +305,7 @@ public class Coordenadas
         float dx = (pixel.Uv.X - 0.5f) * aspecto;
         float dy = pixel.Uv.Y - 0.5f;
         float luz = 1f - (dx * dx + dy * dy) * 4f;
-        return Crear.Vec4(luz, luz, luz, 1f);
+        return new vec4(luz, luz, luz, 1f);
     }
 }
 ```
@@ -308,7 +327,7 @@ public class Coordenadas
     public Pixel Vertex({{vertexType}} vertice)
     {
         Pixel pixel;
-        pixel.Posicion = Crear.Vec4(vertice.{{pos}}.X, vertice.{{pos}}.Y, 0f, 1f);
+        pixel.Posicion = new vec4(vertice.{{pos}}.X, vertice.{{pos}}.Y, 0f, 1f);
         pixel.Uv = vertice.{{uv}};
         return pixel;
     }
@@ -321,7 +340,7 @@ public class Coordenadas
         float dx = (pixel.Uv.X - 0.5f) * aspecto;
         float dy = pixel.Uv.Y - 0.5f;
         float luz = 1f - (dx * dx + dy * dy) * 4f;
-        return Crear.Vec4(luz, luz, luz, 1f);
+        return new vec4(luz, luz, luz, 1f);
     }
 }
 ```
@@ -343,7 +362,7 @@ public class Coordenadas
     public Pixel Vertex({{vertexType}} vertice)
     {
         Pixel pixel;
-        pixel.Posicion = Crear.Vec4(vertice.{{pos}}.X, vertice.{{pos}}.Y, 0f, 1f);
+        pixel.Posicion = new vec4(vertice.{{pos}}.X, vertice.{{pos}}.Y, 0f, 1f);
         pixel.Uv = vertice.{{uv}};
         return pixel;
     }
@@ -356,7 +375,7 @@ public class Coordenadas
         float dx = (pixel.Uv.X - 0.5f) * aspecto;
         float dy = pixel.Uv.Y - 0.5f;
         float luz = 1f - (dx * dx + dy * dy) * 4f;
-        return Crear.Vec4(luz, luz, luz, 1f);
+        return new vec4(luz, luz, luz, 1f);
     }
 }
 ```
@@ -378,7 +397,7 @@ public class Coordenadas
     public Pixel Vertex({{vertexType}} vertice)
     {
         Pixel pixel;
-        pixel.Posicion = Crear.Vec4(vertice.{{pos}}.X, vertice.{{pos}}.Y, 0f, 1f);
+        pixel.Posicion = new vec4(vertice.{{pos}}.X, vertice.{{pos}}.Y, 0f, 1f);
         pixel.Uv = vertice.{{uv}};
         return pixel;
     }
@@ -391,7 +410,7 @@ public class Coordenadas
         float dx = (pixel.Uv.X - 0.5f) * aspecto;
         float dy = pixel.Uv.Y - 0.5f;
         float luz = 1f - (dx * dx + dy * dy) * 4f;
-        return Crear.Vec4(luz, luz, luz, 1f);
+        return new vec4(luz, luz, luz, 1f);
     }
 }
 ```
@@ -413,7 +432,7 @@ public class Coordenadas
     public Pixel Vertex({{vertexType}} vertice)
     {
         Pixel pixel;
-        pixel.Posicion = Crear.Vec4(vertice.{{pos}}.X, vertice.{{pos}}.Y, 0f, 1f);
+        pixel.Posicion = new vec4(vertice.{{pos}}.X, vertice.{{pos}}.Y, 0f, 1f);
         pixel.Uv = vertice.{{uv}};
         return pixel;
     }
@@ -426,7 +445,7 @@ public class Coordenadas
         float dx = (pixel.Uv.X - 0.5f) * aspecto;
         float dy = pixel.Uv.Y - 0.5f;
         float luz = 1f - (dx * dx + dy * dy) * 4f;
-        return Crear.Vec4(luz, luz, luz, 1f);
+        return new vec4(luz, luz, luz, 1f);
     }
 }
 ```

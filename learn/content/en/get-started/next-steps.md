@@ -45,6 +45,18 @@ You already drew on screen: the viewer scene, your shaders running in Godot and 
 From here, the best way to learn is to take one of your shaders and use it on a real object, with `VERTEX` and `NORMAL` of a `MeshInstance3D`.
 :::
 
+:::raylib
+You already drew on screen: a window of your own with raylib-cs, your shaders running in it and even a photo seen through them. What this tutorial did not show is everything raylib can do around that, and it is gathered in the [raylib-cs reference](../engines/raylib-reference.md): the viewer explained part by part and how to draw with your shaders inside a game.
+
+From here, the best way to learn is to take one of your shaders and use it on something of your game, putting `BeginShaderMode` around the drawing you already do.
+:::
+
+:::silknet
+You already drew on screen: a window of your own with the graphics API you chose and your shaders running in it. What this tutorial did not show is the other three: the [Silk.NET reference](../engines/silknet-reference.md) has the four viewers explained part by part, so you can compare how each API receives the same shader.
+
+From here, the best way to learn is to take one of your shaders and run it with another API. The shader does not change: only the `--target` and the viewer do.
+:::
+
 > [!SCENE] own
 
 ## Do you have your own engine?

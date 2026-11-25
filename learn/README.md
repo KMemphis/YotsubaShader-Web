@@ -10,7 +10,7 @@ npm run build   # writes dist/ ; fails on broken links or missing frontmatter
 
 ## Sections
 
-Four sections, defined in `site.config.mjs` (`SECTIONS`): `custom-engine`, `engines`, `get-started`, `reference`.
+Five sections, defined in `site.config.mjs` (`SECTIONS`): `custom-engine`, `engines`, `get-started`, `reference`, `api`.
 Each one is a folder `content/<lang>/<section>/` with an `index.md` (the section overview) plus one `.md` per chapter.
 Languages: `en` and `es`, mirrored by file name (the language menu keeps you on the same page).
 
@@ -54,24 +54,31 @@ links between chapters (`[text](../reference/compile.md#targets)`, validated at 
 
 ## Routes (one Get Started per engine)
 
-`content/<lang>/get-started/*.md` is a single source rendered once per route: MonoGame (default URLs), `/kni/`, `/fna/` and `/godot/`. Routes live in `ROUTES` and `ROUTE_TEXT` in `site.config.mjs`; the engine is resolved in `lib/routes.mjs`.
+`content/<lang>/get-started/*.md` is a single source rendered once per route: MonoGame (default URLs), `/kni/`, `/fna/`, `/godot/`, `/raylib/` and `/silknet/`. Routes live in `ROUTES` and `ROUTE_TEXT` in `site.config.mjs`; the engine is resolved in `lib/routes.mjs`.
 
 - `{{var}}` and `{{macro arg}}` insert route text (for example `{{register Colors}}` or `{{vertexType}}`).
-- `:::godot ... :::` and `:::xna ... :::` (MonoGame + KNI + FNA) emit a block in that route only.
+- `:::godot ... :::` and `:::xna ... :::` (MonoGame + KNI + FNA) emit a block in that route only. `:::raylib`, `:::silknet` and `:::raylib silknet` do the same for the two file-based routes (raylib-cs and Silk.NET), which read what `yotsuba compile` writes instead of calling a plugin method. Their viewers live in `tutorial-code/Viewer.<api>` (and `Visor.<api>` in Spanish); Silk.NET shows its four graphics APIs as `tab="OpenGL"`, `tab="OpenGL ES"`, `tab="Vulkan"` and `tab="WebGPU"` code tabs.
 - Restart `node build.mjs --serve` after editing `site.config.mjs`: it caches modules.
 - Godot screenshots go in `content/assets/get-started/godot/en/` and are shared by the English and Spanish chapters.
 
 ## Engines
 
 The engine row on the home page comes from `ENGINES` in `site.config.mjs` and shows names only (no logos). Each engine needs `content/<lang>/engines/<id>.md`.
-`engines/<id>.md` for MonoGame, KNI, FNA and Godot are stubs with `redirect: <routeId>`: the sidebar links straight to the Get Started of that engine. The real engine documentation lives in `engines/<id>-reference.md`. The other engines (Stride, Unity, Silk.NET) are placeholders marked `status: planned`.
+`engines/<id>.md` for MonoGame, KNI, FNA, Godot, raylib-cs and Silk.NET are stubs with `redirect: <routeId>`: the sidebar links straight to the Get Started of that engine. The real engine documentation lives in `engines/<id>-reference.md`. The other engines (Stride, Unity) are placeholders marked `status: planned`.
 
 ## Documentation (`reference/`)
 
-The Documentation section has exactly eight pages, in English and Spanish: the five syntaxes (`hlsl`, `glsl`, `msl`, `spirv`, `wgsl`), and the three commands of the compiler (`compile`, `add`, `plugins`), plus the `index` hub. The main site (`Web/`) has no documentation of its own: it links here with `__LEARN__/reference/...`.
+The Documentation section has exactly eight pages, in English and Spanish: the five syntaxes (`hlsl`, `glsl`, `msl`, `spirv`, `wgsl`), and the three commands of the compiler (`compile`, `add`, `plugins`), plus the `index` hub, plus `targets`, which documents `[ShaderTargets]` and `[ShaderEngines]` (hand-written; its diagnostics output comes from the analyzer, so rerun the sample shaders when messages change). The hub `index` does not link `targets` because its text is voiced; the sidebar does. The main site (`Web/`) has no documentation of its own: it links here with `__LEARN__/reference/...`.
 
 - The five syntax pages are generated: `node tools/gen-syntax-reference.mjs` reads the `YotsubaShader.*Syntax` projects of the compiler repository (the folder that contains `Web/`) and rewrites `content/<lang>/reference/{hlsl,glsl,msl,spirv,wgsl}.md`. Run it when the attributes change and commit the result; building `learn` never needs the compiler repository.
 - `compile`, `add` and `plugins` describe the CLI of `Core/YotsubaShader.Compiler.CLI`. Check them against `Program.cs`, `Args.cs` and `PluginCommand.cs` when the CLI changes.
+
+## API Reference (`api/`)
+
+The API Reference section has eight pages, in English and Spanish: `index`, the five syntax APIs (`hlsl`, `glsl`, `msl`, `spirv`, `wgsl`), `cli` (every command of the CLI and what it does) and `compiler` (the `YotsubaShader.Compiler.Library` API), plus `metadata` (`ShaderTargetsAttribute`, `ShaderEnginesAttribute`, `Target` and `GameEngine`).
+
+- The five syntax pages are generated: `node tools/gen-api-reference.mjs` reads `Core/Syntax/YotsubaShader.*Syntax` and rewrites `content/<lang>/api/{hlsl,glsl,msl,spirv,wgsl}.md` with each attribute's declaration, concept, equivalents in the other syntaxes and an example. Run it when the attributes change and commit the result.
+- `cli` follows `Program.cs`, `Args.cs` and `PluginCommand.cs`; `compiler` follows `CSharpToSpirvCompiler.cs` and `Plugins/YotsubaShader.Extensions` (`CompiledCode`, `ShaderReflection`, `IShaderTargetBackend`). Check them when those files change.
 
 ## Deploy
 

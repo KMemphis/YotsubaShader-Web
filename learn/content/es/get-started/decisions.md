@@ -27,9 +27,9 @@ Copia `Plantilla.cs` como `Decisiones.cs`, cambia el nombre de la clase por `Dec
 ```csharp
 if (pixel.Uv.X < 0.5f)
 {
-    return Crear.Vec4(1f, 0.4f, 0.1f, 1f);
+    return new vec4(1f, 0.4f, 0.1f, 1f);
 }
-return Crear.Vec4(0.1f, 0.2f, 0.5f, 1f);
+return new vec4(0.1f, 0.2f, 0.5f, 1f);
 ```
 
 Ejecuta el ciclo de trabajo:
@@ -56,15 +56,15 @@ Mueve el `0.5f` a `0.2f` y vuelve a ejecutar. La línea que divide los dos color
 float x = pixel.Uv.X;
 if (x < 0.333f)
 {
-    return Crear.Vec4(0.1f, 0.3f, 0.8f, 1f);
+    return new vec4(0.1f, 0.3f, 0.8f, 1f);
 }
 else if (x < 0.666f)
 {
-    return Crear.Vec4(1f, 1f, 1f, 1f);
+    return new vec4(1f, 1f, 1f, 1f);
 }
 else
 {
-    return Crear.Vec4(0.9f, 0.2f, 0.2f, 1f);
+    return new vec4(0.9f, 0.2f, 0.2f, 1f);
 }
 ```
 
@@ -110,9 +110,9 @@ float x = pixel.Uv.X;
 float y = pixel.Uv.Y;
 if (x > 0.25f && x < 0.75f && y > 0.25f && y < 0.75f)
 {
-    return Crear.Vec4(1f, 0.5f, 0.1f, 1f);
+    return new vec4(1f, 0.5f, 0.1f, 1f);
 }
-return Crear.Vec4(0.1f, 0.1f, 0.2f, 1f);
+return new vec4(0.1f, 0.1f, 0.2f, 1f);
 ```
 
 ![Un rectángulo naranja centrado sobre un fondo azul oscuro](../../assets/get-started/taller/de4.png)
@@ -192,12 +192,16 @@ float dx = (pixel.Uv.X - 0.5f) * aspecto;
 float dy = pixel.Uv.Y - 0.5f;
 if (dx * dx + dy * dy < 0.3f * 0.3f)
 {
-    return Crear.Vec4(1f, 0.5f, 0.1f, 1f);
+    return new vec4(1f, 0.5f, 0.1f, 1f);
 }
-return Crear.Vec4(0.1f, 0.1f, 0.2f, 1f);
+return new vec4(0.1f, 0.1f, 0.2f, 1f);
 ```
 
 ![Un círculo naranja centrado sobre un fondo azul oscuro](../../assets/get-started/taller/de5.png)
+
+:::godot
+![Godot al pulsar Play: la ventana del juego muestra un círculo naranja sobre fondo azul oscuro](../../assets/get-started/godot/es/decisiones.gif)
+:::
 
 La condición `dx * dx + dy * dy < 0.3f * 0.3f` dice: "estoy más cerca del centro que el borde". `0.3f * 0.3f` es el radio `0.3` multiplicado por sí mismo; lo dejamos escrito así para que se vea de dónde sale.
 
@@ -214,9 +218,9 @@ int columna = (int)(pixel.Uv.X * 8f);
 int fila = (int)(pixel.Uv.Y * 8f);
 if ((columna + fila) % 2 == 0)
 {
-    return Crear.Vec4(0.9f, 0.9f, 0.9f, 1f);
+    return new vec4(0.9f, 0.9f, 0.9f, 1f);
 }
-return Crear.Vec4(0.15f, 0.15f, 0.15f, 1f);
+return new vec4(0.15f, 0.15f, 0.15f, 1f);
 ```
 
 ![Un tablero de ajedrez de 8 por 8 casillas, claras y oscuras](../../assets/get-started/taller/de6.png)
@@ -284,7 +288,7 @@ public class Decisiones
     public Pixel Vertex({{vertexType}} vertice)
     {
         Pixel pixel;
-        pixel.Posicion = Crear.Vec4(vertice.{{pos}}.X, vertice.{{pos}}.Y, 0f, 1f);
+        pixel.Posicion = new vec4(vertice.{{pos}}.X, vertice.{{pos}}.Y, 0f, 1f);
         pixel.Uv = vertice.{{uv}};
         return pixel;
     }
@@ -298,9 +302,9 @@ public class Decisiones
         float dy = pixel.Uv.Y - 0.5f;
         if (dx * dx + dy * dy < 0.3f * 0.3f)
         {
-            return Crear.Vec4(1f, 0.5f, 0.1f, 1f);
+            return new vec4(1f, 0.5f, 0.1f, 1f);
         }
-        return Crear.Vec4(0.1f, 0.1f, 0.2f, 1f);
+        return new vec4(0.1f, 0.1f, 0.2f, 1f);
     }
 }
 ```
@@ -322,7 +326,7 @@ public class Decisiones
     public Pixel Vertex({{vertexType}} vertice)
     {
         Pixel pixel;
-        pixel.Posicion = Crear.Vec4(vertice.{{pos}}.X, vertice.{{pos}}.Y, 0f, 1f);
+        pixel.Posicion = new vec4(vertice.{{pos}}.X, vertice.{{pos}}.Y, 0f, 1f);
         pixel.Uv = vertice.{{uv}};
         return pixel;
     }
@@ -336,9 +340,9 @@ public class Decisiones
         float dy = pixel.Uv.Y - 0.5f;
         if (dx * dx + dy * dy < 0.3f * 0.3f)
         {
-            return Crear.Vec4(1f, 0.5f, 0.1f, 1f);
+            return new vec4(1f, 0.5f, 0.1f, 1f);
         }
-        return Crear.Vec4(0.1f, 0.1f, 0.2f, 1f);
+        return new vec4(0.1f, 0.1f, 0.2f, 1f);
     }
 }
 ```
@@ -360,7 +364,7 @@ public class Decisiones
     public Pixel Vertex({{vertexType}} vertice)
     {
         Pixel pixel;
-        pixel.Posicion = Crear.Vec4(vertice.{{pos}}.X, vertice.{{pos}}.Y, 0f, 1f);
+        pixel.Posicion = new vec4(vertice.{{pos}}.X, vertice.{{pos}}.Y, 0f, 1f);
         pixel.Uv = vertice.{{uv}};
         return pixel;
     }
@@ -374,9 +378,9 @@ public class Decisiones
         float dy = pixel.Uv.Y - 0.5f;
         if (dx * dx + dy * dy < 0.3f * 0.3f)
         {
-            return Crear.Vec4(1f, 0.5f, 0.1f, 1f);
+            return new vec4(1f, 0.5f, 0.1f, 1f);
         }
-        return Crear.Vec4(0.1f, 0.1f, 0.2f, 1f);
+        return new vec4(0.1f, 0.1f, 0.2f, 1f);
     }
 }
 ```
@@ -398,7 +402,7 @@ public class Decisiones
     public Pixel Vertex({{vertexType}} vertice)
     {
         Pixel pixel;
-        pixel.Posicion = Crear.Vec4(vertice.{{pos}}.X, vertice.{{pos}}.Y, 0f, 1f);
+        pixel.Posicion = new vec4(vertice.{{pos}}.X, vertice.{{pos}}.Y, 0f, 1f);
         pixel.Uv = vertice.{{uv}};
         return pixel;
     }
@@ -412,9 +416,9 @@ public class Decisiones
         float dy = pixel.Uv.Y - 0.5f;
         if (dx * dx + dy * dy < 0.3f * 0.3f)
         {
-            return Crear.Vec4(1f, 0.5f, 0.1f, 1f);
+            return new vec4(1f, 0.5f, 0.1f, 1f);
         }
-        return Crear.Vec4(0.1f, 0.1f, 0.2f, 1f);
+        return new vec4(0.1f, 0.1f, 0.2f, 1f);
     }
 }
 ```
@@ -436,7 +440,7 @@ public class Decisiones
     public Pixel Vertex({{vertexType}} vertice)
     {
         Pixel pixel;
-        pixel.Posicion = Crear.Vec4(vertice.{{pos}}.X, vertice.{{pos}}.Y, 0f, 1f);
+        pixel.Posicion = new vec4(vertice.{{pos}}.X, vertice.{{pos}}.Y, 0f, 1f);
         pixel.Uv = vertice.{{uv}};
         return pixel;
     }
@@ -450,9 +454,9 @@ public class Decisiones
         float dy = pixel.Uv.Y - 0.5f;
         if (dx * dx + dy * dy < 0.3f * 0.3f)
         {
-            return Crear.Vec4(1f, 0.5f, 0.1f, 1f);
+            return new vec4(1f, 0.5f, 0.1f, 1f);
         }
-        return Crear.Vec4(0.1f, 0.1f, 0.2f, 1f);
+        return new vec4(0.1f, 0.1f, 0.2f, 1f);
     }
 }
 ```

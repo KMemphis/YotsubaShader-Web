@@ -26,7 +26,7 @@ Y ejecuta el ciclo de trabajo (el mismo del capítulo anterior, con el nombre nu
 La ventana sale negra. Es lo que dice la única línea de `Fragment`:
 
 ```csharp
-return Crear.Vec4(0f, 0f, 0f, 1f);
+return new vec4(0f, 0f, 0f, 1f);
 ```
 
 Esos cuatro números son el color. Cada uno tiene un trabajo:
@@ -49,7 +49,7 @@ A los tres primeros se les llama **RGB** (*red, green, blue*: rojo, verde y azul
 Cambia el color por esto:
 
 ```csharp
-return Crear.Vec4(1f, 0f, 0f, 1f);
+return new vec4(1f, 0f, 0f, 1f);
 ```
 
 Ejecuta el ciclo de trabajo.
@@ -70,7 +70,7 @@ Ahora hazlo tú: prueba `(0f, 1f, 0f, 1f)` y luego `(0f, 0f, 1f, 1f)`. Cada vez 
 Ahora enciende dos luces a la vez:
 
 ```csharp
-return Crear.Vec4(1f, 1f, 0f, 1f);
+return new vec4(1f, 1f, 0f, 1f);
 ```
 
 ![Una ventana completamente amarilla](../../assets/get-started/taller/co3.png)
@@ -81,19 +81,19 @@ Prueba estas recetas, una por una:
 
 | Color | Escríbelo así |
 |---|---|
-| Negro | `Crear.Vec4(0f, 0f, 0f, 1f)` |
-| Blanco | `Crear.Vec4(1f, 1f, 1f, 1f)` |
-| Amarillo | `Crear.Vec4(1f, 1f, 0f, 1f)` |
-| Cian | `Crear.Vec4(0f, 1f, 1f, 1f)` |
-| Magenta | `Crear.Vec4(1f, 0f, 1f, 1f)` |
-| Naranja | `Crear.Vec4(1f, 0.5f, 0f, 1f)` |
+| Negro | `new vec4(0f, 0f, 0f, 1f)` |
+| Blanco | `new vec4(1f, 1f, 1f, 1f)` |
+| Amarillo | `new vec4(1f, 1f, 0f, 1f)` |
+| Cian | `new vec4(0f, 1f, 1f, 1f)` |
+| Magenta | `new vec4(1f, 0f, 1f, 1f)` |
+| Naranja | `new vec4(1f, 0.5f, 0f, 1f)` |
 
 > [!SCENE] grays
 
 Hay un truco con los grises. Cuando las tres luces valen lo mismo, el color no tira ni a rojo, ni a verde, ni a azul: sale gris. Cuanto mayor el número, más claro. Pruébalo:
 
 ```csharp
-return Crear.Vec4(0.5f, 0.5f, 0.5f, 1f);
+return new vec4(0.5f, 0.5f, 0.5f, 1f);
 ```
 
 ![Una ventana completamente gris](../../assets/get-started/taller/co4.png)
@@ -125,12 +125,16 @@ Y por eso el naranja de la tabla es `(1, 0.5, 0)`: el `128` es casi la mitad de 
 Ya que sabes que el límite es `1`, hagamos algo prohibido. Escribe un color imposible:
 
 ```csharp
-return Crear.Vec4(2f, 0.5f, -3f, 1f);
+return new vec4(2f, 0.5f, -3f, 1f);
 ```
 
 Rojo en `2` (el doble del máximo) y azul en `-3` (menos que nada). Ejecuta el ciclo de trabajo.
 
 ![Una ventana completamente naranja](../../assets/get-started/taller/co6.png)
+
+:::godot
+![Godot al pulsar Play: la ventana del juego muestra un naranja liso con el color imposible (2, 0.5, -3)](../../assets/get-started/godot/es/colores.gif)
+:::
 
 Sale el mismo naranja de antes, `(1, 0.5, 0)`. No hay error ni nada raro: la GPU **recorta** los valores. Lo que pasa de `1` se queda en `1`, y lo que baja de `0` se queda en `0`.
 

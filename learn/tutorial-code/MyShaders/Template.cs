@@ -10,7 +10,7 @@ public class Template
     public Pixel Vertex(Corner corner)
     {
         Pixel pixel;
-        pixel.Position = Make.Vec4(corner.Position.X, corner.Position.Y, 0f, 1f);
+        pixel.Position = new vec4(corner.Position.X, corner.Position.Y, 0f, 1f);
         pixel.Uv = corner.Uv;
         return pixel;
     }
@@ -19,6 +19,6 @@ public class Template
     [return: location(0)]
     public vec4 Fragment(PixelIn pixel)
     {
-        return Make.Vec4(0f, 0f, 0f, 1f);
+        return new vec4(0f, 0f, 0f, 1f);
     }
 }

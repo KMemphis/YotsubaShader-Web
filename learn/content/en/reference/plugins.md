@@ -4,19 +4,26 @@ summary: Install, update and use the plugins that add engine formats to the comp
 order: 8
 ---
 
-The compiler ships with SPIR-V, GLSL, GLSL ES, HLSL, Metal and C++. Every other format is a **plugin**: a small NuGet package that teaches the CLI one more output. The plugins for MonoGame, KNI, FNA and Godot are available today.
+The compiler ships with SPIR-V, GLSL, GLSL ES, HLSL, Metal, WGSL and C++. Every other format is a **plugin**: a small NuGet package that teaches the CLI one more output. The plugins for MonoGame, KNI, FNA and Godot are available today.
 
 A plugin is used only by the CLI, while it compiles. Your game does not reference it.
 
 ## Using a plugin
 
-Ask for it with `--target`. The CLI downloads it the first time and checks for a newer version every time it runs:
+Ask for it with `--target`. The CLI downloads it the first time, with its dependencies and the native libraries of your platform, into `~/.yotsuba/plugins` (or `$YOTSUBA_HOME/plugins`):
 
 ```bash
 yotsuba add MyShaders/MyShaders.csproj --target spirv --target monogame
 ```
 
-Without internet, the CLI warns that it could not look for updates and uses the installed copy. If the plugin was never installed, the command fails.
+## Which version is installed
+
+A plugin is built against the CLI, so the CLI installs the newest version of the plugin that is compatible with it: the same major and minor version as the CLI (`0.9.x` for a CLI `0.9.2`), and never a newer one. A plugin newer than the CLI does not load in it. `yotsuba --version` prints the version of the CLI.
+
+- When the installed plugin already has the version of the CLI, the CLI does not use the network at all.
+- Otherwise it looks for a compatible version on every run, and installs it if it is newer than the installed one.
+- Without internet, the CLI warns that it could not look for updates and uses the installed copy. If the plugin was never installed, the command fails and says that it could not download it.
+- Several `yotsuba` commands can run at the same time (a build of several projects): if two of them install the same plugin, one waits for the other.
 
 ## The plugin command
 
@@ -27,8 +34,8 @@ yotsuba plugin list | install <name> | update [name] | remove <name>
 | Command | What it does |
 | --- | --- |
 | `plugin list` | Prints the plugins of the catalog and whether each one is installed and in which version. |
-| `plugin install <name>` | Downloads the latest version of the plugin before you need it. Does nothing if it is already the latest. |
-| `plugin update <name>` | The same as `install`: fetches the latest version. |
+| `plugin install <name>` | Downloads the plugin, in the version compatible with the CLI, before you need it. Does nothing if that version is already installed. |
+| `plugin update <name>` | The same as `install`: fetches the newest compatible version. |
 | `plugin update` | Updates every plugin that is installed. |
 | `plugin remove <name>` | Deletes the installed plugin. |
 

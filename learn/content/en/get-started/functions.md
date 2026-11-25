@@ -73,7 +73,7 @@ float x = pixel.Uv.X * aspect;
 float y = pixel.Uv.Y;
 float middle = aspect * 0.5f;
 
-vec4 color = Make.Vec4(0.55f, 0.8f, 1f, 1f);
+vec4 color = new vec4(0.55f, 0.8f, 1f, 1f);
 
 return color;
 ```
@@ -99,7 +99,7 @@ float dx = x - middle;
 float dy = y - 0.5f;
 if (dx * dx + dy * dy < 0.4f * 0.4f)
 {
-    color = Make.Vec4(1f, 0.85f, 0.2f, 1f);
+    color = new vec4(1f, 0.85f, 0.2f, 1f);
 }
 ```
 
@@ -118,14 +118,14 @@ dx = x - (middle - 0.15f);
 dy = y - 0.4f;
 if (dx * dx + dy * dy < 0.06f * 0.06f)
 {
-    color = Make.Vec4(0.1f, 0.1f, 0.1f, 1f);
+    color = new vec4(0.1f, 0.1f, 0.1f, 1f);
 }
 
 dx = x - (middle + 0.15f);
 dy = y - 0.4f;
 if (dx * dx + dy * dy < 0.06f * 0.06f)
 {
-    color = Make.Vec4(0.1f, 0.1f, 0.1f, 1f);
+    color = new vec4(0.1f, 0.1f, 0.1f, 1f);
 }
 ```
 
@@ -142,13 +142,17 @@ The mouth will be a rectangle. Add this, also before the `return`:
 ```csharp
 if (x > middle - 0.15f && x < middle + 0.15f && y > 0.65f && y < 0.7f)
 {
-    color = Make.Vec4(0.1f, 0.1f, 0.1f, 1f);
+    color = new vec4(0.1f, 0.1f, 0.1f, 1f);
 }
 ```
 
 Run the work cycle.
 
 ![A yellow face with two black eyes and a straight mouth, on a light blue sky](../../assets/get-started/taller/fu1.png)
+
+:::godot
+![Godot after pressing Play: the game window shows the yellow face on the light blue sky](../../assets/get-started/godot/en/face.gif)
+:::
 
 It works. Now take a calm look at what you wrote.
 
@@ -164,7 +168,7 @@ When you see yourself copying and pasting a block changing only a few numbers, i
 
 ## Step 5: your first function
 
-A function is a piece of code with a name to which you pass data and which gives you a result. You have already used several: `Make.Vec4` is one.
+A function is a piece of code with a name to which you pass data and which gives you a result. You have already called some: `new vec4(...)` receives four numbers and gives you back a vector.
 
 We are going to write one that answers the question *"is this point inside this circle?"*. Add it **inside the `Face` class, after the `Fragment` function**:
 
@@ -194,15 +198,15 @@ Now use it. In `Fragment`, **delete** the three circle blocks (the head and the 
 ```csharp
 if (InCircle(x, y, middle, 0.5f, 0.4f))
 {
-    color = Make.Vec4(1f, 0.85f, 0.2f, 1f);
+    color = new vec4(1f, 0.85f, 0.2f, 1f);
 }
 if (InCircle(x, y, middle - 0.15f, 0.4f, 0.06f))
 {
-    color = Make.Vec4(0.1f, 0.1f, 0.1f, 1f);
+    color = new vec4(0.1f, 0.1f, 0.1f, 1f);
 }
 if (InCircle(x, y, middle + 0.15f, 0.4f, 0.06f))
 {
-    color = Make.Vec4(0.1f, 0.1f, 0.1f, 1f);
+    color = new vec4(0.1f, 0.1f, 0.1f, 1f);
 }
 ```
 
@@ -229,7 +233,7 @@ And in `Fragment` replace the mouth block with:
 ```csharp
 if (InRectangle(x, y, middle - 0.15f, 0.65f, middle + 0.15f, 0.7f))
 {
-    color = Make.Vec4(0.1f, 0.1f, 0.1f, 1f);
+    color = new vec4(0.1f, 0.1f, 0.1f, 1f);
 }
 ```
 
@@ -239,19 +243,19 @@ Notice how well the call reads now. Without looking at the function, you already
 
 ## Step 7: give the colors a name
 
-There is another kind of repetition: the same color written three times (`Make.Vec4(0.1f, 0.1f, 0.1f, 1f)` in the eyes and the mouth). If you wanted to change the black to a brown, you would have to touch three lines.
+There is another kind of repetition: the same color written three times (`new vec4(0.1f, 0.1f, 0.1f, 1f)` in the eyes and the mouth). If you wanted to change the black to a brown, you would have to touch three lines.
 
-The solution is to save each color in a variable **with a good name**, at the start. Replace the line `vec4 color = Make.Vec4(0.55f, 0.8f, 1f, 1f);` with these four:
+The solution is to save each color in a variable **with a good name**, at the start. Replace the line `vec4 color = new vec4(0.55f, 0.8f, 1f, 1f);` with these four:
 
 ```csharp
-vec4 sky = Make.Vec4(0.55f, 0.8f, 1f, 1f);
-vec4 skin = Make.Vec4(1f, 0.85f, 0.2f, 1f);
-vec4 ink = Make.Vec4(0.1f, 0.1f, 0.1f, 1f);
+vec4 sky = new vec4(0.55f, 0.8f, 1f, 1f);
+vec4 skin = new vec4(1f, 0.85f, 0.2f, 1f);
+vec4 ink = new vec4(0.1f, 0.1f, 0.1f, 1f);
 
 vec4 color = sky;
 ```
 
-And in each `if` change every `Make.Vec4(...)` to the name that corresponds: `color = skin;` for the head and `color = ink;` for the eyes and the mouth. Run the work cycle to check that nothing changed.
+And in each `if` change every `new vec4(...)` to the name that corresponds: `color = skin;` for the head and `color = ink;` for the eyes and the mouth. Run the work cycle to check that nothing changed.
 
 Now, if you want the face to be green, you change **a single line**.
 
@@ -291,7 +295,7 @@ Add this inside the `Face` class, below the functions:
 ```
 
 - `Circle` is the new type: three fields.
-- `NewCircle` is a function that builds it. It is the same idea as `Make.Vec4`: a `struct` has no constructor in a shader, so it is filled field by field.
+- `NewCircle` is a function that builds it. It does for `Circle` what `new vec4(...)` does for a vector: a `struct` of yours has no constructor in a shader, so this function creates it and fills it field by field.
 - `Contains` is `InCircle` rewritten: instead of five numbers, it receives a `Circle` and a point.
 
 Replace the contents of `Fragment` with the final version. Now the circles are **declared once** and then used:
@@ -306,9 +310,9 @@ Circle head = NewCircle(middle, 0.5f, 0.4f);
 Circle leftEye = NewCircle(middle - 0.15f, 0.4f, 0.06f);
 Circle rightEye = NewCircle(middle + 0.15f, 0.4f, 0.06f);
 
-vec4 sky = Make.Vec4(0.55f, 0.8f, 1f, 1f);
-vec4 skin = Make.Vec4(1f, 0.85f, 0.2f, 1f);
-vec4 ink = Make.Vec4(0.1f, 0.1f, 0.1f, 1f);
+vec4 sky = new vec4(0.55f, 0.8f, 1f, 1f);
+vec4 skin = new vec4(1f, 0.85f, 0.2f, 1f);
+vec4 ink = new vec4(0.1f, 0.1f, 0.1f, 1f);
 
 vec4 color = sky;
 
@@ -361,7 +365,7 @@ public class Face
     public Pixel Vertex({{vertexType}} corner)
     {
         Pixel pixel;
-        pixel.Position = Make.Vec4(corner.{{pos}}.X, corner.{{pos}}.Y, 0f, 1f);
+        pixel.Position = new vec4(corner.{{pos}}.X, corner.{{pos}}.Y, 0f, 1f);
         pixel.Uv = corner.{{uv}};
         return pixel;
     }
@@ -379,9 +383,9 @@ public class Face
         Circle leftEye = NewCircle(middle - 0.15f, 0.4f, 0.06f);
         Circle rightEye = NewCircle(middle + 0.15f, 0.4f, 0.06f);
 
-        vec4 sky = Make.Vec4(0.55f, 0.8f, 1f, 1f);
-        vec4 skin = Make.Vec4(1f, 0.85f, 0.2f, 1f);
-        vec4 ink = Make.Vec4(0.1f, 0.1f, 0.1f, 1f);
+        vec4 sky = new vec4(0.55f, 0.8f, 1f, 1f);
+        vec4 skin = new vec4(1f, 0.85f, 0.2f, 1f);
+        vec4 ink = new vec4(0.1f, 0.1f, 0.1f, 1f);
 
         vec4 color = sky;
 
@@ -448,7 +452,7 @@ public class Face
     public Pixel Vertex({{vertexType}} corner)
     {
         Pixel pixel;
-        pixel.Position = Make.Vec4(corner.{{pos}}.X, corner.{{pos}}.Y, 0f, 1f);
+        pixel.Position = new vec4(corner.{{pos}}.X, corner.{{pos}}.Y, 0f, 1f);
         pixel.Uv = corner.{{uv}};
         return pixel;
     }
@@ -466,9 +470,9 @@ public class Face
         Circle leftEye = NewCircle(middle - 0.15f, 0.4f, 0.06f);
         Circle rightEye = NewCircle(middle + 0.15f, 0.4f, 0.06f);
 
-        vec4 sky = Make.Vec4(0.55f, 0.8f, 1f, 1f);
-        vec4 skin = Make.Vec4(1f, 0.85f, 0.2f, 1f);
-        vec4 ink = Make.Vec4(0.1f, 0.1f, 0.1f, 1f);
+        vec4 sky = new vec4(0.55f, 0.8f, 1f, 1f);
+        vec4 skin = new vec4(1f, 0.85f, 0.2f, 1f);
+        vec4 ink = new vec4(0.1f, 0.1f, 0.1f, 1f);
 
         vec4 color = sky;
 
@@ -535,7 +539,7 @@ public class Face
     public Pixel Vertex({{vertexType}} corner)
     {
         Pixel pixel;
-        pixel.Position = Make.Vec4(corner.{{pos}}.X, corner.{{pos}}.Y, 0f, 1f);
+        pixel.Position = new vec4(corner.{{pos}}.X, corner.{{pos}}.Y, 0f, 1f);
         pixel.Uv = corner.{{uv}};
         return pixel;
     }
@@ -553,9 +557,9 @@ public class Face
         Circle leftEye = NewCircle(middle - 0.15f, 0.4f, 0.06f);
         Circle rightEye = NewCircle(middle + 0.15f, 0.4f, 0.06f);
 
-        vec4 sky = Make.Vec4(0.55f, 0.8f, 1f, 1f);
-        vec4 skin = Make.Vec4(1f, 0.85f, 0.2f, 1f);
-        vec4 ink = Make.Vec4(0.1f, 0.1f, 0.1f, 1f);
+        vec4 sky = new vec4(0.55f, 0.8f, 1f, 1f);
+        vec4 skin = new vec4(1f, 0.85f, 0.2f, 1f);
+        vec4 ink = new vec4(0.1f, 0.1f, 0.1f, 1f);
 
         vec4 color = sky;
 
@@ -622,7 +626,7 @@ public class Face
     public Pixel Vertex({{vertexType}} corner)
     {
         Pixel pixel;
-        pixel.Position = Make.Vec4(corner.{{pos}}.X, corner.{{pos}}.Y, 0f, 1f);
+        pixel.Position = new vec4(corner.{{pos}}.X, corner.{{pos}}.Y, 0f, 1f);
         pixel.Uv = corner.{{uv}};
         return pixel;
     }
@@ -640,9 +644,9 @@ public class Face
         Circle leftEye = NewCircle(middle - 0.15f, 0.4f, 0.06f);
         Circle rightEye = NewCircle(middle + 0.15f, 0.4f, 0.06f);
 
-        vec4 sky = Make.Vec4(0.55f, 0.8f, 1f, 1f);
-        vec4 skin = Make.Vec4(1f, 0.85f, 0.2f, 1f);
-        vec4 ink = Make.Vec4(0.1f, 0.1f, 0.1f, 1f);
+        vec4 sky = new vec4(0.55f, 0.8f, 1f, 1f);
+        vec4 skin = new vec4(1f, 0.85f, 0.2f, 1f);
+        vec4 ink = new vec4(0.1f, 0.1f, 0.1f, 1f);
 
         vec4 color = sky;
 
@@ -709,7 +713,7 @@ public class Face
     public Pixel Vertex({{vertexType}} corner)
     {
         Pixel pixel;
-        pixel.Position = Make.Vec4(corner.{{pos}}.X, corner.{{pos}}.Y, 0f, 1f);
+        pixel.Position = new vec4(corner.{{pos}}.X, corner.{{pos}}.Y, 0f, 1f);
         pixel.Uv = corner.{{uv}};
         return pixel;
     }
@@ -727,9 +731,9 @@ public class Face
         Circle leftEye = NewCircle(middle - 0.15f, 0.4f, 0.06f);
         Circle rightEye = NewCircle(middle + 0.15f, 0.4f, 0.06f);
 
-        vec4 sky = Make.Vec4(0.55f, 0.8f, 1f, 1f);
-        vec4 skin = Make.Vec4(1f, 0.85f, 0.2f, 1f);
-        vec4 ink = Make.Vec4(0.1f, 0.1f, 0.1f, 1f);
+        vec4 sky = new vec4(0.55f, 0.8f, 1f, 1f);
+        vec4 skin = new vec4(1f, 0.85f, 0.2f, 1f);
+        vec4 ink = new vec4(0.1f, 0.1f, 0.1f, 1f);
 
         vec4 color = sky;
 

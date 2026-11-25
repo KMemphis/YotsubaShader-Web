@@ -18,7 +18,7 @@
  "The OpenGL Shading Language specification from Khronos.": "La especificación del OpenGL Shading Language, de Khronos.",
  "Tools": "Herramientas",
  "Validate and disassemble modules with <code>spirv-val</code> and <code>spirv-dis</code>.": "Valida y desensambla módulos con <code>spirv-val</code> y <code>spirv-dis</code>.",
- ".NET 8 SDK": "SDK de .NET 8",
+ ".NET 10 SDK": "SDK de .NET 10",
  "Required to build the solution.": "Necesario para compilar la solución.",
  "Roslyn": "Roslyn",
  "The .NET compiler platform that powers shader discovery and analysis.": "La plataforma de compilación de .NET que impulsa el descubrimiento y el análisis de shaders.",

@@ -73,7 +73,7 @@ float x = pixel.Uv.X * aspecto;
 float y = pixel.Uv.Y;
 float medio = aspecto * 0.5f;
 
-vec4 color = Crear.Vec4(0.55f, 0.8f, 1f, 1f);
+vec4 color = new vec4(0.55f, 0.8f, 1f, 1f);
 
 return color;
 ```
@@ -99,7 +99,7 @@ float dx = x - medio;
 float dy = y - 0.5f;
 if (dx * dx + dy * dy < 0.4f * 0.4f)
 {
-    color = Crear.Vec4(1f, 0.85f, 0.2f, 1f);
+    color = new vec4(1f, 0.85f, 0.2f, 1f);
 }
 ```
 
@@ -118,14 +118,14 @@ dx = x - (medio - 0.15f);
 dy = y - 0.4f;
 if (dx * dx + dy * dy < 0.06f * 0.06f)
 {
-    color = Crear.Vec4(0.1f, 0.1f, 0.1f, 1f);
+    color = new vec4(0.1f, 0.1f, 0.1f, 1f);
 }
 
 dx = x - (medio + 0.15f);
 dy = y - 0.4f;
 if (dx * dx + dy * dy < 0.06f * 0.06f)
 {
-    color = Crear.Vec4(0.1f, 0.1f, 0.1f, 1f);
+    color = new vec4(0.1f, 0.1f, 0.1f, 1f);
 }
 ```
 
@@ -142,13 +142,17 @@ La boca será un rectángulo. Agrega esto, también antes del `return`:
 ```csharp
 if (x > medio - 0.15f && x < medio + 0.15f && y > 0.65f && y < 0.7f)
 {
-    color = Crear.Vec4(0.1f, 0.1f, 0.1f, 1f);
+    color = new vec4(0.1f, 0.1f, 0.1f, 1f);
 }
 ```
 
 Ejecuta el ciclo de trabajo.
 
 ![Una cara amarilla con dos ojos negros y una boca recta, sobre un cielo azul claro](../../assets/get-started/taller/fu1.png)
+
+:::godot
+![Godot al pulsar Play: la ventana del juego muestra la cara amarilla sobre el cielo azul](../../assets/get-started/godot/es/carita.gif)
+:::
 
 Funciona. Ahora mira con calma lo que escribiste.
 
@@ -164,7 +168,7 @@ Cuando ves que copias y pegas un bloque cambiando solo unos números, es la señ
 
 ## Paso 5: tu primera función
 
-Una función es un trozo de código con nombre al que le pasas datos y te devuelve un resultado. Ya has usado varias: `Crear.Vec4` es una.
+Una función es un trozo de código con nombre al que le pasas datos y te devuelve un resultado. Ya has llamado a algunas: `new vec4(...)` recibe cuatro números y te devuelve un vector.
 
 Vamos a escribir una que responda a la pregunta *"¿este punto está dentro de este círculo?"*. Agrégala **dentro de la clase `Carita`, después de la función `Fragment`**:
 
@@ -194,15 +198,15 @@ Ahora úsala. En `Fragment`, **borra** los tres bloques de círculos (la cabeza 
 ```csharp
 if (EnCirculo(x, y, medio, 0.5f, 0.4f))
 {
-    color = Crear.Vec4(1f, 0.85f, 0.2f, 1f);
+    color = new vec4(1f, 0.85f, 0.2f, 1f);
 }
 if (EnCirculo(x, y, medio - 0.15f, 0.4f, 0.06f))
 {
-    color = Crear.Vec4(0.1f, 0.1f, 0.1f, 1f);
+    color = new vec4(0.1f, 0.1f, 0.1f, 1f);
 }
 if (EnCirculo(x, y, medio + 0.15f, 0.4f, 0.06f))
 {
-    color = Crear.Vec4(0.1f, 0.1f, 0.1f, 1f);
+    color = new vec4(0.1f, 0.1f, 0.1f, 1f);
 }
 ```
 
@@ -229,7 +233,7 @@ Y en `Fragment` reemplaza el bloque de la boca por:
 ```csharp
 if (EnRectangulo(x, y, medio - 0.15f, 0.65f, medio + 0.15f, 0.7f))
 {
-    color = Crear.Vec4(0.1f, 0.1f, 0.1f, 1f);
+    color = new vec4(0.1f, 0.1f, 0.1f, 1f);
 }
 ```
 
@@ -239,19 +243,19 @@ Fíjate en lo bien que se lee ahora la llamada. Sin mirar la función, ya sabes 
 
 ## Paso 7: ponle nombre a los colores
 
-Hay otro tipo de repetición: el mismo color escrito tres veces (`Crear.Vec4(0.1f, 0.1f, 0.1f, 1f)` en los ojos y la boca). Si quisieras cambiar el negro por un marrón, tendrías que tocar tres líneas.
+Hay otro tipo de repetición: el mismo color escrito tres veces (`new vec4(0.1f, 0.1f, 0.1f, 1f)` en los ojos y la boca). Si quisieras cambiar el negro por un marrón, tendrías que tocar tres líneas.
 
-La solución es guardar cada color en una variable **con un buen nombre**, al principio. Reemplaza la línea `vec4 color = Crear.Vec4(0.55f, 0.8f, 1f, 1f);` por estas cuatro:
+La solución es guardar cada color en una variable **con un buen nombre**, al principio. Reemplaza la línea `vec4 color = new vec4(0.55f, 0.8f, 1f, 1f);` por estas cuatro:
 
 ```csharp
-vec4 cielo = Crear.Vec4(0.55f, 0.8f, 1f, 1f);
-vec4 piel = Crear.Vec4(1f, 0.85f, 0.2f, 1f);
-vec4 tinta = Crear.Vec4(0.1f, 0.1f, 0.1f, 1f);
+vec4 cielo = new vec4(0.55f, 0.8f, 1f, 1f);
+vec4 piel = new vec4(1f, 0.85f, 0.2f, 1f);
+vec4 tinta = new vec4(0.1f, 0.1f, 0.1f, 1f);
 
 vec4 color = cielo;
 ```
 
-Y cambia en los `if` cada `Crear.Vec4(...)` por el nombre que corresponda: `color = piel;` para la cabeza y `color = tinta;` para los ojos y la boca. Ejecuta el ciclo de trabajo para comprobar que no cambió nada.
+Y cambia en los `if` cada `new vec4(...)` por el nombre que corresponda: `color = piel;` para la cabeza y `color = tinta;` para los ojos y la boca. Ejecuta el ciclo de trabajo para comprobar que no cambió nada.
 
 Ahora, si quieres que la cara sea verde, cambias **una sola línea**.
 
@@ -291,7 +295,7 @@ Agrega esto dentro de la clase `Carita`, debajo de las funciones:
 ```
 
 - `Circulo` es el tipo nuevo: tres campos.
-- `NuevoCirculo` es una función que lo arma. Es la misma idea que `Crear.Vec4`: un `struct` no tiene constructor en un shader, así que se llena campo por campo.
+- `NuevoCirculo` es una función que lo arma. Hace con `Circulo` lo que `new vec4(...)` hace con un vector: un `struct` tuyo no tiene constructor en un shader, así que esta función lo crea y lo llena campo por campo.
 - `Contiene` es `EnCirculo` reescrita: en vez de cinco números, recibe un `Circulo` y un punto.
 
 Reemplaza el contenido de `Fragment` por la versión final. Ahora los círculos se **declaran una vez** y luego se usan:
@@ -306,9 +310,9 @@ Circulo cabeza = NuevoCirculo(medio, 0.5f, 0.4f);
 Circulo ojoIzquierdo = NuevoCirculo(medio - 0.15f, 0.4f, 0.06f);
 Circulo ojoDerecho = NuevoCirculo(medio + 0.15f, 0.4f, 0.06f);
 
-vec4 cielo = Crear.Vec4(0.55f, 0.8f, 1f, 1f);
-vec4 piel = Crear.Vec4(1f, 0.85f, 0.2f, 1f);
-vec4 tinta = Crear.Vec4(0.1f, 0.1f, 0.1f, 1f);
+vec4 cielo = new vec4(0.55f, 0.8f, 1f, 1f);
+vec4 piel = new vec4(1f, 0.85f, 0.2f, 1f);
+vec4 tinta = new vec4(0.1f, 0.1f, 0.1f, 1f);
 
 vec4 color = cielo;
 
@@ -361,7 +365,7 @@ public class Carita
     public Pixel Vertex({{vertexType}} vertice)
     {
         Pixel pixel;
-        pixel.Posicion = Crear.Vec4(vertice.{{pos}}.X, vertice.{{pos}}.Y, 0f, 1f);
+        pixel.Posicion = new vec4(vertice.{{pos}}.X, vertice.{{pos}}.Y, 0f, 1f);
         pixel.Uv = vertice.{{uv}};
         return pixel;
     }
@@ -379,9 +383,9 @@ public class Carita
         Circulo ojoIzquierdo = NuevoCirculo(medio - 0.15f, 0.4f, 0.06f);
         Circulo ojoDerecho = NuevoCirculo(medio + 0.15f, 0.4f, 0.06f);
 
-        vec4 cielo = Crear.Vec4(0.55f, 0.8f, 1f, 1f);
-        vec4 piel = Crear.Vec4(1f, 0.85f, 0.2f, 1f);
-        vec4 tinta = Crear.Vec4(0.1f, 0.1f, 0.1f, 1f);
+        vec4 cielo = new vec4(0.55f, 0.8f, 1f, 1f);
+        vec4 piel = new vec4(1f, 0.85f, 0.2f, 1f);
+        vec4 tinta = new vec4(0.1f, 0.1f, 0.1f, 1f);
 
         vec4 color = cielo;
 
@@ -448,7 +452,7 @@ public class Carita
     public Pixel Vertex({{vertexType}} vertice)
     {
         Pixel pixel;
-        pixel.Posicion = Crear.Vec4(vertice.{{pos}}.X, vertice.{{pos}}.Y, 0f, 1f);
+        pixel.Posicion = new vec4(vertice.{{pos}}.X, vertice.{{pos}}.Y, 0f, 1f);
         pixel.Uv = vertice.{{uv}};
         return pixel;
     }
@@ -466,9 +470,9 @@ public class Carita
         Circulo ojoIzquierdo = NuevoCirculo(medio - 0.15f, 0.4f, 0.06f);
         Circulo ojoDerecho = NuevoCirculo(medio + 0.15f, 0.4f, 0.06f);
 
-        vec4 cielo = Crear.Vec4(0.55f, 0.8f, 1f, 1f);
-        vec4 piel = Crear.Vec4(1f, 0.85f, 0.2f, 1f);
-        vec4 tinta = Crear.Vec4(0.1f, 0.1f, 0.1f, 1f);
+        vec4 cielo = new vec4(0.55f, 0.8f, 1f, 1f);
+        vec4 piel = new vec4(1f, 0.85f, 0.2f, 1f);
+        vec4 tinta = new vec4(0.1f, 0.1f, 0.1f, 1f);
 
         vec4 color = cielo;
 
@@ -535,7 +539,7 @@ public class Carita
     public Pixel Vertex({{vertexType}} vertice)
     {
         Pixel pixel;
-        pixel.Posicion = Crear.Vec4(vertice.{{pos}}.X, vertice.{{pos}}.Y, 0f, 1f);
+        pixel.Posicion = new vec4(vertice.{{pos}}.X, vertice.{{pos}}.Y, 0f, 1f);
         pixel.Uv = vertice.{{uv}};
         return pixel;
     }
@@ -553,9 +557,9 @@ public class Carita
         Circulo ojoIzquierdo = NuevoCirculo(medio - 0.15f, 0.4f, 0.06f);
         Circulo ojoDerecho = NuevoCirculo(medio + 0.15f, 0.4f, 0.06f);
 
-        vec4 cielo = Crear.Vec4(0.55f, 0.8f, 1f, 1f);
-        vec4 piel = Crear.Vec4(1f, 0.85f, 0.2f, 1f);
-        vec4 tinta = Crear.Vec4(0.1f, 0.1f, 0.1f, 1f);
+        vec4 cielo = new vec4(0.55f, 0.8f, 1f, 1f);
+        vec4 piel = new vec4(1f, 0.85f, 0.2f, 1f);
+        vec4 tinta = new vec4(0.1f, 0.1f, 0.1f, 1f);
 
         vec4 color = cielo;
 
@@ -622,7 +626,7 @@ public class Carita
     public Pixel Vertex({{vertexType}} vertice)
     {
         Pixel pixel;
-        pixel.Posicion = Crear.Vec4(vertice.{{pos}}.X, vertice.{{pos}}.Y, 0f, 1f);
+        pixel.Posicion = new vec4(vertice.{{pos}}.X, vertice.{{pos}}.Y, 0f, 1f);
         pixel.Uv = vertice.{{uv}};
         return pixel;
     }
@@ -640,9 +644,9 @@ public class Carita
         Circulo ojoIzquierdo = NuevoCirculo(medio - 0.15f, 0.4f, 0.06f);
         Circulo ojoDerecho = NuevoCirculo(medio + 0.15f, 0.4f, 0.06f);
 
-        vec4 cielo = Crear.Vec4(0.55f, 0.8f, 1f, 1f);
-        vec4 piel = Crear.Vec4(1f, 0.85f, 0.2f, 1f);
-        vec4 tinta = Crear.Vec4(0.1f, 0.1f, 0.1f, 1f);
+        vec4 cielo = new vec4(0.55f, 0.8f, 1f, 1f);
+        vec4 piel = new vec4(1f, 0.85f, 0.2f, 1f);
+        vec4 tinta = new vec4(0.1f, 0.1f, 0.1f, 1f);
 
         vec4 color = cielo;
 
@@ -709,7 +713,7 @@ public class Carita
     public Pixel Vertex({{vertexType}} vertice)
     {
         Pixel pixel;
-        pixel.Posicion = Crear.Vec4(vertice.{{pos}}.X, vertice.{{pos}}.Y, 0f, 1f);
+        pixel.Posicion = new vec4(vertice.{{pos}}.X, vertice.{{pos}}.Y, 0f, 1f);
         pixel.Uv = vertice.{{uv}};
         return pixel;
     }
@@ -727,9 +731,9 @@ public class Carita
         Circulo ojoIzquierdo = NuevoCirculo(medio - 0.15f, 0.4f, 0.06f);
         Circulo ojoDerecho = NuevoCirculo(medio + 0.15f, 0.4f, 0.06f);
 
-        vec4 cielo = Crear.Vec4(0.55f, 0.8f, 1f, 1f);
-        vec4 piel = Crear.Vec4(1f, 0.85f, 0.2f, 1f);
-        vec4 tinta = Crear.Vec4(0.1f, 0.1f, 0.1f, 1f);
+        vec4 cielo = new vec4(0.55f, 0.8f, 1f, 1f);
+        vec4 piel = new vec4(1f, 0.85f, 0.2f, 1f);
+        vec4 tinta = new vec4(0.1f, 0.1f, 0.1f, 1f);
 
         vec4 color = cielo;
 

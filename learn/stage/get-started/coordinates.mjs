@@ -4,10 +4,10 @@
 
 const L = (en, es) => ({ en, es });
 const cs = (title, code) => ({ title, code, lang: 'csharp' });
-const VEC = (args) => L(cs('Fragment', `return Make.Vec4(${args}, 1f);`), cs('Fragment', `return Crear.Vec4(${args}, 1f);`));
-const FRAG = (body, bodyEs = body) => L(cs('Fragment', body.replace(/Make\./g, 'Make.')), cs('Fragment', bodyEs.replace(/Make\./g, 'Crear.')));
+const VEC = (args) => L(cs('Fragment', `return new vec4(${args}, 1f);`), cs('Fragment', `return new vec4(${args}, 1f);`));
+const FRAG = (body, bodyEs = body) => L(cs('Fragment', body), cs('Fragment', bodyEs));
 
-const ENGINE_LOGO = { route: { kni: '/img/engines/kni.png', fna: '/img/engines/fna.png', godot: '/img/engines/godot.svg', default: '/img/engines/monogame.png' } };
+const ENGINE_LOGO = { route: { kni: '/img/engines/kni.png', fna: '/img/engines/fna.png', godot: '/img/engines/godot.svg', raylib: '/img/engines/raylib.png', silknet: '/img/engines/silknet.svg', default: '/img/engines/monogame.png' } };
 const win = (tiles, at, extra = {}) => ({ k: 'gl', cls: 'window w50', title: '{{engine}}', logo: ENGINE_LOGO, at, fx: 'pop', radius: 10, tiles, ...extra });
 const tiles = (arr, at, extra = {}) => ({ k: 'gl', cls: 'w86', gap: 2, radius: 10, at, fx: 'fade', tiles: arr, ...extra });
 
@@ -124,8 +124,8 @@ export default [
       { k: 'kicker', text: L('Step 3 · repeating', 'Paso 3 · repetir') },
       { k: 'slot', items: [
         { k: 'code', at: 'first', out: 'four', type: 'first+0.3', cps: 45, code: VEC('pixel.Uv.X, 0f, 0f') },
-        { k: 'code', at: 'four-8', out: 'ten', code: FRAG('return Make.Vec4((pixel.Uv.X * 4f) % 1f, 0f, 0f, 1f);', 'return Crear.Vec4((pixel.Uv.X * 4f) % 1f, 0f, 0f, 1f);') },
-        { k: 'code', at: 'ten', code: FRAG('return Make.Vec4((pixel.Uv.X * 10f) % 1f, 0f, 0f, 1f);', 'return Crear.Vec4((pixel.Uv.X * 10f) % 1f, 0f, 0f, 1f);') },
+        { k: 'code', at: 'four-8', out: 'ten', code: FRAG('return new vec4((pixel.Uv.X * 4f) % 1f, 0f, 0f, 1f);', 'return new vec4((pixel.Uv.X * 4f) % 1f, 0f, 0f, 1f);') },
+        { k: 'code', at: 'ten', code: FRAG('return new vec4((pixel.Uv.X * 10f) % 1f, 0f, 0f, 1f);', 'return new vec4((pixel.Uv.X * 10f) % 1f, 0f, 0f, 1f);') },
       ] },
       win([{ modes: [{ at: 'first', frag: SH.uvX }, { at: 'two', frag: SH.stripes(4) }, { at: 'ten', frag: SH.stripes(10) }] }], 'first'),
       { k: 'row', at: 'rem', items: [
@@ -141,7 +141,7 @@ export default [
     beats: { origin: L('we need the point', 'necesitamos que el punto'), sub: L('we subtract', 'restamos'), far: L('how far I am from the center', 'cuánto me alejo del centro'), result: L('Look at the result carefully', 'Mira el resultado con atención'), clips: L('clips negatives', 'recorta') },
     items: [
       { k: 'kicker', text: L('Step 4 · origin at the center', 'Paso 4 · origen en el centro') },
-      { k: 'code', at: 'origin', type: 'origin+0.3', cps: 40, code: FRAG('float dx = pixel.Uv.X - 0.5f;\nfloat dy = pixel.Uv.Y - 0.5f;\nreturn Make.Vec4(dx, dy, 0f, 1f);', 'float dx = pixel.Uv.X - 0.5f;\nfloat dy = pixel.Uv.Y - 0.5f;\nreturn Crear.Vec4(dx, dy, 0f, 1f);') },
+      { k: 'code', at: 'origin', type: 'origin+0.3', cps: 40, code: FRAG('float dx = pixel.Uv.X - 0.5f;\nfloat dy = pixel.Uv.Y - 0.5f;\nreturn new vec4(dx, dy, 0f, 1f);', 'float dx = pixel.Uv.X - 0.5f;\nfloat dy = pixel.Uv.Y - 0.5f;\nreturn new vec4(dx, dy, 0f, 1f);') },
       win([{ modes: [{ at: 0, frag: SH.corner }, { at: 'sub', frag: SH.centre }, { at: 'result', frag: SH.shifted }] }], 0.5),
       { k: 'text', at: 'far', text: L('<b>dx</b> and <b>dy</b>: how far from the center', '<b>dx</b> y <b>dy</b>: cuánto me alejo del centro') },
     ],

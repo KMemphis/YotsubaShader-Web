@@ -152,7 +152,7 @@ export default function syntaxes(ctx) {
 <section class="hero hero--compact">
   <div class="container">
     <h1 class="h-xl">One shader. Five ways to write it.</h1>
-    <p class="lead">The five syntax projects declare C# attributes inspired by HLSL, GLSL, MSL, SPIR-V, and WGSL. Their concepts share the same semantic model and supported compiler path; WGSL authoring attributes exist, while WGSL output is planned for 2027.</p>
+    <p class="lead">The five syntax projects declare C# attributes inspired by HLSL, GLSL, MSL, SPIR-V, and WGSL. Their concepts share the same semantic model and supported compiler path; the WGSL attributes are another way to write the same shader, and WGSL is also an output format.</p>
   </div>
   <hr class="hero-rule">
 </section>

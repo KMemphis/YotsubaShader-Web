@@ -11,6 +11,8 @@ monogame | MonoGame | A window of your own, with only C#. The default route.
 kni | KNI | The same window with KNI (SDL2 and OpenGL).
 fna | FNA | The same window with FNA (SDL3).
 godot | Godot | Godot 4, with GDScript or C#. You see the shaders inside the editor.
+raylib | raylib-cs | A raylib-cs window with OpenGL 3.3, reading the shaders from files.
+silknet | Silk.NET | Silk.NET with the API you choose: OpenGL, OpenGL ES, Vulkan or WebGPU.
 ```
 
 > [!NOTE]
@@ -18,8 +20,8 @@ godot | Godot | Godot 4, with GDScript or C#. You see the shaders inside the edi
 
 ## Other engines
 
-[Stride](stride.md), [Unity](unity.md) and [Silk.NET](silknet.md) are planned and may change. If you use another engine or API directly, see [Use Yotsuba Shader in your own engine](../custom-engine/index.md).
+[Stride](stride.md) and [Unity](unity.md) are planned and may change. If you use another engine or API directly, see [Use Yotsuba Shader in your own engine](../custom-engine/index.md).
 
 ## Reference
 
-Each engine has a reference page with its package, the generated method, the vertex data, the uniforms and a complete example: [MonoGame](monogame-reference.md), [KNI](kni-reference.md), [FNA](fna-reference.md) and [Godot](godot-reference.md).
+Each engine has a reference page with its package, the generated method, the vertex data, the uniforms and a complete example: [MonoGame](monogame-reference.md), [KNI](kni-reference.md), [FNA](fna-reference.md), [Godot](godot-reference.md), [raylib-cs](raylib-reference.md) and [Silk.NET](silknet-reference.md).

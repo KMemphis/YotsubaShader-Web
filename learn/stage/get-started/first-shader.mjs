@@ -7,35 +7,17 @@ const cs = (title, code) => ({ title, code, lang: 'csharp' });
 const term = (code) => ({ title: 'Terminal', code, lang: 'bash' });
 
 // the sunset gradient in GLSL (uv.y = 0 at the bottom here, so "top" is 1 - uv.y)
-const ENGINE_LOGO = { route: { kni: '/img/engines/kni.png', fna: '/img/engines/fna.png', godot: '/img/engines/godot.svg', default: '/img/engines/monogame.png' } };
+const ENGINE_LOGO = { route: { kni: '/img/engines/kni.png', fna: '/img/engines/fna.png', godot: '/img/engines/godot.svg', raylib: '/img/engines/raylib.png', silknet: '/img/engines/silknet.svg', default: '/img/engines/monogame.png' } };
 // a live shader inside the window of this route's engine (gl = one WebGL canvas behind the tiles; w60 = 60% of the stage width)
 const win = (frag, at, extra = {}) => ({ k: 'gl', cls: 'window w60', title: '{{engine}}', logo: ENGINE_LOGO, at, fx: 'pop', radius: 10, tiles: [{ frag, at }], ...extra });
 const SUNSET = 'float y=1.-uv.y;return vec4(1.,.25+.6*y,.45-.35*y,1.);';
 const SUNSET_LIVE = 'float y=1.-uv.y+.015*sin(uv.x*9.+t*1.3);return vec4(1.,.25+.6*y,.45-.35*y,1.);';
 
-const MAKE = L(cs('MyShaders/Make.cs', `public static class Make
-{
-    public static vec4 Vec4(float x, float y, float z, float w)
-    {
-        vec4 v;
-        v.X = x;
-        v.Y = y;
-        v.Z = z;
-        v.W = w;
-        return v;
-    }
-}`), cs('MisShaders/Crear.cs', `public static class Crear
-{
-    public static vec4 Vec4(float x, float y, float z, float w)
-    {
-        vec4 v;
-        v.X = x;
-        v.Y = y;
-        v.Z = z;
-        v.W = w;
-        return v;
-    }
-}`));
+const MAKE = L(cs('C#', `vec2 uv = new vec2(0.5f, 0.25f);
+vec3 orange = new vec3(1f, 0.5f, 0.1f);
+vec4 red = new vec4(1f, 0f, 0f, 1f);`), cs('C#', `vec2 uv = new vec2(0.5f, 0.25f);
+vec3 naranja = new vec3(1f, 0.5f, 0.1f);
+vec4 rojo = new vec4(1f, 0f, 0f, 1f);`));
 
 const DOOR_A = { route: {
   godot: cs('Screen.cs', `public struct {{vertexType}}
@@ -79,14 +61,14 @@ const VERTEX = L(cs('Vertex', `[ShaderStage(Stage.Vertex)]
 public Pixel Vertex({{vertexType}} corner)
 {
     Pixel pixel;
-    pixel.Position = Make.Vec4(corner.{{pos}}.X, corner.{{pos}}.Y, 0f, 1f);
+    pixel.Position = new vec4(corner.{{pos}}.X, corner.{{pos}}.Y, 0f, 1f);
     pixel.Uv = corner.{{uv}};
     return pixel;
 }`), cs('Vertex', `[ShaderStage(Stage.Vertex)]
 public Pixel Vertex({{vertexType}} vertice)
 {
     Pixel pixel;
-    pixel.Posicion = Crear.Vec4(vertice.{{pos}}.X, vertice.{{pos}}.Y, 0f, 1f);
+    pixel.Posicion = new vec4(vertice.{{pos}}.X, vertice.{{pos}}.Y, 0f, 1f);
     pixel.Uv = vertice.{{uv}};
     return pixel;
 }`));
@@ -95,12 +77,12 @@ const FRAGMENT_RED = L(cs('Fragment', `[ShaderStage(Stage.Fragment)]
 [return: location(0)]
 public vec4 Fragment(PixelIn pixel)
 {
-    return Make.Vec4(1f, 0f, 0f, 1f);
+    return new vec4(1f, 0f, 0f, 1f);
 }`), cs('Fragment', `[ShaderStage(Stage.Fragment)]
 [return: location(0)]
 public vec4 Fragment(PixelIn pixel)
 {
-    return Crear.Vec4(1f, 0f, 0f, 1f);
+    return new vec4(1f, 0f, 0f, 1f);
 }`));
 
 const FRAGMENT_SUNSET = L(cs('MyShaders/Gradient.cs', `public vec4 Fragment(PixelIn pixel)
@@ -108,13 +90,13 @@ const FRAGMENT_SUNSET = L(cs('MyShaders/Gradient.cs', `public vec4 Fragment(Pixe
     float red = 1f;
     float green = 0.25f + 0.6f * pixel.Uv.Y;
     float blue = 0.45f - 0.35f * pixel.Uv.Y;
-    return Make.Vec4(red, green, blue, 1f);
+    return new vec4(red, green, blue, 1f);
 }`), cs('MisShaders/Degradado.cs', `public vec4 Fragment(PixelIn pixel)
 {
     float rojo = 1f;
     float verde = 0.25f + 0.6f * pixel.Uv.Y;
     float azul = 0.45f - 0.35f * pixel.Uv.Y;
-    return Crear.Vec4(rojo, verde, azul, 1f);
+    return new vec4(rojo, verde, azul, 1f);
 }`));
 
 export default [
@@ -189,13 +171,10 @@ export default [
   },
   {
     id: 'make',
-    beats: { create: L('Create the file', 'Crea el archivo'), red: L('to have the color red', 'para tener el color rojo'), own: L('you can call your own functions', 'puedes llamar a tus propias funciones') },
+    beats: { ctor: L('with new and its constructor', 'con new y su constructor'), red: L('To have the color red', 'Para tener el color rojo'), types: L('the types vec2, vec3 and vec4 come from', 'de donde salen los tipos vec2, vec3 y vec4') },
     items: [
-      { k: 'slot', items: [
-        { k: 'code', at: 'create', out: 'red', type: 'create+0.3', cps: 55, code: MAKE },
-        { k: 'code', at: 'red', code: L(cs('C#', 'Make.Vec4(1f, 0f, 0f, 1f)'), cs('C#', 'Crear.Vec4(1f, 0f, 0f, 1f)')), tags: [{ at: 'red+0.5', line: 0, text: L('red', 'rojo') }] },
-      ] },
-      { k: 'text', at: 'own', text: L('Your own C# functions go to the GPU too', 'Tus propias funciones de C# también van a la GPU'), mark: { at: 'own+0.5', kind: 'check' } },
+      { k: 'code', at: 'ctor', type: 'ctor+0.3', cps: 40, code: MAKE, tags: [{ at: 'red+0.5', line: 2, text: L('red', 'rojo') }] },
+      { k: 'text', at: 'types', text: L('vec2, vec3 and vec4 come from GlslSyntax.Types', 'vec2, vec3 y vec4 salen de GlslSyntax.Types'), mark: { at: 'types+0.5', kind: 'check' } },
     ],
   },
   {

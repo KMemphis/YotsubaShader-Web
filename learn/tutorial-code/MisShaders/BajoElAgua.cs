@@ -20,7 +20,7 @@ public class BajoElAgua
     public Pixel Vertex(Vertice vertice)
     {
         Pixel pixel;
-        pixel.Posicion = Crear.Vec4(vertice.Posicion.X, vertice.Posicion.Y, 0f, 1f);
+        pixel.Posicion = new vec4(vertice.Posicion.X, vertice.Posicion.Y, 0f, 1f);
         pixel.Uv = vertice.Uv;
         return pixel;
     }
@@ -34,15 +34,15 @@ public class BajoElAgua
         float u = pixel.Uv.X + sin(pixel.Uv.Y * 25f + t * 2f) * 0.012f;
         float v = pixel.Uv.Y + sin(pixel.Uv.X * 20f + t * 1.5f) * 0.012f;
 
-        vec4 foto = texture(Foto, Crear.Vec2(u, v));
+        vec4 foto = texture(Foto, new vec2(u, v));
 
-        vec3 original = Crear.Vec3(foto.X, foto.Y, foto.Z);
-        vec3 azulMar = Crear.Vec3(foto.X * 0.2f, foto.Y * 0.7f, foto.Z * 1f + 0.1f);
+        vec3 original = new vec3(foto.X, foto.Y, foto.Z);
+        vec3 azulMar = new vec3(foto.X * 0.2f, foto.Y * 0.7f, foto.Z * 1f + 0.1f);
         vec3 color = mix(original, azulMar, 0.6f);
 
         float sombra = Vineta(pixel.Uv.X, pixel.Uv.Y);
 
-        return Crear.Vec4(color.X * sombra, color.Y * sombra, color.Z * sombra, 1f);
+        return new vec4(color.X * sombra, color.Y * sombra, color.Z * sombra, 1f);
     }
 
     public static float Vineta(float u, float v)

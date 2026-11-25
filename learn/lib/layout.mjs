@@ -11,6 +11,7 @@ const ICONS = {
   cpu: '<rect x="6" y="6" width="12" height="12" rx="2"/><rect x="9.5" y="9.5" width="5" height="5" rx="1"/><path d="M9 2v3M15 2v3M9 19v3M15 19v3M2 9h3M2 15h3M19 9h3M19 15h3"/>',
   puzzle: '<path d="M10 4a2 2 0 1 1 4 0v1h4a1 1 0 0 1 1 1v4h-1a2 2 0 1 0 0 4h1v4a1 1 0 0 1-1 1h-4v-1a2 2 0 1 0-4 0v1H6a1 1 0 0 1-1-1v-4h1a2 2 0 1 0 0-4H5V6a1 1 0 0 1 1-1h4z"/>',
   spark: '<path d="M12 3l1.9 5.1L19 10l-5.1 1.9L12 17l-1.9-5.1L5 10l5.1-1.9z"/><path d="M19 16l.8 2.2L22 19l-2.2.8L19 22l-.8-2.2L16 19l2.2-.8z"/>',
+  code: '<path d="M8 7l-5 5 5 5M16 7l5 5-5 5M13.5 4l-3 16"/>',
   book: '<path d="M4 5a2 2 0 0 1 2-2h13v16H6a2 2 0 0 0-2 2z"/><path d="M4 21V5M8 7h7M8 11h7"/>',
   search: '<circle cx="11" cy="11" r="6.5"/><path d="M16 16l4.5 4.5"/>',
   chevron: '<path d="M9 5l7 7-7 7"/>',
@@ -111,7 +112,7 @@ function banners(lang) {
       const r = ROUTES.find((x) => x.id === e.id);
       const href = r ? url(lang, 'get-started', r.prefix.replace(/\/$/, '') || undefined) : url(lang, 'engines', e.id);
       const logo = ['svg', 'png'].find((x) => fs.existsSync(path.join(LOGOS, `${e.id}.${x}`)));
-      return `<a class="slide-link" href="${href}">${logo ? `<img class="engine-logo" src="/img/engines/${e.id}.${logo}" alt="" width="32" height="32">` : ''}<span>${esc(e.name)}</span><i>${icon('right')}</i></a>`;
+      return `<a class="slide-link" href="${href}"${r ? ` data-pick-route="${r.id}"` : ''}>${logo ? `<img class="engine-logo" src="/img/engines/${e.id}.${logo}" alt="" width="32" height="32">` : ''}<span>${esc(e.name)}</span><i>${icon('right')}</i></a>`;
     }).join('');
     const dots = [t.paneLogo, t.paneExample]
       .map((label, n) => `<li><button type="button" data-pane="${n}" aria-label="${esc(label)}" title="${esc(label)}" aria-current="${n === 0}"></button></li>`)

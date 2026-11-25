@@ -17,7 +17,7 @@ For that, the shader needs an answer to one question: **where is this pixel?** T
 Copy `Template.cs` as `Coordinates.cs` and change the class name to `Coordinates`. Then replace the line in `Fragment` with this one:
 
 ```csharp
-return Make.Vec4(pixel.Uv.X, 0f, 0f, 1f);
+return new vec4(pixel.Uv.X, 0f, 0f, 1f);
 ```
 
 Here we are using the pixel's position as if it were the amount of red. Run the work cycle:
@@ -37,7 +37,7 @@ This is the best tool for understanding a shader: **turning a number into color 
 Now change the line to show `Uv.Y` in the green channel:
 
 ```csharp
-return Make.Vec4(0f, pixel.Uv.Y, 0f, 1f);
+return new vec4(0f, pixel.Uv.Y, 0f, 1f);
 ```
 
 ![A gradient going from black at the top to green at the bottom](../../assets/get-started/taller/cr2.png)
@@ -54,7 +54,7 @@ This surprises almost everyone, because in math and in function plots the Y axis
 Now put both coordinates together, one in each channel:
 
 ```csharp
-return Make.Vec4(pixel.Uv.X, pixel.Uv.Y, 0f, 1f);
+return new vec4(pixel.Uv.X, pixel.Uv.Y, 0f, 1f);
 ```
 
 ![A gradient in two directions: black at the top left, red at the top right, green at the bottom left and yellow at the bottom right](../../assets/get-started/taller/cr3.png)
@@ -78,7 +78,7 @@ So far `Uv.X` goes from `0` to `1` only once. What if we want the gradient to re
 
 ```csharp
 float x = (pixel.Uv.X * 4f) % 1f;
-return Make.Vec4(x, 0f, 0f, 1f);
+return new vec4(x, 0f, 0f, 1f);
 ```
 
 There are two new things in that line:
@@ -101,7 +101,7 @@ The `Uv` starts at the top-left corner. But to draw a circle in the middle, or a
 ```csharp
 float dx = pixel.Uv.X - 0.5f;
 float dy = pixel.Uv.Y - 0.5f;
-return Make.Vec4(dx, dy, 0f, 1f);
+return new vec4(dx, dy, 0f, 1f);
 ```
 
 `dx` and `dy` are "how far I am from the center" in each direction. They no longer go from `0` to `1`, but from `-0.5` to `0.5`.
@@ -122,7 +122,7 @@ Careful: that result is not the exact distance. It is the distance multiplied by
 float dx = pixel.Uv.X - 0.5f;
 float dy = pixel.Uv.Y - 0.5f;
 float light = 1f - (dx * dx + dy * dy) * 4f;
-return Make.Vec4(light, light, light, 1f);
+return new vec4(light, light, light, 1f);
 ```
 
 Let us read the third line from the inside out:
@@ -140,6 +140,10 @@ It works, but something is wrong. We asked for a **round** spot, and an **oval**
 ## The oval problem
 
 The `Uv` always goes from `0` to `1`, both horizontally and vertically, no matter the shape of the window. Our window is 800 by 450 pixels: it is wider than tall. So `0.1` of width is 80 pixels, but `0.1` of height is only 45. The distances we compute **are not equal in both directions**, and the circle stretches.
+
+:::godot
+The window of your Godot project is 1152 by 648 pixels unless you change it, and that is the same wide shape as the 800 by 450 of the other routes: `0.1` of width is about 115 pixels and `0.1` of height only 65, so the circle stretches in the same way.
+:::
 
 This is one of the problems beginners ask about most: *"why is my circle oval?"* The solution is to correct that difference. If the window is 1.78 times wider than tall, we have to multiply `dx` by 1.78 so that it "measures the same" as `dy`.
 
@@ -227,6 +231,11 @@ And now, inside `Fragment`, you can use it like any other value: `Data.Width` an
 > [!NOTE]
 > How does the window find out that it has to deliver `Width` and `Height`? It is the viewer that does it, by name: it looks for a piece of data called `Data_Width` (the uniform's name, an underscore and the field's name). If your shader uses other names, the viewer does not know them. That is why, in this tutorial, keep the names `Data`, `Width`, `Height` and `Seconds`.
 
+:::raylib silknet
+> [!NOTE]
+> In {{engine}} it works a little differently: the viewer does not look for `Data_Width` by name. It writes the uniform block as `Width`, `Height` and `Seconds`, in that order, so declare the fields in that order and keep the names of the tutorial.
+:::
+
 > [!SCENE] fix
 
 ## Step 7: fixing the circle
@@ -238,7 +247,7 @@ float aspect = Data.Width / Data.Height;
 float dx = (pixel.Uv.X - 0.5f) * aspect;
 float dy = pixel.Uv.Y - 0.5f;
 float light = 1f - (dx * dx + dy * dy) * 4f;
-return Make.Vec4(light, light, light, 1f);
+return new vec4(light, light, light, 1f);
 ```
 
 The new line is the first one: `aspect` is the width divided by the height, that is, how many times wider than tall the window is. With 800 and 450 it is 1.78. In the second line we apply it to `dx`.
@@ -247,7 +256,17 @@ Run the work cycle.
 
 ![A perfectly round white spot on a black background](../../assets/get-started/taller/cr7.png)
 
+:::godot
+![Godot after pressing Play: the game window shows the round white spot on a black background](../../assets/get-started/godot/en/coordinates.gif)
+:::
+
+:::xna raylib silknet
 Now it is a circle. Try one more thing: stretch the window with the mouse (or change the `800` and the `450` in `Viewer/Program.cs`). The circle stays round, because the shader recomputes the aspect with every new size.
+:::
+
+:::godot
+Now it is a circle. Try one more thing: stretch the window with the mouse (or change **Viewport Width** and **Viewport Height** in **Project → Project Settings → Display → Window**). The circle stays round, because the shader recomputes the aspect with every new size.
+:::
 
 > [!NOTE]
 > There is another way to solve this, which is to divide by the height instead of the width, and leave the X axis without a fixed limit. The one we use here is the easiest to explain. In other shaders you will see both.
@@ -273,7 +292,7 @@ public class Coordinates
     public Pixel Vertex({{vertexType}} corner)
     {
         Pixel pixel;
-        pixel.Position = Make.Vec4(corner.{{pos}}.X, corner.{{pos}}.Y, 0f, 1f);
+        pixel.Position = new vec4(corner.{{pos}}.X, corner.{{pos}}.Y, 0f, 1f);
         pixel.Uv = corner.{{uv}};
         return pixel;
     }
@@ -286,7 +305,7 @@ public class Coordinates
         float dx = (pixel.Uv.X - 0.5f) * aspect;
         float dy = pixel.Uv.Y - 0.5f;
         float light = 1f - (dx * dx + dy * dy) * 4f;
-        return Make.Vec4(light, light, light, 1f);
+        return new vec4(light, light, light, 1f);
     }
 }
 ```
@@ -308,7 +327,7 @@ public class Coordinates
     public Pixel Vertex({{vertexType}} corner)
     {
         Pixel pixel;
-        pixel.Position = Make.Vec4(corner.{{pos}}.X, corner.{{pos}}.Y, 0f, 1f);
+        pixel.Position = new vec4(corner.{{pos}}.X, corner.{{pos}}.Y, 0f, 1f);
         pixel.Uv = corner.{{uv}};
         return pixel;
     }
@@ -321,7 +340,7 @@ public class Coordinates
         float dx = (pixel.Uv.X - 0.5f) * aspect;
         float dy = pixel.Uv.Y - 0.5f;
         float light = 1f - (dx * dx + dy * dy) * 4f;
-        return Make.Vec4(light, light, light, 1f);
+        return new vec4(light, light, light, 1f);
     }
 }
 ```
@@ -343,7 +362,7 @@ public class Coordinates
     public Pixel Vertex({{vertexType}} corner)
     {
         Pixel pixel;
-        pixel.Position = Make.Vec4(corner.{{pos}}.X, corner.{{pos}}.Y, 0f, 1f);
+        pixel.Position = new vec4(corner.{{pos}}.X, corner.{{pos}}.Y, 0f, 1f);
         pixel.Uv = corner.{{uv}};
         return pixel;
     }
@@ -356,7 +375,7 @@ public class Coordinates
         float dx = (pixel.Uv.X - 0.5f) * aspect;
         float dy = pixel.Uv.Y - 0.5f;
         float light = 1f - (dx * dx + dy * dy) * 4f;
-        return Make.Vec4(light, light, light, 1f);
+        return new vec4(light, light, light, 1f);
     }
 }
 ```
@@ -378,7 +397,7 @@ public class Coordinates
     public Pixel Vertex({{vertexType}} corner)
     {
         Pixel pixel;
-        pixel.Position = Make.Vec4(corner.{{pos}}.X, corner.{{pos}}.Y, 0f, 1f);
+        pixel.Position = new vec4(corner.{{pos}}.X, corner.{{pos}}.Y, 0f, 1f);
         pixel.Uv = corner.{{uv}};
         return pixel;
     }
@@ -391,7 +410,7 @@ public class Coordinates
         float dx = (pixel.Uv.X - 0.5f) * aspect;
         float dy = pixel.Uv.Y - 0.5f;
         float light = 1f - (dx * dx + dy * dy) * 4f;
-        return Make.Vec4(light, light, light, 1f);
+        return new vec4(light, light, light, 1f);
     }
 }
 ```
@@ -413,7 +432,7 @@ public class Coordinates
     public Pixel Vertex({{vertexType}} corner)
     {
         Pixel pixel;
-        pixel.Position = Make.Vec4(corner.{{pos}}.X, corner.{{pos}}.Y, 0f, 1f);
+        pixel.Position = new vec4(corner.{{pos}}.X, corner.{{pos}}.Y, 0f, 1f);
         pixel.Uv = corner.{{uv}};
         return pixel;
     }
@@ -426,7 +445,7 @@ public class Coordinates
         float dx = (pixel.Uv.X - 0.5f) * aspect;
         float dy = pixel.Uv.Y - 0.5f;
         float light = 1f - (dx * dx + dy * dy) * 4f;
-        return Make.Vec4(light, light, light, 1f);
+        return new vec4(light, light, light, 1f);
     }
 }
 ```

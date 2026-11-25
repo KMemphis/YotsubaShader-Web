@@ -62,6 +62,10 @@ Los cinco primeros vienen con la CLI. Los métodos de los motores vienen de **pl
 | `ToFNA_FX()` | `byte[]` | FNA | `--target fna` |
 | `ToGodotShader(GodotShaderType)` | `string` | Godot | `--target godot` |
 
+:::raylib silknet
+raylib-cs y Silk.NET no están en esta tabla: no necesitan plugin. Leen los archivos que escribe `compile`, en formatos que la CLI ya incluye (`glsl:330`, `gles:300`, `spirv` y `wgsl`), como verás en el [capítulo del visor](visor.md).
+:::
+
 Por ejemplo, para usar tus shaders en {{engine}}:
 
 ```bash
@@ -139,10 +143,13 @@ Dos detalles de `--output`:
 | `hlsl` | HLSL, para DirectX | `.hlsl` |
 | `msl` (o `metal`) | Metal, para Apple | `.msl` |
 | `cpp` | C++ | `.cpp` |
+| `wgsl` | WGSL, para WebGPU. Un archivo por clase shader con todas sus etapas. | `.wgsl` |
 | `monogame` (o `mgfx`) | Efectos de MonoGame, uno por plataforma. Necesita el plugin `monogame`. | `.mgfx` |
 | `kni` (o `kni-webgl`) | Efecto de KNI. Necesita el plugin `kni`. | `.knifx` |
 | `fna` | Efecto de FNA. Necesita el plugin `fna`. | `.fxb` |
 | `godot` (o `gdshader`) | Shaders de Godot, uno por tipo (`spatial`, `canvas_item`). Necesita el plugin `godot`. | `.gdshader` |
+
+Cada formato usa su versión de lenguaje por defecto. Para pedir otra, escríbela después del nombre: `--target glsl:430`, `--target gles:300` o `--target spirv:1.3`. Las versiones que acepta cada formato están en [la referencia de compile](../reference/compile.md#versiones-del-lenguaje).
 
 > [!SCENE] auto
 
@@ -206,7 +213,6 @@ Estos son los mensajes que más vas a ver, y lo que significan:
 | Un error que empieza por `CS`, como `error CS0103` | Es un error de C# normal: tu proyecto no compila. | Arréglalo como cualquier error de C#. La CLI no sigue hasta que el proyecto compile. |
 | `error CS0234` justo después de borrar o renombrar una clase de shader | `YotsubaShader.g.cs` todavía nombra la clase vieja, y `add` compila el proyecto antes de reescribirlo. | Borra `YotsubaShader.g.cs` y ejecuta `add` otra vez. |
 | `... no hay código disponible para compilarlo en GPU.` | Llamaste a una función que no es tuya y que la GPU no conoce, por ejemplo `System.Math.Sqrt`. | Usa las funciones de `YotsubaShader.GlslSyntax.Methods.Math` o escribe la tuya. |
-| `'new ...vec4()' sin constructor declarado no está soportado para vectores.` | Creaste un vector con `new vec4 { ... }`. | Usa `Crear.Vec4(...)`, el ayudante del primer shader. |
 
 Si el error aparece nada más abrir el proyecto, antes de compilar ningún shader, ejecuta primero `dotnet build MisShaders`. La CLI necesita que el proyecto ya haya descargado sus dependencias.
 
@@ -217,6 +223,10 @@ Si el error aparece nada más abrir el proyecto, antes de compilar ningún shade
 - `add` deja el resultado dentro de tu proyecto, como métodos de tus clases. `compile` lo deja en archivos.
 - `--target` elige el formato y se puede repetir. `--output` elige la carpeta.
 - MonoGame, KNI, FNA y Godot son plugins: los pides con `--target monogame`, `kni`, `fna` o `godot`, y la CLI los descarga la primera vez.
+
+:::raylib silknet
+- raylib-cs y Silk.NET no son plugins: leen los archivos que escribe `yotsuba compile` con `--target glsl:330`, `gles:300`, `spirv` o `wgsl`.
+:::
 - Con un `<Target>` en el `.csproj`, `add` se ejecuta solo cada vez que compilas.
 
 Siguiente: [Otros estilos de escritura](how-it-works.md).

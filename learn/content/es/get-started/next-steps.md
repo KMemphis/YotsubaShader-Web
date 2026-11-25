@@ -45,6 +45,18 @@ Ya dibujaste en pantalla: la escena del visor, tus shaders corriendo en Godot e 
 A partir de aquí, la mejor forma de aprender es tomar uno de tus shaders y usarlo en un objeto real, con el `VERTEX` y el `NORMAL` de un `MeshInstance3D`.
 :::
 
+:::raylib
+Ya dibujaste en pantalla: una ventana tuya con raylib-cs, tus shaders corriendo en ella e incluso una foto vista a través de ellos. Lo que este tutorial no mostró es todo lo que raylib puede hacer alrededor, y está reunido en la [referencia de raylib-cs](../engines/raylib-reference.md): el visor explicado por partes y cómo dibujar con tus shaders dentro de un juego.
+
+A partir de aquí, la mejor forma de aprender es tomar uno de tus shaders y usarlo en algo de tu juego, poniendo `BeginShaderMode` alrededor del dibujo que ya haces.
+:::
+
+:::silknet
+Ya dibujaste en pantalla: una ventana tuya con la API gráfica que elegiste y tus shaders corriendo en ella. Lo que este tutorial no mostró son las otras tres: la [referencia de Silk.NET](../engines/silknet-reference.md) tiene los cuatro visores explicados por partes, para que compares cómo cada API recibe el mismo shader.
+
+A partir de aquí, la mejor forma de aprender es tomar uno de tus shaders y ejecutarlo con otra API. El shader no cambia: solo cambian el `--target` y el visor.
+:::
+
 > [!SCENE] own
 
 ## ¿Tienes tu propio motor?

@@ -41,7 +41,7 @@ Tu programa es quien carga la foto y la deja en esa dirección, igual que hacía
 Para leer la textura se usa la función `texture`. Le das la textura y un punto, y te devuelve el color que hay en ese punto:
 
 ```csharp
-vec4 foto = texture(Foto, Crear.Vec2(u, v));
+vec4 foto = texture(Foto, new vec2(u, v));
 ```
 
 El punto se da con dos números de `0` a `1`. `(0, 0)` es la esquina de arriba a la izquierda de la foto y `(1, 1)` la de abajo a la derecha. ¿Te suena? Es exactamente lo mismo que `Uv`.
@@ -49,7 +49,7 @@ El punto se da con dos números de `0` a `1`. `(0, 0)` es la esquina de arriba a
 Por eso, si a cada píxel le das el color de la foto en su propio `Uv`, la foto aparece en pantalla tal cual, sin cambios:
 
 ```csharp
-vec4 foto = texture(Foto, Crear.Vec2(pixel.Uv.X, pixel.Uv.Y));
+vec4 foto = texture(Foto, new vec2(pixel.Uv.X, pixel.Uv.Y));
 ```
 
 `texture` no está en la clase `Math`, sino en otra llamada `Intrinsic`, donde están las funciones que hablan con el hardware. Se usa con otro `using static`:
@@ -70,7 +70,7 @@ Si todos los píxeles leyeran un poco a la derecha, la foto entera se vería des
 float u = pixel.Uv.X + sin(pixel.Uv.Y * 25f + t * 2f) * 0.012f;
 float v = pixel.Uv.Y + sin(pixel.Uv.X * 20f + t * 1.5f) * 0.012f;
 
-vec4 foto = texture(Foto, Crear.Vec2(u, v));
+vec4 foto = texture(Foto, new vec2(u, v));
 ```
 
 Mira la primera línea por partes:
@@ -93,8 +93,8 @@ La foto no se movió. Lo que cambió es de qué punto lee cada píxel.
 Debajo del agua todo se ve azulado, porque el agua apaga el rojo. Vamos a hacer lo mismo: bajar mucho el rojo, un poco el verde, y dejar el azul.
 
 ```csharp
-vec3 original = Crear.Vec3(foto.X, foto.Y, foto.Z);
-vec3 azulMar = Crear.Vec3(foto.X * 0.2f, foto.Y * 0.7f, foto.Z * 1f + 0.1f);
+vec3 original = new vec3(foto.X, foto.Y, foto.Z);
+vec3 azulMar = new vec3(foto.X * 0.2f, foto.Y * 0.7f, foto.Z * 1f + 0.1f);
 vec3 color = mix(original, azulMar, 0.6f);
 ```
 
@@ -129,7 +129,7 @@ Esa imagen es la viñeta sola: blanco es `1` y negro es `0`. Al multiplicar el c
 ```csharp
 float sombra = Vineta(pixel.Uv.X, pixel.Uv.Y);
 
-return Crear.Vec4(color.X * sombra, color.Y * sombra, color.Z * sombra, 1f);
+return new vec4(color.X * sombra, color.Y * sombra, color.Z * sombra, 1f);
 ```
 
 Multiplicar un color por un número entre `0` y `1` es la forma de oscurecerlo.
@@ -159,7 +159,7 @@ public class BajoElAgua
     public Pixel Vertex({{vertexType}} vertice)
     {
         Pixel pixel;
-        pixel.Posicion = Crear.Vec4(vertice.{{pos}}.X, vertice.{{pos}}.Y, 0f, 1f);
+        pixel.Posicion = new vec4(vertice.{{pos}}.X, vertice.{{pos}}.Y, 0f, 1f);
         pixel.Uv = vertice.{{uv}};
         return pixel;
     }
@@ -173,15 +173,15 @@ public class BajoElAgua
         float u = pixel.Uv.X + sin(pixel.Uv.Y * 25f + t * 2f) * 0.012f;
         float v = pixel.Uv.Y + sin(pixel.Uv.X * 20f + t * 1.5f) * 0.012f;
 
-        vec4 foto = texture(Foto, Crear.Vec2(u, v));
+        vec4 foto = texture(Foto, new vec2(u, v));
 
-        vec3 original = Crear.Vec3(foto.X, foto.Y, foto.Z);
-        vec3 azulMar = Crear.Vec3(foto.X * 0.2f, foto.Y * 0.7f, foto.Z * 1f + 0.1f);
+        vec3 original = new vec3(foto.X, foto.Y, foto.Z);
+        vec3 azulMar = new vec3(foto.X * 0.2f, foto.Y * 0.7f, foto.Z * 1f + 0.1f);
         vec3 color = mix(original, azulMar, 0.6f);
 
         float sombra = Vineta(pixel.Uv.X, pixel.Uv.Y);
 
-        return Crear.Vec4(color.X * sombra, color.Y * sombra, color.Z * sombra, 1f);
+        return new vec4(color.X * sombra, color.Y * sombra, color.Z * sombra, 1f);
     }
 
     public static float Vineta(float u, float v)
@@ -209,6 +209,10 @@ Un shader no puede abrir archivos por sí solo: tu escena le entrega la imagen. 
 
 Pulsa **Play Scene** (`Cmd/Ctrl+R`): aparece el pez payaso ondulando, con tono azul y bordes oscuros, igual que en las demás rutas.
 
+:::godot
+![Godot al pulsar Play: la ventana del juego muestra el pez con ondas, tono azul y bordes oscuros](../../assets/get-started/godot/es/pez.gif)
+:::
+
 ## Un extra para Godot: toda la escena 3D bajo el agua
 
 Al shader le da igual de dónde viene la imagen. En Godot una imagen también puede ser **lo que ve una cámara**. Vas a dibujar un fondo marino en 3D y a usar ese dibujo como `Foto`, de modo que el efecto de agua cubra una escena completa.
@@ -227,25 +231,158 @@ Todo lo siguiente va dentro de `SubViewport`:
 | Nodo | Tipo | Qué configuras |
 | --- | --- | --- |
 | `Camera3D` | `Camera3D` | Position `(0, 7.5, 15)`, Rotation X `-25°`, **FOV** `65` |
-| `Sun` | `DirectionalLight3D` | Rotation X `-60°`, **Energy** `0.7`, Shadow **Enabled** |
-| `Environment` | `WorldEnvironment` | New Environment: cielo verde azulado oscuro, **Fog** activada con color verde azulado y **Density** `0.006` |
-| `Floor` | `MeshInstance3D` | **Mesh → New PlaneMesh**, tamaño `120 × 120`, Position Y `0.85`, material color arena |
-| `Sand0` … `Sand8` | `patch-sand.glb` | Arrastra el archivo desde FileSystem a la escena. Nueve copias en cuadrícula: X `-8, 0, 8` y Z `-4, 2, 8`, Y `-0.1` |
-| `Wreck` | `ship-wreck.glb` | Position `(0.5, 0.3, -1)`, Rotation Y `25°` |
-| `RocksA`, `RocksB` | `rocks-sand-a.glb`, `rocks-sand-b.glb` | Posiciones `(-5.5, 0, 3.5)` y `(6, 0, 4)` |
-| `Chest`, `Barrel`, `Crate`, `Cannon` | `chest.glb`, `barrel.glb`, `crate-bottles.glb`, `cannon.glb` | Repártelos delante del naufragio, entre Z `5` y `6.5` |
+| `Sol` | `DirectionalLight3D` | Rotation X `-60°`, **Energy** `0.7`, Shadow **Enabled** |
+| `Entorno` | `WorldEnvironment` | New Environment: cielo verde azulado oscuro, **Fog** activada con color verde azulado y **Density** `0.006` |
+| `Suelo` | `MeshInstance3D` | **Mesh → New PlaneMesh**, tamaño `120 × 120`, Position Y `0.85`, material color arena |
+| `Arena0` … `Arena8` | `patch-sand.glb` | Arrastra el archivo desde FileSystem a la escena. Nueve copias en cuadrícula: X `-8, 0, 8` y Z `-4, 2, 8`, Y `-0.1` |
+| `Naufragio` | `ship-wreck.glb` | Position `(0.5, 0.3, -1)`, Rotation Y `25°` |
+| `RocasA`, `RocasB` | `rocks-sand-a.glb`, `rocks-sand-b.glb` | Posiciones `(-5.5, 0, 3.5)` y `(6, 0, 4)` |
+| `Cofre`, `Barril`, `Caja`, `Canon` | `chest.glb`, `barrel.glb`, `crate-bottles.glb`, `cannon.glb` | Repártelos delante del naufragio, entre Z `5` y `6.5` |
 
-![El Inspector del SubViewport: vista previa del fondo marino, tamaño 1152 por 648, Update Mode Always y Own World 3D activado](../../assets/get-started/godot/en/agua-escena.jpg)
+![El Inspector del SubViewport: vista previa del fondo marino, tamaño 1152 por 648, Update Mode Always y Own World 3D activado](../../assets/get-started/godot/es/agua-escena.jpg)
 
 Ahora une las dos partes. Selecciona la raíz `Visor` y, en **Foto**, elige **New ViewportTexture**. Godot pregunta qué viewport: elige `SubViewport`. La raíz conserva `BajoElAgua` en **Nombre Shader**.
 
 Pulsa **Play Scene**:
 
-![Un fondo marino con un barco hundido, rocas, un cofre y un barril, con tono azul, bordes oscuros y una ondulación lenta](../../assets/get-started/godot/en/agua-juego.gif)
+![Un fondo marino con un barco hundido, rocas, un cofre y un barril, con tono azul, bordes oscuros y una ondulación lenta](../../assets/get-started/godot/es/agua.gif)
 
 El naufragio, las rocas y la arena son modelos normales de Godot. Todo lo que ves teñido, ondulando y oscurecido en los bordes es tu shader `BajoElAgua`, que recibió la imagen de la cámara como si fuera una foto.
 
 Para volver al capítulo estándar, abre `visor.tscn`: sigue con `BajoElAgua` y el pez payaso en **Foto**.
+:::
+
+
+:::raylib
+## Entregarle la foto al visor
+
+Un shader no puede abrir archivos por sí solo: tu programa le entrega la imagen. El visor del [capítulo del visor](visor.md) ya tiene las líneas para eso: si hay un archivo `pez.png` en la carpeta desde la que lo ejecutas, lo carga como textura y la pone sobre el rectángulo. raylib lee PNG, así que esta es la foto en ese formato:
+
+![La foto del pez payaso en formato PNG](../../assets/get-started/pez.png)
+
+1. Guarda la imagen como `pez.png`, dentro de la carpeta `Tutorial`.
+2. Compila y ejecuta:
+
+{{register BajoElAgua}}
+
+Aparece el pez payaso ondulándose, teñido de azul y con los bordes oscuros, exactamente igual que en las otras rutas.
+
+Estas son las dos líneas del visor que importan:
+
+```csharp
+Texture2D photo = File.Exists("pez.png") ? Raylib.LoadTexture("pez.png") : default;
+// ...
+Rlgl.SetTexture(photo.Id);
+```
+
+`Rlgl.SetTexture` deja la foto en la unidad de textura 0, que es de donde lee la `Foto` de tu shader (`sampler2D`).
+:::
+
+:::silknet
+## Entregarle la foto al visor
+
+Un shader no puede abrir archivos por sí solo: tu programa le entrega la imagen. El visor del [capítulo del visor](visor.md) ya tiene las líneas para eso: si hay un archivo `pez.jpg` en la carpeta desde la que lo ejecutas, lo carga, lo sube como textura y lo deja donde lee la `Foto` de tu shader.
+
+1. Guarda la foto del pez payaso del comienzo de este capítulo como `pez.jpg`, dentro de la carpeta `Tutorial`.
+2. Compila y ejecuta. WebGPU necesita antes un cambio, que se explica debajo de los comandos:
+
+{{register BajoElAgua}}
+
+Aparece el pez payaso ondulándose, teñido de azul y con los bordes oscuros, exactamente igual que en las otras rutas.
+
+### Dónde cae la foto
+
+El shader dice `[layout(0, 1)]` para `Foto`: grupo 0, ranura 1. Cada API tiene su propia forma de poner la imagen ahí. Esta es la línea del visor que lo hace:
+
+```csharp tab="OpenGL"
+gl.ActiveTexture(TextureUnit.Texture0);
+gl.BindTexture(TextureTarget.Texture2D, photo);
+```
+```csharp tab="OpenGL ES"
+gl.ActiveTexture(TextureUnit.Texture0);
+gl.BindTexture(TextureTarget.Texture2D, photo);
+```
+```csharp tab="Vulkan"
+bindings[0] = new DescriptorSetLayoutBinding { Binding = 0, DescriptorType = DescriptorType.UniformBuffer, /* ... */ };
+bindings[1] = new DescriptorSetLayoutBinding { Binding = 1, DescriptorType = DescriptorType.CombinedImageSampler, /* ... */ };
+```
+```csharp tab="WebGPU"
+layoutEntries[0] = new BindGroupLayoutEntry { Binding = 0, /* uniform block */ };
+layoutEntries[1] = new BindGroupLayoutEntry { Binding = 1, /* texture */ };
+layoutEntries[2] = new BindGroupLayoutEntry { Binding = 2, /* sampler */ };
+```
+
+- En **OpenGL** y **OpenGL ES** el sampler `Foto` lee la unidad de textura 0, así que el visor deja la foto ahí.
+- En **Vulkan** la ranura 1 del set 0 es un `CombinedImageSampler`: la imagen y la forma de leerla viajan juntas. La ranura 0 es el reloj.
+- En **WebGPU** la imagen y la forma de leerla son **dos recursos distintos**: la textura va en la ranura 1 y el sampler en la 2.
+
+### WebGPU: la textura y su sampler
+
+Como WebGPU los separa, el shader también tiene que declararlos por separado. En el estilo GLSL, `sampler2D` es un solo campo; en WGSL, son dos. Así que, para WebGPU, reemplaza `MisShaders/BajoElAgua.cs` por esta versión, escrita en el estilo WGSL. El efecto es el mismo, línea por línea; lo que cambia es cómo se declara y se lee `Foto`:
+
+```csharp title="MisShaders/BajoElAgua.cs"
+using YotsubaShader.WgslSyntax;
+using YotsubaShader.WgslSyntax.Resources;
+using YotsubaShader.WgslSyntax.Resources.Types;
+using YotsubaShader.GlslSyntax.Types;
+using YotsubaShader.WgslSyntax.Types;
+using YotsubaShader.Language;
+using static YotsubaShader.WgslSyntax.Methods.Intrinsic;
+using static YotsubaShader.GlslSyntax.Methods.Math;
+
+namespace MisShaders;
+
+public class BajoElAgua
+{
+    [uniform, @group(0), @binding(0)]
+    public Reloj Tiempo;
+
+    [@group(0), @binding(1)]
+    public texture_2d<float> Foto;
+
+    [@group(0), @binding(2)]
+    public sampler MuestreoFoto;
+
+    [ShaderStage(Stage.Vertex)]
+    public Pixel Vertex({{vertexType}} vertice)
+    {
+        Pixel pixel;
+        pixel.Posicion = new vec4(vertice.{{pos}}.X, vertice.{{pos}}.Y, 0f, 1f);
+        pixel.Uv = vertice.{{uv}};
+        return pixel;
+    }
+
+    [ShaderStage(Stage.Fragment)]
+    [return: location(0)]
+    public vec4 Fragment(PixelIn pixel)
+    {
+        float t = Tiempo.Segundos;
+
+        float u = pixel.Uv.X + sin(pixel.Uv.Y * 25f + t * 2f) * 0.012f;
+        float v = pixel.Uv.Y + sin(pixel.Uv.X * 20f + t * 1.5f) * 0.012f;
+
+        vec4<float> foto = textureSample(Foto, MuestreoFoto, new vec2<float>(u, v));
+
+        vec3 original = new vec3(foto.X, foto.Y, foto.Z);
+        vec3 azulMar = new vec3(foto.X * 0.2f, foto.Y * 0.7f, foto.Z * 1f + 0.1f);
+        vec3 color = mix(original, azulMar, 0.6f);
+
+        float sombra = Vineta(pixel.Uv.X, pixel.Uv.Y);
+
+        return new vec4(color.X * sombra, color.Y * sombra, color.Z * sombra, 1f);
+    }
+
+    public static float Vineta(float u, float v)
+    {
+        float x = u * 2f - 1f;
+        float y = v * 2f - 1f;
+        float distancia = sqrt(x * x + y * y);
+        return 1f - smoothstep(0.5f, 1.4f, distancia);
+    }
+}
+```
+
+Los dos campos nuevos son `texture_2d<float>` (la imagen) y `sampler` (cómo leerla, con filtrado), y `textureSample` recibe los dos. Compílalo y ejecútalo con el comando de WebGPU de arriba.
 :::
 
 > [!SCENE] far
@@ -256,7 +393,7 @@ Lee el método `Fragment` otra vez. Hace diez líneas de cuentas, y cada una es 
 
 | Línea | De dónde viene |
 | --- | --- |
-| `pixel.Uv.X`, `Crear.Vec4(...)` | Shader 1 |
+| `pixel.Uv.X`, `new vec4(...)` | Shader 1 |
 | La función `Vineta` | Shader 2 |
 | `sqrt`, `mix` | Shader 3 |
 | `Tiempo.Segundos`, `sin(... + t)` | Shader 4 |
@@ -270,7 +407,7 @@ Casi todos los efectos que ves en un juego están hechos con estas mismas piezas
 
 - Cambia `0.012f` por `0.05f` en las dos líneas. La foto se deforma mucho más.
 - Quita el tinte azul devolviendo `original` en lugar de `color`. Te quedas solo con las ondas.
-- Convierte la foto a blanco y negro: calcula `float gris = (foto.X + foto.Y + foto.Z) / 3f;` y devuelve `Crear.Vec4(gris, gris, gris, 1f)`.
+- Convierte la foto a blanco y negro: calcula `float gris = (foto.X + foto.Y + foto.Z) / 3f;` y devuelve `new vec4(gris, gris, gris, 1f)`.
 
 > [!SCENE] learned
 

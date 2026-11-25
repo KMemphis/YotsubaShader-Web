@@ -39,10 +39,14 @@ const home = {
     <div class="center">
       <p class="eyebrow">ENGINES AND FRAMEWORKS</p>
       <h2 class="h-lg" id="engines-home-title">Write the shader once. Use it in your engine.</h2>
-      <p class="lead">Guides and reference for MonoGame, KNI, FNA and Godot.</p>
+      <p class="lead">Guides and reference for MonoGame, KNI, FNA, Godot, raylib-cs and Silk.NET.</p>
     </div>
     <ul class="engine-strip">
-      ${[['monogame', 'MonoGame', 'png'], ['kni', 'KNI', 'png'], ['fna', 'FNA', 'png'], ['godot', 'Godot', 'svg']].map(([id, name, ext]) => `<li><a href="__LEARN__/engines/${id}-reference/"><img src="/img/engines/${id}.${ext}" alt="" width="48" height="48"><span>${name}</span></a></li>`).join('')}
+      ${[['monogame', 'MonoGame', 'png'], ['kni', 'KNI', 'png'], ['fna', 'FNA', 'png'], ['godot', 'Godot', 'svg'], ['raylib', 'raylib-cs', 'png'], ['silknet', 'Silk.NET', 'svg']].map(([id, name, ext]) => `<li><a href="__LEARN__/engines/${id}-reference/">${ext ? `<img src="/img/engines/${id}.${ext}" alt="" width="48" height="48">` : ''}<span>${name}</span></a></li>`).join('')}
+    </ul>
+    <p class="lead center mt-24">Or compile it for your own engine, for the graphics API you use.</p>
+    <ul class="engine-strip engine-strip--apis">
+      ${[['opengl', 'OpenGL'], ['direct3d', 'Direct3D'], ['vulkan', 'Vulkan'], ['metal', 'Metal'], ['webgl', 'WebGL'], ['webgpu', 'WebGPU']].map(([page, name]) => `<li><a href="__LEARN__/custom-engine/${page}/"><img src="/img/apis/${{ direct3d: 'directx' }[page] ?? page}.svg" alt="" height="32"><span>${name}</span></a></li>`).join('')}
     </ul>
   </div>
 </section>
@@ -105,7 +109,7 @@ const home = {
     <div class="center" style="margin-bottom:36px">
       <p class="eyebrow">FIVE C# SYNTAX LIBRARIES</p>
       <h2 class="h-lg">Use the shader-language vocabulary you already know.</h2>
-      <p class="lead">Yotsuba Shader includes five C# libraries that reproduce the vocabulary of HLSL, GLSL, MSL, SPIR-V and WGSL. Use the familiar names for attributes, types and resources; the compiler resolves them to the same semantic model and lowers supported declarations to the available outputs. WGSL output remains planned.</p>
+      <p class="lead">Yotsuba Shader includes five C# libraries that reproduce the vocabulary of HLSL, GLSL, MSL, SPIR-V and WGSL. Use the familiar names for attributes, types and resources; the compiler resolves them to the same semantic model and lowers supported declarations to the available outputs. WGSL is also one of the output formats.</p>
     </div>
     ${styleTabs(STYLE_TRIANGLE)}
     <p class="center"><a class="link-more" href="__LEARN__/reference/">Choosing a syntax ${icon('chevron-right')}</a></p>
@@ -144,9 +148,9 @@ public VertexOutput Vertex(
 <section class="section section--rule" id="compile-formats">
   <div class="container">
     <div class="center">
-      <p class="eyebrow"><span class="badge badge--plain">Available now</span> <span class="badge badge--plain">WGSL · Roadmap 2027</span></p>
+      <p class="eyebrow"><span class="badge badge--plain">Available now</span></p>
       <h2 class="h-lg">Write shaders once. Compile to multiple formats.</h2>
-      <p class="lead">The current CLI turns one supported C# shader into SPIR-V, HLSL, GLSL, GLSL ES, MSL and C++. The <code>compile</code> command writes target files to an output directory, while <code>add</code> writes a readable <code>YotsubaShader.g.cs</code> accessor file beside the project. WGSL remains on the roadmap.</p>
+      <p class="lead">The current CLI turns one supported C# shader into SPIR-V, HLSL, GLSL, GLSL ES, MSL, WGSL and C++. The <code>compile</code> command writes target files to an output directory, while <code>add</code> writes a readable <code>YotsubaShader.g.cs</code> accessor file beside the project. Add a language version after the name, like <code>--target glsl:430</code>, when a driver needs it.</p>
     </div>
     ${flowDiagram()}
     <p class="center mt-24"><a class="link-more" href="__LEARN__/reference/compile/">Explore the current compilation status ${icon('chevron-right')}</a></p>
@@ -158,7 +162,7 @@ public VertexOutput Vertex(
     <div>
       <p class="eyebrow"><span class="badge badge--plain">Available now</span></p>
       <h2 class="h-lg">Generate accessors from the <code>.csproj</code>.</h2>
-      <p>A project build can invoke the CLI <code>add</code> command and generate <code>YotsubaShader.g.cs</code> beside the project. The file contains the compiled SPIR-V bytes and readable HLSL, GLSL, GLSL ES, and MSL accessors for each discovered shader stage.</p>
+      <p>A project build can invoke the CLI <code>add</code> command and generate <code>YotsubaShader.g.cs</code> beside the project. The file contains the compiled SPIR-V bytes and readable HLSL, GLSL, GLSL ES, MSL and, if you ask for it with <code>--target wgsl</code>, WGSL accessors for each discovered shader stage.</p>
       <p class="mt-24"><a class="link-more" href="__LEARN__/reference/compile/">Read the current build workflow ${icon('chevron-right')}</a></p>
     </div>
     <div>${code('xml', `<Target Name="GenerateYotsubaShaderAccessors"
@@ -331,9 +335,9 @@ const whatsNew = {
 
 ${entry(
   'Shader errors in your IDE',
-  'Live shader diagnostics and per-backend checks are planned. Current C# diagnostics are available through the playground.',
-  `<p>The repository does not yet implement <code>YotsubaTargets</code> or a backend compatibility analyzer. See the documentation for the current API and planned workflows.</p>`,
-  ['Shader diagnostics in your IDE', '__LEARN__/reference/compile/'],
+  'The analyzer now checks your shader against the graphics APIs you choose with <code>[ShaderTargets]</code>, and reports what an API does not have while you type.',
+  `<p>Without an attribute the shader is checked against Vulkan 1.3. Declare <code>[ShaderTargets(Target.Vulkan_13 | Target.WebGpu)]</code> on a class, or on the whole assembly, and what an API lacks becomes an error; what it only has sometimes stays a warning. <code>[ShaderEngines(GameEngine.Godot)]</code> adds the rules of Godot. The package <code>YotsubaShader.Compiler.Metadata</code> arrives with every syntax package. Messages are in English, and in Spanish when your IDE is in Spanish.</p>`,
+  ['Shader diagnostics in your IDE', '__LEARN__/reference/targets/'],
 )}
 
 ${entry(
@@ -441,7 +445,7 @@ const resources = {
     <h2 class="h-md" style="margin-top:56px">Tools</h2>
     <div class="grid grid-3 mt-24">
       ${res('SPIRV-Tools', 'Validate and disassemble modules with <code>spirv-val</code> and <code>spirv-dis</code>.', 'https://github.com/KhronosGroup/SPIRV-Tools')}
-      ${res('.NET 8 SDK', 'Required to build the solution.', 'https://dotnet.microsoft.com/download/dotnet/8.0')}
+      ${res('.NET 10 SDK', 'Required to build the solution.', 'https://dotnet.microsoft.com/download/dotnet/10.0')}
       ${res('Roslyn', 'The .NET compiler platform that powers shader discovery and analysis.', 'https://github.com/dotnet/roslyn')}
     </div>
   </div>

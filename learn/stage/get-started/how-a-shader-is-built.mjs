@@ -16,7 +16,7 @@ const WHOLE_EN = `[ShaderStage(Stage.Vertex)]
 public Pixel Vertex({{vertexType}} corner)
 {
     Pixel pixel;
-    pixel.Position = Make.Vec4(corner.{{pos}}.X, corner.{{pos}}.Y, 0f, 1f);
+    pixel.Position = new vec4(corner.{{pos}}.X, corner.{{pos}}.Y, 0f, 1f);
     pixel.Color = corner.{{color}};
     return pixel;
 }
@@ -165,7 +165,7 @@ export default [
         { k: 'box', cls: 's-mono', text: 'Z = 0', sub: L('depth', 'profundidad'), at: 'four', fx: 'pop' },
         { k: 'box', cls: 's-mono', text: 'W = 1', sub: L('perspective', 'perspectiva'), at: 'four+0.3', fx: 'pop' },
       ] },
-      { k: 'code', at: 'only', code: csharp('2D', 'Make.Vec4(x, y, 0f, 1f)') },
+      { k: 'code', at: 'only', code: csharp('2D', 'new vec4(x, y, 0f, 1f)') },
     ],
   },
   {
@@ -241,7 +241,7 @@ export default [
       { k: 'slot', items: [
         { k: 'code', at: 'simplest', out: 'dark', code: csharp('Fragment', 'return pixel.Color;') },
         { k: 'code', at: 'dark', out: 'red', code: csharp('Fragment', 'return pixel.Color * 0.4f;') },
-        { k: 'code', at: 'red', out: 'formula', code: csharp('Fragment', 'return Make.Vec4(1f, 0f, 0f, 1f);') },
+        { k: 'code', at: 'red', out: 'formula', code: csharp('Fragment', 'return new vec4(1f, 0f, 0f, 1f);') },
         { k: 'code', at: 'formula', code: csharp('Fragment', 'return Stripes(pixel.Uv, time);') },
       ] },
     ],
