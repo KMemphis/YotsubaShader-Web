@@ -51,6 +51,16 @@ public class BasicColorShader
 }`;
 
 /**
+ * The same shader for the playground: it uses the vector types that ship with the library (YotsubaShader.HlslSyntax.Types),
+ * so it needs no Types.cs and no Microsoft.Xna.Framework.
+ */
+export const BASIC_COLOR_PLAYGROUND = BASIC_COLOR
+  .replace('using Microsoft.Xna.Framework;\nusing YotsubaShader.Language;\nusing YotsubaShader.HlslSyntax;',
+    'using YotsubaShader.Language;\nusing YotsubaShader.HlslSyntax;\nusing YotsubaShader.HlslSyntax.Types;')
+  .replace(/\bVector2\b/g, 'float2')
+  .replace(/\bVector4\b/g, 'float4');
+
+/**
  * One complete shader (vertex, fragment and compute) in each authoring vocabulary. Attribute names come from
  * the YotsubaShader.<X>Syntax packages. The vector type is the project's own (see TYPES_CS).
  */

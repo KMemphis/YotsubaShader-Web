@@ -39,10 +39,10 @@ const home = {
     <div class="center">
       <p class="eyebrow">ENGINES AND FRAMEWORKS</p>
       <h2 class="h-lg" id="engines-home-title">Write the shader once. Use it in your engine.</h2>
-      <p class="lead">Guides and reference for MonoGame, KNI, FNA and Godot.</p>
+      <p class="lead">Guides and reference for MonoGame, KNI, FNA, Godot, raylib-cs and Silk.NET.</p>
     </div>
     <ul class="engine-strip">
-      ${[['monogame', 'MonoGame', 'png'], ['kni', 'KNI', 'png'], ['fna', 'FNA', 'png'], ['godot', 'Godot', 'svg']].map(([id, name, ext]) => `<li><a href="__LEARN__/engines/${id}-reference/"><img src="/img/engines/${id}.${ext}" alt="" width="48" height="48"><span>${name}</span></a></li>`).join('')}
+      ${[['monogame', 'MonoGame', 'png'], ['kni', 'KNI', 'png'], ['fna', 'FNA', 'png'], ['godot', 'Godot', 'svg'], ['raylib', 'raylib-cs', 'png'], ['silknet', 'Silk.NET', 'svg']].map(([id, name, ext]) => `<li><a href="__LEARN__/engines/${id}-reference/">${ext ? `<img src="/img/engines/${id}.${ext}" alt="" width="48" height="48">` : ''}<span>${name}</span></a></li>`).join('')}
     </ul>
     <p class="lead center mt-24">Or compile it for your own engine, for the graphics API you use.</p>
     <ul class="engine-strip engine-strip--apis">

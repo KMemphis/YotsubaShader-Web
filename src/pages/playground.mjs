@@ -1,16 +1,11 @@
 import fs from 'node:fs';
 import { icon } from '../components.mjs';
-import { BASIC_COLOR, TYPES_CS, withoutXna } from '../snippets.mjs';
+import { BASIC_COLOR_PLAYGROUND } from '../snippets.mjs';
 
 // The playground UI is complete; the compiler is attached through one function (see src/static/js/playground.js
 // and Web/playground/README.md for the JSON contract).
 export default function playground() {
-  // Every example is a small project: Types.cs (GPU types) + Shader.cs (the shader).
-  const project = (source) => [
-    { name: 'Types.cs', source: TYPES_CS },
-    { name: 'Shader.cs', source: withoutXna(source) },
-  ];
-  // Visual examples live as real .cs files in src/playground-examples/. Each one is a single Shader.cs that only uses
+  // Examples live as real .cs files in src/playground-examples/. Each one is a single Shader.cs that only uses
   // the types and functions of the YotsubaShader libraries.
   const read = (file) => fs.readFileSync(new URL(`../playground-examples/${file}`, import.meta.url), 'utf8').replace(/\r\n/g, '\n');
   const visual = (id, name, shader, extra = {}) => ({
@@ -32,7 +27,7 @@ export default function playground() {
     }),
     visual('pool', 'Pool water', 'pool.cs', { textures: [{ sampler: 'Tiles', file: 'img/playground/marble.webp' }] }),
     visual('fractal', 'Fractal zoom', 'fractal.cs'),
-    { id: 'basic-color', name: 'Basic color shader', files: project(BASIC_COLOR) },
+    { id: 'basic-color', name: 'Basic color shader', files: [{ name: 'Shader.cs', source: BASIC_COLOR_PLAYGROUND }] },
   ];
 
   return [

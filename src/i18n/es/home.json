@@ -139,6 +139,6 @@
  "Uniform buffers, storage buffers, textures, samplers and binding slots are available in each syntax.": "Uniform buffers, storage buffers, texturas, samplers y slots de binding disponibles en cada sintaxis.",
  "ENGINES AND FRAMEWORKS": "ENGINES Y FRAMEWORKS",
  "Write the shader once. Use it in your engine.": "Escribe el shader una vez. Úsalo en tu engine.",
- "Guides and reference for MonoGame, KNI, FNA and Godot.": "Guías y referencia para MonoGame, KNI, FNA y Godot.",
+ "Guides and reference for MonoGame, KNI, FNA, Godot, raylib-cs and Silk.NET.": "Guías y referencia para MonoGame, KNI, FNA, Godot, raylib-cs y Silk.NET.",
  "Or compile it for your own engine, for the graphics API you use.": "O compílalo para tu propio motor, para la API gráfica que uses."
 }
