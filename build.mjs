@@ -97,7 +97,7 @@ const REDIRECTS = {
 };
 
 // The documentation now lives at learn.yotsubashader.com. Every old address sends the visitor to the closest page there.
-const DOC_REDIRECTS = { '/technologies/language/': 'get-started/', '/technologies/compilation/': 'reference/compile/', '/technologies/spir-v/': 'reference/compile/', '/technologies/compiler/': 'reference/compile/', '/technologies/intermediate-representation/': 'reference/compile/', '/documentation/': 'reference/', '/documentation/yotsuba-shader/': 'reference/', ...legacyDocRedirects() };
+const DOC_REDIRECTS = { '/resources/': '', '/technologies/language/': 'get-started/', '/technologies/compilation/': 'reference/compile/', '/technologies/spir-v/': 'reference/compile/', '/technologies/compiler/': 'reference/compile/', '/technologies/intermediate-representation/': 'reference/compile/', '/documentation/': 'reference/', '/documentation/yotsuba-shader/': 'reference/', ...legacyDocRedirects() };
 
 function legacyDocRedirects() {
   const where = {

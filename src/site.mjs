@@ -45,7 +45,7 @@ export const SECTIONS = {
     sub: [
       ['Overview', '/'],
       ["What's New", '/whats-new/'],
-      ['Resources', '/resources/'],
+      ['Resources', '__LEARN__/'],
     ],
   },
   'get-started': {
