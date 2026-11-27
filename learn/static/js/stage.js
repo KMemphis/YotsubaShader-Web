@@ -1224,6 +1224,12 @@
   });
 
   $('#stage-close').addEventListener('click', () => { closed = true; exit(); });
+  // clicking the animation pauses / resumes the narration, like the Pause button
+  $('#stage-screen').addEventListener('click', (e) => {
+    if (!audio || e.target.closest('a, button, input, select, textarea')) return;
+    if (String(getSelection()).trim()) return; // selecting text is not a click
+    if (audio.paused) audio.play(); else audio.pause();
+  });
   dots.addEventListener('click', () => {
     const open = !side.classList.contains('open');
     side.classList.toggle('open', open); scrim.hidden = !open; dots.setAttribute('aria-expanded', open);

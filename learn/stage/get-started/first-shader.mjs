@@ -263,6 +263,16 @@ export default [
     ],
   },
   {
+    id: 'targets',
+    beats: { attr: L('Look at the line above', 'Mira la línea encima de'), tells: L('It tells the analyzer', 'Le dice al analizador'), which: L('which graphics APIs does', 'en qué APIs gráficas corre') },
+    items: [
+      { k: 'kicker', text: L('ShaderTargets', 'ShaderTargets') },
+      { k: 'code', at: 'attr', type: 'attr+0.2', cps: 40, code: L(cs('MyShaders/Gradient.cs', '{{shaderAttrs}}\npublic class Gradient'), cs('MisShaders/Degradado.cs', '{{shaderAttrs}}\npublic class Degradado')),
+        hl: [{ at: 'tells', lines: [0] }] },
+      { k: 'text', at: 'which', text: L('Not what is generated: <b>where it runs</b>', 'No lo que se genera: <b>dónde corre</b>') },
+    ],
+  },
+  {
     id: 'add',
     beats: { run: L('run the command you saw', 'ejecuta el comando que viste'), first: L('The first time it takes a while', 'La primera vez tarda un poco'), file: L('There is a new file you did not write', 'Hay un archivo nuevo que tú no escribiste'), adds: L('compiles every shader in your project', 'compila todos los shaders de tu proyecto'), cls: L('Your shader is a class', 'Tu shader es una clase') },
     items: [

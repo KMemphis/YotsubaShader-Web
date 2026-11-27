@@ -530,9 +530,11 @@ In the Yotsuba tab again: **New file**, `Gradient.cs`, paste and save. If you wr
 using YotsubaShader.GlslSyntax;
 using YotsubaShader.GlslSyntax.Types;
 using YotsubaShader.Language;
+using YotsubaShader.Compiler.Metadata;
 
 namespace MyShaders;
 
+{{shaderAttrs}}
 public class Gradient
 {
     [ShaderStage(Stage.Vertex)]
@@ -557,9 +559,11 @@ public class Gradient
 using YotsubaShader.HlslSyntax;
 using YotsubaShader.GlslSyntax.Types;
 using YotsubaShader.Language;
+using YotsubaShader.Compiler.Metadata;
 
 namespace MyShaders;
 
+{{shaderAttrs}}
 public class Gradient
 {
     [ShaderStage(Stage.Vertex)]
@@ -584,9 +588,11 @@ public class Gradient
 using YotsubaShader.MslSyntax;
 using YotsubaShader.GlslSyntax.Types;
 using YotsubaShader.Language;
+using YotsubaShader.Compiler.Metadata;
 
 namespace MyShaders;
 
+{{shaderAttrs}}
 public class Gradient
 {
     [ShaderStage(Stage.Vertex)]
@@ -611,9 +617,11 @@ public class Gradient
 using YotsubaShader.WgslSyntax;
 using YotsubaShader.GlslSyntax.Types;
 using YotsubaShader.Language;
+using YotsubaShader.Compiler.Metadata;
 
 namespace MyShaders;
 
+{{shaderAttrs}}
 public class Gradient
 {
     [ShaderStage(Stage.Vertex)]
@@ -638,9 +646,11 @@ public class Gradient
 using YotsubaShader.SpirvSyntax;
 using YotsubaShader.GlslSyntax.Types;
 using YotsubaShader.Language;
+using YotsubaShader.Compiler.Metadata;
 
 namespace MyShaders;
 
+{{shaderAttrs}}
 public class Gradient
 {
     [ShaderStage(Stage.Vertex)]
@@ -664,6 +674,127 @@ public class Gradient
 A shader is a normal class, with one method per stage. The class is called `Gradient` because that is the name of the shader: that is how you are going to ask for it later, with `new Gradient()`.
 
 There is a new `using`, `YotsubaShader.Language`. That is where `[ShaderStage]` and `Stage` come from.
+
+> [!SCENE] targets
+
+## Tell the analyzer where your shader will run
+
+Look at the line above `class Gradient`: `[ShaderTargets(...)]`. It comes from the new `using YotsubaShader.Compiler.Metadata;`.
+
+First, what it does **not** do: it does not choose what the compiler writes, and it does not change your shader. The output comes from `--target`, which you use in the next section. `[ShaderTargets]` only **checks**. It tells the analyzer: "this shader has to work on these graphics APIs". If you use something one of them does not support, you get an error while you type, and `dotnet build` shows it too. You find out now, not on a player's computer.
+
+So the question is not "what do I want to generate", but "which graphics APIs does {{engine}} really run my shader on". Each engine answers it differently.
+
+:::monogame
+**MonoGame** (the DesktopGL version of this tutorial) draws with OpenGL, and the plugin turns your shader into an effect that goes through Shader Model 3, the Direct3D 9.0c generation, before it reaches OpenGL. Your shader has to survive both, so you declare both: `Target.OpenGL_20` and `Target.DirectX_90c`. They are old on purpose: an effect of this kind has none of the features of newer APIs. If you later build for `WindowsDX11`, the target to declare changes to `Target.DirectX_11`. See [MonoGame](../engines/monogame-reference.md).
+
+Try it. In `Fragment`, write this line above the `return`:
+
+```csharp
+double green = 0.25 + 0.6 * pixel.Uv.Y;
+```
+
+The analyzer underlines it, and `dotnet build` prints (in your editor it is one long line):
+
+```text
+error YS0701: 'double' is not available in all graphics APIs: OpenGL 2.0: does not exist before OpenGL 4.0; Direct3D 9.0c: HLSL only has double since Shader Model 5.0. Affects: OpenGL 2.0, Direct3D 9.0c.
+```
+
+Delete the line before you continue.
+:::
+:::kni
+**KNI** has one effect for desktop OpenGL and for the browser (WebGL), and the plugin builds it through Shader Model 3. So the shader has to work on all three: `Target.OpenGL_20` (desktop), `Target.OpenGLES_20` (the base of WebGL) and `Target.DirectX_90c` (the effect format). `DirectX_11` is not in the list on purpose: the KNI plugin does not compile for DirectX 11, so declaring it would check for something that will never run. See [KNI](../engines/kni-reference.md).
+
+Try it. In `Fragment`, write this line above the `return`:
+
+```csharp
+double green = 0.25 + 0.6 * pixel.Uv.Y;
+```
+
+The analyzer underlines it, and `dotnet build` prints (in your editor it is one long line):
+
+```text
+error YS0701: 'double' is not available in all graphics APIs: OpenGL 2.0: does not exist before OpenGL 4.0; OpenGL ES 2.0: OpenGL ES has no double; Direct3D 9.0c: HLSL only has double since Shader Model 5.0. Affects: OpenGL 2.0, OpenGL ES 2.0, Direct3D 9.0c.
+```
+
+Delete the line before you continue.
+:::
+:::fna
+**FNA** has a single effect format, the Direct3D 9 one (Shader Model 3), and FNA reads it on every backend it has: Vulkan, Direct3D 11, Metal or OpenGL. You do not declare each backend; you declare what they all share: `Target.DirectX_90c`. If your shader works in that format, it works wherever FNA runs. See [FNA](../engines/fna-reference.md).
+
+Try it. In `Fragment`, write this line above the `return`:
+
+```csharp
+double green = 0.25 + 0.6 * pixel.Uv.Y;
+```
+
+The analyzer underlines it, and `dotnet build` prints (in your editor it is one long line):
+
+```text
+error YS0701: 'double' is not available in all graphics APIs: Direct3D 9.0c: HLSL only has double since Shader Model 5.0. Affects: Direct3D 9.0c.
+```
+
+Delete the line before you continue.
+:::
+:::godot
+**Godot** has its own shader language, and the addon translates your shader to it. Godot then runs it with Vulkan (the Forward+ and Mobile renderers) or with OpenGL (the Compatibility renderer), so you declare `Target.Vulkan_13` and `Target.OpenGL_33`. `[ShaderEngines(GameEngine.Godot)]` adds the checks of Godot itself, for what its language lacks. See [Godot](../engines/godot-reference.md).
+
+Try it. In `Fragment`, write this line above the `return`:
+
+```csharp
+double green = 0.25 + 0.6 * pixel.Uv.Y;
+```
+
+The analyzer underlines it, and `dotnet build` prints (in your editor it is one long line):
+
+```text
+warning YS0701: 'double' is not available in all graphics APIs: Vulkan 1.3: optional (shaderFloat64); OpenGL 3.3: needs ARB_gpu_shader_fp64 (offered by most drivers, not macOS). Affects: Vulkan 1.3, OpenGL 3.3.
+```
+
+Delete the line before you continue.
+
+Here it is a **warning**, not an error, because Vulkan and OpenGL 3.3 do have `double` on some GPUs (it is optional): the analyzer only reports an error when a declared API **cannot** have what you use.
+:::
+:::raylib
+**raylib-cs** draws with OpenGL 3.3, and the tutorial compiles your shader to GLSL 330 to match. So the graphics API to declare is one: `Target.OpenGL_33`. Anything OpenGL 3.3 does not have is reported before you run. See [raylib-cs](../engines/raylib-reference.md).
+
+Try it. In `Fragment`, write this line above the `return`:
+
+```csharp
+double green = 0.25 + 0.6 * pixel.Uv.Y;
+```
+
+The analyzer underlines it, and `dotnet build` prints (in your editor it is one long line):
+
+```text
+warning YS0701: 'double' is not available in all graphics APIs: OpenGL 3.3: needs ARB_gpu_shader_fp64 (offered by most drivers, not macOS). Affects: OpenGL 3.3.
+```
+
+Delete the line before you continue.
+
+Here it is a **warning**, not an error, because Vulkan and OpenGL 3.3 do have `double` on some GPUs (it is optional): the analyzer only reports an error when a declared API **cannot** have what you use.
+:::
+:::silknet
+**Silk.NET** gives you the graphics API of your choice, and this tutorial compiles for four: OpenGL, OpenGL ES, Vulkan and WebGPU. The attribute lists those same four: `Target.OpenGL_33`, `Target.OpenGLES_30`, `Target.Vulkan_13` and `Target.WebGpu`. That way one shader is checked against all of them at once. If you only use one, declare only that one. See [Silk.NET](../engines/silknet-reference.md).
+
+Try it. In `Fragment`, write this line above the `return`:
+
+```csharp
+double green = 0.25 + 0.6 * pixel.Uv.Y;
+```
+
+The analyzer underlines it, and `dotnet build` prints (in your editor it is one long line):
+
+```text
+error YS0701: 'double' is not available in all graphics APIs: Vulkan 1.3: optional (shaderFloat64); OpenGL 3.3: needs ARB_gpu_shader_fp64 (offered by most drivers, not macOS); OpenGL ES 3.0: OpenGL ES has no double; WebGPU 1.0: does not exist in WGSL. Affects: Vulkan 1.3, OpenGL 3.3, OpenGL ES 3.0, WebGPU 1.0.
+```
+
+Delete the line before you continue.
+
+It is an **error** because at least one of those APIs cannot have `double` at all.
+:::
+
+The value you declare has to match what you compile for. If you change engine or API, change the attribute too. The full list of versions and rules is in [Graphics APIs and engines](../reference/targets.md).
 
 > [!SCENE] add
 
@@ -813,9 +944,11 @@ Replace the `Fragment` method with this one. The complete file looks like this:
 using YotsubaShader.GlslSyntax;
 using YotsubaShader.GlslSyntax.Types;
 using YotsubaShader.Language;
+using YotsubaShader.Compiler.Metadata;
 
 namespace MyShaders;
 
+{{shaderAttrs}}
 public class Gradient
 {
     [ShaderStage(Stage.Vertex)]
@@ -843,9 +976,11 @@ public class Gradient
 using YotsubaShader.HlslSyntax;
 using YotsubaShader.GlslSyntax.Types;
 using YotsubaShader.Language;
+using YotsubaShader.Compiler.Metadata;
 
 namespace MyShaders;
 
+{{shaderAttrs}}
 public class Gradient
 {
     [ShaderStage(Stage.Vertex)]
@@ -873,9 +1008,11 @@ public class Gradient
 using YotsubaShader.MslSyntax;
 using YotsubaShader.GlslSyntax.Types;
 using YotsubaShader.Language;
+using YotsubaShader.Compiler.Metadata;
 
 namespace MyShaders;
 
+{{shaderAttrs}}
 public class Gradient
 {
     [ShaderStage(Stage.Vertex)]
@@ -903,9 +1040,11 @@ public class Gradient
 using YotsubaShader.WgslSyntax;
 using YotsubaShader.GlslSyntax.Types;
 using YotsubaShader.Language;
+using YotsubaShader.Compiler.Metadata;
 
 namespace MyShaders;
 
+{{shaderAttrs}}
 public class Gradient
 {
     [ShaderStage(Stage.Vertex)]
@@ -933,9 +1072,11 @@ public class Gradient
 using YotsubaShader.SpirvSyntax;
 using YotsubaShader.GlslSyntax.Types;
 using YotsubaShader.Language;
+using YotsubaShader.Compiler.Metadata;
 
 namespace MyShaders;
 
+{{shaderAttrs}}
 public class Gradient
 {
     [ShaderStage(Stage.Vertex)]

@@ -198,7 +198,7 @@ export function chapterPage({ lang, section, pages, page, index, alt, speech, ro
   const edit = SITE.editUrl ? `<a class="edit" href="${SITE.editUrl}/${lang}/${page.file}" rel="noopener" target="_blank">${t.edit}</a>` : '';
   const v = page.video;
   const videoCard = v
-    ? `<figure class="video-card"><video controls preload="metadata" playsinline${v.poster ? ` poster="${v.poster}"` : ''} aria-label="${esc(v.title || page.title)}"><source src="${v.src}" type="video/mp4">${v.vtt ? `<track kind="subtitles" src="${v.vtt}" srclang="${lang}" label="${t.videoSubtitles}" default>` : ''}</video><figcaption><span class="vc-tag">${icon('play', 'i-play')}${t.video}</span><span>${esc(v.title || page.title)}</span>${v.minutes ? `<span class="vc-min">${t.videoMin(v.minutes)}</span>` : ''}</figcaption></figure>`
+    ? `<figure class="video-card"><video controls preload="metadata" playsinline${v.poster ? ` poster="${v.poster}"` : ''} aria-label="${esc(v.title || page.title)}"><source src="${v.src}" type="video/mp4">${v.vtt ? `<track kind="subtitles" src="${v.vtt}" srclang="${lang}" label="${t.videoSubtitles}" default>` : ''}</video><figcaption><button class="vc-tag" type="button" aria-pressed="false">${icon('play', 'i-play')}${icon('pause', 'i-pause')}${t.video}</button><span>${esc(v.title || page.title)}</span>${v.minutes ? `<span class="vc-min">${t.videoMin(v.minutes)}</span>` : ''}</figcaption></figure>`
     : '';
   const rawArticle = `<header><div class="title-row"><h1>${esc(page.title)}</h1><!--LISTEN--></div><p class="meta">${t.minRead(page.minutes)}${page.status === 'planned' ? ` · <span class="badge">${t.planned}</span>` : ''}</p>${page.summary ? `<p class="lead">${esc(page.summary)}</p>` : ''}</header>
       ${videoCard}

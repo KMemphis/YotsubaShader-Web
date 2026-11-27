@@ -250,6 +250,11 @@ dialog::backdrop { background: rgba(0,0,0,.35); backdrop-filter: blur(6px); }
 .video-card figcaption { display: flex; align-items: center; gap: 12px; margin-top: 12px; font-size: .9375rem; color: var(--text-2); }
 .video-card .vc-tag { display: inline-flex; align-items: center; gap: 6px; padding: 3px 10px 3px 7px; border-radius: 999px; background: var(--accent-soft); color: var(--accent); font-size: .8125rem; font-weight: 600; }
 .video-card .vc-tag .icon { width: 14px; height: 14px; }
+.video-card button.vc-tag { border: 0; cursor: pointer; font-family: inherit; }
+.video-card button.vc-tag:hover { filter: brightness(1.15); }
+.video-card .vc-tag .i-pause { display: none; }
+.video-card .vc-tag[aria-pressed="true"] .i-play { display: none; }
+.video-card .vc-tag[aria-pressed="true"] .i-pause { display: inline-block; }
 .video-card .vc-min { margin-left: auto; color: var(--text-3); font-variant-numeric: tabular-nums; }
 
 /* text that only the listen audio says (describes a table, code or picture); it appears as a caption while it is read */

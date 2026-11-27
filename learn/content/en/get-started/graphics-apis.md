@@ -221,12 +221,14 @@ warning YS0710: 'Main' is a compute shader and Godot Shading Language has no
 :::xna
 ## What about {{engine}}?
 
-{{engine}} does not need an attribute of its own: it runs your shader on the graphics API your game uses. List that graphics API in `[ShaderTargets]`. For example, a game that ships an OpenGL version and a Direct3D 11 version:
+{{engine}} does not need an attribute of its own. You already declared its graphics APIs in [your first shader](first-shader.md), and they are the ones its plugin really builds for, not the ones your computer happens to have:
 
 ```csharp
-[ShaderTargets(Target.OpenGL_33 | Target.DirectX_11)]
+{{shaderAttrs}}
 public class Precise { /* ... */ }
 ```
+
+With that attribute, the `double` of this chapter is reported on {{engine}} too.
 :::
 
 :::raylib
