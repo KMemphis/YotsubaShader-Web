@@ -110,13 +110,15 @@
  "The latest updates to the Yotsuba Shader framework, compiler and related technologies.": "Las últimas novedades del framework de shaders, el compilador y las tecnologías relacionadas de Yotsuba Shader.",
  "What’s new in Yotsuba Shader": "Novedades de Yotsuba Shader",
  "Explore the latest updates in the language, the compiler and related technologies.": "Descubre las últimas novedades del lenguaje, el compilador y las tecnologías relacionadas.",
- "Yotsuba Shader introduction film": "Video de presentación de Yotsuba Shader",
- "Watch the film": "Ver el video",
  "One shader. Five ways to write it.": "Un shader. Cinco formas de escribirlo.",
  "Compiles to SPIR-V, HLSL, MSL, WGSL, GLSL, GLSL ES, C++": "Compila a SPIR-V, HLSL, MSL, WGSL, GLSL, GLSL ES y C++",
  "A supported C# shader is compiled by Yotsuba Shader to SPIR-V. SPIR-V is one of the outputs, Yotsuba ShaderCross translates it to HLSL, MSL, C++, GLSL and GLSL ES, and naga translates it to WGSL.": "Yotsuba Shader compila un shader C# compatible a SPIR-V. SPIR-V es una de las salidas, Yotsuba ShaderCross lo traduce a HLSL, MSL, C++, GLSL y GLSL ES, y naga lo traduce a WGSL.",
  "ENGINES AND FRAMEWORKS": "ENGINES Y FRAMEWORKS",
  "Write the shader once. Use it in your engine.": "Escribe el shader una vez. Úsalo en tu engine.",
  "Guides and reference for MonoGame, KNI, FNA, Godot, raylib-cs and Silk.NET.": "Guías y referencia para MonoGame, KNI, FNA, Godot, raylib-cs y Silk.NET.",
- "Or compile it for your own engine, for the graphics API you use.": "O compílalo para tu propio motor, para la API gráfica que uses."
+ "Or compile it for your own engine, for the graphics API you use.": "O compílalo para tu propio motor, para la API gráfica que uses.",
+ "Live demo: a C# shader and the result it draws": "Demostración en vivo: un shader en C# y lo que dibuja",
+ "Syntax style": "Estilo de sintaxis",
+ "HLSL Style": "Estilo HLSL",
+ "GLSL Style": "Estilo GLSL"
 }

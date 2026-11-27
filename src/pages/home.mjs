@@ -3,6 +3,7 @@ import { STYLE_TRIANGLE } from '../snippets.mjs';
 import { SITE } from '../site.mjs';
 import { flowDiagram } from '../diagram.mjs';
 import { releasesSection } from '../releases.mjs';
+import { heroLive } from '../hero-live.mjs';
 
 const home = {
   path: '/',
@@ -11,6 +12,7 @@ const home = {
   fullTitle: 'Yotsuba Shader - Write shaders in C#',
   description:
     'Yotsuba Shader is a shader framework and compiler for C#. Write shaders with the types from your own project and external libraries, and compile for the backend you choose.',
+  scripts: ['/js/live-hero.js'],
   body: `
 <section class="hero hero--film">
   <div class="container">
@@ -23,13 +25,7 @@ const home = {
           <a class="btn btn-secondary" href="/get-started/first-shader/">Write your first shader</a>
         </div>
       </div>
-      <div class="film" data-film>
-        <video class="film-video" preload="none" playsinline poster="/video/poster-__FILM_LANG__.webp" aria-label="Yotsuba Shader introduction film">
-          <source src="/video/promo-__FILM_LANG__-2160.mp4" media="(min-width: 1700px)" type="video/mp4">
-          <source src="/video/promo-__FILM_LANG__-1080.mp4" type="video/mp4">
-        </video>
-        <button class="film-play" type="button"><span class="film-ico">${'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5v13a1 1 0 0 0 1.5.86l10.5-6.5a1 1 0 0 0 0-1.72L9.5 4.64A1 1 0 0 0 8 5.5z" fill="currentColor"/></svg>'}</span><span>Watch the film</span></button>
-      </div>
+      ${heroLive()}
     </div>
   </div>
   <hr class="hero-rule">

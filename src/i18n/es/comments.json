@@ -236,5 +236,18 @@
  "// Only rays that enter the sphere around the bulb need to march.": "// Solo avanzan los rayos que entran en la esfera que rodea al bulbo.",
  "// Every near miss adds a little light: that is the halo around the edges.": "// Cada roce sin impacto suma un poco de luz: ese es el halo de los bordes.",
  "// Darker corners, a soft tone curve, then gamma.": "// Esquinas más oscuras, una curva de tonos suave y luego gamma.",
- "// A white key light from above and a magenta one from below.": "// Una luz principal blanca desde arriba y otra magenta desde abajo."
+ "// A white key light from above and a magenta one from below.": "// Una luz principal blanca desde arriba y otra magenta desde abajo.",
+ "// structs": "// structs",
+ "// fields": "// campos",
+ "// stages": "// etapas",
+ "// helpers": "// métodos auxiliares",
+ "/* full-screen quad */": "/* quad a pantalla completa */",
+ "// ... sky, water plane at -WATER_DEPTH, Fresnel": "// ... cielo, plano de agua en -WATER_DEPTH, Fresnel",
+ "// ... normal, reflection, tonemap": "// ... normal, reflejo, tonemap",
+ "// projects the pixel onto the water plane": "// proyecta el píxel sobre el plano del agua",
+ "// the slope of the waves gives the normal": "// la pendiente de las olas da la normal",
+ "// Fresnel: the water reflects the sky more at grazing angles": "// Fresnel: el agua refleja más el cielo en ángulos rasantes",
+ "// the distance fades into the haze of the horizon": "// la distancia se funde con la bruma del horizonte",
+ "// sums octaves of waves with different directions": "// suma octavas de olas con distintas direcciones",
+ "// day and night alternate every 5 seconds": "// el día y la noche se alternan cada 5 segundos"
 }
