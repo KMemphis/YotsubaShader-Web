@@ -6,7 +6,7 @@ The documentation is not part of this site: it lives at https://learn.yotsubasha
 
 | Section | URL | Sub-pages |
 | --- | --- | --- |
-| Home | `/` | `/whats-new/`, `/resources/` |
+| Home | `/` | `/whats-new/` (`/resources/` redirects to learn.yotsubashader.com) |
 | Get Started | `/get-started/` | `first-shader/`, `build-from-source/` |
 | Styles | `/styles/` | `hlsl/`, `glsl/`, `metal/`, `vulkan/`, `wgsl/` |
 | Technologies | `/technologies/` | `language/`, `compiler/`, `intermediate-representation/`, `spir-v/` |
@@ -40,6 +40,7 @@ src/snippets.mjs          code samples shared by several pages (mirror the READM
 src/reference.mjs         reads ../Core/Syntax/YotsubaShader.*Syntax (read-only; paths in src/repo-paths.mjs) to generate attribute reference
 src/pages/*.mjs           the marketing pages
 src/i18n/                 translation engine (index.mjs) and dictionaries (es/*.json)
+src/data/releases.json     releases and contributors of the repo, read by What's New (refresh: npm run releases)
 src/static/               css, js and images copied as-is
 ```
 

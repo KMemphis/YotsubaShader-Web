@@ -237,7 +237,7 @@ function process(el, l) {
     }
     return;
   }
-  if (SKIP.has(el.name)) return;
+  if (SKIP.has(el.name) || /\stranslate="no"/.test(el.open)) return;
   if (el.name === 'title') {
     el.children = el.children.map((c) => (c.type === 'text' ? { type: 'raw', raw: translateTitle(c.raw, l) } : c));
     return;

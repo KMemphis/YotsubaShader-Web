@@ -2,6 +2,7 @@ import { icon, code, styleTabs, cardLink } from '../components.mjs';
 import { STYLE_TRIANGLE } from '../snippets.mjs';
 import { SITE } from '../site.mjs';
 import { flowDiagram } from '../diagram.mjs';
+import { releasesSection } from '../releases.mjs';
 
 const home = {
   path: '/',
@@ -290,16 +291,6 @@ public sealed class Material
 };
 
 /* ------------------------------------------------------------ What's New */
-const entry = (title, body, detail, link) => `
-<section class="whatsnew">
-  <div class="container">
-    <h2>${title}</h2>
-    <p class="body">${body}</p>
-    ${detail ? `<div class="detail">${detail}</div>` : ''}
-    ${link ? `<p class="mt-24"><a class="link-more" href="${link[1]}">${link[0]} ${icon('chevron-right')}</a></p>` : ''}
-  </div>
-</section>`;
-
 const whatsNew = {
   path: '/whats-new/',
   section: 'home',
@@ -315,9 +306,7 @@ const whatsNew = {
   <hr class="hero-rule">
 </section>
 
-<section class="section" id="subscribe">
-  <div class="container container--narrow">
-    <div class="panel">
+${releasesSection(`<div class="panel">
       <h2 class="h-md" style="margin-bottom:10px">Get every change</h2>
       <p class="card-body" style="margin:0 0 20px">Leave your email and you will get a note from ${SITE.newsEmail} when there is a new release or a notable change. Nothing else. Your address is kept in the project's contact list and used only for these updates, and you can reply "unsubscribe" at any time.</p>
       <form class="sub-form" id="sub-form" data-endpoint="${SITE.subscribeEndpoint}" novalidate>
@@ -329,127 +318,8 @@ const whatsNew = {
       <p class="sub-msg sub-msg--ok" id="sub-ok" role="status" hidden>Thanks! You are on the list.</p>
       <p class="sub-msg sub-msg--err" id="sub-err" role="alert" hidden>That did not work. Please check the address and try again, or write to ${SITE.email}.</p>
       <p class="don-note">No email? Follow the changes with a feed reader: <a href="${SITE.feedReleases}" rel="noopener">releases (Atom)</a> · <a href="${SITE.feedCommits}" rel="noopener">every change (Atom)</a>. On GitHub you can also choose Watch → Custom → Releases.</p>
-    </div>
-  </div>
-</section>
-
-${entry(
-  'Shader errors in your IDE',
-  'The analyzer now checks your shader against the graphics APIs you choose with <code>[ShaderTargets]</code>, and reports what an API does not have while you type.',
-  `<p>Without an attribute the shader is checked against Vulkan 1.3. Declare <code>[ShaderTargets(Target.Vulkan_13 | Target.WebGpu)]</code> on a class, or on the whole assembly, and what an API lacks becomes an error; what it only has sometimes stays a warning. <code>[ShaderEngines(GameEngine.Godot)]</code> adds the rules of Godot. The package <code>YotsubaShader.Compiler.Metadata</code> arrives with every syntax package. Messages are in English, and in Spanish when your IDE is in Spanish.</p>`,
-  ['Shader diagnostics in your IDE', '__LEARN__/reference/targets/'],
-)}
-
-${entry(
-  'One package per syntax',
-  'The HLSL, GLSL, MSL, SPIR-V and WGSL vocabularies are now separate packages: <code>YotsubaShader.HlslSyntax</code>, <code>YotsubaShader.GlslSyntax</code>, <code>YotsubaShader.MslSyntax</code>, <code>YotsubaShader.SpirvSyntax</code> and <code>YotsubaShader.WgslSyntax</code>.',
-  `<p>Use <code>YotsubaShader.HlslSyntax</code> for HLSL attributes and <code>YotsubaShader.HlslSyntax.Resources</code> for resources. The numbered <code>Location</code> attribute belongs to <code>YotsubaShader.SpirvSyntax</code>. These are source projects; published NuGet availability is not established here.</p>`,
-  ['Choosing a syntax', '__LEARN__/reference/'],
-)}
-
-${entry(
-  'Do more with five syntaxes',
-  'The HLSL, GLSL, MSL, SPIR-V and WGSL syntaxes now share the same semantic model. Choose the names your team knows; the compiler resolves them to the same IR built-ins.',
-  `<p>The frontend maps <code>SV_Position</code>, <code>gl_Position</code>, <code>position</code>, <code>BuiltIn_Position</code> and <code>@builtin_position</code> to the same position slot, and does the same for the vertex index. Interface slots declared with <code>[Location(n)]</code> work in every syntax.</p>`,
-  ['Choosing a syntax', '__LEARN__/reference/'],
-)}
-
-${entry(
-  'Textures and samplers in the language',
-  'Describe a texture precisely: dimension, component type, usage, depth, format, arrays and multisampling. Samplers get their own attribute.',
-  `<p><code>TextureAttribute</code> takes a <code>TextureDimension</code> (<code>D1</code>, <code>D2</code>, <code>D3</code>, <code>Cube</code>) and <code>TextureComponentTypes</code> (<code>Float</code>, <code>Int</code>, <code>Uint</code>), with optional <code>Usage</code>, <code>Depth</code>, <code>Format</code>, <code>Arrayed</code> and <code>Multisampled</code> settings. The IR carries the same fields so each backend can lower them faithfully.</p>`,
-  ['Textures and samplers', '__LEARN__/get-started/'],
-)}
-
-${entry(
-  'Roslyn-based shader discovery',
-  'The frontend finds your shaders by symbol, not by text, so aliases, <code>using</code> directives and long or short attribute names all just work.',
-  `<p><code>ShaderDiscovery.Find</code> walks the types of your project, returns each class with its entry points in declaration order, and exposes parameters and return types to the rest of the compiler. A test suite covers discovery and analysis.</p>`,
-  ['Compilation process', '__LEARN__/reference/compile/'],
-)}
-
-${entry(
-  'Resource attributes for every syntax',
-  'Uniform buffers, storage buffers, textures, samplers and binding slots are available in each syntax.',
-  `<p>Each syntax has its own resource attributes. SPIR-V uses separate <code>DescriptorSet(n)</code> and <code>Binding(n)</code>; its <code>StorageBuffer</code> marker has no access-mode property.</p>`,
-  ['Uniforms and storage buffers', '__LEARN__/get-started/'],
-)}
-
-${entry(
-  'Stricter vector and matrix declarations',
-  'Vector types declare their components with attributes, and invalid declarations fail with clear exceptions.',
-  `<p>Mixing component types in one vector throws <code>InconsistentVectorComponentTypeException</code>; an unsupported component type throws <code>VectorComponentTypeNotValidException</code>. Matrices declare columns with <code>[MatrixColumn]</code>.</p>`,
-  ['Vectors, matrices and arrays', '__LEARN__/get-started/'],
-)}
-
-${entry(
-  'SPIR-V 1.6 module construction',
-  'SPIR-V is an intermediate format used inside the compilation pipeline; shader authors do not need to construct its modules manually.',
-  `<p>The operation table is generated from the official Khronos grammar, so every instruction, capability, execution model and decoration is available as a typed value.</p>`,
-  ['Compilation process', '__LEARN__/reference/compile/'],
-)}
-
-${entry(
-  'Free and open source under the MS-PL',
-  'Yotsuba Shader is released under the Microsoft Public License (MS-PL): use it in any project, commercial or not, with no fee.',
-  `<p>That includes proprietary game engines, frameworks and editors. The shaders you write and the binaries generated from them are yours.</p>`,
-  ['Licensing', '/community/licensing/'],
-)}`,
+    </div>`)}
+`,
 };
 
-/* -------------------------------------------------------------- Resources */
-const res = (title, body, href) =>
-  `<a class="card card--link" href="${href}"${href.startsWith('http') ? ' rel="noopener" target="_blank"' : ''}>
-  <span class="card-title">${title} ${href.startsWith('http') ? icon('external') : ''}</span>
-  <span class="card-body">${body}</span>
-</a>`;
-
-const resources = {
-  path: '/resources/',
-  section: 'home',
-  title: 'Resources',
-  description: 'Repository, specifications and tools related to Yotsuba Shader.',
-  body: `
-<section class="hero hero--compact">
-  <div class="container">
-    <h1 class="h-xl">Resources</h1>
-    <p class="lead">Everything you need to work with Yotsuba Shader: the repository, the specifications behind each backend, and the tools around SPIR-V.</p>
-  </div>
-</section>
-<section class="section">
-  <div class="container">
-    <h2 class="h-md">Project</h2>
-    <div class="grid grid-3 mt-24">
-      ${res('GitHub repository', 'Source code, issues and the README with the full authoring examples.', SITE.repo)}
-      ${res('Documentation', 'Articles and reference for the language, the compiler and the intermediate representation.', '__LEARN__/reference/')}
-      ${res('Get started', 'Install the SDK, build the solution and read your first shader.', '/get-started/')}
-    </div>
-
-    <h2 class="h-md" style="margin-top:56px">Guides</h2>
-    <div class="grid grid-3 mt-24">
-      ${res('Types for engines and frameworks', 'Current type annotations and integration limits.', '__LEARN__/engines/')}
-      ${res('Current attribute reference', 'Attribute declarations read from the current source projects.', '__LEARN__/reference/')}
-      ${res('Current validation status', 'Implemented checks and planned backend diagnostics.', '__LEARN__/reference/compile/')}
-    </div>
-
-    <h2 class="h-md" style="margin-top:56px">Specifications</h2>
-    <div class="grid grid-3 mt-24">
-      ${res('SPIR-V specification', 'The Khronos binary intermediate language that Yotsuba Shader emits.', 'https://registry.khronos.org/SPIR-V/')}
-      ${res('Vulkan', 'The Khronos graphics API that consumes SPIR-V directly.', 'https://www.vulkan.org/')}
-      ${res('Metal', 'Apple’s graphics and compute framework, and its shading language.', 'https://developer.apple.com/metal/')}
-      ${res('WGSL specification', 'The WebGPU Shading Language, from the W3C.', 'https://www.w3.org/TR/WGSL/')}
-      ${res('HLSL reference', 'Microsoft documentation for the High-Level Shader Language.', 'https://learn.microsoft.com/windows/win32/direct3dhlsl/dx-graphics-hlsl')}
-      ${res('GLSL specification', 'The OpenGL Shading Language specification from Khronos.', 'https://registry.khronos.org/OpenGL/specs/gl/GLSLangSpec.4.60.pdf')}
-    </div>
-
-    <h2 class="h-md" style="margin-top:56px">Tools</h2>
-    <div class="grid grid-3 mt-24">
-      ${res('SPIRV-Tools', 'Validate and disassemble modules with <code>spirv-val</code> and <code>spirv-dis</code>.', 'https://github.com/KhronosGroup/SPIRV-Tools')}
-      ${res('.NET 10 SDK', 'Required to build the solution.', 'https://dotnet.microsoft.com/download/dotnet/10.0')}
-      ${res('Roslyn', 'The .NET compiler platform that powers shader discovery and analysis.', 'https://github.com/dotnet/roslyn')}
-    </div>
-  </div>
-</section>`,
-};
-
-export default [home, whatsNew, resources];
+export default [home, whatsNew];
