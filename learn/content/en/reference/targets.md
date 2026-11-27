@@ -118,27 +118,14 @@ Target.AllVulkan   Target.AllOpenGL   Target.AllOpenGLES   Target.AllDirectX   T
 
 ### Versions that no backend generates
 
-Some versions exist in the enum but YotsubaShader cannot generate code for them: Vulkan 1.0 (the compiler writes SPIR-V 1.3 or later) and DirectX 8.0, 8.1 and 9.0 (the HLSL it generates starts at Shader Model 3.0). Declaring one is an error:
+Some versions exist in the enum but YotsubaShader cannot generate code for them: Vulkan 1.0 (the compiler writes SPIR-V 1.3 or later) and DirectX 8.0, 8.1 and 9.0 (the HLSL it generates starts at Shader Model 3.0). Declaring one is **not** an error: `[ShaderTargets]` only says which graphics APIs the shader must be valid for, and the analyzer still checks them. A shader can declare Direct3D 9 to be validated and be compiled to another language.
 
 ```csharp
-[ShaderTargets(Target.Vulkan_10)]
+[ShaderTargets(Target.DirectX_90c)]
 public class Old { /* ... */ }
 ```
 
-```text
-error YS0712: No YotsubaShader backend generates Vulkan 1.0 (the CLI does not
-    produce that language or version). Remove that version from
-    [ShaderTargets] or use a later one.
-```
-
-`Target.All`, `Target.AllVulkan` and `Target.AllDirectX` include those versions, so they report YS0712 too. List the versions you want instead:
-
-```csharp
-[ShaderTargets(Target.Vulkan_11 | Target.Vulkan_12 | Target.Vulkan_13 | Target.Vulkan_14 |
-               Target.OpenGL_43 | Target.OpenGLES_31 | Target.DirectX_11 | Target.DirectX_12 |
-               Target.AllMetal | Target.WebGpu)]
-public class Triangle { /* ... */ }
-```
+`Target.All`, `Target.AllVulkan` and `Target.AllDirectX` include those versions too. The page of each graphics API lists, version by version, what the analyzer rejects: [Vulkan](validate-vulkan.md), [OpenGL](validate-opengl.md), [OpenGL ES](validate-opengles.md), [Direct3D](validate-direct3d.md), [Metal](validate-metal.md) and [WebGPU](validate-webgpu.md).
 
 ### One attribute for the whole project
 
@@ -188,7 +175,7 @@ error YS0711: The compute shader 'Main' is not available in all graphics APIs:
 | `YS0711` | A feature the API lacks: compute shaders, storage buffers and storage textures. |
 | `YS0704` | A limit: render targets, vertex inputs, variables between stages, work group size. |
 | `YS0705` | A resource the API cannot take: a storage texture without a declared format, or a descriptor set number above what the API guarantees. |
-| `YS0712` | A graphics API version that no backend generates. |
+| `YS0712` | A value of `[ShaderTargets]` that is not a graphics API version. |
 
 Limits are always a **warning**, because they are guarantees ("OpenGL ES 2.0 guarantees 1 render target"), not hard failures on every device:
 
