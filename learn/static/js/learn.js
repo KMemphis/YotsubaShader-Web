@@ -154,6 +154,17 @@
   });
   if (!/Mac|iPhone|iPad/.test(navigator.platform)) $$('.search-btn kbd, .hero-search kbd').forEach((k) => (k.textContent = 'Ctrl K'));
 
+  /* the "Video" tag under the player toggles play / pause and follows the player's state */
+  const vcard = $('.video-card');
+  if (vcard) {
+    const vid = $('video', vcard), tag = $('.vc-tag', vcard);
+    if (vid && tag) {
+      const sync = () => tag.setAttribute('aria-pressed', String(!vid.paused && !vid.ended));
+      tag.addEventListener('click', () => { if (vid.paused) vid.play(); else vid.pause(); });
+      ['play', 'pause', 'ended'].forEach((ev) => vid.addEventListener(ev, sync));
+    }
+  }
+
   /* listen to the page: audio from tts.mjs + word-by-word highlight */
   const listen = $('#listen');
   if (listen) {

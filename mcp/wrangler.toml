@@ -1,0 +1,4 @@
+name = "yotsubashader-mcp"
+main = "src/worker.mjs"
+compatibility_date = "2025-01-01"
+# Route (set once the domain is confirmed): mcp.yotsubashader.com/*

@@ -164,3 +164,16 @@ A stage has two parts:
 
 The build fails if a cue has no scene. A beat phrase that is not in the narration is reported in the browser console when Listen starts.
 The stage only appears on pages whose audio is up to date (the same rule as the Listen button).
+
+## Diagnostics (`reference/diagnostics*.md`, `reference/validate-*.md`)
+
+Every error and warning of the analyzer is documented in English and Spanish, separated by validation target: `validate-vulkan`, `validate-opengl`, `validate-opengles`, `validate-direct3d`, `validate-metal` and `validate-webgpu` (what each version of that graphics API has, its limits, and the exact message each diagnostic gives), plus `diagnostics` (index) and one `diagnostics-<area>` page per rule area (types, entry points, interface, resources, methods, C# without a translation, use per stage, portability).
+
+Nothing in them is written by hand. They are generated from the analyzer itself, so rerun both steps whenever a rule, a message or an API profile changes, and commit the result:
+
+```bash
+YOTSUBA_DOCS_JSON=/some/folder dotnet test Core/Analyzers/YotsubaShader.IDE.Analyzer.Tests --filter Export_the_documentation_data   # in the compiler repository
+node tools/gen-diagnostics-reference.mjs /some/folder
+```
+
+The examples come from `RuleTests.Cases` (one shader per rule) and `DocsExportTests.Examples` (one per portability case). A rule that has no case in `RuleTests` is listed without an example.

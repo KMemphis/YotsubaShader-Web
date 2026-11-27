@@ -63,6 +63,9 @@ button { font: inherit; color: inherit; }
 .icon-btn:hover { background: var(--bg-3); color: var(--text); }
 .search-btn { display: flex; align-items: center; gap: 8px; height: 36px; padding: 0 12px; min-width: 200px; background: var(--bg-3); border: 0; border-radius: 10px; color: var(--text-3); cursor: pointer; font-size: .875rem; }
 .search-btn:hover { color: var(--text-2); }
+.mcp-link { display: flex; align-items: center; gap: 6px; height: 36px; padding: 0 10px; border-radius: 10px; color: var(--text-3); font-size: .875rem; font-weight: 500; text-decoration: none; }
+.mcp-link:hover { color: var(--text); background: var(--bg-3); }
+.mcp-link .icon { width: 18px; height: 18px; }
 .search-btn span { flex: 1; text-align: left; }
 kbd { font: 500 .75rem var(--font); background: var(--bg); border: 1px solid var(--line); border-radius: 6px; padding: 1px 6px; color: var(--text-3); }
 .menu-wrap { position: relative; }
@@ -205,6 +208,7 @@ dialog::backdrop { background: rgba(0,0,0,.35); backdrop-filter: blur(6px); }
 @media (max-width: 860px) {
   .only-narrow { display: grid; }
   .sections { display: none; }
+  .mcp-link span { display: none; } .mcp-link { width: 44px; height: 44px; justify-content: center; }
   .search-btn { min-width: 0; } .search-btn span, .search-btn kbd { display: none; } .search-btn { width: 44px; height: 44px; justify-content: center; background: transparent; }
   .doc { display: block; }
   .sidebar { position: fixed; z-index: 60; inset: 0 auto 0 0; width: min(88vw, 340px); height: 100%; background: var(--bg); transform: translateX(-102%); transition: transform .3s cubic-bezier(.2,.8,.2,1); box-shadow: var(--shadow); padding-top: 16px; }
@@ -246,6 +250,11 @@ dialog::backdrop { background: rgba(0,0,0,.35); backdrop-filter: blur(6px); }
 .video-card figcaption { display: flex; align-items: center; gap: 12px; margin-top: 12px; font-size: .9375rem; color: var(--text-2); }
 .video-card .vc-tag { display: inline-flex; align-items: center; gap: 6px; padding: 3px 10px 3px 7px; border-radius: 999px; background: var(--accent-soft); color: var(--accent); font-size: .8125rem; font-weight: 600; }
 .video-card .vc-tag .icon { width: 14px; height: 14px; }
+.video-card button.vc-tag { border: 0; cursor: pointer; font-family: inherit; }
+.video-card button.vc-tag:hover { filter: brightness(1.15); }
+.video-card .vc-tag .i-pause { display: none; }
+.video-card .vc-tag[aria-pressed="true"] .i-play { display: none; }
+.video-card .vc-tag[aria-pressed="true"] .i-pause { display: inline-block; }
 .video-card .vc-min { margin-left: auto; color: var(--text-3); font-variant-numeric: tabular-nums; }
 
 /* text that only the listen audio says (describes a table, code or picture); it appears as a caption while it is read */

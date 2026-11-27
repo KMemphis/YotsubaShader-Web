@@ -29,6 +29,7 @@ const ICONS = {
   right: '<path d="M9 5l7 7-7 7"/>',
   dots: '<circle cx="5" cy="12" r="1.6" fill="currentColor" stroke="none"/><circle cx="12" cy="12" r="1.6" fill="currentColor" stroke="none"/><circle cx="19" cy="12" r="1.6" fill="currentColor" stroke="none"/>',
   close: '<path d="M6 6l12 12M18 6L6 18"/>',
+  plug: '<path d="M9 3v5M15 3v5M6 8h12v3a6 6 0 0 1-12 0zM12 17v4"/>',
 };
 export const icon = (n, cls = '') =>
   `<svg class="icon ${cls}" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${ICONS[n]}</svg>`;
@@ -76,6 +77,7 @@ ${ANALYTICS}
     <a class="brand" href="${url(lang)}"><img src="/img/logo.png" alt="" width="28" height="28"><span>${t.siteName}</span><em>${t.siteTag}</em></a>
     <nav class="sections" aria-label="${t.siteName}">${sectionLinks}</nav>
     <div class="topbar-end">
+      <a class="mcp-link" href="${url(lang, 'reference', 'mcp')}" title="${esc(t.mcpTitle)}" aria-label="${esc(t.mcpTitle)}">${icon('plug')}<span>${t.mcp}</span></a>
       <button class="search-btn" id="search-btn" type="button" aria-label="${t.search}">${icon('search')}<span>${t.search}</span><kbd>⌘K</kbd></button>
       <div class="menu-wrap">
         <button class="icon-btn" id="settings-btn" type="button" aria-haspopup="true" aria-expanded="false" aria-label="${t.language} / ${t.theme}">${icon('globe')}</button>
@@ -196,7 +198,7 @@ export function chapterPage({ lang, section, pages, page, index, alt, speech, ro
   const edit = SITE.editUrl ? `<a class="edit" href="${SITE.editUrl}/${lang}/${page.file}" rel="noopener" target="_blank">${t.edit}</a>` : '';
   const v = page.video;
   const videoCard = v
-    ? `<figure class="video-card"><video controls preload="metadata" playsinline${v.poster ? ` poster="${v.poster}"` : ''} aria-label="${esc(v.title || page.title)}"><source src="${v.src}" type="video/mp4">${v.vtt ? `<track kind="subtitles" src="${v.vtt}" srclang="${lang}" label="${t.videoSubtitles}" default>` : ''}</video><figcaption><span class="vc-tag">${icon('play', 'i-play')}${t.video}</span><span>${esc(v.title || page.title)}</span>${v.minutes ? `<span class="vc-min">${t.videoMin(v.minutes)}</span>` : ''}</figcaption></figure>`
+    ? `<figure class="video-card"><video controls preload="metadata" playsinline${v.poster ? ` poster="${v.poster}"` : ''} aria-label="${esc(v.title || page.title)}"><source src="${v.src}" type="video/mp4">${v.vtt ? `<track kind="subtitles" src="${v.vtt}" srclang="${lang}" label="${t.videoSubtitles}" default>` : ''}</video><figcaption><button class="vc-tag" type="button" aria-pressed="false">${icon('play', 'i-play')}${icon('pause', 'i-pause')}${t.video}</button><span>${esc(v.title || page.title)}</span>${v.minutes ? `<span class="vc-min">${t.videoMin(v.minutes)}</span>` : ''}</figcaption></figure>`
     : '';
   const rawArticle = `<header><div class="title-row"><h1>${esc(page.title)}</h1><!--LISTEN--></div><p class="meta">${t.minRead(page.minutes)}${page.status === 'planned' ? ` · <span class="badge">${t.planned}</span>` : ''}</p>${page.summary ? `<p class="lead">${esc(page.summary)}</p>` : ''}</header>
       ${videoCard}

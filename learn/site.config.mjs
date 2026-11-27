@@ -127,6 +127,18 @@ export const ROUTE_TEXT = {
   ]),
 };
 
+// `{{shaderAttrs}}`: the attribute lines above the shader class, per route. [ShaderTargets] does not choose what the compiler writes:
+// it tells the analyzer which graphics APIs the engine really runs the shader on, so it reports what one of them lacks.
+const SHADER_ATTRS = {
+  monogame: '[ShaderTargets(Target.DirectX_90c | Target.OpenGL_20)]',
+  kni: '[ShaderTargets(Target.DirectX_90c | Target.OpenGL_20 | Target.OpenGLES_20)]',
+  fna: '[ShaderTargets(Target.DirectX_90c)]',
+  godot: '[ShaderTargets(Target.Vulkan_13 | Target.OpenGL_33)]\n[ShaderEngines(GameEngine.Godot)]',
+  raylib: '[ShaderTargets(Target.OpenGL_33)]',
+  silknet: '[ShaderTargets(Target.OpenGL_33 | Target.OpenGLES_30 | Target.Vulkan_13 | Target.WebGpu)]',
+};
+for (const [id, attrs] of Object.entries(SHADER_ATTRS)) for (const lang of ['en', 'es']) ROUTE_TEXT[id][lang].vars.shaderAttrs = attrs;
+
 // Source languages shown as banners on the home page, stacked in this order. Each has its own colours (c1 bright, c2 mid,
 // c3 deep) and an `example`: the shader drawn on the left side. The left side has two panes, chosen with the squares:
 // the first shows only the language name, the second only the example. `links`: for each section the chapter (slug)
@@ -219,7 +231,7 @@ export const UI = {
     copy: 'Copy',
     copied: 'Copied',
     video: 'Video', videoSubtitles: 'English', videoMin: (n) => `${n} min`,
-    listen: 'Listen', listenPause: 'Pause', listenResume: 'Resume', listenLoading: 'Loading…', listenTitle: 'Listen to this page', listenError: 'Audio unavailable',
+    listen: 'Play', listenPause: 'Pause', listenResume: 'Resume', listenLoading: 'Loading…', listenTitle: 'Play this page', listenError: 'Audio unavailable',
     stageLabel: 'Visual guide for the narration', stageClose: 'Close the visual guide', stageMenu: 'Chapters', stageSeek: 'Jump to this part',
     linkHere: 'Link to this section',
     skip: 'Skip to content',
@@ -232,6 +244,8 @@ export const UI = {
     notFound: 'Page not found',
     notFoundText: 'The page you are looking for does not exist or has moved.',
     backHome: 'Back to home',
+    mcp: 'MCP',
+    mcpTitle: 'MCP server for AI assistants',
     mainSite: 'Main site',
     footer: 'Yotsuba Shader. Documentation is written in Markdown.',
     trademarks: 'Engine and graphics API names belong to their respective owners.',
@@ -283,7 +297,7 @@ export const UI = {
     copy: 'Copiar',
     copied: 'Copiado',
     video: 'Video', videoSubtitles: 'Español', videoMin: (n) => `${n} min`,
-    listen: 'Escuchar', listenPause: 'Pausar', listenResume: 'Continuar', listenLoading: 'Cargando…', listenTitle: 'Escuchar esta página', listenError: 'Audio no disponible',
+    listen: 'Reproducir', listenPause: 'Pausar', listenResume: 'Continuar', listenLoading: 'Cargando…', listenTitle: 'Reproducir esta página', listenError: 'Audio no disponible',
     stageLabel: 'Guía visual de la narración', stageClose: 'Cerrar la guía visual', stageMenu: 'Capítulos', stageSeek: 'Ir a esta parte',
     linkHere: 'Enlace a esta sección',
     skip: 'Saltar al contenido',
@@ -296,6 +310,8 @@ export const UI = {
     notFound: 'Página no encontrada',
     notFoundText: 'La página que buscas no existe o se ha movido.',
     backHome: 'Volver al inicio',
+    mcp: 'MCP',
+    mcpTitle: 'Servidor MCP para asistentes de IA',
     mainSite: 'Web principal',
     footer: 'Yotsuba Shader. La documentación está escrita en Markdown.',
     trademarks: 'Los nombres de engines y APIs gráficas pertenecen a sus respectivos propietarios.',

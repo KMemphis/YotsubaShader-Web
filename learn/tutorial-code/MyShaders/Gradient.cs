@@ -1,9 +1,11 @@
 using YotsubaShader.GlslSyntax;
 using YotsubaShader.GlslSyntax.Types;
 using YotsubaShader.Language;
+using YotsubaShader.Compiler.Metadata;
 
 namespace MyShaders;
 
+[ShaderTargets(Target.DirectX_90c | Target.OpenGL_20)]
 public class Gradient
 {
     [ShaderStage(Stage.Vertex)]
