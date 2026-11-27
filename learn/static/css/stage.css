@@ -41,7 +41,8 @@ body.is-stage:has(.subbar) .stage { top: calc(var(--top) + 44px); height: calc(1
 @keyframes stage-in { from { opacity: 0; transform: translateX(24px); } }
 
 /* the screen: always dark, like the chapter diagrams */
-.stage-screen { cursor: pointer;
+.stage-screen {
+  cursor: pointer;
   --s-bg: #14141c; --s-bg-2: #1e1e2a; --s-line: rgba(255,255,255,.1); --s-text: #f2f2f7; --s-text-2: #a0a0b4;
   --s-accent: #ff7ab2; --s-cpu: #ffb454; --s-gpu: #5ad1ff; --s-ok: #7fe3a8; --s-bad: #ff6b6b;
   position: relative; height: 100%; border-radius: 22px; overflow: hidden; background: var(--s-bg); color: var(--s-text);
